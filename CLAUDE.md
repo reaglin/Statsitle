@@ -10,8 +10,10 @@ every input and result for the student, and writes the **Python and R** that rep
 and the analysis. WPF on .NET 10, free on the Microsoft Store. Started 2026-09-08 from a copy of
 SMADA's core (`..\SMADA10`).
 
-**Status: phase 0 done, phase 1 (Descriptive statistics + the Code tab) built, 2026-09-08.**
-186 tests green. No GitHub remote yet.
+**Status: phases 0–2 built, 2026-09-08** — Descriptive statistics, the Code tab, and the
+Module 3–6 analyses (Probability rules, Discrete distribution, Continuous distribution,
+Sampling distribution) over MathNet.Numerics. 230+ tests green; the Python cross-check runs 19
+configurations. No GitHub remote yet. Next: phase 3 (confidence intervals and tests).
 
 ### Read these first
 
@@ -33,11 +35,16 @@ Statistle.sln
 │   Domain/        DataTable (the one artifact; also an ICodeSource) + DataSources (column pick-lists)
 │   Document/      StatistleDocument (.statistle zip: project.xml, tables/, analyses/), StatistlePaths
 │   Methods/       ICalculationMethod, MethodCatalog, MethodScope, IChoosesMethod;
-│                  Descriptive/SummaryStatistics (Module 2), Statistics/ (SeriesStatistics, Regression)
-│   Code/          CodeLanguage, ICodeSource, CodeText (identifiers, numbers, vectors, prints, imports)
-│   Analyses/      Analysis (base), AnalysisCatalog, DescriptiveStatistics, SimpleRegression
+│                  Descriptive/SummaryStatistics (Module 2); Distributions/DiscreteModels,
+│                  ContinuousModels (over MathNet.Numerics); Statistics/ (SeriesStatistics, Regression)
+│   Code/          CodeLanguage, ICodeSource, CodeText (identifiers, numbers, vectors, prints, imports),
+│                  ScriptBuilder (one script in either language: Assign/Print/Either)
+│   Analyses/      Analysis (base), AnalysisCatalog, DescriptiveStatistics, ProbabilityRules,
+│                  DiscreteDistribution, ContinuousDistribution, SamplingDistribution, SimpleRegression
+│                  — each family/relationship/statistic is a method class declaring its parameters
 │   Plotting/      IPlotSurface (PlotSpec, Line/Marker/Bar/Polygon series), IHasFigures,
-│                  DescriptiveFigures (histogram + normal curve, box plot), RegressionFigure
+│                  DescriptiveFigures (histogram + normal curve, box plot), DistributionFigures
+│                  (PMF/CDF, density with shaded area, population vs sampling curves), RegressionFigure
 │   Reporting/     Report (+ Appendices), text/HTML/PDF writers, CsvExport
 │   Units/         ValueKind (None, Percent, Probability, Count) — no conversions, labels only
 ├── src/Statistle.App/      net10.0-windows, WPF. Rail | tree | Properties / Report / Plots / Code
@@ -110,8 +117,11 @@ neither; a scratch venv was used to run it by hand.
 
 - `Directory.Build.props`: one version property (`StatistleVersion`), nullable, implicit usings,
   **TreatWarningsAsErrors** (xUnit analyzers included — use `Assert.Single(list, predicate)`).
-- Third-party packages must be MIT/BSD/Apache: ScottPlot, PDFsharp; MathNet.Numerics (MIT) is
-  planned for distributions and linear algebra (phase 2+).
+- Third-party packages must be MIT/BSD/Apache: ScottPlot, PDFsharp, MathNet.Numerics (MIT;
+  distributions now, linear algebra for multiple regression later). Parameterisations follow
+  the course and R (rate for the exponential, meanlog/sdlog); the generated Python states
+  scipy's (scale = 1/λ, s = σ with scale = e^μ) in a comment.
+- Result labels must not contain ": " — the Python cross-check parses "Label: value".
 - Core never references a UI assembly; all ScottPlot types stay in `ScottPlotSurface.cs`.
 - Editor conventions from SMADA: aligned three-column grid, series one value per line, tables
   header + rows, red box on a bad paste keeps the old data, ranges under labels, click-to-select.

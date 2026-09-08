@@ -76,7 +76,7 @@ public sealed class SimpleRegression : Analysis, IHasFigures, IUsesProject, IHas
 
     public override ToolKind Kind => ToolKind.FreeStanding;
 
-    public override int Order => 20;
+    public override int Order => 40;
 
     // ── Inputs ────────────────────────────────────────────────────────────────
 

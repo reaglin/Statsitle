@@ -4,6 +4,7 @@ using Statistle.Core.Analyses;
 using Statistle.Core.Code;
 using Statistle.Core.Document;
 using Statistle.Core.Domain;
+using Statistle.Core.Methods;
 using Statistle.Core.Persistence;
 using Statistle.Core.Reporting;
 
@@ -17,7 +18,7 @@ namespace Statistle.Tests;
 public class CodeGenerationTests
 {
     [Fact]
-    public void Every_descriptive_result_is_printed_by_both_scripts_under_its_own_label()
+    public void Every_descriptive_result_is_printed_under_its_own_label_with_the_conventions_stated()
     {
         var analysis = new DescriptiveStatistics();
         string python = analysis.Code(CodeLanguage.Python);
@@ -97,8 +98,66 @@ public class CodeGenerationTests
         Assert.Empty(ReportBuilder.For(new SimpleRegression()).Appendices);   // not yet a code source
     }
 
-    [Fact]
-    public void The_generated_Python_prints_the_apps_numbers_when_Python_is_available()
+    /// <summary>Every analysis that writes code, in the configurations worth checking.</summary>
+    public static IEnumerable<object[]> CodeSources()
+    {
+        var descriptive = new DescriptiveStatistics();
+        descriptive.Sample.Clear();
+        foreach (double v in new[] { 470, 485, 478, 492, 460, 473, 488, 484, 482, 475, 530.0 })
+        {
+            descriptive.Sample.Add(descriptive.Sample.Count, v);
+        }
+
+        descriptive.Recalculate();
+        yield return ["Descriptive statistics", descriptive];
+
+        yield return ["Probability rules, independent", new ProbabilityRules()];
+        yield return ["Probability rules, Bayes", new ProbabilityRules { Relationship = EventRelationship.KnownLikelihoods, ProbabilityA = 0.01, LikelihoodGivenA = 0.95, LikelihoodGivenNotA = 0.05 }];
+        yield return ["Probability rules, conditional", new ProbabilityRules { Relationship = EventRelationship.KnownConditional, ConditionalAGivenB = 0.2 }];
+
+        yield return ["Binomial", new DiscreteDistribution { K2 = 4 }];
+        yield return ["Poisson", new DiscreteDistribution { Family = DiscreteFamily.Poisson, Rate = 3.5, K = 2, K2 = 5 }];
+        yield return ["Geometric", new DiscreteDistribution { Family = DiscreteFamily.Geometric, SuccessProbability = 0.2, K = 3 }];
+        yield return ["Negative binomial", new DiscreteDistribution { Family = DiscreteFamily.NegativeBinomial, SuccessesWanted = 3, SuccessProbability = 0.5, K = 5, K2 = 7 }];
+        yield return ["Hypergeometric", new DiscreteDistribution { Family = DiscreteFamily.Hypergeometric, PopulationSize = 50, PopulationSuccesses = 5, Draws = 10, K = 1, K2 = 3 }];
+        yield return ["Typed table", new DiscreteDistribution { Family = DiscreteFamily.Table, K = 1, K2 = 2 }];
+
+        yield return ["Normal", new ContinuousDistribution()];
+        yield return ["Uniform", new ContinuousDistribution { Family = ContinuousFamily.Uniform, Lower = 2, Upper = 5, X = 3, X2 = 4.5, Probability = 0.9 }];
+        yield return ["Exponential", new ContinuousDistribution { Family = ContinuousFamily.Exponential, Rate = 2, X = 1, X2 = 2 }];
+        yield return ["Lognormal", new ContinuousDistribution { Family = ContinuousFamily.LogNormal, LogMu = 3, LogSigma = 0.4, X = 20, X2 = 30 }];
+        yield return ["Student's t", new ContinuousDistribution { Family = ContinuousFamily.StudentT, DegreesOfFreedom = 10, X = 1.5, X2 = double.NaN, Probability = 0.975 }];
+        yield return ["Chi-squared", new ContinuousDistribution { Family = ContinuousFamily.ChiSquared, DegreesOfFreedom = 10, X = 12, X2 = 20 }];
+        yield return ["F", new ContinuousDistribution { Family = ContinuousFamily.F, NumeratorDf = 5, DenominatorDf = 10, X = 2, X2 = 4 }];
+
+        yield return ["Sampling distribution of the mean", new SamplingDistribution { Value2 = 4350 }];
+        yield return ["Sampling distribution of a proportion", new SamplingDistribution { Statistic = SamplingStatistic.SampleProportion, PopulationProportion = 0.15, SampleSize = 100, Value = 0.2, Value2 = 0.25 }];
+    }
+
+    [Theory]
+    [MemberData(nameof(CodeSources))]
+    public void Every_visible_result_is_printed_by_both_scripts_under_its_own_label(string name, Analysis analysis)
+    {
+        analysis.Recalculate();
+        Assert.True((analysis as IReportsProblem)?.Problem is null, $"{name}: {(analysis as IReportsProblem)?.Problem}");
+        string python = ((ICodeSource)analysis).Code(CodeLanguage.Python);
+        string r = ((ICodeSource)analysis).Code(CodeLanguage.R);
+
+        foreach (StatistleProperty property in MethodScope.VisibleProperties(analysis).Where(p => p.IsResult))
+        {
+            if (property.Read(analysis) is double d && double.IsNaN(d))
+            {
+                continue;   // a blank result (no k₂ given) need not be printed
+            }
+
+            Assert.True(python.Contains(property.Label + ":", StringComparison.Ordinal), $"{name}: Python does not print '{property.Label}'");
+            Assert.True(r.Contains(property.Label + ":", StringComparison.Ordinal), $"{name}: R does not print '{property.Label}'");
+        }
+    }
+
+    [Theory]
+    [MemberData(nameof(CodeSources))]
+    public void The_generated_Python_prints_the_apps_numbers_when_Python_is_available(string name, Analysis analysis)
     {
         if (!PythonHas("numpy", "scipy"))
         {
@@ -110,17 +169,9 @@ public class CodeGenerationTests
             return;
         }
 
-        var analysis = new DescriptiveStatistics();
-        analysis.Sample.Clear();
-        foreach (double v in new[] { 470, 485, 478, 492, 460, 473, 488, 484, 482, 475, 530.0 })
-        {
-            analysis.Sample.Add(analysis.Sample.Count, v);
-        }
-
         analysis.Recalculate();
-
         string script = Path.Combine(Path.GetTempPath(), $"statistle-check-{Guid.NewGuid():N}.py");
-        File.WriteAllText(script, analysis.Code(CodeLanguage.Python));
+        File.WriteAllText(script, ((ICodeSource)analysis).Code(CodeLanguage.Python));
         string output = Run("python", script);
         File.Delete(script);
 
@@ -129,26 +180,34 @@ public class CodeGenerationTests
             .Where(l => l.Contains(": ", StringComparison.Ordinal) && !l.StartsWith('['))
             .ToDictionary(l => l[..l.IndexOf(": ", StringComparison.Ordinal)], l => l[(l.IndexOf(": ", StringComparison.Ordinal) + 2)..]);
 
-        foreach (string name in new DescriptiveStatisticsMethod().Outputs)
+        foreach (StatistleProperty property in MethodScope.VisibleProperties(analysis).Where(p => p.IsResult))
         {
-            StatistleProperty property = analysis.Properties().Single(p => p.XmlName == name);
-            Assert.True(printed.ContainsKey(property.Label), $"Python did not print '{property.Label}'. Output:\n{output}");
             object? value = property.Read(analysis);
 
-            if (value is double expected && !double.IsNaN(expected))
+            if (value is double expected)
             {
+                if (double.IsNaN(expected))
+                {
+                    continue;
+                }
+
+                Assert.True(printed.ContainsKey(property.Label), $"{name}: Python did not print '{property.Label}'. Output:\n{output}");
                 double actual = double.Parse(printed[property.Label], CultureInfo.InvariantCulture);
                 double tolerance = Math.Pow(10, -property.Decimals) * 0.51;
-                Assert.True(Math.Abs(actual - expected) <= tolerance, $"{property.Label}: app {expected}, Python {actual}");
+                Assert.True(Math.Abs(actual - expected) <= tolerance, $"{name} — {property.Label}: app {expected}, Python {actual}");
             }
             else if (value is int count)
             {
+                Assert.True(printed.ContainsKey(property.Label), $"{name}: Python did not print '{property.Label}'. Output:\n{output}");
                 Assert.Equal(count.ToString(CultureInfo.InvariantCulture), printed[property.Label]);
             }
         }
 
-        // numpy prints the integer-valued outlier as [530] and a float one as [530.5]: compare the number.
-        Assert.Equal(530.0, double.Parse(printed["Outliers"].Trim('[', ']'), CultureInfo.InvariantCulture), 9);
+        if (analysis is DescriptiveStatistics)
+        {
+            // numpy prints the integer-valued outlier as [530] and a float one as [530.5]: compare the number.
+            Assert.Equal(530.0, double.Parse(printed["Outliers"].Trim('[', ']'), CultureInfo.InvariantCulture), 9);
+        }
     }
 
     private static bool PythonHas(params string[] modules)

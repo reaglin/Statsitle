@@ -40,6 +40,24 @@ WHAT TO TRY
   a frequency table all follow. The Plots tab draws the histogram with a
   normal curve of the same mean and s, and the box plot. Edit the table and
   the analysis follows with it.
+- Probability rules (Module 3): P(A), P(B) and how the events relate -
+  independent, mutually exclusive, a known joint or conditional probability,
+  or the two likelihoods for Bayes - give the complements, intersection, union,
+  both conditionals and an independence check; nPr and nCr below.
+- Discrete distribution (Module 4): binomial, Poisson, geometric, negative
+  binomial, hypergeometric or a typed table. Enter k (and k2 for a range) and
+  read P(X = k) and every tail, the mean, variance and SD. Plots: the PMF with
+  the probability asked for highlighted, and the CDF.
+- Continuous distribution (Module 5): uniform, normal, exponential, lognormal,
+  t, chi-squared and F. Enter x (and x2) and a probability q: density, tails,
+  the quantile (critical values: q = 0.975 for two-sided 5 %), mean, variance,
+  median; z-score and the 68-95-99.7 rule for the normal. Plots: the density
+  with the area shaded, and the CDF.
+- Sampling distribution (Module 6): the mean and standard error of x-bar or
+  p-hat for a sample size, the CLT probability of a sample statistic, the
+  middle 95 % range, and whether the normal approximation holds. The plot
+  shows the population and the sampling distribution on one axis.
+- Every one of these writes its Python (scipy.stats) and R on the Code tab.
 - Open Simple linear regression, pick an x column and a y column, and read the
   fitted line: its equation, r squared and the standard error of the estimate.
   Five curved forms are fitted beside it so a relation that is not straight can
@@ -62,9 +80,9 @@ WHAT TO TRY
 
 KNOWN LIMITS IN THIS BUILD
 --------------------------
-- Two analyses so far: Descriptive statistics and Simple linear regression.
-  Confidence intervals, hypothesis tests, ANOVA, control charts and the
-  probability distributions are still to come.
+- Modules 1-6 and simple regression are in. Confidence intervals, hypothesis
+  tests, multiple regression, validation and ANOVA (Modules 7-14) are still
+  to come.
 - Simple linear regression does not write code yet; Descriptive statistics
   and data tables do.
 - Reports show a data table as one line per column (its name and how many

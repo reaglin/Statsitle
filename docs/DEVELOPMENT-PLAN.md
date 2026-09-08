@@ -28,7 +28,7 @@ Exit: the app opens a `.statistle` project with a data table and two analyses; t
 | 0.3 | Copy SMADA's core and rename (`StatistleObject`, `StatistlePropertyAttribute`, `[StatistleHelp]`, `Analysis`, `AnalysisCatalog`, `StatistleDocument`); drop hydrology; `UnitKind` → `ValueKind` (None, Percent, Probability, Count) | `src/Statistle.Core` | SMADA's framework tests pass renamed | [x] |
 | 0.4 | `DataTable` artifact with `ColumnTable` (named, ragged columns as text; paste; Import…); `DataSources.ColumnChoices` for analyses | `Core/Domain/DataTable.cs`, `Persistence/ColumnTable.cs` | round trip; ragged columns; bad cell rejected | [x] |
 | 0.5 | WPF shell from SMADA: rail (PROJECT: + Data table; ANALYSES), tree, Properties / Report / Plots, help panel | `src/Statistle.App` | opens; New/Open/Save; add a table; run Descriptive statistics on a column | [x] |
-| 0.6 | Packaging: manifest identity `Statistle`, `.statistle` association, tiles, `pack.ps1`, tester zip script | `packaging/` | installable `.msix`; `artifacts\Statistle-0.1.0-win-x64.zip` | [~] (scripts copied; zip not yet built) |
+| 0.6 | Packaging: manifest identity `Statistle`, `.statistle` association, tiles, `pack.ps1`, tester zip script | `packaging/` | installable `.msix`; `artifacts\Statistle-<version>-win-x64.zip` | [x] zip (0.1.0, 0.2.0); MSIX untested |
 | 0.7 | CI: build, test, pack | `.github/workflows/build.yml` | green on push | [ ] |
 | 0.8 | App icon (a real one, not the placeholder) | `packaging/Assets`, `src/App` | crisp at 150 % / 200 % | [ ] |
 | 0.9 | `CLAUDE.md` oriented to the real code | root | | [x] |
@@ -50,13 +50,15 @@ histogram and box plot, and takes Python and R that print the same numbers.
 
 ## Phase 2 — Probability and distributions (Modules 3–6)
 
+**Status 2026-09-08: built.** Four analyses, 8 + 6 + 7 + 2 method classes, figures, Python and R; tester zip 0.2.0.
+
 | # | Task | Targets | Acceptance | Status |
 |---|---|---|---|---|
-| 2.1 | `ProbabilityRules` analysis: P(A), P(B), P(A∩B) or independence → complement, union, conditional, Bayes; counting nPr / nCr | `Core/Analyses/ProbabilityRules.cs` | course Module 3 problems | [ ] |
-| 2.2 | Discrete distributions over MathNet: binomial, Poisson, geometric, negative binomial, hypergeometric, typed PMF; P(X = k), ≤, ≥, between; mean, variance; PMF and CDF figure | `Core/Methods/Distributions/Discrete.cs`, `Analyses/DiscreteDistribution.cs` | Module 4 problem 1: B(20, 0.05), P(X = 2) = 0.1887 | [ ] |
-| 2.3 | Continuous: uniform, normal, exponential, t, χ², F, lognormal; P(X ≤ x), between, quantile; z-score; empirical rule; density/CDF figure with the shaded area | `Distributions/Continuous.cs`, `Analyses/ContinuousDistribution.cs` | Φ(1.96) = 0.9750; t₀.₀₂₅,₁₀ = 2.228 | [ ] |
-| 2.4 | Sampling distribution of x̄ and p̂: SE, CLT probability for a sample mean, spread vs n figure, simulation of k samples | `Analyses/SamplingDistribution.cs` | Module 6 problem 1 (μ 4200, σ 350, n 5 / 30) | [ ] |
-| 2.5 | Code for 2.1–2.4 (`scipy.stats.binom/poisson/norm/t/…`; R `dbinom/pnorm/qt/…`) | `Core/Code/` | cross-check | [ ] |
+| 2.1 | `ProbabilityRules` analysis: P(A), P(B), P(A∩B) or independence → complement, union, conditional, Bayes; counting nPr / nCr | `Core/Analyses/ProbabilityRules.cs` | course Module 3 problems | [x] (independent, mutually exclusive, known joint, known conditional, Bayes; nPr, nCr) |
+| 2.2 | Discrete distributions over MathNet: binomial, Poisson, geometric, negative binomial, hypergeometric, typed PMF; P(X = k), ≤, ≥, between; mean, variance; PMF and CDF figure | `Core/Methods/Distributions/DiscreteModels.cs`, `Analyses/DiscreteDistribution.cs` | Module 4 problem 1: B(20, 0.05), P(X = 2) = 0.1887 | [x] |
+| 2.3 | Continuous: uniform, normal, exponential, t, χ², F, lognormal; P(X ≤ x), between, quantile; z-score; empirical rule; density/CDF figure with the shaded area | `Distributions/ContinuousModels.cs`, `Analyses/ContinuousDistribution.cs` | Φ(1.96) = 0.9750; t₀.₀₂₅,₁₀ = 2.228 | [x] (plus χ²₀.₀₅,₁₀ = 18.307, F₀.₀₅,₅,₁₀ = 3.326) |
+| 2.4 | Sampling distribution of x̄ and p̂: SE, CLT probability for a sample mean, spread vs n figure, simulation of k samples | `Analyses/SamplingDistribution.cs` | Module 6 problem 1 (μ 4200, σ 350, n 5 / 30) | [x] (the simulation of k samples is not built; the population/sampling curves are) |
+| 2.5 | Code for 2.1–2.4 (`scipy.stats.binom/poisson/norm/t/…`; R `dbinom/pnorm/qt/…`) | `Core/Code/ScriptBuilder.cs`, each analysis | cross-check: 19 configurations pass against numpy/scipy | [x] |
 
 ## Phase 3 — Estimation and hypothesis tests (Modules 7–10)
 

@@ -58,41 +58,41 @@ Status: `[ ]` not built · `[x]` built, tested against the case named. The Pytho
 
 | Rule | Formula | Python | R | Held by | Status |
 |---|---|---|---|---|---|
-| Complement | P(A′) = 1 − P(A) | arithmetic | arithmetic | M&R 2-3 | [ ] |
-| Addition | P(A∪B) = P(A) + P(B) − P(A∩B) | | | M&R 2-3 | [ ] |
-| Multiplication, conditional | P(A∩B) = P(A|B)·P(B); P(A|B) = P(A∩B)/P(B) | | | M&R 2-4, 2-5 | [ ] |
-| Independence | P(A∩B) = P(A)·P(B) | | | M&R 2-6 | [ ] |
-| Bayes (two events) | P(A|B) = P(B|A)P(A) / [P(B|A)P(A) + P(B|A′)P(A′)] | | | M&R 2-7 | [ ] |
-| Permutations, combinations | nPr = n!/(n−r)!, nCr = n!/(r!(n−r)!) | `math.perm`, `math.comb` | `factorial`, `choose` | M&R 2-1.4 | [ ] |
+| Complement | P(A′) = 1 − P(A) | arithmetic | arithmetic | `DistributionTests`; M&R 2-3 | [x] |
+| Addition | P(A∪B) = P(A) + P(B) − P(A∩B) | | | `DistributionTests`; M&R 2-3 | [x] |
+| Multiplication, conditional | P(A∩B) = P(A|B)·P(B); P(A|B) = P(A∩B)/P(B) | `DistributionTests` | [x] | M&R 2-4, 2-5 | [ ] |
+| Independence | P(A∩B) = P(A)·P(B) | | | `DistributionTests`; M&R 2-6 | [x] |
+| Bayes (two events) | P(A|B) = P(B|A)P(A) / [P(B| `DistributionTests`; A)P(A) + P(B | [x] | | | M&R 2-7 | [ ] |
+| Permutations, combinations | nPr = n!/(n−r)!, nCr = n!/(r!(n−r)!) | `math.perm`, `math.comb` | `factorial`, `choose` | `DistributionTests`; M&R 2-1.4 | [x] |
 
 ## Discrete distributions (Module 4; M&R Ch. 3)
 
 | Distribution | PMF, mean, variance | Python (`scipy.stats`) | R | Held by | Status |
 |---|---|---|---|---|---|
-| Binomial(n, p) | C(n,x)pˣ(1−p)ⁿ⁻ˣ; np; np(1−p) | `binom.pmf/cdf/sf(k, n, p)` | `dbinom/pbinom(k, n, p)` | EGN3443 M4 P1: B(20, .05), P(X=2) = 0.1887 | [ ] |
-| Poisson(λ) | e^−λ λˣ/x!; λ; λ | `poisson.pmf/cdf(k, mu)` | `dpois/ppois(k, lambda)` | M&R Ex. 3-33 | [ ] |
-| Geometric(p) | (1−p)ˣ⁻¹p; 1/p; (1−p)/p² | `geom.pmf(k, p)` | `dgeom(k-1, p)` (R counts failures) | M&R 3-7.1 | [ ] |
-| Negative binomial(r, p) | C(x−1,r−1)pʳ(1−p)ˣ⁻ʳ; r/p | `nbinom.pmf(k-r, r, p)` | `dnbinom(k-r, r, p)` | M&R 3-7.2 | [ ] |
-| Hypergeometric(N, K, n) | C(K,x)C(N−K,n−x)/C(N,n) | `hypergeom.pmf(k, N, K, n)` | `dhyper(k, K, N-K, n)` | M&R 3-8 | [ ] |
-| Typed PMF | E[X] = Σx·p(x); V = Σ(x−μ)²p(x) | `np.sum(x*p)` | `sum(x*p)` | M&R Ex. 3-6 | [ ] |
+| Binomial(n, p) | C(n,x)pˣ(1−p)ⁿ⁻ˣ; np; np(1−p) | `binom.pmf/cdf/sf(k, n, p)` | `dbinom/pbinom(k, n, p)` | `DistributionTests`; EGN3443 M4 P1: B(20, .05), P(X=2) = 0.1887 | [x] |
+| Poisson(λ) | e^−λ λˣ/x!; λ; λ | `poisson.pmf/cdf(k, mu)` | `dpois/ppois(k, lambda)` | `DistributionTests`; M&R Ex. 3-33 | [x] |
+| Geometric(p) | (1−p)ˣ⁻¹p; 1/p; (1−p)/p² | `geom.pmf(k, p)` | `dgeom(k-1, p)` (R counts failures) | `DistributionTests`; M&R 3-7.1 | [x] |
+| Negative binomial(r, p) | C(x−1,r−1)pʳ(1−p)ˣ⁻ʳ; r/p | `nbinom.pmf(k-r, r, p)` | `dnbinom(k-r, r, p)` | `DistributionTests`; M&R 3-7.2 | [x] |
+| Hypergeometric(N, K, n) | C(K,x)C(N−K,n−x)/C(N,n) | `hypergeom.pmf(k, N, K, n)` | `dhyper(k, K, N-K, n)` | `DistributionTests`; M&R 3-8 | [x] |
+| Typed PMF | E[X] = Σx·p(x); V = Σ(x−μ)²p(x) | `np.sum(x*p)` | `sum(x*p)` | `DistributionTests`; M&R Ex. 3-6 | [x] |
 
 ## Continuous distributions (Module 5; M&R Ch. 4)
 
 | Distribution | PDF / CDF, mean, variance | Python | R | Held by | Status |
 |---|---|---|---|---|---|
-| Uniform(a, b) | 1/(b−a); (a+b)/2; (b−a)²/12 | `uniform.cdf(x, a, b-a)` | `punif(x, a, b)` | M&R Ex. 4-8 | [ ] |
-| Normal(μ, σ) | Φ((x−μ)/σ); z-scores; 68–95–99.7 | `norm.cdf(x, mu, sigma)`, `norm.ppf(q)` | `pnorm`, `qnorm` | Φ(1.96) = 0.97500 | [ ] |
-| Exponential(λ) | 1 − e^−λx; 1/λ; 1/λ²; memoryless | `expon.cdf(x, scale=1/lam)` | `pexp(x, rate=lam)` | M&R Ex. 4-21 | [ ] |
-| Lognormal | | `lognorm` | `plnorm` | M&R 4-11 | [ ] |
-| t(ν), χ²(ν), F(ν₁, ν₂) | for inference | `t.ppf`, `chi2.ppf`, `f.ppf` | `qt`, `qchisq`, `qf` | t₀.₀₂₅,₁₀ = 2.228; χ²₀.₀₅,₁₀ = 18.307 | [ ] |
+| Uniform(a, b) | 1/(b−a); (a+b)/2; (b−a)²/12 | `uniform.cdf(x, a, b-a)` | `punif(x, a, b)` | `DistributionTests`; M&R Ex. 4-8 | [x] |
+| Normal(μ, σ) | Φ((x−μ)/σ); z-scores; 68–95–99.7 | `norm.cdf(x, mu, sigma)`, `norm.ppf(q)` | `pnorm`, `qnorm` | `DistributionTests`; Φ(1.96) = 0.97500 | [x] |
+| Exponential(λ) | 1 − e^−λx; 1/λ; 1/λ²; memoryless | `expon.cdf(x, scale=1/lam)` | `pexp(x, rate=lam)` | `DistributionTests`; M&R Ex. 4-21 | [x] |
+| Lognormal | | `lognorm` | `plnorm` | `DistributionTests`; M&R 4-11 | [x] |
+| t(ν), χ²(ν), F(ν₁, ν₂) | for inference | `t.ppf`, `chi2.ppf`, `f.ppf` | `qt`, `qchisq`, `qf` | `DistributionTests`; t₀.₀₂₅,₁₀ = 2.228; χ²₀.₀₅,₁₀ = 18.307 | [x] |
 
 ## Sampling distributions (Module 6; M&R Ch. 7)
 
 | Item | Formula | Python | R | Held by | Status |
 |---|---|---|---|---|---|
-| Mean and SE of x̄ | μ_x̄ = μ; σ_x̄ = σ/√n | `norm.cdf(xbar, mu, sigma/np.sqrt(n))` | `pnorm(xbar, mu, sigma/sqrt(n))` | EGN3443 M6 P1 (4200, 350, n 5 → 30) | [ ] |
-| Sampling distribution of p̂ | p; √(p(1−p)/n) | | | M&R 7-2 | [ ] |
-| CLT simulation | k samples of n, histogram of means | `rng.normal(...)` | `replicate(k, mean(rnorm(n, ...)))` | | [ ] |
+| Mean and SE of x̄ | μ_x̄ = μ; σ_x̄ = σ/√n | `norm.cdf(xbar, mu, sigma/np.sqrt(n))` | `pnorm(xbar, mu, sigma/sqrt(n))` | `DistributionTests`; EGN3443 M6 P1 (4200, 350, n 5 → 30) | [x] |
+| Sampling distribution of p̂ | p; √(p(1−p)/n) | | | `DistributionTests`; M&R 7-2 | [x] |
+| CLT simulation | k samples of n, histogram of means | `rng.normal(...)` | `replicate(k, mean(rnorm(n, ...)))` | `DistributionTests` | [x] |
 
 ## Confidence intervals and sample size (Module 7; M&R Ch. 8)
 
