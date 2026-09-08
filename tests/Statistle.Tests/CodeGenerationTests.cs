@@ -187,6 +187,30 @@ public class CodeGenerationTests
         yield return ["Multiple regression, backward, no CV", new MultipleRegression { Project = housingProject, Table = housingId, Response = "price", Selection = VariableSelection.Backward, Folds = 0 }];
         yield return ["Multiple regression, one predictor, LOO", new MultipleRegression { Project = housingProject, Table = housingId, Response = "price", Predictors = "size", Folds = 20 }];
         yield return ["Multiple regression, two predictors", new MultipleRegression { Project = housingProject, Table = housingId, Response = "distance", Predictors = "size, bedrooms", Folds = 4 }];
+
+        // Module 14: the ANOVAs, against scipy (f_oneway, tukey_hsd, studentized_range, ncf, kruskal) and statsmodels (anova_lm).
+        StatistleDocument alloyProject = AnovaTests.AlloyProject(out DataTable alloys);
+        string alloyId = alloys.Id.ToString(CultureInfo.InvariantCulture);
+        yield return ["One-way ANOVA, columns", new OneWayAnova { Project = alloyProject, Table = alloyId }];
+        yield return ["One-way ANOVA, two columns, α = 0.01", new OneWayAnova { Project = alloyProject, Table = alloyId, Groups = "AA2024, AA-X", Alpha = 0.01 }];
+        DataTable stacked = alloyProject.AddTable("Stacked");
+        stacked.Columns.AddColumn("alloy", [.. Enumerable.Range(0, 30).Select(i => (double)(i / 10 + 1))]);
+        stacked.Columns.AddColumn("strength", [.. alloys.Columns.Columns.SelectMany(c => c.Values)]);
+        yield return ["One-way ANOVA, factor and response", new OneWayAnova { Project = alloyProject, Table = stacked.Id.ToString(CultureInfo.InvariantCulture), Layout = GroupLayout.FactorAndResponse, FactorColumn = "alloy", ResponseColumn = "strength" }];
+        DataTable ragged = alloyProject.AddTable("Ragged");
+        ragged.Columns.AddColumn("P", [12.1, 13.4, 11.9, 12.8, 13.0]);
+        ragged.Columns.AddColumn("Q", [14.2, 13.9, 15.1, 14.8, 14.0, 13.7, 14.4]);
+        ragged.Columns.AddColumn("R", [12.9, 13.1, 13.6]);
+        ragged.Columns.AddColumn("S", [15.0, 15.4, 14.9, 15.8]);
+        yield return ["One-way ANOVA, four unequal groups", new OneWayAnova { Project = alloyProject, Table = ragged.Id.ToString(CultureInfo.InvariantCulture) }];
+
+        StatistleDocument batteryProject = AnovaTests.BatteryProject(out DataTable battery);
+        yield return ["Two-way ANOVA, 3 × 2 with replication", new TwoWayAnova { Project = batteryProject, Table = battery.Id.ToString(CultureInfo.InvariantCulture), FactorA = "temperature", FactorB = "material", Response = "life" }];
+        DataTable blocks = batteryProject.AddTable("Blocks");
+        blocks.Columns.AddColumn("treatment", [1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4]);
+        blocks.Columns.AddColumn("block", [1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3]);
+        blocks.Columns.AddColumn("yield", [73, 68, 74, 73, 67, 75, 75, 68, 78, 73, 71, 75]);
+        yield return ["Two-way ANOVA, one per cell (blocks)", new TwoWayAnova { Project = batteryProject, Table = blocks.Id.ToString(CultureInfo.InvariantCulture), FactorA = "treatment", FactorB = "block", Response = "yield", Alpha = 0.1 }];
     }
 
     /// <summary>Eight pairs that grow roughly exponentially, for the transformations.</summary>

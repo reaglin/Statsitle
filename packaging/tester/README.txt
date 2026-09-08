@@ -21,8 +21,8 @@ Your files: Statistle keeps its files in Documents\Statistle. Projects
 (.statistle files) open and save there by default.
 
 Sample projects are in the "samples" folder: open demo-statistics.statistle for
-three data tables with a descriptive-statistics analysis, a simple regression
-and a multiple regression already set up on them.
+four data tables with a descriptive-statistics analysis, two regressions and
+two ANOVAs already set up on them.
 
 
 WHAT TO TRY
@@ -93,6 +93,21 @@ WHAT TO TRY
   predictors of price.
 - Both regressions write statsmodels (Python) and lm (R) on the Code tab,
   including the prediction, the diagnostics and the cross-validation loop.
+- One-way ANOVA (Module 14): choose a table whose columns are the groups (the
+  sample's three alloys), or a factor column of level codes with a response
+  column. Read the ANOVA table, F and its p-value, the decision, eta squared,
+  Cohen's f and the power, then Tukey's HSD on every pair with simultaneous
+  intervals, Bartlett and Levene for equal variances, Shapiro-Wilk on the
+  residuals, and Kruskal-Wallis as the rank-based fallback. Plots: the groups
+  as box plots, the means with intervals, the residual Q-Q.
+- Two-way ANOVA (Module 14): a table with two columns of level codes and a
+  response, the same number of rows in every cell. Read SS, df, MS, F and p
+  for factor A, factor B and their interaction, with a decision on each, and
+  the interaction plot (parallel lines mean no interaction). With one row per
+  cell the additive model is fitted. The sample's Battery life table is a
+  3 x 2 design with three replicates.
+- Both ANOVAs write scipy / statsmodels (f_oneway, tukey_hsd, anova_lm,
+  pairwise_tukeyhsd) and R (aov, TukeyHSD, kruskal.test).
 - Every screen has four tabs: Properties (entry), Report (values, plots,
   sources and the code as an appendix, with Open in browser / Save as PDF),
   Plots, and Code.
@@ -111,7 +126,10 @@ WHAT TO TRY
 
 KNOWN LIMITS IN THIS BUILD
 --------------------------
-- Modules 1-13 are in. ANOVA (Module 14) is still to come.
+- All fourteen modules are in. Store packaging is the remaining phase.
+- Two-way ANOVA needs a balanced design (equal replicates per cell) and
+  numeric level codes for the factors; unbalanced data is reported, not
+  fitted.
 - Multiple regression takes its columns from one table; predictors are named
   by typing them (a drop-down for several columns is coming).
 - Reports show a data table as one line per column (its name and how many

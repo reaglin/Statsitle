@@ -154,9 +154,9 @@ Status: `[ ]` not built · `[x]` built, tested against the case named. The Pytho
 
 | Item | Formula | Python | R | Held by | Status |
 |---|---|---|---|---|---|
-| One-way ANOVA | SS_T = SS_Treatments + SS_E; F = MS_Tr/MS_E | `f_oneway(*groups)`; `anova_lm` | `aov(y ~ g)`; `summary` | EGN3443 M14 P1 alloys; M&R Ex. 13-1 | [ ] |
-| η² | SS_Tr/SS_T | arithmetic | arithmetic | | [ ] |
-| Tukey HSD | q_{α,a,f}√(MS_E/n) | `pairwise_tukeyhsd` | `TukeyHSD(aov)` | M&R Ex. 13-3 | [ ] |
-| Bartlett, Levene | | `bartlett`, `levene` | `bartlett.test`, `car::leveneTest` | | [ ] |
-| Kruskal–Wallis | | `kruskal` | `kruskal.test` | M&R 13-4 | [ ] |
-| Two-way ANOVA | main effects, interaction | `anova_lm(ols('y ~ C(a)*C(b)'))` | `aov(y ~ a*b)` | M&R Ex. 14-1 | [ ] |
+| One-way table | SS_T = SS_Treatments + SS_E; F = MS_Tr/MS_E on k − 1, N − k | `f_oneway`; `anova_lm(ols('y ~ C(g)'))` | `anova(lm(y ~ g))`, `summary(aov())` | `AnovaTests` M14 problem 1 (F = 48.12 by scipy; the page's 53.7 does not match its own data); cross-check | [x] |
+| Effect size, power | η² = SS_Tr/SS_T; ω² = (SS_Tr − (k−1)MS_E)/(SS_T + MS_E); f = √(η²/(1−η²)); power = 1 − F_nc(F_crit; k−1, N−k, f²N) | `stats.ncf.sf`; `FTestAnovaPower` | `pf(…, ncp = f²N)`; `pwr.anova.test` | `AnovaTests` (λ = 0 → central F; power = α at f = 0); cross-check | [x] |
+| Tukey HSD | q = |ȳᵢ − ȳⱼ|/√(MS_E/2 (1/nᵢ + 1/nⱼ)) vs q(k, N−k); CI ± q_{α}·se (Tukey–Kramer) | `tukey_hsd`, `studentized_range.ppf`; `pairwise_tukeyhsd` | `TukeyHSD`, `qtukey`, `ptukey` | `StudentizedRange` = R's ptukey (Copenhaver & Holland 1988, AS 190); q table values; cross-check | [x] |
+| Bartlett; Levene | T = [(N−k) ln s_p² − Σ(nᵢ−1) ln sᵢ²]/c vs χ²(k−1); Levene median-centred | `bartlett`, `levene` | `bartlett.test`, `car::leveneTest` | equal spreads → T = 0; cross-check | [x] |
+| Kruskal–Wallis | H = 12/(N(N+1)) ΣRᵢ²/nᵢ − 3(N+1), tie-corrected, vs χ²(k−1) | `kruskal` | `kruskal.test` | identical groups → H = 0; cross-check | [x] |
+| Two-way table (balanced) | SS_A = bnΣ(ȳᵢ.. − ȳ)², SS_B, SS_AB = nΣΣ(ȳᵢⱼ. − ȳᵢ.. − ȳ.ⱼ. + ȳ)², SS_E; F against MS_E; n = 1 → additive model | `anova_lm(ols('y ~ C(a) * C(b)'), typ=2)` | `anova(lm(y ~ a * b))` | `AnovaTests` hand-worked 2×2×2; blocks (n = 1) cross-check | [x] |

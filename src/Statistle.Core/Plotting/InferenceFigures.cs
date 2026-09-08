@@ -109,7 +109,7 @@ public static class InferenceFigures
         };
     }
 
-    private static void AddBox(List<PlotSeries> series, IReadOnlyList<double> values, double y, string name)
+    internal static void AddBox(List<PlotSeries> series, IReadOnlyList<double> values, double y, string name)
     {
         Methods.Descriptive.Quartiles q = Methods.Descriptive.SummaryStatistics.Type7Quartiles(values);
         double[] inside = [.. values.Where(v => v >= q.LowerFence && v <= q.UpperFence)];

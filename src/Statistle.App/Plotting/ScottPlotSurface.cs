@@ -86,6 +86,10 @@ public sealed class ScottPlotSurface : IPlotSurface
         {
             _plot.ShowLegend(Alignment.UpperRight);
         }
+        else
+        {
+            _plot.HideLegend();   // the plot is reused, so a previous spec's legend must be taken down
+        }
 
         _lastSpec = spec;
     }

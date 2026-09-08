@@ -89,9 +89,16 @@ zip 0.4.0.
 
 ## Phase 5 — ANOVA (Module 14) and release
 
+**Status 2026-09-08: 5.1–5.3 built; 5.4 (Store) not started.** Two analyses over `Methods/Inference/Anova.cs`;
+the studentized range (R's `ptukey`, AS 190) and the noncentral F (for power) written in
+`Methods/Distributions/StudentizedRange.cs`. Tester zip 0.5.0. Note: the course page for Module
+14 problem 1 quotes F ≈ 53.7 and p ≈ 5.85e-11, but on the data as listed scipy's `f_oneway` gives
+F = 48.12 and p = 1.25e-9; the engine agrees with scipy, and the Tukey differences (37.7, 24.2,
+13.5) match the page.
+
 | # | Task | Targets | Acceptance | Status |
 |---|---|---|---|---|
-| 5.1 | One-way ANOVA: SS/df/MS table, F, p, η²; Tukey HSD; Bartlett and Levene; Kruskal–Wallis | `Methods/Anova/`, `Analyses/OneWayAnova.cs` | Module 14 problem 1 alloys; M&R Ch. 13 | [ ] |
-| 5.2 | Two-way ANOVA from a table with two factor columns and a response | `Anova/TwoWayAnova.cs`, `Analyses/TwoWayAnova.cs` | M&R Ch. 14 example | [ ] |
-| 5.3 | Code (`scipy.stats.f_oneway`, `statsmodels` `anova_lm`, `pairwise_tukeyhsd`; R `aov`, `TukeyHSD`, `kruskal.test`) | `Core/Code/` | cross-check | [ ] |
+| 5.1 | One-way ANOVA: SS/df/MS table, F, p, η² (and ω², Cohen's f, power); Tukey HSD; Bartlett and Levene; Kruskal–Wallis; groups as columns or as factor + response | `Methods/Inference/Anova.cs`, `Distributions/StudentizedRange.cs`, `Analyses/OneWayAnova.cs` (six method classes: two sources, F test, Tukey, checks, Kruskal–Wallis) | `AnovaTests`: Module 14 problem 1 alloys (F, p, η², Tukey differences, power > 0.99); q_{0.05;3,27} = 3.506 and q_{0.05;4,20} = 3.958 from the table; λ = 0 is the central F | [x] |
+| 5.2 | Two-way ANOVA from a table with two factor columns and a response (balanced; additive model when n = 1) | `Anova.TwoWay`, `Analyses/TwoWayAnova.cs`, `Plotting/AnovaFigures.cs` (boxes, means with intervals, interaction plot, residual Q–Q) | hand-worked 2 × 2 × 2 case (SS 338/98/18/8, F 169/49/9); unbalanced design refused with the cell named | [x] |
+| 5.3 | Code (`scipy.stats.f_oneway`, `tukey_hsd`, `studentized_range`, `ncf`, `bartlett`, `levene`, `kruskal`; `statsmodels` `anova_lm`, `pairwise_tukeyhsd`; R `aov`, `anova`, `TukeyHSD`, `ptukey`/`qtukey`, `bartlett.test`, `kruskal.test`) | each analysis writes both | cross-check: 68 configurations pass (6 ANOVA) | [x] |
 | 5.4 | Store: Partner Center identity, listing, privacy statement (nothing leaves the machine), `msixupload` | `packaging/` | submitted | [ ] |
