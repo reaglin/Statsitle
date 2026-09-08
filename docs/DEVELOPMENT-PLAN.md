@@ -74,12 +74,18 @@ histogram and box plot, and takes Python and R that print the same numbers.
 
 ## Phase 4 — Regression (Modules 11–13)
 
+**Status 2026-09-08: built.** One OLS engine (`LinearModel`, MathNet linear algebra) behind two
+analyses; the Module 13 validation (diagnostics, transformations, k-fold) is folded into them
+rather than a third analysis. The phase-1 six-form curve comparison was dropped in favour of the
+course's transformations of x or y, fitted linearly and drawn back in the original units. Tester
+zip 0.4.0.
+
 | # | Task | Targets | Acceptance | Status |
 |---|---|---|---|---|
-| 4.1 | Simple regression completed: SEs, t and p per coefficient, CIs, ANOVA table, F, residual SE, r, prediction with confidence and prediction intervals at x₀, residual plots | `Methods/Regression/SimpleRegression.cs`, `Analyses/SimpleRegression.cs` | M&R Ch. 11 example; Module 11 problem 1 | [ ] |
-| 4.2 | Multiple regression over MathNet linear algebra: coefficient table, R², adjusted R², F, VIF, forward / backward selection | `Regression/MultipleRegression.cs`, `Analyses/MultipleRegression.cs` | M&R Ch. 12 example; Module 12 problem 1 | [ ] |
-| 4.3 | Validation: residuals vs fitted, Q–Q, Durbin–Watson, leverage, Cook's D, transformations compared (log, √, 1/x), hold-out and k-fold RMSE | `Regression/Diagnostics.cs`, `CrossValidation.cs`, `Analyses/RegressionValidation.cs` | Module 13 problems | [ ] |
-| 4.4 | Code (`statsmodels.api.OLS`, `sklearn.model_selection`; R `lm`, `summary`, `predict`, `plot(lm)`) | `Core/Code/` | cross-check | [ ] |
+| 4.1 | Simple regression completed: SEs, t and p per coefficient, CIs, ANOVA table, F, residual SE, r, prediction with confidence and prediction intervals at x₀, residual plots | `Methods/Regression/LinearModel.cs`, `Analyses/SimpleRegression.cs` | `RegressionTests`: x = 1..5, y = 2, 4, 5, 4, 5 by hand (b₁ = 0.6, SS_E = 2.4, F = 4.5, h₁₁ = 0.6); M&R Ch. 11 formulas | [x] |
+| 4.2 | Multiple regression over MathNet linear algebra: coefficient table, R², adjusted R², F, VIF, forward / backward selection | `LinearModel.cs`, `Analyses/MultipleRegression.cs` (`AllPredictors`, `ForwardSelection`, `BackwardElimination` as the method classes) | exact plane y = 1 + 2x₁ + 3x₂ recovered; collinear design refused; housing table (Module 12's shape) selects and cross-validates | [x] |
+| 4.3 | Validation: residuals vs fitted, Q–Q, Durbin–Watson, leverage, Cook's D, transformations compared (log, √, 1/x), hold-out and k-fold RMSE | `LinearModel` (leverage, Cook's D, DW, standardized residuals, `CrossValidate`), `Transformations`, `Plotting/RegressionFigures.cs`; shown in both analyses | ln y on an exponential relation gives R² = 1 and predicts back in y units; Σhᵢᵢ = p; DW, Cook's D and leverage agree with statsmodels | [x] |
+| 4.4 | Code (`statsmodels.api.OLS`, `get_prediction`, `get_influence`, `variance_inflation_factor`, `durbin_watson`, a hand k-fold loop; R `lm`, `confint`, `predict`, `cooks.distance`, `hatvalues`) | each analysis writes both | cross-check: 62 configurations pass against numpy/scipy/statsmodels (11 regression) | [x] |
 
 ## Phase 5 — ANOVA (Module 14) and release
 

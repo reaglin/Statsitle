@@ -1,6 +1,6 @@
 using Statistle.Core.Analyses;
 using Statistle.Core.Domain;
-using Statistle.Core.Methods.Statistics;
+using Statistle.Core.Methods.Regression;
 using Statistle.Core.Persistence;
 using Statistle.Core.Plotting;
 using Statistle.Core.Units;
@@ -97,7 +97,8 @@ public class RegressionFigureTests
     [Fact]
     public void The_observations_are_drawn_as_markers()
     {
-        PlotSpec spec = RegressionFigure.Build(Points(), fit: null, "Fit");
+        DataSeries data = Points();
+        PlotSpec spec = RegressionFigures.Scatter("Fit", "x", "y", data.XValues, data.YValues, fitted: null);
 
         var markers = (MarkerSeries)Assert.Single(spec.Series);
         Assert.Equal(4, markers.Y.Count);
@@ -105,34 +106,34 @@ public class RegressionFigureTests
     }
 
     [Fact]
-    public void A_fitted_form_is_drawn_through_them_and_named_in_the_title()
+    public void A_fitted_line_is_drawn_through_them()
     {
         DataSeries data = Points();
-        RegressionResult fit = Regression.Fit(RegressionForm.Linear, data.XValues, data.YValues)!;
+        LinearModel model = LinearModel.Fit(["x"], [data.XValues], data.YValues)!;
 
-        PlotSpec spec = RegressionFigure.Build(data, fit, "Fit");
+        PlotSpec spec = RegressionFigures.Scatter("Fit", "x", "y", data.XValues, data.YValues, x => model.Intercept + model.Coefficients[1].Estimate * x);
 
         Assert.Equal(2, spec.Series.Count);
         Assert.IsType<LineSeries>(spec.Series[1]);
-        Assert.Contains("r²", spec.Title, StringComparison.Ordinal);
     }
 
     [Fact]
-    public void An_analysis_declares_its_own_figure_and_nothing_else_names_it()
+    public void An_analysis_declares_its_own_figures_and_nothing_else_names_them()
     {
         var regression = new SimpleRegression();
 
-        PlotSpec figure = Assert.Single(regression.Figures(new UnitSelection()));
+        IReadOnlyList<PlotSpec> figures = regression.Figures(new UnitSelection());
 
-        Assert.NotEmpty(figure.Series);
+        Assert.Equal(3, figures.Count);
+        Assert.All(figures, f => Assert.NotEmpty(f.Series));
     }
 
     [Fact]
     public void An_empty_series_still_produces_a_drawable_figure()
     {
-        PlotSpec spec = RegressionFigure.Build(new DataSeries(), fit: null);
+        PlotSpec spec = RegressionFigures.Scatter("Fit", "x", "y", [], [], fitted: null);
 
         Assert.NotEmpty(spec.Axes);
-        Assert.All(spec.Axes, a => Assert.True(a.Max > a.Min));
+        Assert.Single(spec.Series);
     }
 }

@@ -14,7 +14,7 @@
 
 .EXAMPLE
     ./packaging/make-tester-package.ps1
-    Builds artifacts\Statistle-0.3.0-win-x64.zip.
+    Builds artifacts\Statistle-0.4.0-win-x64.zip.
 #>
 [CmdletBinding()]
 param(

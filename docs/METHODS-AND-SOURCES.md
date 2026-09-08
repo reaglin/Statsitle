@@ -133,21 +133,22 @@ Status: `[ ]` not built · `[x]` built, tested against the case named. The Pytho
 
 | Item | Formula | Python | R | Held by | Status |
 |---|---|---|---|---|---|
-| Slope, intercept | b₁ = S_xy/S_xx; b₀ = ȳ − b₁x̄ | `linregress(x, y)`; `sm.OLS(y, sm.add_constant(x)).fit()` | `lm(y ~ x)` | M&R Ex. 11-1 | [ ] |
-| σ̂², SEs, t, CIs | σ̂² = SS_E/(n−2); se(b₁) = σ̂/√S_xx | `fit.bse`, `fit.pvalues`, `fit.conf_int()` | `summary(fit)`, `confint(fit)` | M&R Ex. 11-2, 11-3 | [ ] |
-| R², r, ANOVA F | R² = SS_R/SS_T | `fit.rsquared`, `fit.fvalue` | `summary(fit)$r.squared`, `anova(fit)` | M&R 11-4 | [ ] |
-| Prediction at x₀ | CI on mean response; prediction interval | `fit.get_prediction(...).summary_frame()` | `predict(fit, newdata, interval=)` | M&R Ex. 11-7 | [ ] |
+| Slope, intercept | b₁ = S_xy/S_xx; b₀ = ȳ − b₁x̄ | `sm.OLS(y, sm.add_constant(x)).fit()` | `lm(y ~ x)` | `RegressionTests` hand example; M&R 11-2 | [x] |
+| σ̂², SEs, t, CIs | σ̂² = SS_E/(n−2); se(b₁) = σ̂/√S_xx | `fit.bse`, `fit.pvalues`, `fit.conf_int()` | `summary(fit)`, `confint(fit)` | `RegressionTests`; M&R 11-4, 11-5 | [x] |
+| R², r, ANOVA F | R² = SS_R/SS_T; r = sign(b₁)√R² | `fit.rsquared`, `fit.fvalue`, `fit.ess`, `fit.ssr` | `summary(fit)$r.squared`, `anova(fit)` | `RegressionTests` (R² = 0.6, F = 4.5 = t²) | [x] |
+| Prediction at x₀ | CI on mean response; prediction interval | `fit.get_prediction(...).summary_frame(alpha)` | `predict(fit, newdata, interval=)` | `RegressionTests` (se = σ̂/√n at x̄); cross-check | [x] |
 
 ## Multiple regression and validation (Modules 12–13; M&R Ch. 12)
 
 | Item | Formula | Python | R | Held by | Status |
 |---|---|---|---|---|---|
-| Coefficients | β̂ = (XᵀX)⁻¹Xᵀy | `sm.OLS(...).fit()` | `lm(y ~ x1 + x2)` | M&R Ex. 12-1 | [ ] |
-| R², adjusted R², F | R²_adj = 1 − (1−R²)(n−1)/(n−p) | `fit.rsquared_adj` | `summary(fit)$adj.r.squared` | M&R 12-2 | [ ] |
-| VIF | 1/(1−R_j²) | `variance_inflation_factor` | `car::vif` | M&R 12-6 | [ ] |
-| Residual diagnostics | standardized residuals, leverage h_ii, Cook's D, Durbin–Watson | `fit.get_influence()`, `durbin_watson` | `plot(fit)`, `cooks.distance`, `car::durbinWatsonTest` | M&R 12-5 | [ ] |
-| Cross-validation | hold-out RMSE; k-fold | `sklearn.model_selection.cross_val_score` | `caret::train` or hand loop | EGN3443 M13 | [ ] |
-| Transformations | log, √, 1/x on x or y | `np.log` | `log` | EGN3443 M13 P1 | [ ] |
+| Coefficients | β̂ = (XᵀX)⁻¹Xᵀy; rank check by SVD | `sm.OLS(...).fit()` | `lm(y ~ x1 + x2)` | `RegressionTests` exact plane; cross-check | [x] |
+| R², adjusted R², F | R²_adj = 1 − (1−R²)(n−1)/(n−p) | `fit.rsquared_adj` | `summary(fit)$adj.r.squared` | cross-check | [x] |
+| VIF | 1/(1−R_j²), regressing xⱼ on the others with an intercept | `variance_inflation_factor(Xc, j)` | hand loop over `lm` (or `car::vif`) | VIF = 1 for orthogonal columns; cross-check | [x] |
+| Residual diagnostics | rᵢ = eᵢ/(σ̂√(1−hᵢᵢ)); hᵢᵢ = diag(X(XᵀX)⁻¹Xᵀ); Dᵢ = rᵢ²hᵢᵢ/(p(1−hᵢᵢ)); DW = Σ(eᵢ−eᵢ₋₁)²/Σeᵢ²; Shapiro–Wilk on the residuals | `fit.get_influence()`, `durbin_watson` | `hatvalues`, `cooks.distance`, `shapiro.test`, DW by the formula | M&R 12-5; cross-check | [x] |
+| Cross-validation | k contiguous folds (as `KFold(shuffle=False)`), RMSE on the held-out rows; k = n is leave-one-out | hand loop with `np.linalg.lstsq` (no sklearn dependency) | hand loop with `qr.solve` | cross-check (5, 10, 4 folds and LOO) | [x] |
+| Variable selection | forward: add the smallest-p candidate while p < 0.05; backward: drop the largest-p term while p ≥ 0.05 | not in statsmodels; the chosen set is written into the script | `step` uses AIC, so the chosen set is written | M&R 12-6; `RegressionTests` | [x] |
+| Transformations | ln, √, 1/· on x or y; fit linear in the transformed variable, prediction undone (exp, square, reciprocal) with the interval ends re-ordered | `np.log`, `np.sqrt`, `1 / x` | `log`, `sqrt`, `1 / x` | `RegressionTests` (ln y on 3e^{0.4x}); cross-check | [x] |
 
 ## ANOVA (Module 14; M&R Ch. 13–14)
 

@@ -68,9 +68,9 @@ public partial class App : Application
         {
             Name = "Demonstration statistics project",
             Description =
-                "Two data tables and two analyses, to show what a Statistle project holds. " +
+                "Three data tables and three analyses, to show what a Statistle project holds. " +
                 "Tensile strength: ten specimens of each of three aluminium alloys. Solar panel: " +
-                "the measured efficiency of a photovoltaic panel at ten cell temperatures.",
+                "the measured efficiency of a photovoltaic panel at ten cell temperatures. Housing: twenty houses for multiple regression.",
         };
 
         DataTable strength = document.AddTable("Tensile strength");
@@ -95,7 +95,23 @@ public partial class App : Application
         regression.Description = "How far the panel's efficiency falls per degree of cell temperature.";
         regression.XColumn = DataSources.Reference(panel.Id, "Temperature");
         regression.YColumn = DataSources.Reference(panel.Id, "Efficiency");
+        regression.PredictAt = 42;
         regression.Recalculate();
+
+        DataTable housing = document.AddTable("Housing");
+        housing.Description = "Twenty houses (synthetic, in the shape of the course's Module 12 problem): size in sq ft, age in years, bedrooms, distance to the centre in km, price in thousands.";
+        housing.Columns.AddColumn("size", [1610, 1120, 3170, 2690, 1190, 2160, 2900, 1840, 1820, 2610, 2070, 2390, 1780, 1850, 2430, 2030, 1150, 2330, 2250, 2030]);
+        housing.Columns.AddColumn("age", [13, 31, 27, 27, 27, 4, 24, 34, 2, 30, 39, 33, 28, 28, 37, 9, 28, 2, 4, 25]);
+        housing.Columns.AddColumn("bedrooms", [4, 2, 5, 4, 2, 2, 4, 4, 2, 4, 5, 5, 3, 4, 4, 3, 4, 3, 3, 5]);
+        housing.Columns.AddColumn("distance", [5.5, 29.4, 26.3, 13.1, 25.3, 5.3, 24.1, 23.4, 7.5, 16.8, 19.6, 7.5, 3.3, 13.4, 5.5, 3.1, 4.8, 12.5, 14.5, 7.2]);
+        housing.Columns.AddColumn("price", [234.0, 89.1, 391.8, 331.9, 88.9, 310.7, 345.5, 215.5, 280.7, 313.4, 261.4, 310.4, 230.6, 238.7, 329.2, 261.5, 199.4, 326.4, 298.7, 296.5]);
+
+        MultipleRegression multiple = document.Tool<MultipleRegression>();
+        multiple.Name = "House price on size, age, bedrooms, distance";
+        multiple.Description = "Which of the four factors move the price, and by how much each.";
+        multiple.Table = housing.Id.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        multiple.Response = "price";
+        multiple.Recalculate();
 
         document.Save(Path.Combine(folder, "demo-statistics.statistle"));
     }

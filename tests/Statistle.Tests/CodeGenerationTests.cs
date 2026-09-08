@@ -6,6 +6,7 @@ using Statistle.Core.Document;
 using Statistle.Core.Domain;
 using Statistle.Core.Methods;
 using Statistle.Core.Methods.Inference;
+using Statistle.Core.Methods.Regression;
 using Statistle.Core.Persistence;
 using Statistle.Core.Reporting;
 
@@ -96,7 +97,7 @@ public class CodeGenerationTests
         Assert.Contains("np.array([3.2, 4.8", html, StringComparison.Ordinal);
         Assert.Contains("Appendix — R", TextReportWriter.Write(report), StringComparison.Ordinal);
 
-        Assert.Empty(ReportBuilder.For(new SimpleRegression()).Appendices);   // not yet a code source
+        Assert.Equal(2, ReportBuilder.For(new SimpleRegression()).Appendices.Count);
     }
 
     /// <summary>Every analysis that writes code, in the configurations worth checking.</summary>
@@ -170,6 +171,34 @@ public class CodeGenerationTests
         yield return ["Mann–Whitney, columns, greater", new TwoSampleTest { Project = project, TestKind = TwoSampleTestKind.MannWhitney, Source = DataSource.Columns, Column = a, Column2 = b, AlternativeHypothesis = Alternative.Greater }];
         yield return ["Wilcoxon, columns", new TwoSampleTest { Project = project, TestKind = TwoSampleTestKind.WilcoxonSignedRank, Source = DataSource.Columns, Column = a, Column2 = b }];
         yield return ["Wilcoxon, columns, less", new TwoSampleTest { Project = project, TestKind = TwoSampleTestKind.WilcoxonSignedRank, Source = DataSource.Columns, Column = a, Column2 = b, AlternativeHypothesis = Alternative.Less }];
+
+        // Modules 11–13: the regressions, against statsmodels.
+        yield return ["Simple regression, hand example", new SimpleRegression()];
+        yield return ["Simple regression, prediction", new SimpleRegression { PredictAt = 3.5, Confidence = 0.9 }];
+        yield return ["Simple regression, ln y", Curved(new SimpleRegression { YTransformation = Transformation.Log, PredictAt = 2.5 })];
+        yield return ["Simple regression, ln x", Curved(new SimpleRegression { XTransformation = Transformation.Log, PredictAt = 4 })];
+        yield return ["Simple regression, 1/y on √x", Curved(new SimpleRegression { YTransformation = Transformation.Inverse, XTransformation = Transformation.SquareRoot, PredictAt = 3 })];
+        yield return ["Simple regression, columns", new SimpleRegression { Project = project, XColumn = a, YColumn = b, PredictAt = 5 }];
+
+        StatistleDocument housingProject = RegressionTests.HousingProject(out DataTable housing);
+        string housingId = housing.Id.ToString(CultureInfo.InvariantCulture);
+        yield return ["Multiple regression, all", new MultipleRegression { Project = housingProject, Table = housingId, Response = "price" }];
+        yield return ["Multiple regression, forward", new MultipleRegression { Project = housingProject, Table = housingId, Response = "price", Selection = VariableSelection.Forward, Folds = 10, Confidence = 0.99 }];
+        yield return ["Multiple regression, backward, no CV", new MultipleRegression { Project = housingProject, Table = housingId, Response = "price", Selection = VariableSelection.Backward, Folds = 0 }];
+        yield return ["Multiple regression, one predictor, LOO", new MultipleRegression { Project = housingProject, Table = housingId, Response = "price", Predictors = "size", Folds = 20 }];
+        yield return ["Multiple regression, two predictors", new MultipleRegression { Project = housingProject, Table = housingId, Response = "distance", Predictors = "size, bedrooms", Folds = 4 }];
+    }
+
+    /// <summary>Eight pairs that grow roughly exponentially, for the transformations.</summary>
+    private static SimpleRegression Curved(SimpleRegression regression)
+    {
+        regression.Data.Clear();
+        foreach ((double x, double y) in new[] { (1.0, 4.6), (2, 6.5), (3, 10.2), (4, 14.4), (5, 22.9), (6, 32.0), (7, 50.5), (8, 72.1) })
+        {
+            regression.Data.Add(x, y);
+        }
+
+        return regression;
     }
 
     [Theory]

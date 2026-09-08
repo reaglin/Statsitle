@@ -1,18 +1,17 @@
-using Statistle.Core.Methods;
-using Statistle.Core.Methods.Statistics;
-using Statistle.Core.Persistence;
-using Statistle.Core.Plotting;
+using System.Globalization;
 using Statistle.Core.Analyses;
+using Statistle.Core.Document;
+using Statistle.Core.Domain;
+using Statistle.Core.Methods;
+using Statistle.Core.Methods.Regression;
+using Statistle.Core.Persistence;
 
 namespace Statistle.Tests;
 
-/// <summary>
-/// Regression on the six common forms. Exact data recovers exact coefficients; data a form cannot
-/// take is skipped and counted; and the tool ranks forms by the standard error in y units.
-/// </summary>
+/// <summary>Pairs typed or pasted into a regression are read leniently but never silently wrongly.</summary>
 public class PairEntryTests
 {
-    private static readonly System.Globalization.CultureInfo Us = System.Globalization.CultureInfo.GetCultureInfo("en-US");
+    private static readonly CultureInfo Us = CultureInfo.GetCultureInfo("en-US");
 
     [Theory]
     [InlineData("1\t2\n3\t4")]
@@ -21,7 +20,7 @@ public class PairEntryTests
     [InlineData("1 2\n3 4")]
     [InlineData("1, 2\n\n3;\t4\n")]
     [InlineData("\"1\",\"2\"\n\"3\",\"4\"")]
-    [InlineData("\uFEFF1,2,extra\n3,4,ignored")]
+    [InlineData("﻿1,2,extra\n3,4,ignored")]
     public void Pairs_are_read_with_a_tab_comma_semicolon_or_space_between_them(string text)
     {
         Assert.True(DataSeries.TryParsePairs(text, Us, out DataSeries series));
@@ -47,211 +46,167 @@ public class PairEntryTests
     }
 }
 
+/// <summary>Modules 11–13: the OLS engine against hand arithmetic, and the two regression analyses.</summary>
 public class RegressionTests
 {
-    private static readonly double[] X = [1, 2, 3, 4, 5, 6, 7, 8];
-
-    private static double[] Of(Func<double, double> f) => [.. X.Select(f)];
-
-    [Theory]
-    [InlineData(RegressionForm.Linear, 2.0, 3.0)]
-    [InlineData(RegressionForm.Exponential, 2.0, 0.5)]
-    [InlineData(RegressionForm.Power, 3.0, 1.5)]
-    [InlineData(RegressionForm.Logarithmic, 1.0, 2.0)]
-    [InlineData(RegressionForm.Reciprocal, 1.0, 2.0)]
-    [InlineData(RegressionForm.ReciprocalY, 0.5, 0.1)]
-    public void Exact_data_recovers_the_coefficients_with_r2_one_and_no_error(RegressionForm form, double a, double b)
+    [Fact]
+    public void The_engine_matches_the_textbook_hand_example()
     {
-        double[] y = Of(x => new RegressionResult(form, a, b, 0, 0, 0, 0).Predict(x));
+        // x = 1..5, y = 2, 4, 5, 4, 5: b₁ = 0.6, b₀ = 2.2, SS_E = 2.4, σ̂² = 0.8, se(b₁) = √(0.8/10), R² = 0.6, F = 4.5.
+        LinearModel? m = LinearModel.Fit(["x"], [[1, 2, 3, 4, 5]], [2, 4, 5, 4, 5]);
+        Assert.NotNull(m);
+        Assert.Equal(2.2, m.Intercept, 9);
+        Assert.Equal(0.6, m.Coefficients[1].Estimate, 9);
+        Assert.Equal(2.4, m.SumSquaresError, 9);
+        Assert.Equal(6.0, m.SumSquaresTotal, 9);
+        Assert.Equal(0.8, m.MeanSquareError, 9);
+        Assert.Equal(Math.Sqrt(0.08), m.Coefficients[1].StandardError, 9);
+        Assert.Equal(0.6 / Math.Sqrt(0.08), m.Coefficients[1].T, 9);
+        Assert.Equal(0.6, m.RSquared, 9);
+        Assert.Equal(4.5, m.F, 9);
+        Assert.Equal(m.Coefficients[1].PValue, m.FPValue, 9);
+        Assert.Equal(3, m.DegreesOfFreedomError);
+        Assert.Equal(2, m.Leverage.Sum(), 9);                      // Σhᵢᵢ = p
+        Assert.Equal(0.6, m.Leverage[0], 9);                        // 1/5 + (1 − 3)²/10
+        Assert.Equal(1, m.Coefficients[1].Vif, 9);
 
-        RegressionResult? fit = Regression.Fit(form, X, y);
+        // Prediction at x = 3 (the mean): the narrowest interval, se = σ̂/√n.
+        Prediction at = m.Predict([3]);
+        Assert.Equal(4.0, at.Fitted, 9);
+        Assert.Equal(Math.Sqrt(0.8 / 5), at.StandardError, 9);
+        Assert.True(at.ObservationUpper - at.ObservationLower > at.MeanUpper - at.MeanLower);
 
-        Assert.NotNull(fit);
-        Assert.Equal(a, fit.A, 9);
-        Assert.Equal(b, fit.B, 9);
-        Assert.Equal(1.0, fit.RSquared, 9);
-        Assert.Equal(0.0, fit.StandardError, 7);
-        Assert.Equal(X.Length, fit.PointsUsed);
-        Assert.Equal(0, fit.PointsSkipped);
+        // An exact plane is recovered with R² = 1; a collinear design is refused.
+        double[] x1 = [1, 2, 3, 4, 5, 6], x2 = [2, 1, 4, 3, 6, 5];
+        LinearModel? plane = LinearModel.Fit(["a", "b"], [x1, x2], [.. x1.Zip(x2, (a, b) => 1 + 2 * a + 3 * b)]);
+        Assert.NotNull(plane);
+        Assert.Equal(2, plane.Coefficients[1].Estimate, 9);
+        Assert.Equal(3, plane.Coefficients[2].Estimate, 9);
+        Assert.Equal(1, plane.RSquared, 9);
+        Assert.Null(LinearModel.Fit(["a", "2a"], [x1, [.. x1.Select(v => 2 * v)]], x2));
+        Assert.Null(LinearModel.Fit(["x"], [[1, 2]], [1, 2]));
+        Assert.Null(LinearModel.Fit(["x"], [[2, 2, 2, 2]], [1, 2, 3, 4]));
+
+        // Cross-validation: contiguous folds; leave-one-out on the hand example.
+        (double inSample, double cv) = LinearModel.CrossValidate([[1, 2, 3, 4, 5]], [2, 4, 5, 4, 5], 5);
+        Assert.Equal(Math.Sqrt(2.4 / 5), inSample, 9);
+        Assert.True(cv > inSample);
     }
 
     [Fact]
-    public void Points_a_transform_cannot_take_are_skipped_and_counted_not_dropped_silently()
+    public void The_simple_regression_analysis_reports_the_fit_and_transforms()
     {
-        double[] x = [0, 1, 2, 3, 4, 5];
-        double[] y = [-1, 2.7, 7.4, 20.1, 54.6, 148.4]; // e^x from x = 1, with a bad first point
+        var r = new SimpleRegression();   // the hand example
+        Assert.Null(r.Problem);
+        Assert.Equal(0.6, r.Slope, 9);
+        Assert.Equal(2.2, r.Intercept, 9);
+        Assert.Equal(0.6, r.RSquared, 9);
+        Assert.Equal(Math.Sqrt(0.6), r.Correlation, 9);
+        Assert.Equal(4.5, r.FStatistic, 9);
+        Assert.Contains("y = 2.2 + 0.6·x", r.Equation, StringComparison.Ordinal);
+        Assert.Equal(3, r.Figures(null).Count);
+        Assert.True(double.IsNaN(r.FittedAt));
 
-        RegressionResult? exponential = Regression.Fit(RegressionForm.Exponential, x, y);
-        RegressionResult? power = Regression.Fit(RegressionForm.Power, x, y);
-        RegressionResult? linear = Regression.Fit(RegressionForm.Linear, x, y);
+        r.PredictAt = 3;
+        r.Recalculate();
+        Assert.Equal(4.0, r.FittedAt, 9);
+        Assert.True(r.NewLower < r.MeanLower && r.NewUpper > r.MeanUpper);
 
-        Assert.NotNull(exponential);
-        Assert.Equal(1, exponential.PointsSkipped);     // y ≤ 0
-        Assert.Equal(5, exponential.PointsUsed);
-        Assert.NotNull(power);
-        Assert.Equal(1, power.PointsSkipped);           // x = 0 and y ≤ 0 is the same point
-        Assert.NotNull(linear);
-        Assert.Equal(0, linear.PointsSkipped);
-    }
-
-    [Fact]
-    public void Fewer_than_three_usable_points_is_no_fit()
-    {
-        Assert.Null(Regression.Fit(RegressionForm.Linear, [1, 2], [1, 2]));
-        Assert.Null(Regression.Fit(RegressionForm.Exponential, [1, 2, 3, 4], [-1, -1, 2, 3]));
-    }
-
-    [Fact]
-    public void No_spread_in_x_is_no_fit()
-    {
-        Assert.Null(Regression.Fit(RegressionForm.Linear, [2, 2, 2, 2], [1, 2, 3, 4]));
-    }
-
-    [Fact]
-    public void R_squared_stays_within_zero_and_one_on_noisy_data()
-    {
-        var random = new Random(7);
-        double[] x = [.. Enumerable.Range(1, 40).Select(i => (double)i)];
-        double[] y = [.. x.Select(v => 3 + (0.4 * v) + (random.NextDouble() * 4) - 2)];
-
-        foreach (RegressionForm form in Enum.GetValues<RegressionForm>())
+        // An exponential relation becomes a line under ln y, drawn back in original units.
+        var e = new SimpleRegression { YTransformation = Transformation.Log, PredictAt = 2.5 };
+        e.Data.Clear();
+        foreach (double x in new[] { 1.0, 2, 3, 4, 5, 6 })
         {
-            RegressionResult? fit = Regression.Fit(form, x, y);
-
-            Assert.NotNull(fit);
-            Assert.InRange(fit.RSquared, 0, 1);
-            Assert.True(fit.StandardError >= 0);
-        }
-    }
-
-    [Fact]
-    public void Equations_read_with_the_right_sign()
-    {
-        Assert.Equal("y = 2 + 3·x", Regression.Equation(RegressionForm.Linear, 2, 3));
-        Assert.Equal("y = 2 − 3·x", Regression.Equation(RegressionForm.Linear, 2, -3));
-        Assert.Equal("y = 2·e^(-0.5·x)", Regression.Equation(RegressionForm.Exponential, 2, -0.5));
-        Assert.Equal("y = 3·x^1.5", Regression.Equation(RegressionForm.Power, 3, 1.5));
-        Assert.Equal("y = 1 + 2·ln x", Regression.Equation(RegressionForm.Logarithmic, 1, 2));
-        Assert.Equal("y = 1 + 2 / x", Regression.Equation(RegressionForm.Reciprocal, 1, 2));
-        Assert.Equal("y = 1 / (0.5 + 0.1·x)", Regression.Equation(RegressionForm.ReciprocalY, 0.5, 0.1));
-    }
-}
-
-public class SimpleRegressionTests
-{
-    private static SimpleRegression With(RegressionForm form, double a, double b)
-    {
-        var tool = new SimpleRegression();
-        tool.Data.Clear();
-
-        var shape = new RegressionResult(form, a, b, 0, 0, 0, 0);
-        foreach (double x in new[] { 1.0, 2, 3, 4, 5, 6, 8, 10 })
-        {
-            tool.Data.Add(x, shape.Predict(x));
+            e.Data.Add(x, 3 * Math.Exp(0.4 * x));
         }
 
-        tool.Recalculate();
-        return tool;
+        e.Recalculate();
+        Assert.Null(e.Problem);
+        Assert.Equal(0.4, e.Slope, 9);
+        Assert.Equal(Math.Log(3), e.Intercept, 9);
+        Assert.Equal(1, e.RSquared, 9);
+        Assert.Equal(3 * Math.Exp(1.0), e.FittedAt, 6);
+        Assert.Equal(3 * Math.Exp(1.0), e.FittedValue(2.5), 6);
+        Assert.StartsWith("ln(y) =", e.Equation, StringComparison.Ordinal);
+
+        e.Data.Add(7, -1);   // a log cannot take it
+        e.Recalculate();
+        Assert.Equal(1, e.Skipped);
+        Assert.Equal(6, e.Count);
+
+        Assert.Equal(2, MethodCatalog.For(typeof(SimpleRegression)).Count);
+        Assert.All(MethodCatalog.For(typeof(SimpleRegression)), m => Assert.Empty(MethodContract.Verify(m)));
+    }
+
+    /// <summary>The synthetic housing table of the sample project (the shape of Module 12's problem).</summary>
+    internal static StatistleDocument HousingProject(out DataTable housing)
+    {
+        var document = new StatistleDocument();
+        housing = document.AddTable("Housing");
+        housing.Columns.AddColumn("size", [1610, 1120, 3170, 2690, 1190, 2160, 2900, 1840, 1820, 2610, 2070, 2390, 1780, 1850, 2430, 2030, 1150, 2330, 2250, 2030]);
+        housing.Columns.AddColumn("age", [13, 31, 27, 27, 27, 4, 24, 34, 2, 30, 39, 33, 28, 28, 37, 9, 28, 2, 4, 25]);
+        housing.Columns.AddColumn("bedrooms", [4, 2, 5, 4, 2, 2, 4, 4, 2, 4, 5, 5, 3, 4, 4, 3, 4, 3, 3, 5]);
+        housing.Columns.AddColumn("distance", [5.5, 29.4, 26.3, 13.1, 25.3, 5.3, 24.1, 23.4, 7.5, 16.8, 19.6, 7.5, 3.3, 13.4, 5.5, 3.1, 4.8, 12.5, 14.5, 7.2]);
+        housing.Columns.AddColumn("price", [234.0, 89.1, 391.8, 331.9, 88.9, 310.7, 345.5, 215.5, 280.7, 313.4, 261.4, 310.4, 230.6, 238.7, 329.2, 261.5, 199.4, 326.4, 298.7, 296.5]);
+        return document;
     }
 
     [Fact]
-    public void The_tool_is_discovered_as_a_free_standing_calculator()
+    public void The_multiple_regression_analysis_fits_selects_and_cross_validates()
     {
-        Assert.Contains(AnalysisCatalog.OfKind(ToolKind.FreeStanding), t => t.ToolType == typeof(SimpleRegression));
-    }
+        StatistleDocument project = HousingProject(out DataTable housing);
+        var m = new MultipleRegression { Project = project, Table = housing.Id.ToString(CultureInfo.InvariantCulture), Response = "price" };
+        m.Recalculate();
 
-    [Fact]
-    public void Six_methods_each_write_their_own_three_outputs_and_nothing_is_hidden()
-    {
-        var tool = new SimpleRegression();
-        IReadOnlyList<ICalculationMethod> methods = MethodScope.ActiveMethods(tool);
+        Assert.Null(m.Problem);
+        Assert.Equal(20, m.Count);
+        Assert.Equal("size, age, bedrooms, distance", m.PredictorsUsed);
+        Assert.InRange(m.RSquared, 0.9, 1.0);
+        Assert.True(m.AdjustedRSquared < m.RSquared);
+        Assert.Equal(4, m.DfRegression);
+        Assert.Equal(15, m.DfError);
+        Assert.True(m.MaxVif >= 1);
+        Assert.Contains("size:", m.CoefficientTable, StringComparison.Ordinal);
+        Assert.False(double.IsNaN(m.CvRmse));
+        Assert.True(m.CvRmse > m.InSampleRmse);
+        Assert.Equal(3, m.Figures(null).Count);
+        LinearModel direct = LinearModel.Fit(["size", "age", "bedrooms", "distance"],
+            [.. housing.Columns.Columns.Take(4).Select(c => (IReadOnlyList<double>)c.Values)], housing.Columns.Column("price")!.Values)!;
+        Assert.Equal(direct.RSquared, m.RSquared, 12);
 
-        Assert.Equal(6, methods.Count);
-        Assert.Empty(MethodScope.HiddenProperties(tool));
-        Assert.All(methods, m => Assert.Empty(MethodContract.Verify(m)));
-        Assert.All(methods, m => Assert.Equal(3, m.Outputs.Count));
+        m.Predictors = "size, age";
+        m.Recalculate();
+        Assert.Equal(2, m.DfRegression);
+        Assert.Contains("price = ", m.Equation, StringComparison.Ordinal);
 
-        // No two methods claim the same output.
-        string[] outputs = [.. methods.SelectMany(m => m.Outputs)];
-        Assert.Equal(outputs.Length, outputs.Distinct().Count());
-    }
+        m.Predictors = "size, colour";
+        m.Recalculate();
+        Assert.Contains("colour", m.Problem, StringComparison.Ordinal);
 
-    [Theory]
-    [InlineData(RegressionForm.Power, 3.0, 1.5)]
-    [InlineData(RegressionForm.Exponential, 2.0, 0.3)]
-    [InlineData(RegressionForm.Logarithmic, 1.0, 2.0)]
-    public void The_best_form_is_the_one_the_data_came_from(RegressionForm form, double a, double b)
-    {
-        SimpleRegression tool = With(form, a, b);
+        m.Predictors = string.Empty;
+        m.Selection = VariableSelection.Forward;
+        m.Recalculate();
+        Assert.Null(m.Problem);
+        Assert.Contains("added size", m.SelectionNote, StringComparison.Ordinal);
+        Assert.True(m.DfRegression >= 1 && m.DfRegression <= 4);
 
-        Assert.Contains(form.ToString(), tool.BestForm, StringComparison.Ordinal);
-        Assert.Equal(1.0, tool.Results[form]!.RSquared, 9);
-    }
+        m.Selection = VariableSelection.Backward;
+        m.Recalculate();
+        Assert.Null(m.Problem);
+        Assert.Contains("size", m.PredictorsUsed, StringComparison.Ordinal);
 
-    [Fact]
-    public void Exact_power_data_fills_the_power_block_and_leaves_the_others_imperfect()
-    {
-        SimpleRegression tool = With(RegressionForm.Power, 3, 1.5);
+        m.Folds = 0;
+        m.Recalculate();
+        Assert.True(double.IsNaN(m.CvRmse));
 
-        Assert.Equal("y = 3·x^1.5", tool.PowerEquation);
-        Assert.Equal(1.0, tool.PowerRSquared, 9);
-        Assert.Equal(0.0, tool.PowerStandardError, 7);
-        Assert.True(tool.LinearStandardError > tool.PowerStandardError);
-        Assert.Equal(8, tool.Count);
-    }
+        Assert.Contains(m.ChoicesFor(nameof(MultipleRegression.Table)), c => c.Label == "Housing");
+        Assert.Contains(m.ChoicesFor(nameof(MultipleRegression.Response)), c => c.Label == "distance");
+        Assert.Same(housing, m.LinkedObject(nameof(MultipleRegression.Table)));
+        Assert.Equal(3, MethodCatalog.For(typeof(MultipleRegression)).Count);
+        Assert.All(MethodCatalog.For(typeof(MultipleRegression)), mm => Assert.Empty(MethodContract.Verify(mm)));
 
-    [Fact]
-    public void Too_little_data_says_so_rather_than_failing()
-    {
-        var tool = new SimpleRegression();
-        tool.Data.Clear();
-        tool.Data.Add(1, 1);
-        tool.Data.Add(2, 2);
-        tool.Recalculate();
-
-        Assert.Contains("at least 3", tool.LinearEquation, StringComparison.Ordinal);
-        Assert.Equal(0, tool.LinearRSquared);
-        Assert.Equal(string.Empty, tool.BestForm);
-        Assert.NotNull(tool.Figure); // the points still draw, with no curve
-    }
-
-    [Fact]
-    public void The_figure_draws_the_observations_and_the_selected_form()
-    {
-        SimpleRegression tool = With(RegressionForm.Power, 3, 1.5);
-        tool.SelectedForm = RegressionForm.Power;
-
-        PlotSpec? figure = tool.Figure;
-
-        Assert.NotNull(figure);
-        MarkerSeries points = Assert.Single(figure.Series.OfType<MarkerSeries>());
-        LineSeries curve = Assert.Single(figure.Series.OfType<LineSeries>());
-
-        Assert.Equal(8, points.X.Count);
-        Assert.True(curve.X.Count > 50);
-        Assert.Equal(tool.PowerEquation, curve.Name);
-        Assert.Contains("r² = 1.0000", figure.Title, StringComparison.Ordinal);
-
-        // The curve runs over the data's x range and reproduces it there.
-        Assert.Equal(1.0, curve.X[0], 9);
-        Assert.Equal(10.0, curve.X[^1], 9);
-        Assert.Equal(3 * Math.Pow(10, 1.5), curve.Y[^1], 6);
-    }
-
-    [Fact]
-    public void Pairs_can_be_pasted_with_commas_or_spaces_as_well_as_tabs()
-    {
-        DataSeries series = DataSeries.Parse("1, 2.5\n2  4.75\n3;7\n4\t9.5", "test");
-
-        Assert.Equal([1, 2, 3, 4], series.XValues);
-        Assert.Equal([2.5, 4.75, 7, 9.5], series.YValues);
-    }
-
-    [Fact]
-    public void The_data_series_is_two_column_not_single()
-    {
-        StatistleProperty data = new SimpleRegression().Properties().Single(p => p.XmlName == nameof(SimpleRegression.Data));
-
-        Assert.False(data.IsSingleColumnSeries);
+        var blank = new MultipleRegression();
+        Assert.NotNull(blank.Problem);
+        Assert.Empty(blank.Figures(null));
     }
 }

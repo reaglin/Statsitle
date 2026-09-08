@@ -21,8 +21,8 @@ Your files: Statistle keeps its files in Documents\Statistle. Projects
 (.statistle files) open and save there by default.
 
 Sample projects are in the "samples" folder: open demo-statistics.statistle for
-two data tables with a descriptive-statistics analysis and a regression already
-set up on them.
+three data tables with a descriptive-statistics analysis, a simple regression
+and a multiple regression already set up on them.
 
 
 WHAT TO TRY
@@ -74,10 +74,25 @@ WHAT TO TRY
   variance checks, and box plots of the two samples.
 - Every one of these writes its Python (scipy.stats) and R on the Code tab,
   with the library call (ttest_ind, t.test, wilcox.test...) as a check.
-- Open Simple linear regression, pick an x column and a y column, and read the
-  fitted line: its equation, r squared and the standard error of the estimate.
-  Five curved forms are fitted beside it so a relation that is not straight can
-  be recognised; compare them by standard error, which is in y units.
+- Simple linear regression (Modules 11, 13): pick an x and a y column, or type
+  the pairs, and read the least-squares line: slope and intercept with their
+  standard errors, the t-test and confidence interval on the slope, r, R
+  squared, the residual standard error, the ANOVA F, and a prediction at a
+  chosen x with the interval on the mean response and the wider one on a new
+  observation. Below: Durbin-Watson, Shapiro-Wilk on the residuals, the largest
+  Cook's distance and leverage. Transform x or y (ln, square root, reciprocal)
+  when the residual plot curves; the fit is drawn back in the original units.
+  Plots: the data with the fit, residuals against fitted, normal Q-Q.
+- Multiple regression (Modules 12-13): choose a table, the response column and
+  the predictor columns (by name; blank means all the others). Read the
+  coefficient table with standard errors, t, p, confidence intervals and VIFs,
+  R squared and adjusted R squared, the F-test, the same residual diagnostics,
+  and k-fold cross-validated RMSE beside the in-sample RMSE. Forward selection
+  and backward elimination at 0.05 are on the Variable selection drop-down,
+  with a note of each step taken. The sample project's Housing table has four
+  predictors of price.
+- Both regressions write statsmodels (Python) and lm (R) on the Code tab,
+  including the prediction, the diagnostics and the cross-validation loop.
 - Every screen has four tabs: Properties (entry), Report (values, plots,
   sources and the code as an appendix, with Open in browser / Save as PDF),
   Plots, and Code.
@@ -96,10 +111,9 @@ WHAT TO TRY
 
 KNOWN LIMITS IN THIS BUILD
 --------------------------
-- Modules 1-10 and simple regression are in. Multiple regression, validation
-  and ANOVA (Modules 11-14) are still to come.
-- Simple linear regression does not write code yet; Descriptive statistics
-  and data tables do.
+- Modules 1-13 are in. ANOVA (Module 14) is still to come.
+- Multiple regression takes its columns from one table; predictors are named
+  by typing them (a drop-down for several columns is coming).
 - Reports show a data table as one line per column (its name and how many
   values), not as a table of numbers. Export the CSV for the numbers.
 

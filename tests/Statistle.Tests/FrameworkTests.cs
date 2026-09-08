@@ -184,7 +184,7 @@ public class MethodContractTests
 
         public override IReadOnlyList<string> Inputs => [];
 
-        public override IReadOnlyList<string> Outputs => [nameof(SimpleRegression.SelectedForm)];
+        public override IReadOnlyList<string> Outputs => [nameof(SimpleRegression.XTransformation)];
 
         public override void Apply(SimpleRegression subject)
         {

@@ -1,6 +1,6 @@
 using Statistle.Core.Analyses;
 using Statistle.Core.Domain;
-using Statistle.Core.Methods.Statistics;
+using Statistle.Core.Methods.Regression;
 using Statistle.Core.Persistence;
 using Statistle.Core.Reporting;
 using Statistle.Core.Units;
@@ -16,7 +16,7 @@ public class EnumLabelTests
     [Fact]
     public void A_pascal_case_name_reads_as_words()
     {
-        Assert.Equal("Reciprocal", EnumLabel.Of(RegressionForm.Reciprocal));
+        Assert.Equal("Square Root", EnumLabel.Humanise("SquareRoot"));
         Assert.Equal("Standard Error", EnumLabel.Humanise("StandardError"));
         Assert.Equal("NRCS Lag", EnumLabel.Humanise("NRCSLag"));
     }
@@ -24,42 +24,42 @@ public class EnumLabelTests
     [Fact]
     public void A_description_attribute_wins_over_the_split_name()
     {
-        // Without it this would read "Reciprocal Y".
-        Assert.Equal("Reciprocal-y", EnumLabel.Of(RegressionForm.ReciprocalY));
+        // Without it this would read "Inverse".
+        Assert.Equal("Reciprocal, 1/", EnumLabel.Of(Transformation.Inverse));
     }
 
     [Fact]
     public void The_drop_down_offers_the_labels_not_the_member_names()
     {
-        IReadOnlyList<string> labels = EnumLabel.LabelsOf(typeof(RegressionForm));
+        IReadOnlyList<string> labels = EnumLabel.LabelsOf(typeof(Transformation));
 
-        Assert.Contains("Reciprocal-y", labels);
-        Assert.DoesNotContain("ReciprocalY", labels);
-        Assert.Equal(Enum.GetValues<RegressionForm>().Length, labels.Count);
+        Assert.Contains("Reciprocal, 1/", labels);
+        Assert.DoesNotContain("Inverse", labels);
+        Assert.Equal(Enum.GetValues<Transformation>().Length, labels.Count);
     }
 
     [Fact]
     public void A_label_or_a_raw_name_parses_back_to_the_value()
     {
-        Assert.True(EnumLabel.TryParse(typeof(RegressionForm), "Reciprocal-y", out object? byLabel));
-        Assert.Equal(RegressionForm.ReciprocalY, byLabel);
+        Assert.True(EnumLabel.TryParse(typeof(Transformation), "Reciprocal, 1/", out object? byLabel));
+        Assert.Equal(Transformation.Inverse, byLabel);
 
-        Assert.True(EnumLabel.TryParse(typeof(RegressionForm), "reciprocaly", out object? byName));
-        Assert.Equal(RegressionForm.ReciprocalY, byName);
+        Assert.True(EnumLabel.TryParse(typeof(Transformation), "inverse", out object? byName));
+        Assert.Equal(Transformation.Inverse, byName);
 
-        Assert.False(EnumLabel.TryParse(typeof(RegressionForm), "Made up", out _));
+        Assert.False(EnumLabel.TryParse(typeof(Transformation), "Made up", out _));
     }
 
     [Fact]
     public void Reports_show_the_label_not_the_member_name()
     {
-        var regression = new SimpleRegression { Name = "R", SelectedForm = RegressionForm.ReciprocalY };
-        StatistleProperty form = regression.Properties().Single(p => p.XmlName == nameof(SimpleRegression.SelectedForm));
+        var regression = new SimpleRegression { Name = "R", YTransformation = Transformation.Inverse };
+        StatistleProperty form = regression.Properties().Single(p => p.XmlName == nameof(SimpleRegression.YTransformation));
 
-        Assert.Equal("Reciprocal-y", regression.Display(form));
+        Assert.Equal("Reciprocal, 1/", regression.Display(form));
 
         Report report = ReportBuilder.For(regression, new UnitSelection());
-        Assert.Contains(report.Sections.SelectMany(s => s.Values), v => v.Value == "Reciprocal-y");
+        Assert.Contains(report.Sections.SelectMany(s => s.Values), v => v.Value == "Reciprocal, 1/");
     }
 }
 

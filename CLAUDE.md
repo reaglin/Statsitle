@@ -10,12 +10,15 @@ every input and result for the student, and writes the **Python and R** that rep
 and the analysis. WPF on .NET 10, free on the Microsoft Store. Started 2026-09-08 from a copy of
 SMADA's core (`..\SMADA10`).
 
-**Status: phases 0–3 built, 2026-09-08** — Descriptive statistics, the Code tab, the Module
+**Status: phases 0–4 built, 2026-09-08** — Descriptive statistics, the Code tab, the Module
 3–6 analyses (Probability rules, Discrete distribution, Continuous distribution, Sampling
-distribution) and the Module 7–10 analyses (Confidence interval, Sample size, One-sample test,
+distribution), the Module 7–10 analyses (Confidence interval, Sample size, One-sample test,
 Two-sample test — with Shapiro–Wilk, Levene, Mann–Whitney and Wilcoxon written in Core to
-match scipy). 250+ tests green; the Python cross-check runs 51 configurations. No GitHub remote
-yet. Next: phase 4 (regression, Modules 11–13).
+match scipy) and the Module 11–13 regressions (Simple linear regression with transformations,
+Multiple regression with forward/backward selection and k-fold CV, both over one OLS engine
+`Methods/Regression/LinearModel.cs` on MathNet). 307 tests green; the Python cross-check runs
+62 configurations (needs numpy, scipy, statsmodels). No GitHub remote yet. Next: phase 5
+(ANOVA, Module 14) and the Store.
 
 ### Read these first
 

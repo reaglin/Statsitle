@@ -2,7 +2,6 @@ using Statistle.Core.Analyses;
 using Statistle.Core.Document;
 using Statistle.Core.Domain;
 using Statistle.Core.Methods;
-using Statistle.Core.Methods.Statistics;
 using Statistle.Core.Persistence;
 
 namespace Statistle.Tests;
@@ -83,14 +82,15 @@ public class MethodScopeTests
     }
 
     [Fact]
-    public void A_comparison_analysis_shows_every_forms_inputs_at_once()
+    public void A_regression_on_typed_pairs_has_one_active_method_and_hides_nothing()
     {
-        // All six regression forms apply always, so nothing is hidden. Scoping narrows a form
-        // only where a method actually declares when it applies.
+        // The least-squares fit always applies; the column source applies only once a column is
+        // chosen, and then it locks the pairs. Scoping narrows a form only where a method says so.
         var regression = new SimpleRegression();
 
         Assert.Empty(MethodScope.HiddenProperties(regression));
-        Assert.Equal(6, MethodScope.ActiveMethods(regression).Count);
+        Assert.Single(MethodScope.ActiveMethods(regression));
+        Assert.False(MethodScope.IsLocked(regression, nameof(SimpleRegression.Data)));
     }
 
     [Fact]
@@ -149,9 +149,8 @@ public class EndToEndTests : IDisposable
 
         // Efficiency falls with temperature, so the least-squares slope is negative and the fit
         // is close: this is the relation the sample project exists to show.
-        RegressionResult linear = regression.Results[RegressionForm.Linear]!;
-        Assert.True(linear.B < 0, "efficiency should fall as the cell warms");
-        Assert.True(linear.RSquared > 0.99);
+        Assert.True(regression.Slope < 0, "efficiency should fall as the cell warms");
+        Assert.True(regression.RSquared > 0.99);
 
         string file = Path.Combine(_folder, "acceptance.statistle");
         document.Save(file);
@@ -170,8 +169,8 @@ public class EndToEndTests : IDisposable
         Assert.Equal(statistics.Mean, restoredStatistics.Mean, 9);
         Assert.Equal(statistics.StandardDeviation, restoredStatistics.StandardDeviation, 9);
         Assert.Equal(statistics.Median, restoredStatistics.Median, 9);
-        Assert.Equal(regression.LinearEquation, restoredRegression.LinearEquation);
-        Assert.Equal(regression.LinearRSquared, restoredRegression.LinearRSquared, 9);
+        Assert.Equal(regression.Equation, restoredRegression.Equation);
+        Assert.Equal(regression.RSquared, restoredRegression.RSquared, 9);
     }
 
     [Fact]
