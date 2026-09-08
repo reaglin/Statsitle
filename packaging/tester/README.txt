@@ -57,7 +57,23 @@ WHAT TO TRY
   p-hat for a sample size, the CLT probability of a sample statistic, the
   middle 95 % range, and whether the normal approximation holds. The plot
   shows the population and the sampling distribution on one axis.
-- Every one of these writes its Python (scipy.stats) and R on the Code tab.
+- Confidence interval (Module 7): for a mean (z or t), a proportion (Wald,
+  with Wilson beside it), a variance, or the difference of two means (pooled,
+  Welch, paired) or two proportions - from summary statistics you type, or
+  from columns of a data table (the summaries are computed and shown locked).
+- Sample size (Module 7): the n a margin of error needs, for a mean or a
+  proportion.
+- One-sample test (Modules 8-9): z or t on a mean, z on a proportion, chi-
+  squared on a variance; one- or two-sided; the rejection region, p-value,
+  decision and confidence interval side by side; power against a stated mean
+  and the n for a target power. The plot shades the rejection region on the
+  reference distribution with the observed statistic.
+- Two-sample test (Modules 9-10): pooled t, Welch t, paired t, z, two
+  proportions, F for two variances, Mann-Whitney U and Wilcoxon signed-rank.
+  With data columns: Cohen's d, Shapiro-Wilk normality and Levene equal-
+  variance checks, and box plots of the two samples.
+- Every one of these writes its Python (scipy.stats) and R on the Code tab,
+  with the library call (ttest_ind, t.test, wilcox.test...) as a check.
 - Open Simple linear regression, pick an x column and a y column, and read the
   fitted line: its equation, r squared and the standard error of the estimate.
   Five curved forms are fitted beside it so a relation that is not straight can
@@ -80,9 +96,8 @@ WHAT TO TRY
 
 KNOWN LIMITS IN THIS BUILD
 --------------------------
-- Modules 1-6 and simple regression are in. Confidence intervals, hypothesis
-  tests, multiple regression, validation and ANOVA (Modules 7-14) are still
-  to come.
+- Modules 1-10 and simple regression are in. Multiple regression, validation
+  and ANOVA (Modules 11-14) are still to come.
 - Simple linear regression does not write code yet; Descriptive statistics
   and data tables do.
 - Reports show a data table as one line per column (its name and how many

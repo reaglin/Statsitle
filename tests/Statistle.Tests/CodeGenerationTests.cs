@@ -5,6 +5,7 @@ using Statistle.Core.Code;
 using Statistle.Core.Document;
 using Statistle.Core.Domain;
 using Statistle.Core.Methods;
+using Statistle.Core.Methods.Inference;
 using Statistle.Core.Persistence;
 using Statistle.Core.Reporting;
 
@@ -132,6 +133,43 @@ public class CodeGenerationTests
 
         yield return ["Sampling distribution of the mean", new SamplingDistribution { Value2 = 4350 }];
         yield return ["Sampling distribution of a proportion", new SamplingDistribution { Statistic = SamplingStatistic.SampleProportion, PopulationProportion = 0.15, SampleSize = 100, Value = 0.2, Value2 = 0.25 }];
+
+        StatistleDocument project = Phase3AnalysisTests.CatalystProject(out DataTable table);
+        string a = DataSources.Reference(table.Id, "A"), b = DataSources.Reference(table.Id, "B"), pass = DataSources.Reference(table.Id, "Pass");
+
+        yield return ["CI mean t", new ConfidenceInterval()];
+        yield return ["CI mean z", new ConfidenceInterval { Target = IntervalFor.MeanSigmaKnown, Sigma = 3.5 }];
+        yield return ["CI proportion", new ConfidenceInterval { Target = IntervalFor.Proportion, Successes = 10, SampleSize = 85 }];
+        yield return ["CI variance", new ConfidenceInterval { Target = IntervalFor.Variance, SampleSd = 2, SampleSize = 20 }];
+        yield return ["CI pooled, columns", new ConfidenceInterval { Project = project, Target = IntervalFor.TwoMeansPooled, Source = DataSource.Columns, Column = a, Column2 = b }];
+        yield return ["CI Welch", new ConfidenceInterval { Target = IntervalFor.TwoMeansWelch, SampleMean = 92.255, SampleSd = 2.39, SampleSize = 8 }];
+        yield return ["CI paired, columns", new ConfidenceInterval { Project = project, Target = IntervalFor.PairedMeans, Source = DataSource.Columns, Column = a, Column2 = b }];
+        yield return ["CI two proportions", new ConfidenceInterval { Target = IntervalFor.TwoProportions, Successes = 27, SampleSize = 300, Successes2 = 19, Sample2Size = 300 }];
+        yield return ["CI proportion, column", new ConfidenceInterval { Project = project, Target = IntervalFor.Proportion, Source = DataSource.Columns, Column = pass }];
+
+        yield return ["Sample size, mean", new SampleSize()];
+        yield return ["Sample size, proportion", new SampleSize { Target = SizeFor.Proportion, Margin = 0.05, ProportionGuess = 0.12 }];
+
+        yield return ["One-sample z", new OneSampleTest()];
+        yield return ["One-sample z, greater", new OneSampleTest { AlternativeHypothesis = Alternative.Greater }];
+        yield return ["One-sample t", new OneSampleTest { TestKind = OneSampleTestKind.MeanSigmaUnknown, SampleMean = 0.83725, SampleSd = 0.02456, SampleSize = 15, NullValue = 0.82, AlternativeHypothesis = Alternative.Greater, AlternativeValue = 0.83 }];
+        yield return ["One-sample t, column", new OneSampleTest { Project = project, TestKind = OneSampleTestKind.MeanSigmaUnknown, Source = DataSource.Columns, Column = a, NullValue = 90, AlternativeValue = double.NaN }];
+        yield return ["One-sample proportion", new OneSampleTest { TestKind = OneSampleTestKind.Proportion, Successes = 5, SampleSize = 200, NullValue = 0.05, AlternativeHypothesis = Alternative.Less }];
+        yield return ["One-sample proportion, column", new OneSampleTest { Project = project, TestKind = OneSampleTestKind.Proportion, Source = DataSource.Columns, Column = pass, NullValue = 0.6 }];
+        yield return ["One-sample variance", new OneSampleTest { TestKind = OneSampleTestKind.Variance, SampleSd = Math.Sqrt(0.0153), SampleSize = 20, NullValue = 0.1, AlternativeHypothesis = Alternative.Greater }];
+
+        yield return ["Two-sample pooled", new TwoSampleTest()];
+        yield return ["Two-sample pooled, columns", new TwoSampleTest { Project = project, Source = DataSource.Columns, Column = a, Column2 = b }];
+        yield return ["Two-sample Welch, columns, less", new TwoSampleTest { Project = project, TestKind = TwoSampleTestKind.WelchT, Source = DataSource.Columns, Column = a, Column2 = b, AlternativeHypothesis = Alternative.Less }];
+        yield return ["Two-sample paired, columns", new TwoSampleTest { Project = project, TestKind = TwoSampleTestKind.PairedT, Source = DataSource.Columns, Column = a, Column2 = b }];
+        yield return ["Two-sample z", new TwoSampleTest { TestKind = TwoSampleTestKind.TwoSampleZ }];
+        yield return ["Two proportions", new TwoSampleTest { TestKind = TwoSampleTestKind.TwoProportions, Successes = 27, SampleSize = 300, Successes2 = 19, Sample2Size = 300 }];
+        yield return ["Two variances F", new TwoSampleTest { TestKind = TwoSampleTestKind.VarianceRatio }];
+        yield return ["Two variances F, columns", new TwoSampleTest { Project = project, TestKind = TwoSampleTestKind.VarianceRatio, Source = DataSource.Columns, Column = a, Column2 = b, AlternativeHypothesis = Alternative.Greater }];
+        yield return ["Mann–Whitney, columns", new TwoSampleTest { Project = project, TestKind = TwoSampleTestKind.MannWhitney, Source = DataSource.Columns, Column = a, Column2 = b }];
+        yield return ["Mann–Whitney, columns, greater", new TwoSampleTest { Project = project, TestKind = TwoSampleTestKind.MannWhitney, Source = DataSource.Columns, Column = a, Column2 = b, AlternativeHypothesis = Alternative.Greater }];
+        yield return ["Wilcoxon, columns", new TwoSampleTest { Project = project, TestKind = TwoSampleTestKind.WilcoxonSignedRank, Source = DataSource.Columns, Column = a, Column2 = b }];
+        yield return ["Wilcoxon, columns, less", new TwoSampleTest { Project = project, TestKind = TwoSampleTestKind.WilcoxonSignedRank, Source = DataSource.Columns, Column = a, Column2 = b, AlternativeHypothesis = Alternative.Less }];
     }
 
     [Theory]

@@ -10,10 +10,12 @@ every input and result for the student, and writes the **Python and R** that rep
 and the analysis. WPF on .NET 10, free on the Microsoft Store. Started 2026-09-08 from a copy of
 SMADA's core (`..\SMADA10`).
 
-**Status: phases 0–2 built, 2026-09-08** — Descriptive statistics, the Code tab, and the
-Module 3–6 analyses (Probability rules, Discrete distribution, Continuous distribution,
-Sampling distribution) over MathNet.Numerics. 230+ tests green; the Python cross-check runs 19
-configurations. No GitHub remote yet. Next: phase 3 (confidence intervals and tests).
+**Status: phases 0–3 built, 2026-09-08** — Descriptive statistics, the Code tab, the Module
+3–6 analyses (Probability rules, Discrete distribution, Continuous distribution, Sampling
+distribution) and the Module 7–10 analyses (Confidence interval, Sample size, One-sample test,
+Two-sample test — with Shapiro–Wilk, Levene, Mann–Whitney and Wilcoxon written in Core to
+match scipy). 250+ tests green; the Python cross-check runs 51 configurations. No GitHub remote
+yet. Next: phase 4 (regression, Modules 11–13).
 
 ### Read these first
 
@@ -36,15 +38,21 @@ Statistle.sln
 │   Document/      StatistleDocument (.statistle zip: project.xml, tables/, analyses/), StatistlePaths
 │   Methods/       ICalculationMethod, MethodCatalog, MethodScope, IChoosesMethod;
 │                  Descriptive/SummaryStatistics (Module 2); Distributions/DiscreteModels,
-│                  ContinuousModels (over MathNet.Numerics); Statistics/ (SeriesStatistics, Regression)
+│                  ContinuousModels (over MathNet.Numerics); Inference/Inference.cs (Intervals,
+│                  HypothesisTests, power) and Nonparametric.cs (rank tests, Shapiro–Wilk AS R94,
+│                  Levene) — verified against M&R examples and scipy; Statistics/ (Regression)
 │   Code/          CodeLanguage, ICodeSource, CodeText (identifiers, numbers, vectors, prints, imports),
 │                  ScriptBuilder (one script in either language: Assign/Print/Either)
 │   Analyses/      Analysis (base), AnalysisCatalog, DescriptiveStatistics, ProbabilityRules,
-│                  DiscreteDistribution, ContinuousDistribution, SamplingDistribution, SimpleRegression
-│                  — each family/relationship/statistic is a method class declaring its parameters
+│                  DiscreteDistribution, ContinuousDistribution, SamplingDistribution,
+│                  ConfidenceInterval, SampleSize, OneSampleTest, TwoSampleTest, SimpleRegression
+│                  — each family/kind is a method class declaring its parameters; a DataSource
+│                  (summary entered / data columns) method Generates + locks the summaries
 │   Plotting/      IPlotSurface (PlotSpec, Line/Marker/Bar/Polygon series), IHasFigures,
 │                  DescriptiveFigures (histogram + normal curve, box plot), DistributionFigures
-│                  (PMF/CDF, density with shaded area, population vs sampling curves), RegressionFigure
+│                  (PMF/CDF, density with shaded area, population vs sampling curves),
+│                  InferenceFigures (interval bar, reference distribution with rejection region
+│                  and observed statistic, two box plots), RegressionFigure
 │   Reporting/     Report (+ Appendices), text/HTML/PDF writers, CsvExport
 │   Units/         ValueKind (None, Percent, Probability, Count) — no conversions, labels only
 ├── src/Statistle.App/      net10.0-windows, WPF. Rail | tree | Properties / Report / Plots / Code

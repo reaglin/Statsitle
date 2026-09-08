@@ -62,13 +62,15 @@ histogram and box plot, and takes Python and R that print the same numbers.
 
 ## Phase 3 — Estimation and hypothesis tests (Modules 7–10)
 
+**Status 2026-09-08: built.** Confidence interval (8 kinds), Sample size, One-sample test (4), Two-sample test (8, with Shapiro–Wilk and Levene from columns); tester zip 0.3.0.
+
 | # | Task | Targets | Acceptance | Status |
 |---|---|---|---|---|
-| 3.1 | `ConfidenceIntervals`: mean (z, t), proportion (Wald, Wilson), variance and SD (χ²), difference of means (pooled, Welch, paired), difference of proportions; **Sample size** for a margin of error (mean, proportion) | `Core/Methods/Inference/ConfidenceIntervals.cs`, `Analyses/ConfidenceInterval.cs`, `SampleSize.cs` | M&R Ch. 8 examples; invariant: the interval contains the point estimate and widens with confidence | [ ] |
-| 3.2 | `OneSampleTests`: z and t for a mean, z for a proportion, χ² for a variance; tail choice; statistic, critical value, p, decision, CI, power for a stated alternative and the n for a target power | `Inference/OneSampleTests.cs`, `Analyses/OneSampleTest.cs` | Module 9 problem 1: z = 2.40, p = 0.0164; Module 8 problem 1 (proportion) | [ ] |
-| 3.3 | `TwoSampleTests`: independent t pooled / Welch, paired t, two-sample z, two proportions pooled, F for variances; Cohen's d; Shapiro–Wilk, Levene; Mann–Whitney U, Wilcoxon signed-rank | `Inference/TwoSampleTests.cs`, `Analyses/TwoSampleTest.cs` | Module 10 problems; invariant: pooled = Welch when s₁ = s₂ and n₁ = n₂ | [ ] |
-| 3.4 | Figures: sampling distribution with rejection region and the observed statistic; two-group box plots; paired differences | `Plotting/` | | [ ] |
-| 3.5 | Code (`scipy.stats.ttest_1samp/ttest_ind/ttest_rel/norm`, `statsmodels.stats.proportion`; R `t.test`, `prop.test`, `var.test`, `wilcox.test`, `shapiro.test`) | `Core/Code/` | cross-check | [ ] |
+| 3.1 | `ConfidenceIntervals`: mean (z, t), proportion (Wald, Wilson), variance and SD (χ²), difference of means (pooled, Welch, paired), difference of proportions; **Sample size** for a margin of error (mean, proportion) | `Core/Methods/Inference/Inference.cs` (`Intervals`), `Analyses/ConfidenceInterval.cs`, `SampleSize.cs` | M&R Examples 8-1, 8-5, 8-7 (p̂ rounding noted), 8-2, 8-8 | [x] |
+| 3.2 | `OneSampleTests`: z and t for a mean, z for a proportion, χ² for a variance; tail choice; statistic, critical value, p, decision, CI, power for a stated alternative and the n for a target power | `Inference/Inference.cs` (`HypothesisTests`), `Analyses/OneSampleTest.cs` | M&R Examples 9-2, 9-3 (power, n = 43), 9-6, 9-8; Module 8 problem 1 (p = 0.052, not rejected) | [x] |
+| 3.3 | `TwoSampleTests`: independent t pooled / Welch, paired t, two-sample z, two proportions pooled, F for variances; Cohen's d; Shapiro–Wilk, Levene; Mann–Whitney U, Wilcoxon signed-rank | `Inference/Inference.cs`, `Inference/Nonparametric.cs` (Shapiro–Wilk AS R94, Levene, Mann–Whitney, Wilcoxon as scipy computes them), `Analyses/TwoSampleTest.cs` | M&R Examples 10-5, 10-9; pooled = Welch at equal s and n; rank tests and checks agree with scipy in the cross-check | [x] |
+| 3.4 | Figures: sampling distribution with rejection region and the observed statistic; two-group box plots; paired differences | `Plotting/InferenceFigures.cs` | | [x] |
+| 3.5 | Code (`scipy.stats.ttest_1samp/ttest_ind/ttest_rel/norm`, `statsmodels.stats.proportion`; R `t.test`, `prop.test`, `var.test`, `wilcox.test`, `shapiro.test`) | each analysis: the arithmetic, then the library call as a check | cross-check: 51 configurations pass against numpy/scipy | [x] |
 
 ## Phase 4 — Regression (Modules 11–13)
 

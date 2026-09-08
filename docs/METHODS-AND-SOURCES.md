@@ -98,36 +98,36 @@ Status: `[ ]` not built · `[x]` built, tested against the case named. The Pytho
 
 | Interval | Formula | Python | R | Held by | Status |
 |---|---|---|---|---|---|
-| Mean, σ known | x̄ ± z_{α/2} σ/√n | `norm.interval(conf, xbar, sigma/np.sqrt(n))` | `xbar + c(-1,1)*qnorm(1-a/2)*sigma/sqrt(n)` | M&R Ex. 8-1 | [ ] |
-| Mean, σ unknown | x̄ ± t_{α/2,n−1} s/√n | `t.interval(conf, n-1, xbar, stats.sem(x))` | `t.test(x, conf.level)` | M&R Ex. 8-5 | [ ] |
-| Proportion (Wald) | p̂ ± z√(p̂(1−p̂)/n) | `proportion_confint(k, n, method='normal')` | `prop.test(k, n, correct=FALSE)` (Wilson) | M&R Ex. 8-7 | [ ] |
-| Variance / SD | (n−1)s²/χ²_{α/2} … | `chi2.ppf` | `qchisq` | M&R Ex. 8-6 | [ ] |
-| Sample size, mean | n = (z σ / E)² | arithmetic | arithmetic | M&R Ex. 8-2 | [ ] |
-| Sample size, proportion | n = (z/E)² p(1−p) (0.25 worst case) | | | M&R Ex. 8-8 | [ ] |
+| Mean, σ known | x̄ ± z_{α/2} σ/√n | `norm.interval(conf, xbar, sigma/np.sqrt(n))` | `xbar + c(-1,1)*qnorm(1-a/2)*sigma/sqrt(n)` | `InferenceTests`; M&R Ex. 8-1 | [x] |
+| Mean, σ unknown | x̄ ± t_{α/2,n−1} s/√n | `t.interval(conf, n-1, xbar, stats.sem(x))` | `t.test(x, conf.level)` | `InferenceTests`; M&R Ex. 8-5 | [x] |
+| Proportion (Wald) | p̂ ± z√(p̂(1−p̂)/n) | `proportion_confint(k, n, method='normal')` | `prop.test(k, n, correct=FALSE)` (Wilson) | `InferenceTests`; M&R Ex. 8-7 | [x] |
+| Variance / SD | (n−1)s²/χ²_{α/2} … | `chi2.ppf` | `qchisq` | `InferenceTests`; M&R Ex. 8-6 | [x] |
+| Sample size, mean | n = (z σ / E)² | arithmetic | arithmetic | `InferenceTests`; M&R Ex. 8-2 | [x] |
+| Sample size, proportion | n = (z/E)² p(1−p) (0.25 worst case) | | | `InferenceTests`; M&R Ex. 8-8 | [x] |
 
 ## One-sample tests (Modules 8–9; M&R Ch. 9)
 
 | Test | Statistic | Python | R | Held by | Status |
 |---|---|---|---|---|---|
-| z-test for a mean | z = (x̄ − μ₀)/(σ/√n) | `norm.sf(abs(z))*2` | `2*pnorm(-abs(z))` | EGN3443 M9 P1: z = 2.40, p = 0.0164 | [ ] |
-| t-test for a mean | t = (x̄ − μ₀)/(s/√n), ν = n−1 | `ttest_1samp(x, mu0, alternative=)` | `t.test(x, mu=mu0, alternative=)` | M&R Ex. 9-6 | [ ] |
-| z-test for a proportion | z = (p̂ − p₀)/√(p₀(1−p₀)/n) | `proportions_ztest(k, n, p0)` | `prop.test(k, n, p0, correct=FALSE)` | EGN3443 M8 P1 | [ ] |
-| χ² test for a variance | χ² = (n−1)s²/σ₀² | `chi2.sf` | `pchisq` | M&R Ex. 9-8 | [ ] |
-| Power and β | β = Φ(z_{α/2} − δ√n/σ) − Φ(−z_{α/2} − δ√n/σ) | `statsmodels.stats.power` | `power.t.test` | M&R Ex. 9-3 | [ ] |
+| z-test for a mean | z = (x̄ − μ₀)/(σ/√n) | `norm.sf(abs(z))*2` | `2*pnorm(-abs(z))` | `InferenceTests`; EGN3443 M9 P1: z = 2.40, p = 0.0164 | [x] |
+| t-test for a mean | t = (x̄ − μ₀)/(s/√n), ν = n−1 | `ttest_1samp(x, mu0, alternative=)` | `t.test(x, mu=mu0, alternative=)` | `InferenceTests`; M&R Ex. 9-6 | [x] |
+| z-test for a proportion | z = (p̂ − p₀)/√(p₀(1−p₀)/n) | `proportions_ztest(k, n, p0)` | `prop.test(k, n, p0, correct=FALSE)` | `InferenceTests`; EGN3443 M8 P1 | [x] |
+| χ² test for a variance | χ² = (n−1)s²/σ₀² | `chi2.sf` | `pchisq` | `InferenceTests`; M&R Ex. 9-8 | [x] |
+| Power and β | β = Φ(z_{α/2} − δ√n/σ) − Φ(−z_{α/2} − δ√n/σ) | `statsmodels.stats.power` | `power.t.test` | `InferenceTests`; M&R Ex. 9-3 | [x] |
 
 ## Two-sample tests (Modules 9–10; M&R Ch. 10)
 
 | Test | Statistic | Python | R | Held by | Status |
 |---|---|---|---|---|---|
-| Independent t, pooled | t = (x̄₁−x̄₂)/(s_p√(1/n₁+1/n₂)), s_p² pooled, ν = n₁+n₂−2 | `ttest_ind(a, b, equal_var=True)` | `t.test(a, b, var.equal=TRUE)` | M&R Ex. 10-5 | [ ] |
-| Welch t | ν by Welch–Satterthwaite | `ttest_ind(a, b, equal_var=False)` | `t.test(a, b)` | M&R Ex. 10-6 | [ ] |
-| Paired t | on differences | `ttest_rel(a, b)` | `t.test(a, b, paired=TRUE)` | M&R Ex. 10-9 | [ ] |
-| Two-sample z | σ₁, σ₂ known | `norm` | `pnorm` | M&R Ex. 10-1 | [ ] |
-| Two proportions | pooled p̂ = (k₁+k₂)/(n₁+n₂) | `proportions_ztest([k1,k2],[n1,n2])` | `prop.test(c(k1,k2), c(n1,n2), correct=FALSE)` | M&R Ex. 10-13 | [ ] |
-| F-test, two variances | F = s₁²/s₂² | `f.sf` | `var.test(a, b)` | M&R Ex. 10-11 | [ ] |
-| Cohen's d | (x̄₁−x̄₂)/s_p | arithmetic | `effectsize::cohens_d` | EGN3443 M10 P1 | [ ] |
-| Shapiro–Wilk; Levene | | `shapiro(x)`, `levene(a, b)` | `shapiro.test`, `car::leveneTest` | | [ ] |
-| Mann–Whitney U; Wilcoxon signed-rank | | `mannwhitneyu`, `wilcoxon` | `wilcox.test` | M&R 10-6 | [ ] |
+| Independent t, pooled | t = (x̄₁−x̄₂)/(s_p√(1/n₁+1/n₂)), s_p² pooled, ν = n₁+n₂−2 | `ttest_ind(a, b, equal_var=True)` | `t.test(a, b, var.equal=TRUE)` | `InferenceTests`; M&R Ex. 10-5 | [x] |
+| Welch t | ν by Welch–Satterthwaite | `ttest_ind(a, b, equal_var=False)` | `t.test(a, b)` | `InferenceTests`; M&R Ex. 10-6 | [x] |
+| Paired t | on differences | `ttest_rel(a, b)` | `t.test(a, b, paired=TRUE)` | `InferenceTests`; M&R Ex. 10-9 | [x] |
+| Two-sample z | σ₁, σ₂ known | `norm` | `pnorm` | `InferenceTests`; M&R Ex. 10-1 | [x] |
+| Two proportions | pooled p̂ = (k₁+k₂)/(n₁+n₂) | `proportions_ztest([k1,k2],[n1,n2])` | `prop.test(c(k1,k2), c(n1,n2), correct=FALSE)` | `InferenceTests`; M&R Ex. 10-13 | [x] |
+| F-test, two variances | F = s₁²/s₂² | `f.sf` | `var.test(a, b)` | `InferenceTests`; M&R Ex. 10-11 | [x] |
+| Cohen's d | (x̄₁−x̄₂)/s_p | arithmetic | `effectsize::cohens_d` | `InferenceTests`; EGN3443 M10 P1 | [x] |
+| Shapiro–Wilk; Levene | | `shapiro(x)`, `levene(a, b)` | `shapiro.test`, `car::leveneTest` | `InferenceTests` | [x] |
+| Mann–Whitney U; Wilcoxon signed-rank | | `mannwhitneyu`, `wilcoxon` | `wilcox.test` | `InferenceTests`; M&R 10-6 | [x] |
 
 ## Simple linear regression (Module 11; M&R Ch. 11)
 
