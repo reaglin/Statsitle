@@ -1,0 +1,58 @@
+name: build
+
+on:
+  push:
+    branches: [master]
+    paths-ignore: ['**.md']
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore
+        run: dotnet restore Statistle.sln
+
+      - name: Build
+        run: dotnet build Statistle.sln -c Release --no-restore
+
+      - name: Test
+        run: dotnet test Statistle.sln -c Release --no-build --verbosity normal
+
+      # The samples are written by the app itself, so one can never drift from what the
+      # current build reads.
+      - name: Write samples
+        run: |
+          $exe = "src/Statistle.App/bin/Release/net10.0-windows/Statistle.App.exe"
+          & $exe --write-samples "artifacts/samples"
+          if (-not (Test-Path "artifacts/samples/demo-statistics.statistle")) { throw "The sample project was not written." }
+
+      # Unsigned: CI has no certificate. Signing happens on the release machine, or from a
+      # secret once the Store certificate exists (phase 6).
+      - name: Pack MSIX
+        run: ./packaging/pack.ps1 -SkipSigning
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: statistle-msix-unsigned
+          path: artifacts/*.msix
+          if-no-files-found: error
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: samples
+          path: artifacts/samples/*.statistle
+          if-no-files-found: error

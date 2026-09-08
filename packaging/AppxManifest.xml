@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Identity/Publisher below are the DEVELOPMENT values. pack.ps1 rewrites Version and
+     Publisher so the manifest matches the signing certificate; the Store-issued identity
+     from Partner Center replaces them at submission. -->
+
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  IgnorableNamespaces="uap uap3 rescap">
+
+  <Identity
+    Name="RonEaglin.Statistle"
+    Publisher="CN=Statistle Development"
+    Version="0.1.0.0"
+    ProcessorArchitecture="x64" />
+
+  <Properties>
+    <DisplayName>Statistle</DisplayName>
+    <PublisherDisplayName>Ron Eaglin</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.26100.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="en-us" />
+  </Resources>
+
+  <Applications>
+    <Application Id="Statistle" Executable="Statistle.App.exe" EntryPoint="Windows.FullTrustApplication">
+      <uap:VisualElements
+        DisplayName="Statistle"
+        Description="Statistics for engineers"
+        BackgroundColor="transparent"
+        Square150x150Logo="Assets\Square150x150Logo.png"
+        Square44x44Logo="Assets\Square44x44Logo.png">
+        <uap:DefaultTile
+          ShortName="Statistle"
+          Wide310x150Logo="Assets\Wide310x150Logo.png"
+          Square71x71Logo="Assets\Square71x71Logo.png"
+          Square310x310Logo="Assets\Square310x310Logo.png" />
+        <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="white" />
+      </uap:VisualElements>
+
+      <Extensions>
+        <!-- Double-clicking a .statistle file activates the app with the path in its args;
+             App.OnStartup captures it. -->
+        <uap3:Extension Category="windows.fileTypeAssociation">
+          <uap3:FileTypeAssociation Name="statistle">
+            <uap:DisplayName>Statistle project</uap:DisplayName>
+            <uap:Logo>Assets\StatistleFile.png</uap:Logo>
+            <uap:SupportedFileTypes>
+              <uap:FileType>.statistle</uap:FileType>
+            </uap:SupportedFileTypes>
+          </uap3:FileTypeAssociation>
+        </uap3:Extension>
+      </Extensions>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <!-- Restricted capability, standard for a desktop app. Needs written justification at
+         submission. -->
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+
+</Package>

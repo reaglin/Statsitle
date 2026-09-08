@@ -1,0 +1,30 @@
+<Project>
+
+  <!-- Shared settings for Statistle (src/, tests/, packaging/). -->
+
+  <PropertyGroup>
+    <!-- One version property. packaging/pack.ps1 reads it for the MSIX identity. -->
+    <StatistleVersion>0.1.0</StatistleVersion>
+    <Version>$(StatistleVersion)</Version>
+    <AssemblyVersion>$(StatistleVersion).0</AssemblyVersion>
+    <FileVersion>$(StatistleVersion).0</FileVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Company>Ron Eaglin</Company>
+    <Product>Statistle</Product>
+    <Copyright>Copyright © Ron Eaglin</Copyright>
+    <RepositoryUrl>https://github.com/reaglin/Statistle</RepositoryUrl>
+  </PropertyGroup>
+
+</Project>

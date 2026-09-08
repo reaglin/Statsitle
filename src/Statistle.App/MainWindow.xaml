@@ -1,0 +1,620 @@
+<Window x:Class="Statistle.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:plotting="clr-namespace:Statistle.App.Plotting"
+        xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+        xmlns:vm="clr-namespace:Statistle.App.ViewModels"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vm:WorkspaceViewModel}"
+        Title="{Binding Title}" Height="800" Width="1360"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.InputBindings>
+        <KeyBinding Key="N" Modifiers="Control" Command="{Binding NewCommand}" />
+        <KeyBinding Key="O" Modifiers="Control" Command="{Binding OpenCommand}" />
+        <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveCommand}" />
+        <KeyBinding Key="Z" Modifiers="Control" Command="{Binding UndoCommand}" />
+    </Window.InputBindings>
+
+    <Window.Resources>
+        <!-- The editor grid. Every row type uses the same columns so labels, values and units
+             line up down the whole form: a usage mark (only for an analysis that chooses
+             among methods), a right-aligned label, a value, a unit button. A value box is 130
+             wide; a unit button 86 plus an 8 gap; free text (name, description) spans the two,
+             224, so nothing pokes past the unit column. The label column comes from the row
+             (230, or 150 for results laid out beside the entry values). -->
+        <sys:Double x:Key="ValueWidth">130</sys:Double>
+        <sys:Double x:Key="CompactValueWidth">100</sys:Double>
+        <sys:Double x:Key="WideValueWidth">224</sys:Double>
+        <sys:Double x:Key="UnitWidth">86</sys:Double>
+        <vm:WidthToGridLengthConverter x:Key="WidthToGridLength" />
+
+        <!-- Label cell: the label, right-aligned against the value box, with the declared range
+             beneath it — with the label, not under the box, so the value column stays tight.
+             A selectable result that is not the chosen one is greyed; the chosen one is bold. -->
+        <DataTemplate x:Key="LabelCell">
+            <StackPanel VerticalAlignment="Center" Margin="0,0,10,0">
+                <TextBlock Text="{Binding Label}" TextAlignment="Right" TextWrapping="Wrap">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsDimmed}" Value="True">
+                                    <Setter Property="Foreground" Value="#9AA3AC" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsChosen}" Value="True">
+                                    <Setter Property="FontWeight" Value="SemiBold" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBlock Text="{Binding RangeHint}" TextAlignment="Right"
+                           Visibility="{Binding HasRange, Converter={StaticResource BoolToVisibility}}"
+                           Foreground="{StaticResource MutedTextBrush}" FontSize="10" />
+            </StackPanel>
+        </DataTemplate>
+
+        <!-- The usage mark: for an analysis that chooses among methods, a tick beside each
+             input the chosen method uses, an empty box beside one it does not, and nothing
+             beside a field no method reads. Collapsed entirely on every other form. -->
+        <Style x:Key="UsageMark" TargetType="CheckBox">
+            <Setter Property="IsHitTestVisible" Value="False" />
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0,0,8,0" />
+            <Setter Property="Visibility" Value="Collapsed" />
+            <Setter Property="ToolTip" Value="Ticked when the chosen formula uses this value" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ShowsUsageColumn}" Value="True">
+                    <Setter Property="Visibility" Value="Hidden" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding HasUsageMark}" Value="True">
+                    <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- The row's outer border: highlighted for the chosen result, a hand cursor over any
+             result that can be chosen. -->
+        <Style x:Key="RowBorder" TargetType="Border">
+            <Setter Property="Margin" Value="0,1" />
+            <Setter Property="Padding" Value="4,2" />
+            <Setter Property="CornerRadius" Value="3" />
+            <Setter Property="Background" Value="Transparent" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsSelectable}" Value="True">
+                    <Setter Property="Cursor" Value="Hand" />
+                    <Setter Property="ToolTip" Value="Click to make this the result to use" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsChosen}" Value="True">
+                    <Setter Property="Background" Value="#FFF3C4" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="UnitLabel" TargetType="TextBlock">
+            <Setter Property="MinWidth" Value="{StaticResource UnitWidth}" />
+            <Setter Property="Margin" Value="8,3,0,0" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Foreground" Value="{StaticResource MutedTextBrush}" />
+        </Style>
+
+        <!-- A link beside a value that refers to another object in the project. -->
+        <Style x:Key="EditLink" TargetType="Button">
+            <Setter Property="Margin" Value="10,0,0,0" />
+            <Setter Property="Padding" Value="2,0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="#1F5FA8" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Content" Value="Edit…" />
+        </Style>
+
+        <!-- A link beside a value that some analysis declared it can calculate. -->
+        <Style x:Key="CalculateLink" TargetType="Button">
+            <Setter Property="Margin" Value="10,0,0,0" />
+            <Setter Property="Padding" Value="2,0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="#1F5FA8" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Content" Value="Calculate…" />
+        </Style>
+
+        <!-- Out-of-range entry is flagged here once, for every property that declares a
+             range. No form writes a bounds check of its own. Clicking into a box selects its
+             contents, so a value is replaced by typing rather than backspaced over. -->
+        <Style x:Key="ValueBox" TargetType="TextBox">
+            <Setter Property="Padding" Value="4,3" />
+            <Setter Property="Width" Value="{StaticResource ValueWidth}" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <EventSetter Event="GotKeyboardFocus" Handler="ValueBox_GotKeyboardFocus" />
+            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ValueBox_PreviewMouseLeftButtonDown" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsString}" Value="True">
+                    <Setter Property="Width" Value="{StaticResource WideValueWidth}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsCompact}" Value="True">
+                    <Setter Property="Width" Value="{StaticResource CompactValueWidth}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsValid}" Value="False">
+                    <Setter Property="BorderBrush" Value="#C0392B" />
+                    <Setter Property="BorderThickness" Value="1.6" />
+                    <Setter Property="Background" Value="#FDF0EE" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsReadOnly}" Value="True">
+                    <Setter Property="Background" Value="#F2F4F6" />
+                    <Setter Property="Foreground" Value="#556" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsDimmed}" Value="True">
+                    <Setter Property="Foreground" Value="#9AA3AC" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsChosen}" Value="True">
+                    <Setter Property="Foreground" Value="#1F2933" />
+                    <Setter Property="FontWeight" Value="SemiBold" />
+                    <Setter Property="Background" Value="White" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- The multi-line series box: same width as free text, same rejected-entry flag, but
+             no select-all on click, which would fight with editing one line. Read-only (and
+             tinted) when a method generates the series. -->
+        <Style x:Key="SeriesBox" TargetType="TextBox">
+            <Setter Property="Padding" Value="4" />
+            <Setter Property="Width" Value="{StaticResource WideValueWidth}" />
+            <Setter Property="Height" Value="{Binding DataContext.SeriesBoxHeight, RelativeSource={RelativeSource AncestorType=Window}}" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="FontFamily" Value="Consolas" />
+            <Setter Property="AcceptsReturn" Value="True" />
+            <Setter Property="AcceptsTab" Value="True" />
+            <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsValid}" Value="False">
+                    <Setter Property="BorderBrush" Value="#C0392B" />
+                    <Setter Property="BorderThickness" Value="1.6" />
+                    <Setter Property="Background" Value="#FDF0EE" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsReadOnly}" Value="True">
+                    <Setter Property="Background" Value="#F2F4F6" />
+                    <Setter Property="Foreground" Value="#556" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- One row of the property editor. Which editor appears is decided by the property's
+             own type, so a new domain property needs no change here. -->
+        <DataTemplate x:Key="TextRow">
+            <Border Style="{StaticResource RowBorder}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="{Binding LabelWidth, Converter={StaticResource WidthToGridLength}}" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <CheckBox IsChecked="{Binding IsUsedByChosen, Mode=OneWay}" Style="{StaticResource UsageMark}" />
+                    <ContentPresenter Grid.Column="1" Content="{Binding}" ContentTemplate="{StaticResource LabelCell}" />
+                    <TextBox Grid.Column="2"
+                             Text="{Binding Text, UpdateSourceTrigger=LostFocus}"
+                             IsReadOnly="{Binding IsReadOnly}"
+                             Style="{StaticResource ValueBox}" />
+                    <StackPanel Grid.Column="3" Orientation="Horizontal">
+                        <TextBlock Text="{Binding UnitLabel}"
+                                   Style="{StaticResource UnitLabel}"
+                                   Visibility="{Binding HasUnit, Converter={StaticResource BoolToVisibility}}" />
+                        <Button Click="Calculate_Click"
+                                Style="{StaticResource CalculateLink}"
+                                ToolTip="{Binding CalculatorHint}"
+                                Visibility="{Binding HasCalculator, Converter={StaticResource BoolToVisibility}}" />
+                        <Button Click="EditLink_Click"
+                                Style="{StaticResource EditLink}"
+                                ToolTip="{Binding LinkHint}"
+                                Visibility="{Binding HasLink, Converter={StaticResource BoolToVisibility}}" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="EnumRow">
+            <Border Style="{StaticResource RowBorder}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="{Binding LabelWidth, Converter={StaticResource WidthToGridLength}}" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <CheckBox IsChecked="{Binding IsUsedByChosen, Mode=OneWay}" Style="{StaticResource UsageMark}" />
+                    <ContentPresenter Grid.Column="1" Content="{Binding}" ContentTemplate="{StaticResource LabelCell}" />
+                    <ComboBox Grid.Column="2"
+                              ItemsSource="{Binding EnumValues}"
+                              SelectedItem="{Binding Text}"
+                              HorizontalAlignment="Left" Width="{StaticResource WideValueWidth}"
+                              Padding="4,3" />
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="SeriesRow">
+            <Border Style="{StaticResource RowBorder}">
+                <Grid Margin="0,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="{Binding LabelWidth, Converter={StaticResource WidthToGridLength}}" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <CheckBox IsChecked="{Binding IsUsedByChosen, Mode=OneWay}" Style="{StaticResource UsageMark}"
+                              VerticalAlignment="Top" Margin="0,6,8,0" />
+                    <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="0,4,10,0">
+                        <TextBlock Text="{Binding Label}" TextAlignment="Right" />
+                        <TextBlock Text="{Binding SeriesHint}" TextAlignment="Right" TextWrapping="Wrap"
+                                   Foreground="{StaticResource MutedTextBrush}" FontSize="10" Margin="0,2,0,0" />
+                    </StackPanel>
+                    <TextBox Grid.Column="2"
+                             Text="{Binding Text, UpdateSourceTrigger=LostFocus}"
+                             IsReadOnly="{Binding IsReadOnly}"
+                             Style="{StaticResource SeriesBox}" />
+                    <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Top">
+                        <TextBlock Text="{Binding UnitLabel}"
+                                   Style="{StaticResource UnitLabel}"
+                                   Visibility="{Binding HasUnit, Converter={StaticResource BoolToVisibility}}" />
+                        <Button Click="EditLink_Click"
+                                Style="{StaticResource EditLink}"
+                                ToolTip="{Binding LinkHint}" VerticalAlignment="Top" Margin="10,4,0,0"
+                                Visibility="{Binding HasLink, Converter={StaticResource BoolToVisibility}}" />
+                        <Button Click="ImportSeries_Click" Content="Import…"
+                                Style="{StaticResource EditLink}"
+                                ToolTip="Fill from a text, CSV, .xd2 or Excel .xlsx file"
+                                VerticalAlignment="Top" Margin="10,4,0,0"
+                                Visibility="{Binding CanImport, Converter={StaticResource BoolToVisibility}}" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ChoiceRow">
+            <Border Style="{StaticResource RowBorder}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="{Binding LabelWidth, Converter={StaticResource WidthToGridLength}}" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <CheckBox IsChecked="{Binding IsUsedByChosen, Mode=OneWay}" Style="{StaticResource UsageMark}" />
+                    <ContentPresenter Grid.Column="1" Content="{Binding}" ContentTemplate="{StaticResource LabelCell}" />
+                    <StackPanel Grid.Column="2" Orientation="Horizontal">
+                        <ComboBox ItemsSource="{Binding Choices}"
+                                  SelectedItem="{Binding SelectedChoice}"
+                                  DisplayMemberPath="Label"
+                                  HorizontalAlignment="Left" Width="{StaticResource WideValueWidth}"
+                                  Padding="4,3" />
+                        <Button Click="EditLink_Click"
+                                Style="{StaticResource EditLink}"
+                                ToolTip="{Binding LinkHint}"
+                                Visibility="{Binding HasLink, Converter={StaticResource BoolToVisibility}}" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <!-- A table of named columns, edited as text: a header line of names, then one row
+             per line. Import… fills it from a text, CSV or Excel file, every column at once. -->
+        <DataTemplate x:Key="TableRow">
+            <Border Style="{StaticResource RowBorder}">
+                <Grid Margin="0,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="{Binding LabelWidth, Converter={StaticResource WidthToGridLength}}" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <CheckBox IsChecked="{Binding IsUsedByChosen, Mode=OneWay}" Style="{StaticResource UsageMark}"
+                              VerticalAlignment="Top" Margin="0,6,8,0" />
+                    <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="0,4,10,0">
+                        <TextBlock Text="{Binding Label}" TextAlignment="Right" />
+                        <TextBlock Text="{Binding TableHint}" TextAlignment="Right" TextWrapping="Wrap"
+                                   Foreground="{StaticResource MutedTextBrush}" FontSize="10" Margin="0,2,0,0" />
+                    </StackPanel>
+                    <TextBox Grid.Column="2"
+                             Text="{Binding Text, UpdateSourceTrigger=LostFocus}"
+                             IsReadOnly="{Binding IsReadOnly}"
+                             Style="{StaticResource SeriesBox}" />
+                    <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Top">
+                        <Button Click="EditLink_Click"
+                                Style="{StaticResource EditLink}"
+                                ToolTip="{Binding LinkHint}" VerticalAlignment="Top" Margin="10,4,0,0"
+                                Visibility="{Binding HasLink, Converter={StaticResource BoolToVisibility}}" />
+                        <Button Click="ImportSeries_Click" Content="Import…"
+                                Style="{StaticResource EditLink}"
+                                ToolTip="Fill every column from a text, CSV, .xd2 or Excel .xlsx file"
+                                VerticalAlignment="Top" Margin="10,4,0,0"
+                                Visibility="{Binding CanImport, Converter={StaticResource BoolToVisibility}}" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <vm:RowTemplateSelector x:Key="RowSelector"
+                                Text="{StaticResource TextRow}"
+                                Enum="{StaticResource EnumRow}"
+                                Series="{StaticResource SeriesRow}"
+                                Choice="{StaticResource ChoiceRow}"
+                                Table="{StaticResource TableRow}" />
+    </Window.Resources>
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_New project" Command="{Binding NewCommand}" InputGestureText="Ctrl+N" />
+                <MenuItem Header="_Open…" Command="{Binding OpenCommand}" InputGestureText="Ctrl+O" />
+                <Separator />
+                <MenuItem Header="_Save" Command="{Binding SaveCommand}" InputGestureText="Ctrl+S" />
+                <MenuItem Header="Save _As…" Command="{Binding SaveAsCommand}" />
+                <Separator />
+                <MenuItem Header="_Export selected artifact…" Command="{Binding ExportCommand}" />
+                <Separator />
+                <MenuItem Header="_Report…" Command="{Binding ReportCommand}" />
+                <MenuItem Header="Export report as _PDF…" Command="{Binding ExportPdfCommand}" />
+                <MenuItem Header="Export data as _CSV…" Command="{Binding ExportCsvCommand}" />
+                <Separator />
+                <MenuItem Header="E_xit" Click="Exit_Click" />
+            </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem Header="_Undo" Command="{Binding UndoCommand}" InputGestureText="Ctrl+Z" />
+            </MenuItem>
+            <MenuItem Header="_Project">
+                <MenuItem Header="Add data _table" Command="{Binding AddTableCommand}" />
+                <Separator />
+                <MenuItem Header="_Delete selected" Command="{Binding DeleteCommand}" />
+            </MenuItem>
+        </Menu>
+
+        <Border DockPanel.Dock="Bottom"
+                BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0" Padding="14,6">
+            <TextBlock Text="{Binding Status}" Foreground="{StaticResource MutedTextBrush}" FontSize="11" />
+        </Border>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="270" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- The rail. Everything below the project button is discovered. -->
+            <Border Grid.Column="0" Background="{StaticResource RailBrush}" Width="164">
+                <StackPanel Margin="0,16,0,0">
+                    <TextBlock Text="Statistle" Foreground="White" FontSize="20"
+                               FontWeight="SemiBold" Margin="16,0,0,4" />
+                    <TextBlock Text="Statistics for engineers"
+                               Foreground="{StaticResource RailTextBrush}" FontSize="10"
+                               Margin="16,0,12,20" />
+                    <TextBlock Text="PROJECT" Foreground="{StaticResource RailTextBrush}"
+                               FontSize="10" Margin="16,0,0,6" />
+                    <Button Content="+ Data table" Command="{Binding AddTableCommand}"
+                            ToolTip="A table of columns of numbers, for any analysis to read"
+                            Margin="10,0,10,6" Padding="6,5" BorderThickness="0"
+                            Background="#2F3E4C" Foreground="White" Cursor="Hand" />
+
+                    <!-- No analysis is named in this file. -->
+                    <ItemsControl ItemsSource="{Binding ProjectTools}" Margin="0,2,0,0">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button ToolTip="{Binding Summary}"
+                                        Click="Tool_Click" Tag="{Binding}"
+                                        Margin="10,0,10,6" Padding="6,5" BorderThickness="0"
+                                        HorizontalContentAlignment="Left"
+                                        Background="#2F3E4C" Foreground="White" Cursor="Hand">
+                                    <TextBlock Text="{Binding Title}" TextWrapping="Wrap" />
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <TextBlock Text="ANALYSES" Foreground="{StaticResource RailTextBrush}"
+                               FontSize="10" Margin="16,12,0,6" />
+                    <ItemsControl ItemsSource="{Binding Analyses}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button ToolTip="{Binding Summary}"
+                                        Click="Tool_Click" Tag="{Binding}"
+                                        Margin="10,0,10,6" Padding="6,5" BorderThickness="0"
+                                        HorizontalContentAlignment="Left"
+                                        Background="#2F3E4C" Foreground="White" Cursor="Hand">
+                                    <TextBlock Text="{Binding Title}" TextWrapping="Wrap" />
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <!-- Project tree -->
+            <Border Grid.Column="1" Background="{StaticResource TreeBrush}"
+                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,1,0">
+                <DockPanel Margin="12,14,12,12">
+                    <TextBlock DockPanel.Dock="Top" Text="Project" FontWeight="SemiBold" Margin="0,0,0,8" />
+                    <Button DockPanel.Dock="Bottom" Content="Delete selected"
+                            Command="{Binding DeleteCommand}"
+                            Margin="0,8,0,0" Padding="6,4" BorderThickness="0"
+                            Background="#E4E8ED" Cursor="Hand" />
+                    <TreeView x:Name="ProjectTree"
+                              SelectedItemChanged="ProjectTree_SelectedItemChanged"
+                              Background="Transparent" BorderThickness="0">
+                        <TreeViewItem Header="Data tables" IsExpanded="True"
+                                      ItemsSource="{Binding Tables}">
+                            <TreeViewItem.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}" />
+                                </DataTemplate>
+                            </TreeViewItem.ItemTemplate>
+                        </TreeViewItem>
+                    </TreeView>
+                </DockPanel>
+            </Border>
+
+            <!-- Content -->
+            <TabControl Grid.Column="2" Margin="10" x:Name="ContentTabs">
+                <TabItem Header="Properties">
+                    <!-- Three quarters entry, one quarter help. The help describes the field
+                         with the focus, or the whole item when no field has it. -->
+                    <Grid Margin="14,12,14,14">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3*" />
+                            <RowDefinition Height="1*" MinHeight="90" />
+                        </Grid.RowDefinitions>
+
+                        <DockPanel Grid.Row="0">
+                            <TextBlock DockPanel.Dock="Top" Text="{Binding SelectedHeading}"
+                                       FontSize="15" FontWeight="SemiBold" Margin="0,0,0,8" />
+
+                            <!-- An analysis opened from another object's field says where its
+                                 result will go, and offers to put it there. -->
+                            <Border DockPanel.Dock="Top" Background="#FFF6DD" Padding="10,7"
+                                    CornerRadius="3" Margin="0,0,0,8"
+                                    Visibility="{Binding HandoffNote, Converter={StaticResource EmptyToCollapsed}}">
+                                <DockPanel>
+                                    <Button DockPanel.Dock="Right" Content="Cancel"
+                                            Command="{Binding CancelHandoffCommand}"
+                                            Padding="10,3" Margin="6,0,0,0" BorderThickness="0"
+                                            Background="#E4E8ED" Cursor="Hand" VerticalAlignment="Center" />
+                                    <Button DockPanel.Dock="Right" Content="Use result"
+                                            Command="{Binding UseResultCommand}"
+                                            Padding="10,3" BorderThickness="0" FontWeight="SemiBold"
+                                            Background="#2F3E4C" Foreground="White" Cursor="Hand"
+                                            VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding HandoffNote}" FontSize="11"
+                                               Foreground="#5A4300" TextWrapping="Wrap"
+                                               VerticalAlignment="Center" />
+                                </DockPanel>
+                            </Border>
+
+                            <!-- The item says why it could not compute; the workspace only relays it. -->
+                            <Border DockPanel.Dock="Top" Background="#FBE9E7" Padding="8,5"
+                                    CornerRadius="3" Margin="0,0,0,8"
+                                    Visibility="{Binding ProblemNote, Converter={StaticResource EmptyToCollapsed}}">
+                                <TextBlock Text="{Binding ProblemNote}" FontSize="11"
+                                           Foreground="#7A2E22" TextWrapping="Wrap" />
+                            </Border>
+
+                            <Border DockPanel.Dock="Top" Background="#EEF3F8" Padding="8,5"
+                                    CornerRadius="3" Margin="0,0,0,8"
+                                    Visibility="{Binding ScopeNote, Converter={StaticResource EmptyToCollapsed}}">
+                                <TextBlock Text="{Binding ScopeNote}" FontSize="11"
+                                           Foreground="#33506B" TextWrapping="Wrap" />
+                            </Border>
+
+                            <Grid>
+                                <!-- One column: the usual form. -->
+                                <ScrollViewer x:Name="EditorScroll" VerticalScrollBarVisibility="Auto"
+                                              Visibility="{Binding ResultsBelow, Converter={StaticResource BoolToVisibility}}"
+                                              GotKeyboardFocus="Editor_GotKeyboardFocus"
+                                              PreviewMouseLeftButtonDown="Editor_PreviewMouseLeftButtonDown"
+                                              SizeChanged="Editor_SizeChanged">
+                                    <ItemsControl x:Name="PropertyRows"
+                                                  ItemsSource="{Binding Rows}"
+                                                  ItemTemplateSelector="{StaticResource RowSelector}" />
+                                </ScrollViewer>
+
+                                <!-- Two columns, for an analysis that asks: entry values left,
+                                     results right. Click a result to make it the one to use. -->
+                                <ScrollViewer x:Name="SplitScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                                              Visibility="{Binding ResultsBeside, Converter={StaticResource BoolToVisibility}}"
+                                              GotKeyboardFocus="Editor_GotKeyboardFocus"
+                                              PreviewMouseLeftButtonDown="Editor_PreviewMouseLeftButtonDown"
+                                              SizeChanged="Editor_SizeChanged">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                            <TextBlock Text="ENTRY VALUES" Foreground="{StaticResource MutedTextBrush}"
+                                                       FontSize="10" Margin="30,0,0,6" />
+                                            <ItemsControl x:Name="EntryRowsControl" ItemsSource="{Binding EntryRows}"
+                                                          ItemTemplateSelector="{StaticResource RowSelector}" />
+                                        </StackPanel>
+                                        <Border Grid.Column="1" BorderBrush="{StaticResource BorderBrush}"
+                                                BorderThickness="1,0,0,0" Padding="12,0,0,0">
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding ResultsHeading}"
+                                                           Foreground="{StaticResource MutedTextBrush}"
+                                                           FontSize="10" Margin="4,0,0,6" />
+                                                <ItemsControl ItemsSource="{Binding ResultRows}"
+                                                              ItemTemplateSelector="{StaticResource RowSelector}" />
+                                            </StackPanel>
+                                        </Border>
+                                    </Grid>
+                                </ScrollViewer>
+                            </Grid>
+                        </DockPanel>
+
+                        <!-- Help: the focused field, or the item as a whole. -->
+                        <Border Grid.Row="1" Margin="0,10,0,0" Padding="12,8"
+                                Background="{StaticResource TreeBrush}"
+                                BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                                CornerRadius="3">
+                            <DockPanel>
+                                <TextBlock DockPanel.Dock="Top" Text="{Binding HelpTitle}"
+                                           FontWeight="SemiBold" Margin="0,0,0,4" />
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                    <TextBlock Text="{Binding HelpText}" TextWrapping="Wrap"
+                                               FontSize="12" LineHeight="17" Foreground="#2F3E4C" />
+                                </ScrollViewer>
+                            </DockPanel>
+                        </Border>
+                    </Grid>
+                </TabItem>
+
+                <!-- The report: the same object the HTML, text and PDF writers render, with
+                     the item's plots in place. -->
+                <TabItem Header="Report">
+                    <DockPanel>
+                        <DockPanel DockPanel.Dock="Top" Margin="14,10,14,6">
+                            <Button DockPanel.Dock="Right" Content="Export data as CSV…"
+                                    Command="{Binding ExportCsvCommand}"
+                                    Padding="8,3" Margin="8,0,0,0" BorderThickness="0"
+                                    Background="#E4E8ED" Cursor="Hand" />
+                            <Button DockPanel.Dock="Right" Content="Save as PDF…"
+                                    Command="{Binding ExportPdfCommand}"
+                                    Padding="8,3" Margin="8,0,0,0" BorderThickness="0"
+                                    Background="#E4E8ED" Cursor="Hand" />
+                            <Button DockPanel.Dock="Right" Content="Open in browser"
+                                    Command="{Binding ReportCommand}"
+                                    Padding="8,3" BorderThickness="0"
+                                    Background="#E4E8ED" Cursor="Hand" />
+                            <TextBlock Text="The report of the selected item: its values grouped by role, its plots, and the sources of the methods that produced the numbers. Every item has one; nothing is written per analysis."
+                                       Foreground="{StaticResource MutedTextBrush}" FontSize="11"
+                                       TextWrapping="Wrap" VerticalAlignment="Center" Margin="0,0,10,0" />
+                        </DockPanel>
+                        <Border Margin="14,0,14,10" BorderBrush="{StaticResource BorderBrush}"
+                                BorderThickness="1" Background="White">
+                            <FlowDocumentScrollViewer x:Name="ReportView"
+                                                      VerticalScrollBarVisibility="Auto"
+                                                      IsToolBarVisible="False" />
+                        </Border>
+                    </DockPanel>
+                </TabItem>
+
+                <!-- Every figure the item declares, one panel each. -->
+                <TabItem Header="Plots">
+                    <DockPanel>
+                        <TextBlock DockPanel.Dock="Top"
+                                   Text="Scroll to zoom, drag to pan; each plot has its own reset and save. A regression draws its observations with the fitted form through them. An item with nothing to draw says so."
+                                   Foreground="{StaticResource MutedTextBrush}" FontSize="11"
+                                   Margin="14,10,14,6" TextWrapping="Wrap" />
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel x:Name="PlotsPanel" Margin="14,4,14,10" />
+                        </ScrollViewer>
+                    </DockPanel>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </DockPanel>
+</Window>
