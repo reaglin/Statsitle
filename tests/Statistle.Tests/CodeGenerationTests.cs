@@ -102,7 +102,12 @@ public class CodeGenerationTests
     {
         if (!PythonHas("numpy", "scipy"))
         {
-            return;   // a machine without the course's Python cannot cross-check; nothing to assert
+            // A machine without the course's Python cannot cross-check. Set STATISTLE_REQUIRE_PYTHON
+            // (a dev box with numpy and scipy on the PATH, or CI) to make that a failure instead.
+            Assert.True(
+                Environment.GetEnvironmentVariable("STATISTLE_REQUIRE_PYTHON") is null,
+                "STATISTLE_REQUIRE_PYTHON is set but 'python' with numpy and scipy was not found on the PATH.");
+            return;
         }
 
         var analysis = new DescriptiveStatistics();
@@ -142,7 +147,8 @@ public class CodeGenerationTests
             }
         }
 
-        Assert.Equal("[530.0]", printed["Outliers"]);
+        // numpy prints the integer-valued outlier as [530] and a float one as [530.5]: compare the number.
+        Assert.Equal(530.0, double.Parse(printed["Outliers"].Trim('[', ']'), CultureInfo.InvariantCulture), 9);
     }
 
     private static bool PythonHas(params string[] modules)
