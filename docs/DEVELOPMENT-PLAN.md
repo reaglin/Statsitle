@@ -23,16 +23,16 @@ Exit: the app opens a `.statistle` project with a data table and two analyses; t
 
 | # | Task | Targets | Acceptance | Status |
 |---|---|---|---|---|
-| 0.1 | Repo, `.gitignore`, this documentation | root, `docs/` | plan committed | [~] |
-| 0.2 | Solution and three projects from SMADA, `Directory.Build.props` (`StatistleVersion`, nullable, warnings-as-errors) | `Statistle.sln`, `src/`, `tests/` | `dotnet build` clean | [~] |
-| 0.3 | Copy SMADA's core and rename (`StatistleObject`, `StatistlePropertyAttribute`, `[StatistleHelp]`, `Analysis`, `AnalysisCatalog`, `StatistleDocument`); drop hydrology; `UnitKind` → `ValueKind` (None, Percent, Probability, Count) | `src/Statistle.Core` | SMADA's framework tests pass renamed | [~] |
-| 0.4 | `DataTable` artifact with `ColumnTable` (named, ragged columns as text; paste; Import…); `DataSources.ColumnChoices` for analyses | `Core/Domain/DataTable.cs`, `Persistence/ColumnTable.cs` | round trip; ragged columns; bad cell rejected | [~] |
-| 0.5 | WPF shell from SMADA: rail (PROJECT: + Data table; ANALYSES), tree, Properties / Report / Plots, help panel | `src/Statistle.App` | opens; New/Open/Save; add a table; run Descriptive statistics on a column | [~] |
-| 0.6 | Packaging: manifest identity `Statistle`, `.statistle` association, tiles, `pack.ps1`, tester zip script | `packaging/` | installable `.msix`; `artifacts\Statistle-0.1.0-win-x64.zip` | [~] |
+| 0.1 | Repo, `.gitignore`, this documentation | root, `docs/` | plan committed | [x] |
+| 0.2 | Solution and three projects from SMADA, `Directory.Build.props` (`StatistleVersion`, nullable, warnings-as-errors) | `Statistle.sln`, `src/`, `tests/` | `dotnet build` clean | [x] |
+| 0.3 | Copy SMADA's core and rename (`StatistleObject`, `StatistlePropertyAttribute`, `[StatistleHelp]`, `Analysis`, `AnalysisCatalog`, `StatistleDocument`); drop hydrology; `UnitKind` → `ValueKind` (None, Percent, Probability, Count) | `src/Statistle.Core` | SMADA's framework tests pass renamed | [x] |
+| 0.4 | `DataTable` artifact with `ColumnTable` (named, ragged columns as text; paste; Import…); `DataSources.ColumnChoices` for analyses | `Core/Domain/DataTable.cs`, `Persistence/ColumnTable.cs` | round trip; ragged columns; bad cell rejected | [x] |
+| 0.5 | WPF shell from SMADA: rail (PROJECT: + Data table; ANALYSES), tree, Properties / Report / Plots, help panel | `src/Statistle.App` | opens; New/Open/Save; add a table; run Descriptive statistics on a column | [x] |
+| 0.6 | Packaging: manifest identity `Statistle`, `.statistle` association, tiles, `pack.ps1`, tester zip script | `packaging/` | installable `.msix`; `artifacts\Statistle-0.1.0-win-x64.zip` | [~] (scripts copied; zip not yet built) |
 | 0.7 | CI: build, test, pack | `.github/workflows/build.yml` | green on push | [ ] |
 | 0.8 | App icon (a real one, not the placeholder) | `packaging/Assets`, `src/App` | crisp at 150 % / 200 % | [ ] |
-| 0.9 | `CLAUDE.md` oriented to the real code | root | | [ ] |
-| 0.10 | Sample project: the course's tensile-strength alloys (Module 14) and solar-panel pairs (Module 11) | `samples/demo-statistics.statistle` | opens from the command line | [~] |
+| 0.9 | `CLAUDE.md` oriented to the real code | root | | [x] |
+| 0.10 | Sample project: the course's tensile-strength alloys (Module 14) and solar-panel pairs (Module 11) | `samples/demo-statistics.statistle` | opens from the command line | [x] |
 
 ## Phase 1 — Descriptive statistics and the Code tab
 
@@ -41,11 +41,11 @@ histogram and box plot, and takes Python and R that print the same numbers.
 
 | # | Task | Targets | Acceptance | Status |
 |---|---|---|---|---|
-| 1.1 | `SummaryStatistics`: n, mean, median, mode(s), min, max, range, sample and population variance and SD, CV, standard error, skewness (sample, adjusted), kurtosis (excess), quartiles by the course's method (Q1/Q3 as medians of halves *and* the R default type 7 — the help says which is shown), IQR, fences, outliers | `Core/Methods/Descriptive/` | worked cases from Montgomery & Runger Ch. 6 and the course Module 2 problem; invariants: SD ≥ 0, min ≤ Q1 ≤ median ≤ Q3 ≤ max, CV blank when mean 0 | [ ] |
-| 1.2 | `FrequencyTable`: bins by Sturges / square-root / user width; class marks, frequencies, relative and cumulative | `Core/Methods/Descriptive/FrequencyTable.cs` | frequencies sum to n | [ ] |
-| 1.3 | **Descriptive statistics** analysis: column pick-list; `ResultsBeside`; every result with `Help`; figures: histogram with normal overlay, box plot with fences and outliers | `Core/Analyses/DescriptiveStatistics.cs`, `Plotting/HistogramFigure.cs`, `BoxPlotFigure.cs` | | [ ] |
-| 1.4 | **Code generation**: `ICodeSource` on every analysis method; `PythonWriter` / `RWriter` (variables: `x = np.array([...])` / `x <- c(...)`; a table as `pd.DataFrame` / `data.frame`; results printed in the app's order with the same labels); the **Code** tab (Python | R toggle, Copy, Save as .py / .R) | `Core/Code/`, `App/Views/CodeView.xaml`, `ViewModels/CodeViewModel.cs` | the generated Python for the sample prints the app's numbers (cross-check test, skipped when no Python) | [ ] |
-| 1.5 | Report: the analysis report reads as the course template's *Methodology* + *Conclusions* (method, assumptions, results, citation) with the code as an appendix | `Core/Reporting/` | HTML and PDF carry the appendix | [ ] |
+| 1.1 | `SummaryStatistics`: n, mean, median, mode(s), min, max, range, sample and population variance and SD, CV, standard error, skewness (sample, adjusted), kurtosis (excess), quartiles by the course's method (Q1/Q3 as medians of halves *and* the R default type 7 — the help says which is shown), IQR, fences, outliers | `Core/Methods/Descriptive/` | Excel's documented SKEW/KURT example, R fivenum and quantile by hand; invariants: SD ≥ 0, min ≤ Q1 ≤ median ≤ Q3 ≤ max, CV blank when mean 0 | [x] |
+| 1.2 | `FrequencyTable`: bins by Sturges / square-root / user width; class marks, frequencies, relative and cumulative | `SummaryStatistics.FrequencyTable` | frequencies sum to n | [x] (Sturges / √n / user count; a user width is not offered) |
+| 1.3 | **Descriptive statistics** analysis: column pick-list; `ResultsBeside`; every result with `Help`; figures: histogram with normal overlay, box plot with fences and outliers | `Core/Analyses/DescriptiveStatistics.cs`, `Plotting/DescriptiveFigures.cs` | | [x] |
+| 1.4 | **Code generation**: `ICodeSource` on every analysis method; `PythonWriter` / `RWriter` (variables: `x = np.array([...])` / `x <- c(...)`; a table as `pd.DataFrame` / `data.frame`; results printed in the app's order with the same labels); the **Code** tab (Python | R toggle, Copy, Save as .py / .R) | `Core/Code/`, `App/Views/CodeView.xaml`, `ViewModels/CodeViewModel.cs` | the generated Python for the sample prints the app's numbers (cross-check test, skipped when no Python) | [x] |
+| 1.5 | Report: the analysis report reads as the course template's *Methodology* + *Conclusions* (method, assumptions, results, citation) with the code as an appendix | `Core/Reporting/` | HTML and PDF carry the appendix | [x] (appendices; the methodology/conclusions wording is the existing sections) |
 | 1.6 | Hand-test build; tester zip 0.1.x; Ron's review | | | [ ] |
 
 ## Phase 2 — Probability and distributions (Modules 3–6)

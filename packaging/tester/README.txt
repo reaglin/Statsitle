@@ -33,15 +33,27 @@ WHAT TO TRY
   Columns may be different lengths - leave a cell blank where a column has no
   value in that row. Import... reads a text, CSV, .xd2 or .xlsx file.
 - Open Descriptive statistics from the left rail and pick a column of that
-  table. The count, mean, median, standard deviation, variance, standard error,
-  coefficient of variation, range, quartiles and skewness all follow. Edit the
-  table and the analysis follows with it.
+  table. The count, mean, median and mode; range, standard deviation and
+  variance (sample and population forms), standard error, coefficient of
+  variation; quartiles two ways (interpolated, and Tukey's hinges), the
+  interquartile range, the fences and any outliers; skewness and kurtosis; and
+  a frequency table all follow. The Plots tab draws the histogram with a
+  normal curve of the same mean and s, and the box plot. Edit the table and
+  the analysis follows with it.
 - Open Simple linear regression, pick an x column and a y column, and read the
   fitted line: its equation, r squared and the standard error of the estimate.
   Five curved forms are fitted beside it so a relation that is not straight can
   be recognised; compare them by standard error, which is in y units.
-- Every screen has three tabs: Properties (entry), Report (values, plots and
-  sources, with Open in browser / Save as PDF) and Plots.
+- Every screen has four tabs: Properties (entry), Report (values, plots,
+  sources and the code as an appendix, with Open in browser / Save as PDF),
+  Plots, and Code.
+- The Code tab is the point of the program: the Python (numpy, scipy.stats)
+  and the R that reproduce whatever is selected - a data table as variables,
+  an analysis as its data followed by every result printed in the same order
+  with the same labels. Copy it, or Save as... a .py or .R file, run it in
+  Colab or R, and check it against the Results column. It is what goes in the
+  appendix of an EGN3443 report. Please tell us where the code is wrong,
+  unidiomatic, or explains too little.
 - Click into any field: the panel under the form describes it - what it is,
   what it means, how to read it. Click empty space for an overview of the whole
   item. Please tell us where this text is wrong or unhelpful; it is meant for
@@ -53,8 +65,8 @@ KNOWN LIMITS IN THIS BUILD
 - Two analyses so far: Descriptive statistics and Simple linear regression.
   Confidence intervals, hypothesis tests, ANOVA, control charts and the
   probability distributions are still to come.
-- There is no Code tab yet: the plan is for each analysis to show the R or
-  Python that would reproduce it.
+- Simple linear regression does not write code yet; Descriptive statistics
+  and data tables do.
 - Reports show a data table as one line per column (its name and how many
   values), not as a table of numbers. Export the CSV for the numbers.
 

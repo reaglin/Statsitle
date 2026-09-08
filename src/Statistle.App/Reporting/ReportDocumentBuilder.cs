@@ -132,6 +132,36 @@ public static class ReportDocumentBuilder
             }
         }
 
+        foreach (ReportAppendix appendix in report.Appendices)
+        {
+            document.Blocks.Add(Heading($"Appendix — {appendix.Title}"));
+
+            var code = new Paragraph
+            {
+                FontFamily = new FontFamily("Consolas"),
+                FontSize = 11.5,
+                Margin = new Thickness(0, 0, 0, 12),
+                Padding = new Thickness(10, 8, 10, 8),
+                Background = new SolidColorBrush(Color.FromRgb(0xF4, 0xF6, 0xF8)),
+                BorderBrush = Rule,
+                BorderThickness = new Thickness(1),
+            };
+
+            string[] lines = appendix.Text.TrimEnd().Split('\n');
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                code.Inlines.Add(new Run(lines[i]));
+
+                if (i < lines.Length - 1)
+                {
+                    code.Inlines.Add(new LineBreak());
+                }
+            }
+
+            document.Blocks.Add(code);
+        }
+
         return document;
     }
 

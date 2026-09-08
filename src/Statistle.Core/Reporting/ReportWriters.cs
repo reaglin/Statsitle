@@ -98,6 +98,14 @@ public static class TextReportWriter
             }
         }
 
+        foreach (ReportAppendix appendix in report.Appendices)
+        {
+            text.AppendLine();
+            text.AppendLine(CultureInfo.CurrentCulture, $"Appendix — {appendix.Title}");
+            text.AppendLine(new string('-', appendix.Title.Length + 11));
+            text.AppendLine(appendix.Text.TrimEnd());
+        }
+
         return text.ToString();
     }
 }
@@ -132,6 +140,7 @@ public static class HtmlReportWriter
             td.value { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
             td.units { color: #6b7680; width: 90px; }
             .cite { color: #6b7680; font-size: 11px; margin: 0 0 8px; }
+            pre { background: #f4f6f8; border: 1px solid #e6eaee; padding: 10px 12px; font: 12px Consolas, monospace; overflow-x: auto; }
             .cite b { color: #1f2933; font-weight: 600; }
             figure { margin: 10px 0 18px; }
             figure img { width: 100%; height: auto; border: 1px solid #e6eaee; }
@@ -214,6 +223,12 @@ public static class HtmlReportWriter
                     CultureInfo.InvariantCulture,
                     $"<p class=\"cite\"><b>{Escape(citation.Method)}</b><br>{Escape(citation.Citation)}</p>");
             }
+        }
+
+        foreach (ReportAppendix appendix in report.Appendices)
+        {
+            html.AppendLine(CultureInfo.InvariantCulture, $"<h2>Appendix — {Escape(appendix.Title)}</h2>");
+            html.AppendLine(CultureInfo.InvariantCulture, $"<pre>{Escape(appendix.Text.TrimEnd())}</pre>");
         }
 
         html.AppendLine("</body></html>");

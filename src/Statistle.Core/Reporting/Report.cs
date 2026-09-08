@@ -1,4 +1,5 @@
 using System.Globalization;
+using Statistle.Core.Code;
 using Statistle.Core.Methods;
 using Statistle.Core.Persistence;
 using Statistle.Core.Plotting;
@@ -25,6 +26,9 @@ public sealed record ReportSeries(string Label, int Count, double Total, string 
 /// </summary>
 public sealed record ReportFigure(string Title, PlotSpec Figure);
 
+/// <summary>An appendix of verbatim text — the Python or R that reproduces the analysis.</summary>
+public sealed record ReportAppendix(string Title, string Text);
+
 /// <summary>
 /// A finished report, ready for any writer. It holds no formatting decisions — HTML, text and
 /// PDF all render this same object, which is what stops the three drifting apart.
@@ -44,6 +48,8 @@ public sealed class Report
     public IReadOnlyList<ReportCitation> Citations { get; init; } = [];
 
     public IReadOnlyList<ReportFigure> Figures { get; init; } = [];
+
+    public IReadOnlyList<ReportAppendix> Appendices { get; init; } = [];
 }
 
 /// <summary>
@@ -126,6 +132,12 @@ public static class ReportBuilder
                 ? [.. drawable.Figures(units).Select(f => new ReportFigure(f.Title, f))]
                 : [];
 
+        // The course's report template ends with the code in an appendix.
+        List<ReportAppendix> appendices =
+            subject is ICodeSource code
+                ? [new ReportAppendix("Python", code.Code(CodeLanguage.Python)), new ReportAppendix("R", code.Code(CodeLanguage.R))]
+                : [];
+
         return new Report
         {
             // Whitespace counts as absent: an empty title left the report headed by nothing
@@ -136,6 +148,7 @@ public static class ReportBuilder
             Series = series,
             Citations = citations,
             Figures = figures,
+            Appendices = appendices,
         };
     }
 
@@ -171,6 +184,18 @@ public static class ReportBuilder
     private static string Format(StatistleObject subject, StatistleProperty property, UnitSelection? units)
     {
         object? value = property.Read(subject);
+
+        if (subject is IHasChoices chooser && value is not null)
+        {
+            string stored = value.ToString() ?? string.Empty;
+            ChoiceOption? option = chooser.ChoicesFor(property.XmlName)
+                .FirstOrDefault(o => string.Equals(o.Value?.ToString(), stored, StringComparison.Ordinal));
+
+            if (option is not null)
+            {
+                return option.Label;
+            }
+        }
 
         return value switch
         {

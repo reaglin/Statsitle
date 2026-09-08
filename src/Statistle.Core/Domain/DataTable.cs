@@ -1,3 +1,5 @@
+using System.Text;
+using Statistle.Core.Code;
 using Statistle.Core.Document;
 using Statistle.Core.Persistence;
 
@@ -15,7 +17,7 @@ namespace Statistle.Core.Domain;
     "spreadsheet: the first line is the column names, then one row per line. Give the table a " +
     "name that says what was measured and the columns names you will recognise in an analysis's " +
     "pick-list.")]
-public sealed class DataTable : StatistleObject
+public sealed class DataTable : StatistleObject, ICodeSource
 {
     [StatistleProperty(
         Label = "Data",
@@ -36,6 +38,54 @@ public sealed class DataTable : StatistleObject
     /// <summary>The longest column's length.</summary>
     [StatistleIgnore]
     public int RowCount => Columns.RowCount;
+
+    /// <summary>
+    /// The table as variables: one vector per column, and a data frame when the columns are
+    /// the same length — the two shapes the course's code works with.
+    /// </summary>
+    public string Code(CodeLanguage language)
+    {
+        StringBuilder code = new();
+        string frame = CodeText.Identifier(Name, "data");
+        bool rectangular = Columns.ColumnCount > 0 && Columns.Columns.All(c => c.Count == Columns.RowCount);
+        var names = new List<string>();
+
+        if (language == CodeLanguage.Python)
+        {
+            code.Append(CodeText.PythonImports(scipyStats: false, pandas: rectangular)).Append('\n');
+        }
+
+        code.Append(CodeText.Comment($"Data table: {Name}", language)).Append('\n');
+
+        foreach (DataColumn column in Columns.Columns)
+        {
+            string variable = CodeText.Identifier(column.Name, $"column{names.Count + 1}");
+
+            while (names.Contains(variable))
+            {
+                variable += "_";
+            }
+
+            names.Add(variable);
+            code.Append(CodeText.Vector(variable, column.Values, language)).Append('\n');
+        }
+
+        if (rectangular)
+        {
+            code.Append('\n');
+            code.Append(CodeText.Comment("The columns side by side, one row per observation", language)).Append('\n');
+            code.Append(language == CodeLanguage.Python
+                ? $"{frame} = pd.DataFrame({{{string.Join(", ", names.Select(n => $"'{n}': {n}"))}}})\nprint({frame})\n"
+                : $"{frame} <- data.frame({string.Join(", ", names)})\nprint({frame})\n");
+        }
+        else if (Columns.ColumnCount > 1)
+        {
+            code.Append('\n');
+            code.Append(CodeText.Comment("The columns differ in length, so they stay separate vectors rather than one data frame", language)).Append('\n');
+        }
+
+        return code.ToString();
+    }
 }
 
 /// <summary>

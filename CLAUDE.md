@@ -1,0 +1,128 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## What this is
+
+**Statistle** — a Windows 10/11 desktop app that calculates the statistics of Ron's course
+EGN3443 *Probability and Statistics for Engineers* (`github.com/reaglin/egn3443`), explains
+every input and result for the student, and writes the **Python and R** that reproduce the data
+and the analysis. WPF on .NET 10, free on the Microsoft Store. Started 2026-09-08 from a copy of
+SMADA's core (`..\SMADA10`).
+
+**Status: phase 0 done, phase 1 (Descriptive statistics + the Code tab) built, 2026-09-08.**
+186 tests green. No GitHub remote yet.
+
+### Read these first
+
+| File | What it is |
+|---|---|
+| `docs/DEVELOPMENT-PLAN.md` | **The work breakdown** — numbered tasks per phase in course order, with acceptance criteria. Start here. |
+| `docs/PLAN.md` | The strategy — what the student does, the module-to-analysis map, settled decisions, architecture. |
+| `docs/METHODS-AND-SOURCES.md` | The register: every statistic, its formula, its source, the Python and R that reproduce it, the case that holds it. An analysis is not done until its rows are complete. |
+
+## Solution structure
+
+```
+Statistle.sln
+├── src/Statistle.Core/     net10.0. Never references a UI assembly (ArchitectureTests).
+│   Persistence/   StatistleObject (reflection XML + change notification), StatistlePropertyAttribute
+│                  (Label, ReportLabel, Decimals, Unit=ValueKind, Role, Min, Max, Help…), [StatistleHelp],
+│                  DataSeries, ColumnTable (the data table's columns as text; ITextPersisted), TableImport,
+│                  EnumLabel, IHasChoices, ILinksTo, IReportsProblem, LoadDiagnostics
+│   Domain/        DataTable (the one artifact; also an ICodeSource) + DataSources (column pick-lists)
+│   Document/      StatistleDocument (.statistle zip: project.xml, tables/, analyses/), StatistlePaths
+│   Methods/       ICalculationMethod, MethodCatalog, MethodScope, IChoosesMethod;
+│                  Descriptive/SummaryStatistics (Module 2), Statistics/ (SeriesStatistics, Regression)
+│   Code/          CodeLanguage, ICodeSource, CodeText (identifiers, numbers, vectors, prints, imports)
+│   Analyses/      Analysis (base), AnalysisCatalog, DescriptiveStatistics, SimpleRegression
+│   Plotting/      IPlotSurface (PlotSpec, Line/Marker/Bar/Polygon series), IHasFigures,
+│                  DescriptiveFigures (histogram + normal curve, box plot), RegressionFigure
+│   Reporting/     Report (+ Appendices), text/HTML/PDF writers, CsvExport
+│   Units/         ValueKind (None, Percent, Probability, Count) — no conversions, labels only
+├── src/Statistle.App/      net10.0-windows, WPF. Rail | tree | Properties / Report / Plots / Code
+│   MainWindow     generic editor with the help panel (75/25), ResultsBeside two-column layout
+│   ViewModels/    WorkspaceViewModel (incl. the Code tab: IsPython/IsR, CodeText, Copy, Save as),
+│                  PropertyRow, RelayCommand, RowTemplateSelector, converters
+│   Plotting/      ScottPlotSurface (all ScottPlot types), FigurePanel, ScottPlotFigureRenderer
+│   Reporting/     ReportDocumentBuilder (flow document, code appendices in Consolas)
+│   Views/         ImportDialog
+├── tests/Statistle.Tests/  xUnit: framework, DataTable/ColumnTable, SummaryStatistics (Excel's
+│                  documented SKEW/KURT example, R fivenum/quantile), StatisticsEngine (invariants),
+│                  CodeGeneration (labels match, table variables, report appendices, Python cross-check
+│                  when numpy+scipy are present), Harness/ (Invariants, Snapshot, WorkedCases)
+├── samples/       demo-statistics.statistle — Module 14 alloys, Module 11 solar panel (written by
+│                  `Statistle.exe --write-samples samples`)
+├── packaging/     AppxManifest.xml, pack.ps1, Assets (placeholder tiles), make-tester-package.ps1, tester/README.txt
+└── manual-test/   Statistle.exe, the hand-test build (gitignored)
+```
+
+## Build, test, run
+
+```powershell
+dotnet build Statistle.sln
+dotnet test Statistle.sln
+dotnet run --project src/Statistle.App
+./packaging/pack.ps1                       # signed dev MSIX in artifacts/
+./packaging/make-tester-package.ps1        # artifacts/Statistle-<version>-win-x64.zip for testers
+```
+
+Hand-test build (framework-dependent; the machine has the .NET 10 runtime):
+
+```powershell
+dotnet publish src/Statistle.App/Statistle.App.csproj -c Release -r win-x64 `
+    --self-contained false -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o manual-test
+Move-Item manual-test/Statistle.App.exe manual-test/Statistle.exe -Force
+```
+
+The Python cross-check test (`CodeGenerationTests`) runs the generated script with `python`
+if `import numpy, scipy` succeeds, and does nothing otherwise. The system Python here has
+neither; a scratch venv was used to run it by hand.
+
+## The ideas that carry the design
+
+1. **Declare it on the property, never in a form.** `[StatistleProperty(Label, ReportLabel,
+   Decimals, Unit, Role, Min, Max, Help)]` gives a property its editor row, its help-panel text,
+   persistence, a report line and CSV. `[StatistleHelp]` on the class is the item's overview.
+   Every property and class must have help — `LabelAndHelpTests` fails otherwise. Write it for
+   an engineering student: what it is, when to use it, typical values, the Python/R that gives it.
+2. **An analysis is a class; a method is a class.** Derive from `Analysis` and it is in the rail
+   (`AnalysisCatalog`, by reflection). `CalculationMethod<T>` declares `Inputs`/`Outputs`
+   (`nameof`), a `Citation`, `IsApplicableTo`; `MethodScope` shows only the fields in force;
+   `MethodContract.Verify` checks the declarations. The report cites the active methods.
+3. **One data artifact.** `DataTable` = named, ragged columns (`ColumnTable`). An analysis
+   picks a column by a stored reference `"{tableId}␟{column}"` (`DataSources`), copies it into
+   its own `DataSeries` (locked, with an Edit… link) via a method that `Generates` the series.
+4. **The code is generated from the class that computed the numbers.** `ICodeSource.Code(language)`
+   on the analysis prints every result under the **property's Label**, in the app's order, using
+   the course's libraries (numpy, scipy.stats; base R without packages). `CodeGenerationTests`
+   asserts every output label appears in both scripts; the Python cross-check asserts the
+   printed numbers match the app to the displayed decimals. Explicit about conventions:
+   `ddof=1`, `bias=False`, quantile type 7, `fivenum`.
+5. **Blank is NaN.** A statistic that needs more values than it has is NaN, shown as "—", never
+   0 and never an exception. `IReportsProblem.Problem` explains anything that stops a
+   calculation.
+6. **Verified, not compared.** Invariants (`Harness/Invariants`), worked cases from the course's
+   sample problems and Montgomery & Runger, snapshots reviewed once, plus the Python cross-check.
+   Published values beat re-derived ones: Excel's SKEW/KURT example, R's `fivenum`/`quantile`.
+
+## Conventions
+
+- `Directory.Build.props`: one version property (`StatistleVersion`), nullable, implicit usings,
+  **TreatWarningsAsErrors** (xUnit analyzers included — use `Assert.Single(list, predicate)`).
+- Third-party packages must be MIT/BSD/Apache: ScottPlot, PDFsharp; MathNet.Numerics (MIT) is
+  planned for distributions and linear algebra (phase 2+).
+- Core never references a UI assembly; all ScottPlot types stay in `ScottPlotSurface.cs`.
+- Editor conventions from SMADA: aligned three-column grid, series one value per line, tables
+  header + rows, red box on a bad paste keeps the old data, ranges under labels, click-to-select.
+- UI capture for checking a build: never a full-screen grab or real input — see the memory note
+  on PrintWindow + UI Automation (`winapi.ps1` pattern from the SMADA sessions).
+- Hand-test at the end of every phase; samples under `samples\`, written by `--write-samples`.
+
+## Sibling repos worth knowing
+
+- `..\SMADA10` — the origin of the core, shell, harness and packaging scripts; its `CLAUDE.md`
+  describes the same architecture in hydrology terms. Fixes to the shared framework should be
+  considered for both, by hand — the copies are not linked.
+- `..\EasyPeasyRetirement` — the other SMADA-core copy (finance), with `MoneyFormat` where this
+  repo has `ValueKind`.

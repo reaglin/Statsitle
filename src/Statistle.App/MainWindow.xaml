@@ -614,6 +614,32 @@
                         </ScrollViewer>
                     </DockPanel>
                 </TabItem>
+
+                <!-- The code that reproduces the selected item, in the course's two languages. -->
+                <TabItem Header="Code">
+                    <DockPanel>
+                        <DockPanel DockPanel.Dock="Top" Margin="14,10,14,6">
+                            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                                <RadioButton Content="Python" IsChecked="{Binding IsPython}" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                <RadioButton Content="R" IsChecked="{Binding IsR}" Margin="0,0,14,0" VerticalAlignment="Center" />
+                                <Button Content="Copy" Command="{Binding CopyCodeCommand}"
+                                        Padding="8,3" BorderThickness="0" Background="#E4E8ED" Cursor="Hand" />
+                                <Button Content="Save as…" Command="{Binding SaveCodeCommand}"
+                                        Padding="8,3" Margin="8,0,0,0" BorderThickness="0" Background="#E4E8ED" Cursor="Hand" />
+                            </StackPanel>
+                            <TextBlock Text="The Python or R that reproduces the selected item: a data table as variables, an analysis as its data followed by the same results printed in the same order, with the course's libraries (numpy, scipy.stats; base R). Run it in Colab or R and check it against the Results column; it belongs in the appendix of your report."
+                                       Foreground="{StaticResource MutedTextBrush}" FontSize="11"
+                                       TextWrapping="Wrap" VerticalAlignment="Center" Margin="0,0,10,0" />
+                        </DockPanel>
+                        <Border Margin="14,0,14,10" BorderBrush="{StaticResource BorderBrush}"
+                                BorderThickness="1" Background="White">
+                            <TextBox Text="{Binding CodeText, Mode=OneWay}" IsReadOnly="True"
+                                     FontFamily="Consolas" FontSize="12.5" Padding="10"
+                                     BorderThickness="0" AcceptsReturn="True"
+                                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" />
+                        </Border>
+                    </DockPanel>
+                </TabItem>
             </TabControl>
         </Grid>
     </DockPanel>

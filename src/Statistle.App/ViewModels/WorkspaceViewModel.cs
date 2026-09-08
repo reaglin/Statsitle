@@ -10,6 +10,7 @@ using Statistle.Core.Persistence;
 using Statistle.Core.Plotting;
 using Statistle.Core.Reporting;
 using Statistle.Core.Analyses;
+using Statistle.Core.Code;
 
 namespace Statistle.App.ViewModels;
 
@@ -56,6 +57,8 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         ExportCsvCommand = new RelayCommand(ExportCsv, () => Selected is not null);
         UseResultCommand = new RelayCommand(UseResult, () => _handoff is not null);
         CancelHandoffCommand = new RelayCommand(CancelHandoff, () => _handoff is not null);
+        CopyCodeCommand = new RelayCommand(CopyCode, () => Selected is ICodeSource);
+        SaveCodeCommand = new RelayCommand(SaveCode, () => Selected is ICodeSource);
 
         NewProject();
     }
@@ -92,6 +95,100 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
     public RelayCommand UseResultCommand { get; }
 
     public RelayCommand CancelHandoffCommand { get; }
+
+    public RelayCommand CopyCodeCommand { get; }
+
+    public RelayCommand SaveCodeCommand { get; }
+
+    // ── The Code tab ──────────────────────────────────────────────────────────
+
+    private CodeLanguage _codeLanguage = CodeLanguage.Python;
+
+    public bool IsPython
+    {
+        get => _codeLanguage == CodeLanguage.Python;
+        set => SetCodeLanguage(value ? CodeLanguage.Python : CodeLanguage.R);
+    }
+
+    public bool IsR
+    {
+        get => _codeLanguage == CodeLanguage.R;
+        set => SetCodeLanguage(value ? CodeLanguage.R : CodeLanguage.Python);
+    }
+
+    /// <summary>
+    /// The script that reproduces the selected item in the chosen language: a data table as
+    /// variables, an analysis as the data plus the same results printed in the same order.
+    /// The item writes it; the workspace only asks.
+    /// </summary>
+    public string CodeText =>
+        Selected is ICodeSource source ? source.Code(_codeLanguage)
+        : Selected is null ? "Select a data table or an analysis to see its code."
+        : $"{SelectedHeading} has no code to show.";
+
+    private void SetCodeLanguage(CodeLanguage language)
+    {
+        if (_codeLanguage == language)
+        {
+            return;
+        }
+
+        _codeLanguage = language;
+        Raise(nameof(IsPython));
+        Raise(nameof(IsR));
+        Raise(nameof(CodeText));
+    }
+
+    private void CopyCode()
+    {
+        try
+        {
+            System.Windows.Clipboard.SetText(CodeText);
+            Status = $"{(_codeLanguage == CodeLanguage.Python ? "Python" : "R")} code copied to the clipboard";
+        }
+        catch (System.Runtime.InteropServices.ExternalException ex)
+        {
+            Status = $"Could not copy: {ex.Message}";
+        }
+    }
+
+    private void SaveCode()
+    {
+        if (Selected is null)
+        {
+            return;
+        }
+
+        bool python = _codeLanguage == CodeLanguage.Python;
+        var dialog = new SaveFileDialog
+        {
+            Filter = python ? "Python script (*.py)|*.py" : "R script (*.R)|*.R",
+            DefaultExt = python ? ".py" : ".R",
+            FileName = CodeText_FileName(python),
+            InitialDirectory = DefaultFolder(),
+        };
+
+        if (dialog.ShowDialog() != true)
+        {
+            return;
+        }
+
+        try
+        {
+            File.WriteAllText(dialog.FileName, CodeText);
+            Status = $"Saved {Path.GetFileName(dialog.FileName)}";
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            Status = $"Could not save the code: {ex.Message}";
+        }
+    }
+
+    private string CodeText_FileName(bool python) =>
+        CodeText_Base() + (python ? ".py" : ".R");
+
+    private string CodeText_Base() =>
+        Selected is null ? "statistle" : Statistle.Core.Code.CodeText.Identifier(Selected.Name, "statistle").Replace('_', '-');
 
     public StatistleDocument Document
     {
@@ -268,6 +365,9 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
             Raise(nameof(FocusedRow));
             RaiseHelpChanged();
             Raise(nameof(Figures));
+            Raise(nameof(CodeText));
+            CopyCodeCommand.RaiseCanExecuteChanged();
+            SaveCodeCommand.RaiseCanExecuteChanged();
             DeleteCommand.RaiseCanExecuteChanged();
             ExportCommand.RaiseCanExecuteChanged();
             ReportCommand.RaiseCanExecuteChanged();
@@ -534,12 +634,21 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         }
 
         Raise(nameof(Figures));
+
+        Raise(nameof(CodeText));
+
+        CopyCodeCommand.RaiseCanExecuteChanged();
+
+        SaveCodeCommand.RaiseCanExecuteChanged();
     }
 
     public void MarkDirty()
     {
         IsDirty = true;
         Raise(nameof(Figures));
+        Raise(nameof(CodeText));
+        CopyCodeCommand.RaiseCanExecuteChanged();
+        SaveCodeCommand.RaiseCanExecuteChanged();
     }
 
     /// <summary>
@@ -575,6 +684,9 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         Raise(nameof(ScopeNote));
         RaiseHelpChanged();
         Raise(nameof(Figures));
+        Raise(nameof(CodeText));
+        CopyCodeCommand.RaiseCanExecuteChanged();
+        SaveCodeCommand.RaiseCanExecuteChanged();
         Autosave();
     }
 

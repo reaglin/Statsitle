@@ -159,6 +159,25 @@ public static class PdfReportWriter
             }
         }
 
+        foreach (ReportAppendix appendix in report.Appendices)
+        {
+            (gfx, page, y) = EnsureRoom(document, gfx, page, y, LineHeight * 4);
+
+            y += SectionGap;
+            gfx.DrawString($"APPENDIX — {appendix.Title.ToUpperInvariant()}", fonts.SectionHeading, XBrushes.Gray, new XPoint(Margin, y));
+            y += LineHeight;
+
+            foreach (string codeLine in appendix.Text.TrimEnd().Split('\n'))
+            {
+                foreach (string line in Wrap(gfx, codeLine.Length == 0 ? " " : codeLine, fonts.Code, page.Width.Point - (2 * Margin)))
+                {
+                    (gfx, page, y) = EnsureRoom(document, gfx, page, y, LineHeight);
+                    gfx.DrawString(line, fonts.Code, XBrushes.Black, new XPoint(Margin, y));
+                    y += LineHeight * 0.8;
+                }
+            }
+        }
+
         gfx.Dispose();
 
         string? folder = Path.GetDirectoryName(Path.GetFullPath(path));
@@ -253,5 +272,7 @@ public static class PdfReportWriter
         public XFont SmallBold { get; } = new("Segoe UI", 8, XFontStyleEx.Bold);
 
         public XFont Small { get; } = new("Segoe UI", 8);
+
+        public XFont Code { get; } = new("Segoe UI", 7.5);
     }
 }

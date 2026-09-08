@@ -195,14 +195,16 @@ public class DescriptiveStatisticsTests
     }
 
     [Fact]
-    public void An_empty_sample_leaves_every_result_at_zero_rather_than_throwing()
+    public void An_empty_sample_leaves_every_result_blank_rather_than_throwing()
     {
         DescriptiveStatistics analysis = Of();
 
         Assert.Equal(0, analysis.Count);
-        Assert.Equal(0, analysis.Mean);
-        Assert.Equal(0, analysis.StandardDeviation);
-        Assert.Equal(0, analysis.Skewness);
+        Assert.True(double.IsNaN(analysis.Mean));
+        Assert.True(double.IsNaN(analysis.StandardDeviation));
+        Assert.True(double.IsNaN(analysis.Skewness));
+        Assert.Equal(string.Empty, analysis.Mode);
+        Assert.Empty(analysis.Figures(null));
     }
 
     [Fact]
@@ -214,8 +216,8 @@ public class DescriptiveStatisticsTests
         Assert.Equal(7, analysis.Mean);
         Assert.Equal(7, analysis.Median);
         Assert.Equal(7, analysis.Minimum);
-        Assert.Equal(0, analysis.StandardDeviation);
-        Assert.Equal(0, analysis.StandardError);
+        Assert.True(double.IsNaN(analysis.StandardDeviation), "one value has no spread to estimate");
+        Assert.True(double.IsNaN(analysis.StandardError));
     }
 
     [Fact]
@@ -225,7 +227,7 @@ public class DescriptiveStatisticsTests
 
         Assert.Equal(5, analysis.Mean, 12);
         Assert.Equal(Math.Sqrt(2), analysis.StandardDeviation, 12);
-        Assert.Equal(0, analysis.Skewness);
+        Assert.True(double.IsNaN(analysis.Skewness));
     }
 
     [Fact]
@@ -234,8 +236,7 @@ public class DescriptiveStatisticsTests
         DescriptiveStatistics analysis = Of(-1, 0, 1);
 
         Assert.Equal(0, analysis.Mean, 12);
-        Assert.Equal(0, analysis.CoefficientOfVariation);
-        Assert.True(double.IsFinite(analysis.CoefficientOfVariation));
+        Assert.True(double.IsNaN(analysis.CoefficientOfVariation), "blank, not infinite or zero");
     }
 
     [Fact]
