@@ -30,7 +30,7 @@ Conventions the code and the help state explicitly, because Python and R differ:
 - Proportion tests use the normal approximation without continuity correction (the course's
   hand formula); R's `prop.test(..., correct = FALSE)` is generated to match.
 
-Status: `[ ]` not built · `[x]` built, tested against the case named.
+Status: `[ ]` not built · `[x]` built, tested against the case named. The Python column is also run against the app by `CodeGenerationTests` on a machine with numpy and scipy.
 
 ---
 
@@ -38,21 +38,21 @@ Status: `[ ]` not built · `[x]` built, tested against the case named.
 
 | Statistic | Formula | Python | R | Held by | Status |
 |---|---|---|---|---|---|
-| Mean | x̄ = Σxᵢ / n | `np.mean(x)` | `mean(x)` | M&R Ex. 6-1 | [ ] |
-| Median | middle value (mean of the two middle for even n) | `np.median(x)` | `median(x)` | | [ ] |
-| Mode | most frequent value(s); none if all distinct | `stats.mode(x, keepdims=False)` | `names(which.max(table(x)))` | | [ ] |
-| Range | max − min | `np.ptp(x)` | `diff(range(x))` | | [ ] |
-| Sample variance | s² = Σ(xᵢ − x̄)² / (n − 1) | `np.var(x, ddof=1)` | `var(x)` | M&R Ex. 6-2 | [ ] |
-| Sample SD | s = √s² | `np.std(x, ddof=1)` | `sd(x)` | | [ ] |
-| Population variance / SD | σ² = Σ(xᵢ − μ)² / n | `np.var(x)`, `np.std(x)` | `var(x)*(n-1)/n` | | [ ] |
-| Coefficient of variation | CV = s / x̄ (as %) | `np.std(x, ddof=1)/np.mean(x)` | `sd(x)/mean(x)` | | [ ] |
-| Standard error of the mean | s / √n | `stats.sem(x)` | `sd(x)/sqrt(length(x))` | | [ ] |
-| Quartiles, IQR | Tukey hinges and type-7; IQR = Q3 − Q1 | `np.percentile(x, [25, 75])` | `quantile(x)`; `fivenum(x)` | NIST 1.3.5.6 | [ ] |
-| Percentile p | type 7: position 1 + (n − 1)p | `np.percentile(x, p)` | `quantile(x, p/100)` | | [ ] |
-| Outlier fences | Q1 − 1.5·IQR, Q3 + 1.5·IQR | — | `boxplot.stats(x)$out` | NIST 1.3.5.17 | [ ] |
-| Skewness | g₁ adjusted: [n/((n−1)(n−2))] Σ((xᵢ−x̄)/s)³ | `stats.skew(x, bias=False)` | `e1071::skewness(x, type=2)` | NIST 1.3.5.11 | [ ] |
-| Kurtosis (excess) | g₂ adjusted (as Excel KURT) | `stats.kurtosis(x, bias=False)` | `e1071::kurtosis(x, type=2)` | NIST 1.3.5.11 | [ ] |
-| Frequency table, histogram | Sturges k = ⌈log₂n + 1⌉; √n rule | `np.histogram(x, bins='sturges')` | `hist(x, breaks="Sturges")` | M&R 6-3 | [ ] |
+| Mean | x̄ = Σxᵢ / n | `np.mean(x)` | `mean(x)` | `SummaryStatisticsTests` (hand set 2,4,4,4,5,5,7,9) | [x] |
+| Median | middle value (mean of the two middle for even n) | `np.median(x)` | `median(x)` | `SummaryStatisticsTests` | [x] |
+| Mode | most frequent value(s); none if all distinct | `stats.mode(x, keepdims=False)` | `names(which.max(table(x)))` | `SummaryStatisticsTests` (ties, none) | [x] |
+| Range | max − min | `np.ptp(x)` | `diff(range(x))` | `SummaryStatisticsTests` | [x] |
+| Sample variance | s² = Σ(xᵢ − x̄)² / (n − 1) | `np.var(x, ddof=1)` | `var(x)` | `SummaryStatisticsTests` (32/7) | [x] |
+| Sample SD | s = √s² | `np.std(x, ddof=1)` | `sd(x)` | `SummaryStatisticsTests` | [x] |
+| Population variance / SD | σ² = Σ(xᵢ − μ)² / n | `np.var(x)`, `np.std(x)` | `var(x)*(n-1)/n` | `SummaryStatisticsTests` (σ = 2) | [x] |
+| Coefficient of variation | CV = s / x̄ (as %) | `np.std(x, ddof=1)/np.mean(x)` | `sd(x)/mean(x)` | `SummaryStatisticsTests`; NaN at mean 0 | [x] |
+| Standard error of the mean | s / √n | `stats.sem(x)` | `sd(x)/sqrt(length(x))` | `SummaryStatisticsTests` | [x] |
+| Quartiles, IQR | Tukey hinges and type-7; IQR = Q3 − Q1 | `np.percentile(x, [25, 75])` | `quantile(x)`; `fivenum(x)` | `SummaryStatisticsTests` — R `fivenum` 2 4 4.5 6 9 and `quantile` 4 4.5 5.5 by hand | [x] |
+| Percentile p | type 7: position 1 + (n − 1)p | `np.percentile(x, p)` | `quantile(x, p/100)` | `SummaryStatisticsTests` | [x] |
+| Outlier fences | Q1 − 1.5·IQR, Q3 + 1.5·IQR | — | `boxplot.stats(x)$out` | `SummaryStatisticsTests` (40 beyond the fence) | [x] |
+| Skewness | g₁ adjusted: [n/((n−1)(n−2))] Σ((xᵢ−x̄)/s)³ | `stats.skew(x, bias=False)` | `e1071::skewness(x, type=2)` | Excel's documented SKEW example: 0.359543 | [x] |
+| Kurtosis (excess) | g₂ adjusted (as Excel KURT) | `stats.kurtosis(x, bias=False)` | `e1071::kurtosis(x, type=2)` | Excel's documented KURT example: −0.151799 | [x] |
+| Frequency table, histogram | Sturges k = ⌈log₂n + 1⌉; √n rule | `np.histogram(x, bins='sturges')` | `hist(x, breaks="Sturges")` | `SummaryStatisticsTests` (Sturges 8→4, 20→6; classes partition n) | [x] |
 
 ## Probability rules (Module 3; M&R Ch. 2)
 
