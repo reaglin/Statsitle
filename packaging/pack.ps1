@@ -8,8 +8,10 @@
     on this machine and on a bare windows-latest CI runner.
 
     For local use the script creates a self-signed development certificate on demand and
-    rewrites the manifest Publisher to match it. Store builds pass -Publisher with the identity
-    Partner Center issued, and -CertificateThumbprint for the real signing certificate.
+    rewrites the manifest Publisher to match it. Store builds pass -IdentityName and -Publisher
+    with the identity Partner Center issued, and -CertificateThumbprint for the real signing
+    certificate. See packaging/make-msixupload.ps1 for the Store submission package, and
+    resources/STORE-IDENTITY.md for the values.
 
 .EXAMPLE
     ./packaging/pack.ps1
@@ -24,7 +26,9 @@ param(
     [string]$Configuration = 'Release',
     [string]$Runtime = 'win-x64',
     [string]$Version,
+    [string]$IdentityName,
     [string]$Publisher,
+    [string]$PublisherDisplayName,
     [string]$CertificateThumbprint,
     [string]$DevCertSubject = 'CN=Statistle Development',
     [string]$OutputDirectory,
@@ -122,8 +126,35 @@ if (-not $Publisher) {
 $manifest = [xml](Get-Content (Join-Path $packagingDir 'AppxManifest.xml'))
 $manifest.Package.Identity.Version = $packageVersion
 $manifest.Package.Identity.Publisher = $Publisher
+# Store builds pass the Name Partner Center reserved; local builds keep the development one.
+if ($IdentityName) { $manifest.Package.Identity.Name = $IdentityName }
+# The manifest already carries the account's publisher display name ("Dean Eaglin"); this is
+# here so a rename in Partner Center does not need a manifest edit.
+if ($PublisherDisplayName) { $manifest.Package.Properties.PublisherDisplayName = $PublisherDisplayName }
 $manifest.Package.Identity.ProcessorArchitecture = $Runtime.Replace('win-', '')
 $manifest.Save((Join-Path $stageDir 'AppxManifest.xml'))
+
+# --- resource index --------------------------------------------------------------------------
+# Assets/ ships every tile at scale-100/125/150/200/400 plus the taskbar target sizes. Windows
+# resolves those qualified names only through a resources.pri; without one it ignores them and
+# upscales the 100% tile, so high-DPI tiles and the taskbar icon come out soft.
+$makepri   = Find-WindowsKitTool 'makepri.exe'
+$priConfig = Join-Path $repoRoot 'artifacts/priconfig.xml'
+Remove-Item $priConfig -Force -ErrorAction SilentlyContinue
+& $makepri createconfig /cf $priConfig /dq en-US /o | Out-Null
+if ($LASTEXITCODE -ne 0) { throw 'makepri createconfig failed.' }
+
+# createconfig's default <packaging> splits every Scale-qualified candidate out into a separate
+# resource package. Statistle ships one package, so without removing that the index keeps only
+# scale-100 and the other four scales are dead weight in the .msix.
+$priXml = [xml](Get-Content $priConfig)
+$packagingNode = $priXml.SelectSingleNode('//packaging')
+if ($packagingNode) { $packagingNode.ParentNode.RemoveChild($packagingNode) | Out-Null }
+$priXml.Save($priConfig)
+
+& $makepri new /pr $stageDir /cf $priConfig /of (Join-Path $stageDir 'resources.pri') /o | Out-Null
+if ($LASTEXITCODE -ne 0) { throw 'makepri new failed.' }
+Remove-Item $priConfig -Force -ErrorAction SilentlyContinue
 
 # --- pack ----------------------------------------------------------------------------------
 New-Item -ItemType Directory -Force $OutputDirectory | Out-Null

@@ -19,7 +19,9 @@
 
   <Properties>
     <DisplayName>Statistle</DisplayName>
-    <PublisherDisplayName>Ron Eaglin</PublisherDisplayName>
+    <!-- Must match the Partner Center account's publisher display name character for character
+         or certification fails. Ron's Microsoft Store account publishes as "Dean Eaglin". -->
+    <PublisherDisplayName>Dean Eaglin</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -44,7 +46,7 @@
           Wide310x150Logo="Assets\Wide310x150Logo.png"
           Square71x71Logo="Assets\Square71x71Logo.png"
           Square310x310Logo="Assets\Square310x310Logo.png" />
-        <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="white" />
+        <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#142E4F" />
       </uap:VisualElements>
 
       <Extensions>

@@ -89,7 +89,9 @@ zip 0.4.0.
 
 ## Phase 5 — ANOVA (Module 14) and release
 
-**Status 2026-09-08: 5.1–5.3 built; 5.4 (Store) not started.** Two analyses over `Methods/Inference/Anova.cs`;
+**Status 2026-09-09: 5.1–5.4 built; the Store submission is prepared and 5.4 is all but done.** The name is reserved (`DeanEaglin.statistle`), the privacy page is live, the artwork pipeline runs off Ron's logo, and `artifacts/Statistle_1.0.0.0_x64_bundle.msixupload` is built with the real Partner Center identity and verified against its package family name. Outstanding: WACK and the screenshots. See `resources/STORE-SUBMISSION.md`.
+
+**Status 2026-09-08: 5.1–5.3 built.** Two analyses over `Methods/Inference/Anova.cs`;
 the studentized range (R's `ptukey`, AS 190) and the noncentral F (for power) written in
 `Methods/Distributions/StudentizedRange.cs`. Tester zip 0.5.0. Note: the course page for Module
 14 problem 1 quotes F ≈ 53.7 and p ≈ 5.85e-11, but on the data as listed scipy's `f_oneway` gives
@@ -104,4 +106,4 @@ F = 48.12 and p = 1.25e-9; the engine agrees with scipy, and the Tukey differenc
 | 5.3b | Inno Setup installer for local testers: per-user by default (no admin), Start-menu entry, optional desktop icon and `.statistle` association, uninstaller; the exe gets an icon from the tile art (Ron, 2026-09-08) | `packaging/installer/Statistle.iss`, `packaging/make-installer.ps1`, `src/Statistle.App/Statistle.ico` | `artifacts/Statistle-<ver>-setup.exe`; silent install, launch and silent uninstall verified on the dev box, Documents untouched | [x] |
 | 5.3c | Instructions tab: a full manual page per rail item — a hand-written guide (when to use, steps, reading the results, pitfalls, worked example, plots, code) in `GuideCatalog`, plus every entry, result and method generated from the metadata; the overview of Statistle when nothing is selected; Open in browser / Save as HTML or text (Ron, 2026-09-08) | `Core/Instructions/`, `App/Reporting/InstructionsDocumentBuilder.cs`, the Instructions tab | `InstructionsTests`: every shipped item has a guide with all its parts, every label and method is on its page, the overview lists the analyses in course order | [x] |
 | 5.3 | Code (`scipy.stats.f_oneway`, `tukey_hsd`, `studentized_range`, `ncf`, `bartlett`, `levene`, `kruskal`; `statsmodels` `anova_lm`, `pairwise_tukeyhsd`; R `aov`, `anova`, `TukeyHSD`, `ptukey`/`qtukey`, `bartlett.test`, `kruskal.test`) | each analysis writes both | cross-check: 68 configurations pass (6 ANOVA) | [x] |
-| 5.4 | Store: Partner Center identity, listing, privacy statement (nothing leaves the machine), `msixupload` | `packaging/` | submitted | [ ] |
+| 5.4 | Store: Partner Center identity, listing, privacy statement (nothing leaves the machine), `msixupload` | `packaging/`, `resources/` | submitted | **Prepared 2026-09-09.** Identity `DeanEaglin.statistle` reserved and PFN-verified; privacy policy live at `punchmonkeyserver.com/privacy/statistle`; version 1.0.0; `make-store-assets.ps1` generates every tile and listing image from `resources/images/Statistle_logo2048x2048.jpg` under WACK's 204800-byte cap; `app.manifest` declares PerMonitorV2; `make-msixupload.ps1` and `run-wack.ps1` ported from SMADA; listing copy, age rating, declarations and the `runFullTrust` justification written. Left: WACK, screenshots, submit |
