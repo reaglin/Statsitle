@@ -22,7 +22,7 @@ HSD, Bartlett, Levene, Kruskal–Wallis and power; Two-way for balanced designs)
 green; the Python cross-check runs 68 configurations (needs numpy, scipy ≥ 1.11, statsmodels).
 No GitHub remote yet.
 
-**Store submission prepared 2026-09-09** (task 5.4): identity `DeanEaglin.statistle`, version 1.0.0, a live privacy page, the full listing copy, and a PFN-verified `.msixupload`. Everything Partner Center asks for is in `resources/` — start with `resources/STORE-SUBMISSION.md`. `packaging/` gained `make-store-assets.ps1` (all icons, tiles and listing images from `resources/images/Statistle_logo2048x2048.jpg`), `make-msixupload.ps1` and `run-wack.ps1`, all ported from SMADA. Left to do: run WACK and capture the screenshots.
+**Store submission prepared 2026-09-09** (task 5.4): identity `DeanEaglin.statistle`, version 1.0.0, a live privacy page, the full listing copy, and a PFN-verified `.msixupload`. Everything Partner Center asks for is in `resources/` — start with `resources/STORE-SUBMISSION.md`. `packaging/` gained `make-store-assets.ps1` (all icons, tiles and listing images from `resources/images/Statistle_logo2048x2048.jpg`), `make-msixupload.ps1` and `run-wack.ps1`, all ported from SMADA. WACK passes (23/24; the one FAIL is the optional "Blocked executables", which SMADA also passed overall with). Left to do: capture the screenshots and submit.
 
 ### Read these first
 

@@ -65,8 +65,7 @@ match.
 
 ## Still needed before submitting
 
-- **WACK** — `./packaging/run-wack.ps1`. SMADA's two actionable findings (oversized logo images,
-  no DPI awareness) are already pre-empted here; expect the same optional "Blocked executables"
-  FAIL, which did not stop SMADA passing overall.
+- ~~WACK~~ — done 2026-09-09: **PASS, 23/24**. Both pre-emptions held; the one FAIL is the
+  optional "Blocked executables", as expected. Details in `STORE-SUBMISSION.md`.
 - **Screenshots** — .png, at least **1366 × 768**; shot list at the end of `STORE-LISTING.md`.
   Capture wider than 1366: SMADA's first set came out 1345 px and had to be padded.

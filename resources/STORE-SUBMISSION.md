@@ -19,9 +19,9 @@ offline desktop calculator on the same Partner Center account, so most answers a
 | Store assets | ✅ Generated from the logo by `packaging/make-store-assets.ps1` |
 | `.msixupload` | ✅ Built and identity-verified — below |
 | Listing copy, categories, age rating | ✅ `STORE-LISTING.md` |
-| WACK | **Outstanding** — `./packaging/run-wack.ps1` |
+| WACK | ✅ **PASS**, 23/24, on 1.0.0 (2026-09-09 12:09) — see below |
 | Screenshots | **Outstanding** — shot list at the end of `STORE-LISTING.md` |
-| Submit | Blocked on WACK and screenshots |
+| Submit | Blocked only on the screenshots |
 
 ## The Partner Center account
 
@@ -158,8 +158,23 @@ resolve, so appcert fails immediately and the window disappears before the error
 | `DPIAwarenessValidation` — no DPI declaration | Pre-empted. `src/Statistle.App/app.manifest` declares `PerMonitorV2` and `asInvoker` |
 | `Blocked executables` — process-launch APIs | Expect the same optional FAIL. Almost all of it is inside Microsoft's own runtime, which a self-contained deployment must carry; Statistle's own contribution is the browser launch described in the certification notes above. It did not stop SMADA passing overall |
 
+### Result — 2026-09-09, on 1.0.0
+
+**OVERALL PASS, 23 of 24.** Both pre-emptions held: `App resources` and
+`DPIAwarenessValidation` passed first time, where SMADA had to be fixed and rebuilt.
+
+The one FAIL is `Blocked executables`, optional, 49 messages — the same finding SMADA
+passed overall with. Three name Statistle's own binaries:
+
+| Message | What it is |
+|---|---|
+| `Statistle.App.exe` … `ShellExecuteW`, `Statistle.App.dll` … `Process.Start` | Opening a generated report or instructions page in the browser. Legitimate for a `runFullTrust` desktop app; this test targets sandboxed UWP |
+| `Statistle.Core.dll contains a blocked executable reference to "reg"` | **A false positive.** The scan matches blocked executable names as substrings. `Statistle.Core.dll` contains no `reg.exe` string and no process-launching API at all — checked — and the only words containing "reg" are `regression`, `region` and `Regular` |
+
+The rest of the run makes the substring behaviour plain: it also reports `CsI`, `dNX`, `CDb` and `rEg` inside `System.Private.CoreLib.dll`, `System.Text.RegularExpressions.dll` and `PresentationFramework.dll`. The certification notes above already describe the browser launch, so a reviewer meeting this has the explanation in front of them.
+
 WACK is not a gate on submission — Store certification runs its own equivalent — but a local
-pass avoids a failed round trip. Record the outcome here once it has run.
+pass avoids a failed round trip.
 
 ## Submission order
 
@@ -168,7 +183,7 @@ pass avoids a failed round trip. Record the outcome here once it has run.
 3. ~~Set the release version~~ — done: 1.0.0.
 4. ~~Generate the Store assets~~ — done, from the logo.
 5. ~~Build the `.msixupload`~~ — done and PFN-verified.
-6. Run WACK; fix and rebuild if anything at *Fail* is actionable.
+6. ~~Run WACK~~ — done: PASS, 23/24.
 7. Capture the screenshots (list in `STORE-LISTING.md`) — **at least 1366 px wide**.
 8. Partner Center: packages → listing copy → images → screenshots → properties → age rating →
    pricing → submit.
