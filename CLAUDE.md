@@ -71,8 +71,8 @@ Statistle.sln
 │                  documented SKEW/KURT example, R fivenum/quantile), StatisticsEngine (invariants),
 │                  CodeGeneration (labels match, table variables, report appendices, Python cross-check
 │                  when numpy+scipy are present), Harness/ (Invariants, Snapshot, WorkedCases)
-├── samples/       demo-statistics.statistle — Module 14 alloys, Module 11 solar panel (written by
-│                  `Statistle.exe --write-samples samples`)
+├── samples/       demo-statistics.statistle — built by `Core/Document/SampleProjects.cs` (written here by
+│                  `Statistle.exe --write-samples samples`; installed into Documents\Statistle on first run)
 ├── packaging/     AppxManifest.xml, pack.ps1, Assets (placeholder tiles), make-tester-package.ps1, tester/README.txt
 └── manual-test/   Statistle.exe, the hand-test build (gitignored)
 ```

@@ -42,4 +42,31 @@ public class PathsTests
             }
         }
     }
+
+    [Fact]
+    public void The_demonstration_project_is_installed_once_and_never_overwritten()
+    {
+        string folder = Path.Combine(Path.GetTempPath(), $"statistle-samples-{Guid.NewGuid():N}");
+        string path = Path.Combine(folder, SampleProjects.DemonstrationFileName);
+
+        try
+        {
+            Assert.True(SampleProjects.Install(folder));
+            StatistleDocument demo = StatistleDocument.Open(path);
+            Assert.Equal(4, demo.Tables.Count);
+            Assert.Equal(5, demo.Tools.Count);
+            Assert.False(demo.Diagnostics.HasWarnings, demo.Diagnostics.ToString());
+
+            File.WriteAllText(path, "edited by the user");
+            Assert.False(SampleProjects.Install(folder));
+            Assert.Equal("edited by the user", File.ReadAllText(path));
+        }
+        finally
+        {
+            if (Directory.Exists(folder))
+            {
+                Directory.Delete(folder, true);
+            }
+        }
+    }
 }

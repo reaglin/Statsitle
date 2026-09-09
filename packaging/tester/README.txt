@@ -20,9 +20,13 @@ RUNNING IT
 Your files: Statistle keeps its files in Documents\Statistle. Projects
 (.statistle files) open and save there by default.
 
-Sample projects are in the "samples" folder: open demo-statistics.statistle for
-four data tables with a descriptive-statistics analysis, two regressions and
-two ANOVAs already set up on them.
+The first time Statistle runs it puts the sample project
+demo-statistics.statistle into Documents\Statistle (a copy is also in this
+folder's "samples"): four data tables with a descriptive-statistics analysis,
+two regressions and two ANOVAs already set up on them. File > Open lands in
+Documents\Statistle, so it is the first thing you see. Edit it freely; a
+changed copy is never overwritten, and deleting it brings a fresh one back on
+the next start.
 
 
 WHAT TO TRY
