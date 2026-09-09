@@ -8,14 +8,26 @@ and will be published in the Microsoft Store.
 
 RUNNING IT
 ----------
+You have one of two forms of this build; both hold the same program.
+
+The installer (Statistle-<version>-setup.exe):
+1. Double-click it. It installs for you alone, without administrator rights,
+   into your local programs folder, with a Start-menu entry, an optional
+   desktop icon and an optional association for .statistle files. An
+   administrator can choose "all users" instead.
+2. Uninstall from Settings > Apps, or the Start-menu entry. Your projects in
+   Documents\Statistle are left in place.
+
+The zip (Statistle-<version>-win-x64.zip):
 1. Unzip this folder anywhere (your Desktop or Documents is fine).
 2. Double-click Statistle.exe. Nothing is installed and no administrator rights
    are needed; it needs Windows 10 or 11 (64-bit) and nothing else.
-3. Windows SmartScreen may show "Windows protected your PC" the first time,
-   because this test build is not yet signed. Click "More info", then
-   "Run anyway". The Store release will be signed and will not show this.
-4. Optional: double-click "Create desktop shortcut.cmd" to put a Statistle
+3. Optional: double-click "Create desktop shortcut.cmd" to put a Statistle
    shortcut on your desktop.
+
+Either way, Windows SmartScreen may show "Windows protected your PC" the first
+time, because this test build is not yet signed. Click "More info", then
+"Run anyway". The Store release will be signed and will not show this.
 
 Your files: Statistle keeps its files in Documents\Statistle. Projects
 (.statistle files) open and save there by default.

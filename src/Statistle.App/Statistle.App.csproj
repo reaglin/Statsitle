@@ -12,6 +12,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Statistle.ico</ApplicationIcon>
     <!-- NU1701: ScottPlot.WPF pulls SkiaSharp.Views.WPF, which ships .NET Framework assets and
          is restored through the compatibility fallback. It works on net10.0-windows; the
          warning is noise here and would otherwise be fatal under TreatWarningsAsErrors. -->

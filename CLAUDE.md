@@ -73,7 +73,9 @@ Statistle.sln
 │                  when numpy+scipy are present), Harness/ (Invariants, Snapshot, WorkedCases)
 ├── samples/       demo-statistics.statistle — built by `Core/Document/SampleProjects.cs` (written here by
 │                  `Statistle.exe --write-samples samples`; installed into Documents\Statistle on first run)
-├── packaging/     AppxManifest.xml, pack.ps1, Assets (placeholder tiles), make-tester-package.ps1, tester/README.txt
+├── packaging/     AppxManifest.xml, pack.ps1, Assets (placeholder tiles) — the MSIX for the Store;
+│                  make-tester-package.ps1 (zip) and make-installer.ps1 + installer/Statistle.iss
+│                  (Inno Setup, per-user) for local testers; tester/README.txt goes in both
 └── manual-test/   Statistle.exe, the hand-test build (gitignored)
 ```
 
@@ -85,6 +87,7 @@ dotnet test Statistle.sln
 dotnet run --project src/Statistle.App
 ./packaging/pack.ps1                       # signed dev MSIX in artifacts/
 ./packaging/make-tester-package.ps1        # artifacts/Statistle-<version>-win-x64.zip for testers
+./packaging/make-installer.ps1             # artifacts/Statistle-<version>-setup.exe (Inno Setup 6 required)
 ```
 
 Hand-test build (framework-dependent; the machine has the .NET 10 runtime):
