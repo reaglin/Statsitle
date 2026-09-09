@@ -4,7 +4,7 @@
 
   <PropertyGroup>
     <!-- One version property. packaging/pack.ps1 reads it for the MSIX identity. -->
-    <StatistleVersion>0.5.1</StatistleVersion>
+    <StatistleVersion>0.5.2</StatistleVersion>
     <Version>$(StatistleVersion)</Version>
     <AssemblyVersion>$(StatistleVersion).0</AssemblyVersion>
     <FileVersion>$(StatistleVersion).0</FileVersion>

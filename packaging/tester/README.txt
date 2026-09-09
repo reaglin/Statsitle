@@ -124,9 +124,16 @@ WHAT TO TRY
   3 x 2 design with three replicates.
 - Both ANOVAs write scipy / statsmodels (f_oneway, tukey_hsd, anova_lm,
   pairwise_tukeyhsd) and R (aov, TukeyHSD, kruskal.test).
-- Every screen has four tabs: Properties (entry), Report (values, plots,
+- Every screen has five tabs: Properties (entry), Report (values, plots,
   sources and the code as an appendix, with Open in browser / Save as PDF),
-  Plots, and Code.
+  Plots, Code, and Instructions.
+- The Instructions tab is the manual for whatever is selected: what the
+  statistic is, when to use it, the steps in Statistle, how to read the
+  results, what to watch for, a worked example from the sample project, and
+  then every entry, every result and every method with its formula and
+  source. With nothing selected it explains Statistle as a whole. Open in
+  browser or Save as... gives you the page to keep or print. Please tell us
+  where these pages are wrong, unclear or missing something a student needs.
 - The Code tab is the point of the program: the Python (numpy, scipy.stats)
   and the R that reproduce whatever is selected - a data table as variables,
   an analysis as its data followed by every result printed in the same order

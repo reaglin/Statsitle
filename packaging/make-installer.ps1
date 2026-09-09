@@ -19,7 +19,7 @@
 
 .EXAMPLE
     ./packaging/make-installer.ps1
-    Builds artifacts\Statistle-0.5.1-setup.exe.
+    Builds artifacts\Statistle-0.5.2-setup.exe.
 #>
 [CmdletBinding()]
 param(

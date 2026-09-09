@@ -17,11 +17,13 @@ public partial class MainWindow : Window
 {
     private const int ReportTab = 1;
     private const int PlotsTab = 2;
+    private const int InstructionsTab = 4;
 
     private readonly WorkspaceViewModel _workspace = new();
     private readonly ScottPlotFigureRenderer _renderer = new();
     private bool _reportStale = true;
     private bool _plotsStale = true;
+    private bool _instructionsStale = true;
 
     public MainWindow()
     {
@@ -55,6 +57,12 @@ public partial class MainWindow : Window
         {
             _reportStale = true;
             _plotsStale = true;
+            RefreshOutputTabs();
+        }
+
+        if (e.PropertyName == nameof(WorkspaceViewModel.CurrentInstructions))
+        {
+            _instructionsStale = true;
             RefreshOutputTabs();
         }
     }
@@ -156,6 +164,12 @@ public partial class MainWindow : Window
         if (ContentTabs.SelectedIndex == PlotsTab && _plotsStale)
         {
             RebuildPlots();
+        }
+
+        if (ContentTabs.SelectedIndex == InstructionsTab && _instructionsStale)
+        {
+            _instructionsStale = false;
+            InstructionsView.Document = InstructionsDocumentBuilder.Build(_workspace.CurrentInstructions);
         }
     }
 

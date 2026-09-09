@@ -59,6 +59,8 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         CancelHandoffCommand = new RelayCommand(CancelHandoff, () => _handoff is not null);
         CopyCodeCommand = new RelayCommand(CopyCode, () => Selected is ICodeSource);
         SaveCodeCommand = new RelayCommand(SaveCode, () => Selected is ICodeSource);
+        OpenInstructionsCommand = new RelayCommand(OpenInstructions);
+        SaveInstructionsCommand = new RelayCommand(SaveInstructions);
 
         NewProject();
     }
@@ -87,6 +89,10 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
     public RelayCommand UndoCommand { get; }
 
     public RelayCommand ReportCommand { get; }
+
+    public RelayCommand OpenInstructionsCommand { get; }
+
+    public RelayCommand SaveInstructionsCommand { get; }
 
     public RelayCommand ExportPdfCommand { get; }
 
@@ -181,6 +187,61 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
             Status = $"Could not save the code: {ex.Message}";
+        }
+    }
+
+    /// <summary>
+    /// The instruction page for the selected item's kind — what it is, when to use it, the steps,
+    /// every entry and result explained, the methods and sources — or the overview of Statistle
+    /// when nothing is selected. Built from the metadata and the item's guide; nothing here names
+    /// an analysis.
+    /// </summary>
+    public Statistle.Core.Instructions.InstructionSet CurrentInstructions =>
+        Selected is null ? Statistle.Core.Instructions.InstructionsBuilder.Overview()
+        : Statistle.Core.Instructions.InstructionsBuilder.For(Selected.GetType());
+
+    private void OpenInstructions()
+    {
+        try
+        {
+            string file = Path.Combine(Path.GetTempPath(), $"statistle-instructions-{Guid.NewGuid():N}.html");
+            File.WriteAllText(file, Statistle.Core.Instructions.InstructionsHtmlWriter.Write(CurrentInstructions));
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(file) { UseShellExecute = true });
+            Status = $"Instructions opened for {CurrentInstructions.Title}";
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or System.ComponentModel.Win32Exception)
+        {
+            Status = $"Could not open the instructions: {ex.Message}";
+        }
+    }
+
+    private void SaveInstructions()
+    {
+        Statistle.Core.Instructions.InstructionSet page = CurrentInstructions;
+        var dialog = new SaveFileDialog
+        {
+            Filter = "Web page (*.html)|*.html|Plain text (*.txt)|*.txt",
+            DefaultExt = ".html",
+            FileName = Statistle.Core.Code.CodeText.Identifier(page.Title, "statistle").Replace('_', '-') + "-instructions.html",
+            InitialDirectory = DefaultFolder(),
+        };
+
+        if (dialog.ShowDialog() != true)
+        {
+            return;
+        }
+
+        try
+        {
+            bool text = dialog.FileName.EndsWith(".txt", StringComparison.OrdinalIgnoreCase);
+            File.WriteAllText(dialog.FileName, text
+                ? Statistle.Core.Instructions.InstructionsTextWriter.Write(page)
+                : Statistle.Core.Instructions.InstructionsHtmlWriter.Write(page));
+            Status = $"Saved {Path.GetFileName(dialog.FileName)}";
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            Status = $"Could not save the instructions: {ex.Message}";
         }
     }
 
@@ -366,6 +427,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
             RaiseHelpChanged();
             Raise(nameof(Figures));
             Raise(nameof(CodeText));
+            Raise(nameof(CurrentInstructions));
             CopyCodeCommand.RaiseCanExecuteChanged();
             SaveCodeCommand.RaiseCanExecuteChanged();
             DeleteCommand.RaiseCanExecuteChanged();

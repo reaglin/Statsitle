@@ -640,6 +640,33 @@
                         </Border>
                     </DockPanel>
                 </TabItem>
+
+                <!-- The full instructions for the selected item's kind: what it is, when to use it,
+                     how, and every entry, result and method explained. Generated from the metadata
+                     and the item's guide; the overview of Statistle when nothing is selected. -->
+                <TabItem Header="Instructions">
+                    <DockPanel>
+                        <DockPanel DockPanel.Dock="Top" Margin="14,10,14,6">
+                            <Button DockPanel.Dock="Right" Content="Save as…"
+                                    Command="{Binding SaveInstructionsCommand}"
+                                    Padding="8,3" Margin="8,0,0,0" BorderThickness="0"
+                                    Background="#E4E8ED" Cursor="Hand" />
+                            <Button DockPanel.Dock="Right" Content="Open in browser"
+                                    Command="{Binding OpenInstructionsCommand}"
+                                    Padding="8,3" BorderThickness="0"
+                                    Background="#E4E8ED" Cursor="Hand" />
+                            <TextBlock Text="How and when to use the selected item: the statistic, the steps in Statistle, how to read the results, what to watch for, a worked example, and every entry, result and method with its source. With nothing selected, how Statistle as a whole is used."
+                                       Foreground="{StaticResource MutedTextBrush}" FontSize="11"
+                                       TextWrapping="Wrap" VerticalAlignment="Center" Margin="0,0,10,0" />
+                        </DockPanel>
+                        <Border Margin="14,0,14,10" BorderBrush="{StaticResource BorderBrush}"
+                                BorderThickness="1" Background="White">
+                            <FlowDocumentScrollViewer x:Name="InstructionsView"
+                                                      VerticalScrollBarVisibility="Auto"
+                                                      IsToolBarVisible="False" />
+                        </Border>
+                    </DockPanel>
+                </TabItem>
             </TabControl>
         </Grid>
     </DockPanel>

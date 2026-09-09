@@ -10,7 +10,7 @@ every input and result for the student, and writes the **Python and R** that rep
 and the analysis. WPF on .NET 10, free on the Microsoft Store. Started 2026-09-08 from a copy of
 SMADA's core (`..\SMADA10`).
 
-**Status: phases 0–5 built (except 5.4, the Store), 2026-09-08** — Descriptive statistics, the Code tab, the Module
+**Status: phases 0–5 built (except 5.4, the Store), 2026-09-08** — every rail item has an Instructions tab (`Core/Instructions/GuideCatalog.cs` holds the hand-written guide per item; the rest of the page is generated from the metadata, and `InstructionsTests` fails for an analysis without a guide). Descriptive statistics, the Code tab, the Module
 3–6 analyses (Probability rules, Discrete distribution, Continuous distribution, Sampling
 distribution), the Module 7–10 analyses (Confidence interval, Sample size, One-sample test,
 Two-sample test — with Shapiro–Wilk, Levene, Mann–Whitney and Wilcoxon written in Core to
