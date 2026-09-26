@@ -1,0 +1,50 @@
+<Window x:Class="Statistle.App.Views.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="About Statistle" Width="560" SizeToContent="Height"
+        ResizeMode="NoResize" WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
+        Background="#F5F7FA">
+    <DockPanel Margin="14">
+        <TextBlock DockPanel.Dock="Top" Text="About Statistle" FontSize="15" FontWeight="SemiBold" Margin="0,0,0,2" />
+        <TextBlock DockPanel.Dock="Top" x:Name="VersionText" Foreground="#6B7680" FontSize="11" Margin="0,0,0,10"
+                   AutomationProperties.Name="Version" />
+
+        <DockPanel DockPanel.Dock="Bottom" Margin="0,12,0,0">
+            <Button DockPanel.Dock="Right" Content="Close" IsCancel="True" IsDefault="True" Click="Close_Click"
+                    Padding="14,4" BorderThickness="0" FontWeight="SemiBold"
+                    Background="#2F3E4C" Foreground="White" Cursor="Hand" />
+            <TextBlock VerticalAlignment="Center" Foreground="#6B7680" FontSize="11" TextWrapping="Wrap"
+                       Text="Copyright © Ron Eaglin. Free software; nothing you enter leaves this computer." />
+        </DockPanel>
+
+        <StackPanel>
+            <!-- Ron, 2026-09-25: "Created by Dr. Ron Eaglin" with his picture, in every program's About -->
+            <Border BorderBrush="#D5DBE1" BorderThickness="1" Background="White" Padding="12" Margin="0,0,0,10">
+                <DockPanel>
+                    <Border DockPanel.Dock="Left" Width="96" Height="96" CornerRadius="10" Margin="0,0,14,0">
+                        <Border.Background>
+                            <ImageBrush ImageSource="pack://application:,,,/Images/dr-ron-eaglin.jpg" Stretch="UniformToFill" />
+                        </Border.Background>
+                    </Border>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Created by Dr. Ron Eaglin" FontSize="15" FontWeight="SemiBold" Margin="0,0,0,4"
+                                   AutomationProperties.Name="Created by Dr. Ron Eaglin" />
+                        <TextBlock TextWrapping="Wrap" Foreground="#6B7680"
+                                   Text="Engineer and teacher. Statistle follows his course EGN3443, Probability and Statistics for Engineers." />
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+
+            <Border BorderBrush="#D5DBE1" BorderThickness="1" Background="White" Padding="12">
+                <StackPanel>
+                    <TextBlock TextWrapping="Wrap" Margin="0,0,0,8"
+                               Text="Statistle is free statistics software for students. Enter your data in a table, choose an analysis from the list on the left, and it computes the result." />
+                    <TextBlock TextWrapping="Wrap" Margin="0,0,0,8"
+                               Text="Every input and every number it reports is explained in the help panel, and the Instructions tab has a full page on each analysis." />
+                    <TextBlock TextWrapping="Wrap"
+                               Text="The Code tab writes the Python and R that reproduce the same analysis, so you can check the work, not just copy the answer." />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </DockPanel>
+</Window>

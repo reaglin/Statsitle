@@ -404,4 +404,7 @@ public partial class MainWindow : Window
             : LogicalTreeHelper.GetParent(element);
 
     private void Exit_Click(object sender, RoutedEventArgs e) => Close();
+
+    private void About_Click(object sender, RoutedEventArgs e) =>
+        new Views.AboutWindow { Owner = this }.ShowDialog();
 }

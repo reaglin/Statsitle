@@ -373,6 +373,9 @@
                 <Separator />
                 <MenuItem Header="_Delete selected" Command="{Binding DeleteCommand}" />
             </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_About Statistle" Click="About_Click" />
+            </MenuItem>
         </Menu>
 
         <Border DockPanel.Dock="Bottom"

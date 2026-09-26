@@ -5,6 +5,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Help ▸ About: Ron's picture beside "Created by Dr. Ron Eaglin". -->
+    <Resource Include="Images\dr-ron-eaglin.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="ScottPlot.WPF" Version="5.1.59" />
   </ItemGroup>
 
