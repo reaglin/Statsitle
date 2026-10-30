@@ -25,4 +25,20 @@ public partial class AboutWindow : Window
     }
 
     private void Close_Click(object sender, RoutedEventArgs e) => Close();
+
+    /// <summary>Opens a link in the person's web browser. Statistle itself makes no connection.</summary>
+    private void Link_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+    {
+        try
+        {
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
+        }
+        catch (Exception ex) when (ex is System.ComponentModel.Win32Exception or InvalidOperationException)
+        {
+            MessageBox.Show(this, $"Windows could not open a web browser. The address is {e.Uri.AbsoluteUri}",
+                "About Statistle", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        e.Handled = true;
+    }
 }

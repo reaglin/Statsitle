@@ -1,7 +1,7 @@
 <Window x:Class="Statistle.App.Views.AboutWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="About Statistle" Width="560" SizeToContent="Height"
+        Title="About Statistle" Width="620" SizeToContent="Height"
         ResizeMode="NoResize" WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
         Background="#F5F7FA">
     <DockPanel Margin="14">
@@ -34,6 +34,25 @@
                     </StackPanel>
                 </DockPanel>
             </Border>
+
+            <!-- Links (portfolio rules, 2026-09-30 and 2026-10-30): the program's page, its Store page, all the programs. -->
+            <StackPanel Margin="2,0,0,10">
+                <TextBlock TextWrapping="Wrap" Margin="0,0,0,4">
+                    <Run Text="More about Statistle, with help and examples:" />
+                    <Hyperlink NavigateUri="https://softwareplus.ai/statistle/" RequestNavigate="Link_RequestNavigate"
+                               ToolTip="Opens the Statistle page on SoftwarePlus.ai in your web browser">softwareplus.ai/statistle</Hyperlink>
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap" Margin="0,0,0,4">
+                    <Run Text="Statistle on the Microsoft Store (updates, ratings and reviews):" />
+                    <Hyperlink AutomationProperties.Name="Statistle on the Microsoft Store" NavigateUri="https://apps.microsoft.com/detail/9MV608S7M9X6" RequestNavigate="Link_RequestNavigate"
+                               ToolTip="Opens Statistle's Microsoft Store page in your web browser">apps.microsoft.com/detail/9MV608S7M9X6</Hyperlink>
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap">
+                    <Run Text="All of Dr. Ron Eaglin's programs:" />
+                    <Hyperlink AutomationProperties.Name="All of Dr. Ron Eaglin's programs, softwareplus.ai" NavigateUri="https://softwareplus.ai/#programs" RequestNavigate="Link_RequestNavigate"
+                               ToolTip="Opens the list of Dr. Ron Eaglin's programs on SoftwarePlus.ai in your web browser">softwareplus.ai</Hyperlink>
+                </TextBlock>
+            </StackPanel>
 
             <Border BorderBrush="#D5DBE1" BorderThickness="1" Background="White" Padding="12">
                 <StackPanel>
