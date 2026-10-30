@@ -407,4 +407,6 @@ public partial class MainWindow : Window
 
     private void About_Click(object sender, RoutedEventArgs e) =>
         new Views.AboutWindow { Owner = this }.ShowDialog();
+
+    private async void CheckForUpdate_Click(object sender, RoutedEventArgs e) => await StoreUpdates.CheckAsync(this);
 }

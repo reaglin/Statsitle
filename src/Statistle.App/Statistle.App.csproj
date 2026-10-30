@@ -15,7 +15,9 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net10.0-windows</TargetFramework>
+    <!-- The Windows version (10.0.19041) gives the program the Windows Store API (Windows.Services.Store) that
+         Help ▸ Check for a new version asks; it still runs on every Windows 10/11 the Store supports. -->
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Statistle.ico</ApplicationIcon>
     <!-- Declares PerMonitorV2; without it the app is not DPI aware and WACK warns. -->
