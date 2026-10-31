@@ -22,6 +22,14 @@ public partial class App : Application
     {
         base.OnStartup(e);
 
+        // Only Statistle itself opens its window. A test host builds an App for its resources; were the
+        // window opened there, its recovery question and Close would work on the person's real recovery
+        // copy in %LOCALAPPDATA%\Statistle (that deleted one on 2026-10-31).
+        if (System.Reflection.Assembly.GetEntryAssembly() != typeof(App).Assembly)
+        {
+            return;
+        }
+
         string[] args = e.Args;
 
         int samplesIndex = Array.IndexOf(args, WriteSamplesSwitch);

@@ -230,8 +230,8 @@ function Tab($name) {
 }
 function Rail($title) { Invoke-Named $title $T::Button; Start-Sleep -Milliseconds 600 }
 function Tree-Select($name) {
-    # The table nodes do not carry the table's name for UI Automation (they report the class
-    # name), so the node is found by the text inside it, or failing that by its place in the list.
+    # Each table node carries the table's name for UI Automation (UX review 2026-10-31); older builds
+    # reported the class name, so the text inside it, or its place in the list, still finds it.
     $group = [Shots]::Find((Root), 'Data tables', $T::TreeItem)
     $nodes = $group.FindAll([System.Windows.Automation.TreeScope]::Children,
         (New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ControlTypeProperty, $T::TreeItem)))
@@ -367,9 +367,9 @@ try {
 
     # ------------------------------------------------------------ 8. the save question on Exit (Cancel)
     Menu-Item 'File' 'Exit' | Out-Null
-    $ask = Wait-Window 'Statistle'
+    $ask = Wait-Window 'Statistle — Save changes?'
     Shot 'save-question.png' @($ask)
-    Answer-Box 'Statistle' 'Cancel'
+    Answer-Box 'Statistle — Save changes?' 'Cancel'
 
     # ------------------------------------------------------------ 9. the restore question on the next start
     # Stopping the process leaves this run's own recovery copy, which the next start offers back.

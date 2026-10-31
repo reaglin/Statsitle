@@ -225,7 +225,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
-            Status = $"Could not save the code: {ex.Message}";
+            ExportFailed("the code", dialog.FileName, ex);
         }
     }
 
@@ -280,7 +280,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
-            Status = $"Could not save the instructions: {ex.Message}";
+            ExportFailed("the instructions", dialog.FileName, ex);
         }
     }
 
@@ -1351,7 +1351,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
-            Status = $"Could not write the PDF: {ex.Message}";
+            ExportFailed("the PDF", dialog.FileName, ex);
         }
     }
 
@@ -1389,8 +1389,23 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
-            Status = $"Could not write the CSV: {ex.Message}";
+            ExportFailed("the CSV file", dialog.FileName, ex);
         }
+    }
+
+    /// <summary>
+    /// A PDF or CSV that could not be written is said in a box, like every other failure, and not
+    /// only in the status line (UX review 2026-10-31).
+    /// </summary>
+    private void ExportFailed(string what, string path, Exception ex)
+    {
+        Status = $"Could not write {what}: {ex.Message}";
+        _dialogs.ShowError(
+            "Statistle — Could not export",
+            $"Statistle could not write {what} {Path.GetFileName(path)}.\n\n" +
+            "If a file of that name is open in another program (a PDF viewer, Excel), close it there. " +
+            "Otherwise choose a folder in Documents, then try again.\n\n" +
+            $"Details for support: {ex.Message}");
     }
 
     private static string Sanitise(string name)

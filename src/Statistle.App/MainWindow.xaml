@@ -8,7 +8,7 @@
         xmlns:vm="clr-namespace:Statistle.App.ViewModels"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=vm:WorkspaceViewModel}"
-        Title="{Binding Title}" Height="800" Width="1360"
+        Title="{Binding Title}" Height="820" Width="1440"
         WindowStartupLocation="CenterScreen">
 
     <!-- F1 (and Help ▸ Help for this screen): the Instructions tab for whatever is selected. -->
@@ -149,6 +149,15 @@
                 <DataTrigger Binding="{Binding IsCompact}" Value="True">
                     <Setter Property="Width" Value="{StaticResource CompactValueWidth}" />
                 </DataTrigger>
+                <!-- A result in words spans value and unit, takes the width there is and wraps (UX review 2026-10-31). -->
+                <DataTrigger Binding="{Binding IsLongText}" Value="True">
+                    <Setter Property="Width" Value="{x:Static sys:Double.NaN}" />
+                    <Setter Property="MinWidth" Value="{StaticResource CompactValueWidth}" />
+                    <Setter Property="MaxWidth" Value="560" />
+                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    <Setter Property="TextWrapping" Value="Wrap" />
+                    <Setter Property="Grid.ColumnSpan" Value="2" />
+                </DataTrigger>
                 <DataTrigger Binding="{Binding IsValid}" Value="False">
                     <Setter Property="BorderBrush" Value="#C0392B" />
                     <Setter Property="BorderThickness" Value="1.6" />
@@ -194,6 +203,19 @@
                     <Setter Property="Foreground" Value="#556" />
                 </DataTrigger>
             </Style.Triggers>
+        </Style>
+
+        <!-- Why a typed value or a paste was not used, under the box (UX review 2026-10-31).
+             Defined above the row templates: a StaticResource must come before its first use. -->
+        <Style x:Key="RejectionText" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#A93226" />
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="MaxWidth" Value="440" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Margin" Value="0,3,0,2" />
+            <Setter Property="Text" Value="{Binding RejectionMessage}" />
+            <Setter Property="Visibility" Value="{Binding HasRejection, Converter={StaticResource BoolToVisibility}}" />
         </Style>
 
         <!-- One row of the property editor. Which editor appears is decided by the property's
@@ -379,18 +401,6 @@
             </Border>
         </DataTemplate>
 
-        <!-- Why a typed value or a paste was not used, under the box (UX review 2026-10-31). -->
-        <Style x:Key="RejectionText" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="#A93226" />
-            <Setter Property="FontSize" Value="11" />
-            <Setter Property="TextWrapping" Value="Wrap" />
-            <Setter Property="MaxWidth" Value="440" />
-            <Setter Property="HorizontalAlignment" Value="Left" />
-            <Setter Property="Margin" Value="0,3,0,2" />
-            <Setter Property="Text" Value="{Binding RejectionMessage}" />
-            <Setter Property="Visibility" Value="{Binding HasRejection, Converter={StaticResource BoolToVisibility}}" />
-        </Style>
-
         <!-- A rail button; the one for the analysis open now is lit, so the rail says where you are. -->
         <Style x:Key="RailButton" TargetType="Button">
             <Setter Property="Margin" Value="10,0,10,6" />
@@ -490,7 +500,7 @@
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="270" />
+                <ColumnDefinition Width="236" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
@@ -558,6 +568,12 @@
                               Background="Transparent" BorderThickness="0">
                         <TreeViewItem Header="Data tables" IsExpanded="True"
                                       ItemsSource="{Binding Tables}">
+                            <!-- A screen reader says the table's name, not its class name (UX review 2026-10-31). -->
+                            <TreeViewItem.ItemContainerStyle>
+                                <Style TargetType="TreeViewItem">
+                                    <Setter Property="AutomationProperties.Name" Value="{Binding Name}" />
+                                </Style>
+                            </TreeViewItem.ItemContainerStyle>
                             <TreeViewItem.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Name}" />
@@ -659,10 +675,12 @@
                                               GotKeyboardFocus="Editor_GotKeyboardFocus"
                                               PreviewMouseLeftButtonDown="Editor_PreviewMouseLeftButtonDown"
                                               SizeChanged="Editor_SizeChanged">
-                                    <Grid>
+                                    <!-- Its width follows the viewport (MainWindow.FitSplitWidth), so the results column is the
+                                         space left and a result in words wraps there; a scrollbar only below MinWidth. -->
+                                    <Grid x:Name="SplitGrid" HorizontalAlignment="Left" MinWidth="760">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
                                         <StackPanel Grid.Column="0" Margin="0,0,10,0">
                                             <TextBlock Text="ENTRY VALUES" Foreground="{StaticResource MutedTextBrush}"

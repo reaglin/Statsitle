@@ -19,15 +19,30 @@ public partial class MainWindow : Window
     private const int PlotsTab = 2;
     private const int InstructionsTab = 4;
 
-    private readonly WorkspaceViewModel _workspace = new();
+    private readonly WorkspaceViewModel _workspace;
     private readonly ScottPlotFigureRenderer _renderer = new();
     private bool _reportStale = true;
     private bool _plotsStale = true;
     private bool _instructionsStale = true;
 
     public MainWindow()
+        : this(new WorkspaceViewModel())
     {
+    }
+
+    /// <summary>
+    /// The window over a given workspace — the tests pass one with their own dialogs and autosave
+    /// folder, so drawing every row never touches the real recovery copy.
+    /// </summary>
+    public MainWindow(WorkspaceViewModel workspace)
+    {
+        _workspace = workspace;
         InitializeComponent();
+
+        // Wide enough for the two-column forms at its default size, but never larger than the screen.
+        Rect work = SystemParameters.WorkArea;
+        Width = Math.Min(Width, work.Width);
+        Height = Math.Min(Height, work.Height);
 
         DataContext = _workspace;
         _workspace.FigureRenderer = _renderer;
@@ -84,7 +99,26 @@ public partial class MainWindow : Window
 
     private bool _seriesHeightScheduled;
 
-    private void Editor_SizeChanged(object sender, SizeChangedEventArgs e) => ScheduleSeriesHeight();
+    private void Editor_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        FitSplitWidth();
+        ScheduleSeriesHeight();
+    }
+
+    /// <summary>
+    /// The two-column form is as wide as the space it has, so its results column is what is left
+    /// beside the entry values and a result in words wraps there instead of pushing the form past
+    /// the window (UX review 2026-10-31). Below the grid's MinWidth the scrollbar takes over.
+    /// </summary>
+    private void FitSplitWidth()
+    {
+        double room = SplitScroll.ActualWidth - SystemParameters.VerticalScrollBarWidth - 2;
+
+        if (room > 0)
+        {
+            SplitGrid.Width = Math.Max(SplitGrid.MinWidth, room);
+        }
+    }
 
     /// <summary>
     /// Measures after the next layout pass rather than during one, so setting the height

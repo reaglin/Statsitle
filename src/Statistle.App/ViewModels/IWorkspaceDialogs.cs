@@ -48,6 +48,9 @@ public sealed class WpfWorkspaceDialogs : IWorkspaceDialogs
     private static string Titled(string title) =>
         title.StartsWith("Statistle", StringComparison.Ordinal) ? title : "Statistle — " + title;
 
+    /// <summary>The unsaved-work question's title, worded like every other box (UX review 2026-10-31).</summary>
+    public const string SaveQuestionTitle = "Statistle — Save changes?";
+
     private static Window? Owner => Application.Current?.MainWindow is { IsLoaded: true } window ? window : null;
 
     public UnsavedChoice AskToSave(string fileName, string beforeWhat)
@@ -57,8 +60,8 @@ public sealed class WpfWorkspaceDialogs : IWorkspaceDialogs
             "Yes saves them, No discards them, Cancel goes back.";
 
         MessageBoxResult answer = Owner is Window owner
-            ? MessageBox.Show(owner, message, "Statistle", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning, MessageBoxResult.Yes)
-            : MessageBox.Show(message, "Statistle", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning, MessageBoxResult.Yes);
+            ? MessageBox.Show(owner, message, SaveQuestionTitle, MessageBoxButton.YesNoCancel, MessageBoxImage.Warning, MessageBoxResult.Yes)
+            : MessageBox.Show(message, SaveQuestionTitle, MessageBoxButton.YesNoCancel, MessageBoxImage.Warning, MessageBoxResult.Yes);
 
         return answer switch
         {

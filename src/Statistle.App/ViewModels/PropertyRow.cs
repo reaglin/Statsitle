@@ -67,6 +67,13 @@ public sealed class PropertyRow : INotifyPropertyChanged
     public bool IsString => PropertyType == typeof(string);
 
     /// <summary>
+    /// A result written as words (a mode list, a decision, an interval, the Tukey pairs): its box takes
+    /// the width the form has and wraps, so it is read whole without a horizontal scrollbar
+    /// (UX review 2026-10-31).
+    /// </summary>
+    public bool IsLongText => IsString && _property.IsResult;
+
+    /// <summary>
     /// True when the value is picked from a list the object supplies — a column of one of the
     /// project's data tables. The editor still knows nothing about it.
     /// </summary>
@@ -249,10 +256,15 @@ public sealed class PropertyRow : INotifyPropertyChanged
         }
     }
 
-    public bool HasUnit => _property.Unit != ValueKind.None;
+    /// <summary>
+    /// True only when the unit has something to show: a kind whose label is empty (a probability, a
+    /// plain number) has none, so the help title never reads "Confidence level ()" (UX review 2026-10-31).
+    /// </summary>
+    public bool HasUnit => UnitLabel.Length > 0;
 
     /// <summary>The suffix shown after the value — "%" for a percentage, nothing otherwise.</summary>
-    public string UnitLabel => HasUnit ? _units.LabelFor(_property.Unit) : string.Empty;
+    public string UnitLabel =>
+        _property.Unit == ValueKind.None ? string.Empty : _units.LabelFor(_property.Unit).Trim();
 
     /// <summary>
     /// The analysis that can fill this property, if one declared that it does. Found by asking

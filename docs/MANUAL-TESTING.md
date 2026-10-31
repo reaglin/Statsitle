@@ -84,7 +84,22 @@ B14 (6.13, About). Help ▸ About Statistle… — version 1.1.0; links to the S
     the Microsoft Store page and all programs all open in the browser.
 B15 (6.14, instructions). The Instructions tab of a data table says Import… shows a preview where the sheet is chosen
     and every column replaces the table's; Descriptive statistics no longer mentions a "Calculate…" link.
-
+B16 (6.17, the crash). Start the rebuilt `manual-test\Statistle.exe`, open the sample project, click each data table
+    and then each analysis in the rail — expected: every form draws, nothing closes Statistle. (The build from earlier
+    on 2026-10-31 closed with "Cannot find resource named 'RejectionText'" at the first table.)
+B17 (6.18). Change a value, then the window's ✕ — the question's title bar reads "Statistle — Save changes?". Cancel.
+B18 (6.19). Open Confidence interval and click in **Confidence level** — the help panel's title is "Confidence level",
+    with no "()" after it. A field with a unit (Coefficient of variation in Descriptive statistics) still shows "(%)".
+B19 (6.20). Open a PDF you saved from Statistle in a PDF viewer that locks it (or make the file read-only), then
+    **Save report as PDF…** over it — a box "Statistle — Could not export" says the file could not be written, to close it
+    in the other program or choose a folder in Documents, and ends with "Details for support:". Same for **Export data as
+    CSV…** over a CSV open in Excel.
+B20 (6.21). With Narrator on (Ctrl+Win+Enter), move through the Project tree — each data table is read by its name
+    ("Tensile strength"), not "Statistle.Core.Domain.DataTable".
+B21 (6.22). Start Statistle without resizing it. Open Descriptive statistics, Two-sample test, Confidence interval and
+    One-way ANOVA on the sample — no horizontal scrollbar under the form; Mode, Decision, Interval and Group summaries
+    are read in full; in One-way ANOVA scroll to **Tukey HSD pairs** — every pair can be read on the Properties tab.
+    Then make the window narrower — a scrollbar appears only when the two columns no longer fit.
 ### C. Every screen (checklist 1–4)
 
 The screens: the main window (rail, Project tree, Properties / Report / Plots / Code / Instructions tabs), the
