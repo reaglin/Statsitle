@@ -395,7 +395,7 @@ public sealed class TwoWayAnova : Analysis, IHasFigures, IUsesProject, IHasChoic
 
         if (table is null)
         {
-            Problem = "Choose the data table.";
+            Problem = DataSources.ChooseOrAdd(this, "Choose the data table.");
             return;
         }
 

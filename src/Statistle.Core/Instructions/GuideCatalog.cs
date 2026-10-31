@@ -75,7 +75,7 @@ public static class GuideCatalog
             [
                 "Click + Data table in the rail. Give it a name that says what was measured, and a description.",
                 "Paste the data into the Data box: the first line is the column names, then one row per line, columns separated by tabs, commas or semicolons. Straight from a spreadsheet works.",
-                "Or click Import to read a CSV, text or Excel file; pick the sheet and columns in the preview.",
+                "Or click Import… beside the Data box to read a CSV, text, .xd2 or Excel file. A preview shows the file (choose the sheet of a workbook there); every column of it replaces the table's columns, and Ctrl+Z puts the old data back.",
                 "Columns may differ in length — a shorter column simply ends earlier. Leave a cell blank for a missing value rather than typing zero.",
                 "Factor levels must be numeric codes (1, 2, 3 …), because a table holds numbers only. Say what the codes mean in the description.",
                 "Open an analysis and pick this table, or one of its columns, in the analysis's drop-down. The analysis links back to the table (Edit… beside the field).",
@@ -113,7 +113,7 @@ public static class GuideCatalog
                 "Leave Histogram classes blank to let Sturges' rule choose, or set the number of classes you want.",
                 "Read the Results column: count, mean, median, mode, variance and standard deviation, standard error, quartiles and fences, outliers, skewness and kurtosis, and the frequency table.",
                 "Open Plots for the histogram with the normal curve and the box plot; Report for everything with the sources.",
-                "Use the Calculate… link beside a sample mean or standard deviation in another analysis to hand these values across.",
+                "To use these numbers in another analysis, choose the same column there (most analyses read a data table column directly), or type the mean and standard deviation shown here into its summary fields.",
             ],
             ReadingResults:
                 "Mean and median close together with skewness near zero say the sample is roughly symmetric; a " +

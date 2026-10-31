@@ -36,7 +36,7 @@ public partial class AboutWindow : Window
         catch (Exception ex) when (ex is System.ComponentModel.Win32Exception or InvalidOperationException)
         {
             MessageBox.Show(this, $"Windows could not open a web browser. The address is {e.Uri.AbsoluteUri}",
-                "About Statistle", MessageBoxButton.OK, MessageBoxImage.Information);
+                "Statistle — About", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         e.Handled = true;

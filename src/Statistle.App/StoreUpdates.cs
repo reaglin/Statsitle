@@ -19,9 +19,14 @@ public static class StoreUpdates
     /// <summary>The version running now, as people read it (1.0.0) — the same text Help ▸ About shows.</summary>
     public static string CurrentVersion => Views.AboutWindow.AppVersion;
 
-    public static async Task CheckAsync(Window owner)
+    /// <param name="beforeInstall">Asked just before the install, which closes the program: the save question. False stops it.</param>
+    /// <param name="announce">Puts "Asking the Microsoft Store…" and the outcome in the status line.</param>
+    public static async Task CheckAsync(Window owner, Func<bool> beforeInstall, Action<string> announce)
     {
-        const string title = "Check for a new version";
+        ArgumentNullException.ThrowIfNull(beforeInstall);
+        ArgumentNullException.ThrowIfNull(announce);
+
+        const string title = ProgramName + " — Check for a new version";
         if (!IsFromStore())
         {
             if (MessageBox.Show(owner,
@@ -34,6 +39,8 @@ public static class StoreUpdates
 
         IReadOnlyList<StorePackageUpdate> updates;
         StoreContext store;
+        announce("Asking the Microsoft Store…");
+        System.Windows.Input.Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
         try
         {
             store = StoreContext.GetDefault();
@@ -43,16 +50,23 @@ public static class StoreUpdates
         }
         catch (Exception ex)
         {
+            System.Windows.Input.Mouse.OverrideCursor = null;
+            announce("The Microsoft Store could not be asked about a new version.");
             if (MessageBox.Show(owner,
-                    $"The Microsoft Store could not be asked about a new version (are you connected to the internet?).\n\n{ex.Message}\n\n" +
-                    $"Open {ProgramName}'s page on the Microsoft Store instead?",
+                    "The Microsoft Store could not be asked about a new version (are you connected to the internet?).\n\n" +
+                    $"Open {ProgramName}'s page on the Microsoft Store instead?\n\nDetails for support: {ex.Message}",
                     title, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 OpenStorePage(owner);
             return;
         }
+        finally
+        {
+            System.Windows.Input.Mouse.OverrideCursor = null;
+        }
 
         if (updates.Count == 0)
         {
+            announce($"You have the latest version of {ProgramName} ({CurrentVersion}).");
             MessageBox.Show(owner, $"You have the latest version of {ProgramName} ({CurrentVersion}).", title,
                 MessageBoxButton.OK, MessageBoxImage.Information);
             return;
@@ -60,10 +74,17 @@ public static class StoreUpdates
 
         if (MessageBox.Show(owner,
                 $"A new version of {ProgramName} is on the Microsoft Store (you have {CurrentVersion}).\n\n" +
-                $"Download and install it now? Your work is kept. When it is installed, {ProgramName} closes; open it again " +
-                "to use the new version. (No: the Store installs it later on its own.)",
+                $"Download and install it now? Windows closes {ProgramName} to install it; open it again from the Start menu. " +
+                "If you have unsaved changes, you are asked to save them first. (No: the Store installs it later on its own.)",
                 title, MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
             return;
+
+        // The install closes the program: unsaved work is saved or deliberately discarded first.
+        if (!beforeInstall())
+        {
+            announce("The new version was not installed; your project is still open.");
+            return;
+        }
 
         try
         {
@@ -72,7 +93,7 @@ public static class StoreUpdates
             {
                 StorePackageUpdateState.Completed => $"The new version is installed. Close {ProgramName} and open it again to use it.",
                 StorePackageUpdateState.Canceled => "The update was cancelled. You can check again at any time, or the Store will install it later.",
-                _ => $"The update did not finish ({result.OverallState}). The Microsoft Store will try again later, or open " +
+                _ => "The update did not finish. The Microsoft Store will try again later, or open " +
                      $"{ProgramName}'s page on the Store and press Update.",
             };
             MessageBox.Show(owner, message, title, MessageBoxButton.OK,
@@ -80,8 +101,8 @@ public static class StoreUpdates
         }
         catch (Exception ex)
         {
-            MessageBox.Show(owner, $"The update could not be started.\n\n{ex.Message}\n\nOpen {ProgramName}'s page on the Microsoft Store " +
-                "and press Update instead.", title, MessageBoxButton.OK, MessageBoxImage.Warning);
+            MessageBox.Show(owner, $"The update could not be started. Open {ProgramName}'s page on the Microsoft Store " +
+                $"and press Update instead.\n\nDetails for support: {ex.Message}", title, MessageBoxButton.OK, MessageBoxImage.Warning);
         }
     }
 
@@ -90,7 +111,7 @@ public static class StoreUpdates
         try { Process.Start(new ProcessStartInfo(StorePage) { UseShellExecute = true }); }
         catch (Exception ex) when (ex is System.ComponentModel.Win32Exception or InvalidOperationException)
         {
-            MessageBox.Show(owner, $"Windows could not open the page.\n\n{StorePage}", "Check for a new version",
+            MessageBox.Show(owner, $"Windows could not open a web browser. The Store page is at {StorePage}", ProgramName + " — Check for a new version",
                 MessageBoxButton.OK, MessageBoxImage.Warning);
         }
     }

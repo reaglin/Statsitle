@@ -12,13 +12,29 @@ namespace Statistle.App.Views;
 /// </summary>
 public partial class ImportDialog : Window
 {
+    /// <summary>What the import fills: one column of values, (x, y) pairs, or a whole data table.</summary>
+    public enum ImportKind
+    {
+        Values,
+        Pairs,
+        Table,
+    }
+
     private const int PreviewRows = 40;
 
     private readonly IReadOnlyList<ImportedTable> _tables;
     private readonly bool _pairs;
+    private readonly bool _wholeTable;
+    private readonly int _columnsNow;
     private ImportedTable _table;
 
     public ImportDialog(IReadOnlyList<ImportedTable> tables, bool pairs, string target, string fileName)
+        : this(tables, pairs ? ImportKind.Pairs : ImportKind.Values, target, fileName, 0)
+    {
+    }
+
+    /// <param name="columnsNow">For a whole table: how many columns it has now, which the import replaces.</param>
+    public ImportDialog(IReadOnlyList<ImportedTable> tables, ImportKind kind, string target, string fileName, int columnsNow)
     {
         ArgumentNullException.ThrowIfNull(tables);
 
@@ -30,22 +46,32 @@ public partial class ImportDialog : Window
         InitializeComponent();
 
         _tables = tables;
-        _pairs = pairs;
+        _pairs = kind == ImportKind.Pairs;
+        _wholeTable = kind == ImportKind.Table;
+        _columnsNow = columnsNow;
         _table = tables[0];
 
         Heading.Text = $"Import into {target}";
-        Summary.Text = pairs
-            ? $"{fileName}: choose the x and y columns. Rows where either is not a number are skipped; a header row is recognised."
-            : $"{fileName}: choose the column of values. Cells that are not numbers are skipped; a header row is recognised.";
+        Summary.Text = kind switch
+        {
+            ImportKind.Pairs => $"{fileName}: choose the x and y columns. Rows where either is not a number are skipped; a header row is recognised.",
+            ImportKind.Table => $"{fileName}: every column shown below becomes a column of the table, replacing the columns it has now. " +
+                                "Cells that are not numbers are skipped; a header row gives the column names." +
+                                (tables.Count > 1 ? " Choose the sheet to import." : string.Empty),
+            _ => $"{fileName}: choose the column of values. Cells that are not numbers are skipped; a header row is recognised.",
+        };
 
         SheetLabel.Visibility = tables.Count > 1 ? Visibility.Visible : Visibility.Collapsed;
         SheetBox.Visibility = SheetLabel.Visibility;
         SheetBox.ItemsSource = tables.Select(t => t.Name).ToList();
         SheetBox.SelectedIndex = 0;
 
-        SecondLabel.Visibility = pairs ? Visibility.Visible : Visibility.Collapsed;
+        SecondLabel.Visibility = _pairs ? Visibility.Visible : Visibility.Collapsed;
         SecondBox.Visibility = SecondLabel.Visibility;
-        FirstLabel.Text = pairs ? "x column" : "Value column";
+        FirstLabel.Text = _pairs ? "x column" : "Value column";
+        FirstLabel.Visibility = _wholeTable ? Visibility.Collapsed : Visibility.Visible;
+        FirstBox.Visibility = FirstLabel.Visibility;
+        FirstBox.ToolTip = _pairs ? "The column that holds the x values" : "The column whose numbers are imported";
 
         ShowTable(_table);
     }
@@ -55,6 +81,21 @@ public partial class ImportDialog : Window
 
     /// <summary>The pairs chosen, for an (x, y) series.</summary>
     public DataPoint[]? Pairs { get; private set; }
+
+    /// <summary>The sheet chosen, for a whole table. Set when the dialog closes with Import.</summary>
+    public ImportedTable? Table { get; private set; }
+
+    /// <summary>The columns of a sheet that hold numbers — the ones a whole-table import takes.</summary>
+    public static int[] NumericColumns(ImportedTable table)
+    {
+        ArgumentNullException.ThrowIfNull(table);
+        int[] counts = table.NumericCounts();
+        return [.. Enumerable.Range(0, table.ColumnCount).Where(i => counts[i] > 0)];
+    }
+
+    /// <summary>F1 in the dialog: the web help page on data tables and importing.</summary>
+    private void Help_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e) =>
+        WebHelp.Open(this, "data.html");
 
     private void ShowTable(ImportedTable table)
     {
@@ -119,20 +160,36 @@ public partial class ImportDialog : Window
             return;
         }
 
-        if (_pairs)
+        string header = _table.HasHeader ? " (header row skipped)." : ".";
+
+        if (_wholeTable)
+        {
+            int columns = NumericColumns(_table).Length;
+            int textOnly = _table.ColumnCount - columns;
+            Outcome.Text = $"{ViewModels.WorkspaceViewModel.Count(columns, "column", "columns")} will be imported" +
+                           (textOnly > 0 ? $" ({ViewModels.WorkspaceViewModel.Count(textOnly, "column", "columns")} with no numbers left out)" : string.Empty) +
+                           (_columnsNow > 0 ? $", replacing the {ViewModels.WorkspaceViewModel.Count(_columnsNow, "column", "columns")} the table has now" : string.Empty) +
+                           ". Edit ▸ Undo (Ctrl+Z) puts the old data back.";
+            OkButton.IsEnabled = columns > 0;
+        }
+        else if (_pairs)
         {
             int count = FirstBox.SelectedIndex >= 0 && SecondBox.SelectedIndex >= 0
                 ? _table.Pairs(FirstBox.SelectedIndex, SecondBox.SelectedIndex).Length
                 : 0;
-            Outcome.Text = $"{count} pair(s) will be imported" + (_table.HasHeader ? " (header row skipped)." : ".");
+            Outcome.Text = $"{ViewModels.WorkspaceViewModel.Count(count, "pair", "pairs")} will be imported" + header;
             OkButton.IsEnabled = count > 0;
         }
         else
         {
             int count = FirstBox.SelectedIndex >= 0 ? _table.Column(FirstBox.SelectedIndex).Length : 0;
-            Outcome.Text = $"{count} value(s) will be imported" + (_table.HasHeader ? " (header row skipped)." : ".");
+            Outcome.Text = $"{ViewModels.WorkspaceViewModel.Count(count, "value", "values")} will be imported" + header;
             OkButton.IsEnabled = count > 0;
         }
+
+        OkButton.ToolTip = OkButton.IsEnabled
+            ? "Imports what is described on the left and closes this window"
+            : "Nothing to import: the chosen column or sheet has no numbers";
     }
 
     private void SheetBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -147,7 +204,11 @@ public partial class ImportDialog : Window
 
     private void Ok_Click(object sender, RoutedEventArgs e)
     {
-        if (_pairs)
+        if (_wholeTable)
+        {
+            Table = _table;
+        }
+        else if (_pairs)
         {
             Pairs = _table.Pairs(FirstBox.SelectedIndex, SecondBox.SelectedIndex);
         }

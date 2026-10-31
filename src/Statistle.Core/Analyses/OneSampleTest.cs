@@ -324,7 +324,7 @@ public sealed class OneSampleTest : Analysis, IUsesProject, IHasChoices, ILinksT
 
             if (problem is not null || Sample.Count == 0)
             {
-                Problem = problem ?? "Choose the column holding the sample.";
+                Problem = problem ?? DataSources.ChooseOrAdd(this, "Choose the column holding the sample.");
                 return;
             }
 

@@ -372,7 +372,7 @@ public sealed class MultipleRegression : Analysis, IHasFigures, IUsesProject, IH
 
         if (table is null)
         {
-            Problem = "Choose the data table.";
+            Problem = DataSources.ChooseOrAdd(this, "Choose the data table.");
             return;
         }
 

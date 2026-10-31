@@ -6,6 +6,7 @@
     <Application.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
         <vm:EmptyStringToCollapsedConverter x:Key="EmptyToCollapsed" />
+        <vm:SameValueConverter x:Key="SameValue" />
 
         <!-- Workspace palette. Deliberately quiet: the figures carry the colour. -->
         <SolidColorBrush x:Key="RailBrush" Color="#1F2933" />

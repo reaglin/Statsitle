@@ -437,7 +437,7 @@ public sealed class ConfidenceInterval : Analysis, IUsesProject, IHasChoices, IL
 
         if (problem is not null || Sample.Count == 0)
         {
-            return problem ?? "Choose the column holding the sample.";
+            return problem ?? DataSources.ChooseOrAdd(this, "Choose the column holding the sample.");
         }
 
         double[] x = Sample.YValues;
@@ -448,7 +448,7 @@ public sealed class ConfidenceInterval : Analysis, IUsesProject, IHasChoices, IL
 
             if (problem is not null || Sample2.Count == 0)
             {
-                return problem ?? "Choose the column holding the second sample.";
+                return problem ?? DataSources.ChooseOrAdd(this, "Choose the column holding the second sample.");
             }
         }
 

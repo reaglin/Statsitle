@@ -105,6 +105,25 @@ public static class DataSources
     /// <summary>Separates the table id from the column name in a stored reference.</summary>
     private const char Separator = '␟';
 
+    /// <summary>
+    /// What an analysis that reads a data table says when the project has none yet — a way
+    /// forward rather than "Choose the data table." with nothing to choose (UX review 2026-10-31).
+    /// </summary>
+    public const string NoTablesYet =
+        "This analysis reads a data table, and the project has none yet. Click + Data table on the left, " +
+        "paste or Import your data, then come back and choose it here.";
+
+    /// <summary>
+    /// <paramref name="ask"/> ("Choose the data table.") when the project has a table to choose,
+    /// otherwise <see cref="NoTablesYet"/>.
+    /// </summary>
+    public static string ChooseOrAdd(IUsesProject analysis, string ask)
+    {
+        ArgumentNullException.ThrowIfNull(analysis);
+
+        return analysis.Project is { Tables.Count: 0 } ? NoTablesYet : ask;
+    }
+
     /// <summary>Builds the stored form of a column reference.</summary>
     public static string Reference(int tableId, string columnName) =>
         tableId <= 0 ? string.Empty : $"{tableId}{Separator}{columnName}";
@@ -182,7 +201,8 @@ public static class DataSources
 
         if (table is null)
         {
-            return $"Data table {tableId} is no longer in the project; the values shown are as last copied.";
+            return "The data table this analysis read from has been deleted, so the values shown are the ones last " +
+                   "copied from it. Choose another column, or press Ctrl+Z to bring the table back.";
         }
 
         DataColumn? column = table.Columns.Column(columnName);

@@ -11,6 +11,11 @@
         Title="{Binding Title}" Height="800" Width="1360"
         WindowStartupLocation="CenterScreen">
 
+    <!-- F1 (and Help ▸ Help for this screen): the Instructions tab for whatever is selected. -->
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Help" Executed="HelpForScreen_Executed" />
+    </Window.CommandBindings>
+
     <Window.InputBindings>
         <KeyBinding Key="N" Modifiers="Control" Command="{Binding NewCommand}" />
         <KeyBinding Key="O" Modifiers="Control" Command="{Binding OpenCommand}" />
@@ -135,6 +140,8 @@
             <Setter Property="HorizontalAlignment" Value="Left" />
             <EventSetter Event="GotKeyboardFocus" Handler="ValueBox_GotKeyboardFocus" />
             <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ValueBox_PreviewMouseLeftButtonDown" />
+            <EventSetter Event="PreviewKeyDown" Handler="ValueBox_PreviewKeyDown" />
+            <Setter Property="ToolTip" Value="Type a value, then press Enter or Tab to use it. Esc puts back the value in use." />
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsString}" Value="True">
                     <Setter Property="Width" Value="{StaticResource WideValueWidth}" />
@@ -174,6 +181,8 @@
             <Setter Property="AcceptsReturn" Value="True" />
             <Setter Property="AcceptsTab" Value="True" />
             <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+            <EventSetter Event="PreviewKeyDown" Handler="SeriesBox_PreviewKeyDown" />
+            <Setter Property="ToolTip" Value="Type or paste the data, then click elsewhere or press Tab to use it. Esc puts back the data in use." />
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsValid}" Value="False">
                     <Setter Property="BorderBrush" Value="#C0392B" />
@@ -198,12 +207,18 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
                     <CheckBox IsChecked="{Binding IsUsedByChosen, Mode=OneWay}" Style="{StaticResource UsageMark}" />
                     <ContentPresenter Grid.Column="1" Content="{Binding}" ContentTemplate="{StaticResource LabelCell}" />
                     <TextBox Grid.Column="2"
                              Text="{Binding Text, UpdateSourceTrigger=LostFocus}"
                              IsReadOnly="{Binding IsReadOnly}"
+                             AutomationProperties.Name="{Binding Label}"
                              Style="{StaticResource ValueBox}" />
+                    <TextBlock Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Style="{StaticResource RejectionText}" />
                     <StackPanel Grid.Column="3" Orientation="Horizontal">
                         <TextBlock Text="{Binding UnitLabel}"
                                    Style="{StaticResource UnitLabel}"
@@ -229,9 +244,15 @@
                         <ColumnDefinition Width="{Binding LabelWidth, Converter={StaticResource WidthToGridLength}}" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
                     <CheckBox IsChecked="{Binding IsUsedByChosen, Mode=OneWay}" Style="{StaticResource UsageMark}" />
                     <ContentPresenter Grid.Column="1" Content="{Binding}" ContentTemplate="{StaticResource LabelCell}" />
                     <ComboBox Grid.Column="2"
+                              AutomationProperties.Name="{Binding Label}"
+                              ToolTip="Choose one; the help panel below explains the choice"
                               ItemsSource="{Binding EnumValues}"
                               SelectedItem="{Binding Text}"
                               HorizontalAlignment="Left" Width="{StaticResource WideValueWidth}"
@@ -249,6 +270,10 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
                     <CheckBox IsChecked="{Binding IsUsedByChosen, Mode=OneWay}" Style="{StaticResource UsageMark}"
                               VerticalAlignment="Top" Margin="0,6,8,0" />
                     <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="0,4,10,0">
@@ -259,7 +284,9 @@
                     <TextBox Grid.Column="2"
                              Text="{Binding Text, UpdateSourceTrigger=LostFocus}"
                              IsReadOnly="{Binding IsReadOnly}"
+                             AutomationProperties.Name="{Binding Label}"
                              Style="{StaticResource SeriesBox}" />
+                    <TextBlock Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Style="{StaticResource RejectionText}" />
                     <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Top">
                         <TextBlock Text="{Binding UnitLabel}"
                                    Style="{StaticResource UnitLabel}"
@@ -270,7 +297,7 @@
                                 Visibility="{Binding HasLink, Converter={StaticResource BoolToVisibility}}" />
                         <Button Click="ImportSeries_Click" Content="Import…"
                                 Style="{StaticResource EditLink}"
-                                ToolTip="Fill from a text, CSV, .xd2 or Excel .xlsx file"
+                                ToolTip="Fill from a text, CSV, .xd2 or Excel .xlsx file: you choose the column in a preview, and it replaces the values now in the box. Ctrl+Z puts them back."
                                 VerticalAlignment="Top" Margin="10,4,0,0"
                                 Visibility="{Binding CanImport, Converter={StaticResource BoolToVisibility}}" />
                     </StackPanel>
@@ -286,10 +313,16 @@
                         <ColumnDefinition Width="{Binding LabelWidth, Converter={StaticResource WidthToGridLength}}" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
                     <CheckBox IsChecked="{Binding IsUsedByChosen, Mode=OneWay}" Style="{StaticResource UsageMark}" />
                     <ContentPresenter Grid.Column="1" Content="{Binding}" ContentTemplate="{StaticResource LabelCell}" />
                     <StackPanel Grid.Column="2" Orientation="Horizontal">
                         <ComboBox ItemsSource="{Binding Choices}"
+                                  AutomationProperties.Name="{Binding Label}"
+                                  ToolTip="Choose one; the help panel below explains the choice"
                                   SelectedItem="{Binding SelectedChoice}"
                                   DisplayMemberPath="Label"
                                   HorizontalAlignment="Left" Width="{StaticResource WideValueWidth}"
@@ -314,6 +347,10 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
                     <CheckBox IsChecked="{Binding IsUsedByChosen, Mode=OneWay}" Style="{StaticResource UsageMark}"
                               VerticalAlignment="Top" Margin="0,6,8,0" />
                     <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="0,4,10,0">
@@ -324,7 +361,9 @@
                     <TextBox Grid.Column="2"
                              Text="{Binding Text, UpdateSourceTrigger=LostFocus}"
                              IsReadOnly="{Binding IsReadOnly}"
+                             AutomationProperties.Name="{Binding Label}"
                              Style="{StaticResource SeriesBox}" />
+                    <TextBlock Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Style="{StaticResource RejectionText}" />
                     <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Top">
                         <Button Click="EditLink_Click"
                                 Style="{StaticResource EditLink}"
@@ -332,13 +371,50 @@
                                 Visibility="{Binding HasLink, Converter={StaticResource BoolToVisibility}}" />
                         <Button Click="ImportSeries_Click" Content="Import…"
                                 Style="{StaticResource EditLink}"
-                                ToolTip="Fill every column from a text, CSV, .xd2 or Excel .xlsx file"
+                                ToolTip="Fill the table from a text, CSV, .xd2 or Excel .xlsx file: a preview shows the file (and lets you choose the sheet), and every column replaces the table's columns. Ctrl+Z puts them back."
                                 VerticalAlignment="Top" Margin="10,4,0,0"
                                 Visibility="{Binding CanImport, Converter={StaticResource BoolToVisibility}}" />
                     </StackPanel>
                 </Grid>
             </Border>
         </DataTemplate>
+
+        <!-- Why a typed value or a paste was not used, under the box (UX review 2026-10-31). -->
+        <Style x:Key="RejectionText" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#A93226" />
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="MaxWidth" Value="440" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Margin" Value="0,3,0,2" />
+            <Setter Property="Text" Value="{Binding RejectionMessage}" />
+            <Setter Property="Visibility" Value="{Binding HasRejection, Converter={StaticResource BoolToVisibility}}" />
+        </Style>
+
+        <!-- A rail button; the one for the analysis open now is lit, so the rail says where you are. -->
+        <Style x:Key="RailButton" TargetType="Button">
+            <Setter Property="Margin" Value="10,0,10,6" />
+            <Setter Property="Padding" Value="6,5" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="Background" Value="#2F3E4C" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Style.Triggers>
+                <DataTrigger Value="True">
+                    <DataTrigger.Binding>
+                        <MultiBinding Converter="{StaticResource SameValue}">
+                            <Binding Path="ToolType" />
+                            <Binding Path="DataContext.SelectedToolType" RelativeSource="{RelativeSource AncestorType=Window}" />
+                        </MultiBinding>
+                    </DataTrigger.Binding>
+                    <Setter Property="Background" Value="#4F6F8F" />
+                    <Setter Property="FontWeight" Value="SemiBold" />
+                    <Setter Property="BorderBrush" Value="#F5C542" />
+                    <Setter Property="BorderThickness" Value="3,0,0,0" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
 
         <vm:RowTemplateSelector x:Key="RowSelector"
                                 Text="{StaticResource TextRow}"
@@ -351,37 +427,64 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="_New project" Command="{Binding NewCommand}" InputGestureText="Ctrl+N" />
-                <MenuItem Header="_Open…" Command="{Binding OpenCommand}" InputGestureText="Ctrl+O" />
+                <MenuItem Header="_New project" Command="{Binding NewCommand}" InputGestureText="Ctrl+N"
+                          ToolTip="Starts an empty project. If the open one has unsaved changes, you are asked to save them first." />
+                <MenuItem Header="_Open…" Command="{Binding OpenCommand}" InputGestureText="Ctrl+O"
+                          ToolTip="Opens a Statistle project (.statistle) from your computer; Documents\Statistle is where they are kept" />
+                <MenuItem Header="Open the sa_mple project" Command="{Binding OpenSampleCommand}"
+                          ToolTip="Opens the demonstration project — data tables from the course, ready for every analysis — to see how Statistle works" />
                 <Separator />
-                <MenuItem Header="_Save" Command="{Binding SaveCommand}" InputGestureText="Ctrl+S" />
-                <MenuItem Header="Save _As…" Command="{Binding SaveAsCommand}" />
+                <MenuItem Header="_Save" Command="{Binding SaveCommand}" InputGestureText="Ctrl+S"
+                          ToolTip="Saves the project to its file (asks where the first time)" />
+                <MenuItem Header="Save _As…" Command="{Binding SaveAsCommand}"
+                          ToolTip="Saves the project under a new name or in another folder" />
                 <Separator />
-                <MenuItem Header="_Export selected artifact…" Command="{Binding ExportCommand}" />
+                <MenuItem Header="_Export selected item as XML (advanced)…" Command="{Binding ExportCommand}"
+                          ToolTip="Writes the selected data table or analysis as an XML file, for sharing one item or for checking. Most people never need this."
+                          ToolTipService.ShowOnDisabled="True" />
                 <Separator />
-                <MenuItem Header="_Report…" Command="{Binding ReportCommand}" />
-                <MenuItem Header="Export report as _PDF…" Command="{Binding ExportPdfCommand}" />
-                <MenuItem Header="Export data as _CSV…" Command="{Binding ExportCsvCommand}" />
+                <MenuItem Header="Open report in _browser" Command="{Binding ReportCommand}"
+                          ToolTip="Opens the report of the selected item in your web browser, to print or copy. Select a data table or an analysis first."
+                          ToolTipService.ShowOnDisabled="True" />
+                <MenuItem Header="Save report as _PDF…" Command="{Binding ExportPdfCommand}"
+                          ToolTip="Saves the report of the selected item, with its plots, as a PDF for your assignment. Select a data table or an analysis first."
+                          ToolTipService.ShowOnDisabled="True" />
+                <MenuItem Header="Export data as _CSV…" Command="{Binding ExportCsvCommand}"
+                          ToolTip="Saves the selected item's numbers as a CSV file that Excel opens. Select a data table or an analysis first."
+                          ToolTipService.ShowOnDisabled="True" />
                 <Separator />
-                <MenuItem Header="E_xit" Click="Exit_Click" />
+                <MenuItem Header="E_xit" Click="Exit_Click"
+                          ToolTip="Closes Statistle. If the project has unsaved changes, you are asked to save them first." />
             </MenuItem>
             <MenuItem Header="_Edit">
-                <MenuItem Header="_Undo" Command="{Binding UndoCommand}" InputGestureText="Ctrl+Z" />
+                <MenuItem Header="_Undo" Command="{Binding UndoCommand}" InputGestureText="Ctrl+Z"
+                          ToolTip="Puts back what the last add, delete, import or Use result changed. Nothing to undo yet when it is greyed. (A typed value is changed back by typing it again.)"
+                          ToolTipService.ShowOnDisabled="True" />
             </MenuItem>
             <MenuItem Header="_Project">
-                <MenuItem Header="Add data _table" Command="{Binding AddTableCommand}" />
+                <MenuItem Header="Add data _table" Command="{Binding AddTableCommand}"
+                          ToolTip="Adds an empty data table to the project, to paste or import your numbers into" />
                 <Separator />
-                <MenuItem Header="_Delete selected" Command="{Binding DeleteCommand}" />
+                <MenuItem Header="_Delete selected data table…" Command="{Binding DeleteCommand}"
+                          ToolTip="Deletes the data table selected in the project tree (you are asked first; Ctrl+Z brings it back). Analyses are opened from the list on the left; only data tables can be deleted."
+                          ToolTipService.ShowOnDisabled="True" />
             </MenuItem>
             <MenuItem Header="_Help">
+                <MenuItem Header="_Help for this screen" Command="ApplicationCommands.Help" InputGestureText="F1"
+                          ToolTip="Shows the Instructions tab for what is selected: what it is for, the steps, and every entry and result explained" />
+                <MenuItem Header="Help on the _web (softwareplus.ai/statistle)" Click="WebHelp_Click"
+                          ToolTip="Opens Statistle's help on SoftwarePlus.ai in your web browser" />
+                <Separator />
                 <MenuItem Header="Check for a _new version…" Click="CheckForUpdate_Click" ToolTip="Asks the Microsoft Store whether a newer version of Statistle is out, and offers to install it" />
-                <MenuItem Header="_About Statistle" Click="About_Click" />
+                <MenuItem Header="_About Statistle…" Click="About_Click"
+                          ToolTip="Who made Statistle, its version, and links to its page, its Store page, all programs and the privacy policy" />
             </MenuItem>
         </Menu>
 
         <Border DockPanel.Dock="Bottom"
                 BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0" Padding="14,6">
-            <TextBlock Text="{Binding Status}" Foreground="{StaticResource MutedTextBrush}" FontSize="11" />
+            <TextBlock Text="{Binding Status}" Foreground="{StaticResource MutedTextBrush}" FontSize="11"
+                       ToolTip="What Statistle did last" AutomationProperties.Name="Status" />
         </Border>
 
         <Grid>
@@ -402,7 +505,7 @@
                     <TextBlock Text="PROJECT" Foreground="{StaticResource RailTextBrush}"
                                FontSize="10" Margin="16,0,0,6" />
                     <Button Content="+ Data table" Command="{Binding AddTableCommand}"
-                            ToolTip="A table of columns of numbers, for any analysis to read"
+                            ToolTip="Adds a data table to the project: columns of numbers, pasted or imported, for any analysis to read"
                             Margin="10,0,10,6" Padding="6,5" BorderThickness="0"
                             Background="#2F3E4C" Foreground="White" Cursor="Hand" />
 
@@ -412,9 +515,8 @@
                             <DataTemplate>
                                 <Button ToolTip="{Binding Summary}"
                                         Click="Tool_Click" Tag="{Binding}"
-                                        Margin="10,0,10,6" Padding="6,5" BorderThickness="0"
-                                        HorizontalContentAlignment="Left"
-                                        Background="#2F3E4C" Foreground="White" Cursor="Hand">
+                                        AutomationProperties.Name="{Binding Title}"
+                                        Style="{StaticResource RailButton}">
                                     <TextBlock Text="{Binding Title}" TextWrapping="Wrap" />
                                 </Button>
                             </DataTemplate>
@@ -428,9 +530,8 @@
                             <DataTemplate>
                                 <Button ToolTip="{Binding Summary}"
                                         Click="Tool_Click" Tag="{Binding}"
-                                        Margin="10,0,10,6" Padding="6,5" BorderThickness="0"
-                                        HorizontalContentAlignment="Left"
-                                        Background="#2F3E4C" Foreground="White" Cursor="Hand">
+                                        AutomationProperties.Name="{Binding Title}"
+                                        Style="{StaticResource RailButton}">
                                     <TextBlock Text="{Binding Title}" TextWrapping="Wrap" />
                                 </Button>
                             </DataTemplate>
@@ -444,8 +545,12 @@
                     BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,1,0">
                 <DockPanel Margin="12,14,12,12">
                     <TextBlock DockPanel.Dock="Top" Text="Project" FontWeight="SemiBold" Margin="0,0,0,8" />
-                    <Button DockPanel.Dock="Bottom" Content="Delete selected"
+                    <TextBlock DockPanel.Dock="Top" Text="Your data tables. Click one to edit it; analyses are opened from the list on the left."
+                               Foreground="{StaticResource MutedTextBrush}" FontSize="11" TextWrapping="Wrap" Margin="0,0,0,8" />
+                    <Button DockPanel.Dock="Bottom" Content="Delete selected data table…"
                             Command="{Binding DeleteCommand}"
+                            ToolTip="Deletes the data table selected above (you are asked first; Ctrl+Z brings it back). Analyses are opened from the list on the left; only data tables can be deleted."
+                            ToolTipService.ShowOnDisabled="True"
                             Margin="0,8,0,0" Padding="6,4" BorderThickness="0"
                             Background="#E4E8ED" Cursor="Hand" />
                     <TreeView x:Name="ProjectTree"
@@ -465,7 +570,7 @@
 
             <!-- Content -->
             <TabControl Grid.Column="2" Margin="10" x:Name="ContentTabs">
-                <TabItem Header="Properties">
+                <TabItem Header="Properties" ToolTip="Enter the data and settings of the selected item and read its results; the help panel explains the field you are in">
                     <!-- Three quarters entry, one quarter help. The help describes the field
                          with the focus, or the whole item when no field has it. -->
                     <Grid Margin="14,12,14,14">
@@ -478,6 +583,25 @@
                             <TextBlock DockPanel.Dock="Top" Text="{Binding SelectedHeading}"
                                        FontSize="15" FontWeight="SemiBold" Margin="0,0,0,8" />
 
+                            <!-- Nothing selected: say what to do, with a button for the first step (checklist 1.4, 1.5). -->
+                            <Border DockPanel.Dock="Top" Background="#EEF3F8" Padding="12,10" CornerRadius="3" Margin="0,0,0,8"
+                                    Visibility="{Binding IsEmptyState, Converter={StaticResource BoolToVisibility}}">
+                                <StackPanel>
+                                    <TextBlock TextWrapping="Wrap" Foreground="#33506B"
+                                               Text="Statistle computes the statistics of your course, explains every input and result, and writes the Python and R that give the same numbers. New here? Open the sample project to see it with data already in it. Or click + Data table to enter your own numbers, then pick an analysis on the left." />
+                                    <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                        <Button Content="Open the sample project" Command="{Binding OpenSampleCommand}"
+                                                ToolTip="Opens the demonstration project — data tables from the course, ready for every analysis"
+                                                Padding="10,4" BorderThickness="0" FontWeight="SemiBold"
+                                                Background="#2F3E4C" Foreground="White" Cursor="Hand" />
+                                        <Button Content="+ Data table" Command="{Binding AddTableCommand}"
+                                                ToolTip="Adds an empty data table to paste or import your numbers into"
+                                                Padding="10,4" Margin="8,0,0,0" BorderThickness="0"
+                                                Background="#E4E8ED" Cursor="Hand" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
                             <!-- An analysis opened from another object's field says where its
                                  result will go, and offers to put it there. -->
                             <Border DockPanel.Dock="Top" Background="#FFF6DD" Padding="10,7"
@@ -486,10 +610,12 @@
                                 <DockPanel>
                                     <Button DockPanel.Dock="Right" Content="Cancel"
                                             Command="{Binding CancelHandoffCommand}"
+                                            ToolTip="Goes back to where you came from without changing anything"
                                             Padding="10,3" Margin="6,0,0,0" BorderThickness="0"
                                             Background="#E4E8ED" Cursor="Hand" VerticalAlignment="Center" />
                                     <Button DockPanel.Dock="Right" Content="Use result"
                                             Command="{Binding UseResultCommand}"
+                                            ToolTip="Puts this analysis's result into the field you came from, and goes back there (Ctrl+Z undoes it)"
                                             Padding="10,3" BorderThickness="0" FontWeight="SemiBold"
                                             Background="#2F3E4C" Foreground="White" Cursor="Hand"
                                             VerticalAlignment="Center" />
@@ -578,22 +704,28 @@
 
                 <!-- The report: the same object the HTML, text and PDF writers render, with
                      the item's plots in place. -->
-                <TabItem Header="Report">
+                <TabItem Header="Report" ToolTip="The report of the selected item, to save as PDF for your assignment">
                     <DockPanel>
                         <DockPanel DockPanel.Dock="Top" Margin="14,10,14,6">
                             <Button DockPanel.Dock="Right" Content="Export data as CSV…"
                                     Command="{Binding ExportCsvCommand}"
+                                    ToolTip="Saves the selected item's numbers as a CSV file that Excel opens. Select a data table or an analysis first."
+                                    ToolTipService.ShowOnDisabled="True"
                                     Padding="8,3" Margin="8,0,0,0" BorderThickness="0"
                                     Background="#E4E8ED" Cursor="Hand" />
-                            <Button DockPanel.Dock="Right" Content="Save as PDF…"
+                            <Button DockPanel.Dock="Right" Content="Save report as PDF…"
                                     Command="{Binding ExportPdfCommand}"
+                                    ToolTip="Saves this report, with its plots, as a PDF for your assignment. Select a data table or an analysis first."
+                                    ToolTipService.ShowOnDisabled="True"
                                     Padding="8,3" Margin="8,0,0,0" BorderThickness="0"
                                     Background="#E4E8ED" Cursor="Hand" />
                             <Button DockPanel.Dock="Right" Content="Open in browser"
                                     Command="{Binding ReportCommand}"
+                                    ToolTip="Opens this report in your web browser, to print or copy. Select a data table or an analysis first."
+                                    ToolTipService.ShowOnDisabled="True"
                                     Padding="8,3" BorderThickness="0"
                                     Background="#E4E8ED" Cursor="Hand" />
-                            <TextBlock Text="The report of the selected item: its values grouped by role, its plots, and the sources of the methods that produced the numbers. Every item has one; nothing is written per analysis."
+                            <TextBlock Text="The report of the selected item: its values grouped by role, its plots, and the sources of its methods. Save it as PDF for your report."
                                        Foreground="{StaticResource MutedTextBrush}" FontSize="11"
                                        TextWrapping="Wrap" VerticalAlignment="Center" Margin="0,0,10,0" />
                         </DockPanel>
@@ -607,10 +739,10 @@
                 </TabItem>
 
                 <!-- Every figure the item declares, one panel each. -->
-                <TabItem Header="Plots">
+                <TabItem Header="Plots" ToolTip="The figures of the selected item: histograms, box plots, distributions, fitted lines">
                     <DockPanel>
                         <TextBlock DockPanel.Dock="Top"
-                                   Text="Scroll to zoom, drag to pan; each plot has its own reset and save. A regression draws its observations with the fitted form through them. An item with nothing to draw says so."
+                                   Text="The figures of the selected item. Scroll to zoom, drag to pan; each plot has its own reset and save. A regression draws its observations with the fitted form through them. An item with nothing to draw says so."
                                    Foreground="{StaticResource MutedTextBrush}" FontSize="11"
                                    Margin="14,10,14,6" TextWrapping="Wrap" />
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -620,18 +752,24 @@
                 </TabItem>
 
                 <!-- The code that reproduces the selected item, in the course's two languages. -->
-                <TabItem Header="Code">
+                <TabItem Header="Code" ToolTip="The Python or R that reproduces the selected item's numbers">
                     <DockPanel>
                         <DockPanel DockPanel.Dock="Top" Margin="14,10,14,6">
                             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
-                                <RadioButton Content="Python" IsChecked="{Binding IsPython}" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                <RadioButton Content="R" IsChecked="{Binding IsR}" Margin="0,0,14,0" VerticalAlignment="Center" />
-                                <Button Content="Copy" Command="{Binding CopyCodeCommand}"
+                                <RadioButton Content="Python" IsChecked="{Binding IsPython}" Margin="0,0,10,0" VerticalAlignment="Center"
+                                             ToolTip="Show the code in Python (numpy, scipy.stats), for Colab or Jupyter" />
+                                <RadioButton Content="R" IsChecked="{Binding IsR}" Margin="0,0,14,0" VerticalAlignment="Center"
+                                             ToolTip="Show the code in R (base R, no packages), for RStudio" />
+                                <Button Content="Copy code" Command="{Binding CopyCodeCommand}"
+                                        ToolTip="Copies the code shown below to the clipboard, to paste into Colab, Jupyter or RStudio. Select a data table or an analysis first."
+                                        ToolTipService.ShowOnDisabled="True"
                                         Padding="8,3" BorderThickness="0" Background="#E4E8ED" Cursor="Hand" />
-                                <Button Content="Save as…" Command="{Binding SaveCodeCommand}"
+                                <Button Content="Save code as…" Command="{Binding SaveCodeCommand}"
+                                        ToolTip="Saves the code shown below as a .py or .R file. Select a data table or an analysis first."
+                                        ToolTipService.ShowOnDisabled="True"
                                         Padding="8,3" Margin="8,0,0,0" BorderThickness="0" Background="#E4E8ED" Cursor="Hand" />
                             </StackPanel>
-                            <TextBlock Text="The Python or R that reproduces the selected item: a data table as variables, an analysis as its data followed by the same results printed in the same order, with the course's libraries (numpy, scipy.stats; base R). Run it in Colab or R and check it against the Results column; it belongs in the appendix of your report."
+                            <TextBlock Text="The Python or R that reproduces the selected item: a data table as variables, an analysis as its data followed by the same results printed in the same order, with the course's libraries (numpy, scipy.stats; base R). Run it in Colab or R and check that it prints the same numbers as the Properties tab; it belongs in the appendix of your report."
                                        Foreground="{StaticResource MutedTextBrush}" FontSize="11"
                                        TextWrapping="Wrap" VerticalAlignment="Center" Margin="0,0,10,0" />
                         </DockPanel>
@@ -648,20 +786,29 @@
                 <!-- The full instructions for the selected item's kind: what it is, when to use it,
                      how, and every entry, result and method explained. Generated from the metadata
                      and the item's guide; the overview of Statistle when nothing is selected. -->
-                <TabItem Header="Instructions">
+                <TabItem Header="Instructions" ToolTip="How and when to use the selected item, step by step (F1)">
                     <DockPanel>
                         <DockPanel DockPanel.Dock="Top" Margin="14,10,14,6">
-                            <Button DockPanel.Dock="Right" Content="Save as…"
+                            <Button DockPanel.Dock="Right" Content="Save instructions as…"
                                     Command="{Binding SaveInstructionsCommand}"
+                                    ToolTip="Saves these instructions as a web page (.html) or plain text (.txt)"
                                     Padding="8,3" Margin="8,0,0,0" BorderThickness="0"
                                     Background="#E4E8ED" Cursor="Hand" />
                             <Button DockPanel.Dock="Right" Content="Open in browser"
                                     Command="{Binding OpenInstructionsCommand}"
+                                    ToolTip="Opens these instructions in your web browser, to print or read beside Statistle"
                                     Padding="8,3" BorderThickness="0"
                                     Background="#E4E8ED" Cursor="Hand" />
-                            <TextBlock Text="How and when to use the selected item: the statistic, the steps in Statistle, how to read the results, what to watch for, a worked example, and every entry, result and method with its source. With nothing selected, how Statistle as a whole is used."
-                                       Foreground="{StaticResource MutedTextBrush}" FontSize="11"
-                                       TextWrapping="Wrap" VerticalAlignment="Center" Margin="0,0,10,0" />
+                            <StackPanel VerticalAlignment="Center" Margin="0,0,10,0">
+                                <TextBlock Text="How and when to use the selected item: the statistic, the steps in Statistle, how to read the results, what to watch for, a worked example, and every entry, result and method with its source. With nothing selected, how Statistle as a whole is used. F1 opens this tab from anywhere."
+                                           Foreground="{StaticResource MutedTextBrush}" FontSize="11" TextWrapping="Wrap" />
+                                <TextBlock FontSize="11" Margin="0,3,0,0">
+                                    <Hyperlink Click="WebHelpForItem_Click"
+                                               ToolTip="Opens the page of Statistle's help on SoftwarePlus.ai about the selected item, in your web browser">
+                                        <Run Text="{Binding WebHelpText, Mode=OneWay}" />
+                                    </Hyperlink>
+                                </TextBlock>
+                            </StackPanel>
                         </DockPanel>
                         <Border Margin="14,0,14,10" BorderBrush="{StaticResource BorderBrush}"
                                 BorderThickness="1" Background="White">

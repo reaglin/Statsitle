@@ -527,7 +527,7 @@ public sealed class OneWayAnova : Analysis, IHasFigures, IUsesProject, IHasChoic
 
         if (table is null)
         {
-            return "Choose the data table.";
+            return DataSources.ChooseOrAdd(this, "Choose the data table.");
         }
 
         if (Layout == GroupLayout.ColumnsAreGroups)

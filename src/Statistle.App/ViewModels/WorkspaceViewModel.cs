@@ -21,11 +21,16 @@ namespace Statistle.App.ViewModels;
 /// </summary>
 public sealed class WorkspaceViewModel : INotifyPropertyChanged
 {
-    private const string Filter = "Statistle project (*.statistle)|*.statistle|All files (*.*)|*.*";
-
     private const int UndoDepth = 50;
 
+    private const string AutosaveFileName = "autosave.statistle";
+
+    /// <summary>Beside the autosave: the project file it belongs to (empty for an untitled project).</summary>
+    private const string AutosavePathFileName = "autosave.path";
+
     private readonly List<string> _undo = [];
+    private readonly IWorkspaceDialogs _dialogs;
+    private readonly string _autosaveFolder;
 
     private StatistleDocument _document = new();
     private StatistleObject? _selected;
@@ -37,9 +42,21 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
     private double _seriesBoxHeight = 170;
 
     public WorkspaceViewModel()
+        : this(null, null)
     {
+    }
+
+    /// <param name="dialogs">The questions and messages put to the person; the Windows ones when null.</param>
+    /// <param name="autosaveFolder">Where the recovery copy goes; <c>%LOCALAPPDATA%\Statistle</c> when null.</param>
+    public WorkspaceViewModel(IWorkspaceDialogs? dialogs, string? autosaveFolder)
+    {
+        _dialogs = dialogs ?? new WpfWorkspaceDialogs();
+        _autosaveFolder = autosaveFolder ?? Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Statistle");
+
         NewCommand = new RelayCommand(New);
         OpenCommand = new RelayCommand(Open);
+        OpenSampleCommand = new RelayCommand(OpenSample);
         SaveCommand = new RelayCommand(() => Save(saveAs: false));
         SaveAsCommand = new RelayCommand(() => Save(saveAs: true));
         AddTableCommand = new RelayCommand(
@@ -47,9 +64,9 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
             {
                 PushUndo();
                 Select(Document.AddTable());
-            },
-            MarkDirtyAfterAdd);
-        DeleteCommand = new RelayCommand(Delete, () => Selected is not null);
+            });
+        // Only a data table can be deleted; an analysis is opened from the rail, not owned by the tree.
+        DeleteCommand = new RelayCommand(Delete, () => Selected is DataTable);
         ExportCommand = new RelayCommand(Export, () => Selected is not null);
         UndoCommand = new RelayCommand(Undo, () => _undo.Count > 0);
         ReportCommand = new RelayCommand(ShowReport, () => Selected is not null);
@@ -75,6 +92,24 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
     public RelayCommand NewCommand { get; }
 
     public RelayCommand OpenCommand { get; }
+
+    /// <summary>File ▸ Open the sample project: the demonstration project in Documents\Statistle.</summary>
+    public RelayCommand OpenSampleCommand { get; }
+
+    /// <summary>
+    /// Set by the window: pushes whatever is typed in the focused box into its row, so Save,
+    /// Copy and the exports use the value on screen and not the last one committed (a box
+    /// otherwise commits only when it loses focus).
+    /// </summary>
+    public Action? CommitPendingEdit { get; set; }
+
+    private void CommitEdits() => CommitPendingEdit?.Invoke();
+
+    /// <summary>Puts a message in the status bar (the window's import, for one).</summary>
+    public void Announce(string message) => Status = message;
+
+    /// <summary>"1 data table", "2 data tables".</summary>
+    public static string Count(int n, string one, string many) => $"{n} {(n == 1 ? one : many)}";
 
     public RelayCommand SaveCommand { get; }
 
@@ -147,6 +182,8 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
 
     private void CopyCode()
     {
+        CommitEdits();
+
         try
         {
             System.Windows.Clipboard.SetText(CodeText);
@@ -160,6 +197,8 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
 
     private void SaveCode()
     {
+        CommitEdits();
+
         if (Selected is null)
         {
             return;
@@ -347,9 +386,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
 
             if (Selected is null)
             {
-                return "Select a data table in the project tree, add one with + Data table, or open " +
-                       "an analysis. This panel describes whichever field you click into; with no " +
-                       "field selected it describes the item as a whole.";
+                return EmptyStateHelp;
             }
 
             string overall = StatistleObject.HelpOf(Selected.GetType());
@@ -370,6 +407,24 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
             return methods.Length == 0 ? overall : $"{overall}\n\n{methods}";
         }
     }
+
+    /// <summary>What the help panel says with nothing selected — a first-time user's way in (UX review 2026-10-31).</summary>
+    public const string EmptyStateHelp =
+        "New here? Open the sample project (File ▸ Open the sample project) to see Statistle with data already in it. " +
+        "Or click + Data table to enter your own numbers, then pick an analysis on the left. " +
+        "This panel describes whichever field you click into; with no field selected it describes the item as a whole.";
+
+    /// <summary>True when nothing is selected: the Properties tab offers the sample project.</summary>
+    public bool IsEmptyState => Selected is null;
+
+    /// <summary>The analysis open now, so the rail can highlight its button; null for a data table or nothing.</summary>
+    public Type? SelectedToolType => (Selected as Analysis)?.GetType();
+
+    /// <summary>The page of the help on SoftwarePlus.ai about the selected item ("data.html").</summary>
+    public string WebHelpPage => WebHelp.PageFor(Selected);
+
+    /// <summary>The Instructions tab's link: where on the web to read more about the selected item.</summary>
+    public string WebHelpText => $"More on the web: {WebHelp.Display(WebHelpPage)}";
 
     /// <summary>Why the selected item could not compute, or empty. Comes from the item itself.</summary>
     public string ProblemNote => (Selected as IReportsProblem)?.Problem ?? string.Empty;
@@ -420,6 +475,10 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
             BuildRows();
             Raise(nameof(Selected));
             Raise(nameof(SelectedHeading));
+            Raise(nameof(IsEmptyState));
+            Raise(nameof(SelectedToolType));
+            Raise(nameof(WebHelpPage));
+            Raise(nameof(WebHelpText));
             Raise(nameof(ResultsBeside));
             Raise(nameof(ResultsBelow));
             Raise(nameof(ResultsHeading));
@@ -461,7 +520,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
             string methods = string.Join(
                 ", ", MethodScope.ActiveMethods(Selected).Select(m => m.Name));
 
-            return $"Showing {methods}. {hidden} field(s) belonging to other methods are hidden.";
+            return $"Showing {methods}. {Count(hidden, "field belonging to another method is", "fields belonging to other methods are")} hidden.";
         }
     }
 
@@ -573,7 +632,6 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         _handoff = null;
         Selected = target;
         MarkDirty();
-        Autosave();
         RaiseHandoffChanged();
 
         Status = $"{property.Label} set to {target.Display(property, Document.Units)} " +
@@ -667,24 +725,67 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         Selected is null ? null : ReportBuilder.For(Selected, Document.Units);
 
     /// <summary>Opens a project the app was activated with (double-clicked .statistle file).</summary>
-    public void OpenPath(string path)
+    /// <returns>True when the project was opened; false (the current project left as it was) when it could not be.</returns>
+    public bool OpenPath(string path)
+    {
+        if (TryRead(path, out StatistleDocument? opened, out string reason) is false)
+        {
+            Status = $"Could not open {Path.GetFileName(path)}: {reason}";
+            _dialogs.ShowError(
+                "Statistle — Could not open the project",
+                $"Statistle could not open {Path.GetFileName(path)}: {reason}\n\n" +
+                "The project you had open is still open. Check that the file is a Statistle project (.statistle) " +
+                "and that it is not open in another program, then try again.");
+            return false;
+        }
+
+        Show(opened!);
+        return true;
+    }
+
+    private static bool TryRead(string path, out StatistleDocument? opened, out string reason)
     {
         try
         {
-            Document = StatistleDocument.Open(path);
-            Selected = Document.Tables.FirstOrDefault();
-            IsDirty = false;
-
-            Status = Document.Diagnostics.HasWarnings
-                ? $"Opened {Path.GetFileName(path)} with {Document.Diagnostics.Warnings.Count} warning(s): " +
-                  Document.Diagnostics.Warnings[0]
-                : $"Opened {Path.GetFileName(path)} — " +
-                  $"{Document.Tables.Count} data table(s), {Document.Tools.Count} analysis/analyses";
+            opened = StatistleDocument.Open(path);
+            reason = string.Empty;
+            return true;
         }
-        catch (Exception ex) when (ex is UnsupportedSchemaVersionException or InvalidDataException or IOException)
+        catch (Exception ex) when (ex is UnsupportedSchemaVersionException or InvalidDataException or IOException
+                                       or UnauthorizedAccessException or System.Xml.XmlException or FormatException
+                                       or InvalidOperationException or ArgumentException)
         {
-            Status = $"Could not open {Path.GetFileName(path)}: {ex.Message}";
+            opened = null;
+            reason = ex.Message;
+            return false;
         }
+    }
+
+    private void Show(StatistleDocument opened)
+    {
+        string path = opened.FilePath ?? string.Empty;
+        Document = opened;
+        Selected = Document.Tables.FirstOrDefault();
+        IsDirty = false;
+
+        // Undo belongs to the project it was recorded in; carried over, it would bring back the
+        // old project under the new one's file name.
+        ClearUndo();
+
+        Status = Document.Diagnostics.HasWarnings
+            ? $"Opened {Path.GetFileName(path)} with {Count(Document.Diagnostics.Warnings.Count, "warning", "warnings")}: " +
+              Document.Diagnostics.Warnings[0]
+            : $"Opened {Path.GetFileName(path)} — " +
+              $"{Count(Document.Tables.Count, "data table", "data tables")}, {Count(Document.Tools.Count, "analysis", "analyses")}";
+    }
+
+    /// <summary>True when there is something Edit ▸ Undo would bring back.</summary>
+    public bool CanUndo => _undo.Count > 0;
+
+    private void ClearUndo()
+    {
+        _undo.Clear();
+        UndoCommand.RaiseCanExecuteChanged();
     }
 
     /// <summary>Re-renders every row — used after a unit change.</summary>
@@ -707,6 +808,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
     public void MarkDirty()
     {
         IsDirty = true;
+        Autosave();
         Raise(nameof(Figures));
         Raise(nameof(CodeText));
         CopyCodeCommand.RaiseCanExecuteChanged();
@@ -839,7 +941,10 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         }
         catch (Exception ex) when (ex is IOException or InvalidDataException or FormatException)
         {
-            Status = $"Could not undo: {ex.Message}";
+            Status = "Could not undo.";
+            _dialogs.ShowError("Statistle — Could not undo",
+                "Statistle could not put back the last change; the project is as it was before you pressed Undo.\n\n" +
+                $"Details for support: {ex.Message}");
         }
         finally
         {
@@ -873,7 +978,8 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
 
     /// <summary>
     /// Writes a recovery copy to local app data after every edit. It is not the project file -
-    /// saving stays explicit - but a crash costs nothing.
+    /// saving stays explicit - but a crash costs nothing: the next start offers it back. It is
+    /// deleted when the work is saved or the person chooses to discard it.
     /// </summary>
     private void Autosave()
     {
@@ -881,27 +987,139 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
 
         try
         {
-            string folder = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Statistle");
-
-            Directory.CreateDirectory(folder);
-            Document.Save(Path.Combine(folder, "autosave.statistle"));
-            Document.SetFilePath(path);
+            Directory.CreateDirectory(_autosaveFolder);
+            Document.Save(Path.Combine(_autosaveFolder, AutosaveFileName));
+            File.WriteAllText(Path.Combine(_autosaveFolder, AutosavePathFileName), path ?? string.Empty);
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
             // Autosave must never interrupt the work it is protecting.
+        }
+        finally
+        {
             Document.SetFilePath(path);
         }
     }
 
-    private bool MarkDirtyAfterAdd()
+    /// <summary>Forgets the recovery copy: the work it held was saved, or deliberately thrown away.</summary>
+    public void DeleteAutosave()
     {
+        foreach (string name in new[] { AutosaveFileName, AutosavePathFileName })
+        {
+            try
+            {
+                File.Delete(Path.Combine(_autosaveFolder, name));
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                // A stale copy is only offered back once more; nothing is lost.
+            }
+        }
+    }
+
+    /// <summary>True when the last session ended with unsaved work, which <see cref="OfferRecovery"/> can bring back.</summary>
+    public bool HasRecovery => File.Exists(Path.Combine(_autosaveFolder, AutosaveFileName));
+
+    /// <summary>
+    /// On start: "Statistle closed with unsaved work. Restore it?" Yes opens the recovery copy
+    /// (marked unsaved, under its own file name if it had one); No throws it away.
+    /// </summary>
+    /// <returns>True when the work was restored.</returns>
+    public bool OfferRecovery()
+    {
+        if (!HasRecovery)
+        {
+            return false;
+        }
+
+        string recovery = Path.Combine(_autosaveFolder, AutosaveFileName);
+        string? original;
+
+        try
+        {
+            string pathFile = Path.Combine(_autosaveFolder, AutosavePathFileName);
+            original = File.Exists(pathFile) ? File.ReadAllText(pathFile).Trim() : null;
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            original = null;
+        }
+
+        if (string.IsNullOrEmpty(original))
+        {
+            original = null;
+        }
+
+        string what = original is null ? "an untitled project" : Path.GetFileName(original);
+
+        if (!_dialogs.Confirm(
+                "Statistle — Restore unsaved work?",
+                $"Statistle closed with unsaved work in {what}. Restore it?\n\n" +
+                "Yes opens it so you can carry on and save it. No throws it away."))
+        {
+            DeleteAutosave();
+            return false;
+        }
+
+        if (TryRead(recovery, out StatistleDocument? restored, out string reason) is false)
+        {
+            if (_dialogs.Confirm(
+                    "Statistle — Unsaved work could not be read",
+                    "The unsaved work from last time could not be read; the recovery copy is damaged.\n\n" +
+                    $"Delete the damaged recovery copy? (No keeps it, and Statistle asks again next time.)\n\nDetails for support: {reason}"))
+            {
+                DeleteAutosave();
+            }
+
+            return false;
+        }
+
+        Show(restored!);
+        Document.SetFilePath(original);
+        IsDirty = true;
+        Status = $"Restored your unsaved work in {what}. Save it (Ctrl+S) to keep it.";
         return true;
+    }
+
+    /// <summary>What the "save changes?" question calls the project.</summary>
+    private string ProjectLabel =>
+        Document.FilePath is null ? "the untitled project" : Path.GetFileName(Document.FilePath);
+
+    /// <summary>
+    /// Asked before anything that would throw the open project away — New, Open, closing,
+    /// installing a new version: "Save changes to {file} before {beforeWhat}?" Yes saves (and
+    /// goes on only if the save worked), No discards the changes, Cancel goes back.
+    /// </summary>
+    /// <returns>True when it is all right to go on.</returns>
+    public bool ConfirmDiscard(string beforeWhat)
+    {
+        CommitEdits();
+
+        if (!IsDirty)
+        {
+            return true;
+        }
+
+        switch (_dialogs.AskToSave(ProjectLabel, beforeWhat))
+        {
+            case UnsavedChoice.Save:
+                return Save(saveAs: false);
+            case UnsavedChoice.Discard:
+                DeleteAutosave();
+                return true;
+            default:
+                Status = "Nothing was changed; your project is still open.";
+                return false;
+        }
     }
 
     private void New()
     {
+        if (!ConfirmDiscard("starting a new project"))
+        {
+            return;
+        }
+
         NewProject();
         Status = "New project";
     }
@@ -911,55 +1129,88 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         Document = new StatistleDocument { Name = "Untitled project" };
         Selected = null;
         IsDirty = false;
+        ClearUndo();
     }
 
     private void Open()
     {
         // Documents\Statistle is the home of every Statistle file, wherever the exe lives.
-        var dialog = new OpenFileDialog
+        // The save question first, so a Save As never follows straight on from an Open dialog.
+        if (ConfirmDiscard("opening another project") && _dialogs.ChooseProjectToOpen(DefaultFolder()) is string path)
         {
-            Filter = Filter,
-            DefaultExt = ".statistle",
-            InitialDirectory = DefaultFolder(),
-        };
-        if (dialog.ShowDialog() == true)
-        {
-            OpenPath(dialog.FileName);
+            OpenPath(path);
         }
     }
 
-    private void Save(bool saveAs)
+    /// <summary>
+    /// Opens the demonstration project from Documents\Statistle, putting it back first if it was
+    /// deleted (an edited copy is never overwritten).
+    /// </summary>
+    private void OpenSample()
     {
+        string path;
+
+        try
+        {
+            string folder = StatistlePaths.EnsureDocumentsFolder();
+            SampleProjects.Install(folder);
+            path = Path.Combine(folder, SampleProjects.DemonstrationFileName);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            _dialogs.ShowError(
+                "Statistle — Could not open the sample project",
+                "Statistle could not put the sample project in Documents\\Statistle. Check that Documents is not full " +
+                $"or read-only, then try again.\n\nDetails for support: {ex.Message}");
+            return;
+        }
+
+        if (ConfirmDiscard("opening the sample project"))
+        {
+            OpenPath(path);
+        }
+    }
+
+    /// <returns>True when the project was saved.</returns>
+    private bool Save(bool saveAs)
+    {
+        CommitEdits();
+
         string? path = Document.FilePath;
 
         if (saveAs || path is null)
         {
-            var dialog = new SaveFileDialog
-            {
-                Filter = Filter,
-                DefaultExt = ".statistle",
-                FileName = string.IsNullOrWhiteSpace(Document.Name) ? "project.statistle" : Document.Name + ".statistle",
-                InitialDirectory = Path.GetDirectoryName(path) ?? DefaultFolder(),
-            };
+            string suggested = string.IsNullOrWhiteSpace(Document.Name) ? "project.statistle" : Document.Name + ".statistle";
 
-            if (dialog.ShowDialog() != true)
+            if (_dialogs.ChooseProjectSavePath(suggested, Path.GetDirectoryName(path) ?? DefaultFolder()) is not string chosen)
             {
-                return;
+                Status = "Not saved.";
+                return false;
             }
 
-            path = dialog.FileName;
+            path = chosen;
         }
 
         try
         {
             Document.Save(path);
             IsDirty = false;
-            Status = $"Saved {Path.GetFileName(path)}";
+            DeleteAutosave();
+            Status = $"Saved {Path.GetFileName(path)}" +
+                     (Rows.FirstOrDefault(r => r.HasRejection) is PropertyRow refused
+                         ? $". What you typed in {refused.Label} was not used (see the red note under it); the value in use was saved."
+                         : string.Empty);
             Raise(nameof(Title));
+            return true;
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
             Status = $"Could not save: {ex.Message}";
+            _dialogs.ShowError(
+                "Statistle — Could not save",
+                $"Statistle could not save to {Path.GetFileName(path)}: {ex.Message}\n\n" +
+                "Try Save As… to a folder in Documents.");
+            return false;
         }
     }
 
@@ -981,24 +1232,31 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
 
     private void Delete()
     {
-        PushUndo();
-
-        switch (Selected)
+        if (Selected is not DataTable table)
         {
-            case DataTable table:
-                Document.Tables.Remove(table);
-                break;
-            default:
-                return;
+            return;
         }
+
+        if (!_dialogs.Confirm(
+                "Statistle — Delete data table",
+                $"Delete the data table '{table.Name}'?\n\n" +
+                "Analyses that read from it keep the values they last copied. Edit ▸ Undo (Ctrl+Z) brings it back."))
+        {
+            return;
+        }
+
+        PushUndo();
+        Document.Tables.Remove(table);
 
         Selected = null;
         MarkDirty();
-        Status = "Deleted";
+        Status = $"Deleted the data table '{table.Name}'. Ctrl+Z brings it back.";
     }
 
     private void Export()
     {
+        CommitEdits();
+
         if (Selected is null)
         {
             return;
@@ -1006,7 +1264,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
 
         var dialog = new SaveFileDialog
         {
-            Filter = "XML artifact (*.xml)|*.xml",
+            Filter = "XML file (*.xml)|*.xml",
             DefaultExt = ".xml",
             FileName = $"{Selected.GetType().Name.ToLowerInvariant()}-{Selected.Id}.xml",
         };
@@ -1023,7 +1281,10 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
-            Status = $"Could not export: {ex.Message}";
+            Status = "Could not export.";
+            _dialogs.ShowError("Statistle — Could not export",
+                $"Statistle could not write {Path.GetFileName(dialog.FileName)}: {ex.Message}\n\n" +
+                "Choose a folder in Documents and try again.");
         }
     }
 
@@ -1036,6 +1297,8 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
 
     private void ShowReport()
     {
+        CommitEdits();
+
         if (Selected is null)
         {
             return;
@@ -1062,6 +1325,8 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
 
     private void ExportPdf()
     {
+        CommitEdits();
+
         if (Selected is null)
         {
             return;
@@ -1082,7 +1347,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         try
         {
             PdfReportWriter.Write(ReportBuilder.For(Selected, Document.Units), dialog.FileName, FigureRenderer);
-            Status = $"Wrote {Path.GetFileName(dialog.FileName)}";
+            Status = $"Saved the report as {Path.GetFileName(dialog.FileName)}";
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
@@ -1092,6 +1357,8 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
 
     private void ExportCsv()
     {
+        CommitEdits();
+
         if (Selected is null)
         {
             return;
@@ -1162,6 +1429,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         foreach (StatistleProperty property in MethodScope.VisibleProperties(Selected).Where(p => !p.Hidden))
         {
             var row = new PropertyRow(Selected, property, Document.Units, OnEdited);
+            row.PropertyChanged += Row_PropertyChanged;
             Rows.Add(row);
 
             if (property.IsResult)
@@ -1175,6 +1443,15 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         }
 
         Raise(nameof(ScopeNote));
+    }
+
+    /// <summary>A rejected entry says why in the help panel too, when it is the field being described.</summary>
+    private void Row_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (ReferenceEquals(sender, FocusedRow) && e.PropertyName == nameof(PropertyRow.HelpText))
+        {
+            Raise(nameof(HelpText));
+        }
     }
 
     /// <summary>The visible rows the scoping check compares against, hidden rows excluded.</summary>

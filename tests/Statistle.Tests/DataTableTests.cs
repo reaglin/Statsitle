@@ -292,7 +292,7 @@ public class DataTableTests
         analysis.Recalculate();
 
         Assert.NotNull(analysis.Problem);
-        Assert.Contains("no longer", analysis.Problem, StringComparison.Ordinal);
+        Assert.Contains("has been deleted", analysis.Problem, StringComparison.Ordinal);
         Assert.Equal(10, analysis.Count);
     }
 

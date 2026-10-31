@@ -31,15 +31,26 @@ public partial class MainWindow : Window
 
         DataContext = _workspace;
         _workspace.FigureRenderer = _renderer;
+        _workspace.CommitPendingEdit = CommitFocusedBox;
         _workspace.PropertyChanged += Workspace_PropertyChanged;
         _workspace.Rows.CollectionChanged += (_, _) => ScheduleSeriesHeight();
         ContentTabs.SelectionChanged += ContentTabs_SelectionChanged;
 
         Loaded += (_, _) =>
         {
-            if ((Application.Current as App)?.ActivationFilePath is string path)
+            // Unsaved work from a session that ended without saving (a crash, a power cut) is
+            // offered back first; a file the app was opened with waits until that is settled.
+            bool restored = _workspace.OfferRecovery();
+            string? path = (Application.Current as App)?.ActivationFilePath;
+
+            if (path is not null && !restored)
             {
                 _workspace.OpenPath(path);
+            }
+            else if (path is not null)
+            {
+                _workspace.Announce(
+                    $"Restored your unsaved work. {System.IO.Path.GetFileName(path)} was not opened; open it with File ▸ Open… when you are ready.");
             }
 
             RefreshOutputTabs();
@@ -272,22 +283,48 @@ public partial class MainWindow : Window
         catch (Exception ex) when (ex is System.IO.IOException or System.IO.InvalidDataException
                                        or UnauthorizedAccessException or System.Xml.XmlException)
         {
-            MessageBox.Show(this, ex.Message, "Could not read the file");
+            MessageBox.Show(this,
+                $"Statistle could not read {System.IO.Path.GetFileName(open.FileName)}: {ex.Message}\n\n" +
+                "Check that it is a text, CSV, .xd2 or Excel .xlsx file and that it is not open in another program, then try again. " +
+                "Nothing was changed.",
+                "Statistle — Could not read the file", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        string fileName = System.IO.Path.GetFileName(open.FileName);
+
+        if (tables.Count == 0)
+        {
+            MessageBox.Show(this, $"{fileName} holds no data to import. Nothing was changed.",
+                "Statistle — Nothing to import", MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }
 
         if (row.IsTable)
         {
-            ImportedTable table = tables[0];
+            // A preview first, with the sheet to choose: the import replaces every column (UX review 2026-10-31).
+            var preview = new ImportDialog(tables, ImportDialog.ImportKind.Table, row.Label, fileName, row.Table?.ColumnCount ?? 0)
+            {
+                Owner = this,
+            };
+
+            if (preview.ShowDialog() != true || preview.Table is not ImportedTable table)
+            {
+                return;
+            }
+
+            int[] numeric = ImportDialog.NumericColumns(table);
 
             _workspace.PushUndo();
-            row.ImportColumns(
-                Enumerable.Range(0, table.ColumnCount)
-                    .Select(i => new DataColumn(table.Headers[i], table.Column(i))));
+            row.ImportColumns(numeric.Select(i => new DataColumn(table.Headers[i], table.Column(i))));
+
+            string sheet = tables.Count > 1 ? $", sheet '{table.Name}'" : string.Empty;
+            _workspace.Announce(
+                $"Imported {WorkspaceViewModel.Count(numeric.Length, "column", "columns")} from {fileName}{sheet}. Edit ▸ Undo (Ctrl+Z) puts the old data back.");
             return;
         }
 
-        var dialog = new ImportDialog(tables, pairs: !row.IsSingleColumnSeries, row.Label, System.IO.Path.GetFileName(open.FileName))
+        var dialog = new ImportDialog(tables, pairs: !row.IsSingleColumnSeries, row.Label, fileName)
         {
             Owner = this,
         };
@@ -302,10 +339,12 @@ public partial class MainWindow : Window
         if (dialog.Pairs is DataPoint[] pairs)
         {
             row.ImportPairs(pairs);
+            _workspace.Announce($"Imported {WorkspaceViewModel.Count(pairs.Length, "pair", "pairs")} from {fileName}. Edit ▸ Undo (Ctrl+Z) puts the old data back.");
         }
         else if (dialog.Values is double[] values)
         {
             row.ImportValues(values);
+            _workspace.Announce($"Imported {WorkspaceViewModel.Count(values.Length, "value", "values")} from {fileName}. Edit ▸ Undo (Ctrl+Z) puts the old data back.");
         }
     }
 
@@ -342,6 +381,65 @@ public partial class MainWindow : Window
         if (sender is TextBox box)
         {
             box.SelectAll();
+        }
+    }
+
+    /// <summary>
+    /// Enter uses what is typed (the box keeps the focus, so the result is seen at once); Esc
+    /// throws it away and shows the value in use again.
+    /// </summary>
+    private void ValueBox_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (sender is not TextBox box)
+        {
+            return;
+        }
+
+        if (e.Key == System.Windows.Input.Key.Enter)
+        {
+            box.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+            box.SelectAll();
+            e.Handled = true;
+        }
+        else if (e.Key == System.Windows.Input.Key.Escape)
+        {
+            CancelBox(box);
+            box.SelectAll();
+            e.Handled = true;
+        }
+    }
+
+    /// <summary>Esc in a series or table box: the data in use comes back. Enter stays a new line.</summary>
+    private void SeriesBox_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (sender is TextBox box && e.Key == System.Windows.Input.Key.Escape)
+        {
+            CancelBox(box);
+            e.Handled = true;
+        }
+    }
+
+    private static void CancelBox(TextBox box)
+    {
+        (box.DataContext as PropertyRow)?.CancelEntry();
+        box.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
+    }
+
+    /// <summary>
+    /// Pushes what is typed in the focused value box into its row, so Save, Copy, the exports and
+    /// closing use the value on screen. Only a box with a change not yet used is pushed; an
+    /// unchanged series box would otherwise be re-read and mark the project changed.
+    /// </summary>
+    private void CommitFocusedBox()
+    {
+        // A menu is its own focus scope: while File ▸ Save is clicked the keyboard focus is on the
+        // menu item, but the window's logical focus is still the box being typed in.
+        object? focused = System.Windows.Input.FocusManager.GetFocusedElement(this) ?? System.Windows.Input.Keyboard.FocusedElement;
+
+        if (focused is TextBox { DataContext: PropertyRow } box
+            && box.GetBindingExpression(TextBox.TextProperty) is { IsDirty: true } binding)
+        {
+            binding.UpdateSource();
         }
     }
 
@@ -405,8 +503,38 @@ public partial class MainWindow : Window
 
     private void Exit_Click(object sender, RoutedEventArgs e) => Close();
 
+    /// <summary>Closing asks to save unsaved changes first (Yes / No / Cancel); Cancel keeps Statistle open.</summary>
+    protected override void OnClosing(CancelEventArgs e)
+    {
+        if (!_workspace.ConfirmDiscard("closing"))
+        {
+            e.Cancel = true;
+            return;
+        }
+
+        if (!_workspace.IsDirty)
+        {
+            // Saved, or nothing changed: there is nothing for the next start to offer back.
+            _workspace.DeleteAutosave();
+        }
+
+        base.OnClosing(e);
+    }
+
     private void About_Click(object sender, RoutedEventArgs e) =>
         new Views.AboutWindow { Owner = this }.ShowDialog();
 
-    private async void CheckForUpdate_Click(object sender, RoutedEventArgs e) => await StoreUpdates.CheckAsync(this);
+    /// <summary>F1 / Help ▸ Help for this screen: the Instructions tab for whatever is selected.</summary>
+    private void HelpForScreen_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+    {
+        ContentTabs.SelectedIndex = InstructionsTab;
+        _workspace.Announce($"Instructions for {_workspace.CurrentInstructions.Title}. More on the web: {WebHelp.Display(_workspace.WebHelpPage)}");
+    }
+
+    private void WebHelp_Click(object sender, RoutedEventArgs e) => WebHelp.Open(this, "index.html");
+
+    private void WebHelpForItem_Click(object sender, RoutedEventArgs e) => WebHelp.Open(this, _workspace.WebHelpPage);
+
+    private async void CheckForUpdate_Click(object sender, RoutedEventArgs e) =>
+        await StoreUpdates.CheckAsync(this, () => _workspace.ConfirmDiscard("installing the new version"), _workspace.Announce);
 }

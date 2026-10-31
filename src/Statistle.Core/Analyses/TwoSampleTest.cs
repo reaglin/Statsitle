@@ -537,14 +537,14 @@ public sealed class TwoSampleTest : Analysis, IUsesProject, IHasChoices, ILinksT
 
         if (problem is not null || Sample.Count == 0)
         {
-            return problem ?? "Choose the column holding sample 1.";
+            return problem ?? DataSources.ChooseOrAdd(this, "Choose the column holding sample 1.");
         }
 
         problem = DataSources.Pull(this, Column2, Sample2);
 
         if (problem is not null || Sample2.Count == 0)
         {
-            return problem ?? "Choose the column holding sample 2.";
+            return problem ?? DataSources.ChooseOrAdd(this, "Choose the column holding sample 2.");
         }
 
         double[] x = Sample.YValues, y = Sample2.YValues;

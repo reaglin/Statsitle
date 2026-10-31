@@ -30,6 +30,7 @@ public sealed class PropertyRow : INotifyPropertyChanged
     private readonly UnitSelection _units;
     private readonly Action _onEdited;
     private bool _entryRejected;
+    private string _rejection = string.Empty;
     private IReadOnlyList<ChoiceOption>? _choices;
     private bool _applyingChoice;
     private Action? _tableChanged;
@@ -138,7 +139,7 @@ public sealed class PropertyRow : INotifyPropertyChanged
     /// <summary>How many columns and rows the table holds, for the help panel.</summary>
     public string TableSummary =>
         Table is ColumnTable table && table.ColumnCount > 0
-            ? $"{table.ColumnCount} column(s), {table.RowCount} row(s)"
+            ? $"{WorkspaceViewModel.Count(table.ColumnCount, "column", "columns")}, {WorkspaceViewModel.Count(table.RowCount, "row", "rows")}"
             : string.Empty;
 
     /// <summary>Replaces every column — what an import does.</summary>
@@ -379,6 +380,11 @@ public sealed class PropertyRow : INotifyPropertyChanged
         {
             var text = new StringBuilder();
 
+            if (RejectionMessage.Length > 0)
+            {
+                text.Append(RejectionMessage).Append("\n\n");
+            }
+
             text.Append(_property.HasHelp ? _property.Help : FallbackHelp());
 
             if (WrittenBy is ICalculationMethod method)
@@ -508,9 +514,10 @@ public sealed class PropertyRow : INotifyPropertyChanged
 
                 if (type == typeof(DataSeries))
                 {
-                    if (!TrySetSeries(value))
+                    if (!TrySetSeries(value, out string? problem))
                     {
-                        Reject();
+                        Reject($"{problem} The paste was not used; your earlier data is kept. " +
+                               "Correct that line, or press Esc to go back to the data in use.");
                         return;
                     }
 
@@ -522,10 +529,15 @@ public sealed class PropertyRow : INotifyPropertyChanged
                 {
                     // A cell that is neither blank nor a number rejects the whole paste; the old
                     // columns stay, and the box is flagged so the typo is visible.
-                    if (_property.Read(_target) is not ColumnTable table
-                        || !table.TryLoad(value, CultureInfo.CurrentCulture))
+                    if (_property.Read(_target) is not ColumnTable table)
                     {
-                        Reject();
+                        return;
+                    }
+
+                    if (!table.TryLoad(value, CultureInfo.CurrentCulture, out string? problem))
+                    {
+                        Reject($"{problem} The paste was not used; your earlier data is kept. " +
+                               "Correct that cell, or press Esc to go back to the data in use.");
                         return;
                     }
 
@@ -546,7 +558,7 @@ public sealed class PropertyRow : INotifyPropertyChanged
                     }
                     else if (!double.TryParse(value, NumberStyles.Float, CultureInfo.CurrentCulture, out double entered))
                     {
-                        Reject();
+                        Reject(NotANumber(value, "a number"));
                         return;
                     }
                     else
@@ -558,7 +570,7 @@ public sealed class PropertyRow : INotifyPropertyChanged
                 {
                     if (!int.TryParse(value, NumberStyles.Integer, CultureInfo.CurrentCulture, out int entered))
                     {
-                        Reject();
+                        Reject(NotANumber(value, "a whole number"));
                         return;
                     }
 
@@ -568,7 +580,7 @@ public sealed class PropertyRow : INotifyPropertyChanged
                 {
                     if (!EnumLabel.TryParse(type, value, out object? entered))
                     {
-                        Reject();
+                        Reject($"'{value}' is not one of the choices, so Statistle is still using {ShownValue}. Pick one from the list.");
                         return;
                     }
 
@@ -578,7 +590,7 @@ public sealed class PropertyRow : INotifyPropertyChanged
                 {
                     if (!bool.TryParse(value, out bool entered))
                     {
-                        Reject();
+                        Reject($"'{value}' is not True or False, so Statistle is still using {ShownValue}. Correct it or press Esc.");
                         return;
                     }
 
@@ -593,8 +605,7 @@ public sealed class PropertyRow : INotifyPropertyChanged
                 // left as it was — is not an edit; nothing is recomputed or marked dirty.
                 if (Equals(parsed, _property.Read(_target)))
                 {
-                    _entryRejected = false;
-                    Raise(nameof(IsValid));
+                    ClearRejection();
                     return;
                 }
 
@@ -604,7 +615,7 @@ public sealed class PropertyRow : INotifyPropertyChanged
             catch (Exception ex) when (ex is FormatException or OverflowException or ArgumentException)
             {
                 // A half-typed value is not an error; the row simply keeps what it had.
-                Reject();
+                Reject($"'{value}' could not be used here (it may be too large or in the wrong form), so Statistle is still using {ShownValue}. Correct it or press Esc.");
             }
         }
     }
@@ -612,6 +623,9 @@ public sealed class PropertyRow : INotifyPropertyChanged
     private void Edited()
     {
         _entryRejected = false;
+        _rejection = string.Empty;
+        Raise(nameof(RejectionMessage));
+        Raise(nameof(HasRejection));
         _onEdited();
         Raise(nameof(Text));
         Raise(nameof(IsValid));
@@ -623,7 +637,11 @@ public sealed class PropertyRow : INotifyPropertyChanged
         // Re-rendering replaces whatever was typed with the stored value, so a rejected entry
         // is no longer on screen to be flagged.
         _entryRejected = false;
+        _rejection = string.Empty;
         _choices = null;
+
+        Raise(nameof(RejectionMessage));
+        Raise(nameof(HasRejection));
 
         Raise(nameof(Choices));
         Raise(nameof(SelectedChoice));
@@ -657,8 +675,10 @@ public sealed class PropertyRow : INotifyPropertyChanged
             series.YValues.Select(y => _units.ToDisplay(_property.Unit, y).ToString(format, CultureInfo.CurrentCulture)));
     }
 
-    private bool TrySetSeries(string text)
+    private bool TrySetSeries(string text, out string? problem)
     {
+        problem = null;
+
         if (_property.Read(_target) is not DataSeries existing)
         {
             return false;
@@ -666,7 +686,7 @@ public sealed class PropertyRow : INotifyPropertyChanged
 
         if (IsSingleColumnSeries)
         {
-            if (!DataSeries.TryParseColumn(text, CultureInfo.CurrentCulture, out double[] values))
+            if (!DataSeries.TryParseColumn(text, CultureInfo.CurrentCulture, out double[] values, out problem))
             {
                 return false;
             }
@@ -680,7 +700,7 @@ public sealed class PropertyRow : INotifyPropertyChanged
 
         // Pairs: a line that is not two numbers rejects the paste (red box, old data kept),
         // the same rule as the single-column box.
-        if (!DataSeries.TryParsePairs(text, CultureInfo.CurrentCulture, out DataSeries parsed))
+        if (!DataSeries.TryParsePairs(text, CultureInfo.CurrentCulture, out DataSeries parsed, out problem))
         {
             return false;
         }
@@ -694,11 +714,46 @@ public sealed class PropertyRow : INotifyPropertyChanged
         return true;
     }
 
-    /// <summary>Keeps the stored value, and flags the box so the typo is visible rather than silent.</summary>
-    private void Reject()
+    /// <summary>
+    /// Why the last thing typed was not used, and what is used meanwhile — shown under the box
+    /// and at the top of the help panel; empty when the entry was accepted (UX review 2026-10-31).
+    /// </summary>
+    public string RejectionMessage => _rejection;
+
+    public bool HasRejection => _rejection.Length > 0;
+
+    /// <summary>The value in use, as the person reads it, for a rejection message.</summary>
+    private string ShownValue => Text is { Length: > 0 } shown ? shown : "no value (the box was blank)";
+
+    private string NotANumber(string? typed, string what) =>
+        $"'{typed}' is not {what}, so Statistle is still using {ShownValue}. Correct it or press Esc.";
+
+    /// <summary>Keeps the stored value, flags the box, and says why, so the typo is visible rather than silent.</summary>
+    private void Reject(string message)
     {
         _entryRejected = true;
+        _rejection = message;
         Raise(nameof(IsValid));
+        Raise(nameof(RejectionMessage));
+        Raise(nameof(HasRejection));
+        Raise(nameof(HelpText));
+    }
+
+    private void ClearRejection()
+    {
+        _entryRejected = false;
+        _rejection = string.Empty;
+        Raise(nameof(IsValid));
+        Raise(nameof(RejectionMessage));
+        Raise(nameof(HasRejection));
+        Raise(nameof(HelpText));
+    }
+
+    /// <summary>Esc in a box: forget what was typed and show the value in use again.</summary>
+    public void CancelEntry()
+    {
+        ClearRejection();
+        Raise(nameof(Text));
     }
 
     private void Raise([CallerMemberName] string? name = null) =>

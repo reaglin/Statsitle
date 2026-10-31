@@ -155,9 +155,15 @@ public sealed class ColumnTable : ITextPersisted
     /// Reads the text form as typed or pasted by a person. Returns false — leaving the table
     /// untouched — when a data cell is neither blank nor a number.
     /// </summary>
-    public bool TryLoad(string? text, IFormatProvider culture)
+    public bool TryLoad(string? text, IFormatProvider culture) => TryLoad(text, culture, out _);
+
+    /// <summary>
+    /// As <see cref="TryLoad(string?, IFormatProvider)"/>, saying which cell stopped the read:
+    /// "Line 4, column 'Strength': 'abc' is not a number." — null when the text was read.
+    /// </summary>
+    public bool TryLoad(string? text, IFormatProvider culture, out string? problem)
     {
-        if (!TryParse(text, culture, out List<DataColumn> parsed))
+        if (!TryParse(text, culture, out List<DataColumn> parsed, out problem))
         {
             return false;
         }
@@ -170,23 +176,35 @@ public sealed class ColumnTable : ITextPersisted
     /// Header line, then data rows. Empty text gives no columns. A header cell left blank is
     /// named "Column n", so every column can still be picked from a list.
     /// </summary>
-    public static bool TryParse(string? text, IFormatProvider culture, out List<DataColumn> columns)
+    public static bool TryParse(string? text, IFormatProvider culture, out List<DataColumn> columns) =>
+        TryParse(text, culture, out columns, out _);
+
+    /// <summary>
+    /// As <see cref="TryParse(string?, IFormatProvider, out List{DataColumn})"/>; on failure
+    /// <paramref name="problem"/> names the line (counted as the person sees them, the header
+    /// being line 1), the column and the cell.
+    /// </summary>
+    public static bool TryParse(string? text, IFormatProvider culture, out List<DataColumn> columns, out string? problem)
     {
         columns = [];
+        problem = null;
 
         if (string.IsNullOrWhiteSpace(text))
         {
             return true;
         }
 
-        string[] lines = text.Split(['\n', '\r'], StringSplitOptions.RemoveEmptyEntries);
+        // Numbered as typed: blank lines are skipped but still counted, so "Line 4" is line 4.
+        List<(int Number, string Text)> lines = [.. text.Split('\n')
+            .Select((line, i) => (Number: i + 1, Text: line.TrimEnd('\r')))
+            .Where(l => l.Text.Length > 0)];
 
-        if (lines.Length == 0)
+        if (lines.Count == 0)
         {
             return true;
         }
 
-        string[] headers = SplitRow(lines[0]);
+        string[] headers = SplitRow(lines[0].Text);
 
         for (int i = 0; i < headers.Length; i++)
         {
@@ -194,9 +212,9 @@ public sealed class ColumnTable : ITextPersisted
             columns.Add(new DataColumn(name.Length > 0 ? name : $"Column {i + 1}"));
         }
 
-        for (int line = 1; line < lines.Length; line++)
+        for (int line = 1; line < lines.Count; line++)
         {
-            string[] cells = SplitRow(lines[line]);
+            string[] cells = SplitRow(lines[line].Text);
 
             for (int i = 0; i < cells.Length; i++)
             {
@@ -210,6 +228,8 @@ public sealed class ColumnTable : ITextPersisted
 
                 if (!double.TryParse(cell, NumberStyles.Float, culture, out double value))
                 {
+                    string name = i < columns.Count ? columns[i].Name : $"Column {i + 1}";
+                    problem = $"Line {lines[line].Number}, column '{name}': '{cell}' is not a number.";
                     columns = [];
                     return false;
                 }

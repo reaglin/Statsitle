@@ -68,10 +68,15 @@ public sealed class DataSeries
     /// skipped; anything else that is not a number fails the whole read, so a typo cannot
     /// silently drop a row and shift every later value by one step.
     /// </summary>
-    public static bool TryParseColumn(string? text, IFormatProvider culture, out double[] values)
+    public static bool TryParseColumn(string? text, IFormatProvider culture, out double[] values) =>
+        TryParseColumn(text, culture, out values, out _);
+
+    /// <summary>As <see cref="TryParseColumn(string?, IFormatProvider, out double[])"/>, naming the line that stopped the read.</summary>
+    public static bool TryParseColumn(string? text, IFormatProvider culture, out double[] values, out string? problem)
     {
         List<double> parsed = [];
         values = [];
+        problem = null;
 
         if (string.IsNullOrWhiteSpace(text))
         {
@@ -79,9 +84,11 @@ public sealed class DataSeries
             return true;
         }
 
-        foreach (string raw in text.Split(['\n', '\r']))
+        string[] lines = text.Split('\n');
+
+        for (int number = 1; number <= lines.Length; number++)
         {
-            string line = raw.Trim();
+            string line = lines[number - 1].Trim();
 
             if (line.Length == 0)
             {
@@ -90,6 +97,7 @@ public sealed class DataSeries
 
             if (!double.TryParse(line, NumberStyles.Float | NumberStyles.AllowThousands, culture, out double value))
             {
+                problem = $"Line {number}: '{line}' is not a number.";
                 return false;
             }
 
@@ -108,17 +116,25 @@ public sealed class DataSeries
     /// A line that does not yield two numbers fails the whole read, so a typo cannot silently
     /// drop a point. Thousands separators are not accepted, since the comma is a delimiter.
     /// </summary>
-    public static bool TryParsePairs(string? text, IFormatProvider culture, out DataSeries series)
+    public static bool TryParsePairs(string? text, IFormatProvider culture, out DataSeries series) =>
+        TryParsePairs(text, culture, out series, out _);
+
+    /// <summary>As <see cref="TryParsePairs(string?, IFormatProvider, out DataSeries)"/>, naming the line that stopped the read.</summary>
+    public static bool TryParsePairs(string? text, IFormatProvider culture, out DataSeries series, out string? problem)
     {
         series = new DataSeries();
+        problem = null;
 
         if (string.IsNullOrWhiteSpace(text))
         {
             return true;
         }
 
-        foreach (string raw in text.Split(['\n', '\r']))
+        string[] rawLines = text.Split('\n');
+
+        for (int number = 1; number <= rawLines.Length; number++)
         {
+            string raw = rawLines[number - 1];
             string line = raw.Trim().TrimStart('\uFEFF');
 
             if (line.Length == 0)
@@ -133,6 +149,7 @@ public sealed class DataSeries
                 || !double.TryParse(columns[0].Trim('"'), NumberStyles.Float, culture, out double x)
                 || !double.TryParse(columns[1].Trim('"'), NumberStyles.Float, culture, out double y))
             {
+                problem = $"Line {number}: '{line}' is not two numbers (x, then y).";
                 series = new DataSeries();
                 return false;
             }

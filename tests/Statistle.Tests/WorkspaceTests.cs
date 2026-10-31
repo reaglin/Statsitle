@@ -183,7 +183,7 @@ public class EndToEndTests : IDisposable
         analysis.Recalculate();
 
         Assert.NotNull(analysis.Problem);
-        Assert.Contains("no longer", analysis.Problem, StringComparison.Ordinal);
+        Assert.Contains("has been deleted", analysis.Problem, StringComparison.Ordinal);
     }
 
     [Fact]
