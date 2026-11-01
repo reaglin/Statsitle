@@ -4,17 +4,20 @@
 **Distribution:** Microsoft Store
 **Publisher:** Dean Eaglin (Microsoft Store account name; the author publishes as Ron Eaglin)
 **Contact:** ron.eaglin@gmail.com
-**Effective:** 2026-09-09
+**Effective:** 2026-10-31 (covers Statistle 1.1.0 and later)
 
-**Published at `https://punchmonkeyserver.com/privacy/statistle`** — the page source is
-`Components/Pages/Privacy/PrivacyStatistle.razor` in the `PunchMonkeyServer` repo. Keep the two
+**Published at `https://softwareplus.ai/statistle/privacy/`** — the page source is
+`site/statistle/privacy/index.html` in the `SoftwarePlus` repo (until 2026-10, it was
+`Components/Pages/Privacy/PrivacyStatistle.razor` on PunchMonkeyServer, which older installs still link to). Keep the two
 in step; the Store listing links to the published URL, and Partner Center requires a live one.
 
 ## Summary
 
 Statistle does not collect, transmit, or share any personal information. It is a standalone
 desktop application that runs entirely on your computer. It contains no analytics, no
-telemetry, no advertising, no accounts, and no network communication of any kind.
+telemetry, no advertising and no accounts. It goes online only when you ask it to: to ask the
+Microsoft Store whether there is a new version, or to open a page in your web browser (see
+Network use).
 
 Statistle is free software for students: enter a data table, choose an analysis, and it
 computes the result, explains every input and every number it reports, and writes the Python
@@ -51,8 +54,19 @@ anywhere. It is text on your screen until you copy or save it.
 
 ## Network use
 
-Statistle makes no network connections. It contains no code that opens a socket, calls a web
-service, checks for updates, or reports errors. It works with no internet connection at all.
+Statistle does all its work on your own computer and does not need the internet. It goes
+online only when you choose one of these:
+
+- **Help ▸ Check for a new version…** asks the Microsoft Store whether a newer Statistle is
+  published and, if you agree, lets the Store download and install it. The question goes to
+  Microsoft, under Microsoft's own privacy statement; none of your work is sent.
+- **Help on the web**, and the links in **Help ▸ About** (Statistle's page on softwareplus.ai, its
+  Microsoft Store page, this policy), open that page in your web browser, which fetches it like
+  any other page you visit.
+
+Statistle never does either on its own. It does not check for updates in the background, report
+errors, or send usage information, and it sends none of your data, projects or generated code anywhere. Everything
+else works with no internet connection at all.
 
 ## Permissions
 
@@ -74,7 +88,7 @@ none of them transmit data.
 
 Microsoft operates the Store through which Statistle is distributed, and Microsoft's own
 privacy statement governs the download and installation process. That is separate from the
-application itself, which remains offline.
+application itself, which sends nothing of yours (Check for a new version asks the same Store).
 
 ## Changes to this policy
 

@@ -109,8 +109,9 @@ plots that belong with it, and a CSV of its values.
 
 PRIVACY
 
-Statistle runs entirely on your computer. It collects nothing, sends nothing, and makes no
-network connection at all. Your work is saved in Documents\Statistle or wherever you choose.
+Statistle runs entirely on your computer. It collects nothing and sends none of your work
+anywhere. It goes online only when you ask: Help > Check for a new version asks the Microsoft
+Store, and Help on the web opens a page in your browser. Your work is saved in Documents\Statistle or wherever you choose.
 
 
 FREE
@@ -139,7 +140,7 @@ Writes the Python and R that reproduce every analysis
 A manual page for every analysis, written for someone learning the material
 Reports as text, HTML or PDF; plots and CSV export from any analysis
 One .statistle project file holds the whole assignment
-Runs entirely offline: no account, no telemetry, no network use
+Works offline: no account, no telemetry; online only when you ask (new version, web help)
 ```
 
 ## What's new in this version  [1500]
@@ -200,7 +201,7 @@ audience.)
 
 | Field | Value |
 |---|---|
-| Privacy policy URL | `https://punchmonkeyserver.com/privacy/statistle` (live) |
+| Privacy policy URL | **From 1.1.0:** `https://softwareplus.ai/statistle/privacy/` (the policies moved to SoftwarePlus.ai; revised 2026-10-31 for Check for a new version and Help on the web). 1.0 used `https://punchmonkeyserver.com/privacy/statistle`, which stays up for older installs. |
 | Support contact info | ron.eaglin@gmail.com |
 | Website | *(optional)* |
 

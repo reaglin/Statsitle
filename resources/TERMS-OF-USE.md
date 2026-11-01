@@ -31,9 +31,9 @@ any damages arising from the use of Statistle, including loss of data, loss of p
 direct, indirect, incidental, special or consequential damages, even if advised of the
 possibility of such damages.
 
-**Your data is yours.** Statistle collects nothing and transmits nothing. Project files, reports
+**Your data is yours.** Statistle collects nothing and sends none of your work anywhere. Project files, reports
 and exports are written only to your own computer. See the privacy policy at
-https://punchmonkeyserver.com/privacy/statistle.
+https://softwareplus.ai/statistle/privacy/.
 
 **Educational use.** Statistle follows the syllabus of EGN3443, *Probability and Statistics for
 Engineers*, and is intended for teaching, study, and preliminary analysis.

@@ -17,9 +17,9 @@ carries exactly the same pair. Only `Name` differs per app.
 Partner Center account: sign-in `ron.eaglin@gmail.com`, publishing as **Dean Eaglin**
 (https://apps.microsoft.com/search/publisher?name=Dean+Eaglin).
 
-Privacy policy: **https://punchmonkeyserver.com/privacy/statistle** (live), source
-`Components/Pages/Privacy/PrivacyStatistle.razor` in the `PunchMonkeyServer` repo; the text is
-mirrored here as `PRIVACY-POLICY.md`.
+Privacy policy: **https://softwareplus.ai/statistle/privacy/** from 1.1.0 (source
+`site/statistle/privacy/index.html` in the `SoftwarePlus` repo; 1.0 linked
+`https://punchmonkeyserver.com/privacy/statistle`); the text is mirrored here as `PRIVACY-POLICY.md`.
 
 The rest of the submission — listing copy, age rating, declarations, WACK, the order to do it in
 — is in `STORE-SUBMISSION.md`.

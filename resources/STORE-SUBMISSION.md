@@ -72,8 +72,9 @@ Paste into *Submission → Product declarations → notes*, and into the certifi
 > user's own files through standard Windows file dialogs — `.statistle` project files, and
 > exported PDF, HTML, text, CSV, Python and R files, saved by default under the user's
 > `Documents\Statistle` folder. It does not access other applications' data, does not require
-> administrator rights, installs no drivers or services, makes no network connection of any
-> kind, and collects no user data.
+> administrator rights, installs no drivers or services, and collects no user data. It goes online
+> only when the user asks: Help > Check for a new version asks the Microsoft Store
+> (`Windows.Services.Store`), and Help on the web and the About links open a page in the browser.
 
 ## Age rating (IARC questionnaire)
 
@@ -87,7 +88,7 @@ Statistle is a statistics calculator. The expected answers, all negative, give *
 | Collects or shares personal information | No |
 | Shares the user's location | No |
 | Displays advertising | No |
-| Unrestricted internet access | No — the app makes no network connection at all |
+| Unrestricted internet access | No — it goes online only when the user asks (Check for a new version asks the Microsoft Store; web help and About links open the browser) |
 
 ## Product declarations
 
@@ -102,6 +103,7 @@ Statistle is a statistics calculator. The expected answers, all negative, give *
 **Notes for certification** (free text, tells the tester how to exercise the app):
 
 > Statistle requires no account, sign-in, or network connection, and has no trial or paid tier.
+> (Help > Check for a new version asks the Microsoft Store, and only when chosen.)
 > To exercise it: open a sample project from `File → Open` (samples ship with the package), or
 > add a Data table from the left rail, type a few numbers into a column, and then add a
 > Descriptive statistics analysis. Every analysis has an Instructions tab describing what it
@@ -109,10 +111,11 @@ Statistle is a statistics calculator. The expected answers, all negative, give *
 > signed-in user's `Documents\Statistle` folder; recovery autosave goes to
 > `%LOCALAPPDATA%\Statistle`. Nothing is written beside the executable.
 >
-> Statistle calls ShellExecute in one place only: to open a generated report or instructions
-> page as HTML in the user's default browser, from a file it has just written to the temporary
-> folder. It launches no other process, installs no service or driver, and makes no network
-> connection. In particular it does not run the Python or R it generates — that code is text for
+> Statistle calls ShellExecute only to open a page in the user's default browser: a generated
+> report or instructions page as HTML, from a file it has just written to the temporary folder,
+> or, when the user chooses Help on the web or an About link, a page on softwareplus.ai or the
+> Microsoft Store. It launches no other process, installs no service or driver, and goes online only
+> when the user asks (Check for a new version, Help on the web, the About links). In particular it does not run the Python or R it generates — that code is text for
 > the user to copy.
 
 ## Pricing and availability
