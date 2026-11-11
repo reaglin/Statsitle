@@ -1,0 +1,14 @@
+{
+  "id": "st.m6.sample-size.n4",
+  "title": "Concrete cylinders: n = 4",
+  "analysis": "SamplingDistribution",
+  "intro": "A ready-mix plant's concrete has compressive strengths with mean μ = 4200 psi and standard deviation σ = 350 psi. A quality engineer averages the strengths of **n = 4** test cylinders. The standard error is σ/√n = 350/√4 = 175 psi.",
+  "settings": {
+    "Name": "Cylinders, n = 4",
+    "Statistic": "SampleMean",
+    "PopulationMean": 4200,
+    "PopulationSigma": 350,
+    "SampleSize": 4,
+    "Value": null
+  }
+}

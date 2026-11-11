@@ -1,0 +1,141 @@
+{
+  "id": "st.m6.check.quiz",
+  "title": "Module 6 check: sampling distributions",
+  "passThreshold": 0.8,
+  "practice": false,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "choice",
+      "objective": "st.m6.o1",
+      "lookAgain": "st.m6.parameters-statistics",
+      "prompt": "A water utility wants the mean daily use of **all** 48 000 homes it serves. It installs smart meters in 200 homes chosen at random and finds a mean of 412 litres a day. In this study, which is the parameter?",
+      "options": [
+        "The mean daily use of all 48 000 homes, which is unknown",
+        "The mean daily use of the 200 metered homes, 412 litres",
+        "The number of homes with smart meters, which is 200",
+        "The standard deviation of the 200 metered homes' daily use"
+      ],
+      "correct": [0],
+      "explanation": "The parameter is the population's mean, μ, over all 48 000 homes; nobody has measured it. 412 litres is the sample mean x̄, a statistic that estimates μ. 200 is the sample size n, and the standard deviation of the 200 homes is the statistic s."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m6.o1",
+      "lookAgain": "st.m6.parameters-statistics",
+      "prompt": "For the same utility, a second random sample of 200 homes gives a mean of 405 litres a day. What does the difference between 412 and 405 show?",
+      "options": [
+        "Sampling variability: each random sample gives a different statistic",
+        "The population mean changed between the first and second samples",
+        "One of the two samples was taken or calculated with a mistake",
+        "The population mean must be exactly halfway, at 408.5 litres"
+      ],
+      "correct": [0],
+      "explanation": "x̄ is a statistic, so it changes from sample to sample by chance. The population mean μ stays the same, nothing points to a mistake, and neither sample nor their average gives μ exactly."
+    },
+    {
+      "id": "q3",
+      "kind": "numeric",
+      "objective": "st.m6.o2",
+      "lookAgain": "st.m6.clt",
+      "prompt": "Gauge readings on a production line have standard deviation σ = 15 µm. An operator averages n = 25 readings. What is the standard error of the mean, in µm? Give it to one decimal.",
+      "answer": 3.0,
+      "tolerance": 0.05,
+      "unit": "µm",
+      "explanation": "SE = σ/√n = 15/√25 = 15/5 = 3.0 µm. Dividing by n = 25 instead would give 0.6, and not dividing at all would give 15, the spread of single readings."
+    },
+    {
+      "id": "q4",
+      "kind": "numeric",
+      "objective": "st.m6.o2",
+      "lookAgain": "st.m6.clt",
+      "prompt": "The breaking load of a rope has μ = 250 kN and σ = 20 kN. A test lab breaks a random sample of n = 25 ropes. What is the probability that their mean breaking load is **more than 256 kN**? Give it to three decimals or more.",
+      "answer": 0.0668,
+      "tolerance": 0.001,
+      "explanation": "SE = 20/√25 = 4 kN. z = (256 − 250)/4 = 1.5. P(x̄ > 256) = 1 − Φ(1.5) = 1 − 0.9332 = 0.0668. Using σ instead of the SE would give z = 0.3 and a probability of 0.382, the chance for a single rope."
+    },
+    {
+      "id": "q5",
+      "kind": "numeric",
+      "objective": "st.m6.o3",
+      "lookAgain": "st.m6.sample-size",
+      "prompt": "A lab averages n = 20 measurements and wants to **halve** the standard error of its mean. How many measurements must it average?",
+      "answer": 80,
+      "tolerance": 0,
+      "unit": "measurements",
+      "explanation": "SE = σ/√n, so halving it needs √n twice as large, which is n four times as large: 4 × 20 = 80. Doubling n to 40 only divides the SE by √2 ≈ 1.41."
+    },
+    {
+      "id": "q6",
+      "kind": "numeric",
+      "objective": "st.m6.o3",
+      "lookAgain": "st.m6.sample-size",
+      "prompt": "Fill volumes have σ = 5 mL. What is the **smallest** sample size n that makes the standard error of the mean **0.6 mL or less**?",
+      "answer": 70,
+      "tolerance": 0,
+      "unit": "bottles",
+      "explanation": "n = (σ/SE)² = (5/0.6)² = 69.44, rounded up to 70. Check: 5/√70 = 0.598 mL, at most 0.6; 5/√69 = 0.602 mL, just over."
+    },
+    {
+      "id": "q7",
+      "kind": "choice",
+      "objective": "st.m6.o3",
+      "lookAgain": "st.m6.sample-size",
+      "prompt": "To save money, an inspection plan is cut from n = 100 to n = 25 parts per lot. What happens to the standard error of the lot's mean?",
+      "options": [
+        "It doubles, because √100 / √25 = 2",
+        "It becomes four times larger, because 100 / 25 = 4",
+        "It halves, because the sample is smaller",
+        "It stays the same, because σ does not change"
+      ],
+      "correct": [0],
+      "explanation": "SE = σ/√n. With a quarter of the parts, √n is halved (10 to 5), so the SE doubles. The square root is why it doubles rather than growing four times."
+    },
+    {
+      "id": "q8",
+      "kind": "choice",
+      "objective": "st.m6.o4",
+      "lookAgain": "st.m6.clt",
+      "prompt": "Times between calls to a help desk are exponential (strongly skewed). The histogram shows 5000 sample means, each of **n = 2** times, with the normal curve of mean μ and standard error σ/√n.\n[[figure: st.m6.clt.n2 1]]\nShould a normal distribution be used for probabilities about x̄ at this sample size?",
+      "options": [
+        "No: the population is skewed and n = 2 is far too small, so x̄ is still skewed",
+        "Yes: the Central Limit Theorem makes x̄ normal for any sample size n",
+        "Yes: the mean of the histogram is close to the population mean μ",
+        "No: the Central Limit Theorem applies only to a normal population"
+      ],
+      "correct": [0],
+      "explanation": "The means are still piled up on the left with a long right tail; the normal curve does not fit. For a strongly skewed population the CLT needs n of about 30 or more. The centre is right at every n, but that does not make the shape normal. And the CLT is about non-normal populations: a normal population gives a normal x̄ at any n."
+    },
+    {
+      "id": "q9",
+      "kind": "multiple",
+      "objective": "st.m6.o4",
+      "lookAgain": "st.m6.clt",
+      "prompt": "In which of these can x̄ be treated as approximately normal? The samples are random and independent in all four. Choose every one that applies.",
+      "options": [
+        "Weld strengths known to be normal, sample of n = 6",
+        "Repair costs strongly skewed to the right, sample of n = 50",
+        "Component lifetimes strongly skewed to the right, sample of n = 6",
+        "Tank levels moderately skewed, sample of n = 40"
+      ],
+      "correct": [0, 1, 3],
+      "explanation": "A normal population gives a normal x̄ at any n, so n = 6 is fine for the welds. A skewed population needs n of about 30 or more: 50 and 40 qualify, but a strongly skewed population with n = 6 does not."
+    },
+    {
+      "id": "q10",
+      "kind": "choice",
+      "objective": "st.m6.o5",
+      "lookAgain": "st.m6.applying",
+      "prompt": "A machine set correctly cuts parts with μ = 50.00 mm and σ = 0.20 mm. An inspector averages n = 25 parts each hour. At 9:00 the mean is 50.03 mm; at 10:00 it is 50.13 mm. What do the two hours suggest?",
+      "options": [
+        "9:00 is ordinary sampling variability (z = 0.75); 10:00 suggests the setting has moved (z = 3.25)",
+        "Both suggest the setting has moved, because both means are above the 50.00 mm target",
+        "Neither suggests a change, because both means are within 0.20 mm (one σ) of target",
+        "9:00 suggests the setting has moved (z = 0.75); 10:00 is ordinary variability (z = 3.25)"
+      ],
+      "correct": [0],
+      "explanation": "SE = 0.20/√25 = 0.04 mm. At 9:00, z = 0.03/0.04 = 0.75: a mean that high happens about 23 % of the time by chance. At 10:00, z = 0.13/0.04 = 3.25: by chance only about 0.06 % of the time, so the setting has probably moved. Comparing the means with σ instead of the standard error hides the shift."
+    }
+  ]
+}

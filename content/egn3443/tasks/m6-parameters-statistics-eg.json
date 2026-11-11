@@ -1,0 +1,10 @@
+{
+  "id": "st.m6.parameters-statistics.eg",
+  "title": "One sample of ten resistors",
+  "analysis": "DescriptiveStatistics",
+  "intro": "The same resistor line as item 6.1: the population of all resistors it makes has mean μ = 100 Ω and standard deviation σ = 2 Ω. An inspector pulled **one sample of 10 resistors** and measured them (Ω). Their mean x̄ and standard deviation s are statistics: they estimate μ and σ, and they would come out a little different for another 10 resistors.",
+  "settings": {
+    "Name": "Ten resistors",
+    "Sample": [101.2, 98.7, 100.4, 99.1, 102.3, 100.8, 97.9, 100.1, 99.6, 101.5]
+  }
+}

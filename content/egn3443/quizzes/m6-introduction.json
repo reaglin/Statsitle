@@ -1,0 +1,59 @@
+{
+  "id": "st.m6.introduction.quiz",
+  "title": "Introduction to sampling distributions",
+  "passThreshold": 0.75,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "choice",
+      "objective": "st.m6.o1",
+      "prompt": "What is the sampling distribution of the sample mean?",
+      "options": [
+        "The distribution of x̄ over all possible samples of the same size from the population",
+        "The distribution of the individual values inside one sample from the population",
+        "The distribution of the individual values in the whole population being studied",
+        "The list of the sample sizes that could be used to estimate the population mean"
+      ],
+      "correct": [0],
+      "explanation": "A sampling distribution belongs to a statistic. Each possible sample gives one x̄, and the sampling distribution is how those x̄ values are spread. The values inside one sample, or in the population, have distributions of their own, but they are not the sampling distribution."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m6.o2",
+      "prompt": "Shafts are machined with diameters of mean μ = 25.00 mm and standard deviation σ = 0.05 mm. A computer draws 5000 samples of 20 shafts and plots the 5000 sample means. Where is the centre of that histogram, and how does its spread compare with σ?",
+      "options": [
+        "Close to 25.00 mm, and much narrower than σ = 0.05 mm",
+        "Close to 25.00 mm, and about as wide as σ = 0.05 mm",
+        "Well above 25.00 mm, and much narrower than σ = 0.05 mm",
+        "Close to 25.00 mm, and much wider than σ = 0.05 mm"
+      ],
+      "correct": [0],
+      "explanation": "The sample means centre on μ = 25.00 mm. They are less spread than single shafts, by a factor √20 ≈ 4.47: their standard deviation is about 0.05/4.47 = 0.011 mm."
+    },
+    {
+      "id": "q3",
+      "kind": "numeric",
+      "objective": "st.m6.o2",
+      "prompt": "A population is the three numbers 1, 3 and 5. Samples of n = 2 are drawn with replacement, so there are 3 × 3 = 9 equally likely samples. What is the probability that the sample mean is **4 or more**? Give it to three decimals.",
+      "answer": 0.3333,
+      "tolerance": 0.001,
+      "explanation": "The nine samples (1,1), (1,3), (1,5), (3,1), (3,3), (3,5), (5,1), (5,3), (5,5) have means 1, 2, 3, 2, 3, 4, 3, 4, 5. Three of them, (3,5), (5,3) and (5,5), have a mean of 4 or more: P(x̄ ≥ 4) = 3/9 = 0.333."
+    },
+    {
+      "id": "q4",
+      "kind": "choice",
+      "objective": "st.m6.o1",
+      "prompt": "Why does an engineer who has taken only one sample need the sampling distribution of x̄?",
+      "options": [
+        "It tells her how far her one x̄ is likely to be from the population mean μ",
+        "It tells her the exact value of the population mean μ from her one sample",
+        "It tells her which of the values in her one sample are measurement errors",
+        "It tells her how many more samples she must take before she can use x̄"
+      ],
+      "correct": [0],
+      "explanation": "One sample gives one x̄, and it misses μ by some amount. The sampling distribution, centred on μ with spread σ/√n, says how large that miss typically is. That is what confidence intervals (Module 7) and tests (Module 8) use. It never gives μ exactly."
+    }
+  ]
+}

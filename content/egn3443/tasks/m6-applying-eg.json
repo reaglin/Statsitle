@@ -1,0 +1,14 @@
+{
+  "id": "st.m6.applying.eg",
+  "title": "Bolt lengths: a shift or chance?",
+  "analysis": "SamplingDistribution",
+  "intro": "A machine cuts bolts with mean length μ = 50.00 mm and standard deviation σ = 0.20 mm when it is set correctly. Every hour an inspector measures **n = 25** bolts. This hour the mean is **x̄ = 50.09 mm**. How likely is a sample mean this high if the machine is still set correctly?",
+  "settings": {
+    "Name": "Bolts, n = 25",
+    "Statistic": "SampleMean",
+    "PopulationMean": 50,
+    "PopulationSigma": 0.2,
+    "SampleSize": 25,
+    "Value": 50.09
+  }
+}

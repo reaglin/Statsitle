@@ -1,0 +1,38 @@
+{
+  "id": "st.m6.sample-size.ex",
+  "title": "Wire strength: quadrupling the sample",
+  "analysis": "SamplingDistribution",
+  "intro": "The tensile strength of a steel wire has mean **μ = 620 MPa** and standard deviation **σ = 18 MPa**, and is close to normal. The lab now tests 9 specimens from each coil, which gives a standard error of 18/√9 = 6 MPa. The customer wants that standard error **halved**, so the lab moves to **n = 36** specimens per coil (four times as many).\n\nFor n = 36, find the standard error of x̄ and the middle 95 % range of the sample means, μ ± 1.96 × standard error. Give the standard error to two decimals and the ends of the range to two decimals.",
+  "settings": {
+    "Name": "Wire strength, n = 36",
+    "Statistic": "SampleMean",
+    "PopulationMean": 620,
+    "PopulationSigma": 18,
+    "SampleSize": 36,
+    "Value": null
+  },
+  "ask": [
+    { "result": "StandardError", "prompt": "Standard error of x̄ for n = 36 (MPa)" },
+    { "result": "Lower95", "prompt": "Middle 95 % of x̄: from (MPa)", "tolerance": 0.02 },
+    { "result": "Upper95", "prompt": "Middle 95 % of x̄: to (MPa)", "tolerance": 0.02 }
+  ],
+  "mistakes": {
+    "StandardError": [
+      { "value": 6, "says": "That is the standard error for the old plan, n = 9. Work it out again for n = 36." },
+      { "value": 0.5, "says": "You divided σ by n = 36. The standard error divides by √n = 6." }
+    ],
+    "Lower95": [
+      { "value": 608.2402, "says": "You used the standard error for n = 9 (6 MPa). Use the one for n = 36." },
+      { "value": 584.7206, "says": "You used σ = 18 MPa, the spread of single specimens. The range of the sample means uses the standard error." }
+    ],
+    "Upper95": [
+      { "value": 631.7598, "says": "You used the standard error for n = 9 (6 MPa). Use the one for n = 36." },
+      { "value": 655.2794, "says": "You used σ = 18 MPa, the spread of single specimens. The range of the sample means uses the standard error." }
+    ]
+  },
+  "hints": [
+    "The standard error is σ/√n. With n = 36, √n = 6.",
+    "Check: four times the specimens should give half the old standard error of 6 MPa.",
+    "The range is 620 − 1.96 × SE to 620 + 1.96 × SE."
+  ]
+}

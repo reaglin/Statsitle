@@ -243,7 +243,7 @@ Each module is written in the order of `docs/LEARNING-PATH.md`. For every topic:
 | # | Task | Done when |
 |---|---|---|
 | 12.1 | Module 5 (6 + check) | validator clean |
-| 12.2 | Module 6 (5 + check) | validator clean |
+| 12.2 | Module 6 (5 + check) | validator clean · **Written 2026-11-11** (`content/egn3443/modules/06-sampling`: 5 items + check; 11 tasks — 3 graded exercises (σ/√n and P(x̄ ≤ a) from a skewed population; SE and the middle 95 % at 4 × n; z and P(x̄ ≥ a) for "chance or a shift?") with 13 recognized mistakes, a Simulation of the CLT from an exponential population at n = 2, 5 and 30; quizzes 4 + 5 practice and a 10-question check, every question with lookAgain; 2 new reference pages; validator clean, no warnings; every number checked against the engine or Python). Prerequisite is `st.m4` until Module 5 exists. ⚠️ Ron: read 6.3 (the CLT pictures and the n ≥ 30 table) and 6.5 (the \|z\| guide: "about 2 unusual, 3 or more very unlikely"); "n to halve the SE" is asked in the check (q5, q6), not in an engine-graded exercise, because a task can only ask results and the given values show n |
 | 12.3 | Module 7 (7 + check) | validator clean |
 | 12.4 | Module 8 (7 + check) | validator clean |
 | 12.5 | Module 9 (6 + check) | validator clean |

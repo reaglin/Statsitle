@@ -1,0 +1,15 @@
+{
+  "id": "st.m6.clt.n5",
+  "title": "Exponential population, n = 5",
+  "analysis": "Simulation",
+  "intro": "Times between calls to a help desk are exponential with rate λ = 0.25 per minute: mean 4 minutes, standard deviation 4 minutes, strongly skewed to the right. The computer took 5000 samples of **n = 5** times (seed 1) and drew the histogram of their means.",
+  "settings": {
+    "Name": "Exponential, n = 5",
+    "Experiment": "SampleMeans",
+    "Distribution": "Exponential",
+    "Rate": 0.25,
+    "SampleSize": 5,
+    "Trials": 5000,
+    "Seed": 1
+  }
+}

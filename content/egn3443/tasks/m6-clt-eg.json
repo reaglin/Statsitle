@@ -1,0 +1,15 @@
+{
+  "id": "st.m6.clt.eg",
+  "title": "Exponential population, n = 30",
+  "analysis": "Simulation",
+  "intro": "Times between calls to a help desk are exponential with rate λ = 0.25 per minute: mean 4 minutes, standard deviation 4 minutes, strongly skewed to the right. The computer took 5000 samples of **n = 30** times (seed 1) and drew the histogram of their means, with the normal curve the Central Limit Theorem predicts: mean μ = 4 and standard error σ/√n = 4/√30 = 0.7303 minutes.",
+  "settings": {
+    "Name": "Exponential, n = 30",
+    "Experiment": "SampleMeans",
+    "Distribution": "Exponential",
+    "Rate": 0.25,
+    "SampleSize": 30,
+    "Trials": 5000,
+    "Seed": 1
+  }
+}

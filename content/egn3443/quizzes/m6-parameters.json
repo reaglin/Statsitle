@@ -1,0 +1,73 @@
+{
+  "id": "st.m6.parameters-statistics.quiz",
+  "title": "Population parameters vs sample statistics",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "choice",
+      "objective": "st.m6.o1",
+      "prompt": "A plant's machine log records the diameter of **every** one of the 52 000 shafts it made last month; their mean is 25.013 mm. Quality control also measured 40 of those shafts by hand and got a mean of 25.009 mm. Which number is a parameter?",
+      "options": [
+        "25.013 mm, because it describes all 52 000 shafts made last month",
+        "25.009 mm, because it was measured by hand and is more careful",
+        "Both of them, because both describe shafts made by the same plant",
+        "Neither of them, because a parameter can never be calculated"
+      ],
+      "correct": [0],
+      "explanation": "A parameter describes the whole population. The log covers every shaft, so its mean, 25.013 mm, is μ. The 40 hand-measured shafts are a sample, so 25.009 mm is a statistic, x̄, however carefully it was measured. A parameter is usually unknown, but here the population was measured in full."
+    },
+    {
+      "id": "q2",
+      "kind": "match",
+      "objective": "st.m6.o1",
+      "prompt": "Match each symbol with what it stands for.",
+      "pairs": [
+        { "left": "μ", "right": "Population mean (a parameter)" },
+        { "left": "x̄", "right": "Sample mean (a statistic)" },
+        { "left": "σ", "right": "Population standard deviation (a parameter)" },
+        { "left": "p̂", "right": "Sample proportion (a statistic)" }
+      ],
+      "explanation": "Greek letters (μ, σ, and p for a proportion) are parameters of the population. Latin letters and hats (x̄, s, p̂) are statistics calculated from a sample."
+    },
+    {
+      "id": "q3",
+      "kind": "numeric",
+      "objective": "st.m6.o1",
+      "prompt": "Anchor bolts from a supplier have a mean pull-out strength of μ = 250 kN, from the supplier's records of all its production. A contractor tests 12 of them and gets x̄ = 253.4 kN. What is the sampling error x̄ − μ, in kN? Give it to one decimal, with its sign.",
+      "answer": 3.4,
+      "tolerance": 0.05,
+      "unit": "kN",
+      "explanation": "Sampling error = x̄ − μ = 253.4 − 250 = +3.4 kN. The sample came out a little high, by chance: which 12 bolts happened to be tested."
+    },
+    {
+      "id": "q4",
+      "kind": "choice",
+      "objective": "st.m6.o1",
+      "prompt": "Which of these changes from one random sample to the next, when the samples come from the same population?",
+      "options": [
+        "The sample mean x̄ of the measurements in each sample",
+        "The population mean μ of all the items being sampled",
+        "The population standard deviation σ of all the items",
+        "The number N of items in the population being sampled"
+      ],
+      "correct": [0],
+      "explanation": "μ, σ and N describe the population, which stays the same. Each new sample has different members, so its mean x̄ is different. That variation is what the sampling distribution describes."
+    },
+    {
+      "id": "q5",
+      "kind": "choice",
+      "objective": "st.m6.o1",
+      "prompt": "An engineer samples 50 welds and finds a mean strength 6 MPa below the plant's long-run mean μ. The gauge was calibrated that morning and the welds were picked at random. What is the most likely cause of the 6 MPa difference?",
+      "options": [
+        "Sampling error: chance in which 50 welds were picked",
+        "Bias from the gauge, which must be read too low",
+        "A mistake in the calculation of the sample mean",
+        "A change in the population mean μ since the records"
+      ],
+      "correct": [0],
+      "explanation": "A random sample from a calibrated gauge still misses μ by chance: that is sampling error, and it is expected. Whether 6 MPa is more than chance would explain is a question for the sampling distribution (item 6.5) and for the tests of Module 8. Nothing in the question points to bias, an arithmetic slip, or a change in μ."
+    }
+  ]
+}

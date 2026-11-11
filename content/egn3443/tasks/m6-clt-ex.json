@@ -1,0 +1,34 @@
+{
+  "id": "st.m6.clt.ex",
+  "title": "Repair times at a service desk",
+  "analysis": "SamplingDistribution",
+  "intro": "The time to close a repair ticket at a service desk is skewed to the right: most tickets close quickly, a few take hours. Over the past year the times have had mean **μ = 12 minutes** and standard deviation **σ = 9 minutes**. Each day a supervisor averages the times of a random sample of **n = 36** tickets.\n\nThe population is not normal, but n = 36 is at least 30, so the Central Limit Theorem lets you treat x̄ as normal. Find the mean of the sampling distribution of x̄, its standard error, and the probability that a day's sample mean is **10 minutes or less**. Give the mean and standard error to two decimals and the probability to three decimals or more.",
+  "settings": {
+    "Name": "Repair times, n = 36",
+    "Statistic": "SampleMean",
+    "PopulationMean": 12,
+    "PopulationSigma": 9,
+    "SampleSize": 36,
+    "Value": 10
+  },
+  "ask": [
+    { "result": "Centre", "prompt": "Mean of the sampling distribution of x̄ (minutes)" },
+    { "result": "StandardError", "prompt": "Standard error of x̄ (minutes)" },
+    { "result": "AtMost", "prompt": "P(x̄ ≤ 10)", "tolerance": 0.001 }
+  ],
+  "mistakes": {
+    "StandardError": [
+      { "value": 9, "says": "That is σ, the spread of single tickets. The standard error is the spread of the sample mean: divide σ by √n." },
+      { "value": 0.25, "says": "You divided σ by n = 36. The standard error divides by √n = 6." }
+    ],
+    "AtMost": [
+      { "result": "AtLeast", "says": "That is P(x̄ ≥ 10), the area to the right. \"10 minutes or less\" is the area to the left of z." },
+      { "value": 0.4121, "says": "You used σ = 9 in z, which gives the chance that one ticket takes 10 minutes or less. For the mean of 36 tickets divide by the standard error, σ/√n." }
+    ]
+  },
+  "hints": [
+    "The sampling distribution of x̄ is centred on the population mean: μ_x̄ = μ.",
+    "The standard error is σ/√n = 9/√36 = 9/6.",
+    "z = (10 − 12) / standard error, then P(x̄ ≤ 10) = Φ(z), the area to the left of z under the standard normal curve."
+  ]
+}

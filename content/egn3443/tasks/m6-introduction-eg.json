@@ -1,0 +1,16 @@
+{
+  "id": "st.m6.introduction.eg",
+  "title": "Means of ten resistors",
+  "analysis": "Simulation",
+  "intro": "A production line makes resistors rated 100 Ω. Their resistances are normal with mean μ = 100 Ω and standard deviation σ = 2 Ω. The computer took **2000 samples of n = 10 resistors** (seed 1) and worked out the mean of each sample. The histogram shows the 2000 sample means: the sampling distribution of x̄.",
+  "settings": {
+    "Name": "Means of ten resistors",
+    "Experiment": "SampleMeans",
+    "Distribution": "Normal",
+    "PopulationMean": 100,
+    "PopulationSigma": 2,
+    "SampleSize": 10,
+    "Trials": 2000,
+    "Seed": 1
+  }
+}
