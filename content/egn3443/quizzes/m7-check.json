@@ -1,0 +1,140 @@
+{
+  "id": "st.m7.check.quiz",
+  "title": "Module 7 check: point estimation and confidence intervals",
+  "passThreshold": 0.8,
+  "practice": false,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "choice",
+      "objective": "st.m7.o1",
+      "lookAgain": "st.m7.introduction",
+      "prompt": "Why is the sample variance calculated by dividing by n − 1 rather than by n?",
+      "options": [
+        "Dividing by n − 1 makes it unbiased: on average it equals σ², while dividing by n averages a little less",
+        "Dividing by n − 1 makes it efficient: it has a smaller variance than the estimator that divides by n",
+        "Dividing by n − 1 makes it resistant: one outlier cannot move it as far as it moves the n version",
+        "Dividing by n − 1 makes it match the population variance σ², which also divides by n − 1"
+      ],
+      "correct": [0],
+      "explanation": "Deviations from x̄ are a little smaller than deviations from μ, so Σ(x − x̄)²/n averages (n − 1)/n × σ². Dividing by n − 1 removes that bias: E[S²] = σ². It is about bias, not efficiency or outliers."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m7.o1",
+      "lookAgain": "st.m7.introduction",
+      "prompt": "For a normal population, the sample mean and the sample median are both unbiased estimators of μ, and the median's variance is about 1.57 times the mean's. What does this say?",
+      "options": [
+        "The mean is the more efficient estimator: from the same n it lands closer to μ, on average",
+        "The median is the more efficient estimator, because its larger variance covers more values",
+        "The median is biased, because its variance is larger than the mean's variance",
+        "The two are equally good, because both of them are unbiased estimators of μ"
+      ],
+      "correct": [0],
+      "explanation": "With both unbiased, the one with the smaller variance is more efficient. The mean's estimates are more tightly grouped around μ; the median would need about 57 % more data to match it. A larger variance does not make an estimator biased."
+    },
+    {
+      "id": "q3",
+      "kind": "numeric",
+      "objective": "st.m7.o2",
+      "lookAgain": "st.m7.sampling-clt",
+      "prompt": "The daily water demand of households in a town has mean 320 L and standard deviation σ = 90 L, and is skewed to the right. A utility averages the demand of a random sample of **n = 81** households. What is the standard error of the sample mean, in liters? Give it to two decimals.",
+      "answer": 10,
+      "tolerance": 0.005,
+      "unit": "L",
+      "explanation": "σ/√n = 90 / √81 = 90 / 9 = 10.00 L. With n = 81, the central limit theorem makes the sample mean close to normal, mean 320 L and standard deviation 10 L, although single households' demand is skewed."
+    },
+    {
+      "id": "q4",
+      "kind": "choice",
+      "objective": "st.m7.o2",
+      "lookAgain": "st.m7.sampling-clt",
+      "prompt": "Times between failures of a pump are strongly skewed to the right. An engineer has n = 60 of them and builds a t interval for the mean. Why is that reasonable?",
+      "options": [
+        "By the central limit theorem the mean of 60 values is close to normal, even though single times are skewed",
+        "The central limit theorem makes the 60 failure times themselves normal once n is above 30",
+        "A t interval does not need the sample mean to have any particular distribution",
+        "It is not reasonable: an interval for a mean needs the data to be normal at every sample size"
+      ],
+      "correct": [0],
+      "explanation": "The CLT is about the sample mean: for large n it is approximately normal, whatever the population's shape. The data keep their skew. With a small sample from a skewed population, the interval would not be reliable."
+    },
+    {
+      "id": "q5",
+      "kind": "numeric",
+      "objective": "st.m7.o3",
+      "lookAgain": "st.m7.means",
+      "prompt": "Ten welds were pull-tested: x̄ = 12.4 kN, s = 1.5 kN. Find the **upper limit** of the 95 % confidence interval for the mean strength μ. (t_{0.025, 9} = 2.262.) Give it to two decimals.",
+      "answer": 13.473,
+      "tolerance": 0.01,
+      "unit": "kN",
+      "explanation": "σ is unknown, so use t with n − 1 = 9 degrees of freedom. SE = 1.5 / √10 = 0.4743 kN; E = 2.262 × 0.4743 = 1.073 kN; the interval is 12.4 ± 1.073, from 11.33 to 13.47 kN. With z = 1.960 the upper limit would be 13.33, too narrow for ten welds."
+    },
+    {
+      "id": "q6",
+      "kind": "choice",
+      "objective": "st.m7.o3",
+      "lookAgain": "st.m7.means",
+      "prompt": "Twelve samples of a river's dissolved oxygen give x̄ = 7.8 mg/L and s = 0.6 mg/L. No earlier data on the river's σ exist. Which interval is right?",
+      "options": [
+        "x̄ ± t_{α/2, 11} · s/√12, because σ is estimated by s",
+        "x̄ ± z_{α/2} · s/√12, because the river's oxygen is approximately normal",
+        "x̄ ± t_{α/2, 12} · s/√12, because there are twelve samples",
+        "x̄ ± t_{α/2, 11} · s, because each sample varies by s"
+      ],
+      "correct": [0],
+      "explanation": "With s in place of σ, use t with n − 1 = 11 degrees of freedom, times the standard error s/√n. z needs a known σ; df is n − 1, not n; and s alone is the spread of single samples, not of x̄."
+    },
+    {
+      "id": "q7",
+      "kind": "numeric",
+      "objective": "st.m7.o3",
+      "lookAgain": "st.m7.proportions",
+      "prompt": "Of 200 randomly chosen intersections in a county, 36 have a crash rate above the state's threshold. What is the **margin of error** of the 95 % confidence interval for the proportion of all the county's intersections above the threshold? (z_{0.025} = 1.960.) Give it to three decimals or more.",
+      "answer": 0.0532,
+      "tolerance": 0.001,
+      "explanation": "p̂ = 36 / 200 = 0.18; n·p̂ = 36 and n·(1 − p̂) = 164 are both at least 10. SE = √(0.18 × 0.82 / 200) = 0.02717; E = 1.960 × 0.02717 = 0.0532. The interval is 0.127 to 0.233."
+    },
+    {
+      "id": "q8",
+      "kind": "choice",
+      "objective": "st.m7.o4",
+      "lookAgain": "st.m7.precision",
+      "prompt": "An engineer's 95 % interval for a mean is too wide to be useful. She can afford **four times** as many measurements as she took. If s stays about the same, what happens to the margin of error?",
+      "options": [
+        "It is about halved, because the standard error falls with √n and √4 = 2",
+        "It falls to about a quarter, because the standard error falls with n",
+        "It stays about the same, because s and the confidence level do not change",
+        "It doubles, because more measurements bring in more of the variability"
+      ],
+      "correct": [0],
+      "explanation": "E = t·s/√n. Four times n doubles √n, so E is about halved (a little less than half, since t also falls slightly as the degrees of freedom grow). To cut E to a quarter would take sixteen times the data."
+    },
+    {
+      "id": "q9",
+      "kind": "numeric",
+      "objective": "st.m7.o4",
+      "lookAgain": "st.m7.precision",
+      "prompt": "A transit agency wants to estimate the proportion of riders who pay with a phone, within **±0.04** at **95 %** confidence. It has no earlier estimate of the proportion. How many riders must it survey? (z_{0.025} = 1.960.) Give a whole number.",
+      "answer": 601,
+      "tolerance": 0.5,
+      "explanation": "With no earlier estimate use p = 0.5: n = (1.960 / 0.04)² × 0.5 × 0.5 = 2401 × 0.25 = 600.25. Always round up: 601 riders. Rounding to 600 would leave the margin just over 0.04."
+    },
+    {
+      "id": "q10",
+      "kind": "choice",
+      "objective": "st.m7.o5",
+      "lookAgain": "st.m7.interpreting",
+      "prompt": "A 95 % confidence interval for the mean service life of a bridge bearing type is 41.5 to 47.0 years. Which statement interprets it correctly?",
+      "options": [
+        "We are 95 % confident that the mean life of this bearing type is between 41.5 and 47.0 years: 95 % of intervals made this way contain the true mean",
+        "There is a 95 % probability that the mean life of this bearing type is between 41.5 and 47.0 years, now that the interval is calculated",
+        "95 % of bearings of this type will last between 41.5 and 47.0 years, so a bearing can be planned to last 41.5 years",
+        "The mean life of this bearing type is 44.25 years, the center of the interval, with an error of 5 % at most"
+      ],
+      "correct": [0],
+      "explanation": "The confidence describes the method's long-run success rate; the calculated interval either contains μ or not. The interval is for the mean, not single bearings, which vary much more. And the center is only the estimate x̄."
+    }
+  ]
+}

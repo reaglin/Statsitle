@@ -1,0 +1,84 @@
+{
+  "id": "st.m7.proportions.ex",
+  "title": "Solder joints in thermal cycling",
+  "analysis": "ConfidenceInterval",
+  "intro": "A random sample of **320** solder joints from a new board design went through a thermal-cycling test, and **48** of them cracked.\n\nBuild the **90 %** confidence interval for the proportion of all such joints that crack, with the course's formula p̂ ± z√(p̂(1 − p̂)/n). Find p̂, the standard error, the margin of error and the two limits. Give the standard error to four decimals and the other answers to three decimals or more.",
+  "settings": {
+    "Name": "Cracked solder joints",
+    "Target": "Proportion",
+    "Source": "Summary",
+    "Confidence": 0.9,
+    "Successes": 48,
+    "SampleSize": 320
+  },
+  "ask": [
+    {
+      "result": "Estimate",
+      "prompt": "Point estimate, p̂",
+      "tolerance": 0.001
+    },
+    {
+      "result": "StandardError",
+      "prompt": "Standard error",
+      "tolerance": 0.0005
+    },
+    {
+      "result": "MarginOfError",
+      "prompt": "Margin of error",
+      "tolerance": 0.001
+    },
+    {
+      "result": "Lower",
+      "prompt": "Lower limit",
+      "tolerance": 0.001
+    },
+    {
+      "result": "Upper",
+      "prompt": "Upper limit",
+      "tolerance": 0.001
+    }
+  ],
+  "mistakes": {
+    "StandardError": [
+      {
+        "value": 0.000398,
+        "says": "That is p̂(1 − p̂)/n, the variance. Take its square root."
+      },
+      {
+        "value": 0.3571,
+        "says": "You left out n. The standard error is √(p̂(1 − p̂)/n): divide by 320 inside the root."
+      }
+    ],
+    "MarginOfError": [
+      {
+        "value": 0.0391,
+        "says": "You used z = 1.960, the 95 % value. For 90 % confidence, z_{0.05} = 1.645."
+      }
+    ],
+    "Lower": [
+      {
+        "value": 0.1109,
+        "says": "You used z = 1.960, the 95 % value. For 90 % confidence, z_{0.05} = 1.645."
+      },
+      {
+        "result": "WilsonLower",
+        "says": "That is Wilson's score interval (what R's prop.test gives). This exercise asks for the course's formula, p̂ − z√(p̂(1 − p̂)/n)."
+      }
+    ],
+    "Upper": [
+      {
+        "value": 0.1891,
+        "says": "You used z = 1.960, the 95 % value. For 90 % confidence, z_{0.05} = 1.645."
+      },
+      {
+        "result": "WilsonUpper",
+        "says": "That is Wilson's score interval (what R's prop.test gives). This exercise asks for the course's formula, p̂ + z√(p̂(1 − p̂)/n)."
+      }
+    ]
+  },
+  "hints": [
+    "p̂ = 48 / 320. Check that n·p̂ and n·(1 − p̂) are both at least 10.",
+    "Standard error = √(p̂ × (1 − p̂) / 320). A 90 % interval puts 5 % in each tail, so z = 1.645.",
+    "Margin of error = 1.645 × standard error; the limits are p̂ minus and plus it."
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "id": "st.m7.sampling-clt.sim",
+  "title": "Means of a skewed population",
+  "analysis": "Simulation",
+  "intro": "Repair times from an exponential population with rate λ = 0.5 per hour (mean 2 h, σ = 2 h, strongly skewed). The Simulation drew 2000 samples of n = 30 (seed 1). Their means average 1.9834 h with a standard deviation of 0.3586 h, against μ = 2 and σ/√n = 0.3651, and their histogram follows the normal curve of the central limit theorem.",
+  "settings": {
+    "Name": "Repair times, n = 30",
+    "Experiment": "SampleMeans",
+    "Distribution": "Exponential",
+    "Rate": 0.5,
+    "SampleSize": 30,
+    "Trials": 2000,
+    "Seed": 1
+  }
+}

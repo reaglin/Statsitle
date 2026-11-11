@@ -1,0 +1,54 @@
+{
+  "id": "st.m7.precision.ex",
+  "title": "Pavement deflection",
+  "analysis": "SampleSize",
+  "intro": "A pavement engineer will measure the deflection of a road section under a falling-weight load at randomly chosen points. Earlier sections of the same design had a standard deviation of **0.8 mm**. She wants to estimate the mean deflection within **±0.2 mm** at **99 %** confidence.\n\nFind the critical value z and the number of test points she needs. Give the critical value to three decimals and the sample size as a whole number.",
+  "settings": {
+    "Name": "Pavement deflection",
+    "Target": "Mean",
+    "Confidence": 0.99,
+    "Margin": 0.2,
+    "Sigma": 0.8
+  },
+  "ask": [
+    {
+      "result": "Critical",
+      "prompt": "Critical value, z_{α/2}"
+    },
+    {
+      "result": "SampleSizeNeeded",
+      "prompt": "Test points needed, n"
+    }
+  ],
+  "mistakes": {
+    "Critical": [
+      {
+        "value": 1.96,
+        "says": "That is the 95 % value. 99 % confidence leaves 0.005 in each tail: z_{0.005}."
+      },
+      {
+        "value": 2.3263,
+        "says": "That is z_{0.01}, with all of α in one tail. A two-sided 99 % margin puts 0.005 in each tail: z_{0.005}."
+      }
+    ],
+    "SampleSizeNeeded": [
+      {
+        "value": 106,
+        "says": "You rounded down (or to the nearest whole number). The formula gives 106.2: always round up, or the margin is a little over 0.2 mm."
+      },
+      {
+        "value": 62,
+        "says": "You used z = 1.960, the 95 % value. For 99 %, z = 2.576."
+      },
+      {
+        "value": 11,
+        "says": "You forgot to square. n = (z × σ / E)²."
+      }
+    ]
+  },
+  "hints": [
+    "99 % confidence leaves α = 0.01, so 0.005 in each tail: z = stats.norm.ppf(0.995) or qnorm(0.995).",
+    "n = (z × σ / E)² = (z × 0.8 / 0.2)².",
+    "Always round n up to the next whole number."
+  ]
+}

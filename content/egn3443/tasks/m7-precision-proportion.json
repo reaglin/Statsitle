@@ -1,0 +1,13 @@
+{
+  "id": "st.m7.precision.proportion",
+  "title": "A proportion within ±3 points",
+  "analysis": "SampleSize",
+  "intro": "A proportion within ±0.03 at 95 % confidence, with no earlier estimate (p = 0.5): n = (1.960 / 0.03)² × 0.25 = 1067.07, rounded up to 1068.",
+  "settings": {
+    "Name": "Share of residents",
+    "Target": "Proportion",
+    "Confidence": 0.95,
+    "Margin": 0.03,
+    "ProportionGuess": 0.5
+  }
+}

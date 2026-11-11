@@ -1,0 +1,14 @@
+{
+  "id": "st.m7.proportions.eg",
+  "title": "Porosity in welds",
+  "analysis": "ConfidenceInterval",
+  "intro": "26 of 400 X-rayed welds showed porosity. p̂ = 0.065, standard error √(p̂(1 − p̂)/n) = 0.0123, z = 1.960, margin of error 0.0242: the 95 % interval runs from 0.0408 to 0.0892. Wilson's score interval is 0.0447 to 0.0935.",
+  "settings": {
+    "Name": "Welds with porosity",
+    "Target": "Proportion",
+    "Source": "Summary",
+    "Confidence": 0.95,
+    "Successes": 26,
+    "SampleSize": 400
+  }
+}

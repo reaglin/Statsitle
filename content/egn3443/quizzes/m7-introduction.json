@@ -1,0 +1,102 @@
+{
+  "id": "st.m7.introduction.quiz",
+  "title": "Point estimates, bias and efficiency",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "choice",
+      "objective": "st.m7.o1",
+      "prompt": "A lab measures the yield strength of 15 steel bars and reports x̄ = 412 MPa. Which statement uses the words correctly?",
+      "options": [
+        "The sample mean is the estimator; 412 MPa is the estimate of μ",
+        "412 MPa is the estimator; the sample mean is the estimate of μ",
+        "412 MPa is the parameter μ, because it was measured",
+        "The sample mean is the parameter; 412 MPa is the statistic"
+      ],
+      "correct": [0],
+      "explanation": "The estimator is the rule (add the 15 values, divide by 15). The estimate is the number it gives for this sample, 412 MPa. The parameter μ, the mean of all such bars, stays unknown."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m7.o1",
+      "prompt": "What does it mean that the sample mean is an **unbiased** estimator of μ?",
+      "options": [
+        "Averaged over all possible samples, x̄ equals μ: it leans neither high nor low",
+        "Every sample gives an x̄ exactly equal to μ, whatever its size",
+        "Its variance is the smallest of all the possible estimators",
+        "It is not affected by outliers, so a bad value cannot move it"
+      ],
+      "correct": [0],
+      "explanation": "Unbiased means E[X̄] = μ. Single samples still miss μ, some high and some low, but the misses average out. A small variance is efficiency, a different property. And the mean is affected by outliers; the median is the resistant one."
+    },
+    {
+      "id": "q3",
+      "kind": "choice",
+      "objective": "st.m7.o1",
+      "prompt": "Two estimators of a pipe's mean wall thickness are both unbiased. Estimator A has variance 0.8 mm², estimator B has variance 2.5 mm². Which should the engineer use, and why?",
+      "options": [
+        "A: both are centered on μ, and A's estimates spread less, so it is more efficient",
+        "B: a larger variance means it covers more of the possible values of μ",
+        "Either one: unbiased estimators are equally good, whatever their variance",
+        "Neither: an unbiased estimator must have a variance of zero to be used"
+      ],
+      "correct": [0],
+      "explanation": "When both are unbiased, compare the variances. The smaller one, A's, lands closer to μ from sample to sample: A is the more efficient estimator."
+    },
+    {
+      "id": "q4",
+      "kind": "numeric",
+      "objective": "st.m7.o1",
+      "prompt": "Four cylinders from a pour had slumps of 12, 15, 11 and 14 cm. What is the unbiased estimate of the variance σ², in cm²? Give it to two decimals.",
+      "answer": 3.3333,
+      "tolerance": 0.005,
+      "unit": "cm²",
+      "explanation": "x̄ = 52 / 4 = 13. The deviations are −1, 2, −2 and 1; their squares add to 1 + 4 + 4 + 1 = 10. The unbiased estimate divides by n − 1 = 3: s² = 10 / 3 = 3.33 cm². Dividing by n = 4 gives 2.50, which is biased low."
+    },
+    {
+      "id": "q5",
+      "kind": "numeric",
+      "objective": "st.m7.o1",
+      "prompt": "A population has variance σ² = 20. Samples of n = 5 are drawn, and for each one the variance is calculated dividing by **n** instead of n − 1. Over many samples, what does this estimator average? Give a whole number.",
+      "answer": 16,
+      "tolerance": 0.05,
+      "explanation": "Dividing by n gives, on average, (n − 1)/n × σ² = 4/5 × 20 = 16. It is biased low by 4. Dividing by n − 1 removes the bias: s² averages 20."
+    },
+    {
+      "id": "q6",
+      "kind": "numeric",
+      "objective": "st.m7.o1",
+      "prompt": "An inspector checks 140 castings and finds 7 with porosity. What is the point estimate p̂ of the proportion of castings with porosity? Give it to three decimals or more.",
+      "answer": 0.05,
+      "tolerance": 0.001,
+      "explanation": "p̂ = x / n = 7 / 140 = 0.050. It is an unbiased estimator of the true proportion p."
+    },
+    {
+      "id": "q7",
+      "kind": "numeric",
+      "objective": "st.m7.o1",
+      "prompt": "A sample of n = 36 load tests has a standard deviation s = 6 kN. What is the estimated standard error of the sample mean, in kN? Give it to two decimals.",
+      "answer": 1,
+      "tolerance": 0.005,
+      "unit": "kN",
+      "explanation": "The standard error of x̄ is s/√n = 6 / √36 = 6 / 6 = 1.00 kN. It is the typical distance between x̄ and μ, much smaller than the spread of single tests, s = 6 kN."
+    },
+    {
+      "id": "q8",
+      "kind": "multiple",
+      "objective": "st.m7.o1",
+      "prompt": "Estimator C is unbiased but has a large variance. Estimator D is slightly biased but has a very small variance. Which statements are true? Choose every one that applies.",
+      "options": [
+        "Over many samples, C's estimates average the parameter",
+        "A single estimate from D may well be closer to the parameter than one from C",
+        "Over many samples, D's estimates average exactly the parameter",
+        "C always gives the better single estimate, because it is unbiased"
+      ],
+      "correct": [0, 1],
+      "explanation": "C is centered on the parameter but scattered; D is tightly grouped a little off center, so one D estimate is often closer. D is biased, so its average misses the parameter slightly. Being unbiased never guarantees the better single estimate: that is why the variance matters too."
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "id": "st.m7.interpreting.quiz",
+  "title": "Interpreting confidence intervals",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "choice",
+      "objective": "st.m7.o5",
+      "prompt": "From 14 test cylinders, the 95 % confidence interval for the mean compressive strength of a concrete mix is 31.2 to 34.6 MPa. Which statement is correct?",
+      "options": [
+        "We are 95 % confident that the mean strength of the mix is between 31.2 and 34.6 MPa",
+        "There is a 95 % probability that the mean strength is between 31.2 and 34.6 MPa",
+        "95 % of the cylinders made from this mix are between 31.2 and 34.6 MPa",
+        "95 % of samples of 14 cylinders will have a mean between 31.2 and 34.6 MPa"
+      ],
+      "correct": [0],
+      "explanation": "The confidence belongs to the method: about 95 % of intervals built this way contain μ. Once calculated, this interval either contains μ or not, so a probability statement about μ is not right. The interval is about the mean, not single cylinders, and it is centered on this sample's x̄, not on μ, so it does not predict other samples' means."
+    },
+    {
+      "id": "q2",
+      "kind": "multiple",
+      "objective": "st.m7.o5",
+      "prompt": "A 90 % confidence interval for the proportion of defective connectors in a lot is 0.021 to 0.047. Which statements are right? Choose every one that applies.",
+      "options": [
+        "We are 90 % confident that between 2.1 % and 4.7 % of the lot's connectors are defective",
+        "If the sampling were repeated many times, about 90 % of the intervals made this way would contain the lot's true proportion",
+        "The lot's true proportion of defectives is 0.034, the middle of the interval",
+        "There is a 10 % chance that this particular interval is wrong because of an arithmetic slip"
+      ],
+      "correct": [0, 1],
+      "explanation": "The first is the in-context statement, the second what the 90 % means. The middle of the interval is p̂, an estimate, not the true proportion. The 10 % is the share of intervals that miss p because of the luck of the sample; it has nothing to do with arithmetic."
+    },
+    {
+      "id": "q3",
+      "kind": "choice",
+      "objective": "st.m7.o4",
+      "prompt": "From the same sample, an engineer calculates a 95 % and a 99 % confidence interval for a mean. How do they compare?",
+      "options": [
+        "The 99 % interval is wider: more confidence needs a larger critical value",
+        "The 99 % interval is narrower: more confidence means a more precise estimate",
+        "They are the same width, because they come from the same sample",
+        "The 99 % interval is centered higher, because it covers more of the values"
+      ],
+      "correct": [0],
+      "explanation": "Both are centered on the same x̄. The 99 % interval uses a larger critical value (2.576 against 1.960 for z), so it is wider. Being surer that the interval contains μ costs precision."
+    },
+    {
+      "id": "q4",
+      "kind": "numeric",
+      "objective": "st.m7.o5",
+      "prompt": "Forty independent teams each take their own random sample from the same process and build a **90 %** confidence interval for its mean. About how many of the forty intervals would you expect to contain the true mean? Give a whole number.",
+      "answer": 36,
+      "tolerance": 0.5,
+      "explanation": "Each interval contains μ with probability 0.90 before its sample is taken, so about 0.90 × 40 = 36 will contain it and about 4 will miss. No team can tell from its own interval whether it is one of the four."
+    },
+    {
+      "id": "q5",
+      "kind": "choice",
+      "objective": "st.m7.o5",
+      "prompt": "The Simulation drew samples from a population whose mean μ it knows, and built a 90 % interval from each. The figure shows the first 100; the vertical line is μ, and the red intervals miss it. What do the red intervals show?\n[[figure: st.m7.interpreting.ninety 2]]",
+      "options": [
+        "Samples that by chance fell far from μ; correct calculations from unlucky samples",
+        "Intervals calculated with a mistake, such as z used in place of t",
+        "Samples taken from a different population, with a different mean",
+        "Intervals that should be thrown away before the others are reported"
+      ],
+      "correct": [0],
+      "explanation": "Every interval was built by the same correct method from a sample of the same population. A 90 % method misses μ about 10 % of the time just from the luck of the sample. In real work you cannot tell which kind of interval you have, which is why the confidence describes the method."
+    },
+    {
+      "id": "q6",
+      "kind": "choice",
+      "objective": "st.m7.o5",
+      "prompt": "A pump manufacturer claims its seals last 250 hours on average under a test load. A lab tests a sample of seals, and the 95 % confidence interval for the mean life is 231 to 246 hours. What should the lab conclude?",
+      "options": [
+        "The data argue against the claim: 250 h is above every plausible value of the mean at 95 % confidence",
+        "The claim is supported, because 250 h is close to the interval's upper end of 246 h",
+        "Nothing, because a confidence interval cannot be compared with a claimed value",
+        "The claim is proved false: the true mean is certainly below 246 h"
+      ],
+      "correct": [0],
+      "explanation": "Values outside a 95 % interval are not plausible at that confidence, and 250 h is above the whole interval. That is strong evidence against the claim, not proof: a 95 % method misses about 1 time in 20."
+    },
+    {
+      "id": "q7",
+      "kind": "choice",
+      "objective": "st.m7.o5",
+      "prompt": "A traffic engineer's 95 % confidence interval for the mean morning travel time on a corridor is 18.4 to 21.0 minutes. Which sentence is the best one for the city's report?",
+      "options": [
+        "\"The mean morning travel time on the corridor is between about 18.4 and 21.0 minutes (95 % confidence), so the 20-minute target may or may not be met; more data are needed to tell.\"",
+        "\"The 95 % confidence interval is (18.4, 21.0).\"",
+        "\"There is a 95 % probability that the corridor's mean travel time is under 21.0 minutes, so the 20-minute target is met.\"",
+        "\"95 % of the morning trips on the corridor take between 18.4 and 21.0 minutes, so the 20-minute target is met.\""
+      ],
+      "correct": [0],
+      "explanation": "The first names the quantity, the units and the confidence, and reads the result against the target: 20 minutes is inside the interval, so the data cannot say on which side the mean is. The second is right but says nothing in context. The third makes a probability statement about μ, and the fourth reads the interval as a range for single trips."
+    }
+  ]
+}

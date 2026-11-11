@@ -1,0 +1,16 @@
+{
+  "id": "st.m7.interpreting.ninety",
+  "title": "A thousand 90 % intervals",
+  "analysis": "Simulation",
+  "intro": "The same 1000 samples (seed 1), with 90 % t intervals. They are narrower, and 906 of the 1000 contain μ; in the first 100, fifteen miss.",
+  "settings": {
+    "Name": "90 % intervals",
+    "Experiment": "IntervalCoverage",
+    "PopulationMean": 50,
+    "PopulationSigma": 2,
+    "SampleSize": 10,
+    "Confidence": 0.9,
+    "Trials": 1000,
+    "Seed": 1
+  }
+}

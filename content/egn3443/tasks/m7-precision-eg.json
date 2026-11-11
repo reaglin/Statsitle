@@ -1,0 +1,13 @@
+{
+  "id": "st.m7.precision.eg",
+  "title": "Fill weight within ±0.5 g",
+  "analysis": "SampleSize",
+  "intro": "A plant wants the mean fill weight within ±0.5 g at 95 % confidence; past data give σ = 2.2 g. n = (1.960 × 2.2 / 0.5)² = 74.37, rounded up to 75 boxes.",
+  "settings": {
+    "Name": "Fill weight",
+    "Target": "Mean",
+    "Confidence": 0.95,
+    "Margin": 0.5,
+    "Sigma": 2.2
+  }
+}

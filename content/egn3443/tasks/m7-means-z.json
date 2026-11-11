@@ -1,0 +1,15 @@
+{
+  "id": "st.m7.means.z",
+  "title": "A calibrated scale (σ known)",
+  "analysis": "ConfidenceInterval",
+  "intro": "A check weight weighed 25 times on a scale whose readings have a known σ = 0.5 g. The mean reading is 100.3 g. The 95 % z interval: standard error 0.1 g, z = 1.960, margin of error 0.196 g, interval 100.104 to 100.496 g.",
+  "settings": {
+    "Name": "Check weight",
+    "Target": "MeanSigmaKnown",
+    "Source": "Summary",
+    "Confidence": 0.95,
+    "SampleMean": 100.3,
+    "Sigma": 0.5,
+    "SampleSize": 25
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "st.m7.introduction.sim",
+  "title": "A thousand sample means",
+  "analysis": "Simulation",
+  "intro": "A thousand samples of n = 10 drawn from a normal population with μ = 50 and σ = 1.2 (seed 1). The sample means average 50.0051, close to μ: the sample mean is unbiased. Their standard deviation, 0.3708, is close to the standard error σ/√n = 0.3795.",
+  "settings": {
+    "Name": "Sample means, n = 10",
+    "Experiment": "SampleMeans",
+    "Distribution": "Normal",
+    "PopulationMean": 50,
+    "PopulationSigma": 1.2,
+    "SampleSize": 10,
+    "Trials": 1000,
+    "Seed": 1
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "st.m7.interpreting.eg",
+  "title": "A thousand 95 % intervals",
+  "analysis": "Simulation",
+  "intro": "1000 samples of n = 10 from a normal population with μ = 50 and σ = 2 (seed 1), and a 95 % t interval from each. 949 of the 1000 contain μ: an experimental proportion of 0.949 against the confidence level 0.95. In the first 100, eight miss.",
+  "settings": {
+    "Name": "95 % intervals",
+    "Experiment": "IntervalCoverage",
+    "PopulationMean": 50,
+    "PopulationSigma": 2,
+    "SampleSize": 10,
+    "Confidence": 0.95,
+    "Trials": 1000,
+    "Seed": 1
+  }
+}

@@ -329,7 +329,7 @@ public sealed class ConfidenceInterval : Analysis, IUsesProject, IHasChoices, IL
     }
 
     [StatistleProperty(Label = "Wilson score lower", Decimals = 4, Role = VariableRole.Calculated,
-        Help = "The lower end of Wilson's score interval — what R's prop.test reports. Better " +
+        Help = "The lower end of Wilson's score interval — what R's prop.test(x, n, correct = FALSE) reports. Better " +
                "than the Wald interval above when n is small or p̂ is near 0 or 1; the course's " +
                "hand formula is Wald.")]
     public double WilsonLower
@@ -563,7 +563,7 @@ public sealed class ConfidenceInterval : Analysis, IUsesProject, IHasChoices, IL
 
         if (Target == IntervalFor.Proportion)
         {
-            s.Comment("Wilson's score interval — what R's prop.test and statsmodels' proportion_confint(method='wilson') give");
+            s.Comment("Wilson's score interval — what R's prop.test(x, n, correct = FALSE) and statsmodels' proportion_confint(method='wilson') give");
             s.Either("centre = (p_hat + crit**2 / (2 * n)) / (1 + crit**2 / n)", "centre <- (p_hat + crit^2 / (2 * n)) / (1 + crit^2 / n)");
             s.Either("half = crit * np.sqrt(p_hat * (1 - p_hat) / n + crit**2 / (4 * n**2)) / (1 + crit**2 / n)", "half <- crit * sqrt(p_hat * (1 - p_hat) / n + crit^2 / (4 * n^2)) / (1 + crit^2 / n)");
             s.Print("Wilson score lower", "centre - half", "centre - half", 4);

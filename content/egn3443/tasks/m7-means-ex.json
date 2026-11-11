@@ -1,0 +1,103 @@
+{
+  "id": "st.m7.means.ex",
+  "title": "Concrete core strength",
+  "analysis": "ConfidenceInterval",
+  "intro": "Eight cores were drilled from a bridge deck and crushed. Their compressive strengths had a mean of **31.6 MPa** and a standard deviation of **2.4 MPa**. The population standard deviation is not known.\n\nBuild the **95 %** confidence interval for the mean strength of the deck: find the standard error, the critical value, the margin of error, and the two limits. Give every answer to two decimals or more (three for the critical value).",
+  "settings": {
+    "Name": "Core strength",
+    "Confidence": 0.95,
+    "SampleMean": 31.6,
+    "SampleSd": 2.4,
+    "SampleSize": 8
+  },
+  "ask": [
+    {
+      "result": "StandardError",
+      "prompt": "Standard error, s/√n (MPa)"
+    },
+    {
+      "result": "Critical",
+      "prompt": "Critical value"
+    },
+    {
+      "result": "MarginOfError",
+      "prompt": "Margin of error (MPa)",
+      "tolerance": 0.01
+    },
+    {
+      "result": "Lower",
+      "prompt": "Lower limit (MPa)",
+      "tolerance": 0.01
+    },
+    {
+      "result": "Upper",
+      "prompt": "Upper limit (MPa)",
+      "tolerance": 0.01
+    }
+  ],
+  "mistakes": {
+    "StandardError": [
+      {
+        "value": 2.4,
+        "says": "That is s, the spread of single cores. The standard error of the mean is s/√n."
+      },
+      {
+        "value": 0.3,
+        "says": "You divided by n = 8. The standard error divides by √n = √8."
+      }
+    ],
+    "Critical": [
+      {
+        "value": 1.96,
+        "says": "That is z. σ is unknown and estimated by s from only eight cores, so use t with n − 1 = 7 degrees of freedom."
+      },
+      {
+        "value": 2.306,
+        "says": "That is t with 8 degrees of freedom. The degrees of freedom are n − 1 = 7."
+      },
+      {
+        "value": 1.8946,
+        "says": "That is t_{0.05, 7}, with all of α in one tail. A two-sided 95 % interval puts 0.025 in each tail: t_{0.025, 7}."
+      }
+    ],
+    "MarginOfError": [
+      {
+        "value": 1.6631,
+        "says": "You used z = 1.960. With s from eight cores, use t_{0.025, 7}."
+      },
+      {
+        "value": 5.6751,
+        "says": "You multiplied the critical value by s. Multiply it by the standard error s/√n."
+      },
+      {
+        "value": 1.9567,
+        "says": "You used t with 8 degrees of freedom. Use n − 1 = 7."
+      }
+    ],
+    "Lower": [
+      {
+        "value": 29.9369,
+        "says": "You used z = 1.960. With s from eight cores, use t_{0.025, 7}."
+      },
+      {
+        "value": 25.9249,
+        "says": "You subtracted t × s. Subtract t × s/√n."
+      }
+    ],
+    "Upper": [
+      {
+        "value": 33.2631,
+        "says": "You used z = 1.960. With s from eight cores, use t_{0.025, 7}."
+      },
+      {
+        "value": 37.2751,
+        "says": "You added t × s. Add t × s/√n."
+      }
+    ]
+  },
+  "hints": [
+    "σ is unknown, so this is a t interval: x̄ ± t_{0.025, n−1} × s/√n.",
+    "Standard error = 2.4 / √8. Degrees of freedom = 8 − 1 = 7; t_{0.025, 7} is in a t table, or stats.t.ppf(0.975, 7), or qt(0.975, 7).",
+    "Margin of error = t × standard error. Lower = 31.6 − margin, upper = 31.6 + margin."
+  ]
+}

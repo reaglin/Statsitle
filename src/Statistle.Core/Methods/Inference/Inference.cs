@@ -76,7 +76,7 @@ public static class Intervals
         return new Interval(p, se, z, z * se, Math.Max(0, p - z * se), Math.Min(1, p + z * se));
     }
 
-    /// <summary>Wilson's score interval — what R's prop.test gives; better than Wald for small n or p near 0 or 1.</summary>
+    /// <summary>Wilson's score interval — what R's prop.test(x, n, correct = FALSE) gives (its default adds a continuity correction); better than Wald for small n or p near 0 or 1.</summary>
     public static Interval ProportionWilson(int successes, int n, double confidence)
     {
         double p = (double)successes / n, z = ZCritical(confidence), z2 = z * z;

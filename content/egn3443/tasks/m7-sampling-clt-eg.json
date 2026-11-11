@@ -1,0 +1,15 @@
+{
+  "id": "st.m7.sampling-clt.eg",
+  "title": "Wire tensile strength",
+  "analysis": "SamplingDistribution",
+  "intro": "A wire's tensile strength has μ = 520 MPa and σ = 24 MPa. For samples of n = 36, x̄ has mean 520 MPa and standard error 24/√36 = 4 MPa. The probability that x̄ falls between 512 and 528 MPa (μ ± 2 standard errors) is 0.9545, and the middle 95 % of sample means runs from 512.16 to 527.84 MPa.",
+  "settings": {
+    "Name": "Wire strength, n = 36",
+    "Statistic": "SampleMean",
+    "PopulationMean": 520,
+    "PopulationSigma": 24,
+    "SampleSize": 36,
+    "Value": 512,
+    "Value2": 528
+  }
+}
