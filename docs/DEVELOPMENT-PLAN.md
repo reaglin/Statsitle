@@ -295,7 +295,7 @@ uget-local` (Ron, 2026-11-11) → phase 8 |
 | Q4 | 2026-11-11 | Should there be an **instructors' review site** like PLC+'s (softwareplus.ai/…/review/, a comment box per item) for colleagues teaching EGN3443? | **Not yet**; may be added as usage grows (Ron, 2026-11-11) |
 | Q5 | 2026-11-11 | Datasets: may the Examples and Exercises use the course's assignment data and the datasets in its Colab notebooks, or only Montgomery & Runger and made-up data? | **Yes**, the course's assignment and Colab data may be used (Ron, 2026-11-11) |
 | Q6 | 2026-11-11 | Is the course's "Additional Advanced Topics" module in the path at 2.0, or kept for later (phase 16)? | **Later** (phase 16), not in 2.0 (Ron, 2026-11-11) |
-| Q8 | 2026-11-11 | The Workbench project belongs to the computer, as in 1.1, so after Sign out the next student sees it. Should Sign out offer to save and clear it (or should each learner have their own Workbench project)? | |
+| Q8 | 2026-11-11 | The Workbench project belongs to the computer, as in 1.1, so after Sign out the next student sees it. Should Sign out offer to save and clear it (or should each learner have their own Workbench project)? | **2026-11-11, Ron:** "It is OK for students to see who else might have logged in, as long as they don't have the pin." Kept as is: the Workbench project stays the computer's; a learner's progress stays behind their PIN. |
 | Q7 | 2026-11-11 | AI: PLC+ has none in its first release. Statistics+ has none either (the Workbench never had any). Is that right for 2.0? | **Correct, no AI (yet).** Once a use case is made for AI in either application (Statistics+ or PLC+) it might be added (Ron, 2026-11-11) |
 
 ## References
