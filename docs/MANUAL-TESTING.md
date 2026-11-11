@@ -1,4 +1,4 @@
-# Statistle — manual testing
+# Statistics+ (Statistle) — manual testing
 
 Hand-tests for Ron (and other testers) before anything goes to the Microsoft Store. Each round is a
 part, newest at the top. Record each step as ✅ / ❌ with a note; ❌ and notes go back into
@@ -17,6 +17,46 @@ Move-Item manual-test/Statistle.App.exe manual-test/Statistle.exe -Force
 
 `manual-test\` is gitignored. This copy is not installed from the Store, so Help ▸ Check for a new
 version says it cannot check and offers the Store page — that is expected.
+
+---
+
+## Round 2.0 — Statistics+: the Course and the Module 2 pilot (2026-11-11)
+
+Build: `manual-test\Statistle.exe` (made 2026-11-11, version 2.0.0; the content package is in
+`manual-test\content\egn3443`). Close any copy that is open first. Plan phases 7–11 (`docs/DEVELOPMENT-PLAN.md`).
+**The main question for this round (plan 11.1): is Module 2 the right shape for the other ~90 items?**
+
+### P. The program, as a student meets it
+
+P1. Start it. Expected: "Who is learning?" covers the window. The title bar and every word say **Statistics+**.
+P2. Choose **New learner…**, type your name and a PIN, and write down the recovery code. Expected: you are signed in,
+    your name is in the dark strip at the top right, and the Course shows **My progress**.
+P3. The strip has **Course** and **Workbench** (Ctrl+L, Ctrl+B). Switch to the Workbench and back. Expected: the
+    Workbench is the calculator as in 1.1, unchanged.
+P4. Open **2. Descriptive Statistics** in the tree. Expected: the module page lists the five outcomes and the six
+    items, with **Start with 2.1 …**.
+P5. Open **2.2 Measures of central tendency**. Read the **Learn** tab (Ctrl+1). Look at the **Example** tab (Ctrl+2):
+    the data, every result, the histogram and box plot, and the Python and R. Press **Copy as Python** and paste it
+    into Colab or Python. Does it run?
+P6. On the Example, press **Open in the Workbench**. Expected: the Workbench opens on Descriptive statistics with the
+    cement bag weights. Ctrl+Z puts the project back. Ctrl+L returns to the Course.
+P7. **Exercise** (Ctrl+3): type a wrong mean, such as 50.5, and press **Check my answers**. Expected: ✗ "too high", never
+    the answer. Press **Show a hint**. Type 50.19 and 50.10 and check. Expected: Passed; the worked solution opens below;
+    the tree marks 2.2 ✓ and My progress counts it.
+P8. Do the questions on 2.1, 2.4 and 2.5, then the **2.6 Module check** (10 questions, 80% to pass). Expected: module 2
+    shows ✓ in the tree and on My progress, and the outcomes show ★ on the module page.
+P9. **Sign out**, close the program, start it again and sign in with your PIN. Expected: your progress is still there,
+    and the exercise boxes still hold your last answers.
+P10. On the start screen choose **Just the Workbench (no sign-in)**. Expected: the Workbench, with the Course still
+     readable (Ctrl+L) under a yellow "Not signed in: … progress is not kept" line with a **Sign in** link.
+
+### Q. The pilot's content (plan 11.1: your judgement, before the rest is written)
+
+Q1. Is a Learn page the right length and level for your students (2.2 and 2.3 are the longest)?
+Q2. Do the datasets look like engineering data your students would recognize?
+Q3. Three items (2.1, 2.4 and 2.5) end in questions rather than a calculation. Is that the right mix?
+Q4. 2.4's "symmetric" shaft diameters histogram has an empty class in the middle; is a cleaner example wanted?
+Q5. Anything a page says that you teach differently (quartile method, n − 1, the skewness formula)?
 
 ---
 

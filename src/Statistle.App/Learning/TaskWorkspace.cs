@@ -38,6 +38,12 @@ public sealed class TaskWorkspace : ContentControl
     private StackPanel? _hintPanel;
     private int _hintsShown;
 
+    // What was typed in each exercise this session, so moving to another item and back keeps it (as the quizzes do).
+    private static readonly Dictionary<string, string> Typed = new(StringComparer.OrdinalIgnoreCase);
+
+    /// <summary>Forgets every exercise's typed answers (when another learner signs in).</summary>
+    public static void ForgetAll() => Typed.Clear();
+
     /// <param name="markdown">Draws a piece of Markdown (the task's introduction); the main window passes its Markdown view.</param>
     public TaskWorkspace(Func<string, FrameworkElement>? markdown = null)
     {
@@ -102,7 +108,7 @@ public sealed class TaskWorkspace : ContentControl
         if (exercise)
         {
             page.Children.Add(Heading("Your answers"));
-            page.Children.Add(AnswerForm(_built, savedWork));
+            page.Children.Add(AnswerForm(_built, Typed.TryGetValue(task.Id, out var typed) ? typed : savedWork));
             _solution = new StackPanel { Visibility = passed ? Visibility.Visible : Visibility.Collapsed };
             _solution.Children.Add(Heading("The worked solution"));
             AddWorked(_solution, _built);
@@ -156,8 +162,9 @@ public sealed class TaskWorkspace : ContentControl
         for (var c = 0; c < columns.Count; c++)
         {
             grid.Children.Add(Cell(columns[c].Name, 0, c + 1, header: true));
+            var decimals = columns[c].Values.Select(Decimals).DefaultIfEmpty(0).Max();
             for (var r = 0; r < columns[c].Values.Length; r++)
-                grid.Children.Add(Cell(columns[c].Values[r].ToString("G", CultureInfo.CurrentCulture), r + 1, c + 1, header: false));
+                grid.Children.Add(Cell(columns[c].Values[r].ToString("F" + decimals, CultureInfo.CurrentCulture), r + 1, c + 1, header: false));
         }
         for (var r = 1; r <= rows; r++) grid.Children.Add(Cell(r.ToString(CultureInfo.CurrentCulture), r, 0, header: false, muted: true));
 
@@ -179,6 +186,14 @@ public sealed class TaskWorkspace : ContentControl
             () => Clipboard.SetText(DataCode(columns, CodeLanguage.R))));
         panel.Children.Add(buttons);
         return panel;
+    }
+
+    /// <summary>How many decimals a value was written with (up to 6), so a column shows 25.0 beside 25.1, not 25.</summary>
+    private static int Decimals(double value)
+    {
+        for (var d = 0; d < 6; d++)
+            if (Math.Abs(value - Math.Round(value, d)) < 1e-9) return d;
+        return 6;
     }
 
     public static string DataText(IReadOnlyList<(string Name, double[] Values)> columns)
@@ -226,6 +241,7 @@ public sealed class TaskWorkspace : ContentControl
             };
             AutomationProperties.SetName(box, expected.Label);
             box.KeyDown += (_, e) => { if (e.Key == Key.Enter) { CheckAnswers(); e.Handled = true; } };
+            box.TextChanged += (_, _) => RememberTyped();
             var mark = new TextBlock { TextWrapping = TextWrapping.Wrap, VerticalAlignment = VerticalAlignment.Center };
             Grid.SetRow(label, i); Grid.SetRow(box, i); Grid.SetRow(mark, i);
             Grid.SetColumn(box, 1); Grid.SetColumn(mark, 2);
@@ -239,7 +255,7 @@ public sealed class TaskWorkspace : ContentControl
         var buttons = new WrapPanel { Margin = new Thickness(0, 4, 0, 6) };
         var check = new Button
         {
-            Content = "Check my answers", Padding = new Thickness(14, 5, 14, 5), Margin = new Thickness(0, 0, 8, 0), IsDefault = false,
+            Content = "_Check my answers", Padding = new Thickness(14, 5, 14, 5), Margin = new Thickness(0, 0, 8, 0), IsDefault = false,
             ToolTip = "Compares your results with the ones the analysis calculates. Wrong ones say whether they are too high or too low, never the answer. Try as often as you like.",
         };
         check.Click += (_, _) => CheckAnswers();
@@ -257,6 +273,12 @@ public sealed class TaskWorkspace : ContentControl
         return panel;
     }
 
+    private void RememberTyped()
+    {
+        if (_built is null) return;
+        Typed[_built.Task.Id] = StatsTaskRunner.Work(_boxes.ToDictionary(b => b.Key, b => b.Value.Text, StringComparer.Ordinal));
+    }
+
     private void ShowHint()
     {
         if (_built is null || _hintPanel is null || _hintsShown >= _built.Task.Hints.Count) return;
@@ -268,11 +290,22 @@ public sealed class TaskWorkspace : ContentControl
         _hintsShown++;
     }
 
+    /// <summary>Types an answer into a result's box (the tests, and a future "fill from my Workbench" button).</summary>
+    public void Type(string result, string text)
+    {
+        if (_boxes.TryGetValue(result, out var box)) box.Text = text;
+    }
+
     /// <summary>Grades what is in the boxes and raises <see cref="Checked"/>.</summary>
     public void CheckAnswers()
     {
         if (_built is null) return;
         var answers = _boxes.ToDictionary(b => b.Key, b => b.Value.Text, StringComparer.Ordinal);
+        if (answers.Values.All(string.IsNullOrWhiteSpace))
+        {
+            Summary("Type a result in each box, then press Check my answers. Nothing has been counted yet.", false);
+            return;
+        }
         var work = StatsTaskRunner.Work(answers);
         var outcome = new StatsTaskRunner().Run(_built.Task.Json, work);
         foreach (var expected in _built.Expected)

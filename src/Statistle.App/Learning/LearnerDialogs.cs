@@ -215,8 +215,8 @@ public sealed class NewLearnerWindow : FormWindow
             "Your progress is kept in a file of its own on this computer, locked with a PIN so classmates cannot open it. Only your name is needed.")
     {
         _store = store;
-        _name = AddText("Your _name:", "As your instructor knows you: it is how you find your progress here, and it goes on your progress reports.");
-        _id = AddText("_Student ID (optional):", "Only if your instructor asks for one. It is kept inside your locked file and printed on your reports.");
+        _name = AddText("Your _name:", "As your instructor knows you: it is how you find your progress here.");
+        _id = AddText("_Student ID (optional):", "Only if your instructor asks for one. It is kept inside your locked file.");
         _pin = AddPin("_PIN:", "4 to 6 digits that you will type each time you open Statistics+. Choose one a classmate would not guess.");
         _again = AddPin("PIN _again:", "The same PIN again, to be sure it was typed as you meant.");
         AddButton("Create", "Makes your progress file and shows your recovery code.", Create_Click, isDefault: true);

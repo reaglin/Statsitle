@@ -479,6 +479,15 @@
                           ToolTip="Deletes the data table selected in the project tree (you are asked first; Ctrl+Z brings it back). Analyses are opened from the list on the left; only data tables can be deleted."
                           ToolTipService.ShowOnDisabled="True" />
             </MenuItem>
+            <MenuItem Header="_Learner" SubmenuOpened="LearnerMenu_Opened">
+                <MenuItem x:Name="SignInMenu" Header="_Sign in…" Click="SignIn_Click"
+                          ToolTip="Opens Who is learning?, so your progress in the Course is kept" ToolTipService.ShowOnDisabled="True" />
+                <MenuItem x:Name="SignOutMenu" Header="Sign _out" Click="SignOut_Click"
+                          ToolTip="Saves your progress, locks your file and goes back to Who is learning? (for the next student, or to switch learner)" ToolTipService.ShowOnDisabled="True" />
+                <Separator />
+                <MenuItem x:Name="BackupMenu" Header="_Back up my progress…" Click="Backup_Click"
+                          ToolTip="Saves a copy of your progress file to a USB drive or a cloud folder, in case this computer is changed" ToolTipService.ShowOnDisabled="True" />
+            </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Header="_Help for this screen" Command="ApplicationCommands.Help" InputGestureText="F1"
                           ToolTip="Shows the Instructions tab for what is selected: what it is for, the steps, and every entry and result explained" />
@@ -515,7 +524,9 @@
                     <TextBlock x:Name="LearnerName" Foreground="{StaticResource RailTextBrush}" VerticalAlignment="Center" Margin="0,0,10,0"
                                ToolTip="Who is learning. Their progress is saved as they go." />
                     <Button x:Name="SignOutButton" Content="Sign out" Padding="10,2" Click="SignOut_Click" Visibility="Collapsed"
-                            ToolTip="Saves this learner's progress and goes back to the Who is learning? screen" />
+                            ToolTip="Saves your progress, locks your file and goes back to Who is learning?" />
+                    <Button x:Name="SignInButton" Content="Sign in…" Padding="10,2" Click="SignIn_Click" Visibility="Collapsed"
+                            ToolTip="Opens Who is learning?, so your progress in the Course is kept" />
                 </StackPanel>
             </DockPanel>
         </Border>

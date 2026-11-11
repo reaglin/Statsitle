@@ -23,4 +23,4 @@ Have a calculator, or Python or R, ready. You may use the Workbench to check you
 
 You need 80 % (8 of 10) to pass, and you can try again. A wrong answer says "look again", and the explanation shows once your answer is right.
 
-When every item and the check are complete, the module is complete and ready to hand in in your progress report.
+When every item and the check are complete, the module is complete.

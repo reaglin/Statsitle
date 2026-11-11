@@ -101,7 +101,7 @@ median(x)   # 25
 tab <- table(x); names(tab)[tab == max(tab)]   # "25": base R has no mode function
 ```
 
-The full script for the Example, which prints every result with its label, is on the Example's Code tab:
+The full script for the Example, which prints every result with its label, is under "The same in Python and R" on the Example tab:
 
 [[code: st.m2.central-tendency.eg]]
 

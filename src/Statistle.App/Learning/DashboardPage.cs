@@ -43,7 +43,7 @@ public static class DashboardPage
 
         md.AppendLine("## Module checks").AppendLine();
         md.AppendLine("Each module ends with a module check: questions on the whole module, complete when the items it covers are complete and you pass them. " +
-                      "Progress reports to hand in to your instructor come in a later version.").AppendLine();
+                      "Each module ends with a check: when it and the items it covers are complete, the module is complete.").AppendLine();
         md.AppendLine("| Module check | Where you are |").AppendLine("|---|---|");
         foreach (var s in d.Submissions)
             md.AppendLine($"| {s.Check} | {(s.State == SubmissionState.NotReached ? "○ " : "✓ ")}{(s.State == SubmissionState.NotReached ? s.Detail : "Complete")} |");

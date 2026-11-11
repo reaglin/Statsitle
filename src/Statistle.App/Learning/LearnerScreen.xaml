@@ -31,7 +31,7 @@
                                Text="The PIN stops classmates opening each other's progress on a shared computer. It is a short number, so it is a lock for the classroom, not a safe: someone with a copy of your file and time to spare could get in. Keep your backups somewhere only you use." />
                     <TextBlock Text="Leaving" FontWeight="SemiBold" Margin="0,6,0,2" />
                     <TextBlock Style="{DynamicResource Lead}"
-                               Text="Learner ▸ Switch learner, or closing Statistics+, saves your work and locks your file. Statistics+ also locks itself after a while without use (15 minutes unless Settings says otherwise)." />
+                               Text="Learner ▸ Sign out, or closing Statistics+, saves your work and locks your file. Statistics+ also locks itself after a while without use (15 minutes unless Settings says otherwise)." />
                 </StackPanel>
             </ScrollViewer>
         </Border>

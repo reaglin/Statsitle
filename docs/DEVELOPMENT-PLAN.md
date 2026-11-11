@@ -177,7 +177,7 @@ row) · ✅ verified by Ron · ❌ dropped (with the reason).
 |---|---|---|
 | 7.1 | The learning path: every course module, topic and outcome mapped to an item, and the analysis behind each item's Example and Exercise; the gaps in the engine named | `docs/LEARNING-PATH.md` written. ⚠️ Ron: read the map, especially the numbering (the site's "Week N / Module N−1") and the module 9/10 overlap |
 | 7.2 | The decisions and the architecture written into `docs/PLAN.md` (section *Statistics+*), this plan's phases 7–16, `CLAUDE.md` | committed. ⚠️ Ron: answer the open questions below |
-| 7.3 | **The name in front of a person:** window title, Help ▸ About (heading, "More about Statistics+…", "Statistics+ on the Microsoft Store…"), message box titles "Statistics+ — …", Instructions overview, report and code headers, installer and tester readme. The manifest's DisplayName and VisualElements are **Statistics+** (it must match the reserved name exactly). Version **2.0.0** | every visible "Statistle" is gone (a test scans the XAML and the user-facing strings), and About shows Statistics+ 2.0.0 |
+| 7.3 | **The name in front of a person:** window title, Help ▸ About (heading, "More about Statistics+…", "Statistics+ on the Microsoft Store…"), message box titles "Statistics+ — …", Instructions overview, report and code headers, installer and tester readme. The manifest's DisplayName and VisualElements are **Statistics+** (it must match the reserved name exactly). Version **2.0.0** | every visible "Statistle" is gone (a test scans the XAML and the user-facing strings), and About shows Statistics+ 2.0.0 · **Built 2026-11-11.** 373 tests green; `ProgramNameTests`. ⚠️ Ron: hand-test P1 |
 | 7.4 | The icon carries the "+" (the suite's theme): the Statistle mark with a "+" on its colour; `make-store-assets.ps1` regenerates every tile | Ron chooses from two or three drafts |
 
 ## Phase 8 — Learning.Core as a shared package
@@ -186,10 +186,11 @@ PLC+ owns `Learning.Core` and `Learning.Reports.Pdf` today. They have no referen
 
 | # | Task | Done when |
 |---|---|---|
-| 8.1 | Move the two projects and their tests into their own repository, **`..\LearningCore\`** (as `..\AiManager\` is), with its own `CLAUDE.md`, `docs/DEVELOPMENT-PLAN.md` and `build\pack.ps1` → `C:\nuget-local` (`Eaglin.Learning.Core`, `Eaglin.Learning.Reports.Pdf`, version 1.0.0) | the packages are in `C:\nuget-local`; the repository is on GitHub (private) |
-| 8.2 | Make the core subject-neutral: the app name comes from the options in every message; `Fault`/`TruthTable` become subject question kinds registered by the program (PLC+ registers them), and the core keeps choice, multiple, numeric, match and text | `ArchitectureTests` in the core: no subject words; PLC+'s 374 tests are still green |
-| 8.3 | **PLC+ moves to the packages** (a task in PLC+'s plan; it ships with PLC+'s next release) | PLC+ builds from `C:\nuget-local`, all its tests are green, and its hand-test exe runs unchanged |
-| 8.4 | Statistics+ references the packages | it builds |
+| 8.1 | Move the two projects and their tests into their own repository, **`..\LearningCore\`** (as `..\AiManager\` is), with its own `CLAUDE.md`, `docs/DEVELOPMENT-PLAN.md` and `build\pack.ps1` → `C:\nuget-local` (`Eaglin.Learning.Core`, `Eaglin.Learning.Reports.Pdf`, version 1.0.0) | the packages are in `C:\nuget-local`; the repository is on GitHub (private) · **Built 2026-11-11.** `..\LearningCore` (`eca6439`), 107 tests; packages 1.0.0 in `C:
+uget-local`. ⚠️ Ron: whether to create the GitHub repository |
+| 8.2 | Make the core subject-neutral: the app name comes from the options in every message; `Fault`/`TruthTable` become subject question kinds registered by the program (PLC+ registers them), and the core keeps choice, multiple, numeric, match and text | `ArchitectureTests` in the core: no subject words; PLC+'s 374 tests are still green · **Built 2026-11-11.** `LearningApp.Name`; `Fault`/`TruthTable` stay in the core for now (harmless; Statistics+ shows "needs PLC+" for them). ⚠️ Ron: nothing to look at |
+| 8.3 | **PLC+ moves to the packages** (a task in PLC+'s plan; it ships with PLC+'s next release) | PLC+ builds from `C:\nuget-local`, all its tests are green, and its hand-test exe runs unchanged · In PLC+ plan 13.1 (`6d39dd6`), with its next release |
+| 8.4 | Statistics+ references the packages | it builds · **Built 2026-11-11.** ⚠️ Ron: nothing to look at |
 
 ## Phase 9 — The learning window
 
@@ -197,29 +198,33 @@ The family's tree-and-tabs window (PLC+ `Learning.Shell` is the model), with Sta
 
 | # | Task | Done when |
 |---|---|---|
-| 9.1 | Start screen **"Who is learning?"**: learners in `%ProgramData%\Statistle\Learners`, `.statprogress` files, PIN, recovery code, import and merge, backup reminders (Learning.Core) | `LearnerScreen` works as in PLC+; tests for the options |
-| 9.2 | The tree: **My progress**, **Hand in a report**, **Start here**, Modules 1–14 → items (each with its mark ★ ✓ ↺ ◐ ○), then **Workbench** (the data tables and analyses of an open `.statistle` project, as today) | the tree loads the content package; selecting an item opens the item page and selecting a Workbench node opens today's editor |
-| 9.3 | The item page: **Learn / Example / Exercise / Reference** tabs (Ctrl+1–4), Previous/Next, Pop out for Example and Exercise | `RowDrawingTests`-style test opens every item and every tab without an exception |
-| 9.4 | **My progress** dashboard: path map, module checks, review suggested, outcomes, time on task (Learning.Core `Dashboard`) | shown for a learner with progress |
-| 9.5 | The Workbench without a learner: File ▸ New/Open still work; a student who only wants the calculator can choose "Just the Workbench" on the start screen | the 1.1 hand-tests (round 2026-11) still pass inside the Workbench |
-| 9.6 | UX: walkthrough and heuristics (ux-reviewer) on the start screen, tree, item page and dashboard; `USABILITY-CHECKLIST.md` | review recorded, fixes made |
+| 9.1 | Start screen **"Who is learning?"**: learners in `%ProgramData%\Statistle\Learners`, `.statprogress` files, PIN, recovery code, import and merge, backup reminders (Learning.Core) | `LearnerScreen` works as in PLC+; tests for the options · **Built 2026-11-11.** Ported from PLC+; `%ProgramData%\Statistle\Learners`, `.statprogress`; idle lock; Learner menu. ⚠️ Ron: hand-test P1, P2, P9 |
+| 9.2 | The tree: **My progress**, **Hand in a report**, **Start here**, Modules 1–14 → items (each with its mark ★ ✓ ↺ ◐ ○), then **Workbench** (the data tables and analyses of an open `.statistle` project, as today) | the tree loads the content package; selecting an item opens the item page and selecting a Workbench node opens today's editor · **Built 2026-11-11.** The Course | Workbench strip (Ctrl+L, Ctrl+B) instead of a Workbench node in the tree. ⚠️ Ron: hand-test P3, P4 |
+| 9.3 | The item page: **Learn / Example / Exercise / Reference** tabs (Ctrl+1–4), Previous/Next, Pop out for Example and Exercise | `RowDrawingTests`-style test opens every item and every tab without an exception · **Built 2026-11-11.** `CourseDrawingTests`; Pop out not yet. ⚠️ Ron: hand-test P5–P8 |
+| 9.4 | **My progress** dashboard: path map, module checks, review suggested, outcomes, time on task (Learning.Core `Dashboard`) | shown for a learner with progress · **Built 2026-11-11.** ⚠️ Ron: hand-test P8 |
+| 9.5 | The Workbench without a learner: File ▸ New/Open still work; a student who only wants the calculator can choose "Just the Workbench" on the start screen | the 1.1 hand-tests (round 2026-11) still pass inside the Workbench · **Built 2026-11-11.** ⚠️ Ron: hand-test P10 |
+| 9.6 | UX: walkthrough and heuristics (ux-reviewer) on the start screen, tree, item page and dashboard; `USABILITY-CHECKLIST.md` | review recorded, fixes made · **Built 2026-11-11.** `docs/ux-reviews/2026-11-11-course.md`: 5 Major, 8 Minor, all fixed. ⚠️ Ron: the visual checks in round 2.0 |
 
 ## Phase 10 — The statistics workspace and the engine gaps
 
 | # | Task | Done when |
 |---|---|---|
-| 10.1 | **Content format** for Statistics+ (`docs/CONTENT-FORMAT.md`, from PLC+'s): `content/egn3443/manifest.json`, `modules/NN-slug/module.md` + items, `reference/`, `quizzes/`, and **`tasks/*.json`**. A task names an analysis, its settings, a dataset (inline columns or `datasets/*.csv`), what the student sees locked or open, and the **results asked** (by property name, with a tolerance taken from the property's Decimals) | the format is documented, and an example task loads |
-| 10.2 | **`StatsTaskRunner : IChallengeRunner`** (domain `stats`): it builds the analysis from the task, calculates the expected results with the engine, and grades the student's typed results (or their settings: test chosen, tail, α) | `TaskRunnerTests`: a right answer passes, a rounding within tolerance passes, a wrong one fails with a sentence naming the result |
-| 10.3 | **Example workspace**: the analysis editor (entries beside results, Plots, Code) inside the Example tab, loaded from the task's example, editable, "Put it back" restores it | every Example in the package opens |
-| 10.4 | **Exercise workspace**: the dataset and the analysis set up as the task says; boxes for the asked results; **Check my answers**; hints; after a pass, the Code tab and the Report show the full worked solution; the passing work is the report evidence (`ProgramEvidence`) | Exercise_Checked records progress as PLC+ does |
-| 10.5 | Lesson widgets: `[[histogram: data]]`, `[[table: dataset]]`, `[[curve: normal 0 1 shade -1.96 1.96]]`, `[[code: task]]` (Python and R from the task, tabs) | rendered in Learn pages; the validator checks the arguments |
-| 10.6 | Validator (`tools/ContentValidator`): Learning.Core's generic checks plus the subject hooks (the analysis exists, every asked result is an output of that analysis, datasets parse, every item's objectives exist) — run as a test on the shipped package | it fails on a broken package with one sentence per problem |
+| 10.1 | **Content format** for Statistics+ (`docs/CONTENT-FORMAT.md`, from PLC+'s): `content/egn3443/manifest.json`, `modules/NN-slug/module.md` + items, `reference/`, `quizzes/`, and **`tasks/*.json`**. A task names an analysis, its settings, a dataset (inline columns or `datasets/*.csv`), what the student sees locked or open, and the **results asked** (by property name, with a tolerance taken from the property's Decimals) | the format is documented, and an example task loads · **Built 2026-11-11.** `docs/CONTENT-FORMAT.md`. ⚠️ Ron: nothing to look at |
+| 10.2 | **`StatsTaskRunner : IChallengeRunner`** (domain `stats`): it builds the analysis from the task, calculates the expected results with the engine, and grades the student's typed results (or their settings: test chosen, tail, α) | `TaskRunnerTests`: a right answer passes, a rounding within tolerance passes, a wrong one fails with a sentence naming the result · **Built 2026-11-11.** `TaskRunnerTests` (10). ⚠️ Ron: nothing to look at |
+| 10.3 | **Example workspace**: the analysis editor (entries beside results, Plots, Code) inside the Example tab, loaded from the task's example, editable, "Put it back" restores it | every Example in the package opens · **Built 2026-11-11.** Example as a worked page (not the editor itself); **Open in the Workbench** for changing inputs (`OpenTaskTests`). ⚠️ Ron: hand-test P5, P6 |
+| 10.4 | **Exercise workspace**: the dataset and the analysis set up as the task says; boxes for the asked results; **Check my answers**; hints; after a pass, the Code tab and the Report show the full worked solution; the passing work is the report evidence (`ProgramEvidence`) | Exercise_Checked records progress as PLC+ does · **Built 2026-11-11.** ⚠️ Ron: hand-test P7 |
+| 10.5 | Lesson widgets: `[[histogram: data]]`, `[[table: dataset]]`, `[[curve: normal 0 1 shade -1.96 1.96]]`, `[[code: task]]` (Python and R from the task, tabs) | rendered in Learn pages; the validator checks the arguments · **Built 2026-11-11.** `[[figure]]`, `[[data]]`, `[[results]]`, `[[code]]` (no `curve`: a figure of a task does it). ⚠️ Ron: hand-test P5 |
+| 10.6 | Validator (`tools/ContentValidator`): Learning.Core's generic checks plus the subject hooks (the analysis exists, every asked result is an output of that analysis, datasets parse, every item's objectives exist) — run as a test on the shipped package | it fails on a broken package with one sentence per problem · **Built 2026-11-11.** As a test (`ContentTests`), not a separate tool yet |
 | 10.7 | **New analysis: Simulation** — dice, coins, cards, darts and sampling from a distribution; the running proportion against theory (Law of Large Numbers), many samples' x̄ (CLT), 100 intervals' coverage, the familywise error of many t-tests; seeded, so a task is repeatable; Python (numpy.random) and R | `SimulationTests` (seeded results; the proportion converges); cross-check |
 | 10.8 | **New analysis: Chi-square tests** — goodness of fit and independence (contingency table); expected counts, χ², df, p, the warning for expected counts < 5; `scipy.stats.chisquare`/`chi2_contingency`, R `chisq.test` | worked cases from M&R; cross-check |
 | 10.9 | **Weibull** in Continuous distribution and a **fit check** on a data column (histogram with the fitted curve, Q–Q plot, the parameters by maximum likelihood) | worked case; cross-check against `scipy.stats.weibull_min.fit` |
 | 10.10 | **Hold-out split** in Multiple regression's validation (seeded train/test share, test RMSE beside k-fold and LOOCV) | test; cross-check |
 | 10.11 | **Control limits** (x̄ ± 3σ, individuals chart) as a figure in Descriptive statistics | figure test |
 | 10.12 | `METHODS-AND-SOURCES.md` rows for every new statistic | complete rows |
+| 10.13 | **Mistakes an exercise recognizes** (from writing the pilot): a task may name the result a common mistake gives, e.g. `"mistakes": { "Variance": { "result": "PopulationVariance", "says": "You divided by n; the sample variance divides by n − 1." } }` | a typed population variance gets that sentence |
+| 10.14 | The validator warns when two asked results lie within each other's tolerance (the bolts' mean and median were 0.09 mm apart) | warning on such a task |
+| 10.15 | Widgets in quiz prompts (`[[figure: task 1]]` in a question), so "classify the skew" can show the picture | a check question with a histogram |
+| 10.16 | A numeric "number of outliers" result, so outliers and the mode can be asked in an exercise | result in Descriptive statistics |
 
 ## Phase 11 — Content: Start here and Modules 1–4
 
@@ -227,7 +232,7 @@ Each module is written in the order of `docs/LEARNING-PATH.md`. For every topic:
 
 | # | Task | Done when |
 |---|---|---|
-| 11.1 | **Module 2 first, as the pilot** (Descriptive statistics; one analysis, five items, a check) | Ron reads it in the program and says whether the shape is right before the rest is written |
+| 11.1 | **Module 2 first, as the pilot** (Descriptive statistics; one analysis, five items, a check) | Ron reads it in the program and says whether the shape is right before the rest is written · **Written 2026-11-11** (2.1–2.6: 5 Learn pages, 6 reference pages, 9 tasks, 4 quizzes; every number checked). ⚠️ **Ron: hand-test part Q, the shape of the pilot, before modules 1 and 3–14 are written** |
 | 11.2 | Start here (3 items) | validator clean |
 | 11.3 | Module 1 (6 items + check) | validator clean |
 | 11.4 | Module 3 (5 + check) | validator clean |
@@ -290,6 +295,7 @@ uget-local` (Ron, 2026-11-11) → phase 8 |
 | Q4 | 2026-11-11 | Should there be an **instructors' review site** like PLC+'s (softwareplus.ai/…/review/, a comment box per item) for colleagues teaching EGN3443? | **Not yet**; may be added as usage grows (Ron, 2026-11-11) |
 | Q5 | 2026-11-11 | Datasets: may the Examples and Exercises use the course's assignment data and the datasets in its Colab notebooks, or only Montgomery & Runger and made-up data? | **Yes**, the course's assignment and Colab data may be used (Ron, 2026-11-11) |
 | Q6 | 2026-11-11 | Is the course's "Additional Advanced Topics" module in the path at 2.0, or kept for later (phase 16)? | **Later** (phase 16), not in 2.0 (Ron, 2026-11-11) |
+| Q8 | 2026-11-11 | The Workbench project belongs to the computer, as in 1.1, so after Sign out the next student sees it. Should Sign out offer to save and clear it (or should each learner have their own Workbench project)? | |
 | Q7 | 2026-11-11 | AI: PLC+ has none in its first release. Statistics+ has none either (the Workbench never had any). Is that right for 2.0? | **Correct, no AI (yet).** Once a use case is made for AI in either application (Statistics+ or PLC+) it might be added (Ron, 2026-11-11) |
 
 ## References
@@ -300,6 +306,8 @@ uget-local` (Ron, 2026-11-11) → phase 8 |
 | `docs/PLAN.md` | The strategy: what the student does, the module-to-analysis map, the architecture |
 | `docs/METHODS-AND-SOURCES.md` | Every statistic with its formula, source, Python and R |
 | `docs/MANUAL-TESTING.md` | Ron's hand-tests, newest round first, and the publish command for `manual-test\Statistle.exe` |
+| `docs/CONTENT-FORMAT.md` | How Course content is written: modules, items, tasks, widgets, quizzes |
+| `docs/ux-reviews/2026-11-11-course.md` | The UX review of the Course (plan 9.6) |
 | `docs/ux-reviews/2026-10-31-pre-release.md` | The pre-release UX review that phase 6 answers |
 | `resources/STORE-SUBMISSION.md` | Everything Partner Center asks for (identity, listing, WACK) |
 | `../USABILITY-CHECKLIST.md` | The portfolio's usability checklist (Ron, 2026-10-31) |

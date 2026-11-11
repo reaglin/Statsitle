@@ -113,6 +113,7 @@ public sealed class CoursePage : UserControl
         left.Children.Add(_tree);
 
         // ── The item page ──
+        foreach (var b in new[] { _previous, _next, _read }) ToolTipService.SetShowOnDisabled(b, true);
         _previous.Click += (_, _) => { if (_item is not null && _path.PreviousInOrder(_item) is { } p) _path.Select(p); };
         _next.Click += (_, _) => { if (_item is not null && _path.NextInOrder(_item) is { } n) _path.Select(n); };
         _read.Click += (_, _) => MarkRead();
@@ -196,6 +197,7 @@ public sealed class CoursePage : UserControl
     {
         _session = session;
         QuizView.ForgetAll();
+        TaskWorkspace.ForgetAll();
         _notSignedIn.Visibility = session is null ? Visibility.Visible : Visibility.Collapsed;
         _path.Refresh(Progress);
         _path.Dashboard.IsSelected = true;
@@ -212,6 +214,61 @@ public sealed class CoursePage : UserControl
             Status?.Invoke($"Your progress could not be saved just now ({ex.Message}). Statistics+ tries again with your next step.");
         }
     }
+
+    /// <summary>F1 in the Course: how the Course works (USABILITY-CHECKLIST 1.2).</summary>
+    public void ShowHelp()
+    {
+        _item = null;
+        var page = new DockPanel { Margin = new Thickness(16, 12, 16, 8) };
+        var back = new Button { Content = "◂ Back to My progress", Padding = new Thickness(10, 3, 10, 3), HorizontalAlignment = HorizontalAlignment.Left, Margin = new Thickness(0, 0, 0, 8), ToolTip = "Closes this help and shows My progress" };
+        back.Click += (_, _) => { _path.Dashboard.IsSelected = true; ShowDashboard(); };
+        DockPanel.SetDock(back, Dock.Top);
+        page.Children.Add(back);
+        page.Children.Add(new MarkdownView { Markdown = HelpMarkdown });
+        _right.Content = page;
+        Status?.Invoke("How the Course works. Choose an item on the left to go back to it.");
+    }
+
+    private const string HelpMarkdown = """
+        # How the Course works
+
+        The Course follows EGN3443, Probability and Statistics for Engineers, topic by topic.
+
+        ## The list on the left
+
+        - **My progress**: every module, the module checks, the outcomes to review, and your time.
+        - Each **module** opens on a page with what it teaches (its outcomes) and its items.
+        - Each **item** is one topic. Its mark: **✓** complete, **◐** started, **○** not started.
+
+        ## The four tabs of an item
+
+        | Tab | Keys | What it is for |
+        |---|---|---|
+        | **Learn** | Ctrl+1 | The lesson: the idea, the formulas, a worked case, the Python and R |
+        | **Example** | Ctrl+2 | A worked example: the data, every result, the figures and the code. **Open in the Workbench** copies it to the calculator, to change the inputs |
+        | **Exercise** | Ctrl+3 | Your turn: work out the results (by hand, or in Python or R) and press **Check my answers**, or answer the questions |
+        | **Reference** | Ctrl+4 | The formulas, the Python and R functions, and the sources |
+
+        An item is complete when its exercise passes, when you pass its questions, or (for a reading) when you press
+        **I have read this**. **Previous** and **Next** (top right) go through the items in order.
+
+        A wrong answer says whether it is too high or too low, or where to look again; never the answer itself. Try as often
+        as you like. **Show a hint** gives one hint at a time.
+
+        ## Your progress
+
+        Sign in on the **Who is learning?** screen (Learner ▸ Sign in). Your progress is kept in a file of your own, locked
+        with your PIN, and saved after every step. **Learner ▸ Back up my progress** saves a copy to a USB drive or a cloud
+        folder. **Learner ▸ Sign out** saves and locks it; so does closing Statistics+, and so does leaving the computer
+        unused for a while.
+
+        ## The Workbench
+
+        The **Workbench** (Ctrl+B) is the calculator, for your own data and assignments: data tables, every analysis, the
+        report, the plots and the Python and R. **Course** (Ctrl+L) comes back here.
+
+        More help: Help ▸ Help on the web.
+        """;
 
     // ── What the right side shows ─────────────────────────────────────────────
 
@@ -236,6 +293,8 @@ public sealed class CoursePage : UserControl
             Padding = new Thickness(12, 4, 12, 4), Margin = new Thickness(0, 8, 0, 8), HorizontalAlignment = HorizontalAlignment.Left,
             ToolTip = "Opens the next item that is not complete yet",
         };
+        ToolTipService.SetShowOnDisabled(go, true);
+        if (next is null) go.ToolTip = "Every item in the course is complete";
         go.Click += (_, _) => { if (next is not null) _path.Select(next); };
         DockPanel.SetDock(go, Dock.Top);
         page.Children.Add(go);
@@ -253,7 +312,7 @@ public sealed class CoursePage : UserControl
         head.Children.Add(new TextBlock { Text = $"Module {m.Number} · {m.Title}", FontSize = 20, FontWeight = FontWeights.SemiBold, TextWrapping = TextWrapping.Wrap });
         head.Children.Add(new TextBlock
         {
-            Text = $"{p.Complete} of {p.Total} items complete" + (m.Minutes > 0 ? $" · about {Hours(m.Minutes)}" : "") + (m.Status == ModuleStatus.Draft ? " · a first draft" : ""),
+            Text = $"{p.Complete} of {p.Total} items complete" + (m.Minutes > 0 ? $" · about {Hours(m.Minutes)}" : ""),
             Foreground = LearningTheme.Brush("MutedTextBrush"), Margin = new Thickness(0, 2, 0, 6),
         });
         var first = m.Items.FirstOrDefault(i => Progress.StateOf(i) != ItemState.Complete) ?? m.Items.FirstOrDefault();
@@ -311,6 +370,7 @@ public sealed class CoursePage : UserControl
         _item = item;
         Progress.Opened(_content.Package, item, DateTimeOffset.Now);
         Save();
+        _path.Refresh(Progress);
 
         _itemModule.Text = $"Module {item.Module.Number} · {item.Module.Title}";
         _itemTitle.Text = $"{item.Number} {item.Title}";
@@ -348,10 +408,15 @@ public sealed class CoursePage : UserControl
             var intro = new List<string>();
             if (item.Kind == ItemKind.Assess)
             {
-                intro.Add("This check covers: " + string.Join("; ", item.Covers.Select(_content.Package.FindItem).OfType<LearningItem>()
-                    .Select(c => $"{c} ({_path.WhereYouAre(c).ToLowerInvariant()})")) + ".");
+                intro.Add("This check covers:");
+                intro.AddRange(item.Covers.Select(_content.Package.FindItem).OfType<LearningItem>()
+                    .Select(c => $"   •  {c}: {_path.WhereYouAre(c).ToLowerInvariant()}"));
                 intro.Add("The module is complete when those items are complete and you have passed these questions.");
             }
+            _quiz.WhereToLook = q => q.Objective is { Length: > 0 } objective
+                && item.Module.Items.FirstOrDefault(i => i.Kind != ItemKind.Assess && i.Objectives.Contains(objective, StringComparer.OrdinalIgnoreCase)) is { } teaches
+                    ? $"Look again at {teaches}."
+                    : null;
             _quiz.ShuffleSeed = _session?.Data.Profile.ProfileId ?? "";
             _quiz.Load(quiz, item.Kind == ItemKind.Assess ? $"Module {item.Module.Number} check: the questions" : "Questions", intro);
             _exerciseHost.Content = new ScrollViewer { Content = _quiz, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
@@ -436,7 +501,10 @@ public sealed class CoursePage : UserControl
         var right = result.Questions.Count(q => q.Correct);
         if (Progress.StateOf(_item) == ItemState.Complete && !wasComplete) Completed($"Passed: {right} of {result.Questions.Count} right. {_item.Number} is complete.");
         else Changed(result.Passed
-            ? $"Passed: {right} of {result.Questions.Count} right."
+            ? _item.Kind == ItemKind.Assess && Progress.StateOf(_item) != ItemState.Complete
+                ? $"Passed: {right} of {result.Questions.Count} right. The check completes when these are complete too: " +
+                  string.Join(", ", _item.Covers.Select(_content.Package.FindItem).OfType<LearningItem>().Where(c => Progress.StateOf(c) != ItemState.Complete).Select(c => c.Number)) + "."
+                : $"Passed: {right} of {result.Questions.Count} right."
             : $"Not passed yet: {right} of {result.Questions.Count} right. Change the answers marked ✗ and press Check my answers again.");
     }
 

@@ -79,6 +79,9 @@ public sealed class CourseDrawingTests
                 Assert.Equal(item, page.CurrentItem);
                 Assert.Equal(item.Exercise, page.ExerciseView.Built?.Task.Id);
                 page.ExerciseView.CheckAnswers();
+                Assert.DoesNotContain(statuses, t => t.Contains("right", StringComparison.Ordinal));   // an empty check is not counted
+                page.ExerciseView.Type(page.ExerciseView.Built!.Expected[0].Asked.Result, "-1");
+                page.ExerciseView.CheckAnswers();
                 Assert.Contains(statuses, s => s.Contains("not kept", StringComparison.Ordinal));
                 Assert.Null(page.Session);
             }
@@ -130,7 +133,11 @@ public sealed class CourseShots
                     for (var t = 0; t < page.ItemTabs.Items.Count; t++)
                     {
                         page.ItemTabs.SelectedIndex = t;
-                        if (t == 2 && item.Exercise is not null) page.ExerciseView.CheckAnswers();
+                        if (t == 2 && item.Exercise is not null)
+                        {
+                            page.ExerciseView.Type(page.ExerciseView.Built!.Expected[0].Asked.Result, "1");
+                            page.ExerciseView.CheckAnswers();
+                        }
                         Shot($"item-{item.Number}-{slug}-{t + 1}");
                     }
                 }

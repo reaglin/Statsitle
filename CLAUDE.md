@@ -9,6 +9,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 > Exercise / Reference tabs. The calculator stays as the Workbench. Learners and reports come from PLC+'s
 > `Learning.Core`, which becomes a shared package. Read `docs/LEARNING-PATH.md`, `docs/PLAN.md` (section
 > *Statistics+*) and `docs/DEVELOPMENT-PLAN.md` phases 7–16. The code names stay Statistle.
+>
+> **Built 2026-11-11 (phases 7–11 to the pilot):** the name and 2.0.0; `src/Statistle.Learning` (tasks, `StatsTaskRunner`:
+> answers calculated by the analysis, `StatsContent` + validator); `src/Statistle.App/Learning/` (Who is learning?,
+> `CoursePage`, `TaskWorkspace`, Markdown and quiz views, ported from PLC+); the Course | Workbench strip; the Learner
+> menu and idle lock; `content/egn3443` with the **Module 2 pilot** (`docs/CONTENT-FORMAT.md`). 373 tests. Waiting for
+> Ron's hand-test round 2.0 (`docs/MANUAL-TESTING.md`) and his verdict on the pilot before modules 1 and 3–14 are written.
+> Pictures of the Course for checking by eye: `STATISTLE_COURSE_SHOTS=<folder> dotnet test tests/Statistle.App.Tests --filter CourseShots`.
 
 **Statistle** — a Windows 10/11 desktop app that calculates the statistics of Ron's course
 EGN3443 *Probability and Statistics for Engineers* (`github.com/reaglin/egn3443`), explains

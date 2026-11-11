@@ -562,6 +562,12 @@ public partial class MainWindow : Window
     /// <summary>F1 / Help ▸ Help for this screen: the Instructions tab for whatever is selected.</summary>
     private void HelpForScreen_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
     {
+        if (CourseMode.IsChecked == true && _coursePage is not null)
+        {
+            _coursePage.ShowHelp();
+            return;
+        }
+
         ContentTabs.SelectedIndex = InstructionsTab;
         _workspace.Announce($"Instructions for {_workspace.CurrentInstructions.Title}. More on the web: {WebHelp.Display(_workspace.WebHelpPage)}");
     }

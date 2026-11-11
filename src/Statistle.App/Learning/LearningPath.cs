@@ -143,7 +143,7 @@ public sealed class LearningPath
         ArgumentNullException.ThrowIfNull(m);
         return m.Status switch
         {
-            ModuleStatus.Draft => " · first draft",
+            ModuleStatus.Draft => "",
             ModuleStatus.Outline => " · outline",
             _ => "",
         };
