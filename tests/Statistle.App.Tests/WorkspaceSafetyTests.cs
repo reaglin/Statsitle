@@ -315,7 +315,7 @@ public sealed class WorkspaceSafetyTests : IDisposable
         Assert.Equal("0 analyses", WorkspaceViewModel.Count(0, "analysis", "analyses"));
     }
 
-    private sealed class FakeDialogs : IWorkspaceDialogs
+    internal sealed class FakeDialogs : IWorkspaceDialogs
     {
         public Queue<UnsavedChoice> Answers { get; } = new();
 

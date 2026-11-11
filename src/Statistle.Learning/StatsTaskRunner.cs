@@ -93,20 +93,8 @@ public sealed class StatsTaskRunner : IChallengeRunner
         }
         if (analysis is IUsesProject user) user.Project = project;
 
+        ApplySettings(analysis, task, name => tableIds.TryGetValue(name, out var id) ? id : null);
         var properties = analysis.Properties().ToDictionary(p => p.XmlName, StringComparer.Ordinal);
-        var element = new XElement("analysis");
-        foreach (var (name, raw) in task.Settings)
-        {
-            if (!properties.TryGetValue(name, out var property))
-                throw new ContentException($"{task.File}: the {analysis.Title} analysis has no setting \"{name}\". Its settings are: {string.Join(", ", analysis.Properties().Where(p => !p.IsResult && !p.Hidden).Select(p => p.XmlName))}.");
-            if (property.IsResult)
-                throw new ContentException($"{task.File}: \"{name}\" is a result of {analysis.Title}, so a task cannot set it.");
-            element.Add(new XElement(name, Resolve(raw, tableIds, task.File)));
-        }
-        var diagnostics = new LoadDiagnostics();
-        StatistleXml.Read(analysis, element, diagnostics);
-        if (diagnostics.Warnings.Count > 0)
-            throw new ContentException($"{task.File}: {string.Join(" ", diagnostics.Warnings)}");
         analysis.Recalculate();
 
         var expected = new List<ExpectedResult>();
@@ -123,6 +111,29 @@ public sealed class StatsTaskRunner : IChallengeRunner
         }
 
         return new BuiltTask(task, analysis, project, expected);
+    }
+
+    /// <summary>
+    /// Reads a task's settings into an analysis as a project file is read. <paramref name="tableId"/> gives the id of
+    /// a task table by its name in the document the analysis belongs to (the task's own, or the Workbench's project).
+    /// </summary>
+    /// <exception cref="ContentException">A setting is not one of the analysis's, is a result, or cannot be read.</exception>
+    public static void ApplySettings(Analysis analysis, StatsTask task, Func<string, int?> tableId)
+    {
+        var properties = analysis.Properties().ToDictionary(p => p.XmlName, StringComparer.Ordinal);
+        var element = new XElement("analysis");
+        foreach (var (name, raw) in task.Settings)
+        {
+            if (!properties.TryGetValue(name, out var property))
+                throw new ContentException($"{task.File}: the {analysis.Title} analysis has no setting \"{name}\". Its settings are: {string.Join(", ", analysis.Properties().Where(p => !p.IsResult && !p.Hidden).Select(p => p.XmlName))}.");
+            if (property.IsResult)
+                throw new ContentException($"{task.File}: \"{name}\" is a result of {analysis.Title}, so a task cannot set it.");
+            element.Add(new XElement(name, Resolve(raw, tableId, task.File)));
+        }
+        var diagnostics = new LoadDiagnostics();
+        StatistleXml.Read(analysis, element, diagnostics);
+        if (diagnostics.Warnings.Count > 0)
+            throw new ContentException($"{task.File}: {string.Join(" ", diagnostics.Warnings)}");
     }
 
     /// <summary>
@@ -154,13 +165,13 @@ public sealed class StatsTaskRunner : IChallengeRunner
         (Nullable.GetUnderlyingType(p.Property.PropertyType) ?? p.Property.PropertyType) is var t
         && (t == typeof(double) || t == typeof(int) || t == typeof(float) || t == typeof(long));
 
-    private static string Resolve(string raw, Dictionary<string, int> tableIds, string file)
+    private static string Resolve(string raw, Func<string, int?> tableId, string file)
     {
         if (!raw.StartsWith('@')) return raw;
         var slash = raw.IndexOf('/', StringComparison.Ordinal);
         if (slash < 2) throw new ContentException($"{file}: \"{raw}\" should be written @Table/Column.");
         var table = raw[1..slash];
-        if (!tableIds.TryGetValue(table, out var id)) throw new ContentException($"{file}: \"{raw}\" names the table \"{table}\", which the task does not have.");
+        if (tableId(table) is not { } id) throw new ContentException($"{file}: \"{raw}\" names the table \"{table}\", which the task does not have.");
         return Statistle.Core.Domain.DataSources.Reference(id, raw[(slash + 1)..]);
     }
 

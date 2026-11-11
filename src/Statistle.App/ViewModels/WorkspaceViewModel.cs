@@ -446,6 +446,57 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
     public IReadOnlyList<AnalysisDescriptor> ProjectTools { get; } =
         AnalysisCatalog.OfKind(ToolKind.ProjectBound, typeof(Analysis).Assembly);
 
+    /// <summary>
+    /// Copies a Course task into this project (plan 10.3, "Open in the Workbench"): its tables are added as new data
+    /// tables, and the project's own instance of the task's analysis takes the task's settings. Undo puts the project
+    /// back as it was.
+    /// </summary>
+    /// <returns>Null when done; otherwise a sentence saying why it could not be copied.</returns>
+    public string? OpenTask(Statistle.Learning.StatsTask task)
+    {
+        ArgumentNullException.ThrowIfNull(task);
+        AnalysisDescriptor? descriptor = Analyses.Concat(ProjectTools).FirstOrDefault(d => d.Key == task.Analysis);
+        if (descriptor is null)
+        {
+            return $"The Workbench has no analysis called {task.Analysis}.";
+        }
+
+        PushUndo();
+        var ids = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+        foreach (Statistle.Learning.TaskTable table in task.Tables)
+        {
+            string name = table.Name;
+            for (int n = 2; Document.Tables.Any(t => t.Name == name); n++)
+            {
+                name = $"{table.Name} ({n})";
+            }
+
+            DataTable added = Document.AddTable(name);
+            foreach ((string column, double[] values) in table.Columns)
+            {
+                added.Columns.AddColumn(column, values);
+            }
+
+            ids[table.Name] = added.Id;
+        }
+
+        Analysis tool = Document.Tool(descriptor);
+        try
+        {
+            Statistle.Learning.StatsTaskRunner.ApplySettings(tool, task, name => ids.TryGetValue(name, out int id) ? id : null);
+        }
+        catch (global::Learning.Core.Content.ContentException ex)
+        {
+            return ex.Message;
+        }
+
+        tool.Recalculate();
+        Selected = tool;
+        MarkDirty();
+        Status = $"Copied from the Course: {task.Title}. Change any entry and the results follow; Edit ▸ Undo (Ctrl+Z) puts the project back.";
+        return null;
+    }
+
     /// <summary>Opens an analysis from the rail, restoring the parameters this project saved for it.</summary>
     public void SelectTool(AnalysisDescriptor descriptor)
     {

@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Statistle.Core\Statistle.Core.csproj" />
+    <ProjectReference Include="..\Statistle.Learning\Statistle.Learning.csproj" />
   </ItemGroup>
 
   <ItemGroup>
