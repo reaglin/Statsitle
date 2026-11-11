@@ -121,10 +121,10 @@
       "lookAgain": "st.m5.applying",
       "prompt": "A pump bearing's life is Weibull with β = 2 and η = 2500 hours, so R(1000) = e^(−(1000/2500)²) = 0.852. Which statement interprets this best for the maintenance planner?",
       "options": [
-        "About 85 of every 100 bearings are still running at 1000 hours, so about 15 need replacing before then",
-        "About 85 % of a bearing's life has been used by 1000 hours, so it should be replaced",
+        "About 85 of every 100 bearings are still running at 1000 hours; the other 15 fail before then",
+        "About 85 % of a bearing's life has been used up by 1000 hours, so it should be replaced then",
         "A bearing fails at 1000 hours with probability 0.852, so replace every bearing at 1000 hours",
-        "The bearings last 852 hours on average, so they never reach 1000 hours"
+        "The bearings last 852 hours on average, so most of them never reach 1000 hours"
       ],
       "correct": [0],
       "explanation": "R(1000) = P(X > 1000) is the share still running at 1000 hours: 85 in 100. The other 15 % fail before 1000 hours. It is not a share of life used, not the probability of failing at exactly 1000 hours (that is 0), and not a mean."

@@ -13,7 +13,7 @@
   "ask": [
     {
       "result": "Critical",
-      "prompt": "Critical value, z_{α/2}"
+      "prompt": "Critical value, z(α/2)"
     },
     {
       "result": "SampleSizeNeeded",
@@ -24,11 +24,11 @@
     "Critical": [
       {
         "value": 1.96,
-        "says": "That is the 95 % value. 99 % confidence leaves 0.005 in each tail: z_{0.005}."
+        "says": "That is the 95 % value. 99 % confidence leaves 0.005 in each tail: z(0.005)."
       },
       {
         "value": 2.3263,
-        "says": "That is z_{0.01}, with all of α in one tail. A two-sided 99 % margin puts 0.005 in each tail: z_{0.005}."
+        "says": "That is z(0.01), with all of α in one tail. A two-sided 99 % margin puts 0.005 in each tail: z(0.005)."
       }
     ],
     "SampleSizeNeeded": [
@@ -38,7 +38,7 @@
       },
       {
         "value": 62,
-        "says": "You used z = 1.960, the 95 % value. For 99 %, z = 2.576."
+        "says": "You used z = 1.960, the 95 % value. For 99 % confidence use z with 0.005 in each tail."
       },
       {
         "value": 11,

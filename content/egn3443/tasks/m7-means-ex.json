@@ -57,13 +57,13 @@
       },
       {
         "value": 1.8946,
-        "says": "That is t_{0.05, 7}, with all of α in one tail. A two-sided 95 % interval puts 0.025 in each tail: t_{0.025, 7}."
+        "says": "That is t(0.05, 7), with all of α in one tail. A two-sided 95 % interval puts 0.025 in each tail: t(0.025, 7)."
       }
     ],
     "MarginOfError": [
       {
         "value": 1.6631,
-        "says": "You used z = 1.960. With s from eight cores, use t_{0.025, 7}."
+        "says": "You used z = 1.960. With s from eight cores, use t(0.025, 7)."
       },
       {
         "value": 5.6751,
@@ -77,7 +77,7 @@
     "Lower": [
       {
         "value": 29.9369,
-        "says": "You used z = 1.960. With s from eight cores, use t_{0.025, 7}."
+        "says": "You used z = 1.960. With s from eight cores, use t(0.025, 7)."
       },
       {
         "value": 25.9249,
@@ -87,7 +87,7 @@
     "Upper": [
       {
         "value": 33.2631,
-        "says": "You used z = 1.960. With s from eight cores, use t_{0.025, 7}."
+        "says": "You used z = 1.960. With s from eight cores, use t(0.025, 7)."
       },
       {
         "value": 37.2751,
@@ -96,8 +96,8 @@
     ]
   },
   "hints": [
-    "σ is unknown, so this is a t interval: x̄ ± t_{0.025, n−1} × s/√n.",
-    "Standard error = 2.4 / √8. Degrees of freedom = 8 − 1 = 7; t_{0.025, 7} is in a t table, or stats.t.ppf(0.975, 7), or qt(0.975, 7).",
+    "σ is unknown, so this is a t interval: x̄ ± t(0.025, n − 1) × s/√n.",
+    "Standard error = 2.4 / √8. Degrees of freedom = 8 − 1 = 7; t(0.025, 7) is in a t table, or stats.t.ppf(0.975, 7), or qt(0.975, 7).",
     "Margin of error = t × standard error. Lower = 31.6 − margin, upper = 31.6 + margin."
   ]
 }

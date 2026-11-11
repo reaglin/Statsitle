@@ -14,7 +14,7 @@ reference: [two-sample-t-tests, inference-preview]
 
 Every test in this module follows the steps Module 8 teaches with the one-sample test:
 
-1. **Hypotheses.** The **null hypothesis H₀** is the "no difference" claim. The **alternative H₁** is what you want evidence for. It is **two-sided** (≠) when a difference either way matters, and **one-sided** (< or >) only when the direction was fixed before you saw the data.
+1. **Hypotheses.** The **null hypothesis H₀** is the "no difference" claim. The **alternative H₁** is what you want evidence for. It is **two-sided** (two-tailed, ≠) when a difference either way matters, and **one-sided** (one-tailed, < or >) only when the direction was fixed before you saw the data.
 2. **Significance level α**, chosen first, usually 0.05: the chance you accept of rejecting a true H₀ (a Type I error).
 3. **Test statistic:** how far the data are from H₀, in standard errors.
 4. **p-value:** the probability, if H₀ were true, of a statistic at least as extreme as the one observed.
@@ -33,14 +33,14 @@ The natural estimate of μ₁ − μ₂ is x̄₁ − x̄₂. Every two-sample s
 | Test | When | Standard error | Reference distribution |
 |---|---|---|---|
 | **Two-sample z** | both population σ₁ and σ₂ known (from long process history) | √(σ₁²/n₁ + σ₂²/n₂) | standard normal Z |
-| **Pooled t** | σ unknown, but the two variances can be taken as equal | s_p √(1/n₁ + 1/n₂) | t with n₁ + n₂ − 2 degrees of freedom |
+| **Pooled t** | σ unknown, but the two variances can be taken as equal | sₚ √(1/n₁ + 1/n₂) | t with n₁ + n₂ − 2 degrees of freedom |
 | **Welch t** | σ unknown, variances may differ (the safe default) | √(s₁²/n₁ + s₂²/n₂) | t with ν degrees of freedom (below) |
 
 The statistic is always (x̄₁ − x̄₂ − Δ₀) / SE, where Δ₀ is the difference H₀ claims, almost always 0.
 
 **Degrees of freedom (df)** count how many independent pieces of information the standard deviations rest on. They set the shape of the t curve: fewer df, heavier tails, larger critical values.
 
-- The **pooled** test estimates one common σ from both samples: s_p² = [(n₁ − 1)s₁² + (n₂ − 1)s₂²] / (n₁ + n₂ − 2), a weighted average of the two variances, with df = n₁ + n₂ − 2.
+- The **pooled** test estimates one common σ from both samples: sₚ² = [(n₁ − 1)s₁² + (n₂ − 1)s₂²] / (n₁ + n₂ − 2), a weighted average of the two variances, with df = n₁ + n₂ − 2.
 - The **Welch** test keeps the variances apart. Its df come from the Welch–Satterthwaite formula, with a = s₁²/n₁ and b = s₂²/n₂:
 
 ν = (a + b)² / [a²/(n₁ − 1) + b²/(n₂ − 1)]
@@ -57,17 +57,17 @@ With only the sample standard deviations, use a t-test.
 
 **Pooled t:**
 
-1. s_p² = (7 × 1.44 + 11 × 4.41) / 18 = (10.08 + 48.51) / 18 = 3.255, so s_p = 1.804.
+1. sₚ² = (7 × 1.44 + 11 × 4.41) / 18 = (10.08 + 48.51) / 18 = 3.255, so sₚ = 1.804.
 2. SE = 1.804 × √(1/8 + 1/12) = 1.804 × 0.4564 = 0.8235.
 3. t = 1.1 / 0.8235 = **1.336**, with df = 8 + 12 − 2 = **18**.
-4. p = 2 × P(T₁₈ > 1.336) = **0.198**. The critical value is t(0.025, 18) = 2.101, and 1.336 is well inside it.
+4. p = 2 × P(T > 1.336) with T on 18 df = **0.198**. The critical value is t(0.025, 18) = 2.101, and 1.336 is well inside it.
 
 **Welch t:**
 
 1. a = 1.44 / 8 = 0.1800 and b = 4.41 / 12 = 0.3675, so SE = √(0.1800 + 0.3675) = √0.5475 = 0.7399.
 2. t = 1.1 / 0.7399 = **1.487**.
 3. ν = 0.5475² / (0.1800²/7 + 0.3675²/11) = 0.29976 / 0.016906 = **17.73**.
-4. p = 2 × P(T₁₇.₇₃ > 1.487) = **0.155**.
+4. p = 2 × P(T > 1.487) with T on 17.73 df = **0.155**.
 
 Neither test rejects H₀ at α = 0.05: the ovens may well give the same mean strength. Notice that the two t-tests give different statistics. When n₁ ≠ n₂ and the variances differ, pooling gives the larger sample's variance more weight. Here the larger sample (oven B) also has the larger variance, so pooling made the SE bigger and t smaller. When the **smaller** sample has the larger variance, as in the Example, pooling makes the SE too small and p too small: the pooled test then rejects too often. With n₁ = n₂ the two t statistics are equal, and only the df differ.
 
@@ -87,7 +87,7 @@ t = 2.37 with ν = 9.80 degrees of freedom, so p = 0.0397 < 0.05: reject H₀. T
 
 [[figure: st.m9.two-sample.eg 2]]
 
-The curve is the t distribution with 9.80 df. The shaded tails are the rejection region, beyond ±2.234, and the line is the observed t = 2.37.
+The curve is the t distribution with 9.80 df. The shaded tails are the rejection region, beyond ±2.234, and the orange vertical line is the observed t = 2.37.
 
 ## In Python and R
 

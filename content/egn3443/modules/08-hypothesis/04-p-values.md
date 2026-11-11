@@ -66,9 +66,11 @@ The standard error under H₀ is √(0.10 × 0.90/250) = 0.0190, so z = (0.124 �
 
 [[figure: st.m8.p-values.eg 1]]
 
+The shaded tail is the rejection region, z > 1.645 (its area is α = 0.05). The p-value is a different area: everything to the right of the orange vertical line at the observed z = 1.26, which is **0.1030**. The line falls short of the shaded region.
+
 [[results: st.m8.p-values.eg]]
 
-The p-value is the area to the right of z = 1.26: **0.1030**. It is above 0.05, and z is short of the critical value 1.645: do not reject H₀. A 12.4 % failure rate in 250 sensors is not strong evidence that the batch is worse than 10 %; about one batch in ten would look this bad by chance. The customer could collect more data, but on this sample cannot claim the batch is worse.
+The p-value is **0.1030**. It is above 0.05, and z is short of the critical value 1.645: do not reject H₀. A 12.4 % failure rate in 250 sensors is not strong evidence that the batch is worse than 10 %; about one batch in ten would look this bad by chance. The customer could collect more data, but on this sample cannot claim the batch is worse.
 
 ## In Python and R
 

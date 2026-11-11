@@ -52,7 +52,7 @@
       "prompt": "Sixteen strain gauges were read before and after a calibration change. The differences have mean d̄ = 1.8 µε and standard deviation s_d = 2.4 µε. Calculate the paired t statistic for H₀: μ_d = 0. Give it to two decimals.",
       "answer": 3.0,
       "tolerance": 0.005,
-      "explanation": "t = d̄/(s_d/√n) = 1.8/(2.4/√16) = 1.8/(2.4/4) = 1.8/0.6 = 3.00, with n − 1 = 15 degrees of freedom. The two-sided p-value is 2 × P(T₁₅ > 3.00) = 0.009."
+      "explanation": "t = d̄/(s_d/√n) = 1.8/(2.4/√16) = 1.8/(2.4/4) = 1.8/0.6 = 3.00, with n − 1 = 15 degrees of freedom. The two-sided p-value is 2 × P(T > 3.00) with T on 15 df = 0.009."
     },
     {
       "id": "q5",
@@ -106,10 +106,10 @@
       "lookAgain": "st.m9.interpreting",
       "prompt": "Two thousand pins from each of two machines are measured. The mean diameters differ by 0.02 mm, Welch's p = 0.001, and the specification is 10.00 ± 0.50 mm. Which statement is right?",
       "options": [
-        "The difference is large for the specification, because p is very small",
-        "The difference is not real, because 0.02 mm is too small to detect",
-        "p = 0.001 means a 0.1 % chance that the two machines are the same",
-        "The difference is statistically significant but too small to matter for the specification"
+        "The difference is large enough to matter for the specification, because p is very small",
+        "The difference is not real, because 0.02 mm is too small for any test to detect",
+        "p = 0.001 means there is a 0.1 % chance that the two machines are the same",
+        "The difference is real, but too small to matter for the specification"
       ],
       "correct": [3],
       "explanation": "With 2000 pins per machine, even a tiny difference is detected: p = 0.001 says it is probably real. But 0.02 mm is 4 % of the 0.50 mm tolerance; for the specification it hardly matters. A small p does not mean a large effect, and p is not the probability that H₀ is true."

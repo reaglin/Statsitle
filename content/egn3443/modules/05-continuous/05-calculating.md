@@ -25,12 +25,12 @@ The last three items each taught one family. This one puts them side by side, so
 |---|---|---|---|
 | P(X ≤ x) | (x − a)/(b − a) | Φ((x − μ)/σ) | 1 − e^(−λx) |
 | P(X > x) | (b − x)/(b − a) | 1 − Φ((x − μ)/σ) | e^(−λx) |
-| Percentile for q | a + q(b − a) | μ + z_q σ | −ln(1 − q)/λ |
+| Percentile for q | a + q(b − a) | μ + zσ, with Φ(z) = q | −ln(1 − q)/λ |
 | Mean | (a + b)/2 | μ | 1/λ |
 | Standard deviation | (b − a)/√12 | σ | 1/λ |
 | How you get the area | rectangle, by hand | table of Φ or a computer | formula, by hand |
 
-z_q is the z with Φ(z) = q (1.645 for q = 0.95). The between probability is always P(X ≤ x₂) − P(X ≤ x₁).
+There z is the value with Φ(z) = q: z = 1.645 for q = 0.95. The between probability is always P(X ≤ x₂) − P(X ≤ x₁).
 
 ## Tables and technology
 
@@ -47,7 +47,7 @@ Read the arguments every time: scipy wants σ (normal), loc and **width** (unifo
 
 ## A density is not a probability
 
-The Example's panel gaps are normal with μ = 2.0 mm and σ = 0.25 mm. The density at 1.8 mm is 1.16, **more than 1**:
+The Example's panel gaps are normal with μ = 2.0 mm and σ = 0.25 mm, and the specification asks for a gap between **1.8 and 2.2 mm**. The density at 1.8 mm is 1.16, **more than 1**:
 
 [[figure: st.m5.calculating.eg 1]]
 

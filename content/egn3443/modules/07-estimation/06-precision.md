@@ -15,7 +15,7 @@ reference: [margin-of-error-sample-size, confidence-interval-mean, confidence-in
 
 The **margin of error** E is the half-width of a confidence interval: the most the estimate is likely to be off, at the stated confidence. For a mean with σ known,
 
-E = z_{α/2} · σ / √n
+E = z(α/2) · σ / √n
 
 A small E means a **precise** estimate. Three things set it, and only one of them is in the engineer's hands before the data come in.
 
@@ -41,9 +41,9 @@ The same holds for a t interval (E = t·s/√n, where a small n also raises t) a
 
 Turn the margin of error around to find the sample size that achieves a chosen E:
 
-**For a mean:** n = (z_{α/2} · σ / E)²
+**For a mean:** n = (z(α/2) · σ / E)²
 
-**For a proportion:** n = (z_{α/2} / E)² · p(1 − p)
+**For a proportion:** n = (z(α/2) / E)² · p(1 − p)
 
 Always **round up**: rounding down would leave E a little larger than required. You need a value for σ or p before the data exist:
 
@@ -54,7 +54,7 @@ Always **round up**: rounding down would leave E a little larger than required. 
 
 A road agency wants the mean compressive strength of a new mix within **±4 MPa**, at **90 %** confidence. Earlier mixes had σ ≈ 12 MPa.
 
-1. z_{0.05} = 1.645 (90 % puts 5 % in each tail).
+1. z(0.05) = 1.645 (90 % puts 5 % in each tail).
 2. n = (1.645 × 12 / 4)² = (4.935)² = 24.35.
 3. Round **up**: **n = 25** cylinders.
 

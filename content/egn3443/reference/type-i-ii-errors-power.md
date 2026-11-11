@@ -18,18 +18,18 @@ shift = δ√n / σ
 
 | H₁ | Power at μ₁ |
 |---|---|
-| μ > μ₀ | 1 − Φ(z_α − shift) |
-| μ < μ₀ | Φ(−z_α − shift) |
-| μ ≠ μ₀ | 1 − [Φ(z_{α/2} − shift) − Φ(−z_{α/2} − shift)] |
+| μ > μ₀ | 1 − Φ(z(α) − shift) |
+| μ < μ₀ | Φ(−z(α) − shift) |
+| μ ≠ μ₀ | 1 − [Φ(z(α/2) − shift) − Φ(−z(α/2) − shift)] |
 
-Sample size for power 1 − β: n = [(z_{α/2} + z_β) σ / δ]², rounded up (z_α for a one-sided test).
+Sample size for power 1 − β: n = [(z(α/2) + z(β)) σ / δ]², rounded up (z(α) for a one-sided test).
 
 | | z |
 |---|---|
-| z_{0.025} (two-sided α = 0.05) | 1.960 |
-| z_{0.05} (one-sided α = 0.05) | 1.645 |
-| z_β for power 0.80 | 0.8416 |
-| z_β for power 0.90 | 1.2816 |
+| z(0.025) (two-sided α = 0.05) | 1.960 |
+| z(0.05) (one-sided α = 0.05) | 1.645 |
+| z(β) for power 0.80 | 0.8416 |
+| z(β) for power 0.90 | 1.2816 |
 
 For a t-test, Montgomery and Runger use the same approximation with s in place of σ; exact t-based power (R `power.t.test`) is slightly lower.
 

@@ -8,8 +8,8 @@ title: The sampling distribution of the mean and the Central Limit Theorem
 
 | | Single values x | Sample means x̄ |
 |---|---|---|
-| Mean | μ | μ_x̄ = μ |
-| Standard deviation | σ | σ_x̄ = σ/√n (the **standard error**) |
+| Mean | μ | μ (the mean of x̄ equals μ) |
+| Standard deviation | σ | σ/√n (the **standard error**) |
 | Shape | the population's | normal if the population is normal; close to normal for large n otherwise (CLT) |
 
 When σ is unknown, the standard error is estimated by s/√n (Module 7).

@@ -87,15 +87,15 @@
       "id": "q7",
       "kind": "choice",
       "objective": "st.m7.o5",
-      "prompt": "A traffic engineer's 95 % confidence interval for the mean morning travel time on a corridor is 18.4 to 21.0 minutes. Which sentence is the best one for the city's report?",
+      "prompt": "The city's target for a corridor is a mean morning travel time of **20 minutes or less**. A traffic engineer's 95 % confidence interval for the mean morning travel time is 18.4 to 21.0 minutes. Which sentence is the best one for the city's report?",
       "options": [
-        "\"The mean morning travel time on the corridor is between about 18.4 and 21.0 minutes (95 % confidence), so the 20-minute target may or may not be met; more data are needed to tell.\"",
-        "\"The 95 % confidence interval is (18.4, 21.0).\"",
-        "\"There is a 95 % probability that the corridor's mean travel time is under 21.0 minutes, so the 20-minute target is met.\"",
-        "\"95 % of the morning trips on the corridor take between 18.4 and 21.0 minutes, so the 20-minute target is met.\""
+        "\"The mean trip takes 18.4 to 21.0 minutes (95 % confidence), so we cannot yet tell if the 20-minute target is met.\"",
+        "\"The 95 % confidence interval is (18.4, 21.0), computed from the sample of morning trips on the corridor.\"",
+        "\"There is a 95 % probability that the mean trip is under 21.0 minutes, so the 20-minute target is met.\"",
+        "\"95 % of the morning trips take between 18.4 and 21.0 minutes, so the 20-minute target is met.\""
       ],
       "correct": [0],
-      "explanation": "The first names the quantity, the units and the confidence, and reads the result against the target: 20 minutes is inside the interval, so the data cannot say on which side the mean is. The second is right but says nothing in context. The third makes a probability statement about μ, and the fourth reads the interval as a range for single trips."
+      "explanation": "The first names the quantity, the units and the confidence, and reads the result against the target: 20 minutes is inside the interval, so the data cannot say on which side the mean is. The second is right but has no units and says nothing about the target. The third makes a probability statement about μ, and the fourth reads the interval as a range for single trips."
     }
   ]
 }

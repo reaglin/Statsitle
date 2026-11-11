@@ -8,10 +8,10 @@ estimate ± critical value × standard error
 
 | Case | Interval | Critical value |
 |---|---|---|
-| σ known | x̄ ± z_{α/2} · σ/√n | z: 1.645 (90 %), 1.960 (95 %), 2.576 (99 %) |
-| σ unknown (the usual case) | x̄ ± t_{α/2, n−1} · s/√n | t with n − 1 degrees of freedom |
-| One-sided upper bound, σ unknown | μ ≤ x̄ + t_{α, n−1} · s/√n | all of α in one tail |
-| One-sided lower bound, σ unknown | μ ≥ x̄ − t_{α, n−1} · s/√n | all of α in one tail |
+| σ known | x̄ ± z(α/2) · σ/√n | z: 1.645 (90 %), 1.960 (95 %), 2.576 (99 %) |
+| σ unknown (the usual case) | x̄ ± t(α/2, n − 1) · s/√n | t with n − 1 degrees of freedom |
+| One-sided upper bound, σ unknown | μ ≤ x̄ + t(α, n − 1) · s/√n | all of α in one tail |
+| One-sided lower bound, σ unknown | μ ≥ x̄ − t(α, n − 1) · s/√n | all of α in one tail |
 
 Margin of error E = critical value × standard error. Width = 2E.
 
@@ -34,8 +34,8 @@ Margin of error E = critical value × standard error. Width = 2E.
 
 | Quantity | Python (`from scipy import stats`) | R |
 |---|---|---|
-| z_{α/2} | `stats.norm.ppf(1 - alpha / 2)` | `qnorm(1 - alpha / 2)` |
-| t_{α/2, n−1} | `stats.t.ppf(1 - alpha / 2, n - 1)` | `qt(1 - alpha / 2, n - 1)` |
+| z(α/2) | `stats.norm.ppf(1 - alpha / 2)` | `qnorm(1 - alpha / 2)` |
+| t(α/2, n − 1) | `stats.t.ppf(1 - alpha / 2, n - 1)` | `qt(1 - alpha / 2, n - 1)` |
 | t interval from data | `stats.t.interval(0.95, n - 1, loc=x.mean(), scale=x.std(ddof=1) / np.sqrt(n))` | `t.test(x, conf.level = 0.95)$conf.int` |
 
 ## In the Workbench

@@ -2,7 +2,7 @@
   "id": "st.m6.applying.ex",
   "title": "Bottle fill: is the filler running high?",
   "analysis": "SamplingDistribution",
-  "intro": "A filling machine puts sauce into bottles. When it is set correctly the fill weights have mean **μ = 500 g** and standard deviation **σ = 8 g**, close to normal. A technician weighs **n = 16** bottles and finds **x̄ = 503.5 g**.\n\nIf the machine is still set correctly, how unusual is a sample mean this high? Find the z-value of x̄ = 503.5 g on the sampling distribution of x̄, and the probability P(x̄ ≥ 503.5). Give z to two decimals and the probability to three decimals or more.",
+  "intro": "A filling machine puts sauce into bottles. When it is set correctly the fill weights have mean **μ = 500 g** and standard deviation **σ = 8 g**, close to normal. A technician weighs **n = 16** bottles and finds **x̄ = 503.5 g**.\n\nIf the machine is still set correctly, how unusual is a sample mean this high? Find the z-score of x̄ = 503.5 g on the sampling distribution of x̄, and the probability P(x̄ ≥ 503.5). Give z to two decimals and the probability to three decimals or more.",
   "settings": {
     "Name": "Bottle fill, n = 16",
     "Statistic": "SampleMean",

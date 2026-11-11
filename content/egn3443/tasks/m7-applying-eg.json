@@ -2,7 +2,7 @@
   "id": "st.m7.applying.eg",
   "title": "Battery capacity (TechPower)",
   "analysis": "ConfidenceInterval",
-  "intro": "TechPower Industries rates its new electric-vehicle battery at 75 kWh; quality control tested 30 randomly selected batteries (the course's Bonus 7-1). From the column: x̄ = 74.863 kWh, s = 0.802 kWh, standard error 0.1465 kWh, t_{0.025, 29} = 2.045, margin of error 0.300 kWh. The 95 % interval, 74.56 to 75.16 kWh, contains the rated 75 kWh.",
+  "intro": "TechPower Industries rates its new electric-vehicle battery at 75 kWh; quality control tested 30 randomly selected batteries (the course's Bonus 7-1). From the column: x̄ = 74.863 kWh, s = 0.802 kWh, standard error 0.1465 kWh, t(0.025, 29) = 2.045, margin of error 0.300 kWh. The 95 % interval, 74.56 to 75.16 kWh, contains the rated 75 kWh.",
   "tables": [
     {
       "name": "Batteries",

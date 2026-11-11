@@ -56,7 +56,7 @@
       "prompt": "A new lathe is bought to turn shafts **more consistently**. Fifteen shafts from the new lathe and fifteen from the old one are measured. The question is whether the new lathe's diameters vary less. Which test?",
       "options": ["Two-sample z-test", "Pooled t-test", "Welch t-test", "Paired t-test", "Mann–Whitney U test", "Wilcoxon signed-rank test", "F-test for two variances", "Two-proportion z-test"],
       "correct": [6],
-      "explanation": "The question is about spread, not the mean: σ²_new < σ²_old. The F-test compares two variances with F = s₁²/s₂² and 14 and 14 df. It assumes both samples are normal."
+      "explanation": "The question is about spread, not the mean: the new variance is smaller than the old one. The F-test compares two variances with F = s₁²/s₂² and 14 and 14 df. It assumes both samples are normal."
     },
     {
       "id": "q7",

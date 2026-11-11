@@ -41,7 +41,7 @@ Five steel specimens were measured for hardness (HRC) before and after a heat tr
 2. **Standard deviation of the differences:** the deviations from −2.2 are −0.8, 1.2, −1.8, 0.2, 1.2; their squares add to 0.64 + 1.44 + 3.24 + 0.04 + 1.44 = 6.80; s_d = √(6.80 / 4) = √1.70 = **1.304**.
 3. **Standard error:** s_d / √n = 1.304 / √5 = 0.5831.
 4. **Statistic:** t = −2.2 / 0.5831 = **−3.773**, with n − 1 = **4** degrees of freedom.
-5. **p-value:** p = 2 × P(T₄ > 3.773) = **0.0196** < 0.05. Reject H₀: the treatment changed the hardness. The 95 % interval for μ_d is −2.2 ± 2.776 × 0.5831, from −3.82 to −0.58 HRC (the treatment raised the hardness).
+5. **p-value:** p = 2 × P(T > 3.773) with T on 4 df = **0.0196** < 0.05. Reject H₀: the treatment changed the hardness. The 95 % interval for μ_d is −2.2 ± 2.776 × 0.5831, from −3.82 to −0.58 HRC (the treatment raised the hardness).
 
 Had the same ten numbers been treated as two independent samples, Welch's test would give t = −1.31 and p = 0.230: no evidence at all. The specimens differ from each other by up to 8 HRC, and that variation hides a change of about 2.
 

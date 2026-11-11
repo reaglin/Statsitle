@@ -36,7 +36,7 @@ Independence and random sampling come from **how the data were collected**: no t
 
 - **Rule of thumb:** if the larger standard deviation is less than about twice the smaller, pooling does little harm, especially when n₁ = n₂.
 - **Levene's test.** H₀: σ₁² = σ₂². It compares the average distance of each value from its sample's median. A **small p** says the variances differ: do not pool, use Welch. Levene's test is robust: it works even when the data are not normal.
-- **F-test.** F = s₁²/s₂², with n₁ − 1 and n₂ − 1 degrees of freedom. If the variances are equal, F is near 1. The two-sided p-value is twice the smaller tail. It answers the question "are the spreads different?" well when the data are normal, but it is easily fooled by non-normal data. So use Levene to decide whether to pool, and the F-test when the variance itself is the question (repeatability, consistency), with normal data.
+- **F-test.** F = s₁²/s₂², with n₁ − 1 and n₂ − 1 degrees of freedom. If the variances are equal, F is near 1. The **F distribution** is the distribution this ratio follows when both samples come from normal populations with equal variances: it takes only positive values, is skewed to the right, and has two degrees of freedom, one for the top (n₁ − 1) and one for the bottom (n₂ − 1). F(0.025; 9, 11) is the F value with 0.025 of the area above it, with 9 and 11 degrees of freedom: Python stats.f.ppf(0.975, 9, 11), R qf(0.975, 9, 11), which both take the area below it. The two-sided p-value is twice the smaller tail. It answers the question "are the spreads different?" well when the data are normal, but it is easily fooled by non-normal data. So use Levene to decide whether to pool, and the F-test when the variance itself is the question (repeatability, consistency), with normal data.
 
 ## A worked F-test by hand
 
@@ -44,7 +44,7 @@ Two filling heads are compared for consistency. Head 1: n₁ = 10, s₁ = 3.0 g.
 
 1. F = s₁²/s₂² = 9.00 / 2.25 = **4.00**, with 9 and 11 degrees of freedom.
 2. The upper critical value at α = 0.05, two-sided, is F(0.025; 9, 11) = 3.588. 4.00 is beyond it.
-3. p = 2 × P(F₉,₁₁ > 4.00) = **0.034** < 0.05. Reject H₀: head 1 is less consistent.
+3. p = 2 × P(F > 4.00) with F on 9 and 11 df = **0.034** < 0.05. Reject H₀: head 1 is less consistent.
 
 Put the larger variance on top if you like (then only the upper tail matters), but keep it matched to H₁ and to the order of the samples.
 
@@ -61,7 +61,7 @@ The old machine's packs spread from 497.6 to 503.1 g, the new machine's only fro
 Read the checks at the bottom of the results:
 
 - **Shapiro–Wilk:** p = 0.961 for the new machine and 0.290 for the old one. No evidence against normality in either.
-- **Levene:** W = 21.64, p = 0.0001. Strong evidence that the variances differ (s = 0.28 g against 1.93 g, almost seven times). Do not pool.
+- **Levene:** W = 21.64 (Levene's statistic: the Workbench calls it W too; it is not the Shapiro–Wilk W), p = 0.0001. Strong evidence that the variances differ (s = 0.28 g against 1.93 g, almost seven times). Do not pool.
 
 So the test is **Welch's**: t = −0.37 with ν = 11.46 df, p = 0.717. The mean fill weights do not differ detectably. The real difference between the machines is their consistency, which the means hide. Notice ν = 11.46, close to n − 1 = 11 of the old machine: with such unequal variances, almost all the uncertainty comes from the more variable sample.
 

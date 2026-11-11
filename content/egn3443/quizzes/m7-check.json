@@ -65,7 +65,7 @@
       "kind": "numeric",
       "objective": "st.m7.o3",
       "lookAgain": "st.m7.means",
-      "prompt": "Ten welds were pull-tested: x̄ = 12.4 kN, s = 1.5 kN. Find the **upper limit** of the 95 % confidence interval for the mean strength μ. (t_{0.025, 9} = 2.262.) Give it to two decimals.",
+      "prompt": "Ten welds were pull-tested: x̄ = 12.4 kN, s = 1.5 kN. Find the **upper limit** of the 95 % confidence interval for the mean strength μ. (t(0.025, 9) = 2.262.) Give it to two decimals.",
       "answer": 13.473,
       "tolerance": 0.01,
       "unit": "kN",
@@ -78,10 +78,10 @@
       "lookAgain": "st.m7.means",
       "prompt": "Twelve samples of a river's dissolved oxygen give x̄ = 7.8 mg/L and s = 0.6 mg/L. No earlier data on the river's σ exist. Which interval is right?",
       "options": [
-        "x̄ ± t_{α/2, 11} · s/√12, because σ is estimated by s",
-        "x̄ ± z_{α/2} · s/√12, because the river's oxygen is approximately normal",
-        "x̄ ± t_{α/2, 12} · s/√12, because there are twelve samples",
-        "x̄ ± t_{α/2, 11} · s, because each sample varies by s"
+        "x̄ ± t(α/2, 11) · s/√12, because σ is estimated by s",
+        "x̄ ± z(α/2) · s/√12, because the river's oxygen is approximately normal",
+        "x̄ ± t(α/2, 12) · s/√12, because there are twelve samples",
+        "x̄ ± t(α/2, 11) · s, because each sample varies by s"
       ],
       "correct": [0],
       "explanation": "With s in place of σ, use t with n − 1 = 11 degrees of freedom, times the standard error s/√n. z needs a known σ; df is n − 1, not n; and s alone is the spread of single samples, not of x̄."
@@ -91,7 +91,7 @@
       "kind": "numeric",
       "objective": "st.m7.o3",
       "lookAgain": "st.m7.proportions",
-      "prompt": "Of 200 randomly chosen intersections in a county, 36 have a crash rate above the state's threshold. What is the **margin of error** of the 95 % confidence interval for the proportion of all the county's intersections above the threshold? (z_{0.025} = 1.960.) Give it to three decimals or more.",
+      "prompt": "Of 200 randomly chosen intersections in a county, 36 have a crash rate above the state's threshold. What is the **margin of error** of the 95 % confidence interval for the proportion of all the county's intersections above the threshold? (z(0.025) = 1.960.) Give it to three decimals or more.",
       "answer": 0.0532,
       "tolerance": 0.001,
       "explanation": "p̂ = 36 / 200 = 0.18; n·p̂ = 36 and n·(1 − p̂) = 164 are both at least 10. SE = √(0.18 × 0.82 / 200) = 0.02717; E = 1.960 × 0.02717 = 0.0532. The interval is 0.127 to 0.233."
@@ -116,7 +116,7 @@
       "kind": "numeric",
       "objective": "st.m7.o4",
       "lookAgain": "st.m7.precision",
-      "prompt": "A transit agency wants to estimate the proportion of riders who pay with a phone, within **±0.04** at **95 %** confidence. It has no earlier estimate of the proportion. How many riders must it survey? (z_{0.025} = 1.960.) Give a whole number.",
+      "prompt": "A transit agency wants to estimate the proportion of riders who pay with a phone, within **±0.04** at **95 %** confidence. It has no earlier estimate of the proportion. How many riders must it survey? (z(0.025) = 1.960.) Give a whole number.",
       "answer": 601,
       "tolerance": 0.5,
       "explanation": "With no earlier estimate use p = 0.5: n = (1.960 / 0.04)² × 0.5 × 0.5 = 2401 × 0.25 = 600.25. Always round up: 601 riders. Rounding to 600 would leave the margin just over 0.04."
@@ -128,10 +128,10 @@
       "lookAgain": "st.m7.interpreting",
       "prompt": "A 95 % confidence interval for the mean service life of a bridge bearing type is 41.5 to 47.0 years. Which statement interprets it correctly?",
       "options": [
-        "We are 95 % confident that the mean life of this bearing type is between 41.5 and 47.0 years: 95 % of intervals made this way contain the true mean",
-        "There is a 95 % probability that the mean life of this bearing type is between 41.5 and 47.0 years, now that the interval is calculated",
-        "95 % of bearings of this type will last between 41.5 and 47.0 years, so a bearing can be planned to last 41.5 years",
-        "The mean life of this bearing type is 44.25 years, the center of the interval, with an error of 5 % at most"
+        "We are 95 % confident that the mean life of this type is 41.5 to 47.0 years: 95 % of intervals made this way contain μ",
+        "Now that it is calculated, there is a 95 % probability that the mean life of this type is 41.5 to 47.0 years",
+        "95 % of bearings of this type will last 41.5 to 47.0 years, so a bearing can be planned to last 41.5 years",
+        "The mean life of this type is 44.25 years, the center of the interval, with an error of at most 5 %"
       ],
       "correct": [0],
       "explanation": "The confidence describes the method's long-run success rate; the calculated interval either contains μ or not. The interval is for the mean, not single bearings, which vary much more. And the center is only the estimate x̄."

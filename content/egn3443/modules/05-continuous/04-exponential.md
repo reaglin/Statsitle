@@ -68,7 +68,7 @@ Cars arrive at a highway EV charger at random, on average 3 an hour. The rate is
 
 [[results: st.m5.exponential.eg]]
 
-P(X ≤ 15) = 1 − e^(−0.05 × 15) = **0.5276**, and the chance of waiting more than 15 minutes is e^(−0.75) = 0.4724. The median gap is 13.86 minutes, below the 20-minute mean. The hazard rate is λ = 0.05 per minute at every moment: the chance of an arrival in the next minute never depends on how long the charger has been idle.
+P(X ≤ 15) = 1 − e^(−0.05 × 15) = **0.5276**, and the chance of waiting more than 15 minutes is e^(−0.75) = 0.4724. The median gap is 13.86 minutes, below the 20-minute mean. The **hazard rate** is the rate at which the event happens at a given moment, among the cases where it has not happened yet (for parts: failures per hour among the parts still running; item 5.6 uses it for parts that wear out). For the exponential it is λ = 0.05 per minute at every moment: the chance of an arrival in the next minute never depends on how long the charger has been idle.
 
 ## In Python and R
 

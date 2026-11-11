@@ -15,8 +15,8 @@ reference: [sampling-distribution-of-the-mean]
 
 Take random samples of size n from **any** population with mean μ and standard deviation σ. Then the sample mean x̄ has
 
-- **mean** μ_x̄ = μ,
-- **standard deviation** σ_x̄ = σ/√n, called the **standard error of the mean**,
+- **mean** equal to μ (the mean of x̄ is the population mean),
+- **standard deviation** σ/√n, called the **standard error of the mean**,
 
 and, as n grows, the shape of its distribution gets closer and closer to **normal**, whatever the shape of the population. That last part is the **Central Limit Theorem** (CLT).
 
@@ -39,7 +39,7 @@ The samples must also be **random** and **independent**: one item's value must n
 
 ## Reading a probability from it: z and Φ
 
-Once x̄ is normal, a probability about x̄ comes from a **z-value**, the number of standard errors x̄ lies from μ:
+Once x̄ is normal, a probability about x̄ comes from a **z-score** (Module 5), here the number of standard errors x̄ lies from μ:
 
 z = (x̄ − μ) / (σ/√n)
 
@@ -52,7 +52,7 @@ The difference from Module 5 is the **denominator**: a single value divides by �
 The lifetimes of a type of LED driver are skewed to the right, with mean μ = 50 000 hours and standard deviation σ = 20 000 hours. A test lab runs n = 64 drivers. What is the probability that their mean lifetime is below 46 000 hours?
 
 1. **Can the CLT be used?** The population is skewed, but n = 64 ≥ 30, and the drivers are independent. Yes.
-2. **Mean of x̄:** μ_x̄ = μ = **50 000 h**.
+2. **Mean of x̄:** the mean of x̄ is μ = **50 000 h**.
 3. **Standard error:** σ/√n = 20 000/√64 = 20 000/8 = **2500 h**.
 4. **z:** (46 000 − 50 000)/2500 = **−1.60**.
 5. **Probability:** P(x̄ < 46 000) = Φ(−1.60) = **0.0548**.
@@ -71,7 +71,7 @@ Times between calls to a help desk are **exponential** with mean 4 minutes and s
 
 [[figure: st.m6.clt.n5 1]]
 
-**n = 30:** close to the normal curve, centred on 4 minutes with standard error 4/√30 = 0.7303 minutes.
+**n = 30:** close to the normal curve, centered on 4 minutes with standard error 4/√30 = 0.7303 minutes.
 
 [[figure: st.m6.clt.eg 1]]
 
@@ -83,7 +83,7 @@ Times between calls to a help desk are **exponential** with mean 4 minutes and s
 | 5 | 1.7889 | 1.7803 | 3.7 |
 | 30 | 0.7303 | 0.7336 | 3.95 |
 
-The centre and the standard error match the formulas at **every** n, even n = 2. What changes with n is the shape: the median of the means moves up towards the mean of 4 as the skew goes away. At n = 30 the means are not perfectly normal, but close enough for the probabilities a normal curve gives.
+The center and the standard error match the formulas at **every** n, even n = 2. What changes with n is the shape: the median of the means moves up towards the mean of 4 as the skew goes away. At n = 30 the means are not perfectly normal, but close enough for the probabilities a normal curve gives.
 
 ## In Python and R
 

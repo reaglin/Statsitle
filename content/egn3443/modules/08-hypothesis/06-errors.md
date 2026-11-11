@@ -42,17 +42,17 @@ Power is calculated for a particular true mean μ₁ worth detecting: the shift 
 
 shift = δ √n / σ
 
-and for a z-test with critical value z_α (one-sided) or z_{α/2} (two-sided), with Φ the standard normal area to the left:
+and for a z-test with critical value z(α) (one-sided) or z(α/2) (two-sided), with Φ the standard normal area to the left:
 
 | H₁ | Power at μ₁ |
 |---|---|
-| μ > μ₀ | 1 − Φ(z_α − shift) |
-| μ < μ₀ | Φ(−z_α − shift) (shift is negative) |
-| μ ≠ μ₀ | 1 − [Φ(z_{α/2} − shift) − Φ(−z_{α/2} − shift)] |
+| μ > μ₀ | 1 − Φ(z(α) − shift) |
+| μ < μ₀ | Φ(−z(α) − shift) (shift is negative) |
+| μ ≠ μ₀ | 1 − [Φ(z(α/2) − shift) − Φ(−z(α/2) − shift)] |
 
-**The sample size for a target power** 1 − β (with z_β the z with area β above it: 1.2816 for power 0.90, 0.8416 for 0.80):
+**The sample size for a target power** 1 − β (with z(β) the z with area β above it: 1.2816 for power 0.90, 0.8416 for 0.80):
 
-n = [(z_{α/2} + z_β) σ / δ]², rounded up (z_α in place of z_{α/2} for a one-sided test).
+n = [(z(α/2) + z(β)) σ / δ]², rounded up (z(α) in place of z(α/2) for a one-sided test).
 
 Montgomery and Runger (§9-2.2) use this normal approximation for t-tests too, with s in place of σ; so does the Workbench.
 
@@ -67,7 +67,7 @@ The only way to lower both α and β is to take more data (or measure more preci
 
 ## A worked case by hand
 
-Heat-treated pins should have mean hardness 100 HRB, σ = 10. A test of H₀: μ = 100 against H₁: μ > 100 uses n = 25 at α = 0.05 (z_α = 1.645). How likely is it to detect a true mean of 104?
+Heat-treated pins should have mean hardness 100 HRB, σ = 10. A test of H₀: μ = 100 against H₁: μ > 100 uses n = 25 at α = 0.05 (z(α) = 1.645). How likely is it to detect a true mean of 104?
 
 1. **Shift:** δ√n/σ = 4 × 5/10 = **2.0** standard errors.
 2. **Power:** 1 − Φ(1.645 − 2.0) = 1 − Φ(−0.355) = **0.639**.
@@ -82,7 +82,7 @@ A mix specified at 4000 psi (σ = 300 psi) is tested with n = 9 cylinders, H₁:
 
 The shift is −250 × 3/300 = −2.5 standard errors, so the power is Φ(−1.645 + 2.5) = Φ(0.855) = **0.804**: the test catches a 3750 psi mix four times in five, and misses it (β = 0.196) one time in five. Thirteen cylinders would raise the power to 0.913, past the target of 0.90.
 
-The figure shows the test on this sample: the z curve under H₀, the rejection region z < −1.645, and the observed z. If the true mean were 3750 psi, z would instead centre on −2.5, and the power is the share of that shifted curve lying in the shaded region.
+The figure shows the test on this sample: the z curve under H₀, the rejection region z < −1.645, and the observed z. If the true mean were 3750 psi, z would instead center on −2.5, and the power is the share of that shifted curve lying in the shaded region.
 
 [[figure: st.m8.errors.eg 1]]
 
@@ -120,7 +120,7 @@ Press **Open in the Workbench** on the Example tab. Change **Significance level 
 
 - Thinking α is the probability that H₀ is true after it is rejected. α is the probability of rejecting **if** H₀ is true.
 - Reporting β as the power. Power = 1 − β.
-- Using z_α for a two-sided test (or z_{α/2} for a one-sided one).
+- Using z(α) for a two-sided test (or z(α/2) for a one-sided one).
 - Reading "do not reject" from a low-power test as evidence that nothing changed.
 
 ## What to do next

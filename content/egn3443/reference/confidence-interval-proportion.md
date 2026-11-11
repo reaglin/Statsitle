@@ -8,8 +8,8 @@ title: Confidence interval for a proportion
 |---|---|
 | Point estimate | p̂ = x / n |
 | Standard error | √(p̂(1 − p̂) / n) |
-| Interval (Wald, the course's hand formula) | p̂ ± z_{α/2} · √(p̂(1 − p̂) / n) |
-| Margin of error | z_{α/2} · √(p̂(1 − p̂) / n) |
+| Interval (Wald, the course's hand formula) | p̂ ± z(α/2) · √(p̂(1 − p̂) / n) |
+| Margin of error | z(α/2) · √(p̂(1 − p̂) / n) |
 | Wilson score interval | [p̂ + z²/(2n) ± z·√(p̂(1 − p̂)/n + z²/(4n²))] / (1 + z²/n) |
 
 Always z, never t. z: 1.645 (90 %), 1.960 (95 %), 2.576 (99 %).

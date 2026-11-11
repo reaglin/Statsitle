@@ -18,9 +18,9 @@ title: The steps of a hypothesis test
 
 | H₁ | Tail | p-value from z | Critical region at α |
 |---|---|---|---|
-| μ > μ₀ | upper | 1 − Φ(z) | z > z_α (1.645 at 0.05) |
-| μ < μ₀ | lower | Φ(z) | z < −z_α |
-| μ ≠ μ₀ | both | 2(1 − Φ(\|z\|)) | \|z\| > z_{α/2} (1.960 at 0.05) |
+| μ > μ₀ | upper | 1 − Φ(z) | z > z(α) (1.645 at 0.05) |
+| μ < μ₀ | lower | Φ(z) | z < −z(α) |
+| μ ≠ μ₀ | both | 2(1 − Φ(\|z\|)) | \|z\| > z(α/2) (1.960 at 0.05) |
 
 Choose the tail from the question, before the data. Use one tail only when a result in the other direction would lead to the same action as no result.
 

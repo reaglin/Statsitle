@@ -21,6 +21,15 @@ Ask them in this order.
 3. **Is σ known?** Only when long process history gives the population standard deviations, and the samples are reasonably large, use the **z-test**. Otherwise (the usual case) use a **t-test**.
 4. **Are the assumptions reasonable?** The t-tests assume each sample (or the differences, for pairs) comes from a roughly normal population. With small samples that are clearly skewed or have extreme values, use the **rank test** instead (item 9.5). For independent samples, the pooled t also assumes equal variances; if you cannot assume that, use **Welch**.
 
+## Two checks you will see quoted
+
+Problems (and the Workbench, when the data come from columns) often quote two tests of these assumptions. Item 9.4 teaches them; for now, know what their p-values say:
+
+- **Shapiro–Wilk** tests whether a sample could come from a normal population. A **small p** (below 0.05) is evidence that it is **not normal**; a large p means no evidence against normality.
+- **Levene's test** tests whether two populations have equal variances. A **small p** is evidence that the **variances differ** (use Welch, not the pooled t); a large p means no evidence that they differ.
+
+Neither check proves the assumption holds, and with small samples both miss real departures, so look at the data too.
+
 ## The decision table
 
 | What you have | Test | Statistic and df |

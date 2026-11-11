@@ -2,7 +2,7 @@
   "id": "st.m9.nonparametric.ex",
   "title": "Repair times of two crews",
   "analysis": "TwoSampleTest",
-  "intro": "A utility logged the time (hours) two maintenance crews took to repair the same kind of pump fault: 9 repairs by crew A and 10 by crew B. Repair times are skewed to the right (most are short, a few are very long), and the samples are small, so compare the crews with the **Mann–Whitney U test**. H₀: the two distributions are the same; H₁: they differ (two-sided), at α = 0.05.\n\nFind U₁, the U for crew A (sample 1), and the two-sided p-value from the normal approximation with the continuity correction. U₁ is a whole number; give p to three decimals or more.",
+  "intro": "A utility logged the time (hours) two maintenance crews took to repair the same kind of pump fault: 9 repairs by crew A and 10 by crew B. Repair times are skewed to the right (most are short, a few are very long), and the samples are small, so compare the crews with the **Mann–Whitney U test**. H₀: the two distributions are the same; H₁: they differ (two-sided), at α = 0.05.\n\nFind U₁, the U for crew A (sample 1), and the two-sided p-value from the normal approximation with the continuity correction. U₁ is a whole number; give p to three decimals or more.\n\nTo use the Workbench: press **Copy the data**, press Ctrl+B, click **+ Data table** and paste (Ctrl+V). Choose **Two-sample test**, set **Test** to *Mann–Whitney U (non-parametric, independent)*, **Data from** to *Columns of a data table*, **Column (sample 1)** to *Crew A*, **Column (sample 2)** to *Crew B*, **Alternative hypothesis** to *Two-sided (≠)* and **Significance level (α)** to 0.05. Ctrl+L brings you back.",
   "tables": [
     {
       "name": "Repairs",

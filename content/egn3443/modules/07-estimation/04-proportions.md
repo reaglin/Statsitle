@@ -23,7 +23,7 @@ SE = √(p̂(1 − p̂) / n)
 
 ## The interval
 
-p̂ ± z_{α/2} · √(p̂(1 − p̂) / n)
+p̂ ± z(α/2) · √(p̂(1 − p̂) / n)
 
 A proportion interval always uses **z**, never t. There is no separate s to estimate: the spread of 0s and 1s is fixed by p̂ itself.
 

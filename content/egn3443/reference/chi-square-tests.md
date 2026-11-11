@@ -8,12 +8,12 @@ Both tests work on **counts** (never percentages or measurements), compare each 
 
 χ² = Σ (O − E)² / E
 
-The p-value is always the **upper** tail, P(χ²_df ≥ χ²). The approximation is trusted when every E is at least 5; otherwise combine neighbouring categories (or, for a 2 × 2 table, use Fisher's exact test).
+The p-value is always the **upper** tail, the area above the observed χ² under the χ² curve with df degrees of freedom. The approximation is trusted when every E is at least 5; otherwise combine neighboring categories (or, for a 2 × 2 table, use Fisher's exact test).
 
 | | Goodness of fit | Independence (or homogeneity) |
 |---|---|---|
 | Data | one list of k counts | an r × c contingency table |
-| H₀ | the category proportions are p₁, …, p_k | the row and column variables are independent |
+| H₀ | the category proportions are p₁, …, pₖ | the row and column variables are independent |
 | Expected count | Eᵢ = n pᵢ | Eᵢⱼ = (row i total)(column j total) / n |
 | df | k − 1 − m (m parameters estimated from the data) | (r − 1)(c − 1) |
 | Size of the effect | the largest contributions (O − E)²/E | Cramér's V = √(χ² / (n (min(r, c) − 1))) |

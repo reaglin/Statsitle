@@ -22,7 +22,7 @@
       "id": "q2",
       "kind": "choice",
       "objective": "st.m6.o2",
-      "prompt": "Shafts are machined with diameters of mean μ = 25.00 mm and standard deviation σ = 0.05 mm. A computer draws 5000 samples of 20 shafts and plots the 5000 sample means. Where is the centre of that histogram, and how does its spread compare with σ?",
+      "prompt": "Shafts are machined with diameters of mean μ = 25.00 mm and standard deviation σ = 0.05 mm. A computer draws 5000 samples of 20 shafts and plots the 5000 sample means. Where is the center of that histogram, and how does its spread compare with σ?",
       "options": [
         "Close to 25.00 mm, and much narrower than σ = 0.05 mm",
         "Close to 25.00 mm, and about as wide as σ = 0.05 mm",
@@ -30,7 +30,7 @@
         "Close to 25.00 mm, and much wider than σ = 0.05 mm"
       ],
       "correct": [0],
-      "explanation": "The sample means centre on μ = 25.00 mm. They are less spread than single shafts, by a factor √20 ≈ 4.47: their standard deviation is about 0.05/4.47 = 0.011 mm."
+      "explanation": "The sample means center on μ = 25.00 mm. They are less spread than single shafts, by a factor √20 ≈ 4.47: their standard deviation is about 0.05/4.47 = 0.011 mm."
     },
     {
       "id": "q3",
@@ -53,7 +53,7 @@
         "It tells her how many more samples she must take before she can use x̄"
       ],
       "correct": [0],
-      "explanation": "One sample gives one x̄, and it misses μ by some amount. The sampling distribution, centred on μ with spread σ/√n, says how large that miss typically is. That is what confidence intervals (Module 7) and tests (Module 8) use. It never gives μ exactly."
+      "explanation": "One sample gives one x̄, and it misses μ by some amount. The sampling distribution, centered on μ with spread σ/√n, says how large that miss typically is. That is what confidence intervals (Module 7) and tests (Module 8) use. It never gives μ exactly."
     }
   ]
 }

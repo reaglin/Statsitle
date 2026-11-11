@@ -23,11 +23,11 @@
     ],
     "AtMost": [
       { "result": "AtLeast", "says": "That is P(x̄ ≥ 10), the area to the right. \"10 minutes or less\" is the area to the left of z." },
-      { "value": 0.4121, "says": "You used σ = 9 in z, which gives the chance that one ticket takes 10 minutes or less. For the mean of 36 tickets divide by the standard error, σ/√n." }
+      { "value": 0.4121, "says": "You divided by σ = 9, the spread of single tickets. For the mean of 36 tickets divide by the standard error, σ/√n = 1.5." }
     ]
   },
   "hints": [
-    "The sampling distribution of x̄ is centred on the population mean: μ_x̄ = μ.",
+    "The sampling distribution of x̄ is centered on the population mean: the mean of x̄ equals μ.",
     "The standard error is σ/√n = 9/√36 = 9/6.",
     "z = (10 − 12) / standard error, then P(x̄ ≤ 10) = Φ(z), the area to the left of z under the standard normal curve."
   ]

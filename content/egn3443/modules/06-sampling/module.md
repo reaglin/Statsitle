@@ -21,9 +21,9 @@ topics:
 
 An engineer almost never measures every part, every batch or every day. She measures a **sample** and uses its mean to say something about the whole **population**. But a second sample would give a different mean, and a third another. How far can a sample mean be from the truth? This module answers that question, and the answer is the base of every confidence interval and test in Modules 7 to 14.
 
-The key idea is the **sampling distribution**: the distribution of a statistic, such as the sample mean x̄, over all the samples that could have been taken. Its centre is the population mean μ, its spread is the **standard error** σ/√n, and by the **Central Limit Theorem** its shape is close to normal once n is large enough, whatever the shape of the population.
+The key idea is the **sampling distribution**: the distribution of a statistic, such as the sample mean x̄, over all the samples that could have been taken. Its center is the population mean μ, its spread is the **standard error** σ/√n, and by the **Central Limit Theorem** its shape is close to normal once n is large enough, whatever the shape of the population.
 
-This module uses the normal distribution, which Module 5 (continuous distributions) teaches in full. Here you need only two things from it: the **z-value**, how many standard deviations a value lies from the mean, and **Φ(z)**, the area under the standard normal curve to the left of z. Item 6.3 shows both again, with the Python and R that give them.
+This module uses the normal distribution, which Module 5 (continuous distributions) teaches in full. Here you need only two things from it: the **z-score**, how many standard deviations a value lies from the mean, and **Φ(z)**, the area under the standard normal curve to the left of z. Item 6.3 shows both again, with the Python and R that give them.
 
 This module has five topics and a module check. Each topic is an item with four tabs:
 

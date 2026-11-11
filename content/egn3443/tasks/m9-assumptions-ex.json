@@ -30,6 +30,6 @@
   "hints": [
     "F compares variances, so square the standard deviations first: F = s₁²/s₂².",
     "Under H₀, F follows an F distribution with n₁ − 1 = 14 and n₂ − 1 = 12 degrees of freedom.",
-    "Two-sided: p = 2 × P(F₁₄,₁₂ > F) when F > 1. Python 2 * stats.f.sf(F, 14, 12), R 2 * pf(F, 14, 12, lower.tail = FALSE)."
+    "Two-sided: p is twice the area above your F under the F curve with 14 and 12 df, when F > 1. Python 2 * stats.f.sf(F, 14, 12), R 2 * pf(F, 14, 12, lower.tail = FALSE)."
   ]
 }

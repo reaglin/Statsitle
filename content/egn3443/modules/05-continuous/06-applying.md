@@ -69,7 +69,7 @@ R(2000) = e^(−(2000/8000)^1.5) = e^(−0.125) = **0.8825**: 88 % of bearings r
 
 ## Fitting a model to data
 
-When there are measurements, the parameters come from the data. The Workbench estimates them by **maximum likelihood**: the values that make the observed data most probable.
+When there are measurements, the parameters come from the data. The Workbench estimates them by **maximum likelihood**: the values that make the observed data most probable. A hat (ˆ) marks a value estimated from the data: β̂ ("beta-hat") is the fitted shape, an estimate of the true β, which nobody knows.
 
 | Family | Fitted parameters |
 |---|---|
@@ -77,6 +77,8 @@ When there are measurements, the parameters come from the data. The Workbench es
 | Exponential | λ̂ = 1/x̄ |
 | Uniform | â = the smallest value, b̂ = the largest |
 | Weibull | β̂ and η̂ solve an equation with no closed form; the computer finds them |
+
+The Workbench writes these without the hats: **Fitted μ**, **Fitted σ (divides by n)**, **Fitted λ = 1/x̄**, **Fitted a (minimum)** and **Fitted b (maximum)**, **Fitted shape β** and **Fitted scale η**.
 
 Then **check the fit**. A model can always be fitted; the question is whether it suits the data.
 

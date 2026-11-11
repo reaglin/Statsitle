@@ -9,10 +9,10 @@ Independent samples: n₁ values from population 1, n₂ from population 2. H₀
 | Test | Use when | SE | Reference | df |
 |---|---|---|---|---|
 | Two-sample z | σ₁, σ₂ known | √(σ₁²/n₁ + σ₂²/n₂) | Z | — |
-| Pooled t | σ unknown, σ₁ = σ₂ reasonable | s_p √(1/n₁ + 1/n₂) | t | n₁ + n₂ − 2 |
+| Pooled t | σ unknown, σ₁ = σ₂ reasonable | sₚ √(1/n₁ + 1/n₂) | t | n₁ + n₂ − 2 |
 | Welch t | σ unknown, variances may differ (default) | √(s₁²/n₁ + s₂²/n₂) | t | ν (below) |
 
-**Pooled standard deviation:** s_p = √{[(n₁ − 1)s₁² + (n₂ − 1)s₂²] / (n₁ + n₂ − 2)}
+**Pooled standard deviation:** sₚ = √{[(n₁ − 1)s₁² + (n₂ − 1)s₂²] / (n₁ + n₂ − 2)}
 
 **Welch–Satterthwaite df:** with a = s₁²/n₁ and b = s₂²/n₂, ν = (a + b)² / [a²/(n₁ − 1) + b²/(n₂ − 1)]
 
@@ -20,7 +20,7 @@ Independent samples: n₁ values from population 1, n₂ from population 2. H₀
 
 **Confidence interval for μ₁ − μ₂:** (x̄₁ − x̄₂) ± t(α/2, df) × SE (z(α/2) for the z-test). A two-sided test at α rejects H₀: μ₁ − μ₂ = 0 exactly when 0 is outside the (1 − α) interval.
 
-**Effect size:** Cohen's d = (x̄₁ − x̄₂) / s_p. About 0.2 small, 0.5 medium, 0.8 large (Cohen, 1988).
+**Effect size:** Cohen's d = (x̄₁ − x̄₂) / sₚ. About 0.2 small, 0.5 medium, 0.8 large (Cohen, 1988).
 
 ## Python and R
 

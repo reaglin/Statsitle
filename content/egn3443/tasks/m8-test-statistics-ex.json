@@ -2,7 +2,7 @@
   "id": "st.m8.test-statistics.ex",
   "title": "Aluminium tensile strength",
   "analysis": "OneSampleTest",
-  "intro": "An aluminium alloy is sold with a mean tensile strength of **310 MPa**. A lab tests **12 specimens** from a new shipment (MPa, in the table below). σ is not known. Test H₀: μ = 310 against H₁: μ ≠ 310 at α = 0.05.\n\nFind the t statistic, its degrees of freedom and the two-sided p-value. Give t to two decimals and the p-value to three decimals or more; the degrees of freedom are a whole number.",
+  "intro": "An aluminium alloy is sold with a mean tensile strength of **310 MPa**. A lab tests **12 specimens** from a new shipment (MPa, in the table below). σ is not known. Test H₀: μ = 310 against H₁: μ ≠ 310 at α = 0.05.\n\nFind the t statistic, its degrees of freedom and the two-sided p-value. Give t to two decimals and the p-value to three decimals or more; the degrees of freedom are a whole number.\n\nTo use the Workbench: press **Copy the data**, press Ctrl+B, click **+ Data table** and paste (Ctrl+V). Choose **One-sample test**, set **Test** to *Mean, σ unknown (t-test)*, **Data from** to *Columns of a data table*, **Column** to the *MPa* column, **Alternative hypothesis** to *Two-sided (≠)*, **Significance level (α)** to 0.05 and **Null value (μ₀, p₀ or σ₀)** to 310. Ctrl+L brings you back.",
   "tables": [
     { "name": "Strength", "columns": { "MPa": [305, 312, 301, 308, 299, 311, 304, 309, 302, 314, 300, 306] } }
   ],

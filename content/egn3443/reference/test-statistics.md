@@ -19,7 +19,7 @@ title: Test statistics for one sample
 
 | df | 4 | 11 | 15 | 30 | ∞ (z) |
 |---|---|---|---|---|---|
-| t_{0.025, df} (two-sided α = 0.05) | 2.776 | 2.201 | 2.131 | 2.042 | 1.960 |
+| t(0.025, df) (two-sided α = 0.05) | 2.776 | 2.201 | 2.131 | 2.042 | 1.960 |
 
 Use t whenever the standard deviation comes from the sample. t has heavier tails, so the same value of the statistic gives a larger p-value than z.
 

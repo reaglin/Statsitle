@@ -27,7 +27,7 @@ Keep two distributions apart:
 | | The population | The sampling distribution of x̄ |
 |---|---|---|
 | What varies | single values x, one resistor at a time | sample means x̄, one sample of n at a time |
-| Centre | μ | μ (the same) |
+| Center | μ | μ (the same) |
 | Spread | σ | σ/√n, the **standard error** |
 
 The sample mean averages out the high and low values in the sample, so it varies **less** than single values do. Item 6.3 proves the σ/√n; here it is enough to see it happen.
@@ -54,10 +54,10 @@ Count each mean to get the sampling distribution of x̄:
 | P(x̄) | 1/16 | 2/16 | 3/16 | 4/16 | 3/16 | 2/16 | 1/16 |
 
 1. **Shape:** the population was flat (each value 1/4), but the means pile up in the middle.
-2. **Centre:** the mean of x̄ is Σ x̄ · P(x̄) = 80/16 = **5**, the same as μ.
+2. **Center:** the mean of x̄ is Σ x̄ · P(x̄) = 80/16 = **5**, the same as μ.
 3. **Spread:** the variance of x̄ is Σ (x̄ − 5)² · P(x̄) = (9 + 8 + 3 + 0 + 3 + 8 + 9)/16 = 40/16 = 2.5, so its standard deviation is √2.5 = **1.581**. That is σ/√n = 2.236/√2 = 1.581.
 
-The means are centred where the population is, and they are less spread out by a factor √n.
+The means are centered where the population is, and they are less spread out by a factor √n.
 
 ## The Example: means of ten resistors
 
@@ -67,7 +67,7 @@ With a real population, listing every sample is impossible, but a computer can d
 
 [[results: st.m6.introduction.eg]]
 
-The means centre on 100.02 Ω, close to μ = 100. Their standard deviation is 0.6349 Ω, close to σ/√n = 2/√10 = 0.6325 Ω and less than a third of σ = 2 Ω. Single resistors range over about 100 ± 4 Ω; means of ten stay within about 100 ± 1.3 Ω (95 % of the 2000 means lay within 2 standard errors of μ).
+The means center on 100.02 Ω, close to μ = 100. Their standard deviation is 0.6349 Ω, close to σ/√n = 2/√10 = 0.6325 Ω and less than a third of σ = 2 Ω. Single resistors range over about 100 ± 4 Ω; means of ten stay within about 100 ± 1.3 Ω (95 % of the 2000 means lay within 2 standard errors of μ).
 
 ## In Python and R
 
@@ -93,7 +93,7 @@ Each program draws its own random numbers, so your means differ a little from th
 
 ## Try it in the Workbench
 
-Press **Open in the Workbench** on the Example tab and change **Sample size (n)** to 40. The histogram narrows to half its width: four times the sample, half the spread (item 6.4).
+Press **Open in the Workbench** on the Example tab and change **Sample size (n)** to 40. The histogram may look about the same, because its horizontal axis rescales to fit the bars. Read the horizontal axis: the means now spread over about half the range, from about 99 to 101 Ω instead of 98 to 102 Ω. Four times the sample, half the spread (item 6.4).
 
 ## Common mistakes
 

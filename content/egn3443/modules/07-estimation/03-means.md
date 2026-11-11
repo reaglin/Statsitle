@@ -24,21 +24,23 @@ estimate ± critical value × standard error
 
 The **confidence level** is written 1 − α: 95 % confidence means α = 0.05, split as α/2 = 0.025 in each tail.
 
+**How a critical value is written.** A critical value names the area above it and, for t, the degrees of freedom: **t(0.025, 5)** is the t value with 0.025 of the area above it, with 5 degrees of freedom (2.571), and **z(α/2)** is the z value with α/2 of the area above it (z(0.025) = 1.960). The Workbench and the rest of the course write them the same way, and the later modules add χ²(0.05, 5) and F(0.025; 9, 11) in the same pattern.
+
 ## σ known: the z interval
 
 When the population standard deviation σ is known (from long experience with a process, or a calibrated instrument), and the population is normal or n is large (item 7.2):
 
-x̄ ± z_{α/2} · σ/√n
+x̄ ± z(α/2) · σ/√n
 
 | Confidence | 90 % | 95 % | 99 % |
 |---|---|---|---|
-| z_{α/2} | 1.645 | 1.960 | 2.576 |
+| z(α/2) | 1.645 | 1.960 | 2.576 |
 
 ## σ unknown: the t interval
 
 In most engineering work σ is not known, and the sample standard deviation s takes its place. s varies from sample to sample too, and that adds uncertainty. The **t distribution** allows for it. It looks like the standard normal but has heavier tails, and it depends on the **degrees of freedom** (df), here n − 1, the number of deviations that are free once x̄ is fixed. As df grows, t approaches z.
 
-x̄ ± t_{α/2, n−1} · s/√n
+x̄ ± t(α/2, n − 1) · s/√n
 
 | df = n − 1 | 5 | 11 | 29 | very large |
 |---|---|---|---|---|
@@ -53,7 +55,7 @@ The t interval assumes the data come from a roughly normal population. With n �
 A check weight is weighed n = 25 times on a calibrated scale whose readings have σ = 0.5 g. The mean reading is x̄ = 100.3 g. Find the 95 % confidence interval for the true mean reading μ.
 
 1. **Standard error:** σ/√n = 0.5 / 5 = 0.1 g.
-2. **Critical value:** z_{0.025} = 1.960.
+2. **Critical value:** z(0.025) = 1.960.
 3. **Margin of error:** 1.960 × 0.1 = 0.196 g.
 4. **Interval:** 100.3 ± 0.196, from **100.104 to 100.496 g**.
 
@@ -64,7 +66,7 @@ A check weight is weighed n = 25 times on a calibrated scale whose readings have
 Six asphalt cores from a new pavement have a mean air-void content of x̄ = 4.2 % with s = 0.5 %. Find the 95 % confidence interval for the mean air voids μ.
 
 1. **Standard error:** s/√n = 0.5 / √6 = 0.2041 %.
-2. **Degrees of freedom:** n − 1 = 5. **Critical value:** t_{0.025, 5} = 2.571.
+2. **Degrees of freedom:** n − 1 = 5. **Critical value:** t(0.025, 5) = 2.571.
 3. **Margin of error:** 2.571 × 0.2041 = 0.525 %.
 4. **Interval:** 4.2 ± 0.525, from **3.675 to 4.725 %**.
 
@@ -80,16 +82,16 @@ A test rig drained a tank twelve times and recorded the time in seconds. σ is n
 
 [[results: st.m7.means.eg]]
 
-x̄ = 40.975 s and s = 1.890 s, so the standard error is 1.890 / √12 = 0.5455 s. With t_{0.025, 11} = 2.201 the margin of error is 1.201 s, and the 95 % interval runs from 39.77 to 42.18 s. "We are 95 % confident that the mean drain time of this rig is between 39.8 and 42.2 seconds."
+x̄ = 40.975 s and s = 1.890 s, so the standard error is 1.890 / √12 = 0.5455 s. With t(0.025, 11) = 2.201 the margin of error is 1.201 s, and the 95 % interval runs from 39.77 to 42.18 s. "We are 95 % confident that the mean drain time of this rig is between 39.8 and 42.2 seconds."
 
 ## One-sided bounds
 
-Sometimes only one side matters: a specification sets a **minimum** strength, or a **maximum** drain time. A one-sided 95 % bound puts all of α = 0.05 in one tail, so it uses t_{α, n−1} instead of t_{α/2, n−1}:
+Sometimes only one side matters: a specification sets a **minimum** strength, or a **maximum** drain time. A one-sided 95 % bound puts all of α = 0.05 in one tail, so it uses t(α, n − 1) instead of t(α/2, n − 1):
 
-- upper bound: μ ≤ x̄ + t_{α, n−1} · s/√n
-- lower bound: μ ≥ x̄ − t_{α, n−1} · s/√n
+- upper bound: μ ≤ x̄ + t(α, n − 1) · s/√n
+- lower bound: μ ≥ x̄ − t(α, n − 1) · s/√n
 
-For the drain times, t_{0.05, 11} = 1.796, so μ ≤ 40.975 + 1.796 × 0.5455 = **41.95 s** with 95 % confidence. In the Workbench, a one-sided 95 % bound is the matching end of the **90 %** two-sided interval.
+For the drain times, t(0.05, 11) = 1.796, so μ ≤ 40.975 + 1.796 × 0.5455 = **41.95 s** with 95 % confidence. In the Workbench, a one-sided 95 % bound is the matching end of the **90 %** two-sided interval.
 
 ## In Python and R
 
@@ -121,7 +123,7 @@ For σ known, use `stats.norm.ppf(0.975)` or `qnorm(0.975)` (1.960) and σ in pl
 - Using z = 1.96 when σ was estimated by s, especially with a small n. The interval comes out too narrow.
 - Using n instead of n − 1 for the degrees of freedom.
 - Multiplying the critical value by s instead of the standard error s/√n. The interval comes out √n times too wide.
-- Using t_{0.05} (one tail) for a two-sided 95 % interval. Two-sided needs α/2 = 0.025 in each tail.
+- Using t(0.05) (one tail) for a two-sided 95 % interval. Two-sided needs α/2 = 0.025 in each tail.
 
 ## What to do next
 

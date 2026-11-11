@@ -1,75 +1,76 @@
 {
   "id": "st.m7.sampling-clt.ex",
-  "title": "Bottle fill volumes",
+  "title": "Cable assemblies that fail",
   "analysis": "SamplingDistribution",
-  "intro": "A filling machine puts a mean of **500 mL** in each bottle, with a standard deviation of **4 mL**, and the fill volumes are normally distributed. Every hour an inspector measures a sample of **16** bottles and calculates their mean x̄.\n\nFind the standard error of x̄, the probability that an hourly sample mean is **498.5 mL or less**, and the range that holds the middle 95 % of sample means. Give the probability to three decimals or more, and the other answers to two decimals.",
+  "intro": "Over the past year **8 %** of a supplier's cable assemblies have failed the continuity test (p = 0.08). From each shipment a receiving inspector tests a random sample of **n = 250** assemblies and calculates p̂, the proportion of them that fail.\n\nCheck first that np and n(1 − p) are both at least 10. Then find the standard error of p̂, the probability that a shipment's sample proportion is **0.10 or more**, and the range that holds the middle 95 % of sample proportions. Give the standard error to four decimals and the other answers to three decimals or more.\n\nTo check your work in the Workbench (Ctrl+B): choose **Sampling distribution**, set **Statistic** to *Sample proportion p̂*, then **Population proportion (p)**, **Sample size (n)** and **Value of interest (x̄ or p̂)**, and **Shade on the figure** to *Above the value (≥)*. Ctrl+L brings you back.",
   "settings": {
-    "Name": "Fill volume, n = 16",
-    "Statistic": "SampleMean",
-    "PopulationMean": 500,
-    "PopulationSigma": 4,
-    "SampleSize": 16,
-    "Value": 498.5,
-    "Value2": null
+    "Name": "Failed assemblies, n = 250",
+    "Statistic": "SampleProportion",
+    "PopulationProportion": 0.08,
+    "SampleSize": 250,
+    "Value": 0.10,
+    "Value2": null,
+    "Shade": "Above"
   },
   "ask": [
     {
       "result": "StandardError",
-      "prompt": "Standard error of x̄, σ/√n (mL)"
+      "prompt": "Standard error of p̂, √(p(1 − p)/n)",
+      "tolerance": 0.0002
     },
     {
-      "result": "AtMost",
-      "prompt": "P(x̄ ≤ 498.5)",
+      "result": "AtLeast",
+      "prompt": "P(p̂ ≥ 0.10)",
       "tolerance": 0.001
     },
     {
       "result": "Lower95",
-      "prompt": "Middle 95 % of x̄: from (mL)",
-      "tolerance": 0.01
+      "prompt": "Middle 95 % of p̂: from",
+      "tolerance": 0.001
     },
     {
       "result": "Upper95",
-      "prompt": "Middle 95 % of x̄: to (mL)",
-      "tolerance": 0.01
+      "prompt": "Middle 95 % of p̂: to",
+      "tolerance": 0.001
     }
   ],
   "mistakes": {
     "StandardError": [
       {
-        "value": 4,
-        "says": "That is σ, the spread of single bottles. The sample mean of 16 bottles varies less: divide σ by √16."
+        "value": 0.2713,
+        "says": "That is √(p(1 − p)), the spread of a single assembly (1 if it fails, 0 if not). The proportion of 250 varies much less: divide p(1 − p) by n before taking the square root."
       },
       {
-        "value": 0.25,
-        "says": "You divided by n = 16. The standard error divides by √n = 4."
+        "value": 0.001085,
+        "says": "You divided √(p(1 − p)) by n. Divide p(1 − p) by n first, then take the square root, which is the same as dividing by √n."
       }
     ],
-    "AtMost": [
+    "AtLeast": [
       {
-        "value": 0.3538,
-        "says": "You used σ = 4 mL. That is the probability for a single bottle. For the mean of 16 bottles, z = (498.5 − 500) / (σ/√16)."
+        "result": "AtMost",
+        "says": "That is P(p̂ ≤ 0.10), the area below. \"0.10 or more\" is the area above: 1 − Φ(z)."
       },
       {
-        "result": "AtLeast",
-        "says": "That is P(x̄ ≥ 498.5), the area above. \"498.5 mL or less\" is the area below: Φ(z)."
+        "value": 0.4706,
+        "says": "You used √(p(1 − p)), the spread of a single assembly, in z. For the proportion of 250 assemblies divide by the standard error, √(p(1 − p)/n)."
       }
     ],
     "Lower95": [
       {
-        "value": 492.16,
-        "says": "You used σ = 4 mL. That range holds 95 % of single bottles. The middle 95 % of sample means is μ ± 1.96 × σ/√n."
+        "value": 0.0518,
+        "says": "That is the middle 90 % (z = 1.645). The middle 95 % is p ± 1.96 standard errors."
       }
     ],
     "Upper95": [
       {
-        "value": 507.84,
-        "says": "You used σ = 4 mL. That range holds 95 % of single bottles. The middle 95 % of sample means is μ ± 1.96 × σ/√n."
+        "value": 0.1082,
+        "says": "That is the middle 90 % (z = 1.645). The middle 95 % is p ± 1.96 standard errors."
       }
     ]
   },
   "hints": [
-    "The sample mean has mean μ = 500 mL and standard error σ/√n = 4/√16.",
-    "z = (498.5 − 500) / (standard error); P(x̄ ≤ 498.5) = Φ(z), from a z table, stats.norm.cdf or pnorm.",
-    "The middle 95 % of a normal distribution is its mean ± 1.96 standard deviations. Here the standard deviation of x̄ is the standard error."
+    "np = 250 × 0.08 and n(1 − p) = 250 × 0.92: if both are at least 10, p̂ is close to normal with mean p.",
+    "The standard error of p̂ is √(p(1 − p)/n) with p = 0.08 and n = 250. Then z = (0.10 − 0.08) / (standard error), and P(p̂ ≥ 0.10) = 1 − Φ(z): stats.norm.sf(z) or pnorm(z, lower.tail = FALSE).",
+    "The middle 95 % of a normal distribution is its mean ± 1.96 standard deviations. Here the mean is p and the standard deviation of p̂ is the standard error."
   ]
 }

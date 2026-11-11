@@ -52,7 +52,7 @@ A lab checks its balance with a 100.000 g standard mass. The balance's readings 
 2. **α = 0.05**, chosen before weighing.
 3. **Standard error:** σ/√n = 0.5/√4 = 0.25 g.
 4. **Test statistic:** z = (100.6 − 100)/0.25 = **2.40**. The mean is 2.4 standard errors above 100.
-5. **p-value:** a z this far out on either side has probability 2 × (1 − Φ(2.40)) = 2 × 0.0082 = **0.0164**. (Φ(z) is the area under the standard normal curve to the left of z, as in Module 6.)
+5. **p-value:** a z this far out on either side has probability 2 × (1 − Φ(2.40)) = 2 × 0.0082 = **0.0164**. (Φ(z) is the area under the standard normal curve to the left of z, as in Module 5.)
 6. **Decision:** 0.0164 < 0.05, so reject H₀. The balance reads high; recalibrate it.
 
 ## The Example: fuel injectors
@@ -61,7 +61,7 @@ A batch of injectors meant to flow 250 mL/min was tested: 16 injectors, mean 253
 
 [[results: st.m8.foundations.eg]]
 
-The standard error is 6/√16 = 1.5 mL/min, so z = 3.3/1.5 = **2.20**. The curve below is the standard normal, the distribution of z **if H₀ is true**. The shaded tails are the values of z beyond ±1.96 that would lead to rejecting H₀ at α = 0.05; the line is the observed z.
+The standard error is 6/√16 = 1.5 mL/min, so z = 3.3/1.5 = **2.20**. The curve below is the standard normal, the distribution of z **if H₀ is true**. The shaded tails are the values of z beyond ±1.96 that would lead to rejecting H₀ at α = 0.05; the orange vertical line is the observed z.
 
 [[figure: st.m8.foundations.eg 1]]
 

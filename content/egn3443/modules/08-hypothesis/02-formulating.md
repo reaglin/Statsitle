@@ -51,13 +51,15 @@ Her question was "does it take longer?", so H₁: μ > 30, and only the upper ta
 
 [[figure: st.m8.formulating.eg 1]]
 
+The shaded tail is the rejection region, z > 1.645 (its area is α = 0.05). The p-value is a different area: everything above the orange vertical line at the observed z = 1.75, which is **0.0401**.
+
 [[results: st.m8.formulating.eg]]
 
-The p-value is the area above z = 1.75: **0.0401**, below 0.05, so H₀ is rejected. Had any change mattered, H₁ would be μ ≠ 30, both tails would count, and the same z gives twice the p-value:
+The p-value 0.0401 is below 0.05 (and 1.75 is inside the rejection region), so H₀ is rejected. Had any change mattered, H₁ would be μ ≠ 30, both tails would count, and the same z gives twice the p-value:
 
 [[figure: st.m8.formulating.two 1]]
 
-Now p = **0.0801** and H₀ is not rejected. The same data, a different question, a different decision. That is why the question, and with it the tail, is fixed before the data are seen. The one-tailed test puts all of α in one tail (z > 1.645), so it detects a shift in that direction more easily, and cannot detect one in the other.
+Now the shaded rejection region is both tails, z < −1.96 and z > 1.96 (0.025 each, α = 0.05 in all). The p-value is the area beyond the observed z on both sides, above 1.75 and below −1.75: p = **0.0801** and H₀ is not rejected. The same data, a different question, a different decision. That is why the question, and with it the tail, is fixed before the data are seen. The one-tailed test puts all of α in one tail (z > 1.645), so it detects a shift in that direction more easily, and cannot detect one in the other.
 
 ## In Python and R
 

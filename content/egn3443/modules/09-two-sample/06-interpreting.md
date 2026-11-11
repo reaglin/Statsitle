@@ -37,9 +37,9 @@ For the two ovens of item 9.1 (Welch: t = 1.487, p = 0.155), the 95 % interval i
 
 ## Effect size
 
-**Cohen's d** measures the difference in standard deviations of the data, not in standard errors:
+**Cohen's d** (not the paired difference d of item 9.2) measures the difference in standard deviations of the data, not in standard errors:
 
-d = (x̄₁ − x̄₂) / s_p, with s_p the pooled standard deviation
+d = (x̄₁ − x̄₂) / sₚ, with sₚ the pooled standard deviation
 
 For the ovens, d = 1.1 / 1.804 = 0.61. As a rough guide (Cohen, 1988): about 0.2 is small, 0.5 medium, 0.8 large. Unlike t, d does not grow with the sample size. The t statistic is roughly d × √(n/2) for two samples of n each, so with n = 500, a d of 0.13 already gives t ≈ 2.
 

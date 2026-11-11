@@ -30,12 +30,12 @@
       { "value": 6.2174, "says": "You used z = 1.96. With samples this small, use the t quantile with Welch's ν degrees of freedom (about 2.09)." }
     ],
     "EffectSize": [
-      { "result": "Statistic", "says": "That is the t statistic: the difference in standard errors, which grows with n. Cohen's d divides the difference by the pooled standard deviation s_p." }
+      { "result": "Statistic", "says": "That is the t statistic: the difference in standard errors, which grows with n. Cohen's d divides the difference by the pooled standard deviation sₚ." }
     ]
   },
   "hints": [
     "The interval is (x̄₁ − x̄₂) ± t(α/2, ν) × SE with SE = √(s₁²/n₁ + s₂²/n₂) and ν the Welch degrees of freedom.",
     "The samples are small, so use the t quantile with ν degrees of freedom, not z = 1.96: Python stats.t.ppf(0.975, nu), R qt(0.975, nu).",
-    "Cohen's d = (x̄₁ − x̄₂)/s_p with s_p = √[((n₁ − 1)s₁² + (n₂ − 1)s₂²)/(n₁ + n₂ − 2)]."
+    "Cohen's d = (x̄₁ − x̄₂)/sₚ with sₚ = √[((n₁ − 1)s₁² + (n₂ − 1)s₂²)/(n₁ + n₂ − 2)]."
   ]
 }

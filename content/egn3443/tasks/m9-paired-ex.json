@@ -2,7 +2,7 @@
   "id": "st.m9.paired.ex",
   "title": "Pump power before and after a retrofit",
   "analysis": "TwoSampleTest",
-  "intro": "A water plant fitted new impellers to 10 pumps. The power each pump draws at its duty point (kW) was measured before the retrofit and again after it. Did the retrofit change the mean power draw? With d = before − after for each pump, test H₀: μ_d = 0 against H₁: μ_d ≠ 0 at α = 0.05 with the **paired t-test**.\n\nFind the t statistic, its degrees of freedom and the two-sided p-value. Give t and df to two decimals and p to four decimals or more (it is small).",
+  "intro": "A water plant fitted new impellers to 10 pumps. The power each pump draws at its duty point (kW) was measured before the retrofit and again after it. Did the retrofit change the mean power draw? With d = before − after for each pump, test H₀: μ_d = 0 against H₁: μ_d ≠ 0 at α = 0.05 with the **paired t-test**.\n\nFind the t statistic, its degrees of freedom and the two-sided p-value. Give t and df to two decimals and p to four decimals or more (it is small).\n\nTo use the Workbench: press **Copy the data**, press Ctrl+B, click **+ Data table** and paste (Ctrl+V). Choose **Two-sample test**, set **Test** to *Paired samples (paired t)*, **Data from** to *Columns of a data table*, **Column (sample 1)** to *Before*, **Column (sample 2)** to *After*, **Alternative hypothesis** to *Two-sided (≠)*, **Significance level (α)** to 0.05 and **Hypothesised difference (Δ₀)** to 0. Ctrl+L brings you back.",
   "tables": [
     {
       "name": "Pumps",
@@ -42,6 +42,6 @@
   "hints": [
     "Work with the ten differences d = before − after: 0.8, 0.6, −0.2, … Find their mean d̄ and standard deviation s_d (with n − 1).",
     "t = d̄ / (s_d/√n) with n = 10 pairs, and the degrees of freedom are n − 1.",
-    "p = 2 × P(T > |t|): Python 2 * stats.t.sf(abs(t), 9), R 2 * pt(abs(t), 9, lower.tail = FALSE). The p-value is very small here; type it with enough decimals."
+    "p = 2 × P(T > |t|): Python 2 * stats.t.sf(abs(t), df), R 2 * pt(abs(t), df, lower.tail = FALSE), with df the degrees of freedom. The p-value is very small here; type it with enough decimals."
   ]
 }

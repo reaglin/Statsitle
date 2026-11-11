@@ -8,9 +8,9 @@ title: Margin of error and sample size
 
 | Interval | Margin of error E |
 |---|---|
-| Mean, σ known | z_{α/2} · σ/√n |
-| Mean, σ unknown | t_{α/2, n−1} · s/√n |
-| Proportion | z_{α/2} · √(p̂(1 − p̂)/n) |
+| Mean, σ known | z(α/2) · σ/√n |
+| Mean, σ unknown | t(α/2, n − 1) · s/√n |
+| Proportion | z(α/2) · √(p̂(1 − p̂)/n) |
 
 | Change | Effect on E |
 |---|---|
@@ -23,10 +23,10 @@ title: Margin of error and sample size
 
 | Estimating | n (always round **up**) | Planning value |
 |---|---|---|
-| a mean | (z_{α/2} · σ / E)² | σ from past data, a pilot sample's s, or (range)/4 |
-| a proportion | (z_{α/2} / E)² · p(1 − p) | p from earlier data, or 0.5 when unknown (the largest n) |
+| a mean | (z(α/2) · σ / E)² | σ from past data, a pilot sample's s, or (range)/4 |
+| a proportion | (z(α/2) / E)² · p(1 − p) | p from earlier data, or 0.5 when unknown (the largest n) |
 
-z_{α/2}: 1.645 (90 %), 1.960 (95 %), 2.576 (99 %).
+z(α/2): 1.645 (90 %), 1.960 (95 %), 2.576 (99 %).
 
 Examples: σ = 2.2, E = 0.5, 95 % → 74.37 → **75**. p = 0.5, E = 0.03, 95 % → 1067.07 → **1068**.
 

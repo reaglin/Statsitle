@@ -44,7 +44,7 @@ The histogram is roughly symmetric, with no outliers; capacities run from 73.5 t
 
 [[results: st.m7.applying.eg]]
 
-x̄ = 74.863 kWh and s = 0.802 kWh, so the standard error is 0.802 / √30 = 0.1465 kWh. With t_{0.025, 29} = 2.045 the margin of error is 0.300 kWh, and the 95 % interval runs from **74.56 to 75.16 kWh**.
+x̄ = 74.863 kWh and s = 0.802 kWh, so the standard error is 0.802 / √30 = 0.1465 kWh. With t(0.025, 29) = 2.045 the margin of error is 0.300 kWh, and the 95 % interval runs from **74.56 to 75.16 kWh**.
 
 **Step 5.** "We are 95 % confident that the mean capacity of this battery model is between 74.56 and 75.16 kWh." The rated 75 kWh is inside the interval, so the data are consistent with the rating: they do not show that the mean falls short. The sample mean is 0.14 kWh below 75, but a difference that small is within what sampling alone produces.
 

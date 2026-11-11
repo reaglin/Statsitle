@@ -53,7 +53,7 @@
       "prompt": "The breaking load of a rope has μ = 250 kN and σ = 20 kN. A test lab breaks a random sample of n = 25 ropes. What is the probability that their mean breaking load is **more than 256 kN**? Give it to three decimals or more.",
       "answer": 0.0668,
       "tolerance": 0.001,
-      "explanation": "SE = 20/√25 = 4 kN. z = (256 − 250)/4 = 1.5. P(x̄ > 256) = 1 − Φ(1.5) = 1 − 0.9332 = 0.0668. Using σ instead of the SE would give z = 0.3 and a probability of 0.382, the chance for a single rope."
+      "explanation": "SE = 20/√25 = 4 kN. z = (256 − 250)/4 = 1.5. P(x̄ > 256) = 1 − Φ(1.5) = 1 − 0.9332 = 0.0668. Using σ instead of the SE would give z = 0.3, as if the mean of 25 ropes varied as much as one rope does."
     },
     {
       "id": "q5",
@@ -97,15 +97,15 @@
       "kind": "choice",
       "objective": "st.m6.o4",
       "lookAgain": "st.m6.clt",
-      "prompt": "Times between calls to a help desk are exponential (strongly skewed). The histogram shows 5000 sample means, each of **n = 2** times, with the normal curve of mean μ and standard error σ/√n.\n[[figure: st.m6.clt.n2 1]]\nShould a normal distribution be used for probabilities about x̄ at this sample size?",
+      "prompt": "A shuttle leaves every 10 minutes and riders arrive at random, so a rider's wait is uniform from 0 to 10 minutes: flat and symmetric, not skewed. The histogram shows 5000 sample means, each of **n = 5** waits, with the normal curve of mean μ and standard error σ/√n.\n[[figure: st.m6.check.uniform 1]]\nShould a normal distribution be used for probabilities about x̄ at this sample size?",
       "options": [
-        "No: the population is skewed and n = 2 is far too small, so x̄ is still skewed",
-        "Yes: the Central Limit Theorem makes x̄ normal for any sample size n",
-        "Yes: the mean of the histogram is close to the population mean μ",
-        "No: the Central Limit Theorem applies only to a normal population"
+        "Yes: the population is symmetric, so x̄ is already close to normal at n = 5",
+        "No: the CLT needs n of 30 or more for every population that is not normal",
+        "No: a uniform population gives uniform sample means at any sample size n",
+        "Yes: the CLT makes x̄ normal for any population at any sample size n"
       ],
       "correct": [0],
-      "explanation": "The means are still piled up on the left with a long right tail; the normal curve does not fit. For a strongly skewed population the CLT needs n of about 30 or more. The centre is right at every n, but that does not make the shape normal. And the CLT is about non-normal populations: a normal population gives a normal x̄ at any n."
+      "explanation": "The histogram is mound-shaped and the normal curve fits it closely. How large n must be depends on the population: about 30 for a strongly skewed one, but a symmetric population with no long tail, like this uniform one, gives a nearly normal x̄ at n of 5 or so. The means are not flat like the population. And not any n will do: an exponential population at n = 2 (item 6.3) still gives skewed means."
     },
     {
       "id": "q9",
@@ -127,15 +127,15 @@
       "kind": "choice",
       "objective": "st.m6.o5",
       "lookAgain": "st.m6.applying",
-      "prompt": "A machine set correctly cuts parts with μ = 50.00 mm and σ = 0.20 mm. An inspector averages n = 25 parts each hour. At 9:00 the mean is 50.03 mm; at 10:00 it is 50.13 mm. What do the two hours suggest?",
+      "prompt": "A lathe set correctly turns shafts with μ = 80.00 mm and σ = 0.30 mm. An inspector averages n = 36 shafts each shift. The first shift's mean is 80.04 mm; the second shift's is 80.17 mm. What do the two shifts suggest?",
       "options": [
-        "9:00 is ordinary sampling variability (z = 0.75); 10:00 suggests the setting has moved (z = 3.25)",
-        "Both suggest the setting has moved, because both means are above the 50.00 mm target",
-        "Neither suggests a change, because both means are within 0.20 mm (one σ) of target",
-        "9:00 suggests the setting has moved (z = 0.75); 10:00 is ordinary variability (z = 3.25)"
+        "Shift 1 is ordinary sampling variability (z = 0.8); shift 2 suggests the setting moved (z = 3.4)",
+        "Both suggest the setting moved, because both means are above the 80.00 mm target",
+        "Neither suggests a change, because both means are within 0.30 mm (one σ) of target",
+        "Shift 1 suggests the setting moved (z = 0.8); shift 2 is ordinary sampling variability (z = 3.4)"
       ],
       "correct": [0],
-      "explanation": "SE = 0.20/√25 = 0.04 mm. At 9:00, z = 0.03/0.04 = 0.75: a mean that high happens about 23 % of the time by chance. At 10:00, z = 0.13/0.04 = 3.25: by chance only about 0.06 % of the time, so the setting has probably moved. Comparing the means with σ instead of the standard error hides the shift."
+      "explanation": "SE = 0.30/√36 = 0.05 mm. For shift 1, z = 0.04/0.05 = 0.8: a mean that high happens about 21 % of the time by chance. For shift 2, z = 0.17/0.05 = 3.4: by chance only about 0.03 % of the time, so the setting has probably moved. Comparing the means with σ instead of the standard error hides the shift."
     }
   ]
 }

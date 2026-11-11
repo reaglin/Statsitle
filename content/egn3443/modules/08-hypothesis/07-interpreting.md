@@ -104,4 +104,4 @@ sqrt(unname(test$statistic) / (sum(tab) * (min(dim(tab)) - 1)))   # Cramér's V 
 
 ## What to do next
 
-On the **Exercise** tab, three plants cast the same housing, and 1500 castings were judged within spec, rework or scrap. Test whether the outcome depends on the plant, and find Cramér's V. The Learn text above is what you need to judge whether a significant result matters.
+On the **Exercise** tab, three plants cast the same housing, and 1500 castings were judged within spec, rework or scrap. Test whether the outcome depends on the plant, and find Cramér's V. Use **Statistical and practical significance** above, and Cramér's V, to judge whether the relation matters.

@@ -2,7 +2,7 @@
   "id": "st.m7.applying.ex",
   "title": "Strength of 3D-printed specimens",
   "analysis": "ConfidenceInterval",
-  "intro": "A lab printed **15** tensile specimens from a new filament and pulled them to failure. Their strengths (MPa) are in the data table. The filament's data sheet claims a mean tensile strength of **50 MPa**.\n\nBuild the **99 %** confidence interval for the mean strength of specimens printed this way: find x̄, the standard error, the critical value and the two limits. Give the critical value to three decimals and the other answers to two decimals or more. Then decide (not graded): is the data sheet's 50 MPa a plausible mean for these specimens?",
+  "intro": "A lab printed **15** tensile specimens from a new filament and pulled them to failure. Their strengths (MPa) are in the data table. The filament's data sheet claims a mean tensile strength of **50 MPa**.\n\nBuild the **99 %** confidence interval for the mean strength of specimens printed this way: find x̄, the standard error, the critical value and the two limits. Give the critical value to three decimals and the other answers to two decimals or more. Then decide (not graded): is the data sheet's 50 MPa a plausible mean for these specimens?\n\nTo use the Workbench: press **Copy the data**, press Ctrl+B, click **+ Data table** and paste (Ctrl+V). Choose **Confidence interval**, set **Interval for** to *A mean, σ unknown (t)*, **Data from** to *Columns of a data table*, **Column (sample 1)** to the *Strength (MPa)* column and **Confidence level** to 0.99. Ctrl+L brings you back.",
   "tables": [
     {
       "name": "Specimens",
@@ -73,7 +73,7 @@
       },
       {
         "value": 2.1448,
-        "says": "That is the 95 % value. For 99 %, use t_{0.005, 14}."
+        "says": "That is the 95 % value. For 99 %, use t(0.005, 14)."
       },
       {
         "value": 2.9467,
@@ -83,7 +83,7 @@
     "Lower": [
       {
         "value": 47.1243,
-        "says": "You used z = 2.576. With s from fifteen specimens, use t_{0.005, 14}."
+        "says": "You used z = 2.576. With s from fifteen specimens, use t(0.005, 14)."
       },
       {
         "value": 47.2999,
@@ -97,7 +97,7 @@
     "Upper": [
       {
         "value": 49.2223,
-        "says": "You used z = 2.576. With s from fifteen specimens, use t_{0.005, 14}."
+        "says": "You used z = 2.576. With s from fifteen specimens, use t(0.005, 14)."
       },
       {
         "value": 49.0468,
@@ -111,7 +111,7 @@
   },
   "hints": [
     "Find x̄ and s from the fifteen values first (s divides by n − 1), or let the Workbench do it: Confidence interval, Data from: Columns of a data table.",
-    "99 % puts 0.005 in each tail: t_{0.005, 14} = stats.t.ppf(0.995, 14) or qt(0.995, 14).",
+    "99 % puts 0.005 in each tail: t(0.005, 14) = stats.t.ppf(0.995, 14) or qt(0.995, 14).",
     "The limits are x̄ ∓ t × s/√15. Is 50 MPa between them? If not, the data argue that the mean is below the claim."
   ]
 }

@@ -52,13 +52,13 @@
     "MarginOfError": [
       {
         "value": 0.0391,
-        "says": "You used z = 1.960, the 95 % value. For 90 % confidence, z_{0.05} = 1.645."
+        "says": "You used z = 1.960, the 95 % value. For 90 % confidence, z(0.05) = 1.645."
       }
     ],
     "Lower": [
       {
         "value": 0.1109,
-        "says": "You used z = 1.960, the 95 % value. For 90 % confidence, z_{0.05} = 1.645."
+        "says": "You used z = 1.960, the 95 % value. For 90 % confidence, z(0.05) = 1.645."
       },
       {
         "result": "WilsonLower",
@@ -68,7 +68,7 @@
     "Upper": [
       {
         "value": 0.1891,
-        "says": "You used z = 1.960, the 95 % value. For 90 % confidence, z_{0.05} = 1.645."
+        "says": "You used z = 1.960, the 95 % value. For 90 % confidence, z(0.05) = 1.645."
       },
       {
         "result": "WilsonUpper",

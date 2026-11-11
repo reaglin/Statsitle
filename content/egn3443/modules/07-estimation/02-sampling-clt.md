@@ -11,6 +11,8 @@ reference: [clt-for-inference]
 
 # Sampling distributions and the central limit theorem
 
+If you have done Module 6, this is a recap; the new part is the proportion (the sampling distribution of p̂, below), which the Exercise asks about.
+
 ## The sampling distribution of x̄
 
 Take a sample of n parts and calculate x̄. Take another sample: a different x̄. The values x̄ takes from sample to sample have a distribution of their own, the **sampling distribution** of the sample mean. Module 6 studies it in detail. This item uses three facts from it to build confidence intervals.
@@ -34,7 +36,14 @@ is approximately standard normal. Two rules of thumb say when "approximately" is
 - If the **population is normal**, X̄ is normal for **any** n.
 - Otherwise, **n ≥ 30** is usually enough. A strongly skewed population (repair times, waiting times) needs more; a nearly symmetric one needs fewer.
 
-For a **proportion**, p̂ is the mean of 0s and 1s, so the CLT applies too: p̂ is approximately normal with mean p and standard error √(p(1 − p)/n), when np ≥ 10 and n(1 − p) ≥ 10.
+## The sampling distribution of p̂
+
+A **sample proportion** p̂ = x/n (x items of n have the property: defective, failed, late) is the mean of 0s and 1s, one per item, so the CLT applies to it too. p̂ is approximately normal with
+
+- **center** p, the population proportion (p̂ is unbiased), and
+- **standard error** √(p(1 − p)/n),
+
+when np ≥ 10 and n(1 − p) ≥ 10. A single item is 0 or 1, with standard deviation √(p(1 − p)); the proportion of n items varies √n times less, exactly as x̄ does.
 
 ## Why this matters for estimation
 
@@ -48,14 +57,14 @@ X̄ − 1.96·σ/√n ≤ μ ≤ X̄ + 1.96·σ/√n
 
 holds for 95 % of samples. That is the **95 % confidence interval** for μ, x̄ ± 1.96·σ/√n. Item 7.3 builds it, and replaces σ by s when σ is unknown.
 
-## A worked case by hand
+## A worked case by hand: a proportion
 
-Resistors from a reel have μ = 100 Ω and σ = 2 Ω. A technician measures n = 25 of them.
+5 % of the connectors from a supplier are defective (p = 0.05). An inspector checks lots of n = 400 and finds p̂, the proportion defective in the lot.
 
-1. **Standard error:** σ/√n = 2 / √25 = 2 / 5 = **0.4 Ω**.
-2. **Shape:** n = 25 is under 30, so we need the population to be close to normal. Resistances usually are, so X̄ is normal.
-3. **P(x̄ > 100.5 Ω):** z = (100.5 − 100) / 0.4 = 1.25, and P(Z > 1.25) = 1 − 0.8944 = **0.1056**. About one sample in ten averages more than 100.5 Ω, although single resistors above 100.5 Ω are far more common (P(Z > 0.25) = 0.40).
-4. **The middle 95 % of x̄:** 100 ± 1.96 × 0.4 = 100 ± 0.784, from **99.216 to 100.784 Ω**.
+1. **Shape:** np = 400 × 0.05 = 20 and n(1 − p) = 380 are both at least 10, so p̂ is close to normal.
+2. **Standard error:** √(0.05 × 0.95 / 400) = √0.00011875 = **0.0109**.
+3. **P(p̂ ≥ 0.07):** z = (0.07 − 0.05) / 0.0109 = 1.84, and P(Z ≥ 1.84) = 1 − 0.9671 = **0.033**. About one lot in thirty shows 7 % defective or more when the true rate is 5 %.
+4. **The middle 95 % of p̂:** 0.05 ± 1.96 × 0.0109 = 0.05 ± 0.0214, from **0.0286 to 0.0714**.
 
 ## The Example: wire tensile strength
 
@@ -75,7 +84,7 @@ Repair times are often exponential: most repairs are quick, a few take very long
 
 [[results: st.m7.sampling-clt.sim]]
 
-The means pile up in a bell shape around 2 hours, close to the normal curve the CLT predicts, although single repair times are nothing like normal. Their standard deviation, 0.3586 h, is close to σ/√n = 2 / √30 = 0.3651 h. Open it in the Workbench and set the sample size to 2: the histogram becomes skewed again.
+The means pile up in a bell shape around 2 hours, close to the normal curve the CLT predicts, although single repair times are nothing like normal. Their standard deviation, 0.3586 h, is close to σ/√n = 2 / √30 = 0.3651 h. Open it in the Workbench and set the sample size to 2: the histogram becomes skewed again. It may not look wider, because the horizontal axis rescales to fit the bars; read the axis: at n = 30 the means spread from about 1 to 3.5 hours, at n = 2 from 0 to about 9 hours.
 
 ## In Python and R
 
@@ -102,11 +111,11 @@ The one thing to remember: the standard deviation passed to `norm` or `pnorm` is
 
 ## Common mistakes
 
-- Using σ instead of σ/√n for a question about a sample mean. σ describes single items; σ/√n describes averages.
+- Using σ instead of σ/√n for a question about a sample mean. σ describes single items; σ/√n describes averages. For a proportion the same mistake is using √(p(1 − p)) instead of √(p(1 − p)/n).
 - Dividing by n instead of √n.
 - Saying the CLT makes the **data** normal. It makes the **mean** of many data approximately normal; the data keep their shape.
 - Relying on the CLT with a small sample from a skewed population.
 
 ## What to do next
 
-On the **Exercise** tab, bottles are filled by a machine with a known mean and standard deviation. Find the standard error, a probability for the sample mean, and the middle 95 % of x̄.
+On the **Exercise** tab, a known share of a supplier's cable assemblies fail a test. Find the standard error of the sample proportion p̂, the probability that a sample's p̂ is 0.10 or more, and the middle 95 % of p̂, as in the worked case above.

@@ -1,0 +1,16 @@
+{
+  "id": "st.m6.check.uniform",
+  "title": "Uniform population, n = 5",
+  "analysis": "Simulation",
+  "intro": "A shuttle leaves a parking lot every 10 minutes, and riders arrive at random, so a rider's wait is uniform from 0 to 10 minutes: flat, not skewed, mean 5 minutes. The computer took 5000 samples of **n = 5** waits (seed 1) and drew the histogram of their means.",
+  "settings": {
+    "Name": "Uniform, n = 5",
+    "Experiment": "SampleMeans",
+    "Distribution": "Uniform",
+    "Lower": 0,
+    "Upper": 10,
+    "SampleSize": 5,
+    "Trials": 5000,
+    "Seed": 1
+  }
+}

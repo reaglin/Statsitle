@@ -35,7 +35,7 @@ In the Workbench, two-sample and paired tests are **Two-sample test** and three 
 
 Some data are **counts**: how many items fell in each of k categories. The question is whether the counts follow proportions stated in advance (equal shares, a supplier's claimed mix).
 
-- H₀: the category proportions are p₁, p₂, …, p_k. H₁: at least one differs.
+- H₀: the category proportions are p₁, p₂, …, pₖ. H₁: at least one differs.
 - **Expected count** in each category if H₀ is true: **Eᵢ = n × pᵢ**, where n is the total count.
 - **Statistic:** χ² = Σ (Oᵢ − Eᵢ)² / Eᵢ, adding over the categories, where Oᵢ is the observed count.
 - **Reference distribution:** chi-square (χ²) with **df = k − 1** degrees of freedom (one less again for each parameter estimated from the same data). The counts must add to n, so only k − 1 of them are free.
@@ -46,7 +46,7 @@ Some data are **counts**: how many items fell in each of k categories. The quest
 
 χ² = (8 − 10)²/10 + (12 − 10)²/10 + (9 − 10)²/10 + (11 − 10)²/10 + (6 − 10)²/10 + (14 − 10)²/10 = (4 + 4 + 1 + 1 + 16 + 16)/10 = **4.2**
 
-df = 6 − 1 = 5. The critical value χ²(0.05, 5) is 11.07, and P(χ²₅ ≥ 4.2) = **0.521**. Do not reject: the counts are well within what a fair die gives.
+df = 6 − 1 = 5. The critical value χ²(0.05, 5) is 11.07, and P(χ² ≥ 4.2) with 5 df = **0.521**. Do not reject: the counts are well within what a fair die gives.
 
 ## The Example: unplanned shutdowns by weekday
 

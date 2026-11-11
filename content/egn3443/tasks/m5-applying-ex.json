@@ -49,13 +49,13 @@
   "ask": [
     {
       "result": "FitShape",
-      "prompt": "Fitted shape, β",
+      "prompt": "Fitted shape β",
       "tolerance": 0.01,
       "wrong": "Check the Workbench settings: Distribution Weibull, Parameters from: Fitted to a data column, and the column of 25 lives."
     },
     {
       "result": "FitScale",
-      "prompt": "Fitted scale, η (hours)",
+      "prompt": "Fitted scale η (hours)",
       "wrong": "Check the Workbench settings: Distribution Weibull, Parameters from: Fitted to a data column, and the column of 25 lives."
     },
     {
@@ -80,7 +80,7 @@
   },
   "hints": [
     "Press Copy the data, then in the Workbench (Ctrl+B) click + Data table on the left and paste. Choose Continuous distribution, set Distribution to Weibull and Parameters from to Fitted to a data column, and choose the column of lives.",
-    "The fitted β and η have no simple formula. The Workbench, stats.weibull_min.fit(data, floc=0) in Python, or the shape equation in R (the Code tab shows it) find them.",
+    "The fitted β and η have no simple formula. The Workbench, stats.weibull_min.fit(data, floc=0) in Python, or the shape equation in R find them; the Workbench's Code tab writes that R once the fit is set up as in hint 1.",
     "R(1500) = e^(−(1500/η)^β) with the fitted values. Then set Distribution to Exponential and compare its Q–Q r with the Weibull's."
   ]
 }

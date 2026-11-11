@@ -13,7 +13,7 @@ X ~ N(μ, σ²): the symmetric bell curve. **The second parameter is the varianc
 | P(X ≤ x) | Φ(z) |
 | P(X > x) | 1 − Φ(z) |
 | P(x₁ ≤ X ≤ x₂) | Φ(z₂) − Φ(z₁) |
-| Percentile for q | x = μ + z_q σ, where Φ(z_q) = q |
+| Percentile for q | x = μ + zσ, where Φ(z) = q |
 | Symmetry | Φ(−z) = 1 − Φ(z) |
 | Mean, median | μ |
 | Variance | σ² |

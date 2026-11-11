@@ -23,9 +23,9 @@ topics:
 
 An engineer is often asked a yes-or-no question about a process: is the machine still on target? Did the new die lower the defect rate? Does the supplier's material meet its claim? A sample answers it, but a sample varies by chance. A **hypothesis test** is the rule that decides whether a difference in the sample is too large to be chance alone.
 
-Module 6 built the tool: the **sampling distribution** says how far a sample mean wanders from μ by chance, and the z-value says how many standard errors it lies away. Module 1 (item 1.5) previewed a test on bearing bores. This module makes the method complete: state the hypotheses, compute a **test statistic**, find its **p-value**, compare it with the **significance level** α, and say what the decision means, including the two ways it can be wrong. It covers tests on one mean (z and t), on one proportion, and on counts (**chi-square** tests). Module 9 compares two samples, and Module 14 compares several means (ANOVA).
+Module 6 built the tool: the **sampling distribution** says how far a sample mean wanders from μ by chance, and the z-score says how many standard errors it lies away. Module 1 (item 1.5) previewed a test on bearing bores. This module makes the method complete: state the hypotheses, compute a **test statistic**, find its **p-value**, compare it with the **significance level** α, and say what the decision means, including the two ways it can be wrong. It covers tests on one mean (z and t), on one proportion, and on counts (**chi-square** tests). Module 9 compares two samples, and Module 14 compares several means (ANOVA).
 
-The course's Module 8 pages (Week 9, Hypothesis Testing, on reaglin.github.io/EGN3443) have the readings, videos and the "burden of proof" activity. Module 7 (point estimation and confidence intervals) comes before it in the course; this module uses an interval only in passing, and says so where it does.
+The course's Module 8 pages (Week 9, Hypothesis Testing, on reaglin.github.io/EGN3443) have the readings, videos and the "burden of proof" activity. Module 7 (point estimation and confidence intervals) comes before it in the course. This module uses a confidence interval (Module 7) only in passing, and says so where it does.
 
 This module has seven topics and a module check. Each topic is an item with four tabs:
 
