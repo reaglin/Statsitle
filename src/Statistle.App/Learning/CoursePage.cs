@@ -81,6 +81,7 @@ public sealed class CoursePage : UserControl
         _tree.ItemsSource = _path.Roots;
         _tree.BorderThickness = new Thickness(0);
         _tree.Background = Brushes.Transparent;
+        ScrollViewer.SetHorizontalScrollBarVisibility(_tree, ScrollBarVisibility.Disabled);
         _tree.SelectedItemChanged += (_, e) => { if (e.NewValue is PathNode node) Open(node); };
         AutomationProperties.SetName(_tree, "The course: My progress, then each module and its items");
         var treeStyle = new Style(typeof(TreeViewItem));
@@ -465,7 +466,7 @@ public sealed class CoursePage : UserControl
     // ── Widgets in a Learn page ──────────────────────────────────────────────
 
     private FrameworkElement RenderMarkdown(string markdown) =>
-        new MarkdownView { Markdown = markdown, WidgetFactory = Widget, VerticalScrollBarVisibility = ScrollBarVisibility.Disabled, MaxHeight = 600 };
+        new MarkdownView { Markdown = markdown, WidgetFactory = Widget, VerticalScrollBarVisibility = ScrollBarVisibility.Disabled, MaxHeight = 600, Margin = new Thickness(-18, -12, 0, -24) };
 
     private BuiltTask? Built(string id)
     {
@@ -491,7 +492,7 @@ public sealed class CoursePage : UserControl
                 if (built.Analysis is not IHasFigures drawable) return null;
                 var figures = drawable.Figures(null);
                 if (number < 1 || number > figures.Count) return null;
-                var panel = new FigurePanel { MaxWidth = 820, HorizontalAlignment = HorizontalAlignment.Left };
+                var panel = new FigurePanel { Width = 760, HorizontalAlignment = HorizontalAlignment.Left };
                 panel.Show(figures[number - 1]);
                 return MarkdownView.Wrap(panel);
             case "data":
@@ -534,6 +535,8 @@ public sealed class CoursePage : UserControl
         var header = new FrameworkElementFactory(typeof(TextBlock));
         header.SetBinding(TextBlock.TextProperty, new Binding(nameof(PathNode.Header)));
         header.SetBinding(TextBlock.FontWeightProperty, new Binding(nameof(PathNode.Weight)));
+        header.SetValue(TextBlock.TextWrappingProperty, TextWrapping.Wrap);
+        header.SetValue(TextBlock.MaxWidthProperty, 250.0);
         top.AppendChild(mark);
         top.AppendChild(header);
         var detail = new FrameworkElementFactory(typeof(TextBlock));
@@ -541,6 +544,8 @@ public sealed class CoursePage : UserControl
         detail.SetValue(TextBlock.FontSizeProperty, 11.0);
         detail.SetValue(TextBlock.ForegroundProperty, LearningTheme.Brush("MutedTextBrush"));
         detail.SetValue(TextBlock.MarginProperty, new Thickness(18, 0, 0, 0));
+        detail.SetValue(TextBlock.TextWrappingProperty, TextWrapping.Wrap);
+        detail.SetValue(TextBlock.MaxWidthProperty, 250.0);
         panel.AppendChild(top);
         panel.AppendChild(detail);
         template.VisualTree = panel;

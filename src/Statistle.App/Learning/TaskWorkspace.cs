@@ -328,7 +328,7 @@ public sealed class TaskWorkspace : ContentControl
             if (figures.Count > 0) page.Children.Add(Heading("Figures"));
             foreach (var figure in figures)
             {
-                var panel = new FigurePanel { MaxWidth = 900, HorizontalAlignment = HorizontalAlignment.Left };
+                var panel = new FigurePanel { Width = 760, HorizontalAlignment = HorizontalAlignment.Left };
                 panel.Show(figure);
                 page.Children.Add(panel);
             }

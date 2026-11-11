@@ -89,3 +89,53 @@ public sealed class CourseDrawingTests
         });
     }
 }
+
+/// <summary>Pictures of the Course for checking a build by eye, when STATISTLE_COURSE_SHOTS names a folder (not part of the normal run).</summary>
+public sealed class CourseShots
+{
+    [Fact]
+    public void Write_course_pictures_when_asked()
+    {
+        var folder = Environment.GetEnvironmentVariable("STATISTLE_COURSE_SHOTS");
+        if (string.IsNullOrEmpty(folder)) return;
+        Directory.CreateDirectory(folder);
+        var dir = AppContext.BaseDirectory;
+        while (dir is not null && !File.Exists(Path.Combine(dir, "Statistle.sln"))) dir = Path.GetDirectoryName(dir);
+        var content = StatsContent.Load(Path.Combine(dir!, "content", "egn3443"));
+        WpfHost.Run(() =>
+        {
+            var page = new CoursePage(content);
+            var window = new Window { Content = page, Width = 1440, Height = 900, Left = -10000, Top = -10000, ShowInTaskbar = false, ShowActivated = false };
+            window.Show();
+            void Shot(string name)
+            {
+                window.UpdateLayout();
+                WpfHost.Pump();
+                var bitmap = new System.Windows.Media.Imaging.RenderTargetBitmap((int)page.ActualWidth, (int)page.ActualHeight, 96, 96, System.Windows.Media.PixelFormats.Pbgra32);
+                bitmap.Render(page);
+                var png = new System.Windows.Media.Imaging.PngBitmapEncoder();
+                png.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(bitmap));
+                using var file = File.Create(Path.Combine(folder, name + ".png"));
+                png.Save(file);
+            }
+            try
+            {
+                Shot("01-my-progress");
+                page.Path.Roots.First(r => r.Module is not null).IsSelected = true;
+                Shot("02-module");
+                foreach (var item in content.Package.AllItems)
+                {
+                    page.Path.Select(item);
+                    var slug = item.Id.Split('.').Last();
+                    for (var t = 0; t < page.ItemTabs.Items.Count; t++)
+                    {
+                        page.ItemTabs.SelectedIndex = t;
+                        if (t == 2 && item.Exercise is not null) page.ExerciseView.CheckAnswers();
+                        Shot($"item-{item.Number}-{slug}-{t + 1}");
+                    }
+                }
+            }
+            finally { window.Close(); }
+        });
+    }
+}
