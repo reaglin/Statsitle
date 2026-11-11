@@ -40,7 +40,7 @@ public static class ChiSquareFigures
         py.Add(0);
         series.Add(new PolygonSeries("Rejection region", AxisSide.Left, px, py) { ColorHint = "#C0392B" });
         series.Add(new LineSeries("Density under H₀", AxisSide.Left, xs, ys) { ColorHint = "#1F2933", Width = 2 });
-        series.Add(new LineSeries("Observed χ²", AxisSide.Left, [statistic, statistic], [0, top]) { ColorHint = "#C0392B", Width = 2.5 });
+        series.Add(new LineSeries("Observed χ²", AxisSide.Left, [statistic, statistic], [0, top]) { ColorHint = "#E08E0B", Width = 3 });
 
         return new PlotSpec
         {

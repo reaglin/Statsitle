@@ -57,12 +57,13 @@ public static class InferenceFigures
 
         if (!double.IsNaN(outcome.CriticalHigh))
         {
-            series.Add(Shade("Rejection region ", reference, outcome.CriticalHigh, high));
+            // The second tail of a two-sided test is unnamed, so the legend lists the region once.
+            series.Add(Shade(double.IsNaN(outcome.CriticalLow) ? "Rejection region" : string.Empty, reference, outcome.CriticalHigh, high));
         }
 
         series.Add(new LineSeries("Density under H₀", AxisSide.Left, xs, ys) { ColorHint = "#1F2933", Width = 2 });
         double top = ys.Max() * 1.05;
-        series.Add(new LineSeries($"Observed {symbol}", AxisSide.Left, [outcome.Statistic, outcome.Statistic], [0, top]) { ColorHint = "#C0392B", Width = 2.5 });
+        series.Add(new LineSeries($"Observed {symbol}", AxisSide.Left, [outcome.Statistic, outcome.Statistic], [0, top]) { ColorHint = "#E08E0B", Width = 3 });
 
         return new PlotSpec
         {

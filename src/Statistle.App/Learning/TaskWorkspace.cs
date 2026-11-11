@@ -216,7 +216,7 @@ public sealed class TaskWorkspace : ContentControl
         panel.Children.Add(DataTable(columns, RowLabels(built)));
 
         var buttons = new WrapPanel { Margin = new Thickness(0, 6, 0, 0) };
-        buttons.Children.Add(SmallButton("Copy the data", "Copies the data with a header row, separated by tabs, to paste into a spreadsheet",
+        buttons.Children.Add(SmallButton("Copy the data", "Copies the data with a header row, separated by tabs: paste it into a spreadsheet, or into the Workbench (+ Data table, then Ctrl+V)",
             () => Clipboard.SetText(DataText(columns))));
         buttons.Children.Add(SmallButton("Copy as Python", "Copies the data as numpy arrays, to paste into Python or a Colab notebook",
             () => Clipboard.SetText(DataCode(columns, CodeLanguage.Python))));
