@@ -50,6 +50,7 @@ public partial class MainWindow : Window
         _workspace.PropertyChanged += Workspace_PropertyChanged;
         _workspace.Rows.CollectionChanged += (_, _) => ScheduleSeriesHeight();
         ContentTabs.SelectionChanged += ContentTabs_SelectionChanged;
+        InitializeCourse();
 
         Loaded += (_, _) =>
         {

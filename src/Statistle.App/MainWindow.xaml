@@ -497,7 +497,32 @@
                        ToolTip="What Statistics+ did last" AutomationProperties.Name="Status" />
         </Border>
 
+        <!-- Statistics+ (plan 9.2): the Course (the learning path) and the Workbench (the calculator) share the window.
+             The strip switches between them; the learner's name and Sign out sit at its right. -->
+        <Border DockPanel.Dock="Top" Background="{StaticResource RailBrush}" Padding="8,4">
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                    <RadioButton x:Name="CourseMode" GroupName="Mode" Content="Course" Style="{StaticResource {x:Type ToggleButton}}"
+                                 Padding="16,4" Margin="0,0,4,0" Checked="Mode_Checked"
+                                 ToolTip="The course, topic by topic: Learn, Example, Exercise and Reference for each one, and your progress (Ctrl+L)"
+                                 AutomationProperties.Name="Course" />
+                    <RadioButton x:Name="WorkbenchMode" GroupName="Mode" Content="Workbench" Style="{StaticResource {x:Type ToggleButton}}"
+                                 Padding="16,4" Checked="Mode_Checked"
+                                 ToolTip="The calculator: your own data tables and every analysis, with the report and the Python and R (Ctrl+B)"
+                                 AutomationProperties.Name="Workbench" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <TextBlock x:Name="LearnerName" Foreground="{StaticResource RailTextBrush}" VerticalAlignment="Center" Margin="0,0,10,0"
+                               ToolTip="Who is learning. Their progress is saved as they go." />
+                    <Button x:Name="SignOutButton" Content="Sign out" Padding="10,2" Click="SignOut_Click" Visibility="Collapsed"
+                            ToolTip="Saves this learner's progress and goes back to the Who is learning? screen" />
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
         <Grid>
+        <ContentControl x:Name="CoursePane" Visibility="Collapsed" Focusable="False" />
+        <Grid x:Name="WorkbenchPane">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="236" />
@@ -837,6 +862,8 @@
                     </DockPanel>
                 </TabItem>
             </TabControl>
+        </Grid>
+        <ContentControl x:Name="LearnerOverlay" Visibility="Collapsed" Focusable="False" />
         </Grid>
     </DockPanel>
 </Window>

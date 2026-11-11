@@ -52,6 +52,7 @@ public sealed class RowDrawingTests : IDisposable
             };
 
             window.Show();
+            window.ShowWorkbench();
             try
             {
                 SampleProjects.Install(_folder);
