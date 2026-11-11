@@ -751,18 +751,12 @@ public sealed class ChiSquareTest : Analysis, IHasFigures, IUsesProject, IHasCho
             return [];
         }
 
-        string axis = Test == ChiSquareKind.GoodnessOfFit ? "category: " : "cell, row by row: ";
-        axis += string.Join(", ", CategoryLabels.Select((n, i) => $"{i + 1} = {n}"));
-
-        if (axis.Length > 140)
-        {
-            axis = axis[..137] + "…";
-        }
+        string axis = Test == ChiSquareKind.GoodnessOfFit ? "category" : "cell, row by row";
 
         return
         [
             ChiSquareFigures.Reference($"{Name} — χ² distribution under H₀ (df = {Outcome.DegreesOfFreedom:G4}), rejection region shaded", Outcome.DegreesOfFreedom, Outcome.Statistic, Outcome.Critical),
-            ChiSquareFigures.ObservedAndExpected($"{Name} — observed and expected counts", axis, ObservedCounts, ExpectedCounts),
+            ChiSquareFigures.ObservedAndExpected($"{Name} — observed and expected counts", axis, ObservedCounts, ExpectedCounts, CategoryLabels),
         ];
     }
 

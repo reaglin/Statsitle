@@ -579,14 +579,10 @@ public sealed class CoursePage : UserControl
             case "data":
                 var columns = TaskWorkspace.DataColumns(built);
                 if (columns.Count == 0) return null;
-                var text = new TextBox
-                {
-                    Text = TaskWorkspace.DataText(columns), IsReadOnly = true, FontFamily = new FontFamily("Consolas"), MaxHeight = 220,
-                    VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalAlignment = HorizontalAlignment.Left, MinWidth = 240,
-                    ToolTip = "The data, one row per observation. Select and copy it to use it elsewhere.",
-                };
-                AutomationProperties.SetName(text, "Data: " + built.Task.Title);
-                return text;
+                var table = TaskWorkspace.DataTable(columns, TaskWorkspace.RowLabels(built));
+                table.ToolTip = "The data, one row per observation. Open the item's Example or Exercise tab to copy it.";
+                AutomationProperties.SetName(table, "Data: " + built.Task.Title);
+                return table;
             case "results":
                 return TaskWorkspace.ResultsGrid(built);
             case "code":

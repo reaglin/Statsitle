@@ -54,7 +54,8 @@ public static class ChiSquareFigures
     /// The observed and expected count of each category (or cell, row by row) as bars side by
     /// side: category i at x = i, observed just left of it, expected just right.
     /// </summary>
-    public static PlotSpec ObservedAndExpected(string title, string axisLabel, IReadOnlyList<double> observed, IReadOnlyList<double> expected)
+    public static PlotSpec ObservedAndExpected(string title, string axisLabel, IReadOnlyList<double> observed, IReadOnlyList<double> expected,
+        IReadOnlyList<string>? names = null)
     {
         ArgumentNullException.ThrowIfNull(observed);
         ArgumentNullException.ThrowIfNull(expected);
@@ -67,7 +68,8 @@ public static class ChiSquareFigures
             Title = title,
             Axes =
             [
-                new AxisSpec(AxisSide.Bottom, axisLabel, Min: 0.4, Max: observed.Count + 0.6),
+                new AxisSpec(AxisSide.Bottom, axisLabel, Min: 0.4, Max: observed.Count + 0.6,
+                    TickLabels: names is { Count: > 0 } && names.Count == observed.Count ? names : null),
                 new AxisSpec(AxisSide.Left, "count", Min: 0, Max: top > 0 ? top : 1),
             ],
             Series =

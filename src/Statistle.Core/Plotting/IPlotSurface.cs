@@ -22,7 +22,8 @@ public sealed record AxisSpec(
     bool Inverted = false,
     double? Min = null,
     double? Max = null,
-    bool Logarithmic = false);
+    bool Logarithmic = false,
+    IReadOnlyList<string>? TickLabels = null);   // names for x = 1, 2, …, n (categories), in place of numbers
 
 /// <summary>A drawable series. The value axis names which <see cref="AxisSpec"/> it is scaled against.</summary>
 public abstract record PlotSeries(string Name, AxisSide ValueAxis)

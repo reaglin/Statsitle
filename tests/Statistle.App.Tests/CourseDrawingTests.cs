@@ -185,3 +185,28 @@ public sealed class CourseShots
         });
     }
 }
+
+/// <summary>Every figure of every task, full size, as PNGs, when STATISTLE_FIGURE_SHOTS names a folder (not part of the normal run).</summary>
+public sealed class FigureShots
+{
+    [Fact]
+    public void Write_every_task_figure_when_asked()
+    {
+        var folder = Environment.GetEnvironmentVariable("STATISTLE_FIGURE_SHOTS");
+        if (string.IsNullOrEmpty(folder)) return;
+        Directory.CreateDirectory(folder);
+        var filter = Environment.GetEnvironmentVariable("STATISTLE_FIGURE_FILTER") ?? "";
+        var dir = AppContext.BaseDirectory;
+        while (dir is not null && !File.Exists(Path.Combine(dir, "Statistle.sln"))) dir = Path.GetDirectoryName(dir);
+        var content = StatsContent.Load(Path.Combine(dir!, "content", "egn3443"));
+        var renderer = new Statistle.App.Plotting.ScottPlotFigureRenderer();
+        foreach (var task in content.Tasks.Values.Where(t => t.Id.Contains(filter, StringComparison.OrdinalIgnoreCase)))
+        {
+            var built = StatsTaskRunner.Build(task);
+            if (built.Analysis is not Statistle.Core.Plotting.IHasFigures figures) continue;
+            var list = figures.Figures(null);
+            for (var i = 0; i < list.Count; i++)
+                File.WriteAllBytes(Path.Combine(folder, $"{task.Id}-{i + 1}.png"), renderer.RenderPng(list[i], 760, 480));
+        }
+    }
+}

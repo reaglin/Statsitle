@@ -213,30 +213,7 @@ public sealed class TaskWorkspace : ContentControl
             return panel;
         }
 
-        var grid = new Grid { HorizontalAlignment = HorizontalAlignment.Left };
-        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-        foreach (var _ in columns) grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-        var rows = columns.Max(c => c.Values.Length);
-        for (var r = 0; r <= rows; r++) grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-
-        grid.Children.Add(Cell("#", 0, 0, header: true));
-        for (var c = 0; c < columns.Count; c++)
-        {
-            grid.Children.Add(Cell(columns[c].Name, 0, c + 1, header: true));
-            var decimals = columns[c].Values.Select(Decimals).DefaultIfEmpty(0).Max();
-            for (var r = 0; r < columns[c].Values.Length; r++)
-                grid.Children.Add(Cell(columns[c].Values[r].ToString("F" + decimals, CultureInfo.CurrentCulture), r + 1, c + 1, header: false));
-        }
-        for (var r = 1; r <= rows; r++) grid.Children.Add(Cell(r.ToString(CultureInfo.CurrentCulture), r, 0, header: false, muted: true));
-
-        var scroller = new ScrollViewer
-        {
-            Content = grid, MaxHeight = 260, HorizontalAlignment = HorizontalAlignment.Left,
-            VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
-            BorderBrush = Line, BorderThickness = new Thickness(1),
-        };
-        AutomationProperties.SetName(scroller, "The data");
-        panel.Children.Add(new Border { Child = scroller, BorderBrush = Line, BorderThickness = new Thickness(1), HorizontalAlignment = HorizontalAlignment.Left });
+        panel.Children.Add(DataTable(columns, RowLabels(built)));
 
         var buttons = new WrapPanel { Margin = new Thickness(0, 6, 0, 0) };
         buttons.Children.Add(SmallButton("Copy the data", "Copies the data with a header row, separated by tabs, to paste into a spreadsheet",
@@ -247,6 +224,50 @@ public sealed class TaskWorkspace : ContentControl
             () => Clipboard.SetText(DataCode(columns, CodeLanguage.R))));
         panel.Children.Add(buttons);
         return panel;
+    }
+
+    /// <summary>
+    /// The names of the data's rows, when the task gives them: a contingency table's <c>RowNames</c> or a goodness of
+    /// fit's <c>CategoryNames</c> (comma-separated). Null means the rows are just numbered.
+    /// </summary>
+    public static IReadOnlyList<string>? RowLabels(BuiltTask built)
+    {
+        foreach (var key in new[] { "RowNames", "CategoryNames" })
+            if (built.Task.Settings.TryGetValue(key, out var text) && text.Trim().Length > 0)
+                return [.. text.Split(',').Select(s => s.Trim())];
+        return null;
+    }
+
+    /// <summary>The data as an aligned table, a column per variable, with numbered or named rows.</summary>
+    public static FrameworkElement DataTable(IReadOnlyList<(string Name, double[] Values)> columns, IReadOnlyList<string>? rowLabels = null)
+    {
+        var grid = new Grid { HorizontalAlignment = HorizontalAlignment.Left };
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+        foreach (var _ in columns) grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+        var rows = columns.Max(c => c.Values.Length);
+        for (var r = 0; r <= rows; r++) grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+
+        grid.Children.Add(Cell(rowLabels is null ? "#" : "", 0, 0, header: true));
+        for (var c = 0; c < columns.Count; c++)
+        {
+            grid.Children.Add(Cell(columns[c].Name, 0, c + 1, header: true));
+            var decimals = columns[c].Values.Select(Decimals).DefaultIfEmpty(0).Max();
+            for (var r = 0; r < columns[c].Values.Length; r++)
+                grid.Children.Add(Cell(columns[c].Values[r].ToString("F" + decimals, CultureInfo.CurrentCulture), r + 1, c + 1, header: false));
+        }
+        for (var r = 1; r <= rows; r++)
+            grid.Children.Add(rowLabels is not null && r <= rowLabels.Count
+                ? Cell(rowLabels[r - 1], r, 0, header: true)
+                : Cell(r.ToString(CultureInfo.CurrentCulture), r, 0, header: false, muted: true));
+
+        var scroller = new ScrollViewer
+        {
+            Content = grid, MaxHeight = 260, HorizontalAlignment = HorizontalAlignment.Left,
+            VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
+            BorderBrush = Line, BorderThickness = new Thickness(1),
+        };
+        AutomationProperties.SetName(scroller, "The data");
+        return new Border { Child = scroller, BorderBrush = Line, BorderThickness = new Thickness(1), HorizontalAlignment = HorizontalAlignment.Left };
     }
 
     /// <summary>How many decimals a value was written with (up to 6), so a column shows 25.0 beside 25.1, not 25.</summary>

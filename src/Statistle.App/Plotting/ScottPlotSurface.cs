@@ -51,6 +51,18 @@ public sealed class ScottPlotSurface : IPlotSurface
                 LabelFormatter = v => Math.Pow(10, v).ToString("G4", System.Globalization.CultureInfo.CurrentCulture),
             }
             : new ScottPlot.TickGenerators.NumericAutomatic();
+        _plot.Axes.Bottom.TickLabelStyle.Rotation = 0;
+        _plot.Axes.Bottom.TickLabelStyle.Alignment = Alignment.UpperCenter;
+
+        if (spec.Axes.FirstOrDefault(a => a.Side == CoreAxisSide.Bottom)?.TickLabels is { Count: > 0 } names)
+        {
+            // Named categories at x = 1 … n. When they would crowd, each goes on two lines: a cell's row over its
+            // column ("Supplier A / Rejected"), or a long name split at the space nearest its middle.
+            bool crowded = names.Sum(n => n.Length + 2) > 70;
+            var manual = new ScottPlot.TickGenerators.NumericManual();
+            for (int i = 0; i < names.Count; i++) manual.AddMajor(i + 1, crowded ? TwoLines(names[i]) : names[i]);
+            _plot.Axes.Bottom.TickGenerator = manual;
+        }
 
         if (spec.Axes.Any(a => a.Side == CoreAxisSide.Right))
         {
@@ -211,6 +223,15 @@ public sealed class ScottPlotSurface : IPlotSurface
         {
             plottable.Axes.YAxis = _rightAxis;
         }
+    }
+
+    private static string TwoLines(string name)
+    {
+        if (name.Contains(" / ", StringComparison.Ordinal)) return name.Replace(" / ", "\n", StringComparison.Ordinal);
+        int middle = name.Length / 2, best = -1;
+        for (int i = 0; i < name.Length; i++)
+            if (name[i] == ' ' && (best < 0 || Math.Abs(i - middle) < Math.Abs(best - middle))) best = i;
+        return best < 0 ? name : name[..best] + "\n" + name[(best + 1)..];
     }
 
     private void ApplyAxis(AxisSpec axis)
