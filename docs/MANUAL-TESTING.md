@@ -20,11 +20,12 @@ version says it cannot check and offers the Store page — that is expected.
 
 ---
 
-## Round 2.0 — Statistics+: the Course and the Module 2 pilot (2026-11-11)
+## Round 2.0 — Statistics+: the Course, Start here and Modules 1–4 (2026-11-11)
 
 Build: `manual-test\Statistle.exe` (made 2026-11-11, version 2.0.0; the content package is in
 `manual-test\content\egn3443`). Close any copy that is open first. Plan phases 7–11 (`docs/DEVELOPMENT-PLAN.md`).
-**The main question for this round (plan 11.1): is Module 2 the right shape for the other ~90 items?**
+The Module 2 pilot was approved (plan 11.1 ✅). **This round: the program (part P), the new modules 0, 1, 3 and 4
+(part Q), and the new analysis Simulation and the Descriptive statistics additions (part S).**
 
 ### P. The program, as a student meets it
 
@@ -57,14 +58,41 @@ P12. A picture in a question (plan 10.15). On **2.4**'s Exercise (questions), qu
      sensor reply times inside the question. Expected: the histogram is drawn (not the text `[[figure: …]]`), the
      question reads well beside it, and the right answer is positively skewed.
 
-### Q. The pilot's content (plan 11.1: your judgement, before the rest is written)
+### Q. The new modules (plan 11.2–11.5)
 
-Q1. Is a Learn page the right length and level for your students (2.2 and 2.3 are the longest)?
-Q2. Do the datasets look like engineering data your students would recognize?
-Q3. Three items (2.1, 2.4 and 2.5) end in questions rather than a calculation. Is that the right mix?
-Q4. 2.4's "symmetric" shaft diameters histogram has an empty class in the middle; is a cleaner example wanted?
-Q5. Anything a page says that you teach differently (quartile method, n − 1, the skewness formula)?
+Read each module as a student would: the module page, every item's four tabs, its exercise or questions, and the
+module check. Each item that ends in a calculation is graded by the program; try one wrong answer on each.
 
+Q1. **0. Start here** (3 items, no check). Does it describe the program as it is? Does 0.2 (run the Code tab in
+    Colab or R and type a printed value) work for you in Colab?
+Q2. **1. Statistics for Engineers** (6 items + check). 1.4 and 1.5 preview distributions and inference that later
+    modules teach. 1.6 shows the control chart of the wheel-nut torques (x̄ ± 3s); its text says other control-chart
+    methods (moving range, subgroups) come later. Is x̄ ± 3s the form you want taught here?
+Q3. **3. Probability Concepts** (5 items + check). 3.3's exercise asks the theoretical probability of a sum of 10 or
+    more with two dice, then the count and proportion from the program's simulation **with seed 1**: set it up in
+    the Workbench as the intro says and check you get 145. Is reading a seeded result fine, or should it ask theory
+    only? The check's three-card 21 question shows the simulation's figure.
+Q4. **4. Discrete Probability Distributions** (6 items + check). Probabilities must be typed to three decimals
+    (tolerance 0.001). 4.6 covers all six models of the course's Distribution Detective; only binomial and Poisson are
+    graded calculations. Right scope?
+Q5. The open content questions, answer any you have a view on:
+    a. Start here is numbered module 0 ("0. Start here"). Fine, or fold it into Module 1?
+    b. Module 4 avoids the numbers of the graded group assignment (wafers n = 25, p = 0.03; 2.5 per hour; p = 0.15),
+       so it doesn't hand over its answers. And the Workbench's Code tab for the three-card 21 simulation is a
+       complete Python/R answer to Assignment 3's Monte Carlo program. Acceptable?
+    c. Bayes' theorem is worked in full in 3.5 (weld inspection, leak detector); the course only names it. Right depth?
+    d. Permutations and combinations are taught briefly in 3.2; Module 4 relies on C(n, x). Enough?
+    e. 2.4's "symmetric" shaft diameters histogram has an empty class in the middle; is a cleaner example wanted?
+
+### S. New in the Workbench (plan 10.7, 10.11, 10.16)
+
+S1. Workbench ▸ **Simulation**. Try each **Experiment**: Coins, Dice, Cards, Darts, Sample means, Interval coverage,
+    Familywise error. Expected: the running proportion settles near the theoretical line as Trials grows (figure 1);
+    figure 2 makes sense for each; the same **Seed** always gives the same counts; a new seed gives new ones.
+S2. Simulation's **Code** tab: the Python and R run, and say your counts will differ from the program's.
+S3. Workbench ▸ **Descriptive statistics** on any column: the new results **Lower/Upper control limit**, **Points
+    outside the limits**, **Number of outliers** and **Mode, when there is one**, and figure 3, the control chart.
+    The limits use the sample standard deviation s (plan 10.11 asks whether you want the moving range instead).
 ---
 
 ## Round 2026-11 — usability (Ron, 2026-10-31)
