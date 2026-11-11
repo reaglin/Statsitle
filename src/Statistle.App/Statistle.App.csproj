@@ -2,7 +2,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Statistle.Core\Statistle.Core.csproj" />
+    <!-- Statistics+: the learning path's tasks and runner (no UI). -->
     <ProjectReference Include="..\Statistle.Learning\Statistle.Learning.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The shared learning engine (learners, PINs, progress, quizzes, the dashboard), from the local feed C:\nuget-local. -->
+    <PackageReference Include="Eaglin.Learning.Core" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
