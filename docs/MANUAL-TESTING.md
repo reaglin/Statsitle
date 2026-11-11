@@ -20,12 +20,13 @@ version says it cannot check and offers the Store page — that is expected.
 
 ---
 
-## Round 2.0 — Statistics+: the Course, Start here and Modules 1–4 (2026-11-11)
+## Round 2.0 — Statistics+: the Course, Start here and Modules 1–9 (2026-11-11)
 
 Build: `manual-test\Statistle.exe` (made 2026-11-11, version 2.0.0; the content package is in
 `manual-test\content\egn3443`). Close any copy that is open first. Plan phases 7–11 (`docs/DEVELOPMENT-PLAN.md`).
-The Module 2 pilot was approved (plan 11.1 ✅). **This round: the program (part P), the new modules 0, 1, 3 and 4
-(part Q), and the new analysis Simulation and the Descriptive statistics additions (part S).**
+The Module 2 pilot was approved (plan 11.1 ✅). **This round: the program (part P), modules 0, 1, 3 and 4 (part Q),
+modules 5–9 (part R), and what is new in the Workbench (part S).** Read as much of Q and R as you have time for;
+your view on the shape of one or two modules is as useful as a full read.
 
 ### P. The program, as a student meets it
 
@@ -84,6 +85,30 @@ Q5. The open content questions, answer any you have a view on:
     d. Permutations and combinations are taught briefly in 3.2; Module 4 relies on C(n, x). Enough?
     e. 2.4's "symmetric" shaft diameters histogram has an empty class in the middle; is a cleaner example wanted?
 
+### R. Modules 5–9 (plan 12.1–12.5)
+
+R1. **5. Continuous Probability Distributions** (6 items + check). 5.6 goes beyond the course's topics: the Weibull,
+    its hazard and B10 life, and fitting a model to failure times (maximum likelihood, the Q–Q plot and its r). Right
+    depth for EGN3443? Its exercise asks you to fit a Weibull in the Workbench from the data (Copy the data → **+ Data
+    table** → paste): does that work for you?
+R2. **6. Sampling Distributions** (5 items + check). The CLT rule of thumb (normal: any n; roughly symmetric: about 15;
+    skewed: about 30) and the |z| guide in 6.5 (under 1 ordinary, about 2 unusual, 3 or more very unlikely) — as you
+    teach them?
+R3. **7. Point Estimation and Confidence Intervals** (7 items + check). 7.7's Example uses the 30 battery values from
+    the course's Bonus 7-1 page. Allowed? The text uses n ≥ 30 and np̂ ≥ 10 and shows Wilson beside Wald; 7.3 keeps a
+    paragraph on one-sided bounds.
+R4. **8. Hypothesis Testing** (7 items + check). Five graded exercises (t from a column, a proportion test, χ² goodness
+    of fit, power and the n for 0.90 power, χ² independence); "choose the test" and the wording of conclusions are in
+    the Learn pages and the check. H₀ is written μ = μ₀ even for "at least" claims, as the course does. Power uses the
+    normal approximation (R's power.t.test gives slightly lower values).
+R5. **9. Hypothesis Testing II** (6 items + check). The rank-test exercise asks the normal-approximation p (R and scipy
+    give the exact p by default for small samples; the exercise says how to get the approximation). 9.6 is deliberately
+    not significant (p = 0.051) with a large effect (d = 0.84): the lesson "not rejected is not the same as no
+    difference" — the one you want there?
+R6. Your course's own pages: the Module 5 worked-example page ("Continuous Distribution Analysis Example Problem")
+    seems to print wrong answers for its Weibull and lognormal problems (e.g. P(fail before 200 000 cycles) with
+    β = 2.5, η = 500 000 is about 9.6 %, not 6.19 %). Worth a look.
+
 ### S. New in the Workbench (plan 10.7, 10.11, 10.16)
 
 S1. Workbench ▸ **Simulation**. Try each **Experiment**: Coins, Dice, Cards, Darts, Sample means, Interval coverage,
@@ -93,6 +118,18 @@ S2. Simulation's **Code** tab: the Python and R run, and say your counts will di
 S3. Workbench ▸ **Descriptive statistics** on any column: the new results **Lower/Upper control limit**, **Points
     outside the limits**, **Number of outliers** and **Mode, when there is one**, and figure 3, the control chart.
     The limits use the sample standard deviation s (plan 10.11 asks whether you want the moving range instead).
+S4. Workbench ▸ **Chi-square tests** (plan 10.8). Goodness of fit: type observed counts, then expected proportions.
+    Independence: make a data table whose columns are the table's columns and choose it. Expected: χ², df, p, the
+    expected counts, a warning when one is below 5; figure 1 the χ² curve with the rejection region, figure 2 the
+    observed and expected bars named by category. No Yates correction unless chosen (is that the default you want?).
+S5. Workbench ▸ **Continuous distribution** ▸ Family **Weibull** (shape β, scale η): probabilities, the hazard rate,
+    the figures. Then **Source: Fitted to data** on a column of failure times: the fitted parameters, figure 3 (the
+    histogram with the fitted curve) and figure 4 (the Q–Q plot with its r). A fitted normal's σ divides by n, as
+    scipy's norm.fit does (plan 10.9 asks whether you want s).
+S6. Workbench ▸ **Sampling distribution**: **Population shape** Normal removes the "n < 30" warning; **Shade on the
+    figure** Above shades the right-hand tail.
+S7. The **Code** tab's R for a one- or two-sample test now runs in R (it stopped on 'two-sided' before).
+
 ---
 
 ## Round 2026-11 — usability (Ron, 2026-10-31)
