@@ -9,7 +9,8 @@
     "PopulationMean": 620,
     "PopulationSigma": 18,
     "SampleSize": 36,
-    "Value": null
+    "Value": null,
+    "Shape": "Normal"
   },
   "ask": [
     { "result": "StandardError", "prompt": "Standard error of x̄ for n = 36 (MPa)" },

@@ -58,7 +58,7 @@ A bolt machine set correctly cuts μ = 50.00 mm with σ = 0.20 mm. The inspector
 
 The standard error is 0.20/√25 = 0.04 mm, so 50.09 is z = 0.09/0.04 = 2.25 standard errors above target. The probability of a mean of 50.09 or more is 1 − 0.9878 = **0.0122**, about 1 hour in 80 for a correctly set machine. That is rare enough to check the setting. The middle 95 % of hourly means, for a correct setting, is 49.92 to 50.08 mm, and 50.09 lies just outside it.
 
-(The figure shades the area **at or below** the value; the probability asked here is the small area to its right. The **P(statistic ≥ value)** row gives it.)
+The figure shades the small area **at or above** 50.09, the probability asked (the task sets **Shade on the figure** to *Above the value*); the **P(statistic ≥ value)** row gives its size.
 
 ## In Python and R
 

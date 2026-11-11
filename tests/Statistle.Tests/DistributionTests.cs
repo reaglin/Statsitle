@@ -234,6 +234,25 @@ public class DistributionTests
     }
 
     [Fact]
+    public void The_sampling_figure_shades_the_side_asked_and_a_normal_population_needs_no_large_n()
+    {
+        // Module 6 content: "P(x̄ ≥ a)" was drawn as the area below a; a stated normal population was warned about at n < 30.
+        var s = new SamplingDistribution { SampleSize = 5 };
+        s.Recalculate();
+        Assert.Contains("only if", s.Condition, StringComparison.Ordinal);
+        var below = s.Figures(null)[0].Series.OfType<Statistle.Core.Plotting.PolygonSeries>().Single();
+        Assert.True(below.X.Max() <= s.Value + 1e-9);
+
+        s.Shape = PopulationShape.Normal;
+        s.Shade = ShadedTail.Above;
+        s.Recalculate();
+        Assert.Contains("exactly normal", s.Condition, StringComparison.Ordinal);
+        var above = s.Figures(null)[0].Series.OfType<Statistle.Core.Plotting.PolygonSeries>().Single();
+        Assert.True(above.X.Min() >= s.Value - 1e-9);
+        Assert.True(above.X.Max() > s.Value);
+    }
+
+    [Fact]
     public void The_sampling_distribution_narrows_by_root_n_and_states_the_CLT_condition()
     {
         var s = new SamplingDistribution();   // EGN3443 Module 6 problem 1: μ 4200, σ 350, n 30, x̄ 4300

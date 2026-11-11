@@ -9,7 +9,9 @@
     "PopulationMean": 500,
     "PopulationSigma": 8,
     "SampleSize": 16,
-    "Value": 503.5
+    "Value": 503.5,
+    "Shape": "Normal",
+    "Shade": "Above"
   },
   "ask": [
     { "result": "Z", "prompt": "z for x̄ = 503.5 g", "tolerance": 0.01 },

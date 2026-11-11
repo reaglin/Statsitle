@@ -17,6 +17,26 @@ public enum SamplingStatistic
     SampleProportion,
 }
 
+/// <summary>What the question says about the population's shape (it decides whether x̄ is normal for a small n).</summary>
+public enum PopulationShape
+{
+    [Description("Not known (rely on n ≥ 30)")]
+    NotKnown = 0,
+
+    [Description("Normal")]
+    Normal,
+}
+
+/// <summary>Which area the figure shades for the value of interest (the probabilities are all calculated either way).</summary>
+public enum ShadedTail
+{
+    [Description("Below the value (≤)")]
+    Below = 0,
+
+    [Description("Above the value (≥)")]
+    Above,
+}
+
 /// <summary>
 /// EGN3443 Module 6: the sampling distribution of the sample mean (and the sample proportion)
 /// — its centre, its standard error, the probability of a sample statistic by the central limit
@@ -42,6 +62,8 @@ public sealed class SamplingDistribution : Analysis, IReportsProblem, IHasFigure
     private double _sampleSize = 30;
     private double _value = 4300;
     private double _value2 = double.NaN;
+    private PopulationShape _shape = PopulationShape.NotKnown;
+    private ShadedTail _shade = ShadedTail.Below;
 
     private double _centre = double.NaN;
     private double _standardError = double.NaN;
@@ -131,6 +153,25 @@ public sealed class SamplingDistribution : Analysis, IReportsProblem, IHasFigure
     {
         get => _value2;
         set => SetProperty(ref _value2, value);
+    }
+
+    [StatistleProperty(Label = "Population shape", Role = VariableRole.Design,
+        Help = "Normal, when the question says the measurement is normally distributed: then x̄ is exactly normal " +
+               "for any n. Not known, otherwise: the central limit theorem makes x̄ close to normal once n is about 30.")]
+    public PopulationShape Shape
+    {
+        get => _shape;
+        set => SetProperty(ref _shape, value);
+    }
+
+    [StatistleProperty(Label = "Shade on the figure", Role = VariableRole.Design,
+        Help = "Which side of the value of interest the Plots tab shades: below for 'less than', above for " +
+               "'more than'. With an upper value, the figure shades between the two. Every probability is " +
+               "calculated either way.")]
+    public ShadedTail Shade
+    {
+        get => _shade;
+        set => SetProperty(ref _shade, value);
     }
 
     // ── Results ───────────────────────────────────────────────────────────────
@@ -244,9 +285,11 @@ public sealed class SamplingDistribution : Analysis, IReportsProblem, IHasFigure
 
             centre = PopulationMean;
             se = PopulationSigma / Math.Sqrt(n);
-            Condition = n >= 30
-                ? $"n = {n} ≥ 30: the central limit theorem makes x̄ close to normal whatever the population's shape."
-                : $"n = {n} < 30: x̄ is normal only if the population is (approximately) normal; otherwise treat these probabilities as rough.";
+            Condition = Shape == PopulationShape.Normal
+                ? $"The population is normal, so x̄ is exactly normal for any n (here n = {n})."
+                : n >= 30
+                    ? $"n = {n} ≥ 30: the central limit theorem makes x̄ close to normal whatever the population's shape."
+                    : $"n = {n} < 30: x̄ is normal only if the population is (approximately) normal; otherwise treat these probabilities as rough.";
         }
         else
         {
@@ -299,12 +342,15 @@ public sealed class SamplingDistribution : Analysis, IReportsProblem, IHasFigure
         }
 
         int n = (int)Math.Round(SampleSize);
-        double from = double.IsNaN(Value2) ? double.NegativeInfinity : Value;
-        double to = double.IsNaN(Value2) ? Value : Value2;
+        bool above = double.IsNaN(Value2) && Shade == ShadedTail.Above;
+        double from = double.IsNaN(Value2) ? (above ? Value : double.NegativeInfinity) : Value;
+        double to = double.IsNaN(Value2) ? (above ? double.PositiveInfinity : Value) : Value2;
 
         return Statistic == SamplingStatistic.SampleMean
             ? [DistributionFigures.SamplingOfTheMean($"{Name} — x̄ for n = {n}", PopulationMean, PopulationSigma, n, from, to)]
-            : [DistributionFigures.Density($"{Name} — p̂ for n = {n}", new NormalModel(Centre, StandardError), double.IsNaN(Value2) ? Centre - 4 * StandardError : Value, to)];
+            : [DistributionFigures.Density($"{Name} — p̂ for n = {n}", new NormalModel(Centre, StandardError),
+                double.IsNegativeInfinity(from) ? Centre - 4 * StandardError : from,
+                double.IsPositiveInfinity(to) ? Centre + 4 * StandardError : to)];
     }
 
     public string Code(CodeLanguage language)

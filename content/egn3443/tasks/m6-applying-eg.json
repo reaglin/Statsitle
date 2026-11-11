@@ -9,6 +9,7 @@
     "PopulationMean": 50,
     "PopulationSigma": 0.2,
     "SampleSize": 25,
-    "Value": 50.09
+    "Value": 50.09,
+    "Shade": "Above"
   }
 }

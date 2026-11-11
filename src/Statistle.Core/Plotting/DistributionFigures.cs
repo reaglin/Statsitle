@@ -180,7 +180,7 @@ public static class DistributionFigures
             series.Add(new PolygonSeries("The probability asked for", AxisSide.Left, px, py) { ColorHint = "#3B6EA5" });
         }
 
-        series.Add(new LineSeries("Population (σ)", AxisSide.Left, xs, pop) { ColorHint = "#B8C4D0", Width = 2 });
+        series.Add(new LineSeries("Population, drawn as normal (σ)", AxisSide.Left, xs, pop) { ColorHint = "#B8C4D0", Width = 2 });
         series.Add(new LineSeries($"Sample mean, n = {n} (σ/√n)", AxisSide.Left, xs, samp) { ColorHint = "#1F2933", Width = 2 });
 
         return new PlotSpec
