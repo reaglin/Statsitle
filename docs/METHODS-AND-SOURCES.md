@@ -154,7 +154,7 @@ Random numbers are the program's own: **xoshiro256\*\*** (Blackman and Vigna, *A
 | F-test, two variances | F = s₁²/s₂² | `f.sf` | `var.test(a, b)` | `InferenceTests`; M&R Ex. 10-11 | [x] |
 | Cohen's d | (x̄₁−x̄₂)/s_p | arithmetic | `effectsize::cohens_d` | `InferenceTests`; EGN3443 M10 P1 | [x] |
 | Shapiro–Wilk; Levene | | `shapiro(x)`, `levene(a, b)` | `shapiro.test`, `car::leveneTest` | `InferenceTests` | [x] |
-| Mann–Whitney U; Wilcoxon signed-rank | | `mannwhitneyu`, `wilcoxon` | `wilcox.test` | `InferenceTests`; M&R 10-6 | [x] |
+| Mann–Whitney U; Wilcoxon signed-rank | | `mannwhitneyu`, `wilcoxon` | `wilcox.test` | `InferenceTests`; M&R 10-3 (rank-sum) and 9-9 (signed-rank) | [x] |
 
 ## Chi-square tests (Modules 8–10; M&R §9-7, §9-8; plan 10.8)
 
