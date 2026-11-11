@@ -44,6 +44,12 @@ public class LearningViewsTests
         """;
 
     [Fact]
+    public void A_bar_written_with_a_backslash_or_in_code_stays_in_its_table_cell()
+    {
+        Assert.Equal(["Conditional", "P(A | B) = P(A ∩ B) / P(B)", "`x | y`"], MarkdownView.SplitRow(@"Conditional | P(A \| B) = P(A ∩ B) / P(B) | `x | y`"));
+    }
+
+    [Fact]
     public void Markdown_view_draws_headings_lists_tables_code_and_widgets_through_its_hook()
     {
         WpfHost.Run(() =>

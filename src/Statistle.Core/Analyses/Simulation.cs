@@ -917,7 +917,7 @@ public sealed class Simulation : Analysis, IReportsProblem, IHasFigures, ICodeSo
             return [SimulationFigures.SampleMeans($"{Name} — {SampleMeansDrawn.Count} sample means of n = {(int)SampleSize}", SampleMeansDrawn, classes, TheoreticalMean, TheoreticalStandardError)];
         }
 
-        PlotSpec running = SimulationFigures.RunningProportion($"{Name} — the proportion settles on the theory", RunningProportion, TheoreticalProbability);
+        PlotSpec running = SimulationFigures.RunningProportion($"{Name} — the running proportion and the theory", RunningProportion, TheoreticalProbability);
 
         PlotSpec second = Experiment switch
         {

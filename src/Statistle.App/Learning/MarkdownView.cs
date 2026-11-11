@@ -330,14 +330,22 @@ public sealed partial class MarkdownView : FlowDocumentScrollViewer
         return paragraph;
     }
 
-    /// <summary>A table row's cells. A | inside `code` belongs to the code, such as `x | y` in a formula.</summary>
-    private static string[] SplitRow(string row)
+    /// <summary>A table row's cells. A bar inside `code` (such as `x | y`) or written \| (such as P(A \| B)) stays in its cell.</summary>
+    public static string[] SplitRow(string row)
     {
         var cells = new List<string>();
         var cell = new System.Text.StringBuilder();
         var inCode = false;
-        foreach (char c in row)
+        for (int i = 0; i < row.Length; i++)
         {
+            char c = row[i];
+            if (c == '\\' && i + 1 < row.Length && row[i + 1] == '|')
+            {
+                cell.Append('|');   // "\|" is a bar inside a cell, as in P(A \| B)
+                i++;
+                continue;
+            }
+
             if (c == '`') inCode = !inCode;
             if (c == '|' && !inCode)
             {

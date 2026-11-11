@@ -81,8 +81,8 @@ public static class SimulationFigures
             Axes = [new AxisSpec(AxisSide.Bottom, "x", Min: -1.05, Max: 1.05), new AxisSpec(AxisSide.Left, "y", Min: -1.05, Max: 1.05)],
             Series = WithoutEmpty(
             [
-                new LineSeries("Square", AxisSide.Left, [-1.0, 1, 1, -1, -1], [-1.0, -1, 1, 1, -1]) { ColorHint = "#1F2933", Width = 1.5 },
-                new LineSeries("Circle", AxisSide.Left, cx, cy) { ColorHint = "#1F2933", Width = 1.5 },
+                new LineSeries("Square", AxisSide.Left, [-1.0, 1, 1, -1, -1], [-1.0, -1, 1, 1, -1]) { ColorHint = "#1F2933", Width = 2.5 },
+                new LineSeries("Circle", AxisSide.Left, cx, cy) { ColorHint = "#E08E0B", Width = 2 },
                 new MarkerSeries("Inside", AxisSide.Left, [.. darts.Where(d => d.Inside).Select(d => d.X)], [.. darts.Where(d => d.Inside).Select(d => d.Y)]) { ColorHint = "#3B6EA5", Size = 3 },
                 new MarkerSeries("Outside", AxisSide.Left, [.. darts.Where(d => !d.Inside).Select(d => d.X)], [.. darts.Where(d => !d.Inside).Select(d => d.Y)]) { ColorHint = "#C0392B", Size = 3 },
             ]),

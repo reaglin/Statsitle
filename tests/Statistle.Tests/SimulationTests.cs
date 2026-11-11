@@ -241,7 +241,7 @@ public class SimulationTests
         IReadOnlyList<PlotSpec> figures = dice.Figures(null);
 
         Assert.Equal(2, figures.Count);
-        Assert.Contains("settles", figures[0].Title, StringComparison.Ordinal);
+        Assert.Contains("running proportion", figures[0].Title, StringComparison.Ordinal);
         LineSeries running = figures[0].Series.OfType<LineSeries>().Single(s => s.Name == "Proportion so far");
         Assert.Equal(dice.ExperimentalProbability, running.Y[^1], 12);
         Assert.Equal(1000, running.X[^1]);
