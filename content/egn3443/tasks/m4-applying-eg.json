@@ -1,0 +1,14 @@
+{
+  "id": "st.m4.applying.eg",
+  "title": "Acceptance sampling from a lot of 40",
+  "analysis": "DiscreteDistribution",
+  "intro": "A receiving inspector takes n = 8 parts, without replacement, from a lot of N = 40, and accepts the lot only if none of the eight is defective. The lot has K = 4 defective parts. X, the number of defectives in the sample, is hypergeometric. The value of interest is k = 0: P(X = 0) = 0.3935 is the chance the lot is accepted. The mean nK/N = 0.8 defectives per sample.",
+  "settings": {
+    "Name": "Acceptance sampling",
+    "Family": "Hypergeometric",
+    "PopulationSize": 40,
+    "PopulationSuccesses": 4,
+    "Draws": 8,
+    "K": 0
+  }
+}

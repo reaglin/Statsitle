@@ -1,0 +1,12 @@
+{
+  "id": "st.m4.expected-value.eg",
+  "title": "Service calls per day",
+  "analysis": "DiscreteDistribution",
+  "intro": "A field-service team logged how many calls it receives per day. X is the number of calls, from 0 to 4, with the probabilities in the table. Read the mean μ = 1.80 calls (the long-run average per day), the variance σ² = 1.46 calls² and the standard deviation σ = 1.21 calls. The value of interest k = 2 shows P(X = 2) = 0.25.",
+  "settings": {
+    "Name": "Service calls",
+    "Family": "Table",
+    "Table": "0\t0.15\n1\t0.30\n2\t0.25\n3\t0.20\n4\t0.10",
+    "K": 2
+  }
+}

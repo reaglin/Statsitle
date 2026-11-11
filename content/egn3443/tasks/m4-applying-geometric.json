@@ -1,0 +1,12 @@
+{
+  "id": "st.m4.applying.geometric",
+  "title": "Retrying a radio link",
+  "analysis": "DiscreteDistribution",
+  "intro": "A sensor sends its reading over a radio link and retries until an attempt gets through. Each attempt gets through with probability p = 0.8, independently. X, the number of the attempt that first gets through, is geometric. The value of interest is k = 3: P(X = 3) = 0.032 and P(X ≤ 3) = 0.992. The mean is 1/p = 1.25 attempts.",
+  "settings": {
+    "Name": "Radio retries",
+    "Family": "Geometric",
+    "SuccessProbability": 0.8,
+    "K": 3
+  }
+}

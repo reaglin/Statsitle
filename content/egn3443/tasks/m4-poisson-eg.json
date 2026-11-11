@@ -1,0 +1,12 @@
+{
+  "id": "st.m4.poisson.eg",
+  "title": "Flaws in a fiber-optic cable",
+  "analysis": "DiscreteDistribution",
+  "intro": "A fiber-optic cable has on average 0.6 flaws per kilometer, at random along its length. A reel holds 5 km, so X, the number of flaws on a reel, is Poisson with λ = 0.6 × 5 = 3. The value of interest is k = 2. Read P(X = 2) = 0.2240, P(X ≤ 2) = 0.4232 and P(X > 2) = 0.5768. The mean and the variance are both λ = 3.",
+  "settings": {
+    "Name": "Flaws per reel",
+    "Family": "Poisson",
+    "Rate": 3,
+    "K": 2
+  }
+}

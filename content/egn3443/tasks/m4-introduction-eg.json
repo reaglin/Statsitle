@@ -1,0 +1,12 @@
+{
+  "id": "st.m4.introduction.eg",
+  "title": "Trucks waiting at a loading dock",
+  "analysis": "DiscreteDistribution",
+  "intro": "A distribution center counted the trucks waiting at the loading dock at 8:00 on many mornings. X is the number of trucks waiting, from 0 to 4, and the table gives the probability of each count. The value of interest is k = 2: read P(X = 2), the chance of exactly two trucks, and P(X ≤ 2), the chance of at most two. The probabilities add to 1, as every distribution's must.",
+  "settings": {
+    "Name": "Trucks at the dock",
+    "Family": "Table",
+    "Table": "0\t0.10\n1\t0.25\n2\t0.35\n3\t0.20\n4\t0.10",
+    "K": 2
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "st.m4.binomial.eg",
+  "title": "Sensors that need recalibration",
+  "analysis": "DiscreteDistribution",
+  "intro": "A vendor's pressure sensors need recalibration on arrival 20 % of the time, independently of each other. A shipment has n = 10 sensors, and X is the number that need recalibration: Binomial(n = 10, p = 0.2). The value of interest is k = 2. Read P(X = 2) = 0.3020, P(X ≤ 2) = 0.6778 and P(X > 2) = 0.3222, and the mean np = 2 sensors.",
+  "settings": {
+    "Name": "Sensors to recalibrate",
+    "Family": "Binomial",
+    "Trials": 10,
+    "SuccessProbability": 0.2,
+    "K": 2
+  }
+}

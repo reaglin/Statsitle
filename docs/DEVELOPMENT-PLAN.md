@@ -236,7 +236,7 @@ Each module is written in the order of `docs/LEARNING-PATH.md`. For every topic:
 | 11.2 | Start here (3 items) | validator clean |
 | 11.3 | Module 1 (6 items + check) | validator clean |
 | 11.4 | Module 3 (5 + check) | validator clean |
-| 11.5 | Module 4 (6 + check) | validator clean |
+| 11.5 | Module 4 (6 + check) | validator clean · **Written 2026-11-11** (`modules/04-discrete`: 6 items + check; 9 tasks — 3 exercises graded by the engine (E and Var from a PMF, binomial, Poisson) and 6 examples (typed PMF ×3, binomial, Poisson, hypergeometric, geometric); 4 quizzes, 32 questions (check: 10 over MO1–MO5, 80 %); 5 reference pages; every number in the prose and the quiz answers checked against the engine's models; prerequisite `st.m2` until Module 3 exists). The data view now shows a typed table's x beside its P(x) (`TaskWorkspace.DataColumns`). ⚠️ Ron: read the module, especially 4.6 (six models, after the Distribution Detective game but with new cases) and the check; say whether the exercises may use the group assignment's numbers (they don't now) |
 
 ## Phase 12 — Content: Modules 5–9
 

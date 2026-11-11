@@ -1,0 +1,13 @@
+{
+  "id": "st.m4.pmf.eg",
+  "title": "Defects per circuit board",
+  "analysis": "DiscreteDistribution",
+  "intro": "X is the number of defects on a circuit board from one assembly line, from 0 to 5, with the probabilities in the table. They are all positive and add to 1, so this is a valid PMF. The value of interest is k = 1 with an upper value k₂ = 3: read P(1 ≤ X ≤ 3) = 0.53, the chance of one to three defects. P(X ≥ 1) = 0.60 is the chance that a board needs any rework.",
+  "settings": {
+    "Name": "Defects per board",
+    "Family": "Table",
+    "Table": "0\t0.40\n1\t0.30\n2\t0.15\n3\t0.08\n4\t0.05\n5\t0.02",
+    "K": 1,
+    "K2": 3
+  }
+}

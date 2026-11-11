@@ -133,8 +133,17 @@ public sealed class TaskWorkspace : ContentControl
         foreach (var property in built.Analysis.Properties())
         {
             if (property.IsResult || !built.Task.Settings.ContainsKey(property.XmlName)) continue;
-            if (property.Read(built.Analysis) is DataSeries series && series.Count > 0)
+            if (property.Read(built.Analysis) is not DataSeries { Count: > 0 } series) continue;
+            if (property.IsSingleColumnSeries)
+            {
                 columns.Add((property.Label, series.YValues));
+                continue;
+            }
+
+            // A series of pairs, such as a typed PMF "Table (x, P(x))": both halves, named from the label.
+            var names = System.Text.RegularExpressions.Regex.Match(property.Label, @"\(([^,]+), (.+)\)\s*$");
+            columns.Add((names.Success ? names.Groups[1].Value : "x", series.XValues));
+            columns.Add((names.Success ? names.Groups[2].Value : "y", series.YValues));
         }
         foreach (var table in built.Task.Tables)
             foreach (var (name, values) in table.Columns)

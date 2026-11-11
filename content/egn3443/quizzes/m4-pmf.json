@@ -1,0 +1,81 @@
+{
+  "id": "st.m4.pmf.quiz",
+  "title": "Probability mass functions",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "choice",
+      "objective": "st.m4.o1",
+      "prompt": "Which of these tables is a valid probability mass function for X = 0, 1, 2, 3?",
+      "options": [
+        "0.10, 0.45, 0.30, 0.15",
+        "0.20, 0.30, 0.40, 0.20",
+        "0.50, 0.40, −0.10, 0.20",
+        "0.25, 0.25, 0.25, 0.20"
+      ],
+      "correct": [0],
+      "explanation": "0.10 + 0.45 + 0.30 + 0.15 = 1.00 and none is negative, so the first is valid. The second adds to 1.10 and the fourth to 0.95. The third adds to 1.00 but has a negative value, which no probability can be."
+    },
+    {
+      "id": "q2",
+      "kind": "numeric",
+      "objective": "st.m4.o1",
+      "prompt": "The number of rejected castings X in a lot has this PMF: f(0) = 0.15, f(1) = 0.35, f(2) = ?, f(3) = 0.10. What is the missing probability f(2)? Give it to two decimals.",
+      "answer": 0.4,
+      "tolerance": 0.005,
+      "explanation": "The probabilities must add to 1: f(2) = 1 − (0.15 + 0.35 + 0.10) = 1 − 0.60 = 0.40."
+    },
+    {
+      "id": "q3",
+      "kind": "numeric",
+      "objective": "st.m4.o1",
+      "prompt": "A PMF is f(x) = c·x for x = 1, 2, 3, 4 (and 0 for any other x). What value of c makes it a valid PMF? Give it to two decimals.",
+      "answer": 0.1,
+      "tolerance": 0.005,
+      "explanation": "The sum must be 1: c(1 + 2 + 3 + 4) = 10c = 1, so c = 0.10. Then f(1) = 0.1, f(2) = 0.2, f(3) = 0.3, f(4) = 0.4, all non-negative."
+    },
+    {
+      "id": "q4",
+      "kind": "numeric",
+      "objective": "st.m4.o1",
+      "prompt": "The number of robots X out of service on a shift has this PMF: f(0) = 0.25, f(1) = 0.40, f(2) = 0.20, f(3) = 0.10, f(4) = 0.05. What is the probability that **at most 2** robots are out of service? Give it to two decimals.",
+      "answer": 0.85,
+      "tolerance": 0.005,
+      "explanation": "P(X ≤ 2) = 0.25 + 0.40 + 0.20 = 0.85. Or 1 − P(X ≥ 3) = 1 − (0.10 + 0.05) = 0.85."
+    },
+    {
+      "id": "q5",
+      "kind": "numeric",
+      "objective": "st.m4.o1",
+      "prompt": "For the same robots, what is the probability that **fewer than 2** are out of service? Give it to two decimals.",
+      "answer": 0.65,
+      "tolerance": 0.005,
+      "explanation": "Fewer than 2 means 0 or 1: P(X < 2) = P(X ≤ 1) = 0.25 + 0.40 = 0.65. Including X = 2 would answer \"at most 2\" (0.85)."
+    },
+    {
+      "id": "q6",
+      "kind": "numeric",
+      "objective": "st.m4.o1",
+      "prompt": "A random variable has the CDF F(0) = 0.20, F(1) = 0.50, F(2) = 0.85, F(3) = 1.00. What is P(X = 2)? Give it to two decimals.",
+      "answer": 0.35,
+      "tolerance": 0.005,
+      "explanation": "Each probability is a step of the CDF: P(X = 2) = F(2) − F(1) = 0.85 − 0.50 = 0.35. F(2) itself is P(X ≤ 2)."
+    },
+    {
+      "id": "q7",
+      "kind": "choice",
+      "objective": "st.m4.o5",
+      "prompt": "A maintenance planner wants the probability that **at least one** of a plant's chillers fails this month, and has P(X = 0) = 0.72 for the number of failures X. What is the quickest correct calculation?",
+      "options": [
+        "1 − P(X = 0) = 0.28",
+        "P(X = 1) only",
+        "P(X ≤ 1)",
+        "It cannot be found without P(X = 1), P(X = 2), … for every value"
+      ],
+      "correct": [0],
+      "explanation": "\"At least one\" is everything except zero, so P(X ≥ 1) = 1 − P(X = 0) = 1 − 0.72 = 0.28. The complement needs one number instead of all the others."
+    }
+  ]
+}

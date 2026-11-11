@@ -1,0 +1,22 @@
+{
+  "id": "st.m4.poisson.ex",
+  "title": "Emergency calls on a night shift",
+  "analysis": "DiscreteDistribution",
+  "intro": "A water utility's emergency line receives on average **0.5 calls per hour** at night, at random and independently. The night shift is **8 hours** long. Let X be the number of emergency calls in one night shift.\n\nFind the probability of exactly 2 calls in the shift, the probability of at least 2 calls, and the standard deviation of X. Give the probabilities to three decimals or more.",
+  "settings": {
+    "Name": "Night-shift emergency calls",
+    "Family": "Poisson",
+    "Rate": 4,
+    "K": 2
+  },
+  "ask": [
+    { "result": "Exactly", "prompt": "P(X = 2)", "tolerance": 0.001 },
+    { "result": "AtLeast", "prompt": "P(X ≥ 2)", "tolerance": 0.001 },
+    { "result": "StandardDeviation", "prompt": "Standard deviation, σ (calls)" }
+  ],
+  "hints": [
+    "Scale the rate to the shift first: λ = 0.5 calls per hour × 8 hours.",
+    "P(X = 2) = e^(−λ) λ² / 2!. For \"at least 2\", use the complement: 1 − P(X = 0) − P(X = 1).",
+    "For a Poisson count the variance equals λ, so σ = √λ."
+  ]
+}

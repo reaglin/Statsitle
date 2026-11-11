@@ -1,0 +1,22 @@
+{
+  "id": "st.m4.expected-value.ex",
+  "title": "Machine breakdowns per week",
+  "analysis": "DiscreteDistribution",
+  "intro": "A plant's maintenance records give the distribution of X, the number of machine breakdowns in a week, from 0 to 4. The data below list each value x with its probability P(x). Calculate the expected number of breakdowns per week, the variance and the standard deviation, to at least two decimals.",
+  "settings": {
+    "Name": "Breakdowns per week",
+    "Family": "Table",
+    "Table": "0\t0.35\n1\t0.30\n2\t0.20\n3\t0.10\n4\t0.05",
+    "K": 2
+  },
+  "ask": [
+    { "result": "Mean", "prompt": "Expected value, μ = E[X] (breakdowns)" },
+    { "result": "Variance", "prompt": "Variance, σ² (breakdowns²)" },
+    { "result": "StandardDeviation", "prompt": "Standard deviation, σ (breakdowns)" }
+  ],
+  "hints": [
+    "μ = Σ x·P(x): multiply each x by its probability and add the five products.",
+    "Find E[X²] = Σ x²·P(x) the same way, then σ² = E[X²] − μ². Square the mean before you subtract.",
+    "σ is the square root of σ². There is no n or n − 1 to divide by: the probabilities already do the weighting."
+  ]
+}

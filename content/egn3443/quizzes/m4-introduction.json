@@ -1,0 +1,69 @@
+{
+  "id": "st.m4.introduction.quiz",
+  "title": "Introduction to discrete distributions",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "multiple",
+      "objective": "st.m4.o5",
+      "prompt": "Which of these random variables are **discrete**? Choose every one that applies.",
+      "options": [
+        "The number of cracked welds found on a bridge girder",
+        "The time a technician takes to replace a bearing",
+        "The number of cars that arrive at a toll booth in one minute",
+        "The tensile strength of a steel coupon",
+        "The number of tests until the first chip fails"
+      ],
+      "correct": [0, 2, 4],
+      "explanation": "Cracked welds, cars and tests are counted: 0, 1, 2, … They are discrete. A time and a strength are measured and can take any value in an interval, so they are continuous (Module 5)."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m4.o5",
+      "prompt": "An inspector will check a batch of 10 valves. Let X be the number of valves that leak. Which statement is right?",
+      "options": [
+        "X is a random variable; before the inspection its value can be any whole number from 0 to 10",
+        "X is a fixed number, the leak rate of the factory",
+        "X can be any number between 0 and 10, such as 2.5",
+        "X is the probability that a valve leaks"
+      ],
+      "correct": [0],
+      "explanation": "X is decided by chance when the batch is inspected, so it is a random variable. It counts valves, so its values are the whole numbers 0, 1, …, 10. The probability that one valve leaks is a parameter of its distribution, not X itself."
+    },
+    {
+      "id": "q3",
+      "kind": "numeric",
+      "objective": "st.m4.o1",
+      "prompt": "The number of trucks X waiting at a dock has this distribution: P(X = 0) = 0.10, P(X = 1) = 0.25, P(X = 2) = 0.35, P(X = 3) = 0.20, P(X = 4) = 0.10. What is the probability that **three or more** trucks are waiting? Give it to two decimals.",
+      "answer": 0.3,
+      "tolerance": 0.005,
+      "explanation": "P(X ≥ 3) = P(3) + P(4) = 0.20 + 0.10 = 0.30. Or with the complement: 1 − P(X ≤ 2) = 1 − 0.70 = 0.30."
+    },
+    {
+      "id": "q4",
+      "kind": "numeric",
+      "objective": "st.m4.o1",
+      "prompt": "Two independent pumps are each working with probability 0.9. Let X be the number working. What is P(X = 1), the probability that exactly one pump is working? Give it to two decimals.",
+      "answer": 0.18,
+      "tolerance": 0.005,
+      "explanation": "Exactly one working can happen two ways: A up and B down, or A down and B up. Each has probability 0.9 × 0.1 = 0.09, so P(X = 1) = 2 × 0.09 = 0.18. Forgetting the second way gives 0.09."
+    },
+    {
+      "id": "q5",
+      "kind": "choice",
+      "objective": "st.m4.o1",
+      "prompt": "A CDF has F(2) = 0.70. What does that mean?",
+      "options": [
+        "P(X ≤ 2) = 0.70: the chance that X is 2 or less is 70 %",
+        "P(X = 2) = 0.70",
+        "P(X > 2) = 0.70",
+        "70 % of the values of X are equal to 2"
+      ],
+      "correct": [0],
+      "explanation": "The cumulative distribution function F(x) is P(X ≤ x), the sum of the PMF up to and including x. P(X > 2) is then 1 − 0.70 = 0.30."
+    }
+  ]
+}

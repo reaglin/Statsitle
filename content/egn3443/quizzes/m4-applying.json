@@ -1,0 +1,112 @@
+{
+  "id": "st.m4.applying.quiz",
+  "title": "Which distribution?",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "choice",
+      "objective": "st.m4.o3",
+      "prompt": "A hospital's backup generator gets its monthly start test: **one** attempt, which succeeds 95 % of the time. X is 1 if it starts and 0 if not. Which model is X?",
+      "options": ["Bernoulli", "Binomial", "Poisson", "Geometric", "Pascal (negative binomial)", "Hypergeometric"],
+      "correct": [0],
+      "explanation": "One trial with two outcomes and a known p = 0.95 is a Bernoulli trial. It is the binomial with n = 1."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m4.o3",
+      "prompt": "A drone photographs **30** bridge bearings. Each bearing, independently, shows corrosion with probability 0.12. X is the number of bearings with corrosion. Which model is X?",
+      "options": ["Bernoulli", "Binomial", "Poisson", "Geometric", "Pascal (negative binomial)", "Hypergeometric"],
+      "correct": [1],
+      "explanation": "A fixed n = 30, two outcomes per bearing, independence, and the same p = 0.12: all four BINS conditions hold. X ~ Binomial(30, 0.12)."
+    },
+    {
+      "id": "q3",
+      "kind": "choice",
+      "objective": "st.m4.o3",
+      "prompt": "A city's water mains have on average **1.4 leaks per kilometer per year**, at random. X is the number of leaks next year in a 3 km section. Which model is X?",
+      "options": ["Bernoulli", "Binomial", "Poisson", "Geometric", "Pascal (negative binomial)", "Hypergeometric"],
+      "correct": [2],
+      "explanation": "Random, independent events counted in an interval (3 km over a year) at a steady average rate, with no fixed number of trials and no upper limit: Poisson, with λ = 1.4 × 3 = 4.2."
+    },
+    {
+      "id": "q4",
+      "kind": "choice",
+      "objective": "st.m4.o3",
+      "prompt": "A technician tries to pair a new sensor with its gateway. Each attempt succeeds with probability 0.7, independently, and she keeps trying **until it pairs**. X is the number of attempts. Which model is X?",
+      "options": ["Bernoulli", "Binomial", "Poisson", "Geometric", "Pascal (negative binomial)", "Hypergeometric"],
+      "correct": [3],
+      "explanation": "Trials up to and including the first success, with the same p each time: geometric with p = 0.7. There is no fixed number of trials, so it is not binomial."
+    },
+    {
+      "id": "q5",
+      "kind": "choice",
+      "objective": "st.m4.o3",
+      "prompt": "A test lab needs **4** coupons that pass a fatigue test to certify a material. Each coupon passes with probability 0.6, independently. X is the number of coupons tested until the 4th pass. Which model is X?",
+      "options": ["Bernoulli", "Binomial", "Poisson", "Geometric", "Pascal (negative binomial)", "Hypergeometric"],
+      "correct": [4],
+      "explanation": "Trials up to and including the r-th success, r = 4, p = 0.6: Pascal, also called the negative binomial. With r = 1 it would be geometric."
+    },
+    {
+      "id": "q6",
+      "kind": "choice",
+      "objective": "st.m4.o3",
+      "prompt": "A box of **24** relays holds **3** defective ones. An inspector takes **5** relays out of the box, without putting any back. X is the number of defective relays among the five. Which model is X?",
+      "options": ["Bernoulli", "Binomial", "Poisson", "Geometric", "Pascal (negative binomial)", "Hypergeometric"],
+      "correct": [5],
+      "explanation": "Draws without replacement from a small lot (N = 24, K = 3, n = 5). Each draw changes the chance of the next, so p is not constant and the binomial does not fit. It is hypergeometric."
+    },
+    {
+      "id": "q7",
+      "kind": "choice",
+      "objective": "st.m4.o3",
+      "prompt": "A shipment of **5,000** bolts is 2 % defective. An inspector samples **20** without replacement. Which statement is right?",
+      "options": [
+        "The exact model is hypergeometric, but the binomial with n = 20 and p = 0.02 is a close approximation, because 20 is far less than a tenth of 5,000",
+        "Only the Poisson can be used, because the lot is large",
+        "The binomial cannot be used, because the sampling is without replacement",
+        "It is geometric, because the inspector is looking for defects"
+      ],
+      "correct": [0],
+      "explanation": "Without replacement makes it hypergeometric. But taking 20 of 5,000 bolts hardly changes the share of defectives, so p stays almost 0.02 and the binomial is very close. The rule of thumb is n under about a tenth of N."
+    },
+    {
+      "id": "q8",
+      "kind": "numeric",
+      "objective": "st.m4.o4",
+      "prompt": "For the sensor in question 4 (each pairing attempt succeeds with probability 0.7), what is the probability that it first pairs on the **third** attempt? Give it to three decimals.",
+      "answer": 0.063,
+      "tolerance": 0.0005,
+      "explanation": "Geometric: the first two attempts fail and the third succeeds. P(X = 3) = (1 − 0.7)² × 0.7 = 0.09 × 0.7 = 0.063."
+    },
+    {
+      "id": "q9",
+      "kind": "match",
+      "objective": "st.m4.o3",
+      "prompt": "Match each model with its parameters.",
+      "pairs": [
+        { "left": "Binomial", "right": "n and p" },
+        { "left": "Poisson", "right": "λ, the mean count in the interval" },
+        { "left": "Geometric", "right": "p only; X starts at 1" },
+        { "left": "Hypergeometric", "right": "N, K and n" }
+      ],
+      "explanation": "The binomial needs the number of trials and the success probability. The Poisson needs only its mean λ. The geometric needs only p, and counts trials from 1. The hypergeometric needs the lot size N, the successes in it K, and the sample size n."
+    },
+    {
+      "id": "q10",
+      "kind": "choice",
+      "objective": "st.m4.o5",
+      "prompt": "An acceptance plan takes 8 parts from a lot of 40 and accepts the lot if none is defective. For a lot with 4 defective parts, P(accept) = 0.39. Which statement is the best conclusion for the quality manager?",
+      "options": [
+        "\"Lots that are 10 % defective would be accepted about 4 times in 10. The plan does not protect us well enough; we should inspect more parts per lot.\"",
+        "\"The plan works, because it rejects bad lots most of the time.\"",
+        "\"P(X = 0) = 0.3935 for Hypergeometric(40, 4, 8).\"",
+        "\"39 % of the parts we accept are defective.\""
+      ],
+      "correct": [0],
+      "explanation": "The first statement puts the probability in the manager's terms and draws the conclusion it supports. The second is wrong: the plan rejects such lots only 61 % of the time. The third is correct but says nothing about the decision. The fourth confuses the chance of accepting a lot with the share of defective parts."
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "st.m4.binomial.ex",
+  "title": "Sensor failures in the first year",
+  "analysis": "DiscreteDistribution",
+  "intro": "A water utility installs **15** flow sensors on its network. Each sensor fails in its first year with probability **0.08**, independently of the others. Let X be the number that fail in the first year.\n\nFind the probability that exactly 2 fail, the probability that more than 2 fail, and the mean and standard deviation of X. Give the probabilities to three decimals or more.",
+  "settings": {
+    "Name": "First-year sensor failures",
+    "Family": "Binomial",
+    "Trials": 15,
+    "SuccessProbability": 0.08,
+    "K": 2
+  },
+  "ask": [
+    { "result": "Exactly", "prompt": "P(X = 2)", "tolerance": 0.001 },
+    { "result": "MoreThan", "prompt": "P(X > 2)", "tolerance": 0.001 },
+    { "result": "Mean", "prompt": "Mean, μ (sensors)" },
+    { "result": "StandardDeviation", "prompt": "Standard deviation, σ (sensors)" }
+  ],
+  "hints": [
+    "Check BINS: two outcomes, independent sensors, n = 15 fixed, the same p = 0.08 for each. So X ~ Binomial(15, 0.08).",
+    "P(X = 2) = C(15, 2) × 0.08² × 0.92¹³, and C(15, 2) = 105.",
+    "\"More than 2\" is 1 − P(X ≤ 2) = 1 − [P(0) + P(1) + P(2)]. μ = np and σ = √(np(1 − p))."
+  ]
+}
