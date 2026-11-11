@@ -16,8 +16,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 > menu and idle lock; `content/egn3443` with the **Module 2 pilot** (`docs/CONTENT-FORMAT.md`). Ron approved the pilot
 > 2026-11-11 (plan 11.1 ✅). **The same day, phase 11:** Start here (module 0) and Modules 1, 3 and 4 written; the
 > **Simulation** analysis (seeded xoshiro256**, so a task's answers never change), control limits and the number of
-> outliers in Descriptive statistics; recognized mistakes, `wrong`, `lookAgain`, figures in questions. 524 tests.
-> ⚠️ Ron's hand-test round 2.0 (parts P, Q, S) covers all of it; modules 5–14 follow (phases 12–13).
+> outliers in Descriptive statistics; recognized mistakes, `wrong`, `lookAgain`, figures in questions.
+> **Phase 12 the same day:** Modules 5–9 written; **Chi-square tests** (new analysis), **Weibull** and a **fit to a
+> data column** (Continuous distribution); every analysis's generated R is now run in R by the tests (it found the
+> 'two-sided' and pstats bugs). ⚠️ Ron's hand-test round 2.0 (parts P, Q, R, S) covers all of it; modules 10–14 follow
+> (phase 13). Figures of every task as PNGs: `STATISTLE_FIGURE_SHOTS=<folder> dotnet test tests/Statistle.App.Tests --filter FigureShots`.
 > Pictures of the Course for checking by eye: `STATISTLE_COURSE_SHOTS=<folder> dotnet test tests/Statistle.App.Tests --filter CourseShots`.
 
 **Statistle** — a Windows 10/11 desktop app that calculates the statistics of Ron's course

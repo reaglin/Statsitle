@@ -117,4 +117,4 @@ Press **Open in the Workbench** on the Example tab. Change **Test** to *Mean, σ
 
 ## What to do next
 
-On the **Exercise** tab, twelve aluminium specimens are tested against a claimed mean strength of 310 MPa. The values are in a table. Find t, its degrees of freedom and the two-sided p-value.
+On the **Exercise** tab, twelve aluminum specimens are tested against a claimed mean strength of 310 MPa. The values are in a table. Find t, its degrees of freedom and the two-sided p-value.
