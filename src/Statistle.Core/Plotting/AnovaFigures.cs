@@ -96,6 +96,7 @@ public static class AnovaFigures
             Title = title,
             ShowLegend = false,
             Axes = [new AxisSpec(AxisSide.Bottom, "theoretical normal quantile"), new AxisSpec(AxisSide.Left, "standardized residual")],
+            Legend = LegendCorner.UpperLeft,
             Series =
             [
                 new LineSeries("Normal", AxisSide.Left, [low, high], [low, high]) { ColorHint = "#B8C4D0", Width = 1.5 },

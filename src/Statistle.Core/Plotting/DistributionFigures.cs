@@ -212,6 +212,10 @@ public static class DistributionFigures
 
             (double low, double high) = model.PlotRange;
             double from = Math.Min(low, table[0].Lower - width), to = Math.Max(high, table[^1].Upper + width);
+            if (values.Min() >= 0 && model.Cdf(0) <= 0)
+            {
+                from = Math.Max(from, 0);   // a model of lifetimes (exponential, Weibull, lognormal) starts at 0
+            }
             List<double> xs = [], ys = [];
 
             for (int i = 0; i <= 200; i++)
@@ -255,6 +259,7 @@ public static class DistributionFigures
             Title = title,
             Axes = [new AxisSpec(AxisSide.Bottom, "fitted model's quantile"), new AxisSpec(AxisSide.Left, "data, sorted")],
             Series = series,
+            Legend = LegendCorner.UpperLeft,   // the points run from lower left to upper right
         };
     }
 }

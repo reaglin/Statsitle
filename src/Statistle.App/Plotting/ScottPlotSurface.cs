@@ -96,7 +96,12 @@ public sealed class ScottPlotSurface : IPlotSurface
 
         if (spec.ShowLegend)
         {
-            _plot.ShowLegend(Alignment.UpperRight);
+            _plot.ShowLegend(spec.Legend switch
+            {
+                LegendCorner.UpperLeft => Alignment.UpperLeft,
+                LegendCorner.LowerRight => Alignment.LowerRight,
+                _ => Alignment.UpperRight,
+            });
         }
         else
         {

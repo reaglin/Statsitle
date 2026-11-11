@@ -328,7 +328,7 @@ public sealed class ContinuousDistribution : Analysis, IUsesProject, IHasChoices
         set => SetProperty(ref _model, value);
     }
 
-    [StatistleProperty(Label = "Density f(x)", Decimals = 4, Role = VariableRole.Output,
+    [StatistleProperty(Label = "Density f(x)", Decimals = 6, Role = VariableRole.Output,
         Help = "The height of the density curve at x. Not a probability — P(X = x) is 0 — but " +
                "f(x)·dx is the probability of a small interval at x. Python X.pdf(x); R dnorm(x, μ, σ).")]
     public double Density
@@ -464,7 +464,7 @@ public sealed class ContinuousDistribution : Analysis, IUsesProject, IHasChoices
         set => SetProperty(ref _fitUpper, value);
     }
 
-    [StatistleProperty(Label = "Fitted μ̂", Decimals = 4, Role = VariableRole.Output,
+    [StatistleProperty(Label = "Fitted μ", Decimals = 4, Role = VariableRole.Output,
         Help = "The normal's maximum-likelihood mean: the sample mean x̄. Python " +
                "stats.norm.fit(data); R mean(data).")]
     public double FitMu
@@ -473,7 +473,7 @@ public sealed class ContinuousDistribution : Analysis, IUsesProject, IHasChoices
         set => SetProperty(ref _fitMu, value);
     }
 
-    [StatistleProperty(Label = "Fitted σ̂ (divides by n)", Decimals = 4, Role = VariableRole.Output,
+    [StatistleProperty(Label = "Fitted σ (divides by n)", Decimals = 4, Role = VariableRole.Output,
         Help = "The normal's maximum-likelihood standard deviation, √(Σ(x − x̄)²/n). It divides by " +
                "n, not n − 1, so it is a little smaller than the sample s of Descriptive " +
                "statistics: s = σ̂·√(n/(n − 1)). scipy's stats.norm.fit(data) gives this σ̂; R " +
@@ -484,7 +484,7 @@ public sealed class ContinuousDistribution : Analysis, IUsesProject, IHasChoices
         set => SetProperty(ref _fitSigma, value);
     }
 
-    [StatistleProperty(Label = "Fitted λ̂ = 1/x̄", Decimals = 6, Role = VariableRole.Output,
+    [StatistleProperty(Label = "Fitted λ = 1/x̄", Decimals = 6, Role = VariableRole.Output,
         Help = "The exponential's maximum-likelihood rate: one over the mean waiting time. " +
                "Python 1 / stats.expon.fit(data, floc=0)[1] (scipy fits the scale x̄); R 1 / mean(data).")]
     public double FitRate
@@ -493,7 +493,7 @@ public sealed class ContinuousDistribution : Analysis, IUsesProject, IHasChoices
         set => SetProperty(ref _fitRate, value);
     }
 
-    [StatistleProperty(Label = "Fitted μ̂ of ln X", Decimals = 4, Role = VariableRole.Output,
+    [StatistleProperty(Label = "Fitted μ of ln X", Decimals = 4, Role = VariableRole.Output,
         Help = "The lognormal's maximum-likelihood meanlog: the mean of ln x. Python " +
                "np.log(scale) from stats.lognorm.fit(data, floc=0); R mean(log(data)).")]
     public double FitLogMu
@@ -502,7 +502,7 @@ public sealed class ContinuousDistribution : Analysis, IUsesProject, IHasChoices
         set => SetProperty(ref _fitLogMu, value);
     }
 
-    [StatistleProperty(Label = "Fitted σ̂ of ln X", Decimals = 4, Role = VariableRole.Output,
+    [StatistleProperty(Label = "Fitted σ of ln X", Decimals = 4, Role = VariableRole.Output,
         Help = "The lognormal's maximum-likelihood sdlog: the standard deviation of ln x, " +
                "dividing by n. Python the shape s of stats.lognorm.fit(data, floc=0); R " +
                "sqrt(mean((log(data) − mean(log(data)))^2)).")]
@@ -512,7 +512,7 @@ public sealed class ContinuousDistribution : Analysis, IUsesProject, IHasChoices
         set => SetProperty(ref _fitLogSigma, value);
     }
 
-    [StatistleProperty(Label = "Fitted shape β̂", Decimals = 4, Role = VariableRole.Output,
+    [StatistleProperty(Label = "Fitted shape β", Decimals = 4, Role = VariableRole.Output,
         Help = "The Weibull's maximum-likelihood shape. It has no formula: it is the root of the " +
                "shape equation Σx^β ln x / Σx^β − 1/β − mean(ln x) = 0, found by Newton's method. " +
                "Python brentq, R uniroot on that equation; stats.weibull_min.fit(data, floc=0) agrees to about six figures " +
@@ -523,7 +523,7 @@ public sealed class ContinuousDistribution : Analysis, IUsesProject, IHasChoices
         set => SetProperty(ref _fitShape, value);
     }
 
-    [StatistleProperty(Label = "Fitted scale η̂", Decimals = 4, Role = VariableRole.Output,
+    [StatistleProperty(Label = "Fitted scale η", Decimals = 4, Role = VariableRole.Output,
         Help = "The Weibull's maximum-likelihood scale, η̂ = (Σx^β̂ / n)^(1/β̂) once β̂ is known. " +
                "The scale of stats.weibull_min.fit(data, floc=0) in Python.")]
     public double FitScale
@@ -777,7 +777,7 @@ public sealed class ContinuousDistribution : Analysis, IUsesProject, IHasChoices
         s.Assign("q", double.IsNaN(Probability) ? 0.95 : Probability);
         s.Line();
         s.PrintText("Model", ModelDescription);
-        s.Print("Density f(x)", "X.pdf(x)", family.RDensity("x"), 4);
+        s.Print("Density f(x)", "X.pdf(x)", family.RDensity("x"), 6);
         s.Print("P(X ≤ x)", "X.cdf(x)", family.RCdf("x"), 4);
         s.Print("P(X > x)", "X.sf(x)", $"1 - {family.RCdf("x")}", 4);
 
@@ -1273,8 +1273,8 @@ public sealed class NormalFit : ContinuousFitMethod
 
     public override void PrintFitted(ScriptBuilder s)
     {
-        s.Print("Fitted μ̂", "mu", "mu", 4);
-        s.Print("Fitted σ̂ (divides by n)", "sigma", "sigma", 4);
+        s.Print("Fitted μ", "mu", "mu", 4);
+        s.Print("Fitted σ (divides by n)", "sigma", "sigma", 4);
     }
 }
 
@@ -1296,7 +1296,7 @@ public sealed class ExponentialFit : ContinuousFitMethod
     public override void Declare(ContinuousDistribution tool, ScriptBuilder s) =>
         s.Either("loc, mean_wait = stats.expon.fit(data, floc=0); lam = 1 / mean_wait   # scipy fits the scale x̄", "lam <- 1 / mean(data)");
 
-    public override void PrintFitted(ScriptBuilder s) => s.Print("Fitted λ̂ = 1/x̄", "lam", "lam", 6);
+    public override void PrintFitted(ScriptBuilder s) => s.Print("Fitted λ = 1/x̄", "lam", "lam", 6);
 }
 
 public sealed class LogNormalFit : ContinuousFitMethod
@@ -1324,8 +1324,8 @@ public sealed class LogNormalFit : ContinuousFitMethod
 
     public override void PrintFitted(ScriptBuilder s)
     {
-        s.Print("Fitted μ̂ of ln X", "mu", "mu", 4);
-        s.Print("Fitted σ̂ of ln X", "sigma", "sigma", 4);
+        s.Print("Fitted μ of ln X", "mu", "mu", 4);
+        s.Print("Fitted σ of ln X", "sigma", "sigma", 4);
     }
 }
 
@@ -1375,7 +1375,7 @@ public sealed class WeibullFit : ContinuousFitMethod
 
     public override void PrintFitted(ScriptBuilder s)
     {
-        s.Print("Fitted shape β̂", "shape", "shape", 4);
-        s.Print("Fitted scale η̂", "scale", "scale", 4);
+        s.Print("Fitted shape β", "shape", "shape", 4);
+        s.Print("Fitted scale η", "scale", "scale", 4);
     }
 }

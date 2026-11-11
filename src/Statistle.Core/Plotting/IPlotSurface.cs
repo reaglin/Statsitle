@@ -81,8 +81,18 @@ public sealed class PlotSpec
 
     public bool ShowLegend { get; init; } = true;
 
+    /// <summary>The corner the legend sits in: upper left where the data run up to the upper right (a Q–Q plot).</summary>
+    public LegendCorner Legend { get; init; } = LegendCorner.UpperRight;
+
     /// <summary>True to draw x and y at the same scale — a cross-section must not be stretched.</summary>
     public bool SquareAxes { get; init; }
+}
+
+public enum LegendCorner
+{
+    UpperRight,
+    UpperLeft,
+    LowerRight,
 }
 
 /// <summary>
