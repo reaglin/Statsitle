@@ -1,0 +1,10 @@
+{
+  "id": "st.m1.quality.chart",
+  "title": "Wheel-nut torques: the stable period",
+  "analysis": "DescriptiveStatistics",
+  "intro": "The fourteen wheel-nut torques logged while the nut runner was working normally (N·m), in the order they were tightened. Their mean and standard deviation set the control limits.",
+  "settings": {
+    "Name": "Final torque, stable period",
+    "Sample": [121.4, 119.8, 120.6, 118.9, 122.1, 120.2, 119.5, 121.0, 120.8, 118.6, 121.7, 120.0, 119.2, 120.4]
+  }
+}

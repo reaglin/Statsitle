@@ -56,6 +56,12 @@ For a normal process, 99.7 % of values fall within ±3 standard deviations of th
 
 All fourteen are inside (118.6 to 122.1 N·m), and 104.5 N·m is far below the LCL: the chart would have flagged it the moment it happened. Note that the limits come from the stable period. Limits worked out with the outlier included would be much wider, because the outlier inflates s.
 
+The program draws this chart for you: Descriptive statistics' third figure is the **control chart** (an individuals chart), with the readings in order, the center line at x̄, and the UCL and LCL. Here it is for the fourteen nuts of the stable period. Its results give the limits as 117.1536 and 123.4464 N·m (117.15 and 123.45 once rounded, as by hand) and no point outside them.
+
+[[figure: st.m1.quality.chart 3]]
+
+If you give the program all fifteen nuts instead, it works the limits out from all fifteen: x̄ = 119.25 N·m and s = 4.20 N·m, so LCL = 106.64 N·m and UCL = 131.86 N·m. The faulty nut, 104.5 N·m, is still outside, but only just, and the limits are four times as far apart as the stable process needs. That is why limits are set from a period when the process is known to be stable.
+
 **Control limits are not specification limits.** Control limits describe what the process **does**; they come from data. Specification (tolerance) limits describe what the customer **needs**; they come from the design. A process can be in control and still make parts out of specification, if its spread is too large for the tolerance.
 
 Textbooks on quality control estimate the spread for these charts in other ways too (from the moving range, or from subgroups); you will meet those later. The idea is the same.
