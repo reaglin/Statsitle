@@ -1,0 +1,122 @@
+{
+  "id": "st.m3.check.quiz",
+  "title": "Module 3 check: probability concepts",
+  "passThreshold": 0.8,
+  "practice": false,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "choice",
+      "objective": "st.m3.o1",
+      "prompt": "A part comes from supplier X or Y, and is made on the day shift (D) or the night shift (N). Which is the complete sample space for one part?",
+      "options": [
+        "{XD, XN, YD, YN}",
+        "{X, Y, D, N}",
+        "{XD, YN}",
+        "{XD, XN, YD}"
+      ],
+      "correct": [0],
+      "explanation": "A tree with two branches (X, Y) and then two more on each (D, N) has 2 × 2 = 4 outcomes: XD, XN, YD, YN. {X, Y, D, N} lists the branches, not the outcomes; the other two leave outcomes out."
+    },
+    {
+      "id": "q2",
+      "kind": "numeric",
+      "objective": "st.m3.o1",
+      "prompt": "A coin is flipped and a die is rolled. What is the probability of **heads and an even number**? Give it to two decimals.",
+      "answer": 0.25,
+      "tolerance": 0.005,
+      "explanation": "The sample space has 2 × 6 = 12 equally likely outcomes, H1 to T6. Heads with an even number is {H2, H4, H6}: 3 of 12, P = 0.25. The same by multiplying, since coin and die are independent: 1/2 × 3/6 = 0.25."
+    },
+    {
+      "id": "q3",
+      "kind": "numeric",
+      "objective": "st.m3.o2",
+      "prompt": "A monitoring station has **4** sensors, and each one fails during a storm with probability **0.1**, independently. What is the probability that **at least one** sensor fails? Give it to four decimals.",
+      "answer": 0.3439,
+      "tolerance": 0.0005,
+      "explanation": "Complement: no sensor fails with probability 0.9⁴ = 0.6561, so P(at least one fails) = 1 − 0.6561 = 0.3439. Adding 0.1 four times gives 0.4, which counts storms with two failures twice."
+    },
+    {
+      "id": "q4",
+      "kind": "numeric",
+      "objective": "st.m3.o2",
+      "prompt": "On a production line, 30 % of shafts need straightening (A), 25 % need regrinding (B), and 10 % need both. What is the probability that a shaft needs **at least one** of the two? Give it to two decimals.",
+      "answer": 0.45,
+      "tolerance": 0.005,
+      "explanation": "General addition rule: P(A ∪ B) = 0.30 + 0.25 − 0.10 = 0.45. Without subtracting the overlap, 0.55 counts the shafts needing both twice."
+    },
+    {
+      "id": "q5",
+      "kind": "numeric",
+      "objective": "st.m3.o2",
+      "prompt": "A bin of **15** bolts holds **3** defective ones. Two bolts are taken, one after the other, without putting the first back. What is the probability that **both** are defective? Give it to three decimals or more.",
+      "answer": 0.0286,
+      "tolerance": 0.001,
+      "explanation": "General multiplication rule: P(first defective) = 3/15, and then P(second defective | first defective) = 2/14. P(both) = 3/15 × 2/14 = 6/210 = 0.0286. Multiplying 3/15 × 3/15 = 0.04 would treat the draws as independent."
+    },
+    {
+      "id": "q6",
+      "kind": "numeric",
+      "objective": "st.m3.o3",
+      "prompt": "The course's three-card 21: three cards are dealt from a full deck (J, Q, K count 10; an ace 1 or 11), and the event is a total of exactly 21. The program dealt 1000 hands and got 21 in **93** of them. Its running proportion is below.\n[[figure: st.m3.check.twentyone 1]]\nWhat is the experimental probability of 21? Give it to three decimals.",
+      "answer": 0.093,
+      "tolerance": 0.0005,
+      "explanation": "Experimental probability = times the event happened ÷ trials = 93 ÷ 1000 = 0.093."
+    },
+    {
+      "id": "q7",
+      "kind": "choice",
+      "objective": "st.m3.o3",
+      "prompt": "Counting every possible hand, 2012 of the C(52, 3) = 22 100 three-card hands total 21, so the theoretical probability is 2012/22 100 = 0.0910. The simulation gave 0.093. Which statement is right?",
+      "options": [
+        "They agree: with 1000 hands the experimental value is typically within about ±0.018 of the theory, and more hands would bring it closer (the Law of Large Numbers)",
+        "The simulation is wrong, because it does not equal 0.0910",
+        "The theory is wrong, because the simulation is what really happened",
+        "Running more hands would make the next hands come out below 0.0910, to balance the excess"
+      ],
+      "correct": [0],
+      "explanation": "2 × √(0.091 × 0.909 / 1000) = 0.018, and the difference is only 0.002. An experiment almost never equals the theory exactly; the Law of Large Numbers says it gets closer as trials grow, by swamping early excesses, not by balancing them."
+    },
+    {
+      "id": "q8",
+      "kind": "choice",
+      "objective": "st.m3.o4",
+      "prompt": "Field data give P = 0.04 that a traffic-signal controller fails in its first year. The city is installing 250 controllers. Which statement is the best plain-language summary for the city's maintenance chief?",
+      "options": [
+        "\"About 4 controllers in 100 fail in their first year, so plan spares and crew time for about 10 of the 250 in the first year; the other 240 or so should run without a failure.\"",
+        "\"Each controller is out of service 4 % of the time.\"",
+        "\"P(failure) = 0.04, so failures are rare and need no planning.\"",
+        "\"Exactly 10 controllers will fail.\""
+      ],
+      "correct": [0],
+      "explanation": "The first names the event and time frame, gives both sides, and scales to the decision: 250 × 0.04 = 10. The second confuses failing in a year with time out of service. The third ignores the consequence and the number installed. The fourth treats an expected count as certain: it will be about 10, not exactly 10."
+    },
+    {
+      "id": "q9",
+      "kind": "choice",
+      "objective": "st.m3.o5",
+      "prompt": "A building has 12 emergency lights, each failing a monthly test with probability 0.03, independently. Which approach finds the probability that **at least one** light fails this month most directly?",
+      "options": [
+        "The complement and the multiplication rule for independent events: 1 − 0.97¹²",
+        "The addition rule: 12 × 0.03",
+        "The multiplication rule alone: 0.03¹²",
+        "Bayes' theorem"
+      ],
+      "correct": [0],
+      "explanation": "\"At least one\" has one simple complement, \"none fail\", whose probability is 0.97¹² by independence; 1 − 0.97¹² = 0.306. 12 × 0.03 = 0.36 adds events that are not mutually exclusive, and 0.03¹² is the chance that all twelve fail."
+    },
+    {
+      "id": "q10",
+      "kind": "match",
+      "objective": "st.m3.o5",
+      "prompt": "Match each question with the rule that answers it.",
+      "pairs": [
+        { "left": "P(a part has a scratch or a dent), given P(scratch), P(dent) and P(both)", "right": "General addition rule" },
+        { "left": "P(two cards dealt are both aces)", "right": "General multiplication rule, with a conditional probability" },
+        { "left": "P(at least one of 8 independent pumps fails)", "right": "Complement rule" },
+        { "left": "P(a weld is cracked, given that the test flagged it)", "right": "Bayes' theorem" }
+      ],
+      "explanation": "\"Or\" with an overlap is the general addition rule. Dealing without replacement changes the second card's chance, so it is P(first ace) × P(second ace | first ace) = 4/52 × 3/51. \"At least one\" is 1 − P(none). Turning P(flag | crack) into P(crack | flag) is Bayes' theorem."
+    }
+  ]
+}

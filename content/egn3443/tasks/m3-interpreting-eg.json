@@ -1,0 +1,15 @@
+{
+  "id": "st.m3.interpreting.eg",
+  "title": "Is a flagged weld cracked?",
+  "analysis": "ProbabilityRules",
+  "intro": "A = a weld is cracked, the prior P(A) = 0.02. B = the ultrasonic test flags the weld. The test flags 90 % of cracked welds, P(B | A) = 0.90, and 5 % of sound ones, P(B | A′) = 0.05. The total probability rule gives P(B) = 0.067, and Bayes' theorem gives P(A | B) = 0.018 / 0.067 = 0.2687: about one flagged weld in four is cracked.",
+  "settings": {
+    "Name": "Weld inspection",
+    "Relationship": "KnownLikelihoods",
+    "ProbabilityA": 0.02,
+    "LikelihoodGivenA": 0.90,
+    "LikelihoodGivenNotA": 0.05,
+    "Items": "NaN",
+    "Chosen": "NaN"
+  }
+}

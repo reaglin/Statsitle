@@ -1,0 +1,16 @@
+{
+  "id": "st.m3.check.twentyone",
+  "title": "Three cards that total 21",
+  "analysis": "Simulation",
+  "intro": "Three cards are dealt from a well-shuffled 52-card deck. Number cards count their face value, jacks, queens and kings 10, and an ace 1 or 11 (11 when that keeps the total at 21 or under). The event is a total of exactly 21. The computer dealt 1000 hands (seed 1).",
+  "settings": {
+    "Name": "Three-card 21",
+    "Experiment": "Cards",
+    "Cards": 3,
+    "CardOutcome": "Total",
+    "EventIs": "EqualTo",
+    "CardTarget": 21,
+    "Trials": 1000,
+    "Seed": 1
+  }
+}

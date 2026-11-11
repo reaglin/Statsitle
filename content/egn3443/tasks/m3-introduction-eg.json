@@ -1,0 +1,15 @@
+{
+  "id": "st.m3.introduction.eg",
+  "title": "A thousand coin flips",
+  "analysis": "Simulation",
+  "intro": "The computer flips one fair coin 1000 times (seed 1) and counts the heads. The theoretical probability of heads is 1/2 = 0.5. Read the experimental probability, 499 heads in 1000 flips = 0.499, and look at the running proportion: it jumps around for the first few flips and settles on 0.5 as the flips pile up. Open it in the Workbench and try 10 trials, then 100 000, or another seed.",
+  "settings": {
+    "Name": "Coin flips",
+    "Experiment": "Coins",
+    "Coins": 1,
+    "EventIs": "EqualTo",
+    "Heads": 1,
+    "Trials": 1000,
+    "Seed": 1
+  }
+}

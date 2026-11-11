@@ -1,0 +1,91 @@
+{
+  "id": "st.m3.interpreting.quiz",
+  "title": "Interpreting probability in context",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "choice",
+      "objective": "st.m3.o4",
+      "prompt": "A pipeline's leak detector sounds its alarm for 98 % of real leaks. Which statement says what that number means?",
+      "options": [
+        "P(alarm | leak) = 0.98: when there is a leak, the alarm sounds 98 times in 100",
+        "P(leak | alarm) = 0.98: when the alarm sounds, there is a leak 98 times in 100",
+        "P(leak) = 0.98",
+        "The alarm is right 98 % of the time"
+      ],
+      "correct": [0],
+      "explanation": "\"For 98 % of real leaks\" fixes the leak and asks about the alarm: P(alarm | leak). What an operator needs after an alarm, P(leak | alarm), is a different number, and needs Bayes' theorem."
+    },
+    {
+      "id": "q2",
+      "kind": "numeric",
+      "objective": "st.m3.o5",
+      "prompt": "In a pipeline section, a leak is present on **5 %** of inspection days. The detector sounds for **98 %** of leaks and gives a false alarm on **3 %** of days with no leak. What is the probability that the alarm sounds on a given day? Give it to three decimals or more.",
+      "answer": 0.0775,
+      "tolerance": 0.001,
+      "explanation": "Total probability: P(alarm) = P(alarm | leak)·P(leak) + P(alarm | no leak)·P(no leak) = 0.98 × 0.05 + 0.03 × 0.95 = 0.049 + 0.0285 = 0.0775."
+    },
+    {
+      "id": "q3",
+      "kind": "numeric",
+      "objective": "st.m3.o5",
+      "prompt": "For the same detector, the alarm sounds. What is the probability that there really is a leak, P(leak | alarm)? Give it to three decimals or more.",
+      "answer": 0.6323,
+      "tolerance": 0.001,
+      "explanation": "Bayes' theorem: P(leak | alarm) = P(alarm | leak)·P(leak) / P(alarm) = 0.049 / 0.0775 = 0.6323. Per 1000 days: 50 with a leak, 49 of them alarmed; 950 without, 28.5 false alarms; 49 of 77.5 alarms are real."
+    },
+    {
+      "id": "q4",
+      "kind": "choice",
+      "objective": "st.m3.o4",
+      "prompt": "Which is the best way to report the result of question 3 to the operations manager?",
+      "options": [
+        "\"About 2 alarms in 3 are real leaks, and 1 in 3 is a false alarm. Every alarm should still be answered, but a quick check before shutting the line would avoid most needless shutdowns.\"",
+        "\"The detector is 98 % accurate, so an alarm almost certainly means a leak.\"",
+        "\"P(leak | alarm) = 0.6323.\"",
+        "\"The detector is wrong a third of the time, so it should be replaced.\""
+      ],
+      "correct": [0],
+      "explanation": "The first turns 0.63 into a frequency, gives both sides, and draws a decision from them. The second confuses P(alarm | leak) with P(leak | alarm). The third is right but leaves the manager to interpret it. The fourth misreads it: the detector misses only 2 % of leaks; the false alarms come from the many leak-free days."
+    },
+    {
+      "id": "q5",
+      "kind": "numeric",
+      "objective": "st.m3.o5",
+      "prompt": "A levee is designed for the \"100-year flood\": a flood that high has a probability of **0.01** in any one year, independently from year to year. What is the probability that at least one such flood happens in the next **30 years**? Give it to three decimals or more.",
+      "answer": 0.2603,
+      "tolerance": 0.001,
+      "explanation": "Use the complement: no such flood in 30 years has probability 0.99³⁰ = 0.7397, so P(at least one) = 1 − 0.7397 = 0.2603. Adding 0.01 thirty times gives 0.30, which counts years with two floods twice."
+    },
+    {
+      "id": "q6",
+      "kind": "choice",
+      "objective": "st.m3.o4",
+      "prompt": "A homeowner says: \"The 100-year flood happened last year, so we're safe for another 99 years.\" What should the engineer say?",
+      "options": [
+        "\"The chance is still 1 in 100 every year, whatever happened last year. Over a 30-year mortgage there is about a 1 in 4 chance of at least one such flood.\"",
+        "\"You are right: it happens only once every 100 years.\"",
+        "\"A second flood is now less likely, because floods even out over time.\"",
+        "\"A second flood is now more likely, because floods come in runs.\""
+      ],
+      "correct": [0],
+      "explanation": "\"100-year\" describes a probability of 0.01 in each year, not a schedule. With independent years, last year changes nothing (expecting it to is the gambler's fallacy), and question 5 gives about 0.26 over 30 years."
+    },
+    {
+      "id": "q7",
+      "kind": "choice",
+      "objective": "st.m3.o4",
+      "prompt": "Design A costs nothing extra and fails in its life with probability 0.02. Design B costs **$6 000** more and fails with probability 0.005. A failure costs **$500 000**. Which conclusion is right?",
+      "options": [
+        "B: its expected cost, $6 000 + 0.005 × $500 000 = $8 500, is less than A's 0.02 × $500 000 = $10 000",
+        "A: it costs $6 000 less, and 0.02 is already a small probability",
+        "B: always choose the lower failure probability, whatever it costs",
+        "They are the same, because both probabilities are small"
+      ],
+      "correct": [0],
+      "explanation": "Multiply each probability by its consequence. A's expected failure cost is $10 000; B's is $2 500 plus the $6 000 it costs, $8 500. B is cheaper on average. The third answer is not a rule: had B cost $10 000 more, A would win."
+    }
+  ]
+}

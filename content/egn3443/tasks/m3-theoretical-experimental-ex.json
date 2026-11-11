@@ -1,0 +1,34 @@
+{
+  "id": "st.m3.theoretical-experimental.ex",
+  "title": "Two dice: a sum of at least 10",
+  "analysis": "Simulation",
+  "intro": "Two fair dice are rolled, and the event is that their sum is **at least 10**.\n\n1. Find the **theoretical probability** by counting outcomes in the 36-cell table of item 3.2. Give it to three decimals or more.\n2. Then go to the **Workbench**, add a **Simulation**, and set: Experiment *Roll dice*, Dice per trial **2**, The event: the outcome *is at least*, Sum of the dice **10**, Number of trials **1000**, Seed **1**. Read how many times the event happened and the experimental probability.\n\nPython or R would draw different random numbers, so use the Workbench with seed 1 for part 2.",
+  "settings": {
+    "Name": "Sum of at least 10",
+    "Experiment": "Dice",
+    "Dice": 2,
+    "EventIs": "AtLeast",
+    "DiceTotal": 10,
+    "Trials": 1000,
+    "Seed": 1
+  },
+  "ask": [
+    { "result": "TheoreticalProbability", "prompt": "Theoretical probability, P(sum ≥ 10)", "tolerance": 0.001 },
+    { "result": "Occurrences", "prompt": "Times the event happened in 1000 rolls (seed 1)" },
+    { "result": "ExperimentalProbability", "prompt": "Experimental probability (seed 1)" }
+  ],
+  "mistakes": {
+    "TheoreticalProbability": [
+      { "value": 0.0833, "says": "That is the probability of a sum of exactly 10. \"At least 10\" also counts the sums 11 and 12." },
+      { "value": 0.2727, "says": "You treated the 11 sums from 2 to 12 as equally likely. They are not: count the 36 equally likely ordered pairs instead." }
+    ],
+    "ExperimentalProbability": [
+      { "result": "TheoreticalProbability", "says": "That is the theoretical probability. The experimental probability is the times the event happened in the simulation ÷ 1000." }
+    ]
+  },
+  "hints": [
+    "In the table of sums, the cells with 10 or more are in the bottom-right corner: count the 10s, the 11s and the 12.",
+    "There are 3 + 2 + 1 = 6 such cells out of 36.",
+    "The experimental probability is the count the Workbench shows ÷ 1000. It will not equal the theory exactly; with 1000 rolls it is usually within about ±0.024 of it."
+  ]
+}

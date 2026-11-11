@@ -1,0 +1,78 @@
+{
+  "id": "st.m3.introduction.quiz",
+  "title": "Introduction to probability",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "multiple",
+      "objective": "st.m3.o2",
+      "prompt": "Which of these numbers could be probabilities? Choose every one that applies.",
+      "options": ["0.35", "1.2", "0", "−0.05", "1", "3/8"],
+      "correct": [0, 2, 4, 5],
+      "explanation": "A probability is between 0 and 1, both ends included. 0 is an impossible event and 1 a certain one; 3/8 = 0.375 is fine as a fraction. 1.2 is more than certain and −0.05 is less than impossible, so neither can be a probability."
+    },
+    {
+      "id": "q2",
+      "kind": "multiple",
+      "objective": "st.m3.o3",
+      "prompt": "Which of these are **experimental** (empirical) probabilities? Choose every one that applies.",
+      "options": [
+        "7 of the 250 chips tested failed the burn-in, so P(fail) ≈ 0.028",
+        "A fair die shows a 6 with probability 1/6",
+        "A level crossing's records show a gate fault on 3 of 365 days",
+        "A deck has 4 aces in 52 cards, so P(ace) = 4/52",
+        "A batter's average: 41 hits in 150 at-bats"
+      ],
+      "correct": [0, 2, 4],
+      "explanation": "The chips, the gate faults and the batting average come from counting what happened in trials: experimental. The die and the deck come from counting equally likely outcomes without doing anything: theoretical."
+    },
+    {
+      "id": "q3",
+      "kind": "numeric",
+      "objective": "st.m3.o3",
+      "prompt": "A lab tested 250 chips and 7 failed the burn-in. What is the experimental probability that a chip fails? Give it to three decimals.",
+      "answer": 0.028,
+      "tolerance": 0.0005,
+      "explanation": "Experimental probability = times the event happened ÷ trials = 7 ÷ 250 = 0.028, or 2.8 %."
+    },
+    {
+      "id": "q4",
+      "kind": "numeric",
+      "objective": "st.m3.o2",
+      "prompt": "A supplier's gaskets are defective with probability 0.04. What is the probability that a gasket is **not** defective? Give it to two decimals.",
+      "answer": 0.96,
+      "tolerance": 0.005,
+      "explanation": "A gasket is either defective or not, and one of the two must happen, so the two probabilities add to 1: P(not defective) = 1 − 0.04 = 0.96. This is the complement rule."
+    },
+    {
+      "id": "q5",
+      "kind": "choice",
+      "objective": "st.m3.o3",
+      "prompt": "A fair coin has landed tails five times in a row. What is the probability that the next flip is heads?",
+      "options": [
+        "0.5: the coin does not remember the earlier flips",
+        "More than 0.5: heads is due, to even things out",
+        "Less than 0.5: the coin is on a run of tails",
+        "It cannot be known"
+      ],
+      "correct": [0],
+      "explanation": "The flips are independent, so the next one is heads with probability 0.5 whatever came before. Expecting heads to be \"due\" is the gambler's fallacy. The Law of Large Numbers does not work by correcting past runs; it works by swamping them with many more flips."
+    },
+    {
+      "id": "q6",
+      "kind": "choice",
+      "objective": "st.m3.o4",
+      "prompt": "A reliability study gives P = 0.02 that a pressure-relief valve sticks during a year of service. Which sentence says this best to a plant manager?",
+      "options": [
+        "\"About 2 valves in every 100 will stick at some time during a year, so with our 150 valves, expect about 3 to stick each year.\"",
+        "\"Each valve sticks 2 % of the time.\"",
+        "\"The valves will stick 0.02 times.\"",
+        "\"Valve sticking is very unlikely, so we can ignore it.\""
+      ],
+      "correct": [0],
+      "explanation": "The first names the event (sticks during a year), turns 0.02 into a rate the manager can picture, and scales it to the plant: 150 × 0.02 = 3. The second confuses the chance of sticking in a year with the share of time stuck. The third is not a sentence about a probability. The fourth ignores the consequence: a relief valve that sticks can be dangerous, and 3 a year is not negligible."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "id": "st.m3.rules.ex",
+  "title": "Damage found in bridge inspections",
+  "analysis": "ProbabilityRules",
+  "intro": "A state's bridge inspections record two kinds of damage. A = the deck shows cracking, found on **20 %** of bridges. B = a bearing shows corrosion, found on **15 %**. Both are found on **6 %** of bridges.\n\nFor a bridge chosen at random, find the probability that it has at least one of the two kinds of damage, the probability of deck cracking given that a bearing is corroded, and the probability of bearing corrosion given that the deck is cracked. Give each to three decimals or more.",
+  "settings": {
+    "Name": "Bridge damage",
+    "Relationship": "KnownIntersection",
+    "ProbabilityA": 0.20,
+    "ProbabilityB": 0.15,
+    "Intersection": 0.06,
+    "Items": "NaN",
+    "Chosen": "NaN"
+  },
+  "ask": [
+    { "result": "Union", "prompt": "P(A ∪ B), at least one kind of damage", "tolerance": 0.001 },
+    { "result": "AGivenB", "prompt": "P(A | B), deck cracking given bearing corrosion", "tolerance": 0.001 },
+    { "result": "BGivenA", "prompt": "P(B | A), bearing corrosion given deck cracking", "tolerance": 0.001 }
+  ],
+  "mistakes": {
+    "Union": [
+      { "value": 0.35, "says": "You added P(A) and P(B). The 6 % of bridges with both kinds of damage are then counted twice: subtract P(A ∩ B) once." },
+      { "value": 0.32, "says": "You assumed the two kinds of damage are independent and used P(A)·P(B) for the overlap. The overlap is given: P(A ∩ B) = 0.06." }
+    ],
+    "AGivenB": [
+      { "result": "BGivenA", "says": "You divided by P(A). Given B means the bridges with corroded bearings are the new sample space: divide P(A ∩ B) by P(B)." },
+      { "result": "IntersectionResult", "says": "That is P(A ∩ B), the share of all bridges with both. Given B, divide it by P(B)." }
+    ],
+    "BGivenA": [
+      { "result": "AGivenB", "says": "You divided by P(B). Given A means the bridges with deck cracking are the new sample space: divide P(A ∩ B) by P(A)." },
+      { "result": "IntersectionResult", "says": "That is P(A ∩ B), the share of all bridges with both. Given A, divide it by P(A)." }
+    ]
+  },
+  "hints": [
+    "Write down what is given: P(A) = 0.20, P(B) = 0.15, P(A ∩ B) = 0.06.",
+    "At least one of the two is A ∪ B: P(A) + P(B) − P(A ∩ B).",
+    "P(A | B) = P(A ∩ B) / P(B) and P(B | A) = P(A ∩ B) / P(A). A two-way table per 100 bridges may help: 6 have both, 14 only cracking, 9 only corrosion."
+  ]
+}

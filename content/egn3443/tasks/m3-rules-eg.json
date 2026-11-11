@@ -1,0 +1,15 @@
+{
+  "id": "st.m3.rules.eg",
+  "title": "Two defects on a machined part",
+  "analysis": "ProbabilityRules",
+  "intro": "A = a part has a surface defect, P(A) = 0.12. B = a part is out of dimensional tolerance, P(B) = 0.08. Both happen on 3 % of parts, P(A ∩ B) = 0.03. Read P(A ∪ B) = 0.17 by the addition rule, the two conditional probabilities P(A | B) = 0.375 and P(B | A) = 0.25, and the independence check: 0.03 is not 0.12 × 0.08 = 0.0096, so the defects are not independent.",
+  "settings": {
+    "Name": "Machined part defects",
+    "Relationship": "KnownIntersection",
+    "ProbabilityA": 0.12,
+    "ProbabilityB": 0.08,
+    "Intersection": 0.03,
+    "Items": "NaN",
+    "Chosen": "NaN"
+  }
+}

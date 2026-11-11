@@ -1,0 +1,15 @@
+{
+  "id": "st.m3.sample-spaces.eg",
+  "title": "Two dice rolled 1000 times",
+  "analysis": "Simulation",
+  "intro": "Two fair dice have 36 equally likely ordered outcomes, and 6 of them sum to 7: (1,6), (2,5), (3,4), (4,3), (5,2), (6,1). So the theoretical probability of a 7 is 6/36 = 0.1667. The computer rolls the pair 1000 times (seed 1) and got a 7 in 168 rolls, an experimental probability of 0.168. The second figure compares every sum from 2 to 12 with its share of the 36 outcomes.",
+  "settings": {
+    "Name": "Two dice",
+    "Experiment": "Dice",
+    "Dice": 2,
+    "EventIs": "EqualTo",
+    "DiceTotal": 7,
+    "Trials": 1000,
+    "Seed": 1
+  }
+}

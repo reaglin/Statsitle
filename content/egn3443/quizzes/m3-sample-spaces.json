@@ -1,0 +1,90 @@
+{
+  "id": "st.m3.sample-spaces.quiz",
+  "title": "Sample spaces and events",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "multiple",
+      "objective": "st.m3.o1",
+      "prompt": "Three parts are inspected in turn, and each passes (P) or fails (F). Which outcomes belong to the event \"**exactly two** parts fail\"? Choose every one.",
+      "options": ["PFF", "FPF", "FFP", "FFF", "PPF", "FPP"],
+      "correct": [0, 1, 2],
+      "explanation": "Exactly two failures and one pass: the pass can be first, second or third, so the event is {PFF, FPF, FFP}. FFF has three failures; PPF and FPP have one."
+    },
+    {
+      "id": "q2",
+      "kind": "numeric",
+      "objective": "st.m3.o1",
+      "prompt": "A control panel has **four** relays, and each is either open or closed. How many outcomes does the sample space of the four relays' positions have?",
+      "answer": 16,
+      "tolerance": 0,
+      "explanation": "Each relay doubles the number of branches in the tree: 2 × 2 × 2 × 2 = 2⁴ = 16 outcomes, from all open to all closed."
+    },
+    {
+      "id": "q3",
+      "kind": "numeric",
+      "objective": "st.m3.o1",
+      "prompt": "Two fair dice are rolled. What is the probability that the sum is **9**? Give it to three decimals or more.",
+      "answer": 0.1111,
+      "tolerance": 0.001,
+      "explanation": "Four of the 36 equally likely ordered pairs sum to 9: (3,6), (4,5), (5,4), (6,3). P = 4/36 = 0.1111."
+    },
+    {
+      "id": "q4",
+      "kind": "choice",
+      "objective": "st.m3.o1",
+      "prompt": "A student writes: \"Two dice can sum to 2, 3, …, 12. That is 11 outcomes, so P(sum = 7) = 1/11.\" What is wrong?",
+      "options": [
+        "The 11 sums are not equally likely; counting must use the 36 equally likely ordered pairs, which gives 6/36",
+        "There are 12 sums, not 11",
+        "Nothing: 1/11 is right",
+        "The dice should be counted as one outcome, so there are 6 outcomes"
+      ],
+      "correct": [0],
+      "explanation": "P(A) = favourable ÷ possible works only when every outcome is equally likely. A sum of 2 needs (1,1), one way, but a 7 can happen six ways. With the 36 ordered pairs, P(7) = 6/36 = 0.1667, not 1/11 = 0.0909."
+    },
+    {
+      "id": "q5",
+      "kind": "choice",
+      "objective": "st.m3.o1",
+      "prompt": "For one roll of a die, which pair of events is **mutually exclusive**?",
+      "options": [
+        "A = \"a 1\" and B = \"an even number\"",
+        "A = \"a 2\" and B = \"an even number\"",
+        "A = \"less than 4\" and B = \"an odd number\"",
+        "A = \"more than 2\" and B = \"less than 5\""
+      ],
+      "correct": [0],
+      "explanation": "Mutually exclusive events share no outcome. {1} and {2, 4, 6} have nothing in common. The others overlap: 2 is in both of the second pair, 1 and 3 in the third, 3 and 4 in the fourth."
+    },
+    {
+      "id": "q6",
+      "kind": "numeric",
+      "objective": "st.m3.o1",
+      "prompt": "A lab will test **4** of the **12** concrete cylinders cast on a pour. How many different groups of 4 can it choose?",
+      "answer": 495,
+      "tolerance": 0,
+      "explanation": "The order of choosing does not matter, so count combinations: C(12, 4) = 12! / (4! × 8!) = (12 × 11 × 10 × 9) / (4 × 3 × 2 × 1) = 11 880 / 24 = 495."
+    },
+    {
+      "id": "q7",
+      "kind": "numeric",
+      "objective": "st.m3.o1",
+      "prompt": "A test rig has three slots, first, second and third, and **3** of **6** sensors are to be placed in them. How many different arrangements are there?",
+      "answer": 120,
+      "tolerance": 0,
+      "explanation": "The slots are in order, so order matters: permutations, 6P3 = 6 × 5 × 4 = 120. Combinations, C(6, 3) = 20, would count only which three sensors are used."
+    },
+    {
+      "id": "q8",
+      "kind": "numeric",
+      "objective": "st.m3.o2",
+      "prompt": "A box of **12** fuses holds **3** blown ones. A technician takes **2** fuses at random. What is the probability that **both are good**? Give it to three decimals or more.",
+      "answer": 0.5455,
+      "tolerance": 0.001,
+      "explanation": "Every pair is equally likely: C(12, 2) = 66 pairs. Pairs of good fuses come from the 9 good ones: C(9, 2) = 36. P = 36/66 = 0.5455."
+    }
+  ]
+}

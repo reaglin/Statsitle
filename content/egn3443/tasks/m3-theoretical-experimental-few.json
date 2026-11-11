@@ -1,0 +1,15 @@
+{
+  "id": "st.m3.theoretical-experimental.few",
+  "title": "Twenty coin flips",
+  "analysis": "Simulation",
+  "intro": "One fair coin flipped only 20 times (seed 1): 13 heads, an experimental probability of 0.65 against the theoretical 0.5. With so few trials, a difference this large is normal.",
+  "settings": {
+    "Name": "Twenty flips",
+    "Experiment": "Coins",
+    "Coins": 1,
+    "EventIs": "EqualTo",
+    "Heads": 1,
+    "Trials": 20,
+    "Seed": 1
+  }
+}

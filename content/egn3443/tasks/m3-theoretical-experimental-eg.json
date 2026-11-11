@@ -1,0 +1,12 @@
+{
+  "id": "st.m3.theoretical-experimental.eg",
+  "title": "Throwing darts to estimate π",
+  "analysis": "Simulation",
+  "intro": "Darts land at random on a square 2 units on a side, with a circle of radius 1 inside it. The theoretical probability of landing inside the circle is its share of the area, π/4 = 0.7854. The computer threw 5000 darts (seed 1) and 3929 landed inside: an experimental probability of 0.7858, and an estimate of π = 4 × 0.7858 = 3.1432.",
+  "settings": {
+    "Name": "Darts",
+    "Experiment": "Darts",
+    "Trials": 5000,
+    "Seed": 1
+  }
+}

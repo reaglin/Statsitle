@@ -4,7 +4,7 @@ number: 4
 title: Discrete Probability Distributions
 status: draft
 minutes: 270
-prerequisites: [st.m2]
+prerequisites: [st.m3]
 outcomes:
   - st.m4.o1: Construct a valid discrete probability distribution by assigning probabilities to all possible outcomes that satisfy both the non-negativity and summation-to-one properties.
   - st.m4.o2: Calculate the expected value and variance of a discrete random variable using its probability mass function.
