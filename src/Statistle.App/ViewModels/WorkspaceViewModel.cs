@@ -750,7 +750,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
     public string Status
     {
         get => _status;
-        private set
+        set
         {
             _status = value;
             Raise(nameof(Status));

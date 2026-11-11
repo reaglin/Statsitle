@@ -62,9 +62,11 @@ public partial class App : Application
             // Nothing to do: the folder and the sample are a convenience, not a requirement.
         }
 
+        global::Learning.Core.LearningApp.Name = "Statistics+";
         var window = new MainWindow();
         MainWindow = window;
         window.Show();
+        window.ShowLearnerScreen();
     }
 
     /// <summary>Writes the sample projects into the folder (overwriting), for <c>samples/</c>.</summary>

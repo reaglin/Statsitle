@@ -80,17 +80,81 @@ public partial class MainWindow
 
 public partial class MainWindow
 {
+    private Statistle.App.Learning.CoursePage? _coursePage;
+    private Statistle.App.Learning.LearnerScreen? _learnerScreen;
+
+    /// <summary>The Course page, when the content could be read.</summary>
+    public Statistle.App.Learning.CoursePage? CoursePage => _coursePage;
+
     private void BuildCoursePane()
     {
-        // Filled in once the learning path view is wired (plan 9.2-9.4).
-        CoursePane.Content = new System.Windows.Controls.TextBlock
+        if (Course is null)
         {
-            Text = CourseProblem ?? $"{Course?.Package.Title}: {Course?.Package.Modules.Count} module(s).",
-            Margin = new Thickness(16), TextWrapping = TextWrapping.Wrap,
-        };
+            CoursePane.Content = new System.Windows.Controls.TextBlock
+            {
+                Text = CourseProblem, Margin = new Thickness(16), TextWrapping = TextWrapping.Wrap,
+            };
+            CourseMode.IsEnabled = false;
+            CourseMode.ToolTip = CourseProblem;
+            return;
+        }
+
+        _coursePage = new Statistle.App.Learning.CoursePage(Course);
+        _coursePage.Status += text => _workspace.Status = text;
+        _coursePage.OpenInWorkbench += OpenTaskInWorkbench;
+        _coursePage.SignInRequested += () => ShowLearnerScreen();
+        CoursePane.Content = _coursePage;
+        Closing += (_, _) => EndSession();
+    }
+
+    /// <summary>
+    /// Covers the window with "Who is learning?" (plan 9.1). Called by the program at start-up and by Sign out; the
+    /// tests never call it, so they never read the real learners' folder.
+    /// </summary>
+    public void ShowLearnerScreen(string? banner = null)
+    {
+        if (_coursePage is null) return;
+        if (_learnerScreen is null)
+        {
+            _learnerScreen = new Statistle.App.Learning.LearnerScreen();
+            _learnerScreen.SignedIn += file =>
+            {
+                EndSession();
+                _coursePage.SignIn(file);
+                LearnerName.Text = file.Data.Profile.DisplayName;
+                SignOutButton.Visibility = Visibility.Visible;
+                LearnerOverlay.Visibility = Visibility.Collapsed;
+                ShowCourse();
+                _workspace.Status = $"Welcome, {file.Data.Profile.DisplayName}. Your progress is saved as you go.";
+            };
+            _learnerScreen.WorkbenchOnly += () =>
+            {
+                LearnerOverlay.Visibility = Visibility.Collapsed;
+                ShowWorkbench();
+                _workspace.Status = "The Workbench, without signing in. The Course is still there to read (Ctrl+L), but progress is kept only when you sign in.";
+            };
+            _learnerScreen.Done += text => _workspace.Status = text;
+            LearnerOverlay.Content = _learnerScreen;
+        }
+
+        _learnerScreen.Show(banner);
+        LearnerOverlay.Visibility = Visibility.Visible;
+    }
+
+    /// <summary>Saves the signed-in learner's progress and closes their file.</summary>
+    private void EndSession()
+    {
+        if (_coursePage?.Session is not { } session) return;
+        _coursePage.Save();
+        _coursePage.SignIn(null);
+        session.Dispose();
+        LearnerName.Text = "";
+        SignOutButton.Visibility = Visibility.Collapsed;
     }
 
     private void SignOut_Click(object sender, RoutedEventArgs e)
     {
+        EndSession();
+        ShowLearnerScreen("Signed out. Your progress is saved.");
     }
 }
