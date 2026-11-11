@@ -14,11 +14,11 @@
   <Identity
     Name="RonEaglin.Statistle"
     Publisher="CN=Statistle Development"
-    Version="1.1.0.0"
+    Version="2.0.0.0"
     ProcessorArchitecture="x64" />
 
   <Properties>
-    <DisplayName>Statistle</DisplayName>
+    <DisplayName>Statistics+</DisplayName>
     <!-- Must match the Partner Center account's publisher display name character for character
          or certification fails. Ron's Microsoft Store account publishes as "Dean Eaglin". -->
     <PublisherDisplayName>Dean Eaglin</PublisherDisplayName>
@@ -36,7 +36,7 @@
   <Applications>
     <Application Id="Statistle" Executable="Statistle.App.exe" EntryPoint="Windows.FullTrustApplication">
       <uap:VisualElements
-        DisplayName="Statistle"
+        DisplayName="Statistics+"
         Description="Statistics for engineers"
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
@@ -54,7 +54,7 @@
              App.OnStartup captures it. -->
         <uap3:Extension Category="windows.fileTypeAssociation">
           <uap3:FileTypeAssociation Name="statistle">
-            <uap:DisplayName>Statistle project</uap:DisplayName>
+            <uap:DisplayName>Statistics+ project</uap:DisplayName>
             <uap:Logo>Assets\StatistleFile.png</uap:Logo>
             <uap:SupportedFileTypes>
               <uap:FileType>.statistle</uap:FileType>

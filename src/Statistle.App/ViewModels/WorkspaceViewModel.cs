@@ -367,7 +367,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
     /// <summary>Heading of the help panel: the field's label, or the item's.</summary>
     public string HelpTitle =>
         FocusedRow is not null ? FocusedRow.HelpTitle
-        : Selected is null ? "Statistle"
+        : Selected is null ? "Statistics+"
         : SelectedHeading;
 
     /// <summary>
@@ -410,7 +410,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
 
     /// <summary>What the help panel says with nothing selected — a first-time user's way in (UX review 2026-10-31).</summary>
     public const string EmptyStateHelp =
-        "New here? Open the sample project (File ▸ Open the sample project) to see Statistle with data already in it. " +
+        "New here? Open the sample project (File ▸ Open the sample project) to see Statistics+ with data already in it. " +
         "Or click + Data table to enter your own numbers, then pick an analysis on the left. " +
         "This panel describes whichever field you click into; with no field selected it describes the item as a whole.";
 
@@ -681,7 +681,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
                 ? "Untitled"
                 : Path.GetFileName(Document.FilePath);
 
-            return $"Statistle — {file}{(IsDirty ? " *" : string.Empty)}";
+            return $"Statistics+ — {file}{(IsDirty ? " *" : string.Empty)}";
         }
     }
 
@@ -732,9 +732,9 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         {
             Status = $"Could not open {Path.GetFileName(path)}: {reason}";
             _dialogs.ShowError(
-                "Statistle — Could not open the project",
-                $"Statistle could not open {Path.GetFileName(path)}: {reason}\n\n" +
-                "The project you had open is still open. Check that the file is a Statistle project (.statistle) " +
+                "Statistics+ — Could not open the project",
+                $"Statistics+ could not open {Path.GetFileName(path)}: {reason}\n\n" +
+                "The project you had open is still open. Check that the file is a Statistics+ project (.statistle) " +
                 "and that it is not open in another program, then try again.");
             return false;
         }
@@ -942,8 +942,8 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         catch (Exception ex) when (ex is IOException or InvalidDataException or FormatException)
         {
             Status = "Could not undo.";
-            _dialogs.ShowError("Statistle — Could not undo",
-                "Statistle could not put back the last change; the project is as it was before you pressed Undo.\n\n" +
+            _dialogs.ShowError("Statistics+ — Could not undo",
+                "Statistics+ could not put back the last change; the project is as it was before you pressed Undo.\n\n" +
                 $"Details for support: {ex.Message}");
         }
         finally
@@ -1053,8 +1053,8 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         string what = original is null ? "an untitled project" : Path.GetFileName(original);
 
         if (!_dialogs.Confirm(
-                "Statistle — Restore unsaved work?",
-                $"Statistle closed with unsaved work in {what}. Restore it?\n\n" +
+                "Statistics+ — Restore unsaved work?",
+                $"Statistics+ closed with unsaved work in {what}. Restore it?\n\n" +
                 "Yes opens it so you can carry on and save it. No throws it away."))
         {
             DeleteAutosave();
@@ -1064,9 +1064,9 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         if (TryRead(recovery, out StatistleDocument? restored, out string reason) is false)
         {
             if (_dialogs.Confirm(
-                    "Statistle — Unsaved work could not be read",
+                    "Statistics+ — Unsaved work could not be read",
                     "The unsaved work from last time could not be read; the recovery copy is damaged.\n\n" +
-                    $"Delete the damaged recovery copy? (No keeps it, and Statistle asks again next time.)\n\nDetails for support: {reason}"))
+                    $"Delete the damaged recovery copy? (No keeps it, and Statistics+ asks again next time.)\n\nDetails for support: {reason}"))
             {
                 DeleteAutosave();
             }
@@ -1159,8 +1159,8 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
             _dialogs.ShowError(
-                "Statistle — Could not open the sample project",
-                "Statistle could not put the sample project in Documents\\Statistle. Check that Documents is not full " +
+                "Statistics+ — Could not open the sample project",
+                "Statistics+ could not put the sample project in Documents\\Statistle. Check that Documents is not full " +
                 $"or read-only, then try again.\n\nDetails for support: {ex.Message}");
             return;
         }
@@ -1207,8 +1207,8 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         {
             Status = $"Could not save: {ex.Message}";
             _dialogs.ShowError(
-                "Statistle — Could not save",
-                $"Statistle could not save to {Path.GetFileName(path)}: {ex.Message}\n\n" +
+                "Statistics+ — Could not save",
+                $"Statistics+ could not save to {Path.GetFileName(path)}: {ex.Message}\n\n" +
                 "Try Save As… to a folder in Documents.");
             return false;
         }
@@ -1238,7 +1238,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         }
 
         if (!_dialogs.Confirm(
-                "Statistle — Delete data table",
+                "Statistics+ — Delete data table",
                 $"Delete the data table '{table.Name}'?\n\n" +
                 "Analyses that read from it keep the values they last copied. Edit ▸ Undo (Ctrl+Z) brings it back."))
         {
@@ -1282,8 +1282,8 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
             Status = "Could not export.";
-            _dialogs.ShowError("Statistle — Could not export",
-                $"Statistle could not write {Path.GetFileName(dialog.FileName)}: {ex.Message}\n\n" +
+            _dialogs.ShowError("Statistics+ — Could not export",
+                $"Statistics+ could not write {Path.GetFileName(dialog.FileName)}: {ex.Message}\n\n" +
                 "Choose a folder in Documents and try again.");
         }
     }
@@ -1401,8 +1401,8 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
     {
         Status = $"Could not write {what}: {ex.Message}";
         _dialogs.ShowError(
-            "Statistle — Could not export",
-            $"Statistle could not write {what} {Path.GetFileName(path)}.\n\n" +
+            "Statistics+ — Could not export",
+            $"Statistics+ could not write {what} {Path.GetFileName(path)}.\n\n" +
             "If a file of that name is open in another program (a PDF viewer, Excel), close it there. " +
             "Otherwise choose a folder in Documents, then try again.\n\n" +
             $"Details for support: {ex.Message}");

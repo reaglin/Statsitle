@@ -222,7 +222,7 @@ public class PersistenceTests : IDisposable
         var thrown = Assert.Throws<UnsupportedSchemaVersionException>(() => StatistleDocument.Open(file));
 
         Assert.Equal(StatistleDocument.CurrentSchemaVersion + 5, thrown.FoundVersion);
-        Assert.Contains("newer version of Statistle", thrown.Message, StringComparison.Ordinal);
+        Assert.Contains("newer version of Statistics+", thrown.Message, StringComparison.Ordinal);
     }
 
     [Fact]
@@ -236,7 +236,7 @@ public class PersistenceTests : IDisposable
         }
 
         var thrown = Assert.Throws<InvalidDataException>(() => StatistleDocument.Open(file));
-        Assert.Contains("not a Statistle project", thrown.Message, StringComparison.Ordinal);
+        Assert.Contains("not a Statistics+ project", thrown.Message, StringComparison.Ordinal);
     }
 
     [Fact]

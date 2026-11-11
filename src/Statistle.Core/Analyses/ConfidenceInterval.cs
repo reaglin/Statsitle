@@ -947,7 +947,7 @@ public sealed class SummaryEntered : CalculationMethod<ConfidenceInterval>
 
     public override string Description => "The sample statistics are typed into the analysis.";
 
-    public override string Citation => "Statistle entry.";
+    public override string Citation => "Statistics+ entry.";
 
     public override bool IsApplicableTo(ConfidenceInterval subject) => subject is not null && subject.Source == DataSource.Summary;
 
@@ -967,7 +967,7 @@ public sealed class OneColumnSource : CalculationMethod<ConfidenceInterval>
 
     public override string Description => "x̄, s and n (or the successes and n) are computed from the chosen column.";
 
-    public override string Citation => "Statistle project data.";
+    public override string Citation => "Statistics+ project data.";
 
     public override bool IsApplicableTo(ConfidenceInterval subject) => subject is not null && subject.Source == DataSource.Columns && !subject.TwoSample;
 
@@ -987,7 +987,7 @@ public sealed class TwoColumnSource : CalculationMethod<ConfidenceInterval>
 
     public override string Description => "Both samples' summaries (or the paired differences') are computed from the chosen columns.";
 
-    public override string Citation => "Statistle project data.";
+    public override string Citation => "Statistics+ project data.";
 
     public override bool IsApplicableTo(ConfidenceInterval subject) => subject is not null && subject.Source == DataSource.Columns && subject.TwoSample;
 

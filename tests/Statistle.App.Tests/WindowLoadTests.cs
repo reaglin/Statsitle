@@ -26,7 +26,7 @@ public class WindowLoadTests
             // the test host rather than the program.
             var table = new Core.Persistence.ImportedTable("Sheet1", [["x", "name"], ["1", "a"], ["2", "b"]]);
             var import = new Views.ImportDialog([table], Views.ImportDialog.ImportKind.Table, "Data", "file.csv", 2);
-            Assert.Equal("Statistle — Import data", import.Title);
+            Assert.Equal("Statistics+ — Import data", import.Title);
             Assert.Equal([0], Views.ImportDialog.NumericColumns(table));
             Assert.IsType<DockPanel>(main.Content);
             main.Close();

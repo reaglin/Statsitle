@@ -260,7 +260,7 @@ public sealed class WorkspaceSafetyTests : IDisposable
         row.Text = "12,5x";
 
         Assert.False(row.IsValid);
-        Assert.Equal($"'12,5x' is not a number, so Statistle is still using {before}. Correct it or press Esc.", row.RejectionMessage);
+        Assert.Equal($"'12,5x' is not a number, so Statistics+ is still using {before}. Correct it or press Esc.", row.RejectionMessage);
         Assert.StartsWith(row.RejectionMessage, row.HelpText, StringComparison.Ordinal);
 
         row.CancelEntry();

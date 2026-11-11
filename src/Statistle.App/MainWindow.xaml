@@ -440,9 +440,9 @@
                 <MenuItem Header="_New project" Command="{Binding NewCommand}" InputGestureText="Ctrl+N"
                           ToolTip="Starts an empty project. If the open one has unsaved changes, you are asked to save them first." />
                 <MenuItem Header="_Open…" Command="{Binding OpenCommand}" InputGestureText="Ctrl+O"
-                          ToolTip="Opens a Statistle project (.statistle) from your computer; Documents\Statistle is where they are kept" />
+                          ToolTip="Opens a Statistics+ project (.statistle) from your computer; Documents\Statistle is where they are kept" />
                 <MenuItem Header="Open the sa_mple project" Command="{Binding OpenSampleCommand}"
-                          ToolTip="Opens the demonstration project — data tables from the course, ready for every analysis — to see how Statistle works" />
+                          ToolTip="Opens the demonstration project — data tables from the course, ready for every analysis — to see how Statistics+ works" />
                 <Separator />
                 <MenuItem Header="_Save" Command="{Binding SaveCommand}" InputGestureText="Ctrl+S"
                           ToolTip="Saves the project to its file (asks where the first time)" />
@@ -464,7 +464,7 @@
                           ToolTipService.ShowOnDisabled="True" />
                 <Separator />
                 <MenuItem Header="E_xit" Click="Exit_Click"
-                          ToolTip="Closes Statistle. If the project has unsaved changes, you are asked to save them first." />
+                          ToolTip="Closes Statistics+. If the project has unsaved changes, you are asked to save them first." />
             </MenuItem>
             <MenuItem Header="_Edit">
                 <MenuItem Header="_Undo" Command="{Binding UndoCommand}" InputGestureText="Ctrl+Z"
@@ -483,18 +483,18 @@
                 <MenuItem Header="_Help for this screen" Command="ApplicationCommands.Help" InputGestureText="F1"
                           ToolTip="Shows the Instructions tab for what is selected: what it is for, the steps, and every entry and result explained" />
                 <MenuItem Header="Help on the _web (softwareplus.ai/statistle)" Click="WebHelp_Click"
-                          ToolTip="Opens Statistle's help on SoftwarePlus.ai in your web browser" />
+                          ToolTip="Opens Statistics+'s help on SoftwarePlus.ai in your web browser" />
                 <Separator />
-                <MenuItem Header="Check for a _new version…" Click="CheckForUpdate_Click" ToolTip="Asks the Microsoft Store whether a newer version of Statistle is out, and offers to install it" />
-                <MenuItem Header="_About Statistle…" Click="About_Click"
-                          ToolTip="Who made Statistle, its version, and links to its page, its Store page, all programs and the privacy policy" />
+                <MenuItem Header="Check for a _new version…" Click="CheckForUpdate_Click" ToolTip="Asks the Microsoft Store whether a newer version of Statistics+ is out, and offers to install it" />
+                <MenuItem Header="_About Statistics+…" Click="About_Click"
+                          ToolTip="Who made Statistics+, its version, and links to its page, its Store page, all programs and the privacy policy" />
             </MenuItem>
         </Menu>
 
         <Border DockPanel.Dock="Bottom"
                 BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0" Padding="14,6">
             <TextBlock Text="{Binding Status}" Foreground="{StaticResource MutedTextBrush}" FontSize="11"
-                       ToolTip="What Statistle did last" AutomationProperties.Name="Status" />
+                       ToolTip="What Statistics+ did last" AutomationProperties.Name="Status" />
         </Border>
 
         <Grid>
@@ -507,7 +507,7 @@
             <!-- The rail. Everything below the project button is discovered. -->
             <Border Grid.Column="0" Background="{StaticResource RailBrush}" Width="164">
                 <StackPanel Margin="0,16,0,0">
-                    <TextBlock Text="Statistle" Foreground="White" FontSize="20"
+                    <TextBlock Text="Statistics+" Foreground="White" FontSize="20"
                                FontWeight="SemiBold" Margin="16,0,0,4" />
                     <TextBlock Text="Statistics for engineers"
                                Foreground="{StaticResource RailTextBrush}" FontSize="10"
@@ -604,7 +604,7 @@
                                     Visibility="{Binding IsEmptyState, Converter={StaticResource BoolToVisibility}}">
                                 <StackPanel>
                                     <TextBlock TextWrapping="Wrap" Foreground="#33506B"
-                                               Text="Statistle computes the statistics of your course, explains every input and result, and writes the Python and R that give the same numbers. New here? Open the sample project to see it with data already in it. Or click + Data table to enter your own numbers, then pick an analysis on the left." />
+                                               Text="Statistics+ computes the statistics of your course, explains every input and result, and writes the Python and R that give the same numbers. New here? Open the sample project to see it with data already in it. Or click + Data table to enter your own numbers, then pick an analysis on the left." />
                                     <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
                                         <Button Content="Open the sample project" Command="{Binding OpenSampleCommand}"
                                                 ToolTip="Opens the demonstration project — data tables from the course, ready for every analysis"
@@ -814,15 +814,15 @@
                                     Background="#E4E8ED" Cursor="Hand" />
                             <Button DockPanel.Dock="Right" Content="Open in browser"
                                     Command="{Binding OpenInstructionsCommand}"
-                                    ToolTip="Opens these instructions in your web browser, to print or read beside Statistle"
+                                    ToolTip="Opens these instructions in your web browser, to print or read beside Statistics+"
                                     Padding="8,3" BorderThickness="0"
                                     Background="#E4E8ED" Cursor="Hand" />
                             <StackPanel VerticalAlignment="Center" Margin="0,0,10,0">
-                                <TextBlock Text="How and when to use the selected item: the statistic, the steps in Statistle, how to read the results, what to watch for, a worked example, and every entry, result and method with its source. With nothing selected, how Statistle as a whole is used. F1 opens this tab from anywhere."
+                                <TextBlock Text="How and when to use the selected item: the statistic, the steps in Statistics+, how to read the results, what to watch for, a worked example, and every entry, result and method with its source. With nothing selected, how Statistics+ as a whole is used. F1 opens this tab from anywhere."
                                            Foreground="{StaticResource MutedTextBrush}" FontSize="11" TextWrapping="Wrap" />
                                 <TextBlock FontSize="11" Margin="0,3,0,0">
                                     <Hyperlink Click="WebHelpForItem_Click"
-                                               ToolTip="Opens the page of Statistle's help on SoftwarePlus.ai about the selected item, in your web browser">
+                                               ToolTip="Opens the page of Statistics+'s help on SoftwarePlus.ai about the selected item, in your web browser">
                                         <Run Text="{Binding WebHelpText, Mode=OneWay}" />
                                     </Hyperlink>
                                 </TextBlock>

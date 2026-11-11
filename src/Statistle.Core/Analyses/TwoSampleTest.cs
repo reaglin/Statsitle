@@ -1238,7 +1238,7 @@ public sealed class TwoSampleSummaryEntered : CalculationMethod<TwoSampleTest>
 
     public override string Description => "The sample statistics are typed into the analysis.";
 
-    public override string Citation => "Statistle entry.";
+    public override string Citation => "Statistics+ entry.";
 
     public override bool IsApplicableTo(TwoSampleTest subject) => subject is not null && subject.Source == DataSource.Summary;
 

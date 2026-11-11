@@ -70,7 +70,7 @@ public static class InstructionsBuilder
 
         blocks.Add(new Heading("When to use it"));
         blocks.Add(new Paragraph(guide.WhenToUse));
-        blocks.Add(new Heading("How to use it in Statistle"));
+        blocks.Add(new Heading("How to use it in Statistics+"));
         blocks.Add(new Steps(guide.Steps));
         blocks.Add(new Heading("Reading the results"));
         blocks.Add(new Paragraph(guide.ReadingResults));
@@ -153,7 +153,7 @@ public static class InstructionsBuilder
             new Paragraph(guide.Code),
         ];
 
-        return new InstructionSet { Title = "Statistle", Subtitle = "Statistics for engineers — how to use it", Blocks = blocks };
+        return new InstructionSet { Title = "Statistics+", Subtitle = "Statistics for engineers — how to use it", Blocks = blocks };
     }
 
     /// <summary>

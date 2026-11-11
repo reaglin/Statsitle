@@ -1,11 +1,11 @@
 <Window x:Class="Statistle.App.Views.AboutWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Statistle — About" Width="620" SizeToContent="Height"
+        Title="Statistics+ — About" Width="620" SizeToContent="Height"
         ResizeMode="NoResize" WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
         Background="#F5F7FA">
     <DockPanel Margin="14">
-        <TextBlock DockPanel.Dock="Top" Text="About Statistle" FontSize="15" FontWeight="SemiBold" Margin="0,0,0,2" />
+        <TextBlock DockPanel.Dock="Top" Text="About Statistics+" FontSize="15" FontWeight="SemiBold" Margin="0,0,0,2" />
         <TextBlock DockPanel.Dock="Top" x:Name="VersionText" Foreground="#6B7680" FontSize="11" Margin="0,0,0,10"
                    AutomationProperties.Name="Version" />
 
@@ -31,7 +31,7 @@
                         <TextBlock Text="Created by Dr. Ron Eaglin" FontSize="15" FontWeight="SemiBold" Margin="0,0,0,4"
                                    AutomationProperties.Name="Created by Dr. Ron Eaglin" />
                         <TextBlock TextWrapping="Wrap" Foreground="#6B7680"
-                                   Text="Engineer and teacher. Statistle follows his course EGN3443, Probability and Statistics for Engineers." />
+                                   Text="Engineer and teacher. Statistics+ follows his course EGN3443, Probability and Statistics for Engineers." />
                     </StackPanel>
                 </DockPanel>
             </Border>
@@ -39,24 +39,24 @@
             <!-- Links (portfolio rules, 2026-09-30 and 2026-10-30): the program's page, its Store page, all the programs. -->
             <StackPanel Margin="2,0,0,10">
                 <TextBlock TextWrapping="Wrap" Margin="0,0,0,4">
-                    <Run Text="More about Statistle, with help and examples:" />
+                    <Run Text="More about Statistics+, with help and examples:" />
                     <Hyperlink NavigateUri="https://softwareplus.ai/statistle/" RequestNavigate="Link_RequestNavigate"
-                               ToolTip="Opens the Statistle page on SoftwarePlus.ai in your web browser">softwareplus.ai/statistle</Hyperlink>
+                               ToolTip="Opens the Statistics+ page on SoftwarePlus.ai in your web browser">softwareplus.ai/statistle</Hyperlink>
                 </TextBlock>
                 <TextBlock TextWrapping="Wrap" Margin="0,0,0,4">
-                    <Run Text="Statistle on the Microsoft Store (updates, ratings and reviews):" />
-                    <Hyperlink AutomationProperties.Name="Statistle on the Microsoft Store" NavigateUri="https://apps.microsoft.com/detail/9MV608S7M9X6" RequestNavigate="Link_RequestNavigate"
-                               ToolTip="Opens Statistle's Microsoft Store page in your web browser">apps.microsoft.com/detail/9MV608S7M9X6</Hyperlink>
+                    <Run Text="Statistics+ on the Microsoft Store (updates, ratings and reviews):" />
+                    <Hyperlink AutomationProperties.Name="Statistics+ on the Microsoft Store" NavigateUri="https://apps.microsoft.com/detail/9MV608S7M9X6" RequestNavigate="Link_RequestNavigate"
+                               ToolTip="Opens Statistics+'s Microsoft Store page in your web browser">apps.microsoft.com/detail/9MV608S7M9X6</Hyperlink>
                 </TextBlock>
                 <TextBlock TextWrapping="Wrap" Margin="0,0,0,4">
                     <Run Text="Help, page by page:" />
-                    <Hyperlink AutomationProperties.Name="Statistle help on softwareplus.ai" NavigateUri="https://softwareplus.ai/statistle/help/" RequestNavigate="Link_RequestNavigate"
-                               ToolTip="Opens Statistle's help on SoftwarePlus.ai in your web browser">softwareplus.ai/statistle/help</Hyperlink>
+                    <Hyperlink AutomationProperties.Name="Statistics+ help on softwareplus.ai" NavigateUri="https://softwareplus.ai/statistle/help/" RequestNavigate="Link_RequestNavigate"
+                               ToolTip="Opens Statistics+'s help on SoftwarePlus.ai in your web browser">softwareplus.ai/statistle/help</Hyperlink>
                 </TextBlock>
                 <TextBlock TextWrapping="Wrap" Margin="0,0,0,4">
                     <Run Text="Privacy policy:" />
-                    <Hyperlink AutomationProperties.Name="Statistle privacy policy" NavigateUri="https://softwareplus.ai/statistle/privacy/" RequestNavigate="Link_RequestNavigate"
-                               ToolTip="Opens Statistle's privacy policy on SoftwarePlus.ai in your web browser">softwareplus.ai/statistle/privacy</Hyperlink>
+                    <Hyperlink AutomationProperties.Name="Statistics+ privacy policy" NavigateUri="https://softwareplus.ai/statistle/privacy/" RequestNavigate="Link_RequestNavigate"
+                               ToolTip="Opens Statistics+'s privacy policy on SoftwarePlus.ai in your web browser">softwareplus.ai/statistle/privacy</Hyperlink>
                 </TextBlock>
                 <TextBlock TextWrapping="Wrap">
                     <Run Text="All of Dr. Ron Eaglin's programs:" />
@@ -68,9 +68,9 @@
             <Border BorderBrush="#D5DBE1" BorderThickness="1" Background="White" Padding="12">
                 <StackPanel>
                     <TextBlock TextWrapping="Wrap" Margin="0,0,0,8"
-                               Text="Statistle is free statistics software for students. Enter your data in a table, choose an analysis from the list on the left, and it computes the result." />
+                               Text="Statistics+ is free software for learning statistics. The Course follows EGN3443 topic by topic: each topic has a lesson (Learn), a worked example, an exercise it checks, and a reference page, and your progress is kept." />
                     <TextBlock TextWrapping="Wrap" Margin="0,0,0,8"
-                               Text="Every input and every number it reports is explained in the help panel, and the Instructions tab has a full page on each analysis." />
+                               Text="The Workbench is the calculator: enter your own data in a table, choose an analysis, and read the results. Every input and every number is explained in the help panel, and the Instructions tab has a full page on each analysis." />
                     <TextBlock TextWrapping="Wrap"
                                Text="The Code tab writes the Python and R that reproduce the same analysis, so you can check the work, not just copy the answer." />
                 </StackPanel>

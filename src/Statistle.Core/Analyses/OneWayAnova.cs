@@ -740,7 +740,7 @@ public sealed class GroupsFromColumns : CalculationMethod<OneWayAnova>
 
     public override string Description => "Each chosen column is one group; the columns may differ in length.";
 
-    public override string Citation => "Statistle project data.";
+    public override string Citation => "Statistics+ project data.";
 
     public override bool IsApplicableTo(OneWayAnova subject) => subject is not null && subject.Layout == GroupLayout.ColumnsAreGroups;
 
@@ -758,7 +758,7 @@ public sealed class GroupsFromFactor : CalculationMethod<OneWayAnova>
 
     public override string Description => "Each distinct value of the factor column is a level; the response column's rows are split by it.";
 
-    public override string Citation => "Statistle project data.";
+    public override string Citation => "Statistics+ project data.";
 
     public override bool IsApplicableTo(OneWayAnova subject) => subject is not null && subject.Layout == GroupLayout.FactorAndResponse;
 

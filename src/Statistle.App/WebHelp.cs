@@ -44,11 +44,11 @@ public static class WebHelp
 
             if (owner is not null)
             {
-                MessageBox.Show(owner, message, "Statistle — Help on the web", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(owner, message, "Statistics+ — Help on the web", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
-                MessageBox.Show(message, "Statistle — Help on the web", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(message, "Statistics+ — Help on the web", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
     }

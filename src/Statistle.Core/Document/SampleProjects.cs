@@ -43,7 +43,7 @@ public static class SampleProjects
         {
             Name = "Demonstration statistics project",
             Description =
-                "Four data tables and five analyses, to show what a Statistle project holds. " +
+                "Four data tables and five analyses, to show what a Statistics+ project holds. " +
                 "Tensile strength: ten specimens of each of three aluminium alloys. Solar panel: " +
                 "the measured efficiency of a photovoltaic panel at ten cell temperatures. Housing: twenty houses for multiple regression. Battery life: a balanced two-factor experiment.",
         };

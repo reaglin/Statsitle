@@ -318,10 +318,10 @@ public partial class MainWindow : Window
                                        or UnauthorizedAccessException or System.Xml.XmlException)
         {
             MessageBox.Show(this,
-                $"Statistle could not read {System.IO.Path.GetFileName(open.FileName)}: {ex.Message}\n\n" +
+                $"Statistics+ could not read {System.IO.Path.GetFileName(open.FileName)}: {ex.Message}\n\n" +
                 "Check that it is a text, CSV, .xd2 or Excel .xlsx file and that it is not open in another program, then try again. " +
                 "Nothing was changed.",
-                "Statistle — Could not read the file", MessageBoxButton.OK, MessageBoxImage.Warning);
+                "Statistics+ — Could not read the file", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
 
@@ -330,7 +330,7 @@ public partial class MainWindow : Window
         if (tables.Count == 0)
         {
             MessageBox.Show(this, $"{fileName} holds no data to import. Nothing was changed.",
-                "Statistle — Nothing to import", MessageBoxButton.OK, MessageBoxImage.Information);
+                "Statistics+ — Nothing to import", MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }
 

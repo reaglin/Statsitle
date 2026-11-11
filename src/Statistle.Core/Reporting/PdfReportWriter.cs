@@ -29,7 +29,7 @@ public static class PdfReportWriter
 
         using var document = new PdfDocument();
         document.Info.Title = report.Title;
-        document.Info.Creator = "Statistle";
+        document.Info.Creator = "Statistics+";
 
         var fonts = new Fonts();
         PdfPage page = NewPage(document);

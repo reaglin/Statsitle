@@ -677,7 +677,7 @@ public sealed class SimpleRegressionSource : CalculationMethod<SimpleRegression>
 
     public override string Description => "The (x, y) pairs are copied from the chosen columns, paired row by row.";
 
-    public override string Citation => "Statistle project data.";
+    public override string Citation => "Statistics+ project data.";
 
     public override IReadOnlyList<string> Inputs => [];
 

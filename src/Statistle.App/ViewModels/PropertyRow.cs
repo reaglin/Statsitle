@@ -432,8 +432,8 @@ public sealed class PropertyRow : INotifyPropertyChanged
             {
                 VariableRole.Input => "A given value: measured, mapped or taken from a reference.",
                 VariableRole.Design => "A design choice: yours to set and vary.",
-                VariableRole.Calculated => "Computed by Statistle; shown, not entered.",
-                VariableRole.Output => "A result computed by Statistle.",
+                VariableRole.Calculated => "Computed by Statistics+; shown, not entered.",
+                VariableRole.Output => "A result computed by Statistics+.",
                 _ => string.Empty,
             });
 
@@ -592,7 +592,7 @@ public sealed class PropertyRow : INotifyPropertyChanged
                 {
                     if (!EnumLabel.TryParse(type, value, out object? entered))
                     {
-                        Reject($"'{value}' is not one of the choices, so Statistle is still using {ShownValue}. Pick one from the list.");
+                        Reject($"'{value}' is not one of the choices, so Statistics+ is still using {ShownValue}. Pick one from the list.");
                         return;
                     }
 
@@ -602,7 +602,7 @@ public sealed class PropertyRow : INotifyPropertyChanged
                 {
                     if (!bool.TryParse(value, out bool entered))
                     {
-                        Reject($"'{value}' is not True or False, so Statistle is still using {ShownValue}. Correct it or press Esc.");
+                        Reject($"'{value}' is not True or False, so Statistics+ is still using {ShownValue}. Correct it or press Esc.");
                         return;
                     }
 
@@ -627,7 +627,7 @@ public sealed class PropertyRow : INotifyPropertyChanged
             catch (Exception ex) when (ex is FormatException or OverflowException or ArgumentException)
             {
                 // A half-typed value is not an error; the row simply keeps what it had.
-                Reject($"'{value}' could not be used here (it may be too large or in the wrong form), so Statistle is still using {ShownValue}. Correct it or press Esc.");
+                Reject($"'{value}' could not be used here (it may be too large or in the wrong form), so Statistics+ is still using {ShownValue}. Correct it or press Esc.");
             }
         }
     }
@@ -738,7 +738,7 @@ public sealed class PropertyRow : INotifyPropertyChanged
     private string ShownValue => Text is { Length: > 0 } shown ? shown : "no value (the box was blank)";
 
     private string NotANumber(string? typed, string what) =>
-        $"'{typed}' is not {what}, so Statistle is still using {ShownValue}. Correct it or press Esc.";
+        $"'{typed}' is not {what}, so Statistics+ is still using {ShownValue}. Correct it or press Esc.";
 
     /// <summary>Keeps the stored value, flags the box, and says why, so the typo is visible rather than silent.</summary>
     private void Reject(string message)

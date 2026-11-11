@@ -10,8 +10,8 @@ namespace Statistle.Core.Document;
 
 /// <summary>A file written by a newer Statistle than this one.</summary>
 public sealed class UnsupportedSchemaVersionException(int found, int supported)
-    : Exception($"This project was written by a newer version of Statistle (file schema {found}, " +
-                $"this build reads up to {supported}). Update Statistle to open it.")
+    : Exception($"This project was written by a newer version of Statistics+ (file schema {found}, " +
+                $"this build reads up to {supported}). Update Statistics+ to open it.")
 {
     public int FoundVersion { get; } = found;
 
@@ -290,7 +290,7 @@ public sealed class StatistleDocument : StatistleObject
 
         ZipArchiveEntry projectEntry = archive.GetEntry(ProjectPart)
             ?? throw new InvalidDataException(
-                $"'{Path.GetFileName(path)}' is not a Statistle project: {ProjectPart} is missing.");
+                $"'{Path.GetFileName(path)}' is not a Statistics+ project: {ProjectPart} is missing.");
 
         XElement project = ReadEntry(projectEntry);
 

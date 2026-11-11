@@ -784,7 +784,7 @@ public sealed class OneSampleSummaryEntered : CalculationMethod<OneSampleTest>
 
     public override string Description => "The sample statistics are typed into the analysis.";
 
-    public override string Citation => "Statistle entry.";
+    public override string Citation => "Statistics+ entry.";
 
     public override bool IsApplicableTo(OneSampleTest subject) => subject is not null && subject.Source == DataSource.Summary;
 
@@ -804,7 +804,7 @@ public sealed class OneSampleColumnSource : CalculationMethod<OneSampleTest>
 
     public override string Description => "x̄, s and n (or the successes and n) are computed from the chosen column.";
 
-    public override string Citation => "Statistle project data.";
+    public override string Citation => "Statistics+ project data.";
 
     public override bool IsApplicableTo(OneSampleTest subject) => subject is not null && subject.Source == DataSource.Columns;
 

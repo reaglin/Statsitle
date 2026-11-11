@@ -542,7 +542,7 @@ public sealed class DescriptiveStatisticsSourceMethod : CalculationMethod<Descri
 
     public override string Description => "The sample is copied from the chosen data table column.";
 
-    public override string Citation => "Statistle project data.";
+    public override string Citation => "Statistics+ project data.";
 
     public override IReadOnlyList<string> Inputs => [];
 

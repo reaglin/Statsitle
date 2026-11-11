@@ -13,7 +13,7 @@ namespace Statistle.App;
 /// </summary>
 public static class StoreUpdates
 {
-    public const string ProgramName = "Statistle";
+    public const string ProgramName = "Statistics+";
     public const string StorePage = "https://apps.microsoft.com/detail/9MV608S7M9X6";
 
     /// <summary>The version running now, as people read it (1.0.0) — the same text Help ▸ About shows.</summary>

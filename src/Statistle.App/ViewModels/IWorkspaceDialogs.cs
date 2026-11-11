@@ -42,14 +42,14 @@ public interface IWorkspaceDialogs
 /// <summary>The real dialogs: Windows message boxes and file pickers over the main window.</summary>
 public sealed class WpfWorkspaceDialogs : IWorkspaceDialogs
 {
-    private const string Filter = "Statistle project (*.statistle)|*.statistle|All files (*.*)|*.*";
+    private const string Filter = "Statistics+ project (*.statistle)|*.statistle|All files (*.*)|*.*";
 
     /// <summary>"Statistle — {subject}" for every box (USABILITY-CHECKLIST 6.6).</summary>
     private static string Titled(string title) =>
-        title.StartsWith("Statistle", StringComparison.Ordinal) ? title : "Statistle — " + title;
+        title.StartsWith("Statistics+", StringComparison.Ordinal) ? title : "Statistics+ — " + title;
 
     /// <summary>The unsaved-work question's title, worded like every other box (UX review 2026-10-31).</summary>
-    public const string SaveQuestionTitle = "Statistle — Save changes?";
+    public const string SaveQuestionTitle = "Statistics+ — Save changes?";
 
     private static Window? Owner => Application.Current?.MainWindow is { IsLoaded: true } window ? window : null;
 
