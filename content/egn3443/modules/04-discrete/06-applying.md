@@ -11,7 +11,7 @@ reference: [which-distribution, binomial-distribution, poisson-distribution]
 
 # Applying discrete distributions
 
-A real problem does not say "use the binomial". You read the situation, decide what X counts, check the conditions, and pick the model. Then you calculate, and then you say what the number means for the decision at hand. This item adds four more models to the binomial and Poisson, so you can recognize all six. The course's *Distribution Detective* game uses the same six.
+A real problem does not say "use the binomial". You read the situation, decide what X counts, check the conditions, and pick the model. Then you calculate, and then you say what the number means for the decision at hand. This item adds four more models to the binomial and Poisson, so you can recognize all six. The course's *Distribution Detective* game, in Module 4 on the course website (reaglin.github.io/EGN3443), uses the same six.
 
 ## Six models and how to tell them apart
 

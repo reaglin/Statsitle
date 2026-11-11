@@ -2,7 +2,7 @@
   "id": "st.m3.theoretical-experimental.ex",
   "title": "Two dice: a sum of at least 10",
   "analysis": "Simulation",
-  "intro": "Two fair dice are rolled, and the event is that their sum is **at least 10**.\n\n1. Find the **theoretical probability** by counting outcomes in the 36-cell table of item 3.2. Give it to three decimals or more.\n2. Then go to the **Workbench**, add a **Simulation**, and set: Experiment *Roll dice*, Dice per trial **2**, The event: the outcome *is at least*, Sum of the dice **10**, Number of trials **1000**, Seed **1**. Read how many times the event happened and the experimental probability.\n\nPython or R would draw different random numbers, so use the Workbench with seed 1 for part 2.",
+  "intro": "Two fair dice are rolled, and the event is that their sum is **at least 10**.\n\n1. Find the **theoretical probability** by counting outcomes in the 36-cell table of item 3.2. Give it to three decimals or more.\n2. When part 1 is done by hand, press **Workbench** at the top (Ctrl+B) and choose **Simulation** in the list of analyses on the left. On its Properties tab set: Experiment *Roll dice*, Number of trials **1000**, Seed **1**, Dice per trial **2**, The event: the outcome *is at least*, Sum of the dice **10**. Read **Times the event happened** and **Experimental probability** (type them as the Workbench shows them). Press **Course** (Ctrl+L) to come back here; what you typed is kept.\n\nPython or R would draw different random numbers, so use the Workbench with seed 1 for part 2.",
   "settings": {
     "Name": "Sum of at least 10",
     "Experiment": "Dice",

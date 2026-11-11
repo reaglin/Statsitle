@@ -98,15 +98,15 @@
       "id": "q10",
       "kind": "choice",
       "objective": "st.m4.o5",
-      "prompt": "An acceptance plan takes 8 parts from a lot of 40 and accepts the lot if none is defective. For a lot with 4 defective parts, P(accept) = 0.39. Which statement is the best conclusion for the quality manager?",
+      "prompt": "An acceptance plan takes 10 parts from a lot of 50 and accepts the lot if none is defective. For a lot with 5 defective parts, P(accept) = 0.31. Which statement is the best conclusion for the quality manager?",
       "options": [
-        "\"Lots that are 10 % defective would be accepted about 4 times in 10. The plan does not protect us well enough; we should inspect more parts per lot.\"",
-        "\"The plan works, because it rejects bad lots most of the time.\"",
-        "\"P(X = 0) = 0.3935 for Hypergeometric(40, 4, 8).\"",
-        "\"39 % of the parts we accept are defective.\""
+        "\"Lots that are 10 % defective would be accepted about 3 times in 10. The plan does not protect us well enough; we should inspect more parts per lot.\"",
+        "\"The plan works: it rejects almost every lot that is 10 % defective, so we can keep inspecting 10 parts per lot.\"",
+        "\"P(X = 0) = 0.3106 for Hypergeometric(50, 5, 10).\"",
+        "\"31 % of the parts in the lots we accept are defective, so we should inspect more parts per lot.\""
       ],
       "correct": [0],
-      "explanation": "The first statement puts the probability in the manager's terms and draws the conclusion it supports. The second is wrong: the plan rejects such lots only 61 % of the time. The third is correct but says nothing about the decision. The fourth confuses the chance of accepting a lot with the share of defective parts."
+      "explanation": "The first statement puts the probability in the manager's terms and draws the conclusion it supports. The second is wrong: the plan rejects such lots only 69 % of the time, letting about 3 in 10 through. The third is correct but says nothing about the decision. The fourth confuses the chance of accepting a lot with the share of defective parts."
     }
   ]
 }

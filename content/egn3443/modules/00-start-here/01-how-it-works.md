@@ -49,7 +49,7 @@ The Example uses a dataset like the Exercise's, never the same one. It shows the
 
 An exercise is one of two kinds.
 
-1. **A dataset to work.** Calculate the results asked for: by hand, in Python or R, or in the Workbench. Type each one in its box and press **Check my answers**. An answer is accepted when it is within about 0.5 % of the program's (counts must be exact), so round sensibly: 49.61, not 50. A wrong answer says whether it is too high or too low, never what the answer is. **Show a hint** gives one hint at a time.
+1. **A dataset to work.** Calculate the results asked for: by hand, in Python or R, or in the Workbench. Type each one in its box and press **Check my answers**. Give the decimals the exercise asks for; when it does not say, two decimals are usually enough, and counts must be exact. A wrong answer says whether it is too high or too low, or names the common mistake it matches, never what the answer is. **Show a hint** gives one hint at a time.
 2. **Questions.** Choose an answer, type a number or a word, and check. The questions on an item's Exercise tab are practice: after a wrong try they show the right answer and why. A **module check** at the end of each module does not; you need 80 % to pass it, and you can try again.
 
 An item is **complete** when you pass its exercise or its questions. An item with neither, a reading, is complete when you press **I have read this**.

@@ -2,7 +2,7 @@
   "id": "st.m1.quality.ex",
   "title": "Tablet coating thickness",
   "analysis": "DescriptiveStatistics",
-  "intro": "A quality engineer measured the coating thickness of thirteen tablets from one batch, in micrometers (µm). Find the first and third quartiles and Tukey's fences, and decide whether any tablet is an outlier.",
+  "intro": "A quality engineer measured the coating thickness of thirteen tablets from one batch, in micrometers (µm). Find the first and third quartiles and Tukey's fences, and decide whether any tablet is an outlier. Give each to one decimal or more.",
   "settings": {
     "Name": "Coating thickness",
     "Sample": [52, 48, 55, 50, 58, 49, 53, 51, 47, 54, 50, 52, 74]

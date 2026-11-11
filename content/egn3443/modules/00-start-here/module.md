@@ -26,4 +26,4 @@ This short module is the course's Week 1. It has three items:
 
 The three outcomes above are this program's version of the course's Week 1 outcomes, which are about finding your way around the course website.
 
-Press **Start with 0.1 How Statistics+ works** above to begin. Inside an item, **Next ▸** (top right) goes on to the next one.
+Press the button above (**Start with 0.1 How Statistics+ works**) to begin. Inside an item, **Next ▸** (top right) goes on to the next one.

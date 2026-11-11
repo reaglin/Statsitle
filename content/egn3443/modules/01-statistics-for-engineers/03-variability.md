@@ -17,7 +17,7 @@ Item 1.2 described data with numbers. This item draws them. A picture of the dat
 
 A **frequency distribution** (or frequency table) groups the data into classes of equal width and counts the values in each.
 
-1. **Choose the number of classes, k.** Too few hide the shape; too many show noise. The program uses **Sturges' rule**, k = ⌈log₂ n + 1⌉, unless you set k yourself: 5 classes for 10 values, 6 for 20, 7 for 50, 8 for 100.
+1. **Choose the number of classes, k.** Too few hide the shape; too many show noise. The program uses **Sturges' rule**, k = ⌈log₂ n + 1⌉, unless you set k yourself: 5 classes for 10 values, 6 for 20, 7 for 50, 8 for 100. (⌈ ⌉ means round up to the next whole number. A calculator has no log₂ key: log₂ n = ln n ÷ ln 2.)
 2. **Find the class width.** Width = range / k, rounded up to a convenient number.
 3. **Count.** Each class includes its lower limit and not its upper one, so a value on a boundary goes in the higher class. (The last class also includes its upper limit, so the maximum is counted.)
 4. **Add the relative frequency** (count / n) and the **cumulative frequency** (the running total), if they help the reader.

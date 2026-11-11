@@ -43,12 +43,12 @@
       "prompt": "Which is the best way to report the result of question 3 to the operations manager?",
       "options": [
         "\"About 2 alarms in 3 are real leaks, and 1 in 3 is a false alarm. Every alarm should still be answered, but a quick check before shutting the line would avoid most needless shutdowns.\"",
-        "\"The detector is 98 % accurate, so an alarm almost certainly means a leak.\"",
+        "\"The detector is 98 % accurate, so an alarm almost certainly means a real leak. Every alarm should be treated as a leak, and the line shut down at once to be safe.\"",
         "\"P(leak | alarm) = 0.6323.\"",
-        "\"The detector is wrong a third of the time, so it should be replaced.\""
+        "\"About 1 alarm in 3 is false, so the detector is wrong a third of the time. It should be replaced with a better one before it causes more needless shutdowns.\""
       ],
       "correct": [0],
-      "explanation": "The first turns 0.63 into a frequency, gives both sides, and draws a decision from them. The second confuses P(alarm | leak) with P(leak | alarm). The third is right but leaves the manager to interpret it. The fourth misreads it: the detector misses only 2 % of leaks; the false alarms come from the many leak-free days."
+      "explanation": "The first turns 0.63 into a frequency, gives both sides, and draws a decision from them. The second confuses P(alarm | leak) with P(leak | alarm). The third is right but leaves the manager to interpret it. The fourth misreads it: 1 alarm in 3 is false, but the detector misses only 2 % of leaks; the false alarms come from the many leak-free days."
     },
     {
       "id": "q5",
@@ -66,9 +66,9 @@
       "prompt": "A homeowner says: \"The 100-year flood happened last year, so we're safe for another 99 years.\" What should the engineer say?",
       "options": [
         "\"The chance is still 1 in 100 every year, whatever happened last year. Over a 30-year mortgage there is about a 1 in 4 chance of at least one such flood.\"",
-        "\"You are right: it happens only once every 100 years.\"",
-        "\"A second flood is now less likely, because floods even out over time.\"",
-        "\"A second flood is now more likely, because floods come in runs.\""
+        "\"You are right in a way: a 100-year flood comes about once a century, so the next one is most likely decades away, near the end of those 99 years.\"",
+        "\"A second flood is now less likely, because floods even out over time. Over a 30-year mortgage the chance is well under 1 in 100.\"",
+        "\"A second flood is now more likely, because floods come in runs. Over a 30-year mortgage the chance is about 1 in 2.\""
       ],
       "correct": [0],
       "explanation": "\"100-year\" describes a probability of 0.01 in each year, not a schedule. With independent years, last year changes nothing (expecting it to is the gambler's fallacy), and question 5 gives about 0.26 over 30 years."
@@ -77,15 +77,15 @@
       "id": "q7",
       "kind": "choice",
       "objective": "st.m3.o4",
-      "prompt": "Design A costs nothing extra and fails in its life with probability 0.02. Design B costs **$6 000** more and fails with probability 0.005. A failure costs **$500 000**. Which conclusion is right?",
+      "prompt": "A pump station can use seal design A, which costs nothing extra and fails in its life with probability **0.03**, or seal design B, which costs **$4 000** more and fails with probability **0.01**. A seal failure costs **$300 000**. Which conclusion is right?",
       "options": [
-        "B: its expected cost, $6 000 + 0.005 × $500 000 = $8 500, is less than A's 0.02 × $500 000 = $10 000",
-        "A: it costs $6 000 less, and 0.02 is already a small probability",
+        "B: its expected cost, $4 000 + 0.01 × $300 000 = $7 000, is less than A's 0.03 × $300 000 = $9 000",
+        "A: its expected cost is lower, because it saves the $4 000 and 0.03 is already a small probability",
         "B: always choose the lower failure probability, whatever it costs",
         "They are the same, because both probabilities are small"
       ],
       "correct": [0],
-      "explanation": "Multiply each probability by its consequence. A's expected failure cost is $10 000; B's is $2 500 plus the $6 000 it costs, $8 500. B is cheaper on average. The third answer is not a rule: had B cost $10 000 more, A would win."
+      "explanation": "Multiply each probability by its consequence. A's expected failure cost is 0.03 × $300 000 = $9 000; B's is 0.01 × $300 000 = $3 000 plus the $4 000 it costs, $7 000. B is cheaper on average. The second answer leaves out A's failure cost. The third is not a rule: had B cost $7 000 more, its expected cost would be $10 000 and A would win."
     }
   ]
 }

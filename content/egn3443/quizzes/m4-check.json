@@ -114,9 +114,9 @@
       "prompt": "Each tray holds 30 machined housings, and each housing is out of tolerance with probability 0.03, independently. A customer rejects a tray with more than 2 out-of-tolerance housings, and the calculation gives P(X > 2) = 0.0601. The contract requires at least 95 % of trays to be accepted. What should the engineer report?",
       "options": [
         "\"About 94 % of trays would be accepted, just short of the 95 % required. The out-of-tolerance rate must come down to meet the contract.\"",
-        "\"The contract is met, because only 6 % of housings are out of tolerance.\"",
-        "\"The contract is met, because the expected number out of tolerance per tray, 0.9, is below 2.\"",
-        "\"P(X > 2) = 0.0601.\""
+        "\"The contract is met: only about 6 % of the housings are out of tolerance, so about 94 % of each tray is good.\"",
+        "\"The contract is met: the expected number out of tolerance per tray, 0.9, is below the limit of 2, so a typical tray passes.\"",
+        "\"P(X > 2) = 0.0601 for Binomial(30, 0.03), so P(X ≤ 2) = 0.9399 for each tray.\""
       ],
       "correct": [0],
       "explanation": "P(accept) = 1 − 0.0601 = 0.9399, below the required 0.95, so the contract is not met at a 3 % rate. The second confuses the chance of rejecting a tray with the share of bad housings, which is 3 %. The third uses the mean, np = 30 × 0.03 = 0.9, where the question is about a tail probability. The fourth is correct but draws no conclusion."

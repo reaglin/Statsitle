@@ -32,10 +32,10 @@
       "id": "q3",
       "kind": "numeric",
       "objective": "st.m3.o3",
-      "prompt": "A lab tested 250 chips and 7 failed the burn-in. What is the experimental probability that a chip fails? Give it to three decimals.",
-      "answer": 0.028,
+      "prompt": "A second lab tested 400 chips of a new design, and 11 failed the burn-in. What is the experimental probability that one of these chips fails? Give it to four decimals.",
+      "answer": 0.0275,
       "tolerance": 0.0005,
-      "explanation": "Experimental probability = times the event happened ÷ trials = 7 ÷ 250 = 0.028, or 2.8 %."
+      "explanation": "Experimental probability = times the event happened ÷ trials = 11 ÷ 400 = 0.0275, or 2.75 %."
     },
     {
       "id": "q4",

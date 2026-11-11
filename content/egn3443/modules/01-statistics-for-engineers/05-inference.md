@@ -25,7 +25,7 @@ A **confidence interval** gives a range of plausible values for the parameter:
 
 estimate ± critical value × standard error
 
-For a mean, the standard error is s / √n, the typical size of the difference between x̄ and μ. The critical value comes from the t distribution: for 95 % confidence and n − 1 = 15 degrees of freedom it is 2.131.
+For a mean, the standard error is s / √n, the typical size of the difference between x̄ and μ. The critical value comes from the t distribution (Module 7), using n − 1 = 15 "degrees of freedom", a number that depends on the sample size: for 95 % confidence it is 2.131.
 
 **Worked case.** Standard error = 0.008 / √16 = 0.008 / 4 = 0.002 mm. Margin of error = 2.131 × 0.002 = 0.0043 mm. The 95 % confidence interval is 25.004 ± 0.0043, from **24.9997 to 25.0083 mm**.
 

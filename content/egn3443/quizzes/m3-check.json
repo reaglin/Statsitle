@@ -58,10 +58,10 @@
       "id": "q6",
       "kind": "numeric",
       "objective": "st.m3.o3",
-      "prompt": "The course's three-card 21: three cards are dealt from a full deck (J, Q, K count 10; an ace 1 or 11), and the event is a total of exactly 21. The program dealt 1000 hands and got 21 in **93** of them. Its running proportion is below.\n[[figure: st.m3.check.twentyone 1]]\nWhat is the experimental probability of 21? Give it to three decimals.",
-      "answer": 0.093,
+      "prompt": "The course's three-card 21: three cards are dealt from a full deck (J, Q, K count 10; an ace 1 or 11), and the event is a total of exactly 21. The program dealt 1000 hands and got 21 in **93** of them, an experimental probability of 0.093. Its running proportion is below.\n[[figure: st.m3.check.twentyone 1]]\nCounting every hand gives the theoretical probability, 0.0910. With n trials, an experimental proportion is typically within ±2√(p(1 − p)/n) of the theoretical p. How wide is that band for these 1000 hands: ± what? Give it to three decimals or more.",
+      "answer": 0.0182,
       "tolerance": 0.0005,
-      "explanation": "Experimental probability = times the event happened ÷ trials = 93 ÷ 1000 = 0.093."
+      "explanation": "2 × √(0.091 × 0.909 / 1000) = 2 × 0.0091 = 0.018. The band is 0.091 ± 0.018, from 0.073 to 0.109, and the simulation's 0.093 is well inside it. The running proportion wanders widely over the first hands and settles as the hands add up."
     },
     {
       "id": "q7",
@@ -69,13 +69,13 @@
       "objective": "st.m3.o3",
       "prompt": "Counting every possible hand, 2012 of the C(52, 3) = 22 100 three-card hands total 21, so the theoretical probability is 2012/22 100 = 0.0910. The simulation gave 0.093. Which statement is right?",
       "options": [
-        "They agree: with 1000 hands the experimental value is typically within about ±0.018 of the theory, and more hands would bring it closer (the Law of Large Numbers)",
-        "The simulation is wrong, because it does not equal 0.0910",
-        "The theory is wrong, because the simulation is what really happened",
-        "Running more hands would make the next hands come out below 0.0910, to balance the excess"
+        "They agree: the difference, 0.002, is well inside the band of question 6, and more hands would bring the two closer (the Law of Large Numbers)",
+        "The simulation is wrong: a fair simulation of 1000 hands should match the theory, 0.0910, to the third decimal",
+        "The theory is wrong: the simulation is what really happened, so 0.093 should replace the counted 0.0910",
+        "They agree for now, but running more hands would make the next ones come out below 0.0910, to balance the excess"
       ],
       "correct": [0],
-      "explanation": "2 × √(0.091 × 0.909 / 1000) = 0.018, and the difference is only 0.002. An experiment almost never equals the theory exactly; the Law of Large Numbers says it gets closer as trials grow, by swamping early excesses, not by balancing them."
+      "explanation": "The band of question 6 is ±0.018, and the difference is only 0.093 − 0.091 = 0.002. An experiment almost never equals the theory exactly; the Law of Large Numbers says it gets closer as trials grow, by swamping early excesses, not by balancing them."
     },
     {
       "id": "q8",
@@ -84,9 +84,9 @@
       "prompt": "Field data give P = 0.04 that a traffic-signal controller fails in its first year. The city is installing 250 controllers. Which statement is the best plain-language summary for the city's maintenance chief?",
       "options": [
         "\"About 4 controllers in 100 fail in their first year, so plan spares and crew time for about 10 of the 250 in the first year; the other 240 or so should run without a failure.\"",
-        "\"Each controller is out of service 4 % of the time.\"",
-        "\"P(failure) = 0.04, so failures are rare and need no planning.\"",
-        "\"Exactly 10 controllers will fail.\""
+        "\"Each controller is out of service 4 % of the time, so plan for about 10 of the 250 to be down on any given day.\"",
+        "\"P(failure) = 0.04 is a small probability, so failures will be rare, and no spares or crew time need to be planned.\"",
+        "\"Exactly 10 of the 250 controllers will fail in their first year, so order exactly 10 spares and plan crew time for 10.\""
       ],
       "correct": [0],
       "explanation": "The first names the event and time frame, gives both sides, and scales to the decision: 250 × 0.04 = 10. The second confuses failing in a year with time out of service. The third ignores the consequence and the number installed. The fourth treats an expected count as certain: it will be about 10, not exactly 10."

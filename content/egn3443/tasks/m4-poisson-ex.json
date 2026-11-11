@@ -14,6 +14,19 @@
     { "result": "AtLeast", "prompt": "P(X ≥ 2)", "tolerance": 0.001 },
     { "result": "StandardDeviation", "prompt": "Standard deviation, σ (calls)" }
   ],
+  "mistakes": {
+    "Exactly": [
+      { "value": 0.0758, "says": "You used λ = 0.5, the rate per hour. The shift is 8 hours long: scale the rate to the shift first, λ = 0.5 × 8." }
+    ],
+    "AtLeast": [
+      { "result": "MoreThan", "says": "That is P(X > 2), \"more than 2\". \"At least 2\" includes 2: 1 − P(X = 0) − P(X = 1)." },
+      { "value": 0.0902, "says": "You used λ = 0.5, the rate per hour. Scale the rate to the 8-hour shift first." }
+    ],
+    "StandardDeviation": [
+      { "result": "Variance", "says": "That is the variance, λ. The standard deviation is its square root." },
+      { "value": 0.7071, "says": "You used λ = 0.5, the rate per hour. Scale the rate to the 8-hour shift first, then take the square root." }
+    ]
+  },
   "hints": [
     "Scale the rate to the shift first: λ = 0.5 calls per hour × 8 hours.",
     "P(X = 2) = e^(−λ) λ² / 2!. For \"at least 2\", use the complement: 1 − P(X = 0) − P(X = 1).",

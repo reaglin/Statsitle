@@ -68,7 +68,7 @@ The computer threw 5000 darts (the figure shows the first 2000). The running pro
 
 [[results: st.m3.theoretical-experimental.eg]]
 
-3929 of the 5000 darts landed inside: 0.7858, and 4 × 0.7858 = 3.1432 for π. This is the **Monte Carlo method**: when a probability is hard to calculate, simulate the experiment many times and count. Engineers use it for reliability, traffic, structural loads, and anything whose theory is too hard to work out by hand. The course's dart game, *The Oche*, plays the same idea.
+3929 of the 5000 darts landed inside: 0.7858, and 4 × 0.7858 = 3.1432 for π. This is the **Monte Carlo method**: when a probability is hard to calculate, simulate the experiment many times and count. Engineers use it for reliability, traffic, structural loads, and anything whose theory is too hard to work out by hand. The course's dart game, *The Oche*, in Module 3 on the course website (reaglin.github.io/EGN3443), plays the same idea.
 
 ## In Python and R
 

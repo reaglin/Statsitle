@@ -16,6 +16,17 @@
     { "result": "Mean", "prompt": "Mean, μ (sensors)" },
     { "result": "StandardDeviation", "prompt": "Standard deviation, σ (sensors)" }
   ],
+  "mistakes": {
+    "Exactly": [
+      { "value": 0.002165, "says": "You left out C(15, 2) = 105, the number of ways to choose which 2 of the 15 sensors fail. Multiply by it." }
+    ],
+    "MoreThan": [
+      { "result": "AtLeast", "says": "That is P(X ≥ 2), \"at least 2\". \"More than 2\" starts at 3: 1 − [P(0) + P(1) + P(2)]." }
+    ],
+    "StandardDeviation": [
+      { "result": "Variance", "says": "That is the variance, np(1 − p). The standard deviation is its square root." }
+    ]
+  },
   "hints": [
     "Check BINS: two outcomes, independent sensors, n = 15 fixed, the same p = 0.08 for each. So X ~ Binomial(15, 0.08).",
     "P(X = 2) = C(15, 2) × 0.08² × 0.92¹³, and C(15, 2) = 105.",

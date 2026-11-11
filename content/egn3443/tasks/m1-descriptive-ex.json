@@ -2,7 +2,7 @@
   "id": "st.m1.descriptive.ex",
   "title": "Spot-weld shear strengths",
   "analysis": "DescriptiveStatistics",
-  "intro": "Twelve spot welds joining two steel sheets were pulled apart, and the load that broke each weld was recorded in kilonewtons (kN). One weld was much stronger than the rest. Calculate the mean, the median, the sample standard deviation and the interquartile range.",
+  "intro": "Twelve spot welds joining two steel sheets were pulled apart, and the load that broke each weld was recorded in kilonewtons (kN). One weld was much stronger than the rest. Calculate the mean, the median, the sample standard deviation and the interquartile range. Give each to two decimals or more.",
   "settings": {
     "Name": "Weld shear strength",
     "Sample": [8.4, 9.1, 8.8, 9.6, 8.2, 9.0, 8.7, 9.3, 8.9, 10.9, 8.6, 9.2]
@@ -13,6 +13,11 @@
     { "result": "StandardDeviation", "prompt": "Sample standard deviation, s (kN)" },
     { "result": "InterquartileRange", "prompt": "Interquartile range, IQR = Q3 − Q1 (kN)" }
   ],
+  "mistakes": {
+    "StandardDeviation": [
+      { "result": "PopulationStandardDeviation", "says": "You divided by n. numpy's np.std does that unless you write ddof=1; R's sd divides by n − 1." }
+    ]
+  },
   "hints": [
     "The mean is the sum of the twelve values divided by 12. The median is the average of the 6th and 7th sorted values.",
     "For s, square each value's distance from the mean, add the squares, divide by n − 1 = 11, and take the square root.",

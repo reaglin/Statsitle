@@ -2,7 +2,7 @@
   "id": "st.m4.expected-value.ex",
   "title": "Machine breakdowns per week",
   "analysis": "DiscreteDistribution",
-  "intro": "A plant's maintenance records give the distribution of X, the number of machine breakdowns in a week, from 0 to 4. The data below list each value x with its probability P(x). Calculate the expected number of breakdowns per week, the variance and the standard deviation, to at least two decimals.",
+  "intro": "A plant's maintenance records give the distribution of X, the number of machine breakdowns in a week, from 0 to 4. The data below list each value x with its probability P(x). Calculate the expected number of breakdowns per week, the variance and the standard deviation. Give each to two decimals or more.",
   "settings": {
     "Name": "Breakdowns per week",
     "Family": "Table",
@@ -14,6 +14,17 @@
     { "result": "Variance", "prompt": "Variance, σ² (breakdowns²)" },
     { "result": "StandardDeviation", "prompt": "Standard deviation, σ (breakdowns)" }
   ],
+  "mistakes": {
+    "Mean": [
+      { "value": 2.0, "says": "That is the plain average of the five x values. Weight each x by its probability: μ = Σ x·P(x)." }
+    ],
+    "Variance": [
+      { "value": 1.6, "says": "You subtracted μ from E[X²]. Subtract μ², the square of the mean: σ² = E[X²] − μ²." }
+    ],
+    "StandardDeviation": [
+      { "result": "Variance", "says": "That is the variance. The standard deviation is its square root." }
+    ]
+  },
   "hints": [
     "μ = Σ x·P(x): multiply each x by its probability and add the five products.",
     "Find E[X²] = Σ x²·P(x) the same way, then σ² = E[X²] − μ². Square the mean before you subtract.",
