@@ -1,0 +1,15 @@
+{
+  "id": "st.m5.calculating.eg",
+  "title": "The gap between two panels",
+  "analysis": "ContinuousDistribution",
+  "intro": "On an assembly line, the gap between two body panels is normal with mean μ = 2.0 mm and standard deviation σ = 0.25 mm. The specification is 1.8 to 2.2 mm. The density at 1.8 mm is 1.16 per mm, more than 1, because σ is small; it is a height, not a probability. The shaded area, the share of gaps in specification, is Φ(0.8) − Φ(−0.8) = 0.5763.",
+  "settings": {
+    "Name": "Panel gap",
+    "Family": "Normal",
+    "Mu": 2.0,
+    "Sigma": 0.25,
+    "X": 1.8,
+    "X2": 2.2,
+    "Probability": 0.95
+  }
+}

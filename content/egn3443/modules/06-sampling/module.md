@@ -4,7 +4,7 @@ number: 6
 title: Sampling Distributions
 status: draft
 minutes: 240
-prerequisites: [st.m4]
+prerequisites: [st.m5]
 outcomes:
   - st.m6.o1: Distinguish between population parameters and sample statistics in the context of a given data analysis scenario.
   - st.m6.o2: Calculate the mean and standard error of a sampling distribution of the sample mean using the Central Limit Theorem formulas.

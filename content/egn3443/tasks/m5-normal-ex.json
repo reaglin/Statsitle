@@ -1,0 +1,41 @@
+{
+  "id": "st.m5.normal.ex",
+  "title": "Strength of welded joints",
+  "analysis": "ContinuousDistribution",
+  "intro": "The tensile strength X of a welded joint is normal with mean **420 MPa** and variance **225 MPa²**: X ~ N(420, 225).\n\nFind the z-score of **400 MPa**, the probability that a joint is **weaker than 400 MPa**, the probability that its strength is **between 400 and 440 MPa**, and the strength that **99 % of joints exceed** (the 1st percentile). Give z and the probabilities to three decimals or more, and the strength to one decimal.",
+  "settings": {
+    "Name": "Weld strength",
+    "Family": "Normal",
+    "Mu": 420,
+    "Sigma": 15,
+    "X": 400,
+    "X2": 440,
+    "Probability": 0.01
+  },
+  "ask": [
+    { "result": "ZScore", "prompt": "z-score of 400 MPa", "tolerance": 0.001 },
+    { "result": "AtMost", "prompt": "P(X < 400)", "tolerance": 0.001 },
+    { "result": "Between", "prompt": "P(400 ≤ X ≤ 440)", "tolerance": 0.001 },
+    { "result": "Quantile", "prompt": "Strength exceeded by 99 % of joints (MPa)", "tolerance": 0.1 }
+  ],
+  "mistakes": {
+    "ZScore": [
+      { "value": -0.088889, "says": "You divided by 225, the variance. z divides by the standard deviation, σ = √225." }
+    ],
+    "AtMost": [
+      { "value": 0.464585, "says": "You used 225 as σ. N(420, 225) gives the variance; the standard deviation is √225." },
+      { "result": "MoreThan", "says": "That is the area to the right of 400, P(X > 400). \"Weaker than 400\" is the area to the left: Φ(z)." }
+    ],
+    "Between": [
+      { "value": 0.070829, "says": "You used 225 as σ. N(420, 225) gives the variance; the standard deviation is √225." }
+    ],
+    "Quantile": [
+      { "value": 454.9, "says": "That is the 99th percentile, the strength 99 % of joints are below. You need the strength 99 % are above: the 1st percentile, μ − 2.326σ." }
+    ]
+  },
+  "hints": [
+    "N(μ, σ²) gives the variance. σ = √225 = 15 MPa.",
+    "z = (x − μ)/σ. P(X < 400) = Φ(z), from a table, stats.norm.cdf or pnorm.",
+    "Between is Φ(z₂) − Φ(z₁). The 1st percentile is μ + z·σ with Φ(z) = 0.01, so z = −2.326."
+  ]
+}

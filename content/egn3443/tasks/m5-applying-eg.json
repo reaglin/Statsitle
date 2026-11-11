@@ -1,0 +1,15 @@
+{
+  "id": "st.m5.applying.eg",
+  "title": "Life of a fan bearing (Weibull)",
+  "analysis": "ContinuousDistribution",
+  "intro": "The life X of a ventilation fan's bearing is Weibull with shape β = 1.5 (it wears out) and scale η = 8000 hours. The reliability at 2000 hours is R(2000) = P(X > 2000) = e^(−(2000/8000)^1.5) = e^(−0.125) = 0.8825: about 88 % of bearings are still running at 2000 hours. The quantile for q = 0.10 is the B10 life, the age by which 10 % have failed. The hazard rate is the rate of failure at 2000 hours among the bearings still running.",
+  "settings": {
+    "Name": "Fan bearing life",
+    "Family": "Weibull",
+    "Shape": 1.5,
+    "Scale": 8000,
+    "X": 2000,
+    "X2": null,
+    "Probability": 0.1
+  }
+}

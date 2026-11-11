@@ -1,0 +1,14 @@
+{
+  "id": "st.m5.exponential.eg",
+  "title": "Waiting for the next car at an EV charger",
+  "analysis": "ContinuousDistribution",
+  "intro": "Cars arrive at a highway EV charger at random, on average 3 an hour, so the rate is λ = 3/60 = 0.05 per minute and the mean time between arrivals is 1/λ = 20 minutes. The time X to the next arrival is exponential. The shaded area is P(X ≤ 15) = 1 − e^(−0.05 × 15) = 0.5276. The quantile for q = 0.5 is the median wait, ln 2 / λ = 13.86 minutes.",
+  "settings": {
+    "Name": "Time to the next arrival",
+    "Family": "Exponential",
+    "Rate": 0.05,
+    "X": 15,
+    "X2": null,
+    "Probability": 0.5
+  }
+}

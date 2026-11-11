@@ -1,0 +1,86 @@
+{
+  "id": "st.m5.applying.ex",
+  "title": "Life of conveyor idler bearings",
+  "analysis": "ContinuousDistribution",
+  "intro": "A mine tested **25** conveyor idler bearings until they failed. Their lives, in hours, are in the data table.\n\nFit the **Weibull** to the data and find the fitted shape β, the fitted scale η and the Q–Q correlation r. Then, from the fitted Weibull, find the **reliability at 1500 hours**: the probability that a bearing is still running at 1500 hours.\n\nGive β and r to three decimals, η to the nearest hour, and the reliability to three decimals or more. Then decide (not graded): fit the exponential to the same column too. Which family suits these bearings, and what does the fitted β say about how they fail?",
+  "tables": [
+    {
+      "name": "Idlers",
+      "columns": {
+        "Hours to failure": [
+          2970,
+          3387,
+          3608,
+          4564,
+          3379,
+          4366,
+          732,
+          2488,
+          4574,
+          3056,
+          4195,
+          1285,
+          2499,
+          1811,
+          2723,
+          2815,
+          531,
+          1707,
+          1920,
+          4315,
+          3482,
+          1490,
+          3616,
+          1402,
+          2953
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Idler bearing life",
+    "Family": "Weibull",
+    "Source": "FittedToData",
+    "Column": "@Idlers/Hours to failure",
+    "X": 1500,
+    "X2": null,
+    "Probability": 0.1
+  },
+  "ask": [
+    {
+      "result": "FitShape",
+      "prompt": "Fitted shape, β",
+      "tolerance": 0.01,
+      "wrong": "Check the Workbench settings: Distribution Weibull, Parameters from: Fitted to a data column, and the column of 25 lives."
+    },
+    {
+      "result": "FitScale",
+      "prompt": "Fitted scale, η (hours)",
+      "wrong": "Check the Workbench settings: Distribution Weibull, Parameters from: Fitted to a data column, and the column of 25 lives."
+    },
+    {
+      "result": "QqCorrelation",
+      "prompt": "Q–Q correlation, r",
+      "tolerance": 0.002,
+      "wrong": "Check the Workbench settings: this is the Q–Q correlation of the Weibull fit, not of another family."
+    },
+    {
+      "result": "MoreThan",
+      "prompt": "Reliability R(1500) = P(X > 1500)",
+      "tolerance": 0.001
+    }
+  ],
+  "mistakes": {
+    "MoreThan": [
+      {
+        "result": "AtMost",
+        "says": "That is P(X ≤ 1500), the share that have failed by 1500 hours. The reliability is the share still running: R(x) = P(X > x) = e^(−(x/η)^β)."
+      }
+    ]
+  },
+  "hints": [
+    "Press Copy the data, then in the Workbench (Ctrl+B) click + Data table on the left and paste. Choose Continuous distribution, set Distribution to Weibull and Parameters from to Fitted to a data column, and choose the column of lives.",
+    "The fitted β and η have no simple formula. The Workbench, stats.weibull_min.fit(data, floc=0) in Python, or the shape equation in R (the Code tab shows it) find them.",
+    "R(1500) = e^(−(1500/η)^β) with the fitted values. Then set Distribution to Exponential and compare its Q–Q r with the Weibull's."
+  ]
+}

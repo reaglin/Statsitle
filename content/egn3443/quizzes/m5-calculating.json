@@ -1,0 +1,101 @@
+{
+  "id": "st.m5.calculating.quiz",
+  "title": "Calculating and interpreting continuous probabilities",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "numeric",
+      "objective": "st.m5.o2",
+      "prompt": "A pressure test of a pipe section lasts anywhere from 20 to 35 minutes, all times equally likely. What is the probability that a test takes **longer than 30 minutes**? Give it to three decimals.",
+      "answer": 0.3333,
+      "tolerance": 0.001,
+      "explanation": "X ~ U(20, 35). P(X > 30) = (35 − 30)/(35 − 20) = 5/15 = 0.333."
+    },
+    {
+      "id": "q2",
+      "kind": "numeric",
+      "objective": "st.m5.o2",
+      "prompt": "The thickness of a paint coating is normal with μ = 1.50 mm and σ = 0.04 mm. What is the probability that a coating is **thicker than 1.57 mm**? Give it to three decimals or more.",
+      "answer": 0.04006,
+      "tolerance": 0.001,
+      "explanation": "z = (1.57 − 1.50)/0.04 = 1.75. P(X > 1.57) = 1 − Φ(1.75) = 1 − 0.9599 = 0.0401. In Python stats.norm.sf(1.57, 1.50, 0.04); in R 1 - pnorm(1.57, 1.50, 0.04)."
+    },
+    {
+      "id": "q3",
+      "kind": "numeric",
+      "objective": "st.m5.o2",
+      "prompt": "A lab's turnaround time for a soil test is normal with μ = 12 hours and σ = 2 hours. The lab wants to promise a time it meets for **90 %** of tests. What time is that (the 90th percentile)? Give it to two decimals.",
+      "answer": 14.5631,
+      "tolerance": 0.01,
+      "unit": "hours",
+      "explanation": "Φ(z) = 0.90 gives z = 1.2816, so x = 12 + 1.2816 × 2 = 14.56 hours. In Python stats.norm.ppf(0.90, 12, 2); in R qnorm(0.90, 12, 2)."
+    },
+    {
+      "id": "q4",
+      "kind": "numeric",
+      "objective": "st.m5.o2",
+      "prompt": "Jobs reach a plotter at random, on average **2 per hour**. What is the probability that the gap between two jobs is **more than 45 minutes**? Give it to three decimals or more.",
+      "answer": 0.22313,
+      "tolerance": 0.001,
+      "explanation": "The gap is exponential with λ = 2 per hour, and 45 minutes is 0.75 hour. P(X > 0.75) = e^(−2 × 0.75) = e^(−1.5) = 0.2231. Keep the units the same: a rate per hour with x in hours."
+    },
+    {
+      "id": "q5",
+      "kind": "choice",
+      "objective": "st.m5.o2",
+      "prompt": "In Python, with `X = stats.norm(mu, sigma)`, which call gives P(X > x), the area to the **right** of x?",
+      "options": [
+        "`X.sf(x)`, the survival function, 1 − cdf",
+        "`X.cdf(x)`, the cumulative distribution function",
+        "`X.pdf(x)`, the probability density function",
+        "`X.ppf(x)`, the percent point function"
+      ],
+      "correct": [0],
+      "explanation": "`sf` is 1 − `cdf`, the right tail. `cdf` is the left tail, `pdf` is the height of the curve (not a probability), and `ppf` goes the other way, from a probability to a value."
+    },
+    {
+      "id": "q6",
+      "kind": "choice",
+      "objective": "st.m5.o1",
+      "prompt": "Gauge blocks are made to a length that is normal with μ = 10.000 mm and σ = 0.001 mm. The Workbench shows the density at 10.000 mm as 398.9. What does that number say?",
+      "options": [
+        "It is a height in probability per mm. It is large because the values lie in a very narrow range; it is not a probability",
+        "It is the probability that a block is exactly 10.000 mm long, which rounds to certain",
+        "It is the number of blocks per thousand that are exactly 10.000 mm long",
+        "It is an error. A density can never be larger than 1, so σ must be wrong"
+      ],
+      "correct": [0],
+      "explanation": "A density is probability per unit of x. With σ = 0.001 mm the curve is very narrow, so it must be very tall to enclose an area of 1. The probability of exactly 10.000 mm is 0; only intervals have probability."
+    },
+    {
+      "id": "q7",
+      "kind": "choice",
+      "objective": "st.m5.o4",
+      "prompt": "A concrete supplier finds P(X < 25 MPa) = 0.03, where X is the 28-day strength of a test cylinder and 25 MPa is the specified strength. Which statement interprets this best?",
+      "options": [
+        "About 3 of every 100 cylinders would test below the specified 25 MPa",
+        "About 3 % of the concrete is weaker than 25 MPa by 3 MPa",
+        "A cylinder has a 3 % chance of testing at exactly 25 MPa",
+        "The mean strength of the cylinders is 3 % below 25 MPa"
+      ],
+      "correct": [0],
+      "explanation": "P(X < 25) is the share of cylinders below 25 MPa: 3 in 100 over the long run. It says nothing about how far below, about exactly 25 MPa (probability 0), or about the mean."
+    },
+    {
+      "id": "q8",
+      "kind": "choice",
+      "objective": "st.m5.o4",
+      "prompt": "A designer needs the cable strength that **95 % of cables exceed**. In the Workbench, which **Probability for the quantile (q)** gives it?",
+      "options": [
+        "q = 0.05, because 5 % of cables are below that strength",
+        "q = 0.95, because 95 % of cables exceed that strength",
+        "q = 0.975, because the two tails share the other 5 %",
+        "q = 0.50, because the median splits the cables evenly"
+      ],
+      "correct": [0],
+      "explanation": "The quantile for q is the value with P(X ≤ x) = q. If 95 % exceed it, 5 % are below it, so q = 0.05. q = 0.95 would give the strength 95 % are below."
+    }
+  ]
+}

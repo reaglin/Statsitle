@@ -1,0 +1,54 @@
+{
+  "id": "st.m5.check.weibull",
+  "title": "Hours between controller restarts: the Weibull fitted",
+  "analysis": "ContinuousDistribution",
+  "intro": "Hours between 30 unplanned restarts of a process controller, with the Weibull fitted by maximum likelihood.",
+  "tables": [
+    {
+      "name": "Restarts",
+      "columns": {
+        "Hours between restarts": [
+          301,
+          410,
+          1290,
+          313,
+          354,
+          443,
+          102,
+          359,
+          497,
+          787,
+          49,
+          181,
+          48,
+          829,
+          591,
+          21,
+          2014,
+          1673,
+          531,
+          478,
+          86,
+          8,
+          376,
+          31,
+          105,
+          138,
+          15,
+          312,
+          290,
+          924
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Restarts, Weibull fit",
+    "Family": "Weibull",
+    "Source": "FittedToData",
+    "Column": "@Restarts/Hours between restarts",
+    "X": 100,
+    "X2": null,
+    "Probability": 0.5
+  }
+}

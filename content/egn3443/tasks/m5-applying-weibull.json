@@ -1,0 +1,54 @@
+{
+  "id": "st.m5.applying.weibull",
+  "title": "Pump seal lives: the Weibull fitted",
+  "analysis": "ContinuousDistribution",
+  "intro": "The same 30 seal lives with the Weibull fitted by maximum likelihood. β̂ is well above 1, so the seals wear out, and the Q–Q plot is close to a straight line.",
+  "tables": [
+    {
+      "name": "Seals",
+      "columns": {
+        "Hours to failure": [
+          456,
+          1645,
+          1441,
+          651,
+          992,
+          927,
+          1232,
+          1496,
+          377,
+          203,
+          1613,
+          904,
+          1438,
+          55,
+          921,
+          1357,
+          612,
+          2045,
+          1827,
+          212,
+          193,
+          1060,
+          2008,
+          831,
+          593,
+          889,
+          206,
+          601,
+          911,
+          993
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Seal life, Weibull fit",
+    "Family": "Weibull",
+    "Source": "FittedToData",
+    "Column": "@Seals/Hours to failure",
+    "X": 500,
+    "X2": null,
+    "Probability": 0.1
+  }
+}

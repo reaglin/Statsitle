@@ -1,0 +1,15 @@
+{
+  "id": "st.m5.uniform.eg",
+  "title": "Waiting at a red light",
+  "analysis": "ContinuousDistribution",
+  "intro": "A traffic signal's red phase lasts 60 s. A car that arrives during the red at a random moment waits X seconds, uniform between a = 0 and b = 60. The shaded area is the probability of waiting between 15 and 45 s: (45 − 15)/60 = 0.5. P(X ≤ 15) = 15/60 = 0.25, the mean wait is (0 + 60)/2 = 30 s, and the standard deviation is 60/√12 = 17.32 s.",
+  "settings": {
+    "Name": "Wait at a red light",
+    "Family": "Uniform",
+    "Lower": 0,
+    "Upper": 60,
+    "X": 15,
+    "X2": 45,
+    "Probability": 0.9
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "id": "st.m5.introduction.eg",
+  "title": "Time for a board to reach reflow temperature",
+  "analysis": "ContinuousDistribution",
+  "intro": "In a reflow oven, the time X for a circuit board to reach soldering temperature is continuous: any value in a range can happen. Over many boards it follows a bell-shaped (normal) density with mean 90 s and standard deviation 6 s. The shaded area is the probability that a board takes between 84 and 96 s. Item 5.3 shows how this area is calculated.",
+  "settings": {
+    "Name": "Time to reflow temperature",
+    "Family": "Normal",
+    "Mu": 90,
+    "Sigma": 6,
+    "X": 84,
+    "X2": 96,
+    "Probability": 0.9
+  }
+}

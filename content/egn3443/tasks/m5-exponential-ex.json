@@ -1,0 +1,38 @@
+{
+  "id": "st.m5.exponential.ex",
+  "title": "Time between failures of a booster pump",
+  "analysis": "ContinuousDistribution",
+  "intro": "A booster pump fails at random, with a **mean time between failures of 400 hours**. The time X from a repair to the next failure is exponential.\n\nFind:\n\n1. the probability that the pump fails **within 200 hours** of a repair;\n2. the pump has already run **300 hours** since its last repair. The probability that it runs **at least 200 more hours** without failing;\n3. the time by which **10 %** of repaired pumps have failed (the 10th percentile).\n\nGive the probabilities to three decimals or more and the time to one decimal.",
+  "settings": {
+    "Name": "Booster pump, time between failures",
+    "Family": "Exponential",
+    "Rate": 0.0025,
+    "X": 200,
+    "X2": null,
+    "Probability": 0.1
+  },
+  "ask": [
+    { "result": "AtMost", "prompt": "P(X ≤ 200)", "tolerance": 0.001 },
+    { "result": "MoreThan", "prompt": "P(X > 500 given X > 300)", "tolerance": 0.001 },
+    { "result": "Quantile", "prompt": "10th percentile (hours)", "tolerance": 0.1 }
+  ],
+  "mistakes": {
+    "AtMost": [
+      { "value": 1.0, "says": "You used λ = 400. 400 hours is the mean; the rate is λ = 1/400 per hour." },
+      { "result": "MoreThan", "says": "That is P(X > 200), the chance the pump lasts past 200 hours. \"Fails within 200 hours\" is P(X ≤ 200) = 1 − e^(−λx)." }
+    ],
+    "MoreThan": [
+      { "value": 0.286505, "says": "You used x = 500, the pump's whole age. The exponential is memoryless: the 300 hours already run do not count, only the 200 more." },
+      { "result": "AtMost", "says": "That is the chance it fails within the next 200 hours. The question asks the chance it keeps running: P(X > 200)." }
+    ],
+    "Quantile": [
+      { "value": 921.0, "says": "That is the 90th percentile, the time by which 90 % have failed. Solve 1 − e^(−λx) = 0.10." },
+      { "value": 0.000263, "says": "You used λ = 400. 400 hours is the mean; the rate is λ = 1/400 per hour." }
+    ]
+  },
+  "hints": [
+    "The rate is one over the mean: λ = 1/400 = 0.0025 per hour.",
+    "P(X ≤ x) = 1 − e^(−λx). For the pump that has run 300 hours, the memoryless property says P(X > 300 + 200 | X > 300) = P(X > 200).",
+    "Solve 1 − e^(−λx) = 0.10 for x: x = −ln(0.90)/λ."
+  ]
+}

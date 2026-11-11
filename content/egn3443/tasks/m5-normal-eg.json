@@ -1,0 +1,15 @@
+{
+  "id": "st.m5.normal.eg",
+  "title": "Shaft diameters against a tolerance",
+  "analysis": "ContinuousDistribution",
+  "intro": "A lathe turns shafts with diameters normal with mean μ = 25.00 mm and standard deviation σ = 0.02 mm. The drawing allows 25.00 ± 0.03 mm, so a shaft is in tolerance between 24.97 and 25.03 mm. z for 24.97 is (24.97 − 25.00)/0.02 = −1.5; P(X ≤ 24.97) = Φ(−1.5) = 0.0668, and the shaded area, the share in tolerance, is 0.8664. The quantile for q = 0.99 is the diameter that 99 % of shafts are below.",
+  "settings": {
+    "Name": "Shaft diameter",
+    "Family": "Normal",
+    "Mu": 25,
+    "Sigma": 0.02,
+    "X": 24.97,
+    "X2": 25.03,
+    "Probability": 0.99
+  }
+}

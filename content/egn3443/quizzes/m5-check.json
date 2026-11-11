@@ -1,0 +1,133 @@
+{
+  "id": "st.m5.check.quiz",
+  "title": "Module 5 check: continuous probability distributions",
+  "passThreshold": 0.8,
+  "practice": false,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "choice",
+      "objective": "st.m5.o1",
+      "lookAgain": "st.m5.introduction",
+      "prompt": "X is the curing time of an adhesive, a continuous random variable. Which statement is true?",
+      "options": [
+        "P(X < 30 min) and P(X ≤ 30 min) are the same number",
+        "P(X = 30 min) is the height of the density at 30 min",
+        "The density f(x) can never be larger than 1",
+        "The CDF F(x) gives the probability that X equals x"
+      ],
+      "correct": [0],
+      "explanation": "For a continuous variable a single value has probability 0, so including or leaving out the end point changes nothing: P(X < 30) = P(X ≤ 30). The density is a height, not a probability, and it can exceed 1. F(x) is P(X ≤ x), an area."
+    },
+    {
+      "id": "q2",
+      "kind": "numeric",
+      "objective": "st.m5.o1",
+      "lookAgain": "st.m5.introduction",
+      "prompt": "A random variable X has the CDF F(x) = x²/16 for 0 ≤ x ≤ 4. What is P(1 ≤ X ≤ 3)? Give it to two decimals.",
+      "answer": 0.5,
+      "tolerance": 0.005,
+      "explanation": "P(1 ≤ X ≤ 3) = F(3) − F(1) = 9/16 − 1/16 = 8/16 = 0.50."
+    },
+    {
+      "id": "q3",
+      "kind": "numeric",
+      "objective": "st.m5.o2",
+      "lookAgain": "st.m5.uniform",
+      "prompt": "A site shuttle arrives at a random time between **2 and 10 minutes** after a worker reaches the stop, every time in that range equally likely. What is the probability that the worker waits **more than 7.5 minutes**? Give it to three decimals or more.",
+      "answer": 0.3125,
+      "tolerance": 0.001,
+      "explanation": "X ~ U(2, 10), so the height of the density is 1/8. P(X > 7.5) = (10 − 7.5)/(10 − 2) = 2.5/8 = 0.3125."
+    },
+    {
+      "id": "q4",
+      "kind": "numeric",
+      "objective": "st.m5.o2",
+      "lookAgain": "st.m5.normal",
+      "prompt": "The noise level of a compressor model is normal with μ = 75 dB and σ = 5 dB. What is the probability that a compressor is **at most 68 dB**? Give it to three decimals or more.",
+      "answer": 0.080757,
+      "tolerance": 0.001,
+      "explanation": "z = (68 − 75)/5 = −1.4. P(X ≤ 68) = Φ(−1.4) = 0.0808. In Python stats.norm.cdf(68, 75, 5); in R pnorm(68, 75, 5)."
+    },
+    {
+      "id": "q5",
+      "kind": "numeric",
+      "objective": "st.m5.o2",
+      "lookAgain": "st.m5.normal",
+      "prompt": "The fuel a delivery truck uses on a route is normal with mean **240 L** and variance **144 L²**. How much fuel should the truck carry so that it has enough on **95 %** of trips (the 95th percentile)? Give it to one decimal.",
+      "answer": 259.738,
+      "tolerance": 0.1,
+      "unit": "L",
+      "explanation": "σ = √144 = 12 L. Φ(z) = 0.95 gives z = 1.645, so x = 240 + 1.645 × 12 = 259.7 L. Using the variance as σ would give 240 + 1.645 × 144, far too much."
+    },
+    {
+      "id": "q6",
+      "kind": "numeric",
+      "objective": "st.m5.o2",
+      "lookAgain": "st.m5.exponential",
+      "prompt": "Pallets reach a wrapping machine at random, with a **mean of 6 minutes** between them. What is the probability that the next gap is **longer than 10 minutes**? Give it to three decimals or more.",
+      "answer": 0.188876,
+      "tolerance": 0.001,
+      "explanation": "The gap is exponential with rate λ = 1/6 per minute. P(X > 10) = e^(−10/6) = e^(−1.667) = 0.1889. Using λ = 6 would give a probability of practically 0."
+    },
+    {
+      "id": "q7",
+      "kind": "choice",
+      "objective": "st.m5.o2",
+      "lookAgain": "st.m5.exponential",
+      "prompt": "A sensor module fails at random: its life is exponential with a mean of 5 years. A module has already worked for 4 years. What is the probability that it works **at least 2 more years**?",
+      "options": [
+        "e^(−2/5) = 0.670, the same as for a new module",
+        "e^(−6/5) = 0.301, the chance of lasting 6 years in all",
+        "1 − e^(−2/5) = 0.330, the chance of failing within 2 years",
+        "e^(−4/5) = 0.449, the chance of lasting the first 4 years"
+      ],
+      "correct": [0],
+      "explanation": "The exponential is memoryless: P(X > 4 + 2 | X > 4) = P(X > 2) = e^(−2/5) = 0.670. The 4 years already worked do not change the chance of the next 2."
+    },
+    {
+      "id": "q8",
+      "kind": "match",
+      "objective": "st.m5.o3",
+      "lookAgain": "st.m5.applying",
+      "prompt": "Match each quantity with the model that suits it best.",
+      "pairs": [
+        { "left": "The angle of a rotating wheel at a random moment, 0° to 360°", "right": "Uniform" },
+        { "left": "Diameters of ball bearings, scattered symmetrically about 6.000 mm", "right": "Normal" },
+        { "left": "The time between random calls to a dispatch center", "right": "Exponential" },
+        { "left": "The life of a gearbox that wears out with age", "right": "Weibull" }
+      ],
+      "explanation": "No angle is favoured: uniform. A symmetric scatter around a target: normal. The time between random events at a steady rate: exponential. A life whose failure rate rises with age: Weibull with β > 1."
+    },
+    {
+      "id": "q9",
+      "kind": "choice",
+      "objective": "st.m5.o3",
+      "lookAgain": "st.m5.applying",
+      "prompt": "An engineer fitted two families to the hours between 30 unplanned restarts of a process controller. The exponential gave Q–Q r = 0.990; the Weibull gave Q–Q r = 0.991 with β̂ = 0.91. The two Q–Q plots, exponential first:\n[[figure: st.m5.check.exp 4]]\n[[figure: st.m5.check.weibull 4]]\nWhich model should the engineer report?",
+      "options": [
+        "The exponential: β̂ is close to 1, both fit about equally well, and it is the simpler model",
+        "The Weibull: its r is larger, so it is always the right choice",
+        "Neither: an r below 0.995 means no continuous model fits",
+        "The Weibull: β̂ below 1 proves that the controller wears out"
+      ],
+      "correct": [0],
+      "explanation": "Both Q–Q plots are close to straight and the two r values differ in the third decimal. β̂ = 0.91 is near 1, where the Weibull is the exponential. When two models fit about equally well, report the simpler one: restarts happen at random, at a rate of 1/x̄. (β̂ below 1 would mean a falling failure rate, not wear-out.)"
+    },
+    {
+      "id": "q10",
+      "kind": "choice",
+      "objective": "st.m5.o4",
+      "lookAgain": "st.m5.applying",
+      "prompt": "A pump bearing's life is Weibull with β = 2 and η = 2500 hours, so R(1000) = e^(−(1000/2500)²) = 0.852. Which statement interprets this best for the maintenance planner?",
+      "options": [
+        "About 85 of every 100 bearings are still running at 1000 hours, so about 15 need replacing before then",
+        "About 85 % of a bearing's life has been used by 1000 hours, so it should be replaced",
+        "A bearing fails at 1000 hours with probability 0.852, so replace every bearing at 1000 hours",
+        "The bearings last 852 hours on average, so they never reach 1000 hours"
+      ],
+      "correct": [0],
+      "explanation": "R(1000) = P(X > 1000) is the share still running at 1000 hours: 85 in 100. The other 15 % fail before 1000 hours. It is not a share of life used, not the probability of failing at exactly 1000 hours (that is 0), and not a mean."
+    }
+  ]
+}

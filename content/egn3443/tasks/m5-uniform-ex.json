@@ -1,0 +1,36 @@
+{
+  "id": "st.m5.uniform.ex",
+  "title": "Cycle time of a batch reactor",
+  "analysis": "ContinuousDistribution",
+  "intro": "A batch reactor's cycle time X is equally likely to be anywhere between **40** and **52 minutes**: uniform with a = 40 and b = 52.\n\nFind the probability that a cycle takes **44 minutes or less**, the probability that it takes **between 44 and 50 minutes**, and the mean and standard deviation of the cycle time. Give the probabilities to three decimals or more and the mean and standard deviation to two decimals.",
+  "settings": {
+    "Name": "Reactor cycle time",
+    "Family": "Uniform",
+    "Lower": 40,
+    "Upper": 52,
+    "X": 44,
+    "X2": 50,
+    "Probability": 0.9
+  },
+  "ask": [
+    { "result": "AtMost", "prompt": "P(X ≤ 44)", "tolerance": 0.001 },
+    { "result": "Between", "prompt": "P(44 ≤ X ≤ 50)", "tolerance": 0.001 },
+    { "result": "Mean", "prompt": "Mean, μ (minutes)" },
+    { "result": "StandardDeviation", "prompt": "Standard deviation, σ (minutes)" }
+  ],
+  "mistakes": {
+    "AtMost": [
+      { "result": "Density", "says": "That is the height of the density, 1/(b − a). A probability is an area: multiply the height by the width of the interval, 44 − 40." },
+      { "result": "MoreThan", "says": "That is P(X > 44), the area to the right of 44. \"44 minutes or less\" is the area to the left: (44 − a)/(b − a)." }
+    ],
+    "StandardDeviation": [
+      { "result": "Variance", "says": "That is the variance, (b − a)²/12. The standard deviation is its square root." },
+      { "value": 1.0, "says": "You took the square root of (b − a)/12. The variance squares the width first: (b − a)²/12." }
+    ]
+  },
+  "hints": [
+    "The density is a rectangle of height 1/(b − a) = 1/12 between 40 and 52.",
+    "A probability is the width of the interval times the height: P(44 ≤ X ≤ 50) = (50 − 44)/12.",
+    "μ = (a + b)/2 and σ = (b − a)/√12."
+  ]
+}
