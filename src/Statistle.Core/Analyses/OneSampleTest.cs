@@ -409,7 +409,9 @@ public sealed class OneSampleTest : Analysis, IUsesProject, IHasChoices, ILinksT
         s.Imports(scipyStats: true);
         s.Comment(Hypotheses);
         s.Assign("alpha", Alpha).Assign("null_value", NullValue);
-        s.Assign("alternative", AlternativeHypothesis switch { Alternative.Less => "'less'", Alternative.Greater => "'greater'", _ => "'two-sided'" });
+        // scipy says 'two-sided'; R's t.test, var.test and wilcox.test want "two.sided".
+        var tail = AlternativeHypothesis switch { Alternative.Less => "less", Alternative.Greater => "greater", _ => "" };
+        s.Either($"alternative = '{(tail.Length > 0 ? tail : "two-sided")}'", $"alternative <- '{(tail.Length > 0 ? tail : "two.sided")}'");
 
         if (Source == DataSource.Columns)
         {
@@ -567,7 +569,7 @@ public abstract class OneSampleTestMethod : CalculationMethod<OneSampleTest>, IO
         var r = dist[(dist.LastIndexOf('.') + 1)..];
         s.Either(
             $"p = 2 * {dist}.sf(abs(stat){dfArg}) if alternative == 'two-sided' else ({dist}.cdf(stat{dfArg}) if alternative == 'less' else {dist}.sf(stat{dfArg}))",
-            $"p <- if (alternative == 'two-sided') 2 * p{r}(abs(stat){dfArg}, lower.tail = FALSE) else if (alternative == 'less') p{r}(stat{dfArg}) else p{r}(stat{dfArg}, lower.tail = FALSE)");
+            $"p <- if (alternative == 'two.sided') 2 * p{r}(abs(stat){dfArg}, lower.tail = FALSE) else if (alternative == 'less') p{r}(stat{dfArg}) else p{r}(stat{dfArg}, lower.tail = FALSE)");
     }
 }
 
@@ -772,7 +774,7 @@ public sealed class VarianceTestMethod : OneSampleTestMethod
         s.Either("stat = df * s**2 / null_value**2", "stat <- df * s^2 / null_value^2");
         s.Either("lower_tail = stats.chi2.cdf(stat, df)", "lower_tail <- pchisq(stat, df)");
         s.Either("p = min(1, 2 * min(lower_tail, 1 - lower_tail)) if alternative == 'two-sided' else (lower_tail if alternative == 'less' else 1 - lower_tail)",
-                 "p <- if (alternative == 'two-sided') min(1, 2 * min(lower_tail, 1 - lower_tail)) else if (alternative == 'less') lower_tail else 1 - lower_tail");
+                 "p <- if (alternative == 'two.sided') min(1, 2 * min(lower_tail, 1 - lower_tail)) else if (alternative == 'less') lower_tail else 1 - lower_tail");
         s.Comment("Confidence interval for σ: square roots of the χ² interval for σ²");
         s.Either("ci_lower, ci_upper = np.sqrt(df * s**2 / stats.chi2.ppf(1 - alpha / 2, df)), np.sqrt(df * s**2 / stats.chi2.ppf(alpha / 2, df))",
                  "ci_lower <- sqrt(df * s^2 / qchisq(1 - alpha / 2, df)); ci_upper <- sqrt(df * s^2 / qchisq(alpha / 2, df))");

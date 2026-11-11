@@ -361,6 +361,57 @@ public class CodeGenerationTests
         }
     }
 
+    /// <summary>Rscript, from STATISTLE_RSCRIPT or the newest R under Program Files; null when R is not installed.</summary>
+    private static string? Rscript()
+    {
+        if (Environment.GetEnvironmentVariable("STATISTLE_RSCRIPT") is { Length: > 0 } custom && File.Exists(custom)) return custom;
+        var root = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "R");
+        return Directory.Exists(root)
+            ? Directory.GetDirectories(root).Order(StringComparer.Ordinal).Select(d => Path.Combine(d, "bin", "Rscript.exe")).LastOrDefault(File.Exists)
+            : null;
+    }
+
+    [Theory]
+    [MemberData(nameof(CodeSources))]
+    public void The_generated_R_runs_and_prints_the_apps_numbers_when_R_is_available(string name, Analysis analysis)
+    {
+        // The Code tab's R once called pstats.t and passed alternative = 'two-sided' (R wants "two.sided"): run it.
+        if (Rscript() is not { } rscript)
+        {
+            Assert.True(Environment.GetEnvironmentVariable("STATISTLE_REQUIRE_R") is null, "STATISTLE_REQUIRE_R is set but R was not found.");
+            return;
+        }
+
+        analysis.Recalculate();
+        string script = Path.Combine(Path.GetTempPath(), $"statistle-check-{Guid.NewGuid():N}.R");
+        File.WriteAllText(script, ((ICodeSource)analysis).Code(CodeLanguage.R));
+        string output = Run(rscript, script);
+        int exit = _lastExit;
+        File.Delete(script);
+        Assert.True(exit == 0, $"{name}: the R stopped with an error. Output:\n{output}");
+
+        var printed = new Dictionary<string, string>(StringComparer.Ordinal);
+        foreach (var line in output.Split('\n').Select(l => l.Trim()).Where(l => l.Contains(": ", StringComparison.Ordinal)))
+            printed.TryAdd(line[..line.IndexOf(": ", StringComparison.Ordinal)], line[(line.IndexOf(": ", StringComparison.Ordinal) + 2)..]);
+
+        foreach (StatistleProperty property in MethodScope.VisibleProperties(analysis).Where(p => p.IsResult))
+        {
+            if (property.Read(analysis) is not double expected || double.IsNaN(expected)
+                || property.Property.IsDefined(typeof(SimulatedResultAttribute), false))
+            {
+                continue;
+            }
+
+            Assert.True(printed.ContainsKey(property.Label), $"{name}: R did not print '{property.Label}'. Output:\n{output}");
+            if (double.TryParse(printed[property.Label], NumberStyles.Float, CultureInfo.InvariantCulture, out double actual))
+            {
+                // R prints seven significant digits by default, so a large value is compared to that precision.
+                double tolerance = Math.Max(Math.Pow(10, -property.Decimals) * 0.51, Math.Abs(expected) * 1e-6);
+                Assert.True(Math.Abs(actual - expected) <= tolerance, $"{name} — {property.Label}: app {expected}, R {actual}");
+            }
+        }
+    }
+
     private static bool PythonHas(params string[] modules)
     {
         try

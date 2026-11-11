@@ -620,7 +620,9 @@ public sealed class TwoSampleTest : Analysis, IUsesProject, IHasChoices, ILinksT
         s.Imports(scipyStats: true);
         s.Comment(Hypotheses);
         s.Assign("alpha", Alpha).Assign("delta0", Delta0);
-        s.Assign("alternative", AlternativeHypothesis switch { Alternative.Less => "'less'", Alternative.Greater => "'greater'", _ => "'two-sided'" });
+        // scipy says 'two-sided'; R's t.test, var.test and wilcox.test want "two.sided".
+        var tail = AlternativeHypothesis switch { Alternative.Less => "less", Alternative.Greater => "greater", _ => "" };
+        s.Either($"alternative = '{(tail.Length > 0 ? tail : "two-sided")}'", $"alternative <- '{(tail.Length > 0 ? tail : "two.sided")}'");
 
         if (Source == DataSource.Columns)
         {
@@ -791,7 +793,7 @@ public abstract class TwoSampleTestMethod : CalculationMethod<TwoSampleTest>, IT
         var r = dist[(dist.LastIndexOf('.') + 1)..];
         s.Either(
             $"p = 2 * {dist}.sf(abs(stat){dfArg}) if alternative == 'two-sided' else ({dist}.cdf(stat{dfArg}) if alternative == 'less' else {dist}.sf(stat{dfArg}))",
-            $"p <- if (alternative == 'two-sided') 2 * p{r}(abs(stat){dfArg}, lower.tail = FALSE) else if (alternative == 'less') p{r}(stat{dfArg}) else p{r}(stat{dfArg}, lower.tail = FALSE)");
+            $"p <- if (alternative == 'two.sided') 2 * p{r}(abs(stat){dfArg}, lower.tail = FALSE) else if (alternative == 'less') p{r}(stat{dfArg}) else p{r}(stat{dfArg}, lower.tail = FALSE)");
     }
 
     /// <summary>Assigns x̄₁, s₁, n₁, x̄₂, s₂, n₂ from the data or the entries.</summary>
@@ -1109,7 +1111,7 @@ public sealed class VarianceRatioMethod : TwoSampleTestMethod
         s.Either("stat = s1**2 / s2**2", "stat <- s1^2 / s2^2");
         s.Either("lower_tail = stats.f.cdf(stat, df, df2)", "lower_tail <- pf(stat, df, df2)");
         s.Either("p = min(1, 2 * min(lower_tail, 1 - lower_tail)) if alternative == 'two-sided' else (lower_tail if alternative == 'less' else 1 - lower_tail)",
-                 "p <- if (alternative == 'two-sided') min(1, 2 * min(lower_tail, 1 - lower_tail)) else if (alternative == 'less') lower_tail else 1 - lower_tail");
+                 "p <- if (alternative == 'two.sided') min(1, 2 * min(lower_tail, 1 - lower_tail)) else if (alternative == 'less') lower_tail else 1 - lower_tail");
         s.Either("ci_lower, ci_upper = stat / stats.f.ppf(1 - alpha / 2, df, df2), stat / stats.f.ppf(alpha / 2, df, df2)",
                  "ci_lower <- stat / qf(1 - alpha / 2, df, df2); ci_upper <- stat / qf(alpha / 2, df, df2)");
     }
