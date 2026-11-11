@@ -217,6 +217,31 @@ public class CodeGenerationTests
         ragged.Columns.AddColumn("S", [15.0, 15.4, 14.9, 15.8]);
         yield return ["One-way ANOVA, four unequal groups", new OneWayAnova { Project = alloyProject, Table = ragged.Id.ToString(CultureInfo.InvariantCulture) }];
 
+        // Plan 10.8: chi-square tests, against scipy (chisquare, chi2_contingency) — M&R Examples 9-12 and 9-14 and the variants.
+        yield return ["Chi-square, fair die", new ChiSquareTest()];
+        yield return ["Chi-square, M&R 9-12 Poisson fit (m = 1)", ChiSquareTests.CircuitBoards()];
+        var weights = new ChiSquareTest { Proportions = ExpectedProportions.Entered, CategoryNames = "A, B, C", Alpha = 0.1 };
+        weights.Observed.SetValues([30, 50, 20], 1);
+        weights.Expected.SetValues([1, 2, 1], 1);
+        yield return ["Chi-square, weights rescaled", weights];
+        var few = new ChiSquareTest();
+        few.Observed.SetValues([2, 3, 1, 7], 1);
+        yield return ["Chi-square, small expected counts", few];
+        yield return ["Chi-square, M&R 9-14 independence", ChiSquareTests.Pension()];
+        var twoByTwo = new ChiSquareTest { Test = ChiSquareKind.Independence, RowNames = "Line A, Line B" };
+        twoByTwo.Counts.SetColumns([new DataColumn("Pass", [12, 3]), new DataColumn("Fail", [5, 10])]);
+        yield return ["Chi-square, 2 × 2 no correction", twoByTwo];
+        var yates = new ChiSquareTest { Test = ChiSquareKind.Independence, Correction = ContinuityCorrection.Yates };
+        yates.Counts.SetColumns([new DataColumn("Pass", [12, 3]), new DataColumn("Fail", [5, 10])]);
+        yield return ["Chi-square, 2 × 2 Yates", yates];
+        StatistleDocument shiftProject = new();
+        DataTable shifts = shiftProject.AddTable("Defects by shift");
+        shifts.Columns.AddColumn("Scratch", [15, 26, 33]);
+        shifts.Columns.AddColumn("Dent", [21, 31, 17]);
+        shifts.Columns.AddColumn("Crack", [45, 34, 49]);
+        shifts.Columns.AddColumn("Other", [13, 5, 20]);
+        yield return ["Chi-square, 3 × 4 from a data table", new ChiSquareTest { Project = shiftProject, Test = ChiSquareKind.Independence, CountsTable = shifts.Id.ToString(CultureInfo.InvariantCulture), RowNames = "Day, Evening, Night", Alpha = 0.01 }];
+
         StatistleDocument batteryProject = AnovaTests.BatteryProject(out DataTable battery);
         yield return ["Two-way ANOVA, 3 × 2 with replication", new TwoWayAnova { Project = batteryProject, Table = battery.Id.ToString(CultureInfo.InvariantCulture), FactorA = "temperature", FactorB = "material", Response = "life" }];
         DataTable blocks = batteryProject.AddTable("Blocks");

@@ -149,6 +149,19 @@ Random numbers are the program's own: **xoshiro256\*\*** (Blackman and Vigna, *A
 | Shapiro–Wilk; Levene | | `shapiro(x)`, `levene(a, b)` | `shapiro.test`, `car::leveneTest` | `InferenceTests` | [x] |
 | Mann–Whitney U; Wilcoxon signed-rank | | `mannwhitneyu`, `wilcoxon` | `wilcox.test` | `InferenceTests`; M&R 10-6 | [x] |
 
+## Chi-square tests (Modules 8–10; M&R §9-7, §9-8; plan 10.8)
+
+Pearson's χ² without a continuity correction (the course's hand formula), so the Python is `chi2_contingency(..., correction=False)` and the R `chisq.test(..., correct = FALSE)`; Yates' correction is a choice for a 2 × 2 table only. Entered goodness-of-fit proportions are always rescaled to add to 1 (R `rescale.p = TRUE`); when they add to something more than 0.01 from 1 they are read as weights and the Notes say so.
+
+| Item | Formula | Python | R | Held by | Status |
+|---|---|---|---|---|---|
+| Goodness of fit | Eᵢ = n·pᵢ (pᵢ = 1/k when equal); χ² = Σ(Oᵢ − Eᵢ)²/Eᵢ; df = k − 1 − m (m parameters estimated from the data) | `stats.chisquare(observed, f_exp=n*p, ddof=m)` | `chisq.test(observed, p = p)`; `pchisq(stat, k - 1 - m, lower.tail = FALSE)` for m > 0 | `ChiSquareTests`: M&R Ex. 9-12 (Poisson defects, m = 1: χ² = 2.94, df 1, p = 0.0865); fair die χ² = 4.2 by hand; cross-check | [x] |
+| Independence / homogeneity | Eᵢⱼ = (row i total)(column j total)/n; χ² = ΣΣ(Oᵢⱼ − Eᵢⱼ)²/Eᵢⱼ; df = (r − 1)(c − 1) | `stats.chi2_contingency(table, correction=False)` | `chisq.test(table, correct = FALSE)` | `ChiSquareTests`: M&R Ex. 9-14 (pension plans: E = 136, 136, 68 / 64, 64, 32; χ² = 49.63, df 2); proportional rows → χ² = 0; cross-check (2 × 3, 2 × 2, 3 × 4) | [x] |
+| p-value, critical value | p = P(χ²_df ≥ χ²) = Q(df/2, χ²/2) (upper regularized gamma, accurate far out); χ²_{α,df} = F⁻¹(1 − α) | `stats.chi2.sf`, `stats.chi2.ppf(1 - alpha, df)` | `pchisq(..., lower.tail = FALSE)`, `qchisq(1 - alpha, df)` | `ChiSquareTests` (χ²(2): p = e^(−x/2); χ²_{0.05,1} = 3.8415) | [x] |
+| Yates' correction (2 × 2) | each \|O − E\| reduced by min(½, \|O − E\|) before squaring = n(\|ad − bc\| − n/2)²/(row and column totals' product) | `chi2_contingency(table, correction=True)` | `chisq.test(table, correct = TRUE)` | `ChiSquareTests` (shortcut formula; ignored on a 2 × 3); cross-check | [x] |
+| Expected-count check | smallest Eᵢ and the number below 5; warning when any is below 5 (M&R §9-7) | `expected.min()`, `(expected < 5).sum()` | `min(expected)`, `sum(expected < 5)` | `ChiSquareTests` (2, 3, 1 equal: three below 5) | [x] |
+| Cramér's V | √(χ²/(n(min(r, c) − 1))) from the uncorrected χ² | `stats.contingency.association(table, method='cramer')` (the code writes the formula) | formula | `ChiSquareTests` (= √(χ²/n) for 2 × c); cross-check | [x] |
+
 ## Simple linear regression (Module 11; M&R Ch. 11)
 
 | Item | Formula | Python | R | Held by | Status |

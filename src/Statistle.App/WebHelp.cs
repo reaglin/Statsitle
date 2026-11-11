@@ -21,7 +21,7 @@ public static class WebHelp
         DescriptiveStatistics => "descriptive.html",
         ProbabilityRules or DiscreteDistribution or ContinuousDistribution or SamplingDistribution or Simulation => "probability.html",
         ConfidenceInterval or SampleSize => "estimation.html",
-        OneSampleTest or TwoSampleTest => "tests.html",
+        OneSampleTest or TwoSampleTest or ChiSquareTest => "tests.html",
         SimpleRegression or MultipleRegression => "regression.html",
         OneWayAnova or TwoWayAnova => "anova.html",
         _ => "index.html",

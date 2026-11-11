@@ -483,6 +483,50 @@ public static class GuideCatalog
                 "wilcoxon, levene and shapiro, statsmodels proportions_ztest; R t.test, var.test, wilcox.test, " +
                 "prop.test and shapiro.test."),
 
+        [typeof(ChiSquareTest)] = new(
+            WhenToUse:
+                "When the data are counts — how many items fell in each category — rather than measurements. " +
+                "Goodness of fit asks whether one list of counts follows proportions stated before the data were " +
+                "seen: is the die fair, do defects follow the supplier's claimed mix, does a Poisson model fit the " +
+                "defects per board? Independence asks whether two ways of classifying the same items are related: " +
+                "job type and the pension plan chosen, shift and the kind of defect. The same table and arithmetic " +
+                "test homogeneity, whether several separate samples share one set of proportions (M&R §9-7, §9-8).",
+            Steps:
+            [
+                "Choose the Test: goodness of fit for one list of counts, independence for a table of counts classified two ways.",
+                "Goodness of fit: type the observed counts one per line (or choose a data table column), then choose equal proportions or enter H₀'s proportions in the same order. If H₀'s model was fitted to these counts (a Poisson mean estimated from them), enter the number of estimated parameters m.",
+                "Independence: type the contingency table — a header line with the column categories, then one line of counts per row category — or choose a data table whose columns are the table's columns. Name the rows if you like.",
+                "Enter the significance level α, usually 0.05.",
+                "Read the expected counts and the expected-count check first: if any expected count is below 5, combine neighbouring categories before trusting the p-value. Then read χ², df, the critical value, p and the decision.",
+            ],
+            ReadingResults:
+                "Each category or cell adds (O − E)²/E to χ², so the goodness-of-fit list of contributions shows where " +
+                "the data depart from H₀. χ² is compared with the χ² distribution with df degrees of freedom: reject H₀ " +
+                "when χ² exceeds the critical value, which is the same as p < α. The test is always upper-tailed, " +
+                "because any departure from H₀ makes χ² larger. For a table, rejecting H₀ says the row and column " +
+                "factors are associated — not that one causes the other — and Cramér's V says how strongly, from 0 to 1.",
+            Pitfalls:
+            [
+                "Use counts, never percentages or means: χ² of the same proportions grows with n, so percentages give a wrong answer.",
+                "Every expected count should be at least 5; with smaller ones the χ² approximation is poor. Combine categories, or use Fisher's exact test for a 2 × 2 table.",
+                "Each item must be counted once, in one category, and the items must be independent.",
+                "R's chisq.test applies Yates' correction to a 2 × 2 table unless told correct = FALSE; the course's χ² and this form's default have no correction, so the generated code turns it off.",
+                "When the proportions come from a model fitted to the same data, subtract one degree of freedom per estimated parameter.",
+            ],
+            Example:
+                "Montgomery and Runger Example 9-12: defects on 60 printed circuit boards, a Poisson with λ estimated as 0.75 " +
+                "(m = 1). With the last two categories combined, the counts 32, 15, 13 against proportions 0.472, 0.354, 0.174 " +
+                "give χ² = 2.94 on 1 df, p = 0.086: the Poisson model is not rejected. Example 9-14: 500 employees' pension " +
+                "plan choice by job type (160, 140, 40 salaried; 40, 60, 60 hourly) gives χ² = 49.63 on 2 df, p < 0.0001: " +
+                "the choice depends on the job type.",
+            Plots:
+                "The χ² distribution with df degrees of freedom, the rejection region above the critical value shaded and the " +
+                "observed χ² as a red line; then the observed and expected counts of each category (or each cell, row by row) as bars side by side.",
+            Code:
+                "scipy.stats.chisquare(observed, f_exp, ddof=m) and stats.chi2_contingency(table, correction=False), with " +
+                "stats.chi2.ppf for the critical value; R chisq.test(observed, p = p) and chisq.test(table, correct = FALSE), " +
+                "with pchisq and qchisq."),
+
         [typeof(SimpleRegression)] = new(
             WhenToUse:
                 "Modules 11 and 13: one response y that depends on one predictor x, and the straight line that " +
