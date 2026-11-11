@@ -1223,7 +1223,9 @@ public sealed class WilcoxonMethod : TwoSampleTestMethod
         s.Comment("Wilcoxon signed-rank on the paired differences, zeros dropped, normal approximation");
         s.Either("res = stats.wilcoxon(x, y, alternative=alternative, zero_method='wilcox', correction=False, method='approx')",
                  "res <- wilcox.test(x, y, paired = TRUE, alternative = alternative, exact = FALSE, correct = FALSE)");
-        s.Either("stat, p = res.statistic, res.pvalue", "stat <- res$statistic; p <- res$p.value");
+        s.Comment("R's V is the positive rank sum; scipy and this program give the smaller rank sum for a two-sided test");
+        s.Either("stat, p = res.statistic, res.pvalue",
+                 "v <- unname(res$statistic); m <- sum(x != y); stat <- if (alternative == 'two.sided') min(v, m * (m + 1) / 2 - v) else v; p <- res$p.value");
         s.Comment("The z behind the p-value");
         s.Either("d = (x - y)[(x - y) != 0]", "d <- (x - y)[(x - y) != 0]");
         s.Either("n = len(d)", "n <- length(d)");

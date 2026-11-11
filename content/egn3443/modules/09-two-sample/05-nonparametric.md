@@ -61,7 +61,7 @@ The differences old − new are 1.3, −0.1, 1.9, 0.8, 1.5, 0.7, 1.2, 9.3, 0.9 a
 
 [[results: st.m9.nonparametric.eg]]
 
-The statistic shown is the smaller sum, W = 1 (as scipy reports it for a two-sided test; R's `wilcox.test` reports V = W⁺ = 54). z = (54 − 27.5)/9.811 = 2.70 and p = 0.0069: the new screen is faster.
+The statistic shown is the smaller sum, W = 1 (as scipy reports it for a two-sided test; R's `wilcox.test` itself reports V = W⁺ = 54, and the Code tab's R turns that into the smaller sum, 55 − 54 = 1). z = (54 − 27.5)/9.811 = 2.70 and p = 0.0069: the new screen is faster.
 
 The paired t-test on the same data gives t = 2.20 and p = 0.055, **not** significant. The one 9.3 s difference inflates s_d so much that it hides nine steady improvements. Shapiro–Wilk on the differences gives p = 0.00002: the t-test's assumption plainly fails here, so the Wilcoxon result is the one to report.
 
