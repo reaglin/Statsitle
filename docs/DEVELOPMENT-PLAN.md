@@ -232,7 +232,7 @@ Each module is written in the order of `docs/LEARNING-PATH.md`. For every topic:
 
 | # | Task | Done when |
 |---|---|---|
-| 11.1 | **Module 2 first, as the pilot** (Descriptive statistics; one analysis, five items, a check) | Ron reads it in the program and says whether the shape is right before the rest is written · **Written 2026-11-11** (2.1–2.6: 5 Learn pages, 6 reference pages, 9 tasks, 4 quizzes; every number checked). ⚠️ **Ron: hand-test part Q, the shape of the pilot, before modules 1 and 3–14 are written** |
+| 11.1 | **Module 2 first, as the pilot** (Descriptive statistics; one analysis, five items, a check) | Ron reads it in the program and says whether the shape is right before the rest is written · **Written 2026-11-11** (2.1–2.6: 5 Learn pages, 6 reference pages, 9 tasks, 4 quizzes; every number checked). ✅ **Ron, 2026-11-11: "The pilot is good, we can now continue with the next Phase."** |
 | 11.2 | Start here (3 items) | validator clean |
 | 11.3 | Module 1 (6 items + check) | validator clean |
 | 11.4 | Module 3 (5 + check) | validator clean |
