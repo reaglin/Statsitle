@@ -261,6 +261,21 @@ public class CodeGenerationTests
 
     [Theory]
     [MemberData(nameof(CodeSources))]
+    public void The_generated_R_uses_no_Python_names(string name, Analysis analysis)
+    {
+        analysis.Recalculate();
+        string r = ((ICodeSource)analysis).Code(CodeLanguage.R);
+        foreach (var python in new[] { "stats.", "np.", "scipy" })
+        {
+            foreach (var line in r.Split('\n').Where(l => !l.TrimStart().StartsWith('#')))
+            {
+                Assert.False(line.Contains(python, StringComparison.Ordinal), $"{name}: R line uses '{python}': {line.Trim()}");
+            }
+        }
+    }
+
+    [Theory]
+    [MemberData(nameof(CodeSources))]
     public void The_generated_Python_prints_the_apps_numbers_when_Python_is_available(string name, Analysis analysis)
     {
         if (!PythonHas("numpy", "scipy"))

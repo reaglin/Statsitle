@@ -563,9 +563,11 @@ public abstract class OneSampleTestMethod : CalculationMethod<OneSampleTest>, IO
     /// <summary>The p-value and two-sided critical values in the script, for a symmetric reference.</summary>
     protected static void SymmetricTail(ScriptBuilder s, string dist, string dfArg)
     {
+        // scipy's stats.t / stats.norm are R's pt / pnorm.
+        var r = dist[(dist.LastIndexOf('.') + 1)..];
         s.Either(
             $"p = 2 * {dist}.sf(abs(stat){dfArg}) if alternative == 'two-sided' else ({dist}.cdf(stat{dfArg}) if alternative == 'less' else {dist}.sf(stat{dfArg}))",
-            $"p <- if (alternative == 'two-sided') 2 * p{dist}(abs(stat){dfArg}, lower.tail = FALSE) else if (alternative == 'less') p{dist}(stat{dfArg}) else p{dist}(stat{dfArg}, lower.tail = FALSE)");
+            $"p <- if (alternative == 'two-sided') 2 * p{r}(abs(stat){dfArg}, lower.tail = FALSE) else if (alternative == 'less') p{r}(stat{dfArg}) else p{r}(stat{dfArg}, lower.tail = FALSE)");
     }
 }
 

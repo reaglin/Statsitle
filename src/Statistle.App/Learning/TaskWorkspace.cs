@@ -398,10 +398,12 @@ public sealed class TaskWorkspace : ContentControl
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(300) });
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto, MinWidth = 120 });
         var row = 0;
-        foreach (var property in built.Analysis.Properties().Where(p => p.IsResult && !p.Hidden))
+        // Only the results the analysis's settings use (as the Workbench shows them), and none that are blank: a Learn
+        // page shows what the case gives, not a row of "—" for what it does not ask.
+        foreach (var property in Statistle.Core.Methods.MethodScope.VisibleProperties(built.Analysis).Where(p => p.IsResult && !p.Hidden))
         {
             var shown = built.Analysis.Display(property);
-            if (shown.Length == 0) continue;
+            if (shown.Length == 0 || shown == "—") continue;
             var unit = UnitSystem.BaseUnit(property.Unit).Label;
             grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             var label = new TextBlock { Text = property.Label, Margin = new Thickness(0, 2, 12, 2), TextWrapping = TextWrapping.Wrap, ToolTip = property.Help.Length > 0 ? property.Help : null };

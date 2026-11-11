@@ -161,8 +161,9 @@ public sealed class StatsTask
         JsonValueKind.Number => value.GetRawText(),
         JsonValueKind.True => "true",
         JsonValueKind.False => "false",
+        JsonValueKind.Null => "NaN",   // null leaves a number blank (e.g. no alternative mean, so no power)
         JsonValueKind.Array => string.Join('\n', Numbers(value, where).Select(v => v.ToString("R", CultureInfo.InvariantCulture))),
-        _ => throw new ContentException($"{where} must be text, a number, true/false or a list of numbers."),
+        _ => throw new ContentException($"{where} must be text, a number, true/false, null (blank) or a list of numbers."),
     };
 
     private static double[] Numbers(JsonElement value, string where)

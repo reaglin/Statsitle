@@ -36,6 +36,15 @@ public class TaskRunnerTests
     }
 
     [Fact]
+    public void A_null_setting_leaves_a_number_blank()
+    {
+        var built = StatsTaskRunner.Build(StatsTask.Parse("""
+            { "id": "test.null", "title": "Blank x2", "analysis": "ContinuousDistribution", "settings": { "X2": null } }
+            """));
+        Assert.True(double.IsNaN(((ContinuousDistribution)built.Analysis).X2));
+    }
+
+    [Fact]
     public void Right_answers_pass()
     {
         var outcome = Runner.Run(Bolts, Answers("5", "4", "5"));

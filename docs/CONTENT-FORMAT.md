@@ -97,7 +97,7 @@ the Exercise checks it.
 | Field | Meaning |
 |---|---|
 | `analysis` | The analysis class: `DescriptiveStatistics`, `ProbabilityRules`, `DiscreteDistribution`, `ContinuousDistribution`, `SamplingDistribution`, `ConfidenceInterval`, `SampleSize`, `OneSampleTest`, `TwoSampleTest`, `SimpleRegression`, `MultipleRegression`, `OneWayAnova`, `TwoWayAnova` (and those phase 10 adds) |
-| `settings` | Property name → value, **as the analysis's project file writes it** (the property names in `src/Statistle.Core/Analyses/*.cs`). A list of numbers is a series, one value per line. An enum is its name. A setting not given keeps the analysis's default |
+| `settings` | Property name → value, **as the analysis's project file writes it** (the property names in `src/Statistle.Core/Analyses/*.cs`). A list of numbers is a series, one value per line. An enum is its name. A setting not given keeps the analysis's default; `null` leaves a number blank (no alternative mean, so no power; no upper bound x₂) |
 | `tables` | Data tables the task brings: `[{ "name": "Alloys", "columns": { "A": [..], "B": [..] } }]`. A setting `"@Alloys/A"` points the analysis at that column |
 | `ask` | The results asked, by property name (only numbers). A string, or `{ "result", "prompt", "tolerance" }` |
 | `mistakes` | Common mistakes the exercise recognizes, by asked result (below) |
