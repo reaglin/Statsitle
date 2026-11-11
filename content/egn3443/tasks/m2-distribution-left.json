@@ -1,0 +1,10 @@
+{
+  "id": "st.m2.distribution.left",
+  "title": "Batch yields (negatively skewed)",
+  "analysis": "DescriptiveStatistics",
+  "intro": "The yield of eighteen batches of a chemical process, in percent (%) of the theoretical amount. A yield cannot be above 100 %, so most batches bunch up near the top, and a few poor batches make a long tail on the left. The mean (98.04 %) is below the median (98.65 %), and the skewness is negative, about −1.8.",
+  "settings": {
+    "Name": "Batch yields",
+    "Sample": [97.8, 98.6, 99.1, 96.2, 98.9, 99.4, 98.2, 93.5, 99.0, 98.7, 97.1, 99.3, 98.4, 95.0, 99.2, 98.8, 98.0, 99.5]
+  }
+}

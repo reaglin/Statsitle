@@ -1,0 +1,10 @@
+{
+  "id": "st.m2.central-tendency.eg",
+  "title": "Cement bag weights",
+  "analysis": "DescriptiveStatistics",
+  "intro": "A packing line fills cement bags to a nominal 25 kg. Ten bags were taken from the line and weighed, in kilograms (kg). Read the mean, the median and the mode in the results. They are close together here because the weights are spread evenly on both sides of 25 kg: no bag is far from the rest.",
+  "settings": {
+    "Name": "Cement bags",
+    "Sample": [25.1, 24.9, 25.0, 25.2, 24.8, 25.0, 25.3, 25.0, 24.9, 25.1]
+  }
+}

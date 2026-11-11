@@ -1,0 +1,19 @@
+{
+  "id": "st.m2.central-tendency.ex",
+  "title": "Bolt lengths",
+  "analysis": "DescriptiveStatistics",
+  "intro": "A machine cuts bolts to a nominal length of 50 mm. An inspector measured twelve bolts from one shift, in millimeters (mm). One bolt is noticeably longer than the others. Calculate the mean and the median, and notice which of the two the long bolt moves.",
+  "settings": {
+    "Name": "Bolt lengths",
+    "Sample": [50.2, 49.8, 50.1, 50.4, 49.9, 50.0, 50.3, 49.7, 50.2, 50.1, 51.6, 50.0]
+  },
+  "ask": [
+    { "result": "Mean", "prompt": "Mean, x̄ (mm)", "tolerance": 0.01 },
+    { "result": "Median", "prompt": "Median (mm)", "tolerance": 0.01 }
+  ],
+  "hints": [
+    "The mean is the sum of the twelve values divided by 12. The sum is a little over 600 mm.",
+    "For the median, sort the values first. With n = 12 (even), the median is the average of the 6th and 7th sorted values.",
+    "Round to two decimals, such as 50.25. The answer must be within 0.01 mm, because the mean and the median of these bolts are only about 0.1 mm apart."
+  ]
+}

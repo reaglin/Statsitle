@@ -1,0 +1,128 @@
+{
+  "id": "st.m2.check.quiz",
+  "title": "Module 2 check: descriptive statistics",
+  "passThreshold": 0.8,
+  "practice": false,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "numeric",
+      "objective": "st.m2.o1",
+      "prompt": "A torque wrench was checked five times. The readings, in newton-meters (N·m), were 42, 45, 39, 47, 44. What is the mean reading? Give it to one decimal.",
+      "answer": 43.4,
+      "tolerance": 0.05,
+      "unit": "N·m",
+      "explanation": "Σxᵢ = 42 + 45 + 39 + 47 + 44 = 217, and x̄ = 217 / 5 = 43.4 N·m."
+    },
+    {
+      "id": "q2",
+      "kind": "numeric",
+      "objective": "st.m2.o1",
+      "prompt": "Six settlement plates under a new embankment read, in millimeters (mm): 12.4, 9.8, 15.1, 11.0, 13.6, 10.2. What is the median settlement? Give it to two decimals.",
+      "answer": 11.7,
+      "tolerance": 0.005,
+      "unit": "mm",
+      "explanation": "Sorted: 9.8, 10.2, 11.0, 12.4, 13.6, 15.1. With n = 6 (even), the median is the average of the 3rd and 4th values: (11.0 + 12.4) / 2 = 11.70 mm."
+    },
+    {
+      "id": "q3",
+      "kind": "numeric",
+      "objective": "st.m2.o1",
+      "prompt": "An inspector counted the defects in nine weld seams: 2, 0, 1, 3, 1, 0, 1, 2, 1. What is the mode?",
+      "answer": 1,
+      "tolerance": 0,
+      "unit": "defects",
+      "explanation": "1 occurs four times, 0 and 2 twice each, and 3 once. The most frequent value, the mode, is 1 defect."
+    },
+    {
+      "id": "q4",
+      "kind": "numeric",
+      "objective": "st.m2.o2",
+      "prompt": "Five sheet-metal thickness measurements, in millimeters (mm), are a sample from a coil: 2.1, 2.4, 2.0, 2.3, 2.2. What is the sample variance s²? Give it to three decimals.",
+      "answer": 0.025,
+      "tolerance": 0.0005,
+      "unit": "mm²",
+      "explanation": "x̄ = 11.0 / 5 = 2.2 mm. The deviations are −0.1, 0.2, −0.2, 0.1, 0; their squares add to 0.01 + 0.04 + 0.04 + 0.01 + 0 = 0.10. s² = 0.10 / (5 − 1) = 0.025 mm². Dividing by n would give 0.020, which is the population form."
+    },
+    {
+      "id": "q5",
+      "kind": "numeric",
+      "objective": "st.m2.o2",
+      "prompt": "Five flow readings from a sample of runs, in liters per second (L/s): 10, 12, 14, 16, 18. What is the sample standard deviation s? Give it to two decimals.",
+      "answer": 3.1623,
+      "tolerance": 0.006,
+      "unit": "L/s",
+      "explanation": "x̄ = 14. The squared deviations are 16, 4, 0, 4, 16, which add to 40. s² = 40 / 4 = 10 (L/s)², and s = √10 = 3.16 L/s. Dividing by n gives √8 = 2.83, the population form."
+    },
+    {
+      "id": "q6",
+      "kind": "choice",
+      "objective": "st.m2.o3",
+      "prompt": "The downtimes of a conveyor over a month have a mean of 41 minutes and a median of 35 minutes. Most stops are short, and a few are very long. How is the distribution of downtimes shaped?",
+      "options": [
+        "Positively (right) skewed",
+        "Negatively (left) skewed",
+        "About symmetric",
+        "Uniform"
+      ],
+      "correct": [0],
+      "explanation": "A few very long stops make a tail of large values that pulls the mean above the median. A long right tail is positive skew."
+    },
+    {
+      "id": "q7",
+      "kind": "choice",
+      "objective": "st.m2.o3",
+      "prompt": "A sample of fatigue lives of a part has skewness −1.4. In its box plot, which is true?",
+      "options": [
+        "The whisker toward the small values is longer: the long tail is on the low side",
+        "The whisker toward the large values is longer: the long tail is on the high side",
+        "Both whiskers are the same length, and the median is in the middle of the box",
+        "The mean must be above the median"
+      ],
+      "correct": [0],
+      "explanation": "Negative skewness means a long tail of small values: a few parts that failed early. The box plot shows it as a long whisker (and possibly outliers) on the low side. The mean is pulled below the median, not above it."
+    },
+    {
+      "id": "q8",
+      "kind": "choice",
+      "objective": "st.m2.o4",
+      "prompt": "A maintenance log records the type of each failure of a fleet of pumps: seal, bearing, electrical, impeller. Which measure of center can describe this data?",
+      "options": [
+        "The mode",
+        "The mean",
+        "The median",
+        "The standard deviation"
+      ],
+      "correct": [0],
+      "explanation": "Failure type is nominal (categorical) data: names with no order. The only measure of center for it is the mode, the most common failure type."
+    },
+    {
+      "id": "q9",
+      "kind": "choice",
+      "objective": "st.m2.o4",
+      "prompt": "The repair costs of 50 warranty claims range from $40 to $9,800. Most are under $300, and the histogram has a long right tail. Which measure of center best describes a typical claim?",
+      "options": [
+        "The median, because it is not pulled by the few very expensive claims",
+        "The mean, because it uses every value",
+        "The mode, because costs are categories",
+        "The midrange, ($40 + $9,800) / 2"
+      ],
+      "correct": [0],
+      "explanation": "For strongly right-skewed data, a few large values pull the mean far above most of the claims. The median is the typical claim. (If the question were the total cost of all claims, the mean would be the right number, because the total is n × x̄.)"
+    },
+    {
+      "id": "q10",
+      "kind": "choice",
+      "objective": "st.m2.o5",
+      "prompt": "A city engineer reports 28-day strengths of the concrete for a new bridge deck to the city council. The design strength is 30 MPa. Twenty cylinders gave: mean 32.3 MPa, standard deviation 1.6 MPa, minimum 28.8 MPa, about symmetric. Which statement is best for the council?",
+      "options": [
+        "\"Twenty test cylinders averaged 32.3 MPa, above the 30 MPa design strength, and most were within about 1.6 MPa of that average. Two were slightly below 30 MPa; the lowest was 28.8 MPa. We are checking whether they meet the specification's limits for low tests.\"",
+        "\"x̄ = 32.255 MPa, s = 1.6401 MPa, g₁ = −0.277.\"",
+        "\"The concrete is strong enough, because the mean is above 30 MPa.\"",
+        "\"The concrete failed, because one cylinder was below 30 MPa.\""
+      ],
+      "correct": [0],
+      "explanation": "The first statement gives the center and the spread in plain words with units, compares them with the design strength the council cares about, and reports the low values honestly with what is being done about them. The second is correct but unreadable for this audience. The third hides the low cylinders, and the fourth draws a conclusion the data do not support."
+    }
+  ]
+}

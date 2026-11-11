@@ -1,0 +1,101 @@
+{
+  "id": "st.m2.selecting.quiz",
+  "title": "Selecting and applying the right measures",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "match",
+      "objective": "st.m2.o4",
+      "prompt": "Match each dataset with the summary that suits it best.",
+      "pairs": [
+        { "left": "The cause of each pump failure (electrical, seal, bearing, other)", "right": "Mode" },
+        { "left": "Bridge deck condition ratings, 0 to 9", "right": "Median" },
+        { "left": "Diameters of machined shafts, with a symmetric histogram", "right": "Mean and standard deviation" },
+        { "left": "Repair times, with a long right tail", "right": "Median and interquartile range" }
+      ],
+      "explanation": "Categories have only a most common value (mode). Ratings have an order but unequal steps (median). Symmetric measurements suit the mean and standard deviation. Skewed measurements suit the median and IQR."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m2.o4",
+      "prompt": "In a spreadsheet of parts, the supplier is entered as a code: 1 for supplier A, 2 for supplier B, 3 for supplier C. The program reports a mean supplier of 1.4. What does 1.4 tell you?",
+      "options": [
+        "Nothing useful: the codes are names, not quantities, so their mean has no meaning",
+        "That the typical part comes from a supplier between A and B",
+        "That 40 % of parts come from supplier B",
+        "That supplier A makes the best parts"
+      ],
+      "correct": [0],
+      "explanation": "Supplier is nominal (categorical) data. Numbers used as codes cannot be averaged. Report the mode (the most common supplier) or the share of parts from each."
+    },
+    {
+      "id": "q3",
+      "kind": "choice",
+      "objective": "st.m2.o4",
+      "prompt": "The daily energy use of a plant is right-skewed (a few very high days). The manager wants to estimate the energy bill for the next 30 days. Which measure of center should the estimate use?",
+      "options": [
+        "The mean, because 30 × mean estimates the total",
+        "The median, because the data are skewed",
+        "The mode, because it is the most common value",
+        "The minimum, to be safe"
+      ],
+      "correct": [0],
+      "explanation": "When a total matters, use the mean, even for skewed data: the total of n days is n × x̄. The median would leave out the high days that are part of the bill."
+    },
+    {
+      "id": "q4",
+      "kind": "choice",
+      "objective": "st.m2.o5",
+      "prompt": "Twenty sensor replies had a median of 188.5 ms, Q1 = 178.5 ms, Q3 = 202.75 ms, and two outliers at 410 and 1240 ms. Which statement is best for the plant's operations manager?",
+      "options": [
+        "\"A typical reply takes about 190 ms, and half of them take between 180 and 200 ms. Two of 20 took much longer (0.4 s and 1.2 s); those slow replies should set the alarm timeout.\"",
+        "\"The mean response time was 252.7000 ms with a standard deviation of 238.0652 ms.\"",
+        "\"The skewness is 4.16 and the excess kurtosis is 17.85, so the data are not normal.\"",
+        "\"Response times are fine: the median is under 200 ms.\""
+      ],
+      "correct": [0],
+      "explanation": "The first statement gives a typical value and a spread in plain words and units, names the unusual values, and says what they mean for the reader. The second uses measures that do not suit skewed data, with too many digits. The third is for a statistician. The fourth hides the slow replies, which matter most."
+    },
+    {
+      "id": "q5",
+      "kind": "numeric",
+      "objective": "st.m2.o5",
+      "prompt": "Concrete cylinders: mean 32.3 MPa, standard deviation 1.6 MPa. What is the coefficient of variation, CV = 100 % × s / x̄? Give it to one decimal.",
+      "answer": 4.95,
+      "tolerance": 0.1,
+      "unit": "%",
+      "explanation": "CV = 100 % × 1.6 / 32.3 = 4.95 %, about 5.0 %. The strengths vary by about 5 % of their mean."
+    },
+    {
+      "id": "q6",
+      "kind": "choice",
+      "objective": "st.m2.o5",
+      "prompt": "Bolt lengths have a CV of 1.0 %, and concrete strengths have a CV of 5.0 %. What can you say?",
+      "options": [
+        "Relative to their size, the concrete strengths vary about five times as much as the bolt lengths",
+        "The concrete has a larger standard deviation in MPa than the bolts have in mm, so it varies more",
+        "Nothing: lengths and strengths cannot be compared at all",
+        "The bolts are five times stronger"
+      ],
+      "correct": [0],
+      "explanation": "The CV has no unit, so it compares spread between quantities measured in different units. A standard deviation in MPa cannot be compared with one in mm."
+    },
+    {
+      "id": "q7",
+      "kind": "multiple",
+      "objective": "st.m2.o5",
+      "prompt": "Which pairings of a center and a spread belong together in a report? Choose every one that applies.",
+      "options": [
+        "Mean with standard deviation",
+        "Median with interquartile range",
+        "Median with standard deviation",
+        "Mean with interquartile range"
+      ],
+      "correct": [0, 1],
+      "explanation": "The standard deviation measures distance from the mean, so it goes with the mean. The IQR is built from quartiles, as the median is, so the two go together. Mixing them pairs a resistant measure with one that is not."
+    }
+  ]
+}

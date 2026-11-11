@@ -1,0 +1,115 @@
+{
+  "id": "st.m2.distribution.quiz",
+  "title": "Data distribution",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "choice",
+      "objective": "st.m2.o3",
+      "prompt": "The cycle times of a robot cell, in seconds (s), for eight cycles were: 3.1, 3.4, 3.2, 9.8, 3.3, 3.0, 3.5, 3.2. The mean is 4.06 s and the median is 3.25 s. How is this distribution shaped?",
+      "options": [
+        "Positively (right) skewed",
+        "Negatively (left) skewed",
+        "About symmetric",
+        "It cannot be told without a histogram"
+      ],
+      "correct": [0],
+      "explanation": "One long cycle (9.8 s) makes a tail of large values and pulls the mean above the median. A long tail on the right is positive skew. (The program gives a skewness of 2.80.)"
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m2.o4",
+      "prompt": "For the same eight cycle times (mean 4.06 s, median 3.25 s), which number best describes a typical cycle?",
+      "options": [
+        "The median, 3.25 s",
+        "The mean, 4.06 s",
+        "The maximum, 9.8 s",
+        "The midpoint of the range, 6.4 s"
+      ],
+      "correct": [0],
+      "explanation": "Seven of the eight cycles took 3.0 to 3.5 s. The one 9.8 s cycle pulls the mean above all seven of them, so the mean is not typical. The median is not moved by it."
+    },
+    {
+      "id": "q3",
+      "kind": "choice",
+      "objective": "st.m2.o3",
+      "prompt": "Weld tensile strengths: mean 412.6 MPa, median 415.2 MPa, skewness −1.3. How is this distribution shaped?",
+      "options": [
+        "Negatively (left) skewed",
+        "Positively (right) skewed",
+        "About symmetric",
+        "Bimodal (two peaks)"
+      ],
+      "correct": [0],
+      "explanation": "The mean is below the median and the skewness is negative and below −1: a long tail of low strengths, a few weak welds. That is strong negative skew."
+    },
+    {
+      "id": "q4",
+      "kind": "choice",
+      "objective": "st.m2.o3",
+      "prompt": "A sample of 40 resistor values has skewness 0.12, and the mean and median are both 100.1 Ω. How should the shape be described?",
+      "options": [
+        "About symmetric",
+        "Positively skewed, because the skewness is above zero",
+        "Negatively skewed",
+        "Strongly skewed"
+      ],
+      "correct": [0],
+      "explanation": "A skewness between −0.5 and 0.5 is read as about symmetric, and the mean and median agree. No sample is exactly symmetric, so a small positive value does not mean skew."
+    },
+    {
+      "id": "q5",
+      "kind": "choice",
+      "objective": "st.m2.o3",
+      "prompt": "A histogram of daily rainfall has its tallest bar at the far left (0 to 5 mm), and the bars get shorter toward the right, out to 80 mm. How is it skewed?",
+      "options": [
+        "Positively (right) skewed: the long tail is on the right",
+        "Negatively (left) skewed: the peak is on the left",
+        "About symmetric",
+        "It has no skew, because rainfall cannot be negative"
+      ],
+      "correct": [0],
+      "explanation": "Skew is named by the long tail, not by the peak. The peak is on the left and the tail stretches right, so it is positively skewed. Quantities bounded at zero, like rainfall, are often right-skewed."
+    },
+    {
+      "id": "q6",
+      "kind": "choice",
+      "objective": "st.m2.o3",
+      "prompt": "In a box plot, the median line is close to Q3 (the right edge of the box), and the left whisker is much longer than the right one. How is the distribution skewed?",
+      "options": [
+        "Negatively (left) skewed",
+        "Positively (right) skewed",
+        "About symmetric",
+        "A box plot cannot show skew"
+      ],
+      "correct": [0],
+      "explanation": "The values below the median are spread over a long distance (a long left whisker, and a long lower half of the box), while the values above it are packed close. The long tail is on the side of small values: negative skew."
+    },
+    {
+      "id": "q7",
+      "kind": "multiple",
+      "objective": "st.m2.o3",
+      "prompt": "Which of these quantities would you expect to be positively (right) skewed? Choose every one that applies.",
+      "options": [
+        "Times to repair a machine",
+        "Waiting times of trucks at a weigh station",
+        "Diameters of shafts from a well-controlled lathe",
+        "Percent yield of a process that usually reaches 98 to 99 %",
+        "Sizes of particles from a crusher"
+      ],
+      "correct": [0, 1, 4],
+      "explanation": "Times and sizes cannot go below zero but can be very large, so they usually have a long right tail. Controlled machined dimensions are usually symmetric. Yields close to a 100 % limit usually have a long left tail."
+    },
+    {
+      "id": "q8",
+      "kind": "text",
+      "objective": "st.m2.o3",
+      "prompt": "Complete the sentence with one word: when the mean is below the median, the distribution is usually ______ skewed.",
+      "answers": ["negatively", "negative", "left", "left-skewed"],
+      "explanation": "A long tail of small values pulls the mean down below the median: negative, or left, skew."
+    }
+  ]
+}

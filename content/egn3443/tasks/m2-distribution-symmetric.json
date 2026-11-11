@@ -1,0 +1,10 @@
+{
+  "id": "st.m2.distribution.symmetric",
+  "title": "Shaft diameters (symmetric)",
+  "analysis": "DescriptiveStatistics",
+  "intro": "Eighteen shafts turned on a lathe to a nominal diameter of 25.00 mm, measured with a micrometer, in millimeters (mm). The values fall evenly on both sides of 25.00 mm: the mean and the median are both 25.00 mm and the skewness is close to zero.",
+  "settings": {
+    "Name": "Shaft diameters",
+    "Sample": [24.98, 25.01, 25.00, 24.99, 25.02, 25.00, 24.97, 25.01, 25.03, 24.99, 25.00, 25.02, 24.98, 25.01, 25.00, 24.99, 25.01, 25.00]
+  }
+}

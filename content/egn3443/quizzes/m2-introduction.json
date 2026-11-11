@@ -1,0 +1,77 @@
+{
+  "id": "st.m2.introduction.quiz",
+  "title": "Introduction to descriptive statistics",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "choice",
+      "objective": "st.m2.o5",
+      "prompt": "An engineer tests 20 concrete cylinders from a day's pour and reports their mean strength, 32.3 MPa. Then she says, \"so the whole pour has a mean strength between 31.5 and 33.0 MPa.\" Which part is descriptive statistics?",
+      "options": [
+        "The mean of the 20 cylinders, 32.3 MPa",
+        "The statement about the whole pour",
+        "Both parts",
+        "Neither part"
+      ],
+      "correct": [0],
+      "explanation": "Descriptive statistics summarize the data in hand: the 20 cylinders. A statement about the whole pour, which was not all tested, is inferential statistics (Module 7)."
+    },
+    {
+      "id": "q2",
+      "kind": "match",
+      "objective": "st.m2.o5",
+      "prompt": "Match each measure with the kind of summary it gives.",
+      "pairs": [
+        { "left": "Median", "right": "Center" },
+        { "left": "Standard deviation", "right": "Spread" },
+        { "left": "Third quartile, Q3", "right": "Position" },
+        { "left": "Skewness", "right": "Shape" }
+      ],
+      "explanation": "The median is a typical value (center). The standard deviation is how far values are from the mean (spread). Q3 is the value with three quarters of the data below it (position). Skewness says whether one tail is longer (shape)."
+    },
+    {
+      "id": "q3",
+      "kind": "text",
+      "objective": "st.m2.o5",
+      "prompt": "A number calculated from a sample, such as x̄ or s, is called a ______. (One word.)",
+      "answers": ["statistic", "a statistic"],
+      "explanation": "A number from a sample is a statistic. The matching number for the whole population, such as μ or σ, is a parameter."
+    },
+    {
+      "id": "q4",
+      "kind": "numeric",
+      "objective": "st.m2.o1",
+      "prompt": "Five tie-rods were pulled to failure. Their breaking loads, in kilonewtons (kN), were 12, 15, 15, 18, 20. What is the mean breaking load?",
+      "answer": 16,
+      "tolerance": 0.05,
+      "unit": "kN",
+      "explanation": "x̄ = Σxᵢ / n = (12 + 15 + 15 + 18 + 20) / 5 = 80 / 5 = 16 kN."
+    },
+    {
+      "id": "q5",
+      "kind": "numeric",
+      "objective": "st.m2.o2",
+      "prompt": "For the same five breaking loads (12, 15, 15, 18, 20 kN), what is the range?",
+      "answer": 8,
+      "tolerance": 0.05,
+      "unit": "kN",
+      "explanation": "Range = maximum − minimum = 20 − 12 = 8 kN."
+    },
+    {
+      "id": "q6",
+      "kind": "multiple",
+      "objective": "st.m2.o5",
+      "prompt": "A test report says only: \"The mean strength was 32.3.\" Which of these should be added to make it a useful summary? Choose every one that applies.",
+      "options": [
+        "The unit (MPa)",
+        "A measure of spread, such as the standard deviation",
+        "The number of cylinders tested, n",
+        "The mean written to six decimal places"
+      ],
+      "correct": [0, 1, 2],
+      "explanation": "A number needs its unit, a center needs a spread beside it, and the reader needs n to judge how much to trust it. Six decimals add nothing: the strengths were measured to 0.1 MPa."
+    }
+  ]
+}

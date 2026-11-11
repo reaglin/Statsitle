@@ -1,0 +1,10 @@
+{
+  "id": "st.m2.introduction.eg",
+  "title": "Concrete cylinder strengths",
+  "analysis": "DescriptiveStatistics",
+  "intro": "A ready-mix plant poured twenty test cylinders from one day's concrete and broke them at 28 days. Each value is the compressive strength in megapascals (MPa). The mix was designed for 30 MPa. The results below summarize the twenty numbers: the center (mean and median), the spread (standard deviation and range), the position (quartiles) and the shape (skewness).",
+  "settings": {
+    "Name": "Concrete cylinders",
+    "Sample": [31.2, 33.8, 29.6, 32.4, 34.1, 30.9, 32.7, 31.8, 35.2, 33.0, 30.4, 32.1, 31.5, 33.6, 32.9, 28.8, 34.5, 32.2, 31.1, 33.3]
+  }
+}

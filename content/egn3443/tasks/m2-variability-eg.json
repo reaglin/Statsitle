@@ -1,0 +1,10 @@
+{
+  "id": "st.m2.variability.eg",
+  "title": "Pump flow rates",
+  "analysis": "DescriptiveStatistics",
+  "intro": "A centrifugal pump was run ten times at the same speed and valve setting, and the flow was measured each time, in liters per minute (L/min). The pump does not deliver exactly the same flow every run. The range, the variance and the standard deviation describe how much the flow varies from run to run.",
+  "settings": {
+    "Name": "Pump flow",
+    "Sample": [118, 124, 121, 115, 127, 119, 122, 125, 117, 123]
+  }
+}

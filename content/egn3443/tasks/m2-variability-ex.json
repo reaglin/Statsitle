@@ -1,0 +1,20 @@
+{
+  "id": "st.m2.variability.ex",
+  "title": "Rebar yield strengths",
+  "analysis": "DescriptiveStatistics",
+  "intro": "A steel supplier tested twelve bars of Grade 60 reinforcing steel (rebar) from one heat. Each value is the yield strength in megapascals (MPa). Calculate the range, the sample variance and the sample standard deviation. These are a sample of the heat, not every bar in it, so divide by n − 1.",
+  "settings": {
+    "Name": "Rebar yield strength",
+    "Sample": [452, 467, 448, 471, 459, 463, 455, 470, 461, 458, 466, 449]
+  },
+  "ask": [
+    { "result": "Range", "prompt": "Range (MPa)" },
+    { "result": "Variance", "prompt": "Sample variance, s² (MPa²)" },
+    { "result": "StandardDeviation", "prompt": "Sample standard deviation, s (MPa)" }
+  ],
+  "hints": [
+    "Range = largest value − smallest value.",
+    "Find the mean first (it is close to 460 MPa). Then square each value's distance from the mean, add the twelve squares, and divide by n − 1 = 11.",
+    "The standard deviation is the square root of the variance. If your variance is about 56, you divided by n instead of n − 1."
+  ]
+}

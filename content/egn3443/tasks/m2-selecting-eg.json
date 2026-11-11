@@ -1,0 +1,10 @@
+{
+  "id": "st.m2.selecting.eg",
+  "title": "Sensor network response times",
+  "analysis": "DescriptiveStatistics",
+  "intro": "A plant's sensor network was polled twenty times, and the time for each reply was logged, in milliseconds (ms). Eighteen replies took between 168 and 233 ms. Two took much longer (410 ms and 1240 ms), probably because the network was busy. The mean (252.7 ms) is larger than eighteen of the twenty values, so it does not describe a typical reply. The median (188.5 ms) and the interquartile range (24.25 ms) do.",
+  "settings": {
+    "Name": "Response times",
+    "Sample": [182, 175, 210, 168, 195, 1240, 188, 172, 205, 179, 191, 233, 186, 170, 198, 410, 184, 177, 202, 189]
+  }
+}
