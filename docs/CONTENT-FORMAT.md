@@ -100,6 +100,7 @@ the Exercise checks it.
 | `settings` | Property name → value, **as the analysis's project file writes it** (the property names in `src/Statistle.Core/Analyses/*.cs`). A list of numbers is a series, one value per line. An enum is its name. A setting not given keeps the analysis's default |
 | `tables` | Data tables the task brings: `[{ "name": "Alloys", "columns": { "A": [..], "B": [..] } }]`. A setting `"@Alloys/A"` points the analysis at that column |
 | `ask` | The results asked, by property name (only numbers). A string, or `{ "result", "prompt", "tolerance" }` |
+| `mistakes` | Common mistakes the exercise recognizes, by asked result (below) |
 | `hints` | Shown one at a time on request |
 | `passThreshold` | The share of answers that must be right (default 1: all) |
 
@@ -108,6 +109,36 @@ matches the engine (plan D5). An answer is accepted within half a unit in the se
 whichever is larger; a count must be exact; `tolerance` overrides that.
 
 A task without `ask` is an Example.
+
+### Mistakes an exercise recognizes
+
+A wrong answer normally says "too high" or "too low". When a common mistake gives a number of its own, name it, and a
+learner who makes it reads what went wrong instead:
+
+```json
+"mistakes": {
+  "Variance": [
+    { "result": "PopulationVariance", "says": "You divided by n = 12. These bars are a sample, so divide by n − 1 = 11." },
+    { "result": "StandardDeviation", "says": "That is the standard deviation. The variance is its square, s²." }
+  ],
+  "Median": [
+    { "value": 50.15, "says": "You took the middle two values as they are listed. Sort the values first." }
+  ],
+  "CoefficientOfVariation": { "scale": 0.01, "says": "Give it as a percentage: multiply by 100." }
+}
+```
+
+| Field | Meaning |
+|---|---|
+| the key | An asked result (a name in `ask`). Its value is one mistake or a list of them, checked in order |
+| `result` | Another result of the same analysis that the mistake gives, by property name (the program calculates it, as it does the answer) |
+| `scale` | Multiplies `result`, or the asked result itself when `result` is left out (a percentage typed as a fraction) |
+| `value` | A fixed number, for a mistake no result gives (the median of the unsorted values). Not with `result` or `scale` |
+| `says` | The sentence the learner reads after "Mean: 50.1 is not right.". Say what went wrong and what to do; never the answer |
+
+An answer counts as the mistake when it is within the asked result's tolerance of the mistake's number. The validator
+refuses a mistake that names a result the analysis does not have, a key the task does not ask, and a mistake whose number
+is accepted as the right answer (the learner would never read it).
 
 ## Widgets in a Learn page
 
@@ -125,8 +156,23 @@ A line on its own:
 As PLC+: `choice`, `multiple`, `numeric` (`answer`, `tolerance`, `unit`), `match`, `text` (`answers`). Every question has
 `id`, `prompt` (Markdown), `explanation` and `objective`. `practice: true` shows the answer after a wrong try.
 
+A **widget** may be written in a question too, on a line of its own (`\n` in the JSON string), so a question can show
+the picture it asks about:
+
+```json
+"prompt": "Look at the histogram of the twenty reply times. How is this distribution shaped?\n[[figure: st.m2.selecting.eg 1]]"
+```
+
+In the `explanation`, put the widget after a line of text (it is drawn under the feedback, when the feedback shows the
+explanation). Keep the answer right for the picture: the figure is drawn from the task's data.
+
 ## The validator
 
 `dotnet test tests/Statistle.Learning.Tests --filter Content` loads `content/egn3443`, runs the Learning Core's checks and
-the statistics ones (every task builds and calculates; every exercise asks for numbers the analysis has; every widget names a
-task and a figure it draws), and prints one sentence per problem.
+the statistics ones (every task builds and calculates; every exercise asks for numbers the analysis has; every mistake names
+a result and is not the right answer; every widget, in a page or a question, names a task and a figure it draws), and prints
+one sentence per problem. A problem fails the test.
+
+It also prints **warnings**, which do not fail it: things to look at. Today one: two results an exercise asks for lie within
+each other's tolerance (a mean and a median 0.009 apart), so a learner who types one for the other passes. Change the data or
+give a smaller `tolerance`. Read them in the test's output (`--logger "console;verbosity=detailed"`).

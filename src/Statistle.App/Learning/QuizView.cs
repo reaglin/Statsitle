@@ -32,7 +32,13 @@ public sealed class QuizView : UserControl
     private Quiz? _quiz;
     private TextBlock _score = new();
 
-    private sealed record Entry(Question Question, int Number, Func<QuestionAnswer> Read, Action<QuestionAnswer> Write, TextBlock Feedback, Border Card);
+    private sealed record Entry(Question Question, int Number, Func<QuestionAnswer> Read, Action<QuestionAnswer> Write, TextBlock Feedback, StackPanel FeedbackWidgets, Border Card);
+
+    /// <summary>
+    /// Draws a widget line of a question's prompt or explanation (<c>[[figure: task 1]]</c>, plan 10.15), as the Learn
+    /// page does; null when it cannot be drawn. Set it before <see cref="Load"/>. Without it, widgets show as a note.
+    /// </summary>
+    public Func<WidgetTag, UIElement?>? WidgetFactory { get; set; }
 
     /// <summary>The learner checked their answers.</summary>
     public event Action<QuizResult>? Graded;
@@ -76,15 +82,18 @@ public sealed class QuizView : UserControl
                 Child = card, BorderBrush = Res("LineBrush"), BorderThickness = new Thickness(1), Background = Res("PanelBrush"),
                 Padding = new Thickness(14, 10, 14, 12), Margin = new Thickness(0, 0, 0, 12),
             };
-            AutomationProperties.SetName(border, $"Question {n}: {q.Prompt.Replace("**", "", StringComparison.Ordinal).Replace("`", "", StringComparison.Ordinal)}");
+            var spoken = WithoutWidgets(q.Prompt, out _).Replace("**", "", StringComparison.Ordinal).Replace("`", "", StringComparison.Ordinal);
+            AutomationProperties.SetName(border, $"Question {n}: {spoken}");
             card.Children.Add(new TextBlock { Text = $"Question {n} of {quiz.Questions.Count}", FontWeight = FontWeights.SemiBold, Foreground = Res("MutedTextBrush") });
-            card.Children.Add(Para(q.Prompt, 2, 8));
+            AddPrompt(card, q.Prompt);
             var (read, write) = Inputs(q, card, n);
             var feedback = new TextBlock { TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 8, 0, 0), Visibility = Visibility.Collapsed };
             AutomationProperties.SetLiveSetting(feedback, AutomationLiveSetting.Polite);
             card.Children.Add(feedback);
+            var feedbackWidgets = new StackPanel { Visibility = Visibility.Collapsed };
+            card.Children.Add(feedbackWidgets);
             _panel.Children.Add(border);
-            _questions.Add(new Entry(q, n, read, write, feedback, border));
+            _questions.Add(new Entry(q, n, read, write, feedback, feedbackWidgets, border));
         }
 
         var check = new Button
@@ -133,7 +142,11 @@ public sealed class QuizView : UserControl
             var r = result.Questions.FirstOrDefault(x => x.Id == e.Question.Id);
             if (r is null) continue;
             e.Feedback.Visibility = Visibility.Visible;
-            e.Feedback.Text = (r.Correct ? "✓ " : "✗ ") + r.Feedback;
+            e.Feedback.Text = (r.Correct ? "✓ " : "✗ ") + WithoutWidgets(r.Feedback, out var widgets);
+            // A picture in the explanation is drawn under the feedback when the feedback shows the explanation.
+            e.FeedbackWidgets.Children.Clear();
+            foreach (var w in widgets) e.FeedbackWidgets.Children.Add(DrawWidget(w));
+            e.FeedbackWidgets.Visibility = widgets.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
             e.Feedback.Foreground = r.Correct ? Res("PowerOnBrush") : Res("WrongBrush");
             e.Card.BorderBrush = r.Correct ? Res("PowerOnBrush") : Res("WrongBrush");
             e.Card.BorderThickness = new Thickness(r.Correct ? 1 : 2);
@@ -233,6 +246,55 @@ public sealed class QuizView : UserControl
             default:
                 return (() => new QuestionAnswer(), _ => { });
         }
+    }
+
+    // ---- Widgets in a question (plan 10.15) -----------------------------------------------------------
+
+    /// <summary>The prompt: its text in paragraphs, and each widget line drawn where it is written.</summary>
+    private void AddPrompt(StackPanel card, string prompt)
+    {
+        var text = new List<string>();
+        void Flush()
+        {
+            var joined = string.Join("\n", text).Trim();
+            if (joined.Length > 0) card.Children.Add(Para(joined, 2, 8));
+            text.Clear();
+        }
+        foreach (var line in prompt.Replace("\r\n", "\n", StringComparison.Ordinal).Split('\n'))
+        {
+            if (Widgets.On(line) is { } widget)
+            {
+                Flush();
+                card.Children.Add(DrawWidget(widget));
+            }
+            else text.Add(line);
+        }
+        Flush();
+    }
+
+    /// <summary>The text without its widget lines, and the widgets taken out, in order.</summary>
+    internal static string WithoutWidgets(string text, out List<WidgetTag> widgets)
+    {
+        widgets = [];
+        var kept = new List<string>();
+        foreach (var line in text.Replace("\r\n", "\n", StringComparison.Ordinal).Split('\n'))
+        {
+            if (Widgets.On(line) is { } widget) widgets.Add(widget);
+            else kept.Add(line);
+        }
+        return string.Join("\n", kept).Trim();
+    }
+
+    private UIElement DrawWidget(WidgetTag widget)
+    {
+        UIElement? drawn;
+        try { drawn = WidgetFactory?.Invoke(widget); }
+        catch (Exception ex) when (ex is InvalidOperationException or ArgumentException or FormatException or ContentException)
+        {
+            drawn = null; // a widget that fails is a note in the question, never a crash of the page
+        }
+        if (drawn is FrameworkElement fe) fe.Margin = new Thickness(0, 4, 0, 10);
+        return drawn ?? Para($"(This question shows a {widget.Name} here that {LearningApp.Name} cannot draw: {widget.Argument})", 2, 8, muted: true);
     }
 
     // ---- Text -----------------------------------------------------------------------------------------

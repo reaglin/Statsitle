@@ -110,6 +110,20 @@
       "prompt": "Complete the sentence with one word: when the mean is below the median, the distribution is usually ______ skewed.",
       "answers": ["negatively", "negative", "left", "left-skewed"],
       "explanation": "A long tail of small values pulls the mean down below the median: negative, or left, skew."
+    },
+    {
+      "id": "q9",
+      "kind": "choice",
+      "objective": "st.m2.o3",
+      "prompt": "A plant's sensor network was polled twenty times, and the time for each reply was logged in milliseconds (ms). Look at the histogram of the twenty reply times. How is this distribution shaped?\n[[figure: st.m2.selecting.eg 1]]",
+      "options": [
+        "Positively (right) skewed",
+        "Negatively (left) skewed",
+        "About symmetric",
+        "Bimodal (two peaks)"
+      ],
+      "correct": [0],
+      "explanation": "Almost every reply is in the tallest bar on the left, and a few replies stand far out to the right (the longest took 1240 ms). The long tail is on the right, so it is positively skewed."
     }
   ]
 }

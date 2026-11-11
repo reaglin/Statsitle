@@ -15,6 +15,15 @@ public sealed record ExpectedResult(AskedResult Asked, StatistleProperty Propert
 {
     /// <summary>What the learner reads beside the answer box: the prompt, or the result's label and unit.</summary>
     public string Label => Asked.Prompt ?? Property.Label;
+
+    /// <summary>The common mistakes this answer recognizes, with the number each one gives (plan 10.13).</summary>
+    public IReadOnlyList<KnownMistake> Mistakes { get; init; } = [];
+}
+
+/// <summary>A <see cref="Mistake"/> worked out for one task: the number it gives and what the learner reads.</summary>
+public sealed record KnownMistake(Mistake Mistake, double Value)
+{
+    public string Says => Mistake.Says;
 }
 
 /// <summary>A task set up and calculated: the analysis (for the Example and the worked solution) and the answers.</summary>
@@ -107,10 +116,39 @@ public sealed class StatsTaskRunner : IChallengeRunner
             var value = Convert.ToDouble(property.Read(analysis), CultureInfo.InvariantCulture);
             if (double.IsNaN(value) || double.IsInfinity(value))
                 throw new ContentException($"{task.File}: {analysis.Title} could not calculate \"{asked.Result}\" from this data{(analysis is IReportsProblem { Problem: { } p } ? $" ({p})" : "")}.");
-            expected.Add(new ExpectedResult(asked, property, value, analysis.Display(property), asked.Tolerance ?? DefaultTolerance(property, value)));
+            expected.Add(new ExpectedResult(asked, property, value, analysis.Display(property), asked.Tolerance ?? DefaultTolerance(property, value))
+            {
+                Mistakes = KnownMistakes(task, analysis, properties, asked.Result, value),
+            });
         }
 
+        foreach (var name in task.Mistakes.Keys)
+            if (!task.Ask.Any(a => a.Result == name))
+                throw new ContentException($"{task.File}: \"mistakes\" lists \"{name}\", which the task does not ask. Use the name of a result in \"ask\".");
+
         return new BuiltTask(task, analysis, project, expected);
+    }
+
+    private static List<KnownMistake> KnownMistakes(StatsTask task, Analysis analysis, Dictionary<string, StatistleProperty> properties, string asked, double right)
+    {
+        var known = new List<KnownMistake>();
+        if (!task.Mistakes.TryGetValue(asked, out var mistakes)) return known;
+        foreach (var mistake in mistakes)
+        {
+            double value;
+            if (mistake.Value is { } fixedValue) value = fixedValue;
+            else if (mistake.Result is null) value = right * mistake.Scale;
+            else
+            {
+                if (!properties.TryGetValue(mistake.Result, out var property) || !property.IsResult || !IsNumber(property))
+                    throw new ContentException($"{task.File}: the mistake for \"{asked}\" names \"{mistake.Result}\", which is not a number result of {analysis.Title}. Its results are: {string.Join(", ", analysis.Properties().Where(p => p.IsResult && IsNumber(p)).Select(p => p.XmlName))}.");
+                value = Convert.ToDouble(property.Read(analysis), CultureInfo.InvariantCulture) * mistake.Scale;
+                if (double.IsNaN(value) || double.IsInfinity(value))
+                    throw new ContentException($"{task.File}: {analysis.Title} could not calculate \"{mistake.Result}\" (named by the mistake for \"{asked}\") from this data.");
+            }
+            known.Add(new KnownMistake(mistake, value));
+        }
+        return known;
     }
 
     /// <summary>
@@ -150,6 +188,9 @@ public sealed class StatsTaskRunner : IChallengeRunner
         if (!TryNumber(typed, out var number))
             return $"{expected.Label}: \"{typed.Trim()}\" is not a number. Type digits, with a point for decimals, such as 4.87.";
         if (Math.Abs(number - expected.Value) <= expected.Tolerance) return null;
+        // A mistake the exercise knows: say what went wrong, not only which way (plan 10.13).
+        if (expected.Mistakes.FirstOrDefault(m => Math.Abs(number - m.Value) <= expected.Tolerance) is { } known)
+            return $"{expected.Label}: {typed.Trim()} is not right. {known.Says}";
         var way = number > expected.Value ? "too high" : "too low";
         return $"{expected.Label}: {typed.Trim()} is {way}. Check the formula in the Learn tab and your arithmetic.";
     }

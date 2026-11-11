@@ -75,6 +75,7 @@ public sealed class CoursePage : UserControl
         _exercise.Checked += Exercise_Checked;
         _quiz.Graded += Quiz_Graded;
         _learn.WidgetFactory = _reference.WidgetFactory = _exerciseNone.WidgetFactory = Widget;
+        _quiz.WidgetFactory = WidgetElement;
 
         // ── The tree ──
         _tree.ItemTemplate = TreeTemplate();
@@ -186,6 +187,9 @@ public sealed class CoursePage : UserControl
     /// <summary>The Exercise tab's task view (for the tests).</summary>
     public TaskWorkspace ExerciseView => _exercise;
 
+    /// <summary>The questions on the Exercise tab (for tests).</summary>
+    public QuizView QuizView => _quiz;
+
     /// <summary>The item on the right, if an item is shown.</summary>
     public LearningItem? CurrentItem => _item;
 
@@ -252,7 +256,8 @@ public sealed class CoursePage : UserControl
         An item is complete when its exercise passes, when you pass its questions, or (for a reading) when you press
         **I have read this**. **Previous** and **Next** (top right) go through the items in order.
 
-        A wrong answer says whether it is too high or too low, or where to look again; never the answer itself. Try as often
+        A wrong answer says whether it is too high or too low, names a common mistake when it sees one, or says where to
+        look again; never the answer itself. Try as often
         as you like. **Show a hint** gives one hint at a time.
 
         ## Your progress
@@ -549,8 +554,14 @@ public sealed class CoursePage : UserControl
         return built;
     }
 
-    /// <summary>Draws [[figure: task n]], [[data: task]], [[results: task]] and [[code: task]] (docs/CONTENT-FORMAT.md).</summary>
-    private Block? Widget(WidgetTag tag)
+    /// <summary>A widget as a block of a Markdown page (Learn, Reference, an exercise's text).</summary>
+    private Block? Widget(WidgetTag tag) => WidgetElement(tag) is { } element ? MarkdownView.Wrap(element) : null;
+
+    /// <summary>
+    /// Draws [[figure: task n]], [[data: task]], [[results: task]] and [[code: task]] (docs/CONTENT-FORMAT.md), for a
+    /// Markdown page or a quiz question (plan 10.15). Null when it cannot be drawn.
+    /// </summary>
+    public FrameworkElement? WidgetElement(WidgetTag tag)
     {
         var (id, number) = StatsContent.WidgetArgument(tag.Argument);
         if (Built(id) is not { } built) return null;
@@ -562,7 +573,7 @@ public sealed class CoursePage : UserControl
                 if (number < 1 || number > figures.Count) return null;
                 var panel = new FigurePanel { Width = 760, HorizontalAlignment = HorizontalAlignment.Left };
                 panel.Show(figures[number - 1]);
-                return MarkdownView.Wrap(panel);
+                return panel;
             case "data":
                 var columns = TaskWorkspace.DataColumns(built);
                 if (columns.Count == 0) return null;
@@ -573,11 +584,11 @@ public sealed class CoursePage : UserControl
                     ToolTip = "The data, one row per observation. Select and copy it to use it elsewhere.",
                 };
                 AutomationProperties.SetName(text, "Data: " + built.Task.Title);
-                return MarkdownView.Wrap(text);
+                return text;
             case "results":
-                return MarkdownView.Wrap(TaskWorkspace.ResultsGrid(built));
+                return TaskWorkspace.ResultsGrid(built);
             case "code":
-                return MarkdownView.Wrap(TaskWorkspace.CodeTabs(built));
+                return TaskWorkspace.CodeTabs(built);
             default:
                 return null;
         }

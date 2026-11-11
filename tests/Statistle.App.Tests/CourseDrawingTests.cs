@@ -61,6 +61,45 @@ public sealed class CourseDrawingTests
     }
 
     [Fact]
+    public void A_question_with_a_figure_draws_the_figure_in_the_quiz()
+    {
+        // Plan 10.15: [[figure: task n]] in a question's prompt is drawn, as in a Learn page; the tag is not shown as text.
+        var content = StatsContent.Load(Egn3443());
+        var item = content.Package.AllItems.First(i => i.Quiz?.Questions.Any(q => q.Prompt.Contains("[[figure:", StringComparison.Ordinal)) == true);
+        WpfHost.Run(() =>
+        {
+            var page = new CoursePage(content);
+            var window = new Window { Content = page, Width = 1440, Height = 900, Left = -10000, Top = -10000, ShowInTaskbar = false, ShowActivated = false };
+            window.Show();
+            try
+            {
+                page.Path.Select(item);
+                WpfHost.Pump();
+                page.ItemTabs.SelectedIndex = 2;
+                window.UpdateLayout();
+                WpfHost.Pump();
+                var all = Descendants(page.QuizView).ToList();
+                Assert.Contains(all, d => d is Statistle.App.Plotting.FigurePanel);
+                Assert.DoesNotContain(all.OfType<TextBlock>(), t => t.Text.Contains("[[", StringComparison.Ordinal));
+                Assert.DoesNotContain(all.OfType<TextBlock>(), t => t.Text.Contains("cannot draw", StringComparison.Ordinal));
+            }
+            finally
+            {
+                window.Close();
+            }
+        });
+    }
+
+    private static IEnumerable<DependencyObject> Descendants(DependencyObject root)
+    {
+        foreach (var child in LogicalTreeHelper.GetChildren(root).OfType<DependencyObject>())
+        {
+            yield return child;
+            foreach (var d in Descendants(child)) yield return d;
+        }
+    }
+
+    [Fact]
     public void An_exercise_checked_without_a_learner_is_graded_but_not_kept()
     {
         var content = StatsContent.Load(Egn3443());

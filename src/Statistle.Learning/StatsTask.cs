@@ -11,6 +11,14 @@ public sealed record TaskTable(string Name, IReadOnlyList<(string Name, double[]
 public sealed record AskedResult(string Result, string? Prompt, double? Tolerance);
 
 /// <summary>
+/// A common mistake an exercise recognizes (plan 10.13): the number it gives, and the sentence the learner reads when
+/// their answer is that number. The number is another result of the same analysis (<see cref="Result"/>, such as
+/// <c>PopulationVariance</c> for a typed sample variance) times <see cref="Scale"/>, or a fixed <see cref="Value"/>.
+/// <see cref="Result"/> left out means the asked result itself (useful with a scale: a percentage typed as a fraction).
+/// </summary>
+public sealed record Mistake(string? Result, double Scale, double? Value, string Says);
+
+/// <summary>
 /// An Example or an Exercise (plan 10.1): one analysis, set up from data, with the results an exercise asks for.
 /// Written as JSON in a content package's <c>tasks/</c> folder. The answers are never written in the file: the
 /// runner calculates them with the analysis (plan D5).
@@ -33,6 +41,9 @@ public sealed class StatsTask
     public IReadOnlyList<TaskTable> Tables { get; init; } = [];
     public IReadOnlyList<AskedResult> Ask { get; init; } = [];
     public IReadOnlyList<string> Hints { get; init; } = [];
+
+    /// <summary>Asked result name → the common mistakes recognized in its answer, checked in order (plan 10.13).</summary>
+    public IReadOnlyDictionary<string, IReadOnlyList<Mistake>> Mistakes { get; init; } = new Dictionary<string, IReadOnlyList<Mistake>>();
 
     /// <summary>The share of the asked results that must be right, 0 to 1 (default: all of them).</summary>
     public double PassThreshold { get; init; } = 1.0;
@@ -92,6 +103,18 @@ public sealed class StatsTask
                     entry.TryGetProperty("tolerance", out var tol) && tol.ValueKind == JsonValueKind.Number ? tol.GetDouble() : null));
             }
 
+        var mistakes = new Dictionary<string, IReadOnlyList<Mistake>>(StringComparer.Ordinal);
+        if (root.TryGetProperty("mistakes", out var m))
+        {
+            if (m.ValueKind != JsonValueKind.Object)
+                throw new ContentException($"{file}: \"mistakes\" must be an object: {{ \"Variance\": [ {{ \"result\": \"PopulationVariance\", \"says\": \"…\" }} ] }}.");
+            foreach (var p in m.EnumerateObject())
+            {
+                var list = p.Value.ValueKind == JsonValueKind.Array ? p.Value.EnumerateArray().ToList() : [p.Value];
+                mistakes[p.Name] = [.. list.Select(x => ReadMistake(x, $"{file}: a mistake for \"{p.Name}\""))];
+            }
+        }
+
         var hints = new List<string>();
         if (root.TryGetProperty("hints", out var h) && h.ValueKind == JsonValueKind.Array)
             hints.AddRange(h.EnumerateArray().Select(x => x.GetString() ?? "").Where(x => x.Length > 0));
@@ -106,10 +129,30 @@ public sealed class StatsTask
             Tables = tables,
             Ask = ask,
             Hints = hints,
+            Mistakes = mistakes,
             PassThreshold = root.TryGetProperty("passThreshold", out var pt) && pt.ValueKind == JsonValueKind.Number ? pt.GetDouble() : 1.0,
             File = file,
             Json = json,
         };
+    }
+
+    private static Mistake ReadMistake(JsonElement x, string where)
+    {
+        if (x.ValueKind != JsonValueKind.Object) throw new ContentException($"{where} must be an object with \"says\" and \"result\" or \"value\".");
+        string? Str(string name) => x.TryGetProperty(name, out var v) && v.ValueKind == JsonValueKind.String ? v.GetString() : null;
+        double? Num(string name) => x.TryGetProperty(name, out var v)
+            ? v.ValueKind == JsonValueKind.Number ? v.GetDouble() : throw new ContentException($"{where}: \"{name}\" must be a number.")
+            : null;
+        var says = Str("says");
+        if (string.IsNullOrWhiteSpace(says)) throw new ContentException($"{where} has no \"says\": the sentence the learner reads.");
+        var result = Str("result");
+        var scale = Num("scale");
+        var value = Num("value");
+        if (value is not null && (result is not null || scale is not null))
+            throw new ContentException($"{where} has a \"value\" and a \"result\" or \"scale\". Give a fixed value, or a result (times a scale), not both.");
+        if (value is null && result is null && scale is null)
+            throw new ContentException($"{where} says what the mistake gives with none of \"result\", \"scale\" or \"value\".");
+        return new Mistake(result, scale ?? 1.0, value, says.Trim());
     }
 
     private static string SettingText(JsonElement value, string where) => value.ValueKind switch

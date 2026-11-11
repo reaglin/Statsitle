@@ -59,7 +59,7 @@ public sealed class StatsContent
 
         foreach (var task in Tasks.Values)
         {
-            try { StatsTaskRunner.Build(task); }
+            try { problems.AddRange(MistakeProblems(StatsTaskRunner.Build(task))); }
             catch (ContentException ex) { problems.Add(ex.Message); }
         }
 
@@ -67,9 +67,64 @@ public sealed class StatsContent
         {
             if (item.Exercise is { } ex && Find(ex) is { IsExercise: false })
                 problems.Add($"{item.File}: the exercise {ex} asks for no results. Give it an \"ask\" list, or use it as the example.");
+
+            // Widgets in questions (plan 10.15): the Learning Core checks them in Learn and Reference pages only.
+            if (item.Quiz is { } quiz)
+                foreach (var q in quiz.Questions)
+                    foreach (var (part, text) in new[] { ("prompt", q.Prompt), ("explanation", q.Explanation ?? "") })
+                        foreach (var w in Widgets.In(text))
+                            if (CheckWidget(w) is { } problem)
+                                problems.Add($"{item.QuizFile ?? item.File}, question {q.Id} ({part}): {problem}");
         }
         return problems;
     }
+
+    /// <summary>
+    /// Things an author should look at that do not stop the package (plan 10.14), one sentence each. The Learning Core's
+    /// validator has only problems, so these are kept apart: the content test prints them and still passes.
+    /// <list type="bullet">
+    /// <item>Two results one exercise asks for are within each other's tolerance, so typing one for the other passes.</item>
+    /// </list>
+    /// </summary>
+    public IReadOnlyList<string> Warnings()
+    {
+        var warnings = new List<string>();
+        foreach (var task in Tasks.Values.OrderBy(t => t.File, StringComparer.Ordinal))
+        {
+            BuiltTask built;
+            try { built = StatsTaskRunner.Build(task); }
+            catch (ContentException) { continue; }   // a problem, reported by Validate
+            warnings.AddRange(OverlapWarnings(built));
+        }
+        return warnings;
+    }
+
+    /// <summary>Two asked results so close that an answer to one is accepted for the other (plan 10.14).</summary>
+    public static IEnumerable<string> OverlapWarnings(BuiltTask built)
+    {
+        var e = built.Expected;
+        for (var i = 0; i < e.Count; i++)
+            for (var j = i + 1; j < e.Count; j++)
+            {
+                var gap = Math.Abs(e[i].Value - e[j].Value);
+                if (gap <= e[i].Tolerance || gap <= e[j].Tolerance)
+                    yield return $"{built.Task.File}: {e[i].Asked.Result} ({e[i].Shown}) and {e[j].Asked.Result} ({e[j].Shown}) are only {gap:G3} apart, " +
+                                 $"within the tolerance ({Math.Max(e[i].Tolerance, e[j].Tolerance):G3}), so a learner who types one for the other passes. " +
+                                 "Change the data, or give a smaller \"tolerance\".";
+            }
+    }
+
+    /// <summary>A mistake whose number is accepted as the right answer would never be shown (plan 10.13).</summary>
+    public static IEnumerable<string> MistakeProblems(BuiltTask built)
+    {
+        foreach (var e in built.Expected)
+            foreach (var m in e.Mistakes)
+                if (Math.Abs(m.Value - e.Value) <= e.Tolerance)
+                    yield return $"{built.Task.File}: the mistake for {e.Asked.Result} (\"{Short(m.Says)}\") gives {m.Value:G4}, which is accepted as the right answer ({e.Shown}), " +
+                                 "so the learner would never read it. Remove it, or change the data so the two differ.";
+    }
+
+    private static string Short(string text) => text.Length <= 40 ? text : text[..37] + "…";
 
     private string? CheckWidget(WidgetTag tag)
     {

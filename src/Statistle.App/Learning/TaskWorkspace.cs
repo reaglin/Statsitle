@@ -256,7 +256,7 @@ public sealed class TaskWorkspace : ContentControl
         var check = new Button
         {
             Content = "_Check my answers", Padding = new Thickness(14, 5, 14, 5), Margin = new Thickness(0, 0, 8, 0), IsDefault = false,
-            ToolTip = "Compares your results with the ones the analysis calculates. Wrong ones say whether they are too high or too low, never the answer. Try as often as you like.",
+            ToolTip = "Compares your results with the ones the analysis calculates. Wrong ones say whether they are too high or too low, or name a common mistake, never the answer. Try as often as you like.",
         };
         check.Click += (_, _) => CheckAnswers();
         buttons.Children.Add(check);

@@ -49,6 +49,13 @@ P9. **Sign out**, close the program, start it again and sign in with your PIN. E
     and the exercise boxes still hold your last answers.
 P10. On the start screen choose **Just the Workbench (no sign-in)**. Expected: the Workbench, with the Course still
      readable (Ctrl+L) under a yellow "Not signed in: … progress is not kept" line with a **Sign in** link.
+P11. Common mistakes (plan 10.13). On **2.2**'s Exercise type the median (50.10) as the mean, and 50.15 as the median
+     (the middle of the values as listed, not sorted). Expected: ✗ with "That is the median…" and "…Sort the values…",
+     not "too high/too low". On **2.3**'s Exercise type a variance divided by n (about 56) and a standard deviation
+     divided by n. Expected: ✗ "You divided by n = 12. … divide by n − 1 = 11". Is each sentence what you would say?
+P12. A picture in a question (plan 10.15). On **2.4**'s Exercise (questions), question 9 shows the histogram of the
+     sensor reply times inside the question. Expected: the histogram is drawn (not the text `[[figure: …]]`), the
+     question reads well beside it, and the right answer is positively skewed.
 
 ### Q. The pilot's content (plan 11.1: your judgement, before the rest is written)
 

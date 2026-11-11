@@ -11,6 +11,15 @@
     { "result": "Mean", "prompt": "Mean, x̄ (mm)", "tolerance": 0.01 },
     { "result": "Median", "prompt": "Median (mm)", "tolerance": 0.01 }
   ],
+  "mistakes": {
+    "Mean": [
+      { "result": "Median", "says": "That is the median. The mean is the sum of the twelve values divided by 12." }
+    ],
+    "Median": [
+      { "result": "Mean", "says": "That is the mean. The median is the middle of the sorted values." },
+      { "value": 50.15, "says": "You took the middle two values as they are listed. Sort the values from smallest to largest first, then average the 6th and 7th." }
+    ]
+  },
   "hints": [
     "The mean is the sum of the twelve values divided by 12. The sum is a little over 600 mm.",
     "For the median, sort the values first. With n = 12 (even), the median is the average of the 6th and 7th sorted values.",

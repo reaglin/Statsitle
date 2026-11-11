@@ -12,6 +12,16 @@
     { "result": "Variance", "prompt": "Sample variance, s² (MPa²)" },
     { "result": "StandardDeviation", "prompt": "Sample standard deviation, s (MPa)" }
   ],
+  "mistakes": {
+    "Variance": [
+      { "result": "PopulationVariance", "says": "You divided by n = 12. These bars are a sample of the heat, so divide by n − 1 = 11." },
+      { "result": "StandardDeviation", "says": "That is the standard deviation. The variance is its square, s²." }
+    ],
+    "StandardDeviation": [
+      { "result": "PopulationStandardDeviation", "says": "You divided by n = 12. These bars are a sample of the heat, so divide by n − 1 = 11 before taking the square root." },
+      { "result": "Variance", "says": "That is the variance. The standard deviation is its square root." }
+    ]
+  },
   "hints": [
     "Range = largest value − smallest value.",
     "Find the mean first (it is close to 460 MPa). Then square each value's distance from the mean, add the twelve squares, and divide by n − 1 = 11.",

@@ -120,6 +120,101 @@ public class TaskRunnerTests
         Assert.Equal(5.0, Assert.Single(built.Expected).Value, 12);
     }
 
+    // Plan 10.13. Sample 3, 4, 4, 5, 9: sample variance 5.5 (÷ 4), population variance 4.4 (÷ 5), sample SD 2.345.
+    private const string Spread = """
+        {
+          "id": "test.spread",
+          "title": "Spread",
+          "analysis": "DescriptiveStatistics",
+          "settings": { "Sample": [3, 4, 4, 5, 9] },
+          "ask": [ "Variance", "CoefficientOfVariation" ],
+          "mistakes": {
+            "Variance": [
+              { "result": "PopulationVariance", "says": "You divided by n; the sample variance divides by n − 1." },
+              { "result": "StandardDeviation", "says": "That is the standard deviation. The variance is its square." },
+              { "value": 22, "says": "That is the sum of the squares. Divide it by n − 1." }
+            ],
+            "CoefficientOfVariation": { "scale": 0.01, "says": "Give it as a percentage: multiply by 100." }
+          }
+        }
+        """;
+
+    private static string? Failure(string task, string result, string typed)
+    {
+        var outcome = Runner.Run(task, StatsTaskRunner.Work(new Dictionary<string, string> { [result] = typed }));
+        var built = StatsTaskRunner.Build(StatsTask.Parse(task));
+        var label = built.Expected.Single(e => e.Asked.Result == result).Label;
+        return outcome.Scenarios.Single(s => s.Name == label).Failure;
+    }
+
+    [Fact]
+    public void A_mistake_the_task_names_is_said_in_place_of_too_high_or_too_low()
+    {
+        Assert.Equal("Variance (s²): 4.4 is not right. You divided by n; the sample variance divides by n − 1.", Failure(Spread, "Variance", "4.4"));
+        Assert.Equal("Variance (s²): 4.41 is not right. You divided by n; the sample variance divides by n − 1.", Failure(Spread, "Variance", "4.41"));
+        Assert.Contains("That is the standard deviation", Failure(Spread, "Variance", "2.345"));
+        Assert.Contains("sum of the squares", Failure(Spread, "Variance", "22"));
+        Assert.Contains("multiply by 100", Failure(Spread, "CoefficientOfVariation", "0.469"));
+        Assert.Contains("too low", Failure(Spread, "Variance", "3.9"));   // not near any mistake
+        Assert.Null(Failure(Spread, "Variance", "5.5"));
+    }
+
+    [Fact]
+    public void The_mistake_values_come_from_the_analysis()
+    {
+        var built = StatsTaskRunner.Build(StatsTask.Parse(Spread));
+        var variance = built.Expected[0];
+        Assert.Equal(4.4, variance.Mistakes[0].Value, 12);
+        Assert.Equal(Math.Sqrt(5.5), variance.Mistakes[1].Value, 12);
+        Assert.Equal(22, variance.Mistakes[2].Value);
+        Assert.Equal(built.Expected[1].Value * 0.01, Assert.Single(built.Expected[1].Mistakes).Value, 12);
+        Assert.Empty(StatsContent.MistakeProblems(built));
+    }
+
+    [Fact]
+    public void A_mistake_that_names_what_the_analysis_or_the_task_does_not_have_is_refused()
+    {
+        var noResult = Assert.Throws<ContentException>(() => StatsTaskRunner.Build(StatsTask.Parse(Spread.Replace("\"PopulationVariance\"", "\"PopVariance\"", StringComparison.Ordinal))));
+        Assert.Contains("names \"PopVariance\", which is not a number result of Descriptive statistics", noResult.Message);
+
+        var notAsked = Assert.Throws<ContentException>(() => StatsTaskRunner.Build(StatsTask.Parse(Spread.Replace("\"CoefficientOfVariation\": {", "\"Mean\": {", StringComparison.Ordinal))));
+        Assert.Contains("\"mistakes\" lists \"Mean\", which the task does not ask", notAsked.Message);
+
+        var noSays = Assert.Throws<ContentException>(() => StatsTask.Parse(Spread.Replace("\"says\": \"Give it as a percentage: multiply by 100.\"", "\"x\": 1", StringComparison.Ordinal)));
+        Assert.Contains("has no \"says\"", noSays.Message);
+
+        var both = Assert.Throws<ContentException>(() => StatsTask.Parse(Spread.Replace("{ \"value\": 22,", "{ \"value\": 22, \"result\": \"Mean\",", StringComparison.Ordinal)));
+        Assert.Contains("not both", both.Message);
+    }
+
+    [Fact]
+    public void A_mistake_accepted_as_the_right_answer_is_a_problem()
+    {
+        // Population and sample variance of a large sample are within the 0.5 % tolerance of each other.
+        var many = string.Join(", ", Enumerable.Range(0, 400).Select(i => (i % 7).ToString(System.Globalization.CultureInfo.InvariantCulture)));
+        var task = Spread.Replace("[3, 4, 4, 5, 9]", $"[{many}]", StringComparison.Ordinal);
+        var problem = Assert.Single(StatsContent.MistakeProblems(StatsTaskRunner.Build(StatsTask.Parse(task))));
+        Assert.Contains("the learner would never read it", problem);
+    }
+
+    [Fact]
+    public void Two_asked_results_within_each_others_tolerance_give_a_warning()
+    {
+        // Plan 10.14. Mean 3.002 and median 3: 0.002 apart, inside the default tolerance (0.015).
+        const string close = """
+            { "id": "test.close", "title": "Close", "analysis": "DescriptiveStatistics",
+              "settings": { "Sample": [1, 2, 3, 4, 5.01] }, "ask": [ "Mean", "Median", "Range" ] }
+            """;
+        var warning = Assert.Single(StatsContent.OverlapWarnings(StatsTaskRunner.Build(StatsTask.Parse(close))));
+        Assert.Contains("Mean", warning);
+        Assert.Contains("Median", warning);
+        Assert.Contains("types one for the other passes", warning);
+
+        // A tighter tolerance clears it.
+        var tight = close.Replace("\"Mean\", \"Median\"", "{ \"result\": \"Mean\", \"tolerance\": 0.001 }, { \"result\": \"Median\", \"tolerance\": 0.001 }", StringComparison.Ordinal);
+        Assert.Empty(StatsContent.OverlapWarnings(StatsTaskRunner.Build(StatsTask.Parse(tight))));
+    }
+
     [Fact]
     public void Every_analysis_can_be_built_from_a_task_with_its_defaults()
     {
