@@ -1,0 +1,18 @@
+{
+  "id": "st.m8.test-statistics.eg",
+  "title": "Coating thickness: a t-test",
+  "analysis": "OneSampleTest",
+  "intro": "A paint line is set to apply a coating **50 µm** thick. An inspector measures **n = 12** panels: mean **x̄ = 52.1 µm**, standard deviation **s = 3.0 µm**. σ is not known, so the test is a t-test with n − 1 = 11 degrees of freedom. H₀: μ = 50 against H₁: μ ≠ 50, at α = 0.05.",
+  "settings": {
+    "Name": "Coating thickness",
+    "TestKind": "MeanSigmaUnknown",
+    "Source": "Summary",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "NullValue": 50,
+    "SampleMean": 52.1,
+    "SampleSd": 3.0,
+    "SampleSize": 12,
+    "AlternativeValue": null
+  }
+}

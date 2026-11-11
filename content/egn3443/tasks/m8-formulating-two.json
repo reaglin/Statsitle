@@ -1,0 +1,18 @@
+{
+  "id": "st.m8.formulating.two",
+  "title": "Resin cure time: a two-sided test",
+  "analysis": "OneSampleTest",
+  "intro": "The same 25 batches (x̄ = 31.4 minutes, σ = 4 minutes), tested against H₁: μ ≠ 30, as if a change either way mattered.",
+  "settings": {
+    "Name": "Cure time, H₁: μ ≠ 30",
+    "TestKind": "MeanSigmaKnown",
+    "Source": "Summary",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "NullValue": 30,
+    "SampleMean": 31.4,
+    "Sigma": 4,
+    "SampleSize": 25,
+    "AlternativeValue": null
+  }
+}

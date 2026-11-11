@@ -1,0 +1,17 @@
+{
+  "id": "st.m8.p-values.eg",
+  "title": "Field failures: more than 10 %?",
+  "analysis": "OneSampleTest",
+  "intro": "A sensor maker has seen **10 %** of its sensors fail in their first year in the field. A customer suspects that a new batch fails **more** often: **31 of 250** sensors from it failed. Test H₀: p = 0.10 against H₁: p > 0.10 at α = 0.05.",
+  "settings": {
+    "Name": "Field failures",
+    "TestKind": "Proportion",
+    "Source": "Summary",
+    "AlternativeHypothesis": "Greater",
+    "Alpha": 0.05,
+    "NullValue": 0.10,
+    "SampleSize": 250,
+    "Successes": 31,
+    "AlternativeValue": null
+  }
+}

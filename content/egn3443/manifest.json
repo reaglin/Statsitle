@@ -4,5 +4,5 @@
   "title": "Statistics+ — EGN3443 Probability and Statistics for Engineers",
   "minimumAppVersion": "2.0.0",
   "note": "Follows https://reaglin.github.io/EGN3443/ topic by topic (docs/LEARNING-PATH.md). Module 2 is the pilot (plan 11.1).",
-  "modules": ["modules/00-start-here", "modules/01-statistics-for-engineers", "modules/02-descriptive", "modules/03-probability", "modules/04-discrete", "modules/06-sampling", "modules/07-estimation", "modules/09-two-sample"]
+  "modules": ["modules/00-start-here", "modules/01-statistics-for-engineers", "modules/02-descriptive", "modules/03-probability", "modules/04-discrete", "modules/06-sampling", "modules/07-estimation", "modules/08-hypothesis", "modules/09-two-sample"]
 }

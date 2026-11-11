@@ -1,0 +1,35 @@
+{
+  "id": "st.m8.p-values.ex",
+  "title": "Defective parts after a new die",
+  "analysis": "OneSampleTest",
+  "intro": "A stamping press has made **4 %** defective parts for years. After a new die was fitted, an inspector checks **400** parts and finds **9** defective. Did the new die **lower** the defect rate? Test H₀: p = 0.04 against H₁: p < 0.04.\n\nFind the z statistic and the p-value. Give z to two decimals and the p-value to three decimals or more.",
+  "settings": {
+    "Name": "Defect rate",
+    "TestKind": "Proportion",
+    "Source": "Summary",
+    "AlternativeHypothesis": "Less",
+    "Alpha": 0.05,
+    "NullValue": 0.04,
+    "SampleSize": 400,
+    "Successes": 9,
+    "AlternativeValue": null
+  },
+  "ask": [
+    { "result": "Statistic", "prompt": "z statistic", "tolerance": 0.01 },
+    { "result": "PValue", "prompt": "p-value (one-sided, H₁: p < 0.04)", "tolerance": 0.001 }
+  ],
+  "mistakes": {
+    "Statistic": [
+      { "value": -2.3600, "says": "You used p̂ in the standard error. A test assumes H₀ is true, so the standard error uses p₀: √(p₀(1 − p₀)/n)." }
+    ],
+    "PValue": [
+      { "scale": 2, "says": "That is a two-sided p-value. H₁ says p < 0.04, so only the lower tail counts: the area to the left of z." },
+      { "value": 0.9630, "says": "That is the area to the right of z. H₁ says p < 0.04, so the p-value is the area to the left of z, Φ(z)." }
+    ]
+  },
+  "hints": [
+    "p̂ = 9/400. The standard error uses the null value: √(p₀(1 − p₀)/n) = √(0.04 × 0.96 / 400).",
+    "z = (p̂ − 0.04) / standard error. It is negative, because p̂ is below 0.04.",
+    "H₁ says p < 0.04, so the p-value is the area to the left of z: Φ(z)."
+  ]
+}

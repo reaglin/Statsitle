@@ -1,0 +1,142 @@
+{
+  "id": "st.m8.check.quiz",
+  "title": "Module 8 check: hypothesis testing",
+  "passThreshold": 0.8,
+  "practice": false,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "choice",
+      "objective": "st.m8.o1",
+      "lookAgain": "st.m8.formulating",
+      "prompt": "A regulation requires the mean lead level in a water system to be **below 15 ppb**. The utility must show that its water complies. Which hypotheses should it test?",
+      "options": [
+        "H₀: μ = 15 against H₁: μ < 15",
+        "H₀: μ < 15 against H₁: μ = 15",
+        "H₀: μ = 15 against H₁: μ > 15",
+        "H₀: x̄ = 15 against H₁: x̄ < 15"
+      ],
+      "correct": [0],
+      "explanation": "Compliance is what the utility must show, so it goes in H₁: μ < 15, and H₀ holds the equals sign at the limit. The burden of proof is on the claim that needs evidence. Hypotheses are about μ, never the sample mean x̄."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m8.o1",
+      "lookAgain": "st.m8.formulating",
+      "prompt": "Which of these questions calls for a **two-tailed** alternative?",
+      "options": [
+        "Has the mean diameter of the shafts moved away from 20.00 mm?",
+        "Does the new insulation lower the mean heat loss below 85 W?",
+        "Is the share of late deliveries now above the target of 5 %?",
+        "Do the cables break at less than the rated mean of 12 kN?"
+      ],
+      "correct": [0],
+      "explanation": "\"Moved away from\" is a change in either direction, so H₁: μ ≠ 20.00. \"Lower\", \"above\" and \"less than\" fix one direction, so each is one-tailed."
+    },
+    {
+      "id": "q3",
+      "kind": "match",
+      "objective": "st.m8.o2",
+      "lookAgain": "st.m8.applying",
+      "prompt": "Match each study with the test it needs.",
+      "pairs": [
+        { "left": "Defect type counted for each of three machines", "right": "Chi-square test of independence" },
+        { "left": "Fuel use of 15 trucks, before and after a retrofit", "right": "Paired t-test" },
+        { "left": "Mean strength of concrete from four suppliers", "right": "One-way ANOVA" },
+        { "left": "Mean life of 20 bulbs against the rated 1000 h", "right": "One-sample t-test" }
+      ],
+      "explanation": "Counts classified two ways (machine and defect type) form a contingency table: chi-square independence. The same trucks measured twice are paired. Four groups' means need ANOVA (Module 14). One sample against a stated value, with σ unknown, is a one-sample t-test."
+    },
+    {
+      "id": "q4",
+      "kind": "choice",
+      "objective": "st.m8.o2",
+      "lookAgain": "st.m8.applying",
+      "prompt": "A maintenance log records which of four pumps failed in each of 120 failures. The engineer wants to know whether the pumps fail equally often. Which test fits?",
+      "options": [
+        "Chi-square goodness of fit, with equal expected proportions",
+        "Chi-square test of independence on a 4 × 4 table",
+        "One-sample t-test on the mean number of failures",
+        "One-way ANOVA comparing the four pumps' failures"
+      ],
+      "correct": [0],
+      "explanation": "The data are counts of one categorical variable (which pump), compared with stated proportions (¼ each): goodness of fit, with each expected count 120/4 = 30 and df = 3. There is no second variable to make a table, and the counts are not measurements with a mean to compare."
+    },
+    {
+      "id": "q5",
+      "kind": "numeric",
+      "objective": "st.m8.o3",
+      "lookAgain": "st.m8.test-statistics",
+      "prompt": "A spring is designed for a stiffness of 50 N/mm. Sixteen springs have a mean of 48.6 N/mm and a standard deviation of s = 2.8 N/mm. What is the t statistic for H₀: μ = 50? Give it to two decimals.",
+      "answer": -2.00,
+      "tolerance": 0.005,
+      "explanation": "The standard error is s/√n = 2.8/√16 = 0.7 N/mm, so t = (48.6 − 50)/0.7 = −2.00, with 15 degrees of freedom; the two-sided p-value is 0.064. Dividing by s instead of s/√n would give −0.50."
+    },
+    {
+      "id": "q6",
+      "kind": "numeric",
+      "objective": "st.m8.o3",
+      "lookAgain": "st.m8.p-values",
+      "prompt": "A z-test of H₀: μ = μ₀ against H₁: μ > μ₀ gives z = 2.17. What is the p-value? Give it to three decimals or more.",
+      "answer": 0.0150,
+      "tolerance": 0.001,
+      "explanation": "H₁ points up, so the p-value is the area to the right of z: 1 − Φ(2.17) = 1 − 0.9850 = 0.0150. A two-sided test would double it, to 0.0300; Φ(2.17) = 0.9850 is the area on the wrong side."
+    },
+    {
+      "id": "q7",
+      "kind": "numeric",
+      "objective": "st.m8.o3",
+      "lookAgain": "st.m8.applying",
+      "prompt": "A supplier claims its rivets are **40 %** type R1, **40 %** type R2 and **20 %** type R3. A box of 100 holds 50 R1, 30 R2 and 20 R3. What is the chi-square goodness-of-fit statistic? Give it to two decimals.",
+      "answer": 5.00,
+      "tolerance": 0.005,
+      "explanation": "The expected counts are 100 × 0.40 = 40, 40 and 100 × 0.20 = 20. χ² = (50 − 40)²/40 + (30 − 40)²/40 + (20 − 20)²/20 = 2.5 + 2.5 + 0 = 5.00, with df = 3 − 1 = 2 and p = 0.082: at α = 0.05 the claim is not rejected."
+    },
+    {
+      "id": "q8",
+      "kind": "choice",
+      "objective": "st.m8.o4",
+      "lookAgain": "st.m8.p-values",
+      "prompt": "A test gives p = 0.023. What is the decision at α = 0.05, and at α = 0.01?",
+      "options": [
+        "Reject H₀ at α = 0.05; do not reject H₀ at α = 0.01",
+        "Do not reject H₀ at α = 0.05; reject H₀ at α = 0.01",
+        "Reject H₀ at both levels, since p is a small number",
+        "Do not reject H₀ at either level, since p is above 0.01"
+      ],
+      "correct": [0],
+      "explanation": "Reject when p < α. 0.023 < 0.05, so reject at 0.05; 0.023 > 0.01, so do not reject at 0.01. The stricter level demands stronger evidence, which is why α is fixed before the data are seen."
+    },
+    {
+      "id": "q9",
+      "kind": "choice",
+      "objective": "st.m8.o4",
+      "lookAgain": "st.m8.interpreting",
+      "prompt": "Bolts are made to 25.00 ± 0.50 mm. A test on **5000** bolts finds a mean of 25.01 mm, with p = 0.0004 against H₀: μ = 25.00. Which conclusion is best?",
+      "options": [
+        "The 0.01 mm offset is statistically significant but too small to matter against a ±0.50 mm tolerance",
+        "The offset is significant, so the machine must be stopped and reset at once to remove it",
+        "p is so small that the offset must be large, so many bolts are out of tolerance",
+        "With 5000 bolts the test is unreliable, so the p-value should be ignored altogether"
+      ],
+      "correct": [0],
+      "explanation": "With n = 5000 the standard error is tiny, so even 0.01 mm is detected. Significance says the offset is real, not that it matters: it is 2 % of the tolerance on one side. A small p is not a large effect, and a large n makes a test more reliable, not less."
+    },
+    {
+      "id": "q10",
+      "kind": "choice",
+      "objective": "st.m8.o5",
+      "lookAgain": "st.m8.errors",
+      "prompt": "A crane's cable lot is tested with H₀: the mean breaking strength meets the rating, against H₁: it is below the rating. What is a **Type II error** here, and its consequence?",
+      "options": [
+        "Not rejecting H₀ when the cables are weak, so weak cables go into service",
+        "Rejecting H₀ when the cables are fine, so a good lot is scrapped",
+        "Rejecting H₀ when the cables are weak, so a weak lot is scrapped",
+        "Not rejecting H₀ when the cables are fine, so a good lot goes into service"
+      ],
+      "correct": [0],
+      "explanation": "A Type II error is failing to reject a false H₀: the cables are below the rating and the test misses it, a safety hazard. Rejecting a true H₀ (scrapping a good lot) is a Type I error, a cost. The other two are correct decisions. Because the Type II error is dangerous here, the test needs high power."
+    }
+  ]
+}

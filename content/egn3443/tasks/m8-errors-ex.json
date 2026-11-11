@@ -1,0 +1,38 @@
+{
+  "id": "st.m8.errors.ex",
+  "title": "Relief valve opening pressure",
+  "analysis": "OneSampleTest",
+  "intro": "Pressure-relief valves should open at **150 kPa**. The opening pressure of single valves has σ = 5 kPa. For each lot, a technician tests **n = 10** valves and runs a two-sided z-test of H₀: μ = 150 at α = 0.05. A lot that opens at **154 kPa** on average is a safety concern.\n\nFind the power of the test when the true mean is 154 kPa, and the smallest number of valves that gives a power of at least **0.90** there. Give the power to three decimals or more; the sample size is a whole number. (This lot's mean, 151.8 kPa, changes neither answer.)",
+  "settings": {
+    "Name": "Relief valves",
+    "TestKind": "MeanSigmaKnown",
+    "Source": "Summary",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "NullValue": 150,
+    "SampleMean": 151.8,
+    "Sigma": 5,
+    "SampleSize": 10,
+    "AlternativeValue": 154,
+    "TargetPower": 0.9
+  },
+  "ask": [
+    { "result": "Power", "prompt": "Power at μ₁ = 154 kPa", "tolerance": 0.001 },
+    { "result": "SampleSizeForPower", "prompt": "Smallest n for a power of 0.90" }
+  ],
+  "mistakes": {
+    "Power": [
+      { "value": 0.2844, "says": "That is β, the probability of a Type II error (missing the shift). Power is 1 − β." },
+      { "value": 0.8119, "says": "You used the one-sided critical value 1.645. This test is two-sided, so it rejects beyond ±z_{α/2} = ±1.96." }
+    ],
+    "SampleSizeForPower": [
+      { "value": 14, "says": "You used z_α = 1.645, the one-sided value. The test is two-sided, so use z_{α/2} = 1.96." },
+      { "value": 7, "says": "You left out z_β. For a power of 0.90 add z_β = 1.2816 to z_{α/2} before squaring." }
+    ]
+  },
+  "hints": [
+    "The shift, in standard errors, is δ√n/σ = (154 − 150)√10 / 5.",
+    "The test is two-sided, so the critical values are ±z_{α/2} = ±1.96. Power = 1 − [Φ(1.96 − shift) − Φ(−1.96 − shift)].",
+    "For the sample size, n ≈ [(z_{α/2} + z_β) σ / δ]² with z_β = 1.2816 for a power of 0.90; round up."
+  ]
+}

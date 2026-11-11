@@ -1,0 +1,91 @@
+{
+  "id": "st.m8.formulating.quiz",
+  "title": "Formulating the null and alternative hypotheses",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "choice",
+      "objective": "st.m8.o1",
+      "prompt": "A battery maker claims its cells last **at least 600 charge cycles** on average. A customer suspects they last fewer. Which hypotheses test the customer's suspicion?",
+      "options": [
+        "H₀: μ = 600 against H₁: μ < 600",
+        "H₀: μ = 600 against H₁: μ > 600",
+        "H₀: μ < 600 against H₁: μ = 600",
+        "H₀: μ = 600 against H₁: μ ≠ 600"
+      ],
+      "correct": [0],
+      "explanation": "The maker's claim is the status quo, so H₀: μ = 600. The customer needs evidence that the mean is lower, so H₁: μ < 600, a lower-tailed test. The equals sign never goes in H₁."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m8.o1",
+      "prompt": "A pipe is extruded with a wall thickness of 3.2 mm. Too thin fails the pressure rating; too thick wastes material and fails the fitting. Which alternative fits?",
+      "options": [
+        "H₁: μ ≠ 3.2 mm, two-tailed",
+        "H₁: μ < 3.2 mm, lower-tailed",
+        "H₁: μ > 3.2 mm, upper-tailed",
+        "H₁: x̄ ≠ 3.2 mm, two-tailed"
+      ],
+      "correct": [0],
+      "explanation": "A change in either direction matters, so the alternative is non-directional: μ ≠ 3.2 mm. The hypothesis is about the population mean μ, not the sample mean x̄."
+    },
+    {
+      "id": "q3",
+      "kind": "choice",
+      "objective": "st.m8.o1",
+      "prompt": "Historically **6 %** of welds need rework. A new welding procedure is meant to lower that. Which hypotheses should the engineer test?",
+      "options": [
+        "H₀: p = 0.06 against H₁: p < 0.06",
+        "H₀: p < 0.06 against H₁: p = 0.06",
+        "H₀: μ = 0.06 against H₁: μ < 0.06",
+        "H₀: p = 0.06 against H₁: p > 0.06"
+      ],
+      "correct": [0],
+      "explanation": "The parameter is a proportion p (a share of welds), not a mean. The improvement is what needs evidence, so it goes in H₁: p < 0.06; H₀ keeps the equals sign at the historical rate."
+    },
+    {
+      "id": "q4",
+      "kind": "multiple",
+      "objective": "st.m8.o1",
+      "prompt": "Which of these are correctly written pairs of hypotheses? Choose every one that is.",
+      "options": [
+        "H₀: μ = 75 °C, H₁: μ > 75 °C",
+        "H₀: p = 0.10, H₁: p ≠ 0.10",
+        "H₀: x̄ = 75 °C, H₁: x̄ > 75 °C",
+        "H₀: μ ≠ 75 °C, H₁: μ = 75 °C"
+      ],
+      "correct": [0, 1],
+      "explanation": "Hypotheses are about a parameter (μ, p), with the equals sign in H₀. The third pair is about the sample mean x̄, which is known once the data are in. The fourth has the equals sign in H₁."
+    },
+    {
+      "id": "q5",
+      "kind": "choice",
+      "objective": "st.m8.o1",
+      "prompt": "An engineer planned a two-tailed test of H₀: μ = 40. Her sample mean came out **above** 40, so she switched to H₁: μ > 40. What is wrong with that?",
+      "options": [
+        "Choosing the tail from the data halves the p-value and makes a false alarm more likely than α",
+        "Nothing: a one-tailed test should always point the way the sample mean points",
+        "A one-tailed test needs a larger sample than the two-tailed test she planned",
+        "H₁: μ > 40 cannot be tested with a z or t statistic, only with a χ² statistic"
+      ],
+      "correct": [0],
+      "explanation": "The tail comes from the question, fixed before the data are seen. Picking it to match the data halves the p-value, so a true H₀ is rejected more often than α allows. The sample size and the kind of statistic do not change with the tail."
+    },
+    {
+      "id": "q6",
+      "kind": "match",
+      "objective": "st.m8.o1",
+      "prompt": "Match each question with its alternative hypothesis.",
+      "pairs": [
+        { "left": "Is the mean fill still 355 mL?", "right": "μ ≠ 355" },
+        { "left": "Do the beams hold less than 355 kN?", "right": "μ < 355" },
+        { "left": "Is the defect rate above 0.05?", "right": "p > 0.05" },
+        { "left": "Has the defect rate changed from 0.05?", "right": "p ≠ 0.05" }
+      ],
+      "explanation": "\"Still\" and \"changed\" ask about a change in either direction: two-tailed. \"Less than\" and \"above\" fix the direction: one-tailed. Fills and loads are measurements, so the parameter is μ; a defect rate is a proportion p."
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "st.m8.foundations.eg",
+  "title": "Fuel injector flow: on target?",
+  "analysis": "OneSampleTest",
+  "intro": "A fuel injector is built to deliver **250 mL/min**. From years of records, the flow of single injectors has standard deviation **σ = 6 mL/min**. A quality engineer bench-tests **n = 16** injectors from a new batch and finds a mean flow of **x̄ = 253.3 mL/min**. Is the batch off target, or is 3.3 mL/min above target just chance?",
+  "settings": {
+    "Name": "Injector flow",
+    "TestKind": "MeanSigmaKnown",
+    "Source": "Summary",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "NullValue": 250,
+    "SampleMean": 253.3,
+    "Sigma": 6,
+    "SampleSize": 16,
+    "AlternativeValue": null
+  }
+}

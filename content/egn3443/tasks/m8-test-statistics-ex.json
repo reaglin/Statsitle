@@ -1,0 +1,41 @@
+{
+  "id": "st.m8.test-statistics.ex",
+  "title": "Aluminium tensile strength",
+  "analysis": "OneSampleTest",
+  "intro": "An aluminium alloy is sold with a mean tensile strength of **310 MPa**. A lab tests **12 specimens** from a new shipment (MPa, in the table below). σ is not known. Test H₀: μ = 310 against H₁: μ ≠ 310 at α = 0.05.\n\nFind the t statistic, its degrees of freedom and the two-sided p-value. Give t to two decimals and the p-value to three decimals or more; the degrees of freedom are a whole number.",
+  "tables": [
+    { "name": "Strength", "columns": { "MPa": [305, 312, 301, 308, 299, 311, 304, 309, 302, 314, 300, 306] } }
+  ],
+  "settings": {
+    "Name": "Tensile strength",
+    "TestKind": "MeanSigmaUnknown",
+    "Source": "Columns",
+    "Column": "@Strength/MPa",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "NullValue": 310,
+    "AlternativeValue": null
+  },
+  "ask": [
+    { "result": "Statistic", "prompt": "t statistic", "tolerance": 0.01 },
+    { "result": "DegreesOfFreedom", "prompt": "Degrees of freedom" },
+    { "result": "PValue", "prompt": "p-value (two-sided)", "tolerance": 0.001 }
+  ],
+  "mistakes": {
+    "Statistic": [
+      { "value": -0.8259, "says": "You divided by s, the spread of single specimens. The t statistic divides by the standard error of the mean, s/√n." }
+    ],
+    "DegreesOfFreedom": [
+      { "value": 12, "says": "That is n. A one-sample t-test has n − 1 degrees of freedom: one is used up by estimating the mean." }
+    ],
+    "PValue": [
+      { "scale": 0.5, "says": "That is one tail only. H₁ says μ ≠ 310, so a t this far out on either side counts: double the tail area." },
+      { "value": 0.004225, "says": "You took the area from the normal (z) curve. σ is not known, so t follows the t distribution with n − 1 degrees of freedom, which has heavier tails." }
+    ]
+  },
+  "hints": [
+    "First x̄ and s of the twelve values (s divides by n − 1 = 11).",
+    "The standard error is s/√n. t = (x̄ − 310) / (s/√n).",
+    "The degrees of freedom are n − 1. The two-sided p-value is 2 × P(T ≥ |t|) in the t distribution with that many degrees of freedom: Python 2 * stats.t.sf(abs(t), df), R 2 * pt(abs(t), df, lower.tail = FALSE)."
+  ]
+}

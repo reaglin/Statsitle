@@ -1,0 +1,40 @@
+{
+  "id": "st.m8.interpreting.ex",
+  "title": "Casting outcome by plant",
+  "analysis": "ChiSquareTest",
+  "intro": "A company casts the same housing in three plants. Each of **1500** castings was judged *Within spec*, *Rework* or *Scrap* (the table below has one row per plant: row 1 is Plant A, row 2 Plant B, row 3 Plant C). Is the outcome related to the plant? Test independence at α = 0.05, then judge how strong the relation is.\n\nFind χ², its degrees of freedom, the p-value and Cramér's V. Give χ² to two decimals, and the p-value and V to three decimals or more; the degrees of freedom are a whole number.",
+  "tables": [
+    { "name": "Castings", "columns": { "Within spec": [420, 380, 400], "Rework": [50, 70, 60], "Scrap": [30, 50, 40] } }
+  ],
+  "settings": {
+    "Name": "Outcome by plant",
+    "Test": "Independence",
+    "Alpha": 0.05,
+    "CountsTable": "@Castings/",
+    "RowNames": "Plant A, Plant B, Plant C",
+    "Correction": "None"
+  },
+  "ask": [
+    { "result": "Statistic", "prompt": "χ² statistic", "tolerance": 0.01 },
+    { "result": "DegreesOfFreedom", "prompt": "Degrees of freedom" },
+    { "result": "P", "prompt": "p-value", "tolerance": 0.001 },
+    { "result": "CramersV", "prompt": "Cramér's V", "tolerance": 0.001 }
+  ],
+  "mistakes": {
+    "DegreesOfFreedom": [
+      { "value": 8, "says": "That is the number of cells less one. A test of independence has (r − 1)(c − 1) degrees of freedom, because both the row and the column totals are fixed." }
+    ],
+    "P": [
+      { "value": 0.2424, "says": "That p-value uses 8 degrees of freedom. For a 3 × 3 table df = (3 − 1)(3 − 1) = 4." }
+    ],
+    "CramersV": [
+      { "value": 0.0830, "says": "You divided χ² by n only. Cramér's V divides by n × (min(r, c) − 1) = 1500 × 2." },
+      { "value": 0.003444, "says": "You left out the square root. V = √(χ² / (n × (min(r, c) − 1)))." }
+    ]
+  },
+  "hints": [
+    "Each expected count is (row total × column total) / n. Plant A's row total is 500 and the Within spec column total is 1200, so E = 500 × 1200 / 1500 = 400.",
+    "χ² adds (O − E)²/E over all nine cells. df = (r − 1)(c − 1).",
+    "Cramér's V = √(χ² / (n × (min(r, c) − 1))), with n = 1500 and min(r, c) − 1 = 2."
+  ]
+}

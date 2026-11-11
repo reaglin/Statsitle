@@ -1,0 +1,18 @@
+{
+  "id": "st.m8.formulating.eg",
+  "title": "Resin cure time: a one-sided test",
+  "analysis": "OneSampleTest",
+  "intro": "A resin supplier states that its resin cures in **30 minutes** on average. A plant engineer suspects it takes **longer**, which would slow the line. Cure time has σ = 4 minutes. She times **n = 25** batches and finds **x̄ = 31.4 minutes**. The question was directional before the data were seen, so the alternative is H₁: μ > 30.",
+  "settings": {
+    "Name": "Cure time, H₁: μ > 30",
+    "TestKind": "MeanSigmaKnown",
+    "Source": "Summary",
+    "AlternativeHypothesis": "Greater",
+    "Alpha": 0.05,
+    "NullValue": 30,
+    "SampleMean": 31.4,
+    "Sigma": 4,
+    "SampleSize": 25,
+    "AlternativeValue": null
+  }
+}

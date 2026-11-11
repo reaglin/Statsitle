@@ -1,0 +1,17 @@
+{
+  "id": "st.m8.applying.table",
+  "title": "Defect type by shift",
+  "analysis": "ChiSquareTest",
+  "intro": "**180** defective castings were classified two ways: the shift that made them (Day, Night) and the type of defect (Porosity, Crack, Misrun). Is the type of defect related to the shift?",
+  "tables": [
+    { "name": "Defects", "columns": { "Porosity": [45, 35], "Crack": [30, 20], "Misrun": [15, 35] } }
+  ],
+  "settings": {
+    "Name": "Defect type by shift",
+    "Test": "Independence",
+    "Alpha": 0.05,
+    "CountsTable": "@Defects/",
+    "RowNames": "Day, Night",
+    "Correction": "None"
+  }
+}

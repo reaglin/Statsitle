@@ -4,7 +4,7 @@ number: 9
 title: Hypothesis Testing II
 status: draft
 minutes: 300
-prerequisites: [st.m7]
+prerequisites: [st.m8]
 outcomes:
   - st.m9.o1: Select the appropriate hypothesis test (two-sample z-test, two-sample t-test, or paired-sample t-test) for a given engineering scenario based on data type, sample size, and sample independence
   - st.m9.o2: Compute the test statistic for two-sample and paired-sample hypothesis tests using the correct formula and degrees of freedom

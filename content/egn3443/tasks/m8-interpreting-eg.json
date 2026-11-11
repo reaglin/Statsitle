@@ -1,0 +1,17 @@
+{
+  "id": "st.m8.interpreting.eg",
+  "title": "Rejects by supplier: significant, but how strong?",
+  "analysis": "ChiSquareTest",
+  "intro": "Two suppliers each sent **2000** brackets. Supplier A's had **60** rejects (3.0 %), supplier B's **90** (4.5 %). Is the reject rate related to the supplier? With 4000 brackets even a small difference can be significant, so read Cramér's V as well as p.",
+  "tables": [
+    { "name": "Brackets", "columns": { "Accepted": [1940, 1910], "Rejected": [60, 90] } }
+  ],
+  "settings": {
+    "Name": "Rejects by supplier",
+    "Test": "Independence",
+    "Alpha": 0.05,
+    "CountsTable": "@Brackets/",
+    "RowNames": "Supplier A, Supplier B",
+    "Correction": "None"
+  }
+}

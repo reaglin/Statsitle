@@ -1,0 +1,72 @@
+{
+  "id": "st.m8.foundations.quiz",
+  "title": "Foundations of hypothesis testing",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "choice",
+      "objective": "st.m8.o1",
+      "prompt": "A torque wrench is calibrated to 40 N·m. A technician wants to know whether a used wrench still delivers 40 N·m on average. Which is the null hypothesis?",
+      "options": [
+        "H₀: μ = 40 N·m, the mean torque of the wrench is still 40",
+        "H₀: μ ≠ 40 N·m, the mean torque of the wrench has changed",
+        "H₀: x̄ = 40 N·m, the sample mean of the readings is 40",
+        "H₀: μ > 40 N·m, the mean torque of the wrench is too high"
+      ],
+      "correct": [0],
+      "explanation": "H₀ is the \"nothing has changed\" statement about the population mean μ, and it holds the equals sign. μ ≠ 40 is the alternative. A hypothesis is never about x̄: the sample mean is known once the readings are taken."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m8.o4",
+      "prompt": "A test on a bearing's mean diameter gives a p-value of 0.03. Which sentence says what 0.03 means?",
+      "options": [
+        "If the mean really were on target, a sample this far off would happen about 3 % of the time",
+        "There is a 3 % probability that the mean diameter of the bearings is on target",
+        "There is a 97 % probability that the mean diameter of the bearings is off target",
+        "About 3 % of the bearings in the population have a diameter that is off target"
+      ],
+      "correct": [0],
+      "explanation": "A p-value is computed assuming H₀ is true: it is the probability of a result at least this extreme under H₀. It is not the probability that H₀ is true or false, and it says nothing about the share of individual bearings."
+    },
+    {
+      "id": "q3",
+      "kind": "choice",
+      "objective": "st.m8.o4",
+      "prompt": "At α = 0.05 a test of H₀: μ = 12.0 mm gives p = 0.21. What should the report say?",
+      "options": [
+        "Do not reject H₀: the data do not show that the mean differs from 12.0 mm",
+        "Accept H₀: the data prove that the mean is exactly 12.0 mm",
+        "Reject H₀: the data show that the mean differs from 12.0 mm",
+        "The test failed: a p-value above α means the test cannot be used"
+      ],
+      "correct": [0],
+      "explanation": "p = 0.21 ≥ 0.05, so H₀ is not rejected. That means the evidence is not strong enough, as a \"not guilty\" verdict does; it does not prove the mean is exactly 12.0 mm. Nothing is wrong with the test."
+    },
+    {
+      "id": "q4",
+      "kind": "match",
+      "objective": "st.m8.o5",
+      "prompt": "Match each courtroom outcome with its outcome in a hypothesis test.",
+      "pairs": [
+        { "left": "An innocent person is convicted", "right": "Type I error: a true H₀ is rejected" },
+        { "left": "A guilty person goes free", "right": "Type II error: a false H₀ is not rejected" },
+        { "left": "A guilty person is convicted", "right": "Correct: a false H₀ is rejected" },
+        { "left": "An innocent person goes free", "right": "Correct: a true H₀ is not rejected" }
+      ],
+      "explanation": "H₀ plays the part of \"innocent\". Rejecting it when it is true is a Type I error (its probability is α); failing to reject it when it is false is a Type II error (probability β). Item 8.6 treats both."
+    },
+    {
+      "id": "q5",
+      "kind": "numeric",
+      "objective": "st.m8.o4",
+      "prompt": "A gauge has σ = 2 µm. Nine readings of a 500 µm standard average 501.4 µm. Test H₀: μ = 500 against H₁: μ ≠ 500. What is the z statistic? Give it to two decimals.",
+      "answer": 2.10,
+      "tolerance": 0.005,
+      "explanation": "The standard error is σ/√n = 2/√9 = 0.667 µm, so z = (501.4 − 500)/0.667 = 2.10. Its two-sided p-value is 2 × (1 − Φ(2.10)) = 0.0357, below 0.05: the gauge reads high. Dividing by σ instead would give 0.70."
+    }
+  ]
+}

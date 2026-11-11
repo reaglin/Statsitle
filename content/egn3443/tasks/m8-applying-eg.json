@@ -1,0 +1,15 @@
+{
+  "id": "st.m8.applying.eg",
+  "title": "Unplanned shutdowns by weekday",
+  "analysis": "ChiSquareTest",
+  "intro": "A plant logged **110** unplanned shutdowns over a year, by the weekday they happened. If shutdowns do not depend on the day, each weekday should get one fifth of them: 22. Is there evidence that some days have more?",
+  "settings": {
+    "Name": "Shutdowns by weekday",
+    "Test": "GoodnessOfFit",
+    "Alpha": 0.05,
+    "Observed": [30, 18, 16, 19, 27],
+    "Proportions": "Equal",
+    "EstimatedParameters": 0,
+    "CategoryNames": "Mon, Tue, Wed, Thu, Fri"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "id": "st.m8.errors.eg",
+  "title": "Concrete strength: the power to catch a weak mix",
+  "analysis": "OneSampleTest",
+  "intro": "A concrete mix is specified at **4000 psi**. Strength has σ = 300 psi. The engineer breaks **n = 9** cylinders and tests H₀: μ = 4000 against H₁: μ < 4000 at α = 0.05. If the mix were really **3750 psi**, how likely is the test to catch it? And how many cylinders would give a **90 %** chance? (This sample's mean, 3870 psi, decides this test but does not change the power.)",
+  "settings": {
+    "Name": "Concrete strength",
+    "TestKind": "MeanSigmaKnown",
+    "Source": "Summary",
+    "AlternativeHypothesis": "Less",
+    "Alpha": 0.05,
+    "NullValue": 4000,
+    "SampleMean": 3870,
+    "Sigma": 300,
+    "SampleSize": 9,
+    "AlternativeValue": 3750,
+    "TargetPower": 0.9
+  }
+}
