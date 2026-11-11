@@ -111,3 +111,37 @@ Statistle.sln
   continuity corrections) the generated code sets the option explicitly and the help says so.
 - **Numerical edge cases** — tiny p-values, perfect fits, constant columns, n = 1. Invariants
   sweep them; `IReportsProblem` explains instead of crashing.
+
+---
+
+## Statistics+ (Ron, 2026-11-11)
+
+Statistle becomes **Statistics+**, a learning program like PLC+ that follows EGN3443
+(https://reaglin.github.io/EGN3443/) topic by topic. Each topic is an item with **Learn / Example / Exercise /
+Reference** tabs, and more topics can be added later on the same architecture. The map of the course is in
+`docs/LEARNING-PATH.md`, and the work is in `docs/DEVELOPMENT-PLAN.md`, phases 7–16.
+
+| | Decision | Why |
+|---|---|---|
+| D1 | **Rename the existing Store product** (Store ID 9MV608S7M9X6, identity `DeanEaglin.statistle`). The name is Statistics+ in front of a person. The code, the `.statistle` files and `Documents\Statistle` keep the name Statistle. Version 2.0.0. | Ron, 2026-11-11. The installs, ratings and link stay, as with Assessment+. |
+| D2 | **The Workbench stays.** Today's calculator (data tables, analyses, Report, Plots, Code) is a section of the tree, and the same analysis classes run the Example and Exercise tabs. | Ron, 2026-11-11. Students still need it for their own assignments. One engine means one set of numbers. |
+| D3 | **Learners as in PLC+.** `Learning.Core` and `Learning.Reports.Pdf` leave PLC+ and become shared packages in `C:\nuget-local`. They provide learners with a PIN, progress files, mastery for each outcome, signed reports and result lines (`STAT1|…`). | Ron, 2026-11-11. PLC+'s D5 said the core becomes a package once a second program uses it, and Statistics+ is that second program. |
+| D4 | **One item per course topic** and a module check per module: Start here and Modules 1–14, about 100 items. The ids (`st.mN.slug`, `st.mN.oK`) are stable. | Ron, 2026-11-11. |
+| D5 | **The answer key is calculated, never typed.** An exercise task names an analysis, its settings, a dataset and the results asked. The expected values come from running that analysis. | The answers cannot drift from the engine, and a content author cannot make an arithmetic mistake. |
+| D6 | **Content is data, not code** (PLC+'s format): Markdown with front-matter, JSON quizzes and tasks, CSV datasets, checked by a validator. A new topic is a new module folder or a second content package. It needs code only when it needs a new calculation, and then that is one new `Analysis` class. | The "add topics in the future" part of Ron's brief. |
+| D7 | Examples use a dataset *like* the exercise's, never its answer (PLC+ D21). | The Example teaches the method. The Exercise checks it. |
+
+### Architecture after the change
+
+```
+Statistle.sln
+├── src/Statistle.Core/          unchanged engine + Analyses (+ Simulation, Chi-square tests, Weibull/fit, hold-out)
+├── src/Statistle.Learning/      NEW net10.0: StatsTaskRunner (IChallengeRunner "stats"), task format, subject
+│                                validator hooks, widgets' data; references Statistle.Core + Eaglin.Learning.Core
+├── src/Statistle.App/           the shell: start screen, tree (My progress · Hand in a report · Start here ·
+│                                Modules · Workbench), item page with four tabs, Example/Exercise workspaces
+│                                (the existing editor hosted in a tab), dashboard, reports
+├── content/egn3443/             manifest.json, modules/, reference/, quizzes/, tasks/, datasets/
+├── tools/ContentValidator/
+└── tests/
+```

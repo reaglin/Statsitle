@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The learning path's statistics half: example and exercise tasks over the Statistle analyses, the runner
+       that grades them for the shared Learning Core (IChallengeRunner, domain "stats"), and the content checks.
+       No UI. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>Statistle.Learning</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Statistle.Core\Statistle.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The shared learning engine, from the local feed C:\nuget-local (..\LearningCore\build\pack.ps1). -->
+    <PackageReference Include="Eaglin.Learning.Core" Version="1.0.0" />
+  </ItemGroup>
+
+</Project>

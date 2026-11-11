@@ -4,6 +4,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
+> **Becoming Statistics+ (Ron, 2026-11-11).** The Statistics+ name goes on this Store product, and the program
+> becomes a learning program like PLC+. It follows EGN3443 topic by topic, and each topic has Learn / Example /
+> Exercise / Reference tabs. The calculator stays as the Workbench. Learners and reports come from PLC+'s
+> `Learning.Core`, which becomes a shared package. Read `docs/LEARNING-PATH.md`, `docs/PLAN.md` (section
+> *Statistics+*) and `docs/DEVELOPMENT-PLAN.md` phases 7–16. The code names stay Statistle.
+
 **Statistle** — a Windows 10/11 desktop app that calculates the statistics of Ron's course
 EGN3443 *Probability and Statistics for Engineers* (`github.com/reaglin/egn3443`), explains
 every input and result for the student, and writes the **Python and R** that reproduce the data
