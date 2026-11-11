@@ -8,6 +8,7 @@
       "id": "q1",
       "kind": "numeric",
       "objective": "st.m1.o1",
+      "lookAgain": "st.m1.descriptive",
       "prompt": "Five readings of a pressure gauge, in bar: 12.5, 13.1, 12.8, 13.4, 12.7. What is the mean reading? Give it to two decimals.",
       "answer": 12.9,
       "tolerance": 0.005,
@@ -18,6 +19,7 @@
       "id": "q2",
       "kind": "numeric",
       "objective": "st.m1.o1",
+      "lookAgain": "st.m1.descriptive",
       "prompt": "A sample of five daily counts of rejected castings: 6, 9, 7, 12, 11. What is the sample standard deviation s? Give it to two decimals.",
       "answer": 2.5495,
       "tolerance": 0.006,
@@ -28,6 +30,7 @@
       "id": "q3",
       "kind": "choice",
       "objective": "st.m1.o2",
+      "lookAgain": "st.m1.distributions",
       "prompt": "A call center logs the number of calls that arrive in each 5-minute interval. Calls arrive at random, at an average of 4 per interval. Which distribution models the number of calls in an interval?",
       "options": [
         "Poisson",
@@ -42,6 +45,7 @@
       "id": "q4",
       "kind": "choice",
       "objective": "st.m1.o2",
+      "lookAgain": "st.m1.distributions",
       "prompt": "An inspector tests 40 circuit boards from a line where each board, independently, has a 1.5 % chance of a solder fault. Which distribution models the number of faulty boards among the 40?",
       "options": [
         "Binomial with n = 40 and p = 0.015",
@@ -56,6 +60,7 @@
       "id": "q5",
       "kind": "choice",
       "objective": "st.m1.o3",
+      "lookAgain": "st.m1.inference",
       "prompt": "A 95 % confidence interval for the mean thickness of a coating is 48.6 to 51.2 µm. The specification asks for a mean thickness between 45 and 55 µm. What is the best conclusion?",
       "options": [
         "The process mean meets the specification: the whole interval is inside 45 to 55 µm",
@@ -70,6 +75,7 @@
       "id": "q6",
       "kind": "choice",
       "objective": "st.m1.o3",
+      "lookAgain": "st.m1.inference",
       "prompt": "A test of whether a new heat treatment changes the mean hardness gives p = 0.012. The engineer set α = 0.05. What is the conclusion?",
       "options": [
         "Reject H₀: the data show that the mean hardness changed",
@@ -84,6 +90,7 @@
       "id": "q7",
       "kind": "numeric",
       "objective": "st.m1.o4",
+      "lookAgain": "st.m1.quality",
       "prompt": "For a sample of tube wall thicknesses, Q1 = 14.2 mm and Q3 = 15.8 mm. What is the upper fence, Q3 + 1.5 × IQR, beyond which a value is an outlier? Give it to one decimal.",
       "answer": 18.2,
       "tolerance": 0.05,
@@ -94,6 +101,7 @@
       "id": "q8",
       "kind": "choice",
       "objective": "st.m1.o4",
+      "lookAgain": "st.m1.variability",
       "prompt": "The histogram of 200 pump repair times has a tall peak at 1 to 2 hours and a long tail out to 12 hours. The mean is 2.9 h and the median 1.8 h. How is the distribution shaped, and which number best describes a typical repair?",
       "options": [
         "Positively (right) skewed; the median, 1.8 h",
@@ -108,6 +116,7 @@
       "id": "q9",
       "kind": "choice",
       "objective": "st.m1.o5",
+      "lookAgain": "st.m1.quality",
       "prompt": "Filled bottles on a stable line vary by a few milliliters from one to the next. After a new batch of bottles arrives, one bottle in twenty is badly underfilled. Which is the better description?",
       "options": [
         "The small bottle-to-bottle spread is common-cause variation; the underfills after the new batch point to a special cause",
@@ -122,6 +131,7 @@
       "id": "q10",
       "kind": "choice",
       "objective": "st.m1.o5",
+      "lookAgain": "st.m1.quality",
       "prompt": "Two lathes turn shafts with a tolerance of 20.00 ± 0.06 mm. Both are centered on 20.00 mm. Lathe A's standard deviation is 0.01 mm and lathe B's 0.03 mm. What does this mean for quality?",
       "options": [
         "Lathe B makes more shafts out of tolerance: its ±3s spread (±0.09 mm) is wider than the tolerance, while A's (±0.03 mm) fits well inside it",

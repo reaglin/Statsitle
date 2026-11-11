@@ -14,8 +14,8 @@
   },
   "ask": [
     { "result": "TheoreticalProbability", "prompt": "Theoretical probability, P(sum ≥ 10)", "tolerance": 0.001 },
-    { "result": "Occurrences", "prompt": "Times the event happened in 1000 rolls (seed 1)" },
-    { "result": "ExperimentalProbability", "prompt": "Experimental probability (seed 1)" }
+    { "result": "Occurrences", "prompt": "Times the event happened in 1000 rolls (seed 1)", "wrong": "Check the Workbench settings against the list above, especially Seed 1, 1000 trials and is at least 10." },
+    { "result": "ExperimentalProbability", "prompt": "Experimental probability (seed 1)", "wrong": "Check the Workbench settings against the list above, especially Seed 1, 1000 trials and is at least 10." }
   ],
   "mistakes": {
     "TheoreticalProbability": [

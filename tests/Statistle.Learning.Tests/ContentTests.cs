@@ -1,3 +1,4 @@
+using Learning.Core.Content;
 using Statistle.Learning;
 using Xunit.Abstractions;
 
@@ -83,6 +84,17 @@ public class ContentTests(ITestOutputHelper output)
         {
             if (Directory.Exists(copy)) Directory.Delete(copy, recursive: true);
         }
+    }
+
+    [Fact]
+    public void Content_every_module_check_question_names_the_item_to_look_at_again()
+    {
+        // UX review 2026-11-11: the first item listing an outcome is often the introduction, so each check names its own.
+        var content = StatsContent.Load(Egn3443);
+        foreach (var check in content.Package.AllItems.Where(i => i.Kind == ItemKind.Assess && i.Quiz is not null))
+            foreach (var q in check.Quiz!.Questions)
+                Assert.True(content.LookAgainAt(check, q) is { Kind: not ItemKind.Assess } target && target.Module == check.Module,
+                    $"{check.QuizFile}, question {q.Id}: give it \"lookAgain\" with an item of module {check.Module.Number}.");
     }
 
     [Fact]
