@@ -1133,7 +1133,7 @@ public sealed class MannWhitneyMethod : TwoSampleTestMethod
 
     public override string Description => "Ranks both samples together; U₁ = R₁ − n₁(n₁ + 1)/2; normal approximation with continuity and tie corrections (scipy's method='asymptotic').";
 
-    public override string Citation => "Mann, H. B. and Whitney, D. R., Annals of Mathematical Statistics 18, 1947; Montgomery and Runger, 7th ed., §10-6 (nonparametric procedures).";
+    public override string Citation => "Mann, H. B. and Whitney, D. R., Annals of Mathematical Statistics 18, 1947; Montgomery and Runger, 7th ed., §10-3 (a nonparametric test for the difference in two means: the Wilcoxon rank-sum test).";
 
     public override string StatisticSymbol => "z";
 
