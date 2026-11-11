@@ -104,6 +104,11 @@ the Exercise checks it.
 | `hints` | Shown one at a time on request |
 | `passThreshold` | The share of answers that must be right (default 1: all) |
 
+A **contingency table** for Chi-square tests (`"Test": "Independence"`) comes from a task table:
+`"tables": [{ "name": "Pension", "columns": { "Plan 1": [160, 40], "Plan 2": [140, 60], "Plan 3": [40, 60] } }]` and
+`"CountsTable": "@Pension/"` — each column of the table is a column of counts, one value per row category
+(`"RowNames": "Salaried, Hourly"` names the rows). Goodness of fit takes `"Observed"` as a list of counts.
+
 **There is no answer in the file.** The program runs the analysis and calculates every asked result, so the key always
 matches the engine (plan D5). An answer is accepted within half a unit in the second decimal or 0.5 % of the value,
 whichever is larger; a count must be exact; `tolerance` overrides that.

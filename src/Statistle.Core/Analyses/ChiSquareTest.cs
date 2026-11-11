@@ -72,9 +72,9 @@ public sealed class ChiSquareTest : Analysis, IHasFigures, IUsesProject, IHasCho
     private string _rowNames = string.Empty;
     private ContinuityCorrection _correction = ContinuityCorrection.None;
 
-    private int _categories;
-    private int _rows;
-    private int _columns;
+    private double _categories = double.NaN;
+    private double _rows = double.NaN;
+    private double _columns = double.NaN;
     private double _total = double.NaN;
     private string _hypotheses = string.Empty;
     private string _expectedTable = string.Empty;
@@ -281,7 +281,7 @@ public sealed class ChiSquareTest : Analysis, IHasFigures, IUsesProject, IHasCho
 
     [StatistleProperty(Label = "Categories (k)", Decimals = 0, Unit = ValueKind.Count, Role = VariableRole.Calculated,
         Help = "How many categories the counts fall in.")]
-    public int Categories
+    public double Categories
     {
         get => _categories;
         set => SetProperty(ref _categories, value);
@@ -289,7 +289,7 @@ public sealed class ChiSquareTest : Analysis, IHasFigures, IUsesProject, IHasCho
 
     [StatistleProperty(Label = "Rows (r)", Decimals = 0, Unit = ValueKind.Count, Role = VariableRole.Calculated,
         Help = "How many categories the row factor has.")]
-    public int Rows
+    public double Rows
     {
         get => _rows;
         set => SetProperty(ref _rows, value);
@@ -297,7 +297,7 @@ public sealed class ChiSquareTest : Analysis, IHasFigures, IUsesProject, IHasCho
 
     [StatistleProperty(Label = "Columns (c)", Decimals = 0, Unit = ValueKind.Count, Role = VariableRole.Calculated,
         Help = "How many categories the column factor has.")]
-    public int Columns
+    public double Columns
     {
         get => _columns;
         set => SetProperty(ref _columns, value);
@@ -428,7 +428,8 @@ public sealed class ChiSquareTest : Analysis, IHasFigures, IUsesProject, IHasCho
         Outcome = null;
         ObservedCounts = ExpectedCounts = ProportionsUsed = [];
         CategoryLabels = RowLabels = ColumnLabels = [];
-        Categories = Rows = Columns = CellsBelowFive = 0;
+        Categories = Rows = Columns = double.NaN;   // blank in the test that does not use them, so a task cannot ask them there
+        CellsBelowFive = 0;
         Hypotheses = ExpectedTable = ExpectedCheck = Decision = Notes = string.Empty;
         Total = SmallestExpected = Statistic = DegreesOfFreedom = Critical = P = CramersV = double.NaN;
 
