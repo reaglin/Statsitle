@@ -1,0 +1,80 @@
+{
+  "id": "st.m9.selecting.quiz",
+  "title": "Choose the test",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "choice",
+      "objective": "st.m9.o1",
+      "prompt": "Fifteen asphalt cores are each cut in half. One half is tested for air voids by lab A and the other half by lab B. Do the labs differ on average? The fifteen differences look roughly normal. Which test?",
+      "options": ["Two-sample z-test", "Pooled t-test", "Welch t-test", "Paired t-test", "Mann–Whitney U test", "Wilcoxon signed-rank test", "F-test for two variances", "Two-proportion z-test"],
+      "correct": [3],
+      "explanation": "Compared: a mean measurement. Paired: yes, the two halves of one core are a pair (same material, same mix). σ known: no. The differences look normal, so the paired t-test on the 15 differences, with 14 df."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m9.o1",
+      "prompt": "Years of control-chart data give the standard deviation of fill volume as σ = 0.8 mL on line 1 and σ = 1.1 mL on line 2. Fifty bottles from each line are measured. Is the mean fill different on the two lines? Which test?",
+      "options": ["Two-sample z-test", "Pooled t-test", "Welch t-test", "Paired t-test", "Mann–Whitney U test", "Wilcoxon signed-rank test", "F-test for two variances", "Two-proportion z-test"],
+      "correct": [0],
+      "explanation": "Compared: a mean. Paired: no, different bottles. σ known: yes, both population standard deviations come from long process history, and the samples are large. That is the two-sample z-test, z = (x̄₁ − x̄₂)/√(0.8²/50 + 1.1²/50)."
+    },
+    {
+      "id": "q3",
+      "kind": "multiple",
+      "objective": "st.m9.o1",
+      "prompt": "Two operators each machine 12 different brackets on the same mill. The hole positions look normal in both samples, the standard deviations are 0.084 and 0.079 mm, and Levene's test gives p = 0.71. To compare the mean hole positions, which tests are suitable? Choose every one that fits.",
+      "options": ["Two-sample z-test", "Pooled t-test", "Welch t-test", "Paired t-test"],
+      "correct": [1, 2],
+      "explanation": "Independent samples (different brackets), σ unknown, normal data, and no evidence the variances differ (Levene p = 0.71, similar s). The pooled t-test is justified and Welch is always acceptable; with equal sample sizes and similar spreads they give almost the same answer. Not z (σ is not known) and not paired (no bracket is measured by both operators)."
+    },
+    {
+      "id": "q4",
+      "kind": "choice",
+      "objective": "st.m9.o5",
+      "prompt": "Eight LEDs of design A and nine of design B were run to failure. The lifetimes are strongly skewed to the right, one design-B LED lasted ten times longer than the rest, and Shapiro–Wilk gives p = 0.004 for design B. Do the lifetimes differ? Which test?",
+      "options": ["Two-sample z-test", "Pooled t-test", "Welch t-test", "Paired t-test", "Mann–Whitney U test", "Wilcoxon signed-rank test", "F-test for two variances", "Two-proportion z-test"],
+      "correct": [4],
+      "explanation": "Independent samples, small, and clearly not normal (skewed, an extreme value, Shapiro–Wilk p = 0.004). The t-tests' assumption fails and the extreme value would dominate the means. The Mann–Whitney U test ranks all 17 lifetimes together, so the extreme value is just the largest rank."
+    },
+    {
+      "id": "q5",
+      "kind": "choice",
+      "objective": "st.m9.o5",
+      "prompt": "Nine drivers each rate the comfort of two seat designs on a scale from 1 to 10. Does one design rate higher? Which test?",
+      "options": ["Two-sample z-test", "Pooled t-test", "Welch t-test", "Paired t-test", "Mann–Whitney U test", "Wilcoxon signed-rank test", "F-test for two variances", "Two-proportion z-test"],
+      "correct": [5],
+      "explanation": "Paired: each driver rates both seats. The ratings are ordinal (a 7 is not exactly one unit more than a 6) and only nine pairs, so normality of the differences is doubtful. The Wilcoxon signed-rank test, the rank test for paired data, fits."
+    },
+    {
+      "id": "q6",
+      "kind": "choice",
+      "objective": "st.m9.o1",
+      "prompt": "A new lathe is bought to turn shafts **more consistently**. Fifteen shafts from the new lathe and fifteen from the old one are measured. The question is whether the new lathe's diameters vary less. Which test?",
+      "options": ["Two-sample z-test", "Pooled t-test", "Welch t-test", "Paired t-test", "Mann–Whitney U test", "Wilcoxon signed-rank test", "F-test for two variances", "Two-proportion z-test"],
+      "correct": [6],
+      "explanation": "The question is about spread, not the mean: σ²_new < σ²_old. The F-test compares two variances with F = s₁²/s₂² and 14 and 14 df. It assumes both samples are normal."
+    },
+    {
+      "id": "q7",
+      "kind": "choice",
+      "objective": "st.m9.o1",
+      "prompt": "Of 400 welds made with procedure A, 12 failed inspection. Of 450 made with procedure B, 25 failed. Is the failure rate different? Which test?",
+      "options": ["Two-sample z-test", "Pooled t-test", "Welch t-test", "Paired t-test", "Mann–Whitney U test", "Wilcoxon signed-rank test", "F-test for two variances", "Two-proportion z-test"],
+      "correct": [7],
+      "explanation": "Each weld passes or fails, so the data are counts and the question is about two proportions, 12/400 and 25/450. The two-proportion z-test compares them; Module 10 teaches it."
+    },
+    {
+      "id": "q8",
+      "kind": "choice",
+      "objective": "st.m9.o1",
+      "prompt": "Ten cylinders from a concrete truck are cured in a moist room and ten **other** cylinders from another truck are cured in the field. The strengths look normal, but the field-cured standard deviation is twice the moist-room one. Which test compares the mean strengths?",
+      "options": ["Two-sample z-test", "Pooled t-test", "Welch t-test", "Paired t-test", "Mann–Whitney U test", "Wilcoxon signed-rank test", "F-test for two variances", "Two-proportion z-test"],
+      "correct": [2],
+      "explanation": "Independent samples (different cylinders from different trucks, so no pairs), σ unknown, normal data, and clearly unequal spreads. Welch's t-test does not assume equal variances; the pooled test does."
+    }
+  ]
+}

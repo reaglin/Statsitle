@@ -1,0 +1,25 @@
+{
+  "id": "st.m9.two-sample.eg",
+  "title": "Tensile strength of two alloys",
+  "analysis": "TwoSampleTest",
+  "intro": "A materials lab compares the tensile strength (MPa) of two aluminium alloys: 10 coupons of alloy A and 8 of alloy B, tested on the same machine. Is there a difference in mean strength? H₀: μ_A − μ_B = 0 against H₁: μ_A − μ_B ≠ 0 at α = 0.05. The samples are independent (different coupons), the sizes differ and alloy B looks more spread out, so the test is Welch's t-test. Read the statistic, its degrees of freedom, the p-value and the confidence interval for μ_A − μ_B.",
+  "tables": [
+    {
+      "name": "Alloys",
+      "columns": {
+        "Alloy A": [512, 498, 521, 505, 515, 509, 502, 518, 507, 511],
+        "Alloy B": [495, 520, 478, 501, 488, 512, 483, 497]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Alloy strength",
+    "TestKind": "WelchT",
+    "Source": "Columns",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Delta0": 0,
+    "Column": "@Alloys/Alloy A",
+    "Column2": "@Alloys/Alloy B"
+  }
+}

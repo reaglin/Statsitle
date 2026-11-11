@@ -1,0 +1,49 @@
+{
+  "id": "st.m9.two-sample.ex",
+  "title": "Corrosion depth under two coatings",
+  "analysis": "TwoSampleTest",
+  "intro": "Steel panels were coated by two processes and put through 500 hours of salt spray. The pit depth (µm) was measured on 9 panels from process 1 and 12 from process 2. Does the mean pit depth differ between the processes? Test H₀: μ₁ − μ₂ = 0 against H₁: μ₁ − μ₂ ≠ 0 at α = 0.05 with **Welch's t-test** (the samples are independent and you have no reason to assume equal variances).\n\nFind the t statistic, the Welch–Satterthwaite degrees of freedom and the two-sided p-value. Give t and df to two decimals and p to three decimals or more.",
+  "tables": [
+    {
+      "name": "Coatings",
+      "columns": {
+        "Process 1": [41.2, 38.5, 44.0, 39.8, 42.6, 40.1, 43.3, 37.9, 41.7],
+        "Process 2": [45.8, 39.2, 50.1, 43.5, 47.9, 36.8, 48.6, 44.2, 51.3, 41.0, 46.7, 42.9]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Pit depth",
+    "TestKind": "WelchT",
+    "Source": "Columns",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Delta0": 0,
+    "Column": "@Coatings/Process 1",
+    "Column2": "@Coatings/Process 2"
+  },
+  "ask": [
+    { "result": "Statistic", "prompt": "Test statistic, t" },
+    { "result": "DegreesOfFreedom", "prompt": "Degrees of freedom, ν (Welch)" },
+    { "result": "PValue", "prompt": "Two-sided p-value", "tolerance": 0.001 }
+  ],
+  "mistakes": {
+    "Statistic": [
+      { "value": -2.3899, "says": "That is the pooled t, which assumes equal variances. Welch keeps them apart: SE = √(s₁²/n₁ + s₂²/n₂)." },
+      { "scale": -1, "says": "Check the sign. t = (x̄₁ − x̄₂)/SE with process 1 first, and process 1 has the smaller mean, so t is negative." }
+    ],
+    "DegreesOfFreedom": [
+      { "value": 19, "says": "n₁ + n₂ − 2 = 19 belongs to the pooled test. Welch's ν comes from the Welch–Satterthwaite formula." },
+      { "value": 8, "says": "min(n₁, n₂) − 1 = 8 is the conservative shortcut some textbooks allow. This exercise asks the Welch–Satterthwaite ν." }
+    ],
+    "PValue": [
+      { "scale": 0.5, "says": "That is a one-tailed p-value. H₁ is two-sided (≠), so p = 2 × P(T > |t|)." },
+      { "value": 0.02737, "says": "That is the pooled test's p-value (19 df). Use Welch's t and its ν." }
+    ]
+  },
+  "hints": [
+    "First the summaries: x̄₁, s₁ and n₁ = 9 for process 1; x̄₂, s₂ and n₂ = 12 for process 2 (s with n − 1).",
+    "Welch: SE = √(s₁²/n₁ + s₂²/n₂), t = (x̄₁ − x̄₂)/SE.",
+    "ν = (a + b)² / (a²/(n₁ − 1) + b²/(n₂ − 1)) with a = s₁²/n₁ and b = s₂²/n₂. Then p = 2 × P(T > |t|) with ν degrees of freedom: Python 2 * stats.t.sf(abs(t), nu), R 2 * pt(abs(t), nu, lower.tail = FALSE)."
+  ]
+}

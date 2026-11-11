@@ -1,0 +1,45 @@
+{
+  "id": "st.m9.nonparametric.ex",
+  "title": "Repair times of two crews",
+  "analysis": "TwoSampleTest",
+  "intro": "A utility logged the time (hours) two maintenance crews took to repair the same kind of pump fault: 9 repairs by crew A and 10 by crew B. Repair times are skewed to the right (most are short, a few are very long), and the samples are small, so compare the crews with the **Mann–Whitney U test**. H₀: the two distributions are the same; H₁: they differ (two-sided), at α = 0.05.\n\nFind U₁, the U for crew A (sample 1), and the two-sided p-value from the normal approximation with the continuity correction. U₁ is a whole number; give p to three decimals or more.",
+  "tables": [
+    {
+      "name": "Repairs",
+      "columns": {
+        "Crew A": [1.2, 0.8, 2.5, 1.5, 0.9, 6.8, 1.1, 1.9, 1.4],
+        "Crew B": [2.6, 1.8, 3.9, 2.2, 9.5, 2.9, 1.7, 3.3, 2.4, 4.1]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Repair time",
+    "TestKind": "MannWhitney",
+    "Source": "Columns",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Column": "@Repairs/Crew A",
+    "Column2": "@Repairs/Crew B"
+  },
+  "ask": [
+    { "result": "Statistic", "prompt": "U₁ (crew A)", "tolerance": 0.5 },
+    { "result": "PValue", "prompt": "Two-sided p-value", "tolerance": 0.001 }
+  ],
+  "mistakes": {
+    "Statistic": [
+      { "value": 75, "says": "That is U₂, the U for crew B. U₁ and U₂ add to n₁n₂ = 90; the exercise asks U₁, for crew A (sample 1)." },
+      { "value": 60, "says": "That is R₁, the rank sum of crew A. Subtract n₁(n₁ + 1)/2 = 45 to get U₁." }
+    ],
+    "PValue": [
+      { "value": 0.01327, "says": "That is the exact p-value, which Python's mannwhitneyu and R's wilcox.test give by default for small samples. The exercise asks the normal approximation: method='asymptotic' in Python, exact = FALSE in R." },
+      { "value": 0.01431, "says": "You left out the continuity correction. Subtract 0.5 from |U₁ − 45| before dividing by √150." },
+      { "scale": 0.5, "says": "That is a one-tailed p-value. H₁ is two-sided, so double the tail." },
+      { "value": 0.1522, "says": "That is the p-value of Welch's t-test on these times. The exercise asks the Mann–Whitney test, which ranks the data." }
+    ]
+  },
+  "hints": [
+    "Rank all 19 times together, from 1 (the shortest, 0.8 h) to 19 (the longest, 9.5 h). There are no ties.",
+    "Add the ranks of crew A's nine times: that is R₁. Then U₁ = R₁ − n₁(n₁ + 1)/2 = R₁ − 45.",
+    "Under H₀, U has mean n₁n₂/2 = 45 and standard deviation √(n₁n₂(n₁ + n₂ + 1)/12) = √150. With the continuity correction, z = (|U₁ − 45| − 0.5)/√150 and p = 2 × P(Z > z). Python stats.mannwhitneyu(a, b, method='asymptotic'); R wilcox.test(a, b, exact = FALSE)."
+  ]
+}

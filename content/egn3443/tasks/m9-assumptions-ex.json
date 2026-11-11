@@ -1,0 +1,35 @@
+{
+  "id": "st.m9.assumptions.ex",
+  "title": "Repeatability of two thickness gauges",
+  "analysis": "TwoSampleTest",
+  "intro": "Two thickness gauges each measured the same reference block many times. Gauge A: n₁ = 15 readings with standard deviation s₁ = 0.042 mm. Gauge B: n₂ = 13 readings with s₂ = 0.025 mm. Do the gauges differ in repeatability, that is, in variance? Test H₀: σ₁² = σ₂² against H₁: σ₁² ≠ σ₂² at α = 0.05 with the **F-test**, F = s₁²/s₂² (gauge A on top).\n\nFind F and the two-sided p-value. Give F to two decimals and p to three decimals or more.",
+  "settings": {
+    "Name": "Gauge repeatability",
+    "TestKind": "VarianceRatio",
+    "Source": "Summary",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "SampleSd": 0.042,
+    "SampleSize": 15,
+    "Sample2Sd": 0.025,
+    "Sample2Size": 13
+  },
+  "ask": [
+    { "result": "Statistic", "prompt": "Test statistic, F" },
+    { "result": "PValue", "prompt": "Two-sided p-value", "tolerance": 0.001 }
+  ],
+  "mistakes": {
+    "Statistic": [
+      { "value": 1.68, "says": "That is the ratio of the standard deviations, s₁/s₂. F compares variances: square each standard deviation first." },
+      { "value": 0.3543, "says": "That is s₂²/s₁², gauge B on top. The exercise puts gauge A (sample 1) on top: F = s₁²/s₂²." }
+    ],
+    "PValue": [
+      { "scale": 0.5, "says": "That is a one-tailed p-value. H₁ is two-sided (≠), so double the tail beyond F." }
+    ]
+  },
+  "hints": [
+    "F compares variances, so square the standard deviations first: F = s₁²/s₂².",
+    "Under H₀, F follows an F distribution with n₁ − 1 = 14 and n₂ − 1 = 12 degrees of freedom.",
+    "Two-sided: p = 2 × P(F₁₄,₁₂ > F) when F > 1. Python 2 * stats.f.sf(F, 14, 12), R 2 * pf(F, 14, 12, lower.tail = FALSE)."
+  ]
+}

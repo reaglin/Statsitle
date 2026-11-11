@@ -1,0 +1,143 @@
+{
+  "id": "st.m9.check.quiz",
+  "title": "Module 9 check: hypothesis testing II",
+  "passThreshold": 0.8,
+  "practice": false,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "choice",
+      "objective": "st.m9.o1",
+      "lookAgain": "st.m9.selecting",
+      "prompt": "The reaction time of 20 control-room operators is measured at the start and at the end of a 12-hour night shift. The 20 differences look roughly normal. Which test compares the mean reaction times?",
+      "options": [
+        "Welch t-test on two samples of 20, with ν from its formula",
+        "Pooled t-test on two samples of 20, with 38 df",
+        "Paired t-test on the 20 differences, with 19 df",
+        "Two-sample z-test on two samples of 20, with no df"
+      ],
+      "correct": [2],
+      "explanation": "Each operator is measured twice, so the data are paired: the start and end times of one operator share everything about that person. Test the 20 differences with the paired t-test, n − 1 = 19 df. The independent-sample tests would treat operator-to-operator variation as noise and lose the effect."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m9.o1",
+      "lookAgain": "st.m9.two-sample",
+      "prompt": "Thirty bricks from kiln 1 and thirty different bricks from kiln 2 are tested for compressive strength. The sample standard deviations are 2.1 and 4.8 MPa; the population σ's are not known. Which test, with which degrees of freedom?",
+      "options": [
+        "Pooled t-test, with n₁ + n₂ − 2 = 58 df",
+        "Welch t-test, with ν from the Welch–Satterthwaite formula",
+        "Paired t-test, with n − 1 = 29 df",
+        "Two-sample z-test, with no degrees of freedom"
+      ],
+      "correct": [1],
+      "explanation": "Independent samples (different bricks), σ unknown, and one standard deviation more than twice the other, so equal variances cannot be assumed. Welch's t-test does not pool; its degrees of freedom come from ν = (a + b)²/[a²/(n₁ − 1) + b²/(n₂ − 1)] with a = s₁²/n₁ and b = s₂²/n₂."
+    },
+    {
+      "id": "q3",
+      "kind": "numeric",
+      "objective": "st.m9.o2",
+      "lookAgain": "st.m9.two-sample",
+      "prompt": "Two batches of epoxy are tested for peel strength (N/mm). Batch 1: n₁ = 10, x̄₁ = 52.3, s₁ = 4.1. Batch 2: n₂ = 9, x̄₂ = 48.9, s₂ = 2.6. Calculate Welch's t statistic for H₀: μ₁ − μ₂ = 0. Give it to two decimals.",
+      "answer": 2.18,
+      "tolerance": 0.01,
+      "explanation": "a = s₁²/n₁ = 16.81/10 = 1.6810 and b = s₂²/n₂ = 6.76/9 = 0.7511. SE = √(1.6810 + 0.7511) = √2.4321 = 1.5595. t = (52.3 − 48.9)/1.5595 = 3.4/1.5595 = 2.18. Its degrees of freedom are ν = 2.4321²/(1.6810²/9 + 0.7511²/8) = 15.38, and the two-sided p = 0.045."
+    },
+    {
+      "id": "q4",
+      "kind": "numeric",
+      "objective": "st.m9.o2",
+      "lookAgain": "st.m9.paired",
+      "prompt": "Sixteen strain gauges were read before and after a calibration change. The differences have mean d̄ = 1.8 µε and standard deviation s_d = 2.4 µε. Calculate the paired t statistic for H₀: μ_d = 0. Give it to two decimals.",
+      "answer": 3.0,
+      "tolerance": 0.005,
+      "explanation": "t = d̄/(s_d/√n) = 1.8/(2.4/√16) = 1.8/(2.4/4) = 1.8/0.6 = 3.00, with n − 1 = 15 degrees of freedom. The two-sided p-value is 2 × P(T₁₅ > 3.00) = 0.009."
+    },
+    {
+      "id": "q5",
+      "kind": "choice",
+      "objective": "st.m9.o3",
+      "lookAgain": "st.m9.assumptions",
+      "prompt": "Before comparing the mean thickness of two independent samples of 15 films, an engineer gets: Shapiro–Wilk p = 0.41 and 0.63; Levene p = 0.003; s₁ = 1.2 µm and s₂ = 3.9 µm. What should she conclude about the assumptions?",
+      "options": [
+        "Neither sample is normal: use the Mann–Whitney U test, not a t-test",
+        "Both samples look normal and the variances are equal: use the pooled t",
+        "Levene's p is small, so the means differ: no further test is needed",
+        "Both samples look normal, but the variances differ: use Welch, not the pooled t"
+      ],
+      "correct": [3],
+      "explanation": "Shapiro–Wilk p-values of 0.41 and 0.63 give no evidence against normality. Levene's p = 0.003 is evidence that the variances differ (and s₂ is more than three times s₁). So a t-test is fine, but not the pooled one: use Welch. Levene tests the spreads, not the means."
+    },
+    {
+      "id": "q6",
+      "kind": "choice",
+      "objective": "st.m9.o3",
+      "lookAgain": "st.m9.assumptions",
+      "prompt": "For a paired t-test on 12 pairs, which normality check is the right one?",
+      "options": [
+        "Check that each of the two columns looks roughly normal",
+        "Check that the 12 differences look roughly normal",
+        "Check that the two columns have equal variances",
+        "No check: pairing removes the need for normality"
+      ],
+      "correct": [1],
+      "explanation": "The paired t-test is a one-sample t-test on the differences, so it is the differences that must be roughly normal (box plot, Shapiro–Wilk). The columns themselves may be skewed or have different spreads; that does not matter to the paired test."
+    },
+    {
+      "id": "q7",
+      "kind": "choice",
+      "objective": "st.m9.o4",
+      "lookAgain": "st.m9.interpreting",
+      "prompt": "A Welch test of two cooling-fan designs gives a 95 % confidence interval for μ₁ − μ₂ (airflow, m³/h) of −0.4 to 2.7. What is the decision of the two-sided test at α = 0.05, and why?",
+      "options": [
+        "Reject H₀, because most of the interval is above 0",
+        "Reject H₀, because the interval is wider than 3",
+        "Do not reject H₀, because the interval contains 0",
+        "No decision is possible without the p-value"
+      ],
+      "correct": [2],
+      "explanation": "A two-sided test at α rejects H₀: μ₁ − μ₂ = 0 exactly when 0 is outside the (1 − α) confidence interval. Here 0 is inside, so p ≥ 0.05 and H₀ is not rejected. The interval also shows that differences up to 2.7 m³/h are still plausible: not rejecting is not the same as no difference."
+    },
+    {
+      "id": "q8",
+      "kind": "choice",
+      "objective": "st.m9.o4",
+      "lookAgain": "st.m9.interpreting",
+      "prompt": "Two thousand pins from each of two machines are measured. The mean diameters differ by 0.02 mm, Welch's p = 0.001, and the specification is 10.00 ± 0.50 mm. Which statement is right?",
+      "options": [
+        "The difference is large for the specification, because p is very small",
+        "The difference is not real, because 0.02 mm is too small to detect",
+        "p = 0.001 means a 0.1 % chance that the two machines are the same",
+        "The difference is statistically significant but too small to matter for the specification"
+      ],
+      "correct": [3],
+      "explanation": "With 2000 pins per machine, even a tiny difference is detected: p = 0.001 says it is probably real. But 0.02 mm is 4 % of the 0.50 mm tolerance; for the specification it hardly matters. A small p does not mean a large effect, and p is not the probability that H₀ is true."
+    },
+    {
+      "id": "q9",
+      "kind": "choice",
+      "objective": "st.m9.o5",
+      "lookAgain": "st.m9.nonparametric",
+      "prompt": "Nine welders each make one joint with rod A and one with rod B, and the joint strengths are compared. The nine differences include one far outlier, and Shapiro–Wilk on the differences gives p = 0.01. Which test should replace the paired t-test?",
+      "options": [
+        "Mann–Whitney U test",
+        "Wilcoxon signed-rank test",
+        "Welch t-test",
+        "F-test for two variances"
+      ],
+      "correct": [1],
+      "explanation": "The design is paired (each welder uses both rods) and the differences are not normal with a small n, so the paired t-test's assumption fails. The non-parametric test for paired data is the Wilcoxon signed-rank test, which ranks the sizes of the differences. Mann–Whitney is for independent samples."
+    },
+    {
+      "id": "q10",
+      "kind": "numeric",
+      "objective": "st.m9.o5",
+      "lookAgain": "st.m9.nonparametric",
+      "prompt": "For a Mann–Whitney test, n₁ = 6 values from line 1 and n₂ = 7 from line 2 are ranked together. The ranks of line 1 add to R₁ = 30. What is U₁? It is a whole number.",
+      "answer": 9,
+      "tolerance": 0,
+      "explanation": "U₁ = R₁ − n₁(n₁ + 1)/2 = 30 − 6 × 7/2 = 30 − 21 = 9. Then U₂ = n₁n₂ − U₁ = 42 − 9 = 33. Under H₀ the mean of U is n₁n₂/2 = 21, so line 1 tends to have the smaller values."
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "id": "st.m9.assumptions.eg",
+  "title": "Fill weights from two machines",
+  "analysis": "TwoSampleTest",
+  "intro": "A food plant fills 500 g packs on a new machine and an old one. Twelve packs from each were weighed (g). Before comparing the means, check the assumptions: is each sample normal-looking (Shapiro–Wilk), and are the variances equal (Levene)? The box plots show the old machine's much wider spread, and Levene's test confirms it, so the test is Welch's, not the pooled t.",
+  "tables": [
+    {
+      "name": "Fill",
+      "columns": {
+        "New machine": [500.2, 499.8, 500.5, 500.1, 499.6, 500.3, 499.9, 500.4, 500.0, 499.7, 500.2, 500.1],
+        "Old machine": [501.8, 498.1, 500.9, 497.6, 502.4, 499.0, 503.1, 498.7, 501.2, 497.9, 500.6, 502.0]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Fill weight",
+    "TestKind": "WelchT",
+    "Source": "Columns",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Delta0": 0,
+    "Column": "@Fill/New machine",
+    "Column2": "@Fill/Old machine"
+  }
+}

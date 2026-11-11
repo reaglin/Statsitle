@@ -1,0 +1,47 @@
+{
+  "id": "st.m9.paired.ex",
+  "title": "Pump power before and after a retrofit",
+  "analysis": "TwoSampleTest",
+  "intro": "A water plant fitted new impellers to 10 pumps. The power each pump draws at its duty point (kW) was measured before the retrofit and again after it. Did the retrofit change the mean power draw? With d = before − after for each pump, test H₀: μ_d = 0 against H₁: μ_d ≠ 0 at α = 0.05 with the **paired t-test**.\n\nFind the t statistic, its degrees of freedom and the two-sided p-value. Give t and df to two decimals and p to four decimals or more (it is small).",
+  "tables": [
+    {
+      "name": "Pumps",
+      "columns": {
+        "Before": [18.4, 22.1, 15.7, 20.3, 25.6, 17.2, 19.8, 23.4, 16.5, 21.0],
+        "After": [17.6, 21.5, 15.9, 19.1, 24.2, 16.8, 19.0, 22.9, 16.1, 20.2]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Pump power",
+    "TestKind": "PairedT",
+    "Source": "Columns",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Delta0": 0,
+    "Column": "@Pumps/Before",
+    "Column2": "@Pumps/After"
+  },
+  "ask": [
+    { "result": "Statistic", "prompt": "Test statistic, t" },
+    { "result": "DegreesOfFreedom", "prompt": "Degrees of freedom" },
+    { "result": "PValue", "prompt": "Two-sided p-value", "tolerance": 0.0001 }
+  ],
+  "mistakes": {
+    "Statistic": [
+      { "value": 0.4974, "says": "That is Welch's t for two independent samples. Each pump was measured twice, so the data are paired: work with the ten differences d = before − after." }
+    ],
+    "DegreesOfFreedom": [
+      { "value": 18, "says": "2n − 2 = 18 treats the columns as two independent samples. The paired test has n − 1 degrees of freedom, with n the number of pairs." }
+    ],
+    "PValue": [
+      { "scale": 0.5, "says": "That is a one-tailed p-value. H₁ is two-sided (≠), so p = 2 × P(T > |t|)." },
+      { "value": 0.6250, "says": "That is the p-value of Welch's test on two independent samples. The data are paired: test the differences." }
+    ]
+  },
+  "hints": [
+    "Work with the ten differences d = before − after: 0.8, 0.6, −0.2, … Find their mean d̄ and standard deviation s_d (with n − 1).",
+    "t = d̄ / (s_d/√n) with n = 10 pairs, and the degrees of freedom are n − 1.",
+    "p = 2 × P(T > |t|): Python 2 * stats.t.sf(abs(t), 9), R 2 * pt(abs(t), 9, lower.tail = FALSE). The p-value is very small here; type it with enough decimals."
+  ]
+}

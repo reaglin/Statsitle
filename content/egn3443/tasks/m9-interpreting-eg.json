@@ -1,0 +1,20 @@
+{
+  "id": "st.m9.interpreting.eg",
+  "title": "Resistors from two suppliers",
+  "analysis": "TwoSampleTest",
+  "intro": "A buyer measured 500 nominal 100 Ω resistors from each of two suppliers. Supplier 1: mean 100.12 Ω, standard deviation 1.05 Ω. Supplier 2: mean 99.98 Ω, standard deviation 1.10 Ω. The resistors are rated ±5 % (±5 Ω). Welch's t-test at α = 0.05 finds the difference statistically significant, but the confidence interval and Cohen's d show it is far too small to matter for a ±5 Ω part.",
+  "settings": {
+    "Name": "Resistance",
+    "TestKind": "WelchT",
+    "Source": "Summary",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Delta0": 0,
+    "SampleMean": 100.12,
+    "SampleSd": 1.05,
+    "SampleSize": 500,
+    "Sample2Mean": 99.98,
+    "Sample2Sd": 1.10,
+    "Sample2Size": 500
+  }
+}

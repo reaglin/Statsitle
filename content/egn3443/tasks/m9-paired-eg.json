@@ -1,0 +1,25 @@
+{
+  "id": "st.m9.paired.eg",
+  "title": "Tread wear of two tire compounds",
+  "analysis": "TwoSampleTest",
+  "intro": "Eight test cars each ran one tire of compound A and one of compound B for 20 000 km, and the tread wear (mm) was measured on both. Each car gives a pair: the same driver, roads and weather wore both tires. Does compound A wear differently from compound B? H₀: μ_d = 0 against H₁: μ_d ≠ 0 at α = 0.05, where d = A − B for each car. Read the paired t statistic, its n − 1 = 7 degrees of freedom, the p-value and the interval for the mean difference.",
+  "tables": [
+    {
+      "name": "Tires",
+      "columns": {
+        "Compound A": [4.1, 3.6, 5.2, 4.8, 3.9, 4.4, 5.0, 3.7],
+        "Compound B": [4.4, 3.8, 5.5, 4.9, 4.3, 4.6, 5.4, 3.8]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Tread wear",
+    "TestKind": "PairedT",
+    "Source": "Columns",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Delta0": 0,
+    "Column": "@Tires/Compound A",
+    "Column2": "@Tires/Compound B"
+  }
+}

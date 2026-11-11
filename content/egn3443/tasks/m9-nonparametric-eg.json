@@ -1,0 +1,24 @@
+{
+  "id": "st.m9.nonparametric.eg",
+  "title": "Task times on two control screens",
+  "analysis": "TwoSampleTest",
+  "intro": "Ten plant operators did the same alarm-response task on the old control screen and on a redesigned one, and the time (s) was recorded for each. One operator was very slow on the old screen (22.8 s), so the ten differences old − new are far from normal. The Wilcoxon signed-rank test ranks the sizes of the differences instead of averaging them, so that one large difference counts as just the largest rank. H₀: the differences are symmetric about 0; H₁: they are not, at α = 0.05.",
+  "tables": [
+    {
+      "name": "Screens",
+      "columns": {
+        "Old screen": [12.4, 9.8, 15.1, 11.2, 13.6, 10.5, 14.0, 22.8, 11.9, 12.7],
+        "New screen": [11.1, 9.9, 13.2, 10.4, 12.1, 9.8, 12.8, 13.5, 11.0, 11.6]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Response time",
+    "TestKind": "WilcoxonSignedRank",
+    "Source": "Columns",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Column": "@Screens/Old screen",
+    "Column2": "@Screens/New screen"
+  }
+}

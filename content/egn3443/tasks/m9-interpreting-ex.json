@@ -1,0 +1,41 @@
+{
+  "id": "st.m9.interpreting.ex",
+  "title": "28-day strength of two concrete mixes",
+  "analysis": "TwoSampleTest",
+  "intro": "A contractor compares the 28-day compressive strength (MPa) of two concrete mixes. Mix A: n₁ = 15 cylinders, mean 41.8 MPa, standard deviation 3.2 MPa. Mix B: n₂ = 12 cylinders, mean 38.6 MPa, standard deviation 4.5 MPa. Welch's t-test of H₀: μ_A − μ_B = 0 gives p = 0.051, so at α = 0.05 H₀ is not rejected. Does that mean the mixes are equally strong? The interval and the effect size say more.\n\nFind the 95 % confidence interval for μ_A − μ_B (Welch) and Cohen's d. Give each to two decimals.",
+  "settings": {
+    "Name": "Concrete strength",
+    "TestKind": "WelchT",
+    "Source": "Summary",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Delta0": 0,
+    "SampleMean": 41.8,
+    "SampleSd": 3.2,
+    "SampleSize": 15,
+    "Sample2Mean": 38.6,
+    "Sample2Sd": 4.5,
+    "Sample2Size": 12
+  },
+  "ask": [
+    { "result": "CiLower", "prompt": "95 % CI for μ_A − μ_B, lower end (MPa)" },
+    { "result": "CiUpper", "prompt": "95 % CI for μ_A − μ_B, upper end (MPa)" },
+    { "result": "EffectSize", "prompt": "Cohen's d" }
+  ],
+  "mistakes": {
+    "CiLower": [
+      { "value": 0.1826, "says": "You used z = 1.96. With samples this small, use the t quantile with Welch's ν degrees of freedom (about 2.09)." }
+    ],
+    "CiUpper": [
+      { "value": 6.2174, "says": "You used z = 1.96. With samples this small, use the t quantile with Welch's ν degrees of freedom (about 2.09)." }
+    ],
+    "EffectSize": [
+      { "result": "Statistic", "says": "That is the t statistic: the difference in standard errors, which grows with n. Cohen's d divides the difference by the pooled standard deviation s_p." }
+    ]
+  },
+  "hints": [
+    "The interval is (x̄₁ − x̄₂) ± t(α/2, ν) × SE with SE = √(s₁²/n₁ + s₂²/n₂) and ν the Welch degrees of freedom.",
+    "The samples are small, so use the t quantile with ν degrees of freedom, not z = 1.96: Python stats.t.ppf(0.975, nu), R qt(0.975, nu).",
+    "Cohen's d = (x̄₁ − x̄₂)/s_p with s_p = √[((n₁ − 1)s₁² + (n₂ − 1)s₂²)/(n₁ + n₂ − 2)]."
+  ]
+}
