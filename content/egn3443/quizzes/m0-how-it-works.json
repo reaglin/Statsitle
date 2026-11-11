@@ -1,0 +1,85 @@
+{
+  "id": "st.m0.how-it-works.quiz",
+  "title": "How Statistics+ works",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "match",
+      "objective": "st.m0.o1",
+      "prompt": "Match each tab of an item with what it holds.",
+      "pairs": [
+        { "left": "Learn", "right": "The idea, the formula and a case worked by hand" },
+        { "left": "Example", "right": "A worked analysis of a dataset, with its results, figures and code" },
+        { "left": "Exercise", "right": "A new dataset to work, or questions to answer" },
+        { "left": "Reference", "right": "The formulas, functions and sources, to look back at" }
+      ],
+      "explanation": "Learn teaches, Example shows the method on a dataset, Exercise checks that you can do it, and Reference is for looking things up later."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m0.o1",
+      "prompt": "In the list on the left, item 1.3 has the mark ◐. What does it mean?",
+      "options": [
+        "You have started it, but it is not complete yet",
+        "It is complete",
+        "You have not opened it",
+        "It is locked until Module 0 is complete"
+      ],
+      "correct": [0],
+      "explanation": "✓ is complete, ◐ is started, ○ is not started. Nothing in the Course is locked: modules recommend what to do first, but you can open any item."
+    },
+    {
+      "id": "q3",
+      "kind": "choice",
+      "objective": "st.m0.o1",
+      "prompt": "You are on an Example and want to change one of its values to see what happens to the mean. What do you do?",
+      "options": [
+        "Press Open in the Workbench, change the value there, and press Ctrl+L to come back",
+        "Type the new value into the Example's table",
+        "Start the Exercise again",
+        "Sign out and sign in again"
+      ],
+      "correct": [0],
+      "explanation": "The Course shows the Example as it was worked. Open in the Workbench copies it to the calculator, where every input can be changed. Course (Ctrl+L) takes you back to the item."
+    },
+    {
+      "id": "q4",
+      "kind": "choice",
+      "objective": "st.m0.o1",
+      "prompt": "You typed a mean of 52.3 in an Exercise and pressed Check my answers. It says \"too high\". What is the best next step?",
+      "options": [
+        "Check the formula on the Learn tab and your arithmetic, or press Show a hint",
+        "Keep typing numbers a little lower until it is accepted",
+        "Open the Reference tab, which has the answer",
+        "Skip the item: it can never be completed after a wrong answer"
+      ],
+      "correct": [0],
+      "explanation": "The message tells you which way you are off, so look for the mistake: the formula, a value left out, n − 1 instead of n. Guessing teaches nothing, and the module check will ask you to do it yourself. You can try an exercise as often as you like."
+    },
+    {
+      "id": "q5",
+      "kind": "multiple",
+      "objective": "st.m0.o1",
+      "prompt": "You work on a lab computer that is wiped every weekend. Which of these keep your progress safe? Choose every one that applies.",
+      "options": [
+        "Learner ▸ Back up my progress, to a USB drive or a cloud folder",
+        "Add learner from file, on the Who is learning? screen of the next computer",
+        "Writing down your recovery code",
+        "Using Just the Workbench instead of signing in"
+      ],
+      "correct": [0, 1, 2],
+      "explanation": "A backup is a copy of your progress file; Add learner from file brings it back in on another computer, and combines it with any copy already there. The recovery code sets a new PIN if you forget yours. Just the Workbench records no progress at all."
+    },
+    {
+      "id": "q6",
+      "kind": "text",
+      "objective": "st.m0.o1",
+      "prompt": "Which key shows help for the screen you are on? (Type the key, such as F5.)",
+      "answers": ["F1"],
+      "explanation": "F1, or Help ▸ Help for this screen. In the Course it explains how the Course works; in the Workbench it opens the Instructions for the analysis you have chosen."
+    }
+  ]
+}

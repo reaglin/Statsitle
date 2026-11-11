@@ -1,0 +1,102 @@
+{
+  "id": "st.m1.inference.quiz",
+  "title": "Reading confidence intervals and tests",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "choice",
+      "objective": "st.m1.o3",
+      "prompt": "From 20 test specimens, a 95 % confidence interval for the mean yield strength of a steel heat is 412 to 431 MPa. Which statement is correct?",
+      "options": [
+        "We are 95 % confident that the mean yield strength of the whole heat is between 412 and 431 MPa",
+        "95 % of the bars in the heat have yield strengths between 412 and 431 MPa",
+        "95 % of the 20 specimens had strengths between 412 and 431 MPa",
+        "The mean of the heat is exactly 421.5 MPa"
+      ],
+      "correct": [0],
+      "explanation": "A confidence interval for a mean is about the mean of the population (the heat), not about individual bars or specimens. Individual strengths spread much wider than the interval. 421.5 MPa, the middle, is the point estimate, not the exact mean."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m1.o3",
+      "prompt": "The specification for that steel requires a mean yield strength of at least 400 MPa. With the 95 % interval of 412 to 431 MPa, what can the engineer conclude?",
+      "options": [
+        "The heat meets the requirement: even the lower end of the interval, 412 MPa, is above 400 MPa",
+        "Nothing, because the interval is 19 MPa wide",
+        "The heat fails, because some bars may be below 412 MPa",
+        "The heat meets it only if every bar is above 431 MPa"
+      ],
+      "correct": [0],
+      "explanation": "Every plausible value of the mean, from 412 to 431 MPa, is above 400 MPa, so the data support the requirement on the mean. (A requirement on individual bars would need a different check.)"
+    },
+    {
+      "id": "q3",
+      "kind": "choice",
+      "objective": "st.m1.o3",
+      "prompt": "A test of H₀: μ = 25.000 mm against H₁: μ ≠ 25.000 mm gives p = 0.0639. The engineer chose α = 0.05. What is the correct conclusion?",
+      "options": [
+        "Do not reject H₀: the data do not show that the mean differs from 25.000 mm",
+        "Accept H₀: the test proves that the mean is 25.000 mm",
+        "Reject H₀: the mean is not 25.000 mm",
+        "The test failed, because p is not exactly 0.05"
+      ],
+      "correct": [0],
+      "explanation": "p = 0.0639 is larger than α = 0.05, so H₀ is not rejected. That means the evidence is not strong enough, not that H₀ has been proved. A larger sample might detect a small difference."
+    },
+    {
+      "id": "q4",
+      "kind": "choice",
+      "objective": "st.m1.o3",
+      "prompt": "An automated gauge measured 10,000 pistons. Their mean diameter is 0.002 mm above the 80.000 mm target, and a test gives p = 0.0001. The tolerance is ±0.050 mm. What should the engineer conclude?",
+      "options": [
+        "The offset is statistically significant but too small to matter in practice; no adjustment is needed for the mean",
+        "The machine must be stopped, because p is very small",
+        "The test is wrong, because the offset is tiny",
+        "Most pistons are out of tolerance"
+      ],
+      "correct": [0],
+      "explanation": "With a very large sample, even a tiny real difference gives a small p-value. Whether it matters is an engineering question: 0.002 mm is 4 % of the 0.050 mm tolerance, far too small to matter. Statistical significance is not practical significance."
+    },
+    {
+      "id": "q5",
+      "kind": "choice",
+      "objective": "st.m1.o3",
+      "prompt": "To estimate the mean fill weight of a whole shift's production, which sample is best?",
+      "options": [
+        "Packages taken at random times spread over the whole shift",
+        "The first 30 packages after start-up",
+        "The 30 packages that looked lightest",
+        "30 packages from the end of the shift, when the operator has time"
+      ],
+      "correct": [0],
+      "explanation": "Inference needs a sample that represents the population. Packages spread at random over the shift represent it; the others are biased toward one time or one kind of package, and no calculation can correct that."
+    },
+    {
+      "id": "q6",
+      "kind": "numeric",
+      "objective": "st.m1.o3",
+      "prompt": "A sample of n = 25 resistors has x̄ = 50.0 Ω and s = 2.0 Ω. The 95 % critical value of t with 24 degrees of freedom is 2.064. What is the margin of error, t × s / √n? Give it to two decimals.",
+      "answer": 0.8256,
+      "tolerance": 0.006,
+      "unit": "Ω",
+      "explanation": "The standard error is s / √n = 2.0 / √25 = 2.0 / 5 = 0.4 Ω. The margin of error is 2.064 × 0.4 = 0.83 Ω, so the 95 % interval is 50.0 ± 0.83, from 49.17 to 50.83 Ω."
+    },
+    {
+      "id": "q7",
+      "kind": "choice",
+      "objective": "st.m1.o3",
+      "prompt": "Two engineers estimate the same mean, one from 16 parts and one from 64 parts with the same standard deviation. How do their 95 % confidence intervals compare?",
+      "options": [
+        "The interval from 64 parts is about half as wide",
+        "The interval from 64 parts is a quarter as wide",
+        "They are the same width",
+        "The interval from 64 parts is wider"
+      ],
+      "correct": [0],
+      "explanation": "The width is proportional to s / √n. Four times the parts gives √4 = 2 times smaller standard error, so the interval is about half as wide (a little less than half, because the t critical value also shrinks slightly)."
+    }
+  ]
+}

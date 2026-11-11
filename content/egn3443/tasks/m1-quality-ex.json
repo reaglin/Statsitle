@@ -1,0 +1,21 @@
+{
+  "id": "st.m1.quality.ex",
+  "title": "Tablet coating thickness",
+  "analysis": "DescriptiveStatistics",
+  "intro": "A quality engineer measured the coating thickness of thirteen tablets from one batch, in micrometers (µm). Find the first and third quartiles and Tukey's fences, and decide whether any tablet is an outlier.",
+  "settings": {
+    "Name": "Coating thickness",
+    "Sample": [52, 48, 55, 50, 58, 49, 53, 51, 47, 54, 50, 52, 74]
+  },
+  "ask": [
+    { "result": "FirstQuartile", "prompt": "First quartile, Q1 (µm)" },
+    { "result": "ThirdQuartile", "prompt": "Third quartile, Q3 (µm)" },
+    { "result": "LowerFence", "prompt": "Lower fence, Q1 − 1.5 × IQR (µm)" },
+    { "result": "UpperFence", "prompt": "Upper fence, Q3 + 1.5 × IQR (µm)" }
+  ],
+  "hints": [
+    "Sort the thirteen values first. With n = 13, Q1 is in position (13 − 1) × 0.25 + 1 = 4 and Q3 in position (13 − 1) × 0.75 + 1 = 10.",
+    "IQR = Q3 − Q1. The fences are 1.5 × IQR below Q1 and 1.5 × IQR above Q3.",
+    "Any value outside the fences is an outlier. Look at the largest value."
+  ]
+}

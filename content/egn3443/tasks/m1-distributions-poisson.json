@@ -1,0 +1,12 @@
+{
+  "id": "st.m1.distributions.poisson",
+  "title": "Service calls in an hour (Poisson)",
+  "analysis": "DiscreteDistribution",
+  "intro": "A help desk receives on average 3 calls an hour, at random times. X, the number of calls in one hour, is Poisson with λ = 3. The results give the probability of exactly k = 5 calls, of at most 5, and of more than 5. Module 4 teaches the Poisson distribution fully.",
+  "settings": {
+    "Name": "Calls per hour",
+    "Family": "Poisson",
+    "Rate": 3,
+    "K": 5
+  }
+}

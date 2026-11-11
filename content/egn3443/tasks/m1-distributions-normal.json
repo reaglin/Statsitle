@@ -1,0 +1,14 @@
+{
+  "id": "st.m1.distributions.normal",
+  "title": "Bottle fill volumes (normal)",
+  "analysis": "ContinuousDistribution",
+  "intro": "A filling machine puts a mean of 500 mL in each bottle, with a standard deviation of 4 mL, and the volumes follow a normal distribution. The label says 492 mL. The shaded area is the probability that a bottle holds 492 mL or less. Module 5 teaches the normal distribution fully.",
+  "settings": {
+    "Name": "Fill volume",
+    "Family": "Normal",
+    "Mu": 500,
+    "Sigma": 4,
+    "X": 492,
+    "X2": "NaN"
+  }
+}

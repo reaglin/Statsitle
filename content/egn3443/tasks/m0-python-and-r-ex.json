@@ -1,0 +1,19 @@
+{
+  "id": "st.m0.python-and-r.ex",
+  "title": "Water heater outlet temperatures",
+  "analysis": "DescriptiveStatistics",
+  "intro": "A water heater's thermostat is set to 50 °C. A technician read the outlet temperature six times, in degrees Celsius (°C). Press Copy as Python (or Copy as R) beside the data, paste it into Colab (or R), and print the mean and the sample standard deviation. Type the two numbers your code prints.",
+  "settings": {
+    "Name": "Outlet temperature",
+    "Sample": [48.2, 50.1, 49.5, 51.3, 47.9, 50.6]
+  },
+  "ask": [
+    { "result": "Mean", "prompt": "Mean, x̄ (°C)" },
+    { "result": "StandardDeviation", "prompt": "Sample standard deviation, s (°C)" }
+  ],
+  "hints": [
+    "In Python: print(np.mean(sample)) and print(np.std(sample, ddof=1)). In R: mean(sample) and sd(sample).",
+    "If your standard deviation is about 1.22, you left out ddof=1: numpy then divides by n instead of n − 1.",
+    "Round to two decimals, such as 12.34. The program accepts an answer within about 0.5 % of its own."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "id": "st.m0.report-template.quiz",
+  "title": "The report template",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "match",
+      "objective": "st.m0.o3",
+      "prompt": "Match each piece of a report with the section it belongs in.",
+      "pairs": [
+        { "left": "The Python script you ran and its output", "right": "Appendices" },
+        { "left": "\"The sample standard deviation was used because the data are a sample of the batch.\"", "right": "Methodology" },
+        { "left": "\"The mean strength, 32.3 MPa, is above the 30 MPa design strength.\"", "right": "Conclusions" },
+        { "left": "The core of the problem, copied from the assignment", "right": "Problem statement" }
+      ],
+      "explanation": "Code and hand calculations go in the appendices, the method and the reasons for it in the methodology, the answer to the question in the conclusions, and the question itself in the problem statement."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m0.o3",
+      "prompt": "How long should the introduction be?",
+      "options": [
+        "A single sentence is enough",
+        "At least one page",
+        "As long as the methodology",
+        "It is left out of course reports"
+      ],
+      "correct": [0],
+      "explanation": "The template asks for a brief introduction; one sentence, saying which assignment the report fulfills, is enough."
+    },
+    {
+      "id": "q3",
+      "kind": "choice",
+      "objective": "st.m0.o3",
+      "prompt": "An assignment asks: \"Is the mean fill weight within 2 g of the 500 g target?\" Which first sentence of the conclusions is best?",
+      "options": [
+        "\"Yes: the mean fill weight of the 30 packages was 501.2 g, within 2 g of the 500 g target.\"",
+        "\"The analysis was carried out in Python using numpy.\"",
+        "\"x̄ = 501.2366667\"",
+        "\"Fill weights vary from package to package.\""
+      ],
+      "correct": [0],
+      "explanation": "The conclusions answer the question that was asked, directly, with the number, its unit and n. The tool used belongs in the methodology, and the long unrounded number belongs, if anywhere, in the appendix."
+    },
+    {
+      "id": "q4",
+      "kind": "multiple",
+      "objective": "st.m0.o3",
+      "prompt": "Which of these belong in the appendices? Choose every one that applies.",
+      "options": [
+        "The R code you ran",
+        "A hand calculation of the variance",
+        "The output your code printed",
+        "The grading policy of the assignment"
+      ],
+      "correct": [0, 1, 2],
+      "explanation": "The appendices hold what takes a reader from the methodology to the conclusions: code, its output and hand calculations. The grading policy is left out of the report altogether."
+    },
+    {
+      "id": "q5",
+      "kind": "choice",
+      "objective": "st.m0.o3",
+      "prompt": "When does a course report need a References section?",
+      "options": [
+        "Only when the problem statement asks you to use sources",
+        "Always, with at least three sources",
+        "Never",
+        "Only when you used Python"
+      ],
+      "correct": [0],
+      "explanation": "The template includes references only when using sources is part of the problem statement."
+    },
+    {
+      "id": "q6",
+      "kind": "choice",
+      "objective": "st.m0.o3",
+      "prompt": "In the Workbench, which tab gives you the Python or R for your report's appendix?",
+      "options": [
+        "Code",
+        "Properties",
+        "Plots",
+        "Instructions"
+      ],
+      "correct": [0],
+      "explanation": "The Code tab shows the Python or R for the chosen analysis; Copy code and Save code as… take it to your report or to Colab. The Report tab also prints both as appendices."
+    }
+  ]
+}

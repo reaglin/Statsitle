@@ -1,0 +1,89 @@
+{
+  "id": "st.m1.introduction.quiz",
+  "title": "Introduction to statistics in engineering",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "match",
+      "objective": "st.m1.o1",
+      "prompt": "A highway agency drills 12 cores from a new 5 km asphalt overlay and measures their density. The mean of the 12 cores is 2.34 g/cm³. Match each term with its meaning here.",
+      "pairs": [
+        { "left": "Population", "right": "All the asphalt in the 5 km overlay" },
+        { "left": "Sample", "right": "The 12 cores" },
+        { "left": "Statistic", "right": "The mean density of the 12 cores, 2.34 g/cm³" },
+        { "left": "Parameter", "right": "The mean density of the whole overlay, which is not known" }
+      ],
+      "explanation": "The population is everything the agency wants to know about; the sample is what was measured. A number from the sample is a statistic, and it estimates the matching parameter of the population."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m1.o1",
+      "prompt": "Which symbol stands for a parameter rather than a statistic?",
+      "options": [
+        "μ",
+        "x̄",
+        "s",
+        "n"
+      ],
+      "correct": [0],
+      "explanation": "Parameters, which describe the population, are written with Greek letters: μ for the mean, σ for the standard deviation. x̄ and s are calculated from a sample, and n is the sample size."
+    },
+    {
+      "id": "q3",
+      "kind": "match",
+      "objective": "st.m1.o1",
+      "prompt": "Match each variable with its type.",
+      "pairs": [
+        { "left": "Diameter of a shaft (mm)", "right": "Numerical, continuous" },
+        { "left": "Number of cracks in a weld", "right": "Numerical, discrete" },
+        { "left": "Supplier of the steel", "right": "Categorical" },
+        { "left": "Bridge condition rating, 1 (poor) to 5 (good)", "right": "Ordinal" }
+      ],
+      "explanation": "A measured quantity can take any value in a range (continuous); a count takes whole numbers (discrete). Names are categorical. Ratings are categories with an order but unequal steps: ordinal."
+    },
+    {
+      "id": "q4",
+      "kind": "choice",
+      "objective": "st.m1.o1",
+      "prompt": "\"From tests on 30 bolts, we are 95 % confident that the mean strength of the whole shipment is between 812 and 828 MPa.\" Which branch of statistics is this?",
+      "options": [
+        "Inferential statistics: it draws a conclusion about the shipment from a sample",
+        "Descriptive statistics: it describes the 30 bolts",
+        "Probability: it assumes the shipment's mean is known",
+        "None: it is a specification"
+      ],
+      "correct": [0],
+      "explanation": "The statement is about the whole shipment, which was not all tested, and says how sure it is. That is inference (a confidence interval, Module 7). A description of the 30 bolts alone would be descriptive."
+    },
+    {
+      "id": "q5",
+      "kind": "match",
+      "objective": "st.m1.o5",
+      "prompt": "Match each cause of variation in a machined part's length with its source.",
+      "pairs": [
+        { "left": "The cutting tool wears during the shift", "right": "Machine" },
+        { "left": "Bar stock from a new supplier is slightly harder", "right": "Material" },
+        { "left": "The caliper gives 50.02 and 50.04 mm on the same part", "right": "Measurement" },
+        { "left": "The shop is 8 °C warmer in the afternoon", "right": "Environment" }
+      ],
+      "explanation": "Naming the source of variation is the first step in reducing it: a worn tool is replaced, a material change is checked at receiving, a gauge is calibrated, and a temperature effect is controlled or allowed for."
+    },
+    {
+      "id": "q6",
+      "kind": "choice",
+      "objective": "st.m1.o5",
+      "prompt": "Two machines fill bags of cement. Both have a mean fill of 25.0 kg. Machine A's fills vary between 24.8 and 25.2 kg; machine B's between 23.5 and 26.5 kg. The bags must hold at least 24.5 kg. What does this show?",
+      "options": [
+        "Variability matters as much as the mean: B will underfill some bags although its mean is on target",
+        "The machines are equally good, because their means are equal",
+        "Machine B is better, because it sometimes overfills",
+        "Nothing can be said without more decimals"
+      ],
+      "correct": [0],
+      "explanation": "The mean alone hides the difference. Machine B's spread takes some fills below 24.5 kg, so it makes out-of-specification bags while machine A, with the same mean, does not."
+    }
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "id": "st.m1.check.quiz",
+  "title": "Module 1 check: statistics for engineers",
+  "passThreshold": 0.8,
+  "practice": false,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "numeric",
+      "objective": "st.m1.o1",
+      "prompt": "Five readings of a pressure gauge, in bar: 12.5, 13.1, 12.8, 13.4, 12.7. What is the mean reading? Give it to two decimals.",
+      "answer": 12.9,
+      "tolerance": 0.005,
+      "unit": "bar",
+      "explanation": "Σxᵢ = 12.5 + 13.1 + 12.8 + 13.4 + 12.7 = 64.5, and x̄ = 64.5 / 5 = 12.90 bar."
+    },
+    {
+      "id": "q2",
+      "kind": "numeric",
+      "objective": "st.m1.o1",
+      "prompt": "A sample of five daily counts of rejected castings: 6, 9, 7, 12, 11. What is the sample standard deviation s? Give it to two decimals.",
+      "answer": 2.5495,
+      "tolerance": 0.006,
+      "unit": "castings",
+      "explanation": "x̄ = 45 / 5 = 9. The deviations are −3, 0, −2, 3, 2; their squares add to 9 + 0 + 4 + 9 + 4 = 26. s² = 26 / (5 − 1) = 6.5, and s = √6.5 = 2.55 castings. Dividing by n would give √5.2 = 2.28, the population form."
+    },
+    {
+      "id": "q3",
+      "kind": "choice",
+      "objective": "st.m1.o2",
+      "prompt": "A call center logs the number of calls that arrive in each 5-minute interval. Calls arrive at random, at an average of 4 per interval. Which distribution models the number of calls in an interval?",
+      "options": [
+        "Poisson",
+        "Binomial",
+        "Normal",
+        "Uniform"
+      ],
+      "correct": [0],
+      "explanation": "Random events counted in a fixed interval at a mean rate (λ = 4), with no fixed number of trials: Poisson."
+    },
+    {
+      "id": "q4",
+      "kind": "choice",
+      "objective": "st.m1.o2",
+      "prompt": "An inspector tests 40 circuit boards from a line where each board, independently, has a 1.5 % chance of a solder fault. Which distribution models the number of faulty boards among the 40?",
+      "options": [
+        "Binomial with n = 40 and p = 0.015",
+        "Poisson with λ = 1.5",
+        "Normal with μ = 40",
+        "Binomial with n = 1.5 and p = 0.40"
+      ],
+      "correct": [0],
+      "explanation": "A fixed number of independent trials (40 boards), each faulty with the same probability 0.015: binomial with n = 40 and p = 0.015."
+    },
+    {
+      "id": "q5",
+      "kind": "choice",
+      "objective": "st.m1.o3",
+      "prompt": "A 95 % confidence interval for the mean thickness of a coating is 48.6 to 51.2 µm. The specification asks for a mean thickness between 45 and 55 µm. What is the best conclusion?",
+      "options": [
+        "The process mean meets the specification: the whole interval is inside 45 to 55 µm",
+        "95 % of coatings are between 48.6 and 51.2 µm",
+        "The process fails, because the interval is not centered on 50 µm",
+        "Nothing can be concluded without the p-value"
+      ],
+      "correct": [0],
+      "explanation": "Every plausible value of the mean lies inside the specification for the mean. The interval is about the mean, not about 95 % of individual coatings."
+    },
+    {
+      "id": "q6",
+      "kind": "choice",
+      "objective": "st.m1.o3",
+      "prompt": "A test of whether a new heat treatment changes the mean hardness gives p = 0.012. The engineer set α = 0.05. What is the conclusion?",
+      "options": [
+        "Reject H₀: the data show that the mean hardness changed",
+        "Do not reject H₀: there is no change",
+        "The heat treatment is proven to be better",
+        "The result is not significant, because p is not below 0.01"
+      ],
+      "correct": [0],
+      "explanation": "p = 0.012 is below α = 0.05, so H₀ (no change) is rejected. The test shows a change, not that it is \"better\" or that the change is large enough to matter: look at the size of the difference too."
+    },
+    {
+      "id": "q7",
+      "kind": "numeric",
+      "objective": "st.m1.o4",
+      "prompt": "For a sample of tube wall thicknesses, Q1 = 14.2 mm and Q3 = 15.8 mm. What is the upper fence, Q3 + 1.5 × IQR, beyond which a value is an outlier? Give it to one decimal.",
+      "answer": 18.2,
+      "tolerance": 0.05,
+      "unit": "mm",
+      "explanation": "IQR = 15.8 − 14.2 = 1.6 mm. Upper fence = 15.8 + 1.5 × 1.6 = 15.8 + 2.4 = 18.2 mm."
+    },
+    {
+      "id": "q8",
+      "kind": "choice",
+      "objective": "st.m1.o4",
+      "prompt": "The histogram of 200 pump repair times has a tall peak at 1 to 2 hours and a long tail out to 12 hours. The mean is 2.9 h and the median 1.8 h. How is the distribution shaped, and which number best describes a typical repair?",
+      "options": [
+        "Positively (right) skewed; the median, 1.8 h",
+        "Negatively (left) skewed; the mean, 2.9 h",
+        "Symmetric; the mean, 2.9 h",
+        "Positively skewed; the mean, 2.9 h"
+      ],
+      "correct": [0],
+      "explanation": "A long tail of large values, with the mean pulled above the median, is positive skew. The few long repairs pull the mean up, so the median is the better description of a typical repair."
+    },
+    {
+      "id": "q9",
+      "kind": "choice",
+      "objective": "st.m1.o5",
+      "prompt": "Filled bottles on a stable line vary by a few milliliters from one to the next. After a new batch of bottles arrives, one bottle in twenty is badly underfilled. Which is the better description?",
+      "options": [
+        "The small bottle-to-bottle spread is common-cause variation; the underfills after the new batch point to a special cause",
+        "Both are common-cause variation, so nothing should be done",
+        "Both are special causes",
+        "Neither is variation, because the mean is unchanged"
+      ],
+      "correct": [0],
+      "explanation": "A steady small spread present all the time is common-cause variation, part of the process. A change that starts with a specific event (a new batch of bottles) is a special cause, to be found and removed."
+    },
+    {
+      "id": "q10",
+      "kind": "choice",
+      "objective": "st.m1.o5",
+      "prompt": "Two lathes turn shafts with a tolerance of 20.00 ± 0.06 mm. Both are centered on 20.00 mm. Lathe A's standard deviation is 0.01 mm and lathe B's 0.03 mm. What does this mean for quality?",
+      "options": [
+        "Lathe B makes more shafts out of tolerance: its ±3s spread (±0.09 mm) is wider than the tolerance, while A's (±0.03 mm) fits well inside it",
+        "Both make the same share of good shafts, because both are centered",
+        "Lathe A is worse, because its spread is smaller",
+        "Neither makes any defective shaft, because both are centered"
+      ],
+      "correct": [0],
+      "explanation": "Conformance is decided shaft by shaft, so the spread matters. Nearly all of a process lies within ±3s: ±0.03 mm for A fits inside ±0.06 mm; ±0.09 mm for B does not, so B makes shafts outside the tolerance."
+    }
+  ]
+}

@@ -4,7 +4,7 @@ number: 2
 title: Descriptive Statistics
 status: draft
 minutes: 240
-prerequisites: []
+prerequisites: [st.m1]
 outcomes:
   - st.m2.o1: Calculate measures of central tendency (mean, median, and mode) from a given dataset.
   - st.m2.o2: Calculate measures of variability, including range, variance, and standard deviation, for a given dataset.

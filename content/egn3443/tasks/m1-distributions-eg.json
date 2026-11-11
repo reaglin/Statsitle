@@ -1,0 +1,13 @@
+{
+  "id": "st.m1.distributions.eg",
+  "title": "Defective chips in a sample (binomial)",
+  "analysis": "DiscreteDistribution",
+  "intro": "A wafer process makes 5 % defective chips. An inspector tests 20 chips taken at random. X, the number of defective chips among the 20, is binomial with n = 20 and p = 0.05. The results give the probability of each event for k = 1: exactly one defective chip, at most one, and so on. Module 4 teaches the binomial distribution fully.",
+  "settings": {
+    "Name": "Defective chips",
+    "Family": "Binomial",
+    "Trials": 20,
+    "SuccessProbability": 0.05,
+    "K": 1
+  }
+}

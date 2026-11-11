@@ -1,0 +1,10 @@
+{
+  "id": "st.m0.python-and-r.eg",
+  "title": "Battery run times",
+  "analysis": "DescriptiveStatistics",
+  "intro": "Eight battery packs for a handheld meter were run until they shut down, and the run time of each was logged in hours (h). This Example is here for its code: under \"The same in Python and R\", press Copy Python, paste it into a Colab notebook and run it (or Copy R, into R or RStudio). Check that it prints the same numbers as the results.",
+  "settings": {
+    "Name": "Battery run times",
+    "Sample": [9.8, 10.4, 10.1, 9.6, 10.9, 10.2, 9.9, 10.5]
+  }
+}

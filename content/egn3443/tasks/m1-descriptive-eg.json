@@ -1,0 +1,10 @@
+{
+  "id": "st.m1.descriptive.eg",
+  "title": "Aluminum tensile strengths",
+  "analysis": "DescriptiveStatistics",
+  "intro": "Fifteen test bars of one aluminum alloy were pulled to failure, and the ultimate tensile strength of each was recorded in megapascals (MPa). The results give the center (mean, median), the spread (standard deviation, range, IQR), the position (quartiles) and the shape (skewness) of the fifteen strengths.",
+  "settings": {
+    "Name": "Tensile strength",
+    "Sample": [312, 305, 318, 309, 321, 314, 307, 316, 311, 325, 303, 313, 319, 308, 315]
+  }
+}

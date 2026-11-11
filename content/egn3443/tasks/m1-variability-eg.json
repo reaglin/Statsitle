@@ -1,0 +1,10 @@
+{
+  "id": "st.m1.variability.eg",
+  "title": "Assembly station cycle times",
+  "analysis": "DescriptiveStatistics",
+  "intro": "The time to complete one cycle at an assembly station was logged for twenty cycles, in seconds (s). The target is 45 s. The histogram groups the times into six classes 2 s wide, and the box plot shows the middle half and the extremes. Most cycles take 42 to 46 s, and a few long ones make a tail on the right.",
+  "settings": {
+    "Name": "Cycle time",
+    "Sample": [43.1, 45.5, 40.0, 44.4, 47.5, 42.8, 46.4, 44.2, 49.1, 43.6, 45.9, 41.5, 52.0, 44.8, 42.3, 46.8, 43.9, 48.3, 45.1, 50.6]
+  }
+}

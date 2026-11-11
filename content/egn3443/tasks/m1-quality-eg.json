@@ -1,0 +1,10 @@
+{
+  "id": "st.m1.quality.eg",
+  "title": "Wheel-nut torques",
+  "analysis": "DescriptiveStatistics",
+  "intro": "An automatic nut runner tightens the wheel nuts on an assembly line to a target of 120 N·m. The final torque of fifteen nuts was logged, in newton-meters (N·m). One nut stopped well short of the target. The box plot shows it beyond the lower fence, and the Outliers result names it.",
+  "settings": {
+    "Name": "Final torque",
+    "Sample": [121.4, 119.8, 120.6, 118.9, 122.1, 120.2, 104.5, 119.5, 121.0, 120.8, 118.6, 121.7, 120.0, 119.2, 120.4]
+  }
+}

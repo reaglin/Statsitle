@@ -1,0 +1,89 @@
+{
+  "id": "st.m1.distributions.quiz",
+  "title": "Probability distributions: which one?",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "choice",
+      "objective": "st.m1.o2",
+      "prompt": "A quality inspector takes 25 transistors from a line that makes 3 % defective, and counts the defective ones. Which distribution models the count?",
+      "options": [
+        "Binomial, with n = 25 and p = 0.03",
+        "Poisson, with λ = 3",
+        "Normal, with μ = 25 and σ = 3",
+        "None: the count cannot be modeled"
+      ],
+      "correct": [0],
+      "explanation": "A fixed number of trials (25 transistors), each defective or not with the same probability 0.03, independently: binomial. There is an \"out of how many\": 25."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m1.o2",
+      "prompt": "A water utility records the number of main breaks per month in a district. Breaks happen at random, at an average of 2.5 a month. Which distribution models the number of breaks in a month?",
+      "options": [
+        "Poisson, with λ = 2.5 per month",
+        "Binomial, with n = 2.5",
+        "Normal, with μ = 2.5",
+        "Uniform between 0 and 5"
+      ],
+      "correct": [0],
+      "explanation": "Random events counted in a fixed interval (a month) at a mean rate, with no fixed number of trials: Poisson with λ = 2.5."
+    },
+    {
+      "id": "q3",
+      "kind": "choice",
+      "objective": "st.m1.o2",
+      "prompt": "The thickness of glass panes from a float line varies a little around 6.00 mm, symmetrically, because of many small effects in the process. Which distribution is the usual model?",
+      "options": [
+        "Normal",
+        "Binomial",
+        "Poisson",
+        "None, because thickness cannot vary"
+      ],
+      "correct": [0],
+      "explanation": "A continuous measurement that varies symmetrically around a mean because of many small independent effects is the classic case for the normal distribution."
+    },
+    {
+      "id": "q4",
+      "kind": "match",
+      "objective": "st.m1.o2",
+      "prompt": "Match each scenario with its distribution.",
+      "pairs": [
+        { "left": "Flaws per 100 m of fiber-optic cable, averaging 0.8", "right": "Poisson" },
+        { "left": "Number of 12 welds that pass X-ray inspection, each passing with probability 0.95", "right": "Binomial" },
+        { "left": "Compressive strength of concrete cylinders", "right": "Normal" }
+      ],
+      "explanation": "Flaws per length at a mean rate: Poisson. Passes out of a fixed 12 welds with the same probability: binomial. A continuous, roughly symmetric measurement: normal."
+    },
+    {
+      "id": "q5",
+      "kind": "numeric",
+      "objective": "st.m1.o2",
+      "prompt": "A sensor fails its calibration check with probability 0.1, independently of the others. Ten sensors are checked. What is the probability that none fails? Give it to four decimals.",
+      "answer": 0.3487,
+      "tolerance": 0.0005,
+      "explanation": "The number that fail is binomial with n = 10 and p = 0.1. P(X = 0) = (1 − 0.1)¹⁰ = 0.9¹⁰ = 0.3487. So there is about a 65 % chance that at least one fails."
+    },
+    {
+      "id": "q6",
+      "kind": "numeric",
+      "objective": "st.m1.o2",
+      "prompt": "Trucks arrive at a weigh station at random, at an average of 2 every 10 minutes. What is the probability that no truck arrives in a 10-minute period? Give it to four decimals.",
+      "answer": 0.1353,
+      "tolerance": 0.0005,
+      "explanation": "The count in 10 minutes is Poisson with λ = 2. P(X = 0) = e⁻² × 2⁰ / 0! = e⁻² = 0.1353."
+    },
+    {
+      "id": "q7",
+      "kind": "numeric",
+      "objective": "st.m1.o2",
+      "prompt": "Rod lengths are normal with mean 80 cm and standard deviation 5 cm. What is the z-score of a rod 92 cm long?",
+      "answer": 2.4,
+      "tolerance": 0.005,
+      "explanation": "z = (x − μ) / σ = (92 − 80) / 5 = 2.4. The rod is 2.4 standard deviations above the mean: outside μ ± 2σ, and longer than about 99 % of rods (Module 5 shows how to find that share)."
+    }
+  ]
+}

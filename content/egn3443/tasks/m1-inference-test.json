@@ -1,0 +1,18 @@
+{
+  "id": "st.m1.inference.test",
+  "title": "Bearing bore diameters (hypothesis test)",
+  "analysis": "OneSampleTest",
+  "intro": "The same sixteen bores: mean 25.004 mm, standard deviation 0.008 mm. Is the machine centered on 25.000 mm? The null hypothesis says the mean bore is 25.000 mm; the alternative says it is not. The test measures how far the sample mean is from 25.000 mm in standard errors. Module 8 teaches hypothesis tests fully.",
+  "settings": {
+    "Name": "Bore diameter",
+    "TestKind": "MeanSigmaUnknown",
+    "Source": "Summary",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "NullValue": 25.000,
+    "SampleMean": 25.004,
+    "SampleSd": 0.008,
+    "SampleSize": 16,
+    "AlternativeValue": "NaN"
+  }
+}

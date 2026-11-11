@@ -1,0 +1,94 @@
+{
+  "id": "st.m1.variability.quiz",
+  "title": "Data variability and distribution shape",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "numeric",
+      "objective": "st.m1.o4",
+      "prompt": "Ten readings of a pump's discharge pressure, in bar: 4.1, 4.7, 5.2, 4.4, 5.8, 4.9, 5.1, 4.6, 5.4, 4.3. A frequency table uses the classes 4.0 to under 4.5, 4.5 to under 5.0, 5.0 to under 5.5, and 5.5 to 6.0. How many readings are in the class 5.0 to under 5.5?",
+      "answer": 3,
+      "tolerance": 0,
+      "unit": "readings",
+      "explanation": "Sorted: 4.1, 4.3, 4.4 | 4.6, 4.7, 4.9 | 5.1, 5.2, 5.4 | 5.8. The class 5.0 to under 5.5 holds 5.1, 5.2 and 5.4: 3 readings. The four counts are 3, 3, 3, 1, which add to 10."
+    },
+    {
+      "id": "q2",
+      "kind": "numeric",
+      "objective": "st.m1.o4",
+      "prompt": "For the same ten pressures, what percent of the readings are below 5.0 bar? (The cumulative relative frequency up to 5.0 bar.)",
+      "answer": 60,
+      "tolerance": 0.5,
+      "unit": "%",
+      "explanation": "The first two classes hold 3 + 3 = 6 readings below 5.0 bar, and 6 / 10 = 60 %."
+    },
+    {
+      "id": "q3",
+      "kind": "numeric",
+      "objective": "st.m1.o4",
+      "prompt": "How many histogram classes does Sturges' rule, k = ⌈log₂ n + 1⌉, give for n = 50 values?",
+      "answer": 7,
+      "tolerance": 0,
+      "unit": "classes",
+      "explanation": "log₂ 50 = 5.64, so log₂ 50 + 1 = 6.64, and rounding up gives k = 7 classes."
+    },
+    {
+      "id": "q4",
+      "kind": "choice",
+      "objective": "st.m1.o4",
+      "prompt": "The box plot of the times to repair a fleet's pumps has its median close to Q1, a short left whisker, a long right whisker, and two points beyond the right whisker. How is the distribution shaped?",
+      "options": [
+        "Positively (right) skewed, with two high outliers",
+        "Negatively (left) skewed, with two low outliers",
+        "Symmetric",
+        "Bimodal"
+      ],
+      "correct": [0],
+      "explanation": "The values above the median are spread over a long distance (long right whisker, outliers on the right), while those below are bunched up. A long tail of large values is positive skew. Repair times are often right-skewed: most are quick, a few take very long."
+    },
+    {
+      "id": "q5",
+      "kind": "choice",
+      "objective": "st.m1.o4",
+      "prompt": "The histogram of a day's shaft diameters from one line has two separate peaks, at 24.96 mm and 25.04 mm. What is the most likely explanation?",
+      "options": [
+        "Two processes are mixed: for example, two machines or two shifts with different settings",
+        "The diameters are normally distributed",
+        "The histogram has too few classes",
+        "The measuring gauge is perfect"
+      ],
+      "correct": [0],
+      "explanation": "Two peaks usually mean two groups mixed together. Split the data by machine, shift or material and look at each group's histogram; each is likely to have one peak."
+    },
+    {
+      "id": "q6",
+      "kind": "choice",
+      "objective": "st.m1.o5",
+      "prompt": "A drilling machine's hole diameters were steady all week. On Thursday afternoon they suddenly jumped by 0.05 mm and stayed there. Which kind of variation is this, and what should be done?",
+      "options": [
+        "A special cause: find the event (a changed drill, a new setting) and correct it",
+        "Common-cause variation: it is part of the process and should be left alone",
+        "Measurement variation: the diameters did not really change",
+        "No variation: the mean is still within the tolerance"
+      ],
+      "correct": [0],
+      "explanation": "A sudden shift that stays is the sign of a specific, assignable event, a special cause. It is found and removed. Common-cause variation is the steady random spread present all the time."
+    },
+    {
+      "id": "q7",
+      "kind": "choice",
+      "objective": "st.m1.o5",
+      "prompt": "Two suppliers deliver resistors labeled 100 Ω, with a tolerance of ±2 Ω. Both have a mean of 100.0 Ω. Supplier A's standard deviation is 0.5 Ω and supplier B's is 1.5 Ω. Which is true?",
+      "options": [
+        "Supplier B will deliver more resistors outside 98 to 102 Ω, because its spread is larger",
+        "Both deliver the same share outside the tolerance, because the means are equal",
+        "Supplier A will deliver more resistors outside the tolerance",
+        "Neither delivers any outside the tolerance, because the mean is 100.0 Ω"
+      ],
+      "correct": [0],
+      "explanation": "For A, 2 Ω is 4 standard deviations, so almost no resistor is outside the tolerance. For B, 2 Ω is only 1.33 standard deviations, so a noticeable share (about 18 % for a normal distribution, Module 5) falls outside. The spread, not the mean, decides it here."
+    }
+  ]
+}

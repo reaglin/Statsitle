@@ -1,0 +1,15 @@
+{
+  "id": "st.m1.inference.eg",
+  "title": "Bearing bore diameters (confidence interval)",
+  "analysis": "ConfidenceInterval",
+  "intro": "Sixteen bearing housings were taken from a day's production and their bore diameters measured. The bores are machined to 25.000 mm. The sample mean was 25.004 mm and the sample standard deviation 0.008 mm. The 95 % confidence interval is a range of plausible values for the mean bore of the whole day's production. Module 7 teaches confidence intervals fully.",
+  "settings": {
+    "Name": "Bore diameter",
+    "Target": "MeanSigmaUnknown",
+    "Source": "Summary",
+    "Confidence": 0.95,
+    "SampleMean": 25.004,
+    "SampleSd": 0.008,
+    "SampleSize": 16
+  }
+}
