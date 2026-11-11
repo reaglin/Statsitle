@@ -36,6 +36,7 @@ public sealed class DescriptiveStatistics : Analysis, IUsesProject, IHasChoices,
     private double _mean = double.NaN;
     private double _median = double.NaN;
     private string _mode = string.Empty;
+    private double _modeValue = double.NaN;
     private double _minimum = double.NaN;
     private double _maximum = double.NaN;
     private double _range = double.NaN;
@@ -53,8 +54,12 @@ public sealed class DescriptiveStatistics : Analysis, IUsesProject, IHasChoices,
     private double _lowerFence = double.NaN;
     private double _upperFence = double.NaN;
     private string _outliers = string.Empty;
+    private int _outlierCount;
     private double _skewness = double.NaN;
     private double _kurtosis = double.NaN;
+    private double _lowerControlLimit = double.NaN;
+    private double _upperControlLimit = double.NaN;
+    private int _pointsOutsideLimits;
     private int _classesUsed;
 
     public DescriptiveStatistics()
@@ -154,6 +159,17 @@ public sealed class DescriptiveStatistics : Analysis, IUsesProject, IHasChoices,
     {
         get => _mode;
         set => SetProperty(ref _mode, value);
+    }
+
+    [StatistleProperty(Label = "Mode, when there is one", Decimals = 4, Role = VariableRole.Output,
+        Help = "The mode as a number, when exactly one value occurs more often than every other. " +
+               "Blank when every value occurs once (no mode) or when two or more values tie for " +
+               "most frequent (read them in Mode above). Python np.unique(x, return_counts=True); " +
+               "R table(x).")]
+    public double ModeValue
+    {
+        get => _modeValue;
+        set => SetProperty(ref _modeValue, value);
     }
 
     // ── Spread ────────────────────────────────────────────────────────────────
@@ -320,6 +336,16 @@ public sealed class DescriptiveStatistics : Analysis, IUsesProject, IHasChoices,
         set => SetProperty(ref _outliers, value);
     }
 
+    [StatistleProperty(Label = "Number of outliers", Decimals = 0, Unit = ValueKind.Count, Role = VariableRole.Output,
+        Help = "How many values lie beyond the fences — below Q1 − 1.5·IQR or above Q3 + 1.5·IQR, " +
+               "with the type-7 quartiles above — 0 when there are none. These are the points the " +
+               "box plot draws beyond its whiskers. Python outliers.size; R length(outliers).")]
+    public int OutlierCount
+    {
+        get => _outlierCount;
+        set => SetProperty(ref _outlierCount, value);
+    }
+
     // ── Shape ─────────────────────────────────────────────────────────────────
 
     [StatistleProperty(Label = "Skewness", Decimals = 4, Role = VariableRole.Output,
@@ -343,6 +369,39 @@ public sealed class DescriptiveStatistics : Analysis, IUsesProject, IHasChoices,
     {
         get => _kurtosis;
         set => SetProperty(ref _kurtosis, value);
+    }
+
+    // ── Control limits ────────────────────────────────────────────────────────
+
+    [StatistleProperty(Label = "Lower control limit (LCL)", Decimals = 4, Role = VariableRole.Output,
+        Help = "x̄ − 3s: the lower line of an individuals control chart. A process that is in " +
+               "control almost never (about 0.13 % of the time, for normal data) gives a value " +
+               "below it, so one that does is a signal to look for a cause. Here s is the sample " +
+               "standard deviation; quality-control texts often estimate σ from the average moving " +
+               "range instead, which gives slightly different limits. Needs two values.")]
+    public double LowerControlLimit
+    {
+        get => _lowerControlLimit;
+        set => SetProperty(ref _lowerControlLimit, value);
+    }
+
+    [StatistleProperty(Label = "Upper control limit (UCL)", Decimals = 4, Role = VariableRole.Output,
+        Help = "x̄ + 3s: the upper line of an individuals control chart. Python np.mean(x) + 3 * " +
+               "np.std(x, ddof=1); R mean(x) + 3 * sd(x).")]
+    public double UpperControlLimit
+    {
+        get => _upperControlLimit;
+        set => SetProperty(ref _upperControlLimit, value);
+    }
+
+    [StatistleProperty(Label = "Points outside the control limits", Decimals = 0, Unit = ValueKind.Count, Role = VariableRole.Output,
+        Help = "How many values lie below the LCL or above the UCL — the points the control chart " +
+               "marks in red. Each is a signal that something out of the ordinary happened at that " +
+               "point in the sequence.")]
+    public int PointsOutsideLimits
+    {
+        get => _pointsOutsideLimits;
+        set => SetProperty(ref _pointsOutsideLimits, value);
     }
 
     [StatistleProperty(Label = "Classes used", Decimals = 0, Unit = ValueKind.Count, Role = VariableRole.Calculated,
@@ -383,6 +442,11 @@ public sealed class DescriptiveStatistics : Analysis, IUsesProject, IHasChoices,
         [
             DescriptiveFigures.Histogram($"{Name} — histogram", FrequencyTable, Mean, StandardDeviation),
             DescriptiveFigures.BoxPlot($"{Name} — box plot", values, FirstQuartile, Median, ThirdQuartile, LowerFence, UpperFence),
+
+            // Appended after the histogram and the box plot, so course pages that cite figures 1 and 2 keep their numbers.
+            .. double.IsNaN(LowerControlLimit)
+                ? Array.Empty<PlotSpec>()
+                : [DescriptiveFigures.ControlChart($"{Name} — control chart", values, Mean, LowerControlLimit, UpperControlLimit)],
         ];
     }
 
@@ -414,6 +478,25 @@ public sealed class DescriptiveStatistics : Analysis, IUsesProject, IHasChoices,
         void Print(string label, string python, string r, int decimals) =>
             Line(CodeText.Print(label, language == CodeLanguage.Python ? python : r, decimals, language));
 
+        void ControlLimits()
+        {
+            Line(CodeText.Comment("Control limits of an individuals chart: the mean ± 3 sample standard deviations", language));
+
+            if (language == CodeLanguage.Python)
+            {
+                Line($"lcl = np.mean({x}) - 3 * np.std({x}, ddof=1)");
+                Line($"ucl = np.mean({x}) + 3 * np.std({x}, ddof=1)");
+            }
+            else
+            {
+                Line($"lcl <- mean({x}) - 3 * sd({x})");
+                Line($"ucl <- mean({x}) + 3 * sd({x})");
+            }
+
+            Print("Lower control limit (LCL)", "lcl", "lcl", 4);
+            Print("Upper control limit (UCL)", "ucl", "ucl", 4);
+        }
+
         if (language == CodeLanguage.Python)
         {
             Line(CodeText.PythonImports(scipyStats: true));
@@ -439,12 +522,20 @@ public sealed class DescriptiveStatistics : Analysis, IUsesProject, IHasChoices,
         {
             Line($"mode = stats.mode({x}, keepdims=False)");
             Line("print(f\"Mode: {mode.mode if mode.count > 1 else 'none'}\")");
+            Line(CodeText.Comment("The mode as a number only when one value is more frequent than all others", language));
+            Line($"values, counts = np.unique({x}, return_counts=True)");
+            Line("top = values[counts == counts.max()]");
+            Line("mode_value = top[0] if counts.max() > 1 and top.size == 1 else float('nan')");
         }
         else
         {
             Line($"tab <- table({x})");
             Line("cat(\"Mode:\", if (max(tab) > 1) as.numeric(names(tab)[tab == max(tab)]) else \"none\", \"\\n\")");
+            Line(CodeText.Comment("The mode as a number only when one value is more frequent than all others", language));
+            Line("mode_value <- if (max(tab) > 1 && sum(tab == max(tab)) == 1) as.numeric(names(tab)[tab == max(tab)]) else NA");
         }
+
+        Print("Mode, when there is one", "mode_value", "mode_value", 4);
 
         Print("Minimum", $"np.min({x})", $"min({x})", 4);
         Print("Maximum", $"np.max({x})", $"max({x})", 4);
@@ -499,10 +590,14 @@ public sealed class DescriptiveStatistics : Analysis, IUsesProject, IHasChoices,
         {
             Line($"outliers = {x}[({x} < q1 - 1.5 * iqr) | ({x} > q3 + 1.5 * iqr)]");
             Line("print(f\"Outliers: {np.sort(outliers).tolist() if outliers.size else 'none'}\")");
+            Line("print(f\"Number of outliers: {outliers.size}\")");
             Line();
             Line(CodeText.Comment("bias=False: the adjusted sample estimates, as Excel's SKEW and KURT", language));
             Print("Skewness", $"stats.skew({x}, bias=False)", string.Empty, 4);
             Print("Excess kurtosis", $"stats.kurtosis({x}, bias=False)", string.Empty, 4);
+            Line();
+            ControlLimits();
+            Line($"print(f\"Points outside the control limits: {{np.sum(({x} < lcl) | ({x} > ucl))}}\")");
             Line();
             Line(CodeText.Comment("Frequency table with k classes of equal width (Sturges' rule: ceil(log2(n) + 1))", language));
             Line($"k = {k}");
@@ -515,6 +610,7 @@ public sealed class DescriptiveStatistics : Analysis, IUsesProject, IHasChoices,
         {
             Line($"outliers <- sort({x}[{x} < q1 - 1.5 * iqr | {x} > q3 + 1.5 * iqr])");
             Line("cat(\"Outliers:\", if (length(outliers) > 0) outliers else \"none\", \"\\n\")");
+            Line("cat(\"Number of outliers:\", length(outliers), \"\\n\")");
             Line();
             Line(CodeText.Comment("Adjusted sample skewness and excess kurtosis (as Excel's SKEW and KURT; e1071 type = 2)", language));
             Line($"m <- mean({x}); s <- sd({x})");
@@ -522,6 +618,9 @@ public sealed class DescriptiveStatistics : Analysis, IUsesProject, IHasChoices,
             Line($"g2 <- n * (n + 1) / ((n - 1) * (n - 2) * (n - 3)) * sum((({x} - m) / s)^4) - 3 * (n - 1)^2 / ((n - 2) * (n - 3))");
             Print("Skewness", string.Empty, "g1", 4);
             Print("Excess kurtosis", string.Empty, "g2", 4);
+            Line();
+            ControlLimits();
+            Line($"cat(\"Points outside the control limits:\", sum({x} < lcl | {x} > ucl), \"\\n\")");
             Line();
             Line(CodeText.Comment("Frequency table with k classes of equal width (Sturges' rule: ceiling(log2(n) + 1))", language));
             Line($"k <- {k}");
@@ -584,6 +683,7 @@ public sealed class DescriptiveStatisticsMethod : CalculationMethod<DescriptiveS
         nameof(DescriptiveStatistics.Mean),
         nameof(DescriptiveStatistics.Median),
         nameof(DescriptiveStatistics.Mode),
+        nameof(DescriptiveStatistics.ModeValue),
         nameof(DescriptiveStatistics.Minimum),
         nameof(DescriptiveStatistics.Maximum),
         nameof(DescriptiveStatistics.Range),
@@ -601,8 +701,12 @@ public sealed class DescriptiveStatisticsMethod : CalculationMethod<DescriptiveS
         nameof(DescriptiveStatistics.LowerFence),
         nameof(DescriptiveStatistics.UpperFence),
         nameof(DescriptiveStatistics.Outliers),
+        nameof(DescriptiveStatistics.OutlierCount),
         nameof(DescriptiveStatistics.Skewness),
         nameof(DescriptiveStatistics.Kurtosis),
+        nameof(DescriptiveStatistics.LowerControlLimit),
+        nameof(DescriptiveStatistics.UpperControlLimit),
+        nameof(DescriptiveStatistics.PointsOutsideLimits),
         nameof(DescriptiveStatistics.ClassesUsed),
     ];
 
@@ -615,7 +719,9 @@ public sealed class DescriptiveStatisticsMethod : CalculationMethod<DescriptiveS
         s.Count = x.Length;
         s.Mean = SummaryStatistics.Mean(x);
         s.Median = SummaryStatistics.Median(x);
-        s.Mode = x.Length == 0 ? string.Empty : Describe(SummaryStatistics.Modes(x));
+        IReadOnlyList<double> modes = SummaryStatistics.Modes(x);
+        s.Mode = x.Length == 0 ? string.Empty : Describe(modes);
+        s.ModeValue = modes.Count == 1 ? modes[0] : double.NaN;
         s.Minimum = SummaryStatistics.Min(x);
         s.Maximum = SummaryStatistics.Max(x);
         s.Range = SummaryStatistics.Range(x);
@@ -635,10 +741,16 @@ public sealed class DescriptiveStatisticsMethod : CalculationMethod<DescriptiveS
         s.UpperHinge = hinges.Q3;
         s.LowerFence = quartiles.LowerFence;
         s.UpperFence = quartiles.UpperFence;
-        s.Outliers = x.Length == 0 ? string.Empty : Describe(SummaryStatistics.Outliers(x, quartiles));
+        IReadOnlyList<double> outliers = SummaryStatistics.Outliers(x, quartiles);
+        s.Outliers = x.Length == 0 ? string.Empty : Describe(outliers);
+        s.OutlierCount = outliers.Count;
 
         s.Skewness = SummaryStatistics.Skewness(x);
         s.Kurtosis = SummaryStatistics.ExcessKurtosis(x);
+
+        (s.LowerControlLimit, s.UpperControlLimit) = SummaryStatistics.ControlLimits(x);
+        double lcl = s.LowerControlLimit, ucl = s.UpperControlLimit;
+        s.PointsOutsideLimits = double.IsNaN(lcl) ? 0 : x.Count(v => v < lcl || v > ucl);
 
         int classes = s.Classes > 0 ? (int)Math.Round(s.Classes) : SummaryStatistics.SturgesClasses(x.Length);
         s.ClassesUsed = x.Length == 0 ? 0 : classes;

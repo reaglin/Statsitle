@@ -54,6 +54,44 @@ public static class DescriptiveFigures
     }
 
     /// <summary>
+    /// An individuals control chart: the values in the order they were taken, the centre line at
+    /// the mean, the control limits at x̄ ∓ 3s, and any point beyond a limit marked in red.
+    /// </summary>
+    public static PlotSpec ControlChart(string title, IReadOnlyList<double> values, double mean, double lcl, double ucl)
+    {
+        double[] order = [.. Enumerable.Range(1, values.Count).Select(i => (double)i)];
+        double first = 0.5, last = values.Count + 0.5;
+        int[] outside = [.. Enumerable.Range(0, values.Count).Where(i => values[i] < lcl || values[i] > ucl)];
+
+        List<PlotSeries> series =
+        [
+            new LineSeries($"UCL = {Show(ucl)}", AxisSide.Left, [first, last], [ucl, ucl]) { ColorHint = "#C0392B", Width = 1.5 },
+            new LineSeries($"Centre line x̄ = {Show(mean)}", AxisSide.Left, [first, last], [mean, mean]) { ColorHint = "#1F2933", Width = 1.5 },
+            new LineSeries($"LCL = {Show(lcl)}", AxisSide.Left, [first, last], [lcl, lcl]) { ColorHint = "#C0392B", Width = 1.5 },
+            new LineSeries("Values in order", AxisSide.Left, order, values) { ColorHint = "#3B6EA5", Width = 1.5 },
+            new MarkerSeries("Value", AxisSide.Left, order, values) { ColorHint = "#3B6EA5", Size = 6 },
+        ];
+
+        if (outside.Length > 0)
+        {
+            series.Add(new MarkerSeries("Outside the limits", AxisSide.Left, [.. outside.Select(i => order[i])], [.. outside.Select(i => values[i])])
+            {
+                ColorHint = "#C0392B",
+                Size = 9,
+            });
+        }
+
+        return new PlotSpec
+        {
+            Title = title,
+            Axes = [new AxisSpec(AxisSide.Bottom, "observation number", Min: first, Max: last), new AxisSpec(AxisSide.Left, "value")],
+            Series = series,
+        };
+    }
+
+    private static string Show(double value) => value.ToString("G5", System.Globalization.CultureInfo.CurrentCulture);
+
+    /// <summary>
     /// Tukey's box plot, horizontal: the box from Q1 to Q3 with the median across it, whiskers
     /// to the last values inside the fences, and the outliers beyond as points.
     /// </summary>

@@ -19,7 +19,7 @@ public static class WebHelp
     {
         DataTable => "data.html",
         DescriptiveStatistics => "descriptive.html",
-        ProbabilityRules or DiscreteDistribution or ContinuousDistribution or SamplingDistribution => "probability.html",
+        ProbabilityRules or DiscreteDistribution or ContinuousDistribution or SamplingDistribution or Simulation => "probability.html",
         ConfidenceInterval or SampleSize => "estimation.html",
         OneSampleTest or TwoSampleTest => "tests.html",
         SimpleRegression or MultipleRegression => "regression.html",

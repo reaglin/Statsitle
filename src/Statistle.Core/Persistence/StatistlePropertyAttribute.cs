@@ -116,6 +116,15 @@ public sealed class StatistleHelpAttribute(string text) : Attribute
     public string Text { get; } = text;
 }
 
+/// <summary>
+/// Marks a result that comes from random draws — a simulation's count or proportion. The program
+/// gives the same value for the same seed, every time, but Python and R draw their own random
+/// numbers, so their scripts print a value close to it, not equal to it. The code cross-check
+/// requires the label in both scripts and skips the numeric comparison for these.
+/// </summary>
+[AttributeUsage(AttributeTargets.Property)]
+public sealed class SimulatedResultAttribute : Attribute;
+
 /// <summary>Excludes a public property from persistence — collections owned by the document, mostly.</summary>
 [AttributeUsage(AttributeTargets.Property)]
 public sealed class StatistleIgnoreAttribute : Attribute;

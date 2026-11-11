@@ -46,6 +46,7 @@ public class PersistenceTests : IDisposable
     [InlineData(typeof(DataTable))]
     [InlineData(typeof(DescriptiveStatistics))]
     [InlineData(typeof(SimpleRegression))]
+    [InlineData(typeof(Simulation))]
     public void Every_property_of_every_domain_type_round_trips(Type type)
     {
         var original = (StatistleObject)Activator.CreateInstance(type)!;

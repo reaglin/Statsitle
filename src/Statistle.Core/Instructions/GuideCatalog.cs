@@ -288,6 +288,53 @@ public static class GuideCatalog
             Code:
                 "scipy.stats.norm with loc = μ and scale = σ/√n; pnorm in R."),
 
+        [typeof(Simulation)] = new(
+            WhenToUse:
+                "When a probability is easier to believe once you have watched it happen. Module 3 compares the " +
+                "theoretical probability of an event — favourable cases over equally likely cases — with the " +
+                "experimental probability, the share of many trials in which it happened; the law of large numbers " +
+                "says the second settles on the first. Simulation flips coins, rolls dice, deals cards and throws " +
+                "darts to show it, draws many samples to show the central limit theorem (Module 6), builds many " +
+                "confidence intervals to show what 95 % confidence means (Module 7), and runs many t-tests on true " +
+                "null hypotheses to show why several comparisons inflate the chance of a false alarm (Module 8).",
+            Steps:
+            [
+                "Choose the Experiment. The form then shows only the entries that experiment uses.",
+                "For coins, dice and cards, say how many per trial, what is counted, and the event: the outcome equals, is at least or is at most a target — two dice summing to 7, three cards totalling 21.",
+                "Enter the number of trials. Start small (10 or 100) and read the difference from theory, then try 10 000 and read it again.",
+                "Keep the Seed to get exactly the same run again; change it to see another run of the same experiment.",
+                "Read the experimental and theoretical probability and their difference, then open Plots for the running proportion against the theory and the outcomes against their probabilities.",
+            ],
+            ReadingResults:
+                "The experimental probability is a count over the trials; the theoretical one is exact. Their " +
+                "difference is chance, and it shrinks like 1/√trials — with 1000 trials it is usually within about " +
+                "±0.03, with 100 000 within ±0.003. The running-proportion plot shows the early wandering and the " +
+                "settling. For sample means, the mean of the x̄ values sits near μ and their standard deviation " +
+                "near σ/√n, and the histogram follows the normal curve even when the population is skewed. For " +
+                "intervals, about the confidence level's share contain μ; for many tests, at least one false " +
+                "rejection happens far more often than α.",
+            Pitfalls:
+            [
+                "A simulation estimates; it does not prove. A difference from theory of a few hundredths after 1000 trials is expected, not a mistake.",
+                "The same seed gives the same results in this program only. Python and R draw their own random numbers, so their counts differ; compare proportions, not counts.",
+                "'Equals' with a target no outcome can reach (a sum of 13 with two dice) gives a probability of 0, in theory and in the simulation.",
+                "The central limit theorem is about the mean of a sample, not about single values: the population stays as skewed as it was.",
+            ],
+            Example:
+                "Two dice, the sum equals 7, 1000 trials, seed 1: the event happens in about one trial in six, and the " +
+                "theoretical probability is 6/36 = 0.1667. Three cards totalling 21 (J, Q, K = 10, an ace 1 or 11) has " +
+                "theoretical probability 2012/22 100 = 0.0910 — count the hands. Darts inside the circle estimate π/4 = 0.7854, so four times the " +
+                "proportion estimates π.",
+            Plots:
+                "The proportion of trials with the event so far against the trial number (log scale), with the " +
+                "theoretical probability as a line; then each outcome's simulated share beside its theoretical " +
+                "probability — or the darts on the square, or the first 100 intervals against μ. For sample means, " +
+                "the histogram of x̄ with the central limit theorem's normal curve.",
+            Code:
+                "numpy's random generator (np.random.default_rng(seed): integers, choice, uniform, normal, " +
+                "exponential) with scipy.stats for the theory in Python; sample, runif, rnorm, rexp, replicate and " +
+                "t.test with set.seed in R. The counts differ from the program's because the random numbers do."),
+
         [typeof(ConfidenceInterval)] = new(
             WhenToUse:
                 "Module 7: an estimate with its uncertainty. Use a confidence interval when the question is " +

@@ -135,6 +135,19 @@ public class CodeGenerationTests
         yield return ["Sampling distribution of the mean", new SamplingDistribution { Value2 = 4350 }];
         yield return ["Sampling distribution of a proportion", new SamplingDistribution { Statistic = SamplingStatistic.SampleProportion, PopulationProportion = 0.15, SampleSize = 100, Value = 0.2, Value2 = 0.25 }];
 
+        // Simulation: the random results are labelled in both scripts but not compared (numpy draws other numbers); the theory is.
+        yield return ["Simulation, two dice", new Simulation()];
+        yield return ["Simulation, coins at least", new Simulation { Experiment = SimulationExperiment.Coins, Coins = 5, EventIs = EventComparison.AtLeast, Heads = 3 }];
+        yield return ["Simulation, three-card 21", new Simulation { Experiment = SimulationExperiment.Cards }];
+        yield return ["Simulation, hearts at most", new Simulation { Experiment = SimulationExperiment.Cards, CardOutcome = CardOutcome.Hearts, Cards = 5, EventIs = EventComparison.AtMost, CardTarget = 1 }];
+        yield return ["Simulation, aces", new Simulation { Experiment = SimulationExperiment.Cards, CardOutcome = CardOutcome.Aces, Cards = 2, CardTarget = 1 }];
+        yield return ["Simulation, darts", new Simulation { Experiment = SimulationExperiment.Darts }];
+        yield return ["Simulation, means of a normal", new Simulation { Experiment = SimulationExperiment.SampleMeans, Distribution = SampledDistribution.Normal }];
+        yield return ["Simulation, means of a uniform", new Simulation { Experiment = SimulationExperiment.SampleMeans, Distribution = SampledDistribution.Uniform, Lower = 2, Upper = 8, SampleSize = 5 }];
+        yield return ["Simulation, means of an exponential", new Simulation { Experiment = SimulationExperiment.SampleMeans, SampleSize = 2 }];
+        yield return ["Simulation, interval coverage", new Simulation { Experiment = SimulationExperiment.IntervalCoverage, SampleSize = 8, Confidence = 0.9, Trials = 300 }];
+        yield return ["Simulation, familywise error", new Simulation { Experiment = SimulationExperiment.FamilywiseError, SampleSize = 6, Tests = 5, Trials = 300 }];
+
         StatistleDocument project = Phase3AnalysisTests.CatalystProject(out DataTable table);
         string a = DataSources.Reference(table.Id, "A"), b = DataSources.Reference(table.Id, "B"), pass = DataSources.Reference(table.Id, "Pass");
 
@@ -274,6 +287,13 @@ public class CodeGenerationTests
         foreach (StatistleProperty property in MethodScope.VisibleProperties(analysis).Where(p => p.IsResult))
         {
             object? value = property.Read(analysis);
+
+            if (property.Property.IsDefined(typeof(SimulatedResultAttribute), false))
+            {
+                // Drawn from the program's random numbers: Python draws its own, so only the label is required.
+                Assert.True(printed.ContainsKey(property.Label), $"{name}: Python did not print '{property.Label}'. Output:\n{output}");
+                continue;
+            }
 
             if (value is double expected)
             {

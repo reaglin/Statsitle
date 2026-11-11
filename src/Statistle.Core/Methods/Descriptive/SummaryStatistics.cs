@@ -136,6 +136,16 @@ public static class SummaryStatistics
         [.. x.Where(v => v < quartiles.LowerFence || v > quartiles.UpperFence).Order()];
 
     /// <summary>
+    /// The limits of an individuals control chart, x̄ ∓ 3s with the sample standard deviation;
+    /// NaN for fewer than two values.
+    /// </summary>
+    public static (double Lower, double Upper) ControlLimits(IReadOnlyList<double> x)
+    {
+        double mean = Mean(x), s = SampleStandardDeviation(x);
+        return (mean - 3 * s, mean + 3 * s);
+    }
+
+    /// <summary>
     /// Sample skewness, adjusted for bias: g₁ = [n / ((n − 1)(n − 2))] Σ((xᵢ − x̄)/s)³ — what
     /// Excel's SKEW, <c>scipy.stats.skew(x, bias=False)</c> and <c>e1071::skewness(type = 2)</c>
     /// give. Positive means a long right tail.

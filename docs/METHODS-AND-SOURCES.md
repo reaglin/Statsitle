@@ -52,6 +52,9 @@ Status: `[ ]` not built · `[x]` built, tested against the case named. The Pytho
 | Outlier fences | Q1 − 1.5·IQR, Q3 + 1.5·IQR | — | `boxplot.stats(x)$out` | `SummaryStatisticsTests` (40 beyond the fence) | [x] |
 | Skewness | g₁ adjusted: [n/((n−1)(n−2))] Σ((xᵢ−x̄)/s)³ | `stats.skew(x, bias=False)` | `e1071::skewness(x, type=2)` | Excel's documented SKEW example: 0.359543 | [x] |
 | Kurtosis (excess) | g₂ adjusted (as Excel KURT) | `stats.kurtosis(x, bias=False)` | `e1071::kurtosis(x, type=2)` | Excel's documented KURT example: −0.151799 | [x] |
+| Mode as a number (plan 10.16) | the one value more frequent than every other; blank (NaN) for no mode or a tie | `values, counts = np.unique(x, return_counts=True)`; the single top value | `tab <- table(x)`; the single `names(tab)[tab == max(tab)]` | `DescriptiveAdditionsTests` (5 of 3 5 5 7 8; tie and none blank); Python cross-check | [x] |
+| Number of outliers (plan 10.16) | count of xᵢ < Q1 − 1.5·IQR or > Q3 + 1.5·IQR, type-7 quartiles (the same fences as the Outliers list and the box plot) | `outliers.size` | `length(outliers)` | `DescriptiveAdditionsTests` (530 in the eleven alloy values; two in a set with −40 and 60); Python cross-check | [x] |
+| Control limits, individuals chart (plan 10.11) | LCL = x̄ − 3s, UCL = x̄ + 3s, s the sample SD (n − 1); points outside counted; M&R §15-3 (Shewhart charts) estimate σ by the average moving range / d₂ instead — the help says so | `np.mean(x) - 3 * np.std(x, ddof=1)` | `mean(x) - 3 * sd(x)` | `DescriptiveAdditionsTests` (5 ∓ 3√(32/7); one point beyond the UCL marked on the chart, figure 3); Python cross-check | [x] |
 | Frequency table, histogram | Sturges k = ⌈log₂n + 1⌉; √n rule | `np.histogram(x, bins='sturges')` | `hist(x, breaks="Sturges")` | `SummaryStatisticsTests` (Sturges 8→4, 20→6; classes partition n) | [x] |
 
 ## Probability rules (Module 3; M&R Ch. 2)
@@ -92,7 +95,24 @@ Status: `[ ]` not built · `[x]` built, tested against the case named. The Pytho
 |---|---|---|---|---|---|
 | Mean and SE of x̄ | μ_x̄ = μ; σ_x̄ = σ/√n | `norm.cdf(xbar, mu, sigma/np.sqrt(n))` | `pnorm(xbar, mu, sigma/sqrt(n))` | `DistributionTests`; EGN3443 M6 P1 (4200, 350, n 5 → 30) | [x] |
 | Sampling distribution of p̂ | p; √(p(1−p)/n) | | | `DistributionTests`; M&R 7-2 | [x] |
-| CLT simulation | k samples of n, histogram of means | `rng.normal(...)` | `replicate(k, mean(rnorm(n, ...)))` | `DistributionTests` | [x] |
+| CLT simulation | k samples of n, histogram of means | `rng.normal(...)` | `replicate(k, mean(rnorm(n, ...)))` | the Simulation analysis, below (`SimulationTests`) | [x] |
+
+## Simulation (Modules 3, 6, 7, 8; plan 10.7)
+
+Random numbers are the program's own: **xoshiro256\*\*** (Blackman and Vigna, *ACM TOMS* 47(4), 2021) seeded by **SplitMix64** (Steele, Lea and Flood, 2014), in `Core/Methods/Chance/RandomStream.cs`, so a seeded result is the same on every computer and every .NET version. Python and R draw their own numbers (`np.random.default_rng(seed)`, `set.seed(seed)`), so simulated counts differ from the program's; the generated code says so, and the cross-check compares only the theoretical values (results marked `[SimulatedResult]` need only their labels).
+
+| Item | Formula | Python | R | Held by | Status |
+|---|---|---|---|---|---|
+| Random stream | xoshiro256\*\*, SplitMix64 seeding; integers by rejection (no modulo bias); uniforms k·2⁻⁵³; normals by Box–Muller; exponentials −ln(1 − U)/λ | `np.random.default_rng(seed)` | `set.seed(seed)` | `SimulationTests`: the reference outputs from state {1, 2, 3, 4} (11520, 0, 1509978240, …), SplitMix64(0) = 0xE220A8397B1DCDAF, seed 1's first three outputs | [x] |
+| Experimental probability | (times the event happened) / trials; difference from theory ≈ 2√(p(1 − p)/trials) | `np.mean(event)` | `mean(event)` | `SimulationTests` (pinned counts; within 0.01 of theory at 100 000 trials, three seeds) | [x] |
+| Coins: heads in m flips | Binomial(m, ½): C(m, k)/2ᵐ | `stats.binom.pmf(k, m, 0.5)` | `dbinom(k, m, 0.5)` | `SimulationTests` (3 coins, P(≥ 2) = ½; seed 1: 499 heads in 1000) | [x] |
+| Dice: the sum of d dice | ways to roll s (convolution) / 6ᵈ | `itertools.product(range(1, 7), repeat=d)` | `expand.grid(rep(list(1:6), d))` | `SimulationTests` (P(7) = 6/36, P(10 with 3) = 27/216; seed 1: 168 sevens in 1000) | [x] |
+| Cards: best total (J, Q, K = 10; one ace 11 if ≤ 21) | every ordered deal of ranks weighted 4·3·… for repeats, over 52·51·…; three-card 21 = 2012/22 100 = 0.0910, two-card = 64/1326 | `itertools.product(range(1, 14), repeat=h)` with weights | `expand.grid(rep(list(1:13), h))` with weights | `SimulationTests` (both by brute force over all hands; seed 1: 93 in 1000) | [x] |
+| Cards: hearts, aces in a hand | Hypergeometric(52, 13 or 4, h) | `stats.hypergeom.pmf(k, 52, K, h)` | `dhyper(k, K, 52 - K, h)` | `SimulationTests` (one heart in three = 9633/22 100; ≥ 1 ace in five = 1 − C(48,5)/C(52,5)) | [x] |
+| Darts: inside the unit circle | P = π/4; π̂ = 4 × proportion | `x**2 + y**2 <= 1` | `x^2 + y^2 <= 1` | `SimulationTests` (seed 1, 10 000 darts: 7914, π̂ = 3.1656) | [x] |
+| Sample means (CLT) | mean of x̄ ≈ μ; SD of x̄ (n − 1) ≈ σ/√n: normal σ, uniform (b − a)/√12, exponential 1/λ | `rng.normal/uniform/exponential(…, size=(k, n)).mean(axis=1)` | `replicate(k, mean(rnorm/runif/rexp(n, …)))` | `SimulationTests` (seed 1, exponential λ = 1, n = 30: 0.9962 and 0.1790 against 1 and 0.1826; uniform 2–8, n = 12: SE 0.5) | [x] |
+| Interval coverage | share of t intervals x̄ ± t_{α/2,n−1}·s/√n containing μ → confidence level (M&R §8-2) | `stats.t.ppf(1 - (1 - conf)/2, n - 1)` | `t.test(x, conf.level = conf)$conf.int` | `SimulationTests` (seed 1, n = 10, 95 %: 949 of 1000) | [x] |
+| Familywise error | m independent tests of true nulls at α: P(≥ 1 rejection) = 1 − (1 − α)ᵐ; rejections ~ Binomial(m, α) | `np.abs(t) > stats.t.ppf(1 - alpha/2, n - 1)` | `t.test(rnorm(n))$p.value < alpha` | `SimulationTests` (seed 1, m = 10, n = 10: 410 of 1000 against 0.4013) | [x] |
 
 ## Confidence intervals and sample size (Module 7; M&R Ch. 8)
 
