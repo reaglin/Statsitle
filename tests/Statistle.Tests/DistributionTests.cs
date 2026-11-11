@@ -228,7 +228,7 @@ public class DistributionTests
         c.Recalculate();
         Assert.Contains("greater than zero", c.Problem, StringComparison.Ordinal);
 
-        Assert.Equal(7, MethodCatalog.For(typeof(ContinuousDistribution)).Count);
+        Assert.Equal(13, MethodCatalog.For(typeof(ContinuousDistribution)).Count);   // 8 families, 5 fits
         Assert.All(MethodCatalog.For(typeof(ContinuousDistribution)), m => Assert.Empty(MethodContract.Verify(m)));
         Assert.Contains(ReportBuilder.For(new ContinuousDistribution()).Citations, ci => ci.Method.Contains("Normal", StringComparison.Ordinal));
     }

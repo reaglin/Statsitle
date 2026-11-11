@@ -1,3 +1,4 @@
+using Statistle.Core.Methods.Descriptive;
 using Statistle.Core.Methods.Distributions;
 
 namespace Statistle.Core.Plotting;
@@ -187,6 +188,72 @@ public static class DistributionFigures
         {
             Title = title,
             Axes = [new AxisSpec(AxisSide.Bottom, "value"), new AxisSpec(AxisSide.Left, "density", Min: 0)],
+            Series = series,
+        };
+    }
+
+    /// <summary>
+    /// The data's histogram (Sturges' classes, as Descriptive statistics draws it) with the fitted
+    /// density scaled to the same area, n · class width · f(x): where the bars and the curve part,
+    /// the family does not suit the data.
+    /// </summary>
+    public static PlotSpec FittedHistogram(string title, IReadOnlyList<double> values, ContinuousModel model)
+    {
+        IReadOnlyList<FrequencyClass> table = SummaryStatistics.FrequencyTable(values, SummaryStatistics.SturgesClasses(values.Count));
+        List<PlotSeries> series = [];
+
+        if (table.Count > 0)
+        {
+            double width = table[0].Upper - table[0].Lower;
+            series.Add(new BarSeries("Frequency", AxisSide.Left, [.. table.Select(c => c.Mark)], [.. table.Select(c => (double)c.Frequency)], width)
+            {
+                ColorHint = "#3B6EA5",
+            });
+
+            (double low, double high) = model.PlotRange;
+            double from = Math.Min(low, table[0].Lower - width), to = Math.Max(high, table[^1].Upper + width);
+            List<double> xs = [], ys = [];
+
+            for (int i = 0; i <= 200; i++)
+            {
+                double x = from + (to - from) * i / 200;
+                xs.Add(x);
+                ys.Add(values.Count * width * model.Density(x));
+            }
+
+            series.Add(new LineSeries("Fitted density × n × class width", AxisSide.Left, xs, ys) { ColorHint = "#C0392B", Width = 2 });
+        }
+
+        return new PlotSpec
+        {
+            Title = title,
+            Axes = [new AxisSpec(AxisSide.Bottom, "value"), new AxisSpec(AxisSide.Left, "frequency", Min: 0)],
+            Series = series,
+        };
+    }
+
+    /// <summary>
+    /// The Q–Q (probability) plot: the sorted data against the fitted model's quantiles at
+    /// (i − 0.5)/n, with the line y = x. Points on the line mean the model fits; a bend at the
+    /// ends means its tails are wrong.
+    /// </summary>
+    public static PlotSpec QuantileQuantile(string title, IReadOnlyList<double> values, ContinuousModel model)
+    {
+        double[] sorted = [.. values.Order()];
+        double[] theory = [.. ContinuousFit.PlottingPositions(sorted.Length).Select(model.Quantile)];
+        List<PlotSeries> series = [];
+
+        if (sorted.Length > 0)
+        {
+            double low = Math.Min(sorted[0], theory[0]), high = Math.Max(sorted[^1], theory[^1]);
+            series.Add(new LineSeries("y = x (a perfect fit)", AxisSide.Left, [low, high], [low, high]) { ColorHint = "#C0392B", Width = 1.5 });
+            series.Add(new MarkerSeries("The data", AxisSide.Left, theory, sorted) { ColorHint = "#3B6EA5" });
+        }
+
+        return new PlotSpec
+        {
+            Title = title,
+            Axes = [new AxisSpec(AxisSide.Bottom, "fitted model's quantile"), new AxisSpec(AxisSide.Left, "data, sorted")],
             Series = series,
         };
     }

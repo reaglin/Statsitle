@@ -131,6 +131,12 @@ public class CodeGenerationTests
         yield return ["Student's t", new ContinuousDistribution { Family = ContinuousFamily.StudentT, DegreesOfFreedom = 10, X = 1.5, X2 = double.NaN, Probability = 0.975 }];
         yield return ["Chi-squared", new ContinuousDistribution { Family = ContinuousFamily.ChiSquared, DegreesOfFreedom = 10, X = 12, X2 = 20 }];
         yield return ["F", new ContinuousDistribution { Family = ContinuousFamily.F, NumeratorDf = 5, DenominatorDf = 10, X = 2, X2 = 4 }];
+        yield return ["Weibull", new ContinuousDistribution { Family = ContinuousFamily.Weibull, Shape = 1.5, Scale = 1000, X = 500, X2 = 1500, Probability = 0.9 }];
+        yield return ["Weibull, fitted", WeibullAndFitTests.Fitted(ContinuousFamily.Weibull)];
+        yield return ["Normal, fitted", WeibullAndFitTests.Fitted(ContinuousFamily.Normal)];
+        yield return ["Lognormal, fitted", WeibullAndFitTests.Fitted(ContinuousFamily.LogNormal)];
+        yield return ["Exponential, fitted", WeibullAndFitTests.Fitted(ContinuousFamily.Exponential)];
+        yield return ["Uniform, fitted", WeibullAndFitTests.Fitted(ContinuousFamily.Uniform)];
 
         yield return ["Sampling distribution of the mean", new SamplingDistribution { Value2 = 4350 }];
         yield return ["Sampling distribution of a proportion", new SamplingDistribution { Statistic = SamplingStatistic.SampleProportion, PopulationProportion = 0.15, SampleSize = 100, Value = 0.2, Value2 = 0.25 }];

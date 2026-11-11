@@ -218,38 +218,52 @@ public static class GuideCatalog
                 "Module 5: a random variable that measures. The normal for measurements that cluster about a " +
                 "mean; the uniform when every value in a range is equally likely; the exponential for the time " +
                 "to the next event at a constant rate; the lognormal for positive quantities whose logarithm is " +
-                "normal; and the t, chi-squared and F reference distributions that the later tests use. Use it " +
-                "for P(X ≤ x), P(X ≥ x), P(x₁ ≤ X ≤ x₂), the density at x, and the quantile for a probability — " +
-                "the table look-ups of the course, exactly.",
+                "normal; the Weibull for the life of a part or the strength of a material (reliability); and the " +
+                "t, chi-squared and F reference distributions that the later tests use. Use it for P(X ≤ x), " +
+                "P(X ≥ x), P(x₁ ≤ X ≤ x₂), the density at x, and the quantile for a probability — the table " +
+                "look-ups of the course, exactly. With measurements in a data table, use it to fit a family to " +
+                "them and see whether it suits the data.",
             Steps:
             [
-                "Choose the distribution. The form shows its parameters: a and b, μ and σ, λ, the log-scale μ and σ, or the degrees of freedom.",
+                "Choose the distribution. The form shows its parameters: a and b, μ and σ, λ, the log-scale μ and σ, the Weibull's shape β and scale η, or the degrees of freedom.",
+                "To fit the parameters to measurements instead of typing them, set Parameters from to 'Fitted to a data column' and choose the column (uniform, normal, exponential, lognormal or Weibull). The estimates appear locked in the parameters and among the results.",
                 "Enter the parameters, then the value of interest x and optionally an upper value x₂.",
                 "Read P(X ≤ x), P(X ≥ x), the density f(x), P(x ≤ X ≤ x₂) with x₂, and the mean, variance and standard deviation.",
                 "For the reverse question — which x has P(X ≤ x) = q — enter q as the probability for the quantile and read the quantile.",
-                "Open Plots for the density with the probability shaded and the cumulative distribution.",
+                "Open Plots for the density with the probability shaded and the cumulative distribution; with a fit, also the histogram with the fitted curve and the Q–Q plot.",
             ],
             ReadingResults:
                 "For a continuous variable P(X = x) is zero; the density f(x) is a height, not a probability, " +
                 "and probabilities are areas. P(X ≤ x) is the area to the left; P(X ≥ x) the area to the " +
                 "right; the two add to one. The quantile answers the specification question: the value " +
                 "exceeded with probability 1 − q. For the normal the z-score (x − μ)/σ is reported so the " +
-                "result can be checked against the table.",
+                "result can be checked against the table. For a lifetime, P(X > x) is the reliability R(x), and " +
+                "the hazard rate h(x) (Weibull and exponential) is the failure rate at age x among the parts " +
+                "still working. A fit gives the maximum-likelihood parameters; the Q–Q correlation r (near 1 " +
+                "is good) and the Kolmogorov–Smirnov distance D (small is good) say how well the family " +
+                "matches — compare families on the same column and keep the one with the larger r.",
             Pitfalls:
             [
                 "The exponential's parameter is the rate λ (mean 1/λ), as the course writes it; scipy uses scale = 1/λ, and the script says so.",
                 "The lognormal's μ and σ describe ln X, not X; its mean is exp(μ + σ²/2), reported on the form.",
                 "A t, chi-squared or F probability here is a reference value; the test analyses compute the statistic for you.",
+                "The Weibull's shape β is scipy's c and R's shape; its scale η is the characteristic life (63.2 % have failed by η), not the mean.",
+                "A fitted normal's σ̂ divides by n (maximum likelihood, as scipy's norm.fit), so it is a little smaller than the sample s.",
+                "No p-value is given for the fit: with parameters estimated from the same data, the usual Kolmogorov–Smirnov p-value is too large.",
             ],
             Example:
                 "Shaft diameters normal with μ = 25.00 mm and σ = 0.02 mm. P(X ≤ 24.97) = 0.067 (z = −1.5); " +
-                "the diameter exceeded by 5 % of shafts is the 0.95 quantile, 25.033 mm.",
+                "the diameter exceeded by 5 % of shafts is the 0.95 quantile, 25.033 mm. Bearings with Weibull " +
+                "lives, β = 1.5 and η = 1000 h: R(500) = P(X > 500) = 0.702, the hazard at 500 h is 0.00106 per " +
+                "hour, the mean life 902.7 h.",
             Plots:
-                "The density curve with the probability of interest shaded, and the cumulative distribution " +
-                "with the value of interest marked.",
+                "1: the density curve with the probability of interest shaded; 2: the cumulative distribution " +
+                "with the value of interest marked. With the parameters fitted to a column: 3: the histogram " +
+                "with the fitted density, and 4: the Q–Q plot, data against the fitted quantiles with the line y = x.",
             Code:
-                "scipy.stats norm, uniform, expon, lognorm, t, chi2 and f (cdf, sf, pdf, ppf); R pnorm/qnorm/" +
-                "dnorm and the matching functions."),
+                "scipy.stats norm, uniform, expon, lognorm, weibull_min, t, chi2 and f (cdf, sf, pdf, ppf); R " +
+                "pnorm/qnorm/dnorm and the matching functions. A fit writes the estimates (scipy's fit, or the " +
+                "Weibull's likelihood equation solved with brentq / uniroot), the Q–Q correlation and D."),
 
         [typeof(SamplingDistribution)] = new(
             WhenToUse:

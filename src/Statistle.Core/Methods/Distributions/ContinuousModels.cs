@@ -202,3 +202,41 @@ public sealed class FModel(double numeratorDf, double denominatorDf) : Continuou
 
     public override (double Low, double High) PlotRange => (0, Quantile(0.99));
 }
+
+/// <summary>
+/// The Weibull with shape β and scale η (R's shape and scale; scipy's weibull_min c = β,
+/// scale = η): P(X ≤ x) = 1 − e^(−(x/η)^β), x ≥ 0. β &lt; 1 failures that thin out (infant
+/// mortality), β = 1 the exponential with λ = 1/η, β &gt; 1 wear-out.
+/// </summary>
+public sealed class WeibullModel(double shape, double scale) : ContinuousModel
+{
+    private readonly Weibull _d = new(shape, scale);
+
+    public double Shape { get; } = shape;
+
+    public double Scale { get; } = scale;
+
+    public override string Describe => $"Weibull(β = {Shape:G4}, η = {Scale:G4})";
+
+    public override double Density(double x) => x < 0 ? 0 : _d.Density(x);
+
+    public override double Cdf(double x) => x <= 0 ? 0 : 1 - Math.Exp(-Math.Pow(x / Scale, Shape));
+
+    public override double Quantile(double p) => Scale * Math.Pow(-Math.Log(1 - p), 1 / Shape);
+
+    public override double Mean => Scale * MathNet.Numerics.SpecialFunctions.Gamma(1 + 1 / Shape);
+
+    public override double Variance
+    {
+        get
+        {
+            double g1 = MathNet.Numerics.SpecialFunctions.Gamma(1 + 1 / Shape);
+            return Scale * Scale * (MathNet.Numerics.SpecialFunctions.Gamma(1 + 2 / Shape) - g1 * g1);
+        }
+    }
+
+    /// <summary>The hazard (instantaneous failure) rate h(x) = f(x)/R(x) = (β/η)(x/η)^(β−1).</summary>
+    public double Hazard(double x) => x < 0 ? 0 : Shape / Scale * Math.Pow(x / Scale, Shape - 1);
+
+    public override (double Low, double High) PlotRange => (0, Quantile(0.995));
+}
