@@ -418,7 +418,9 @@ public sealed class CoursePage : UserControl
                     .Select(c => $"   •  {c}: {_path.WhereYouAre(c).ToLowerInvariant()}"));
                 intro.Add("The module is complete when those items are complete and you have passed these questions.");
             }
-            _quiz.WhereToLook = q => q.Objective is { Length: > 0 } objective
+            _quiz.WhereToLook = q => _content.LookAgainAt(item, q) is { } named
+                ? $"Look again at {named}."
+                : q.Objective is { Length: > 0 } objective
                 && item.Module.Items.FirstOrDefault(i => i.Kind != ItemKind.Assess && i.Objectives.Contains(objective, StringComparer.OrdinalIgnoreCase)) is { } teaches
                     ? $"Look again at {teaches}."
                     : null;

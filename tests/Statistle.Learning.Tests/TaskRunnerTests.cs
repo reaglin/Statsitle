@@ -36,6 +36,17 @@ public class TaskRunnerTests
     }
 
     [Fact]
+    public void A_task_can_say_what_to_check_after_a_wrong_answer()
+    {
+        var built = StatsTaskRunner.Build(StatsTask.Parse("""
+            { "id": "test.wrong", "title": "Wrong", "analysis": "DescriptiveStatistics", "settings": { "Sample": [3, 4, 4, 5, 9] },
+              "ask": [ { "result": "Mean", "wrong": "Check the Workbench settings against the list above." }, "Median" ] }
+            """));
+        Assert.EndsWith("too high. Check the Workbench settings against the list above.", StatsTaskRunner.Check(built.Expected[0], "6"), StringComparison.Ordinal);
+        Assert.EndsWith("Check the formula in the Learn tab and your arithmetic.", StatsTaskRunner.Check(built.Expected[1], "6"), StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void A_null_setting_leaves_a_number_blank()
     {
         var built = StatsTaskRunner.Build(StatsTask.Parse("""

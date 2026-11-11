@@ -192,7 +192,7 @@ public sealed class StatsTaskRunner : IChallengeRunner
         if (expected.Mistakes.FirstOrDefault(m => Math.Abs(number - m.Value) <= expected.Tolerance) is { } known)
             return $"{expected.Label}: {typed.Trim()} is not right. {known.Says}";
         var way = number > expected.Value ? "too high" : "too low";
-        return $"{expected.Label}: {typed.Trim()} is {way}. Check the formula in the Learn tab and your arithmetic.";
+        return $"{expected.Label}: {typed.Trim()} is {way}. {expected.Asked.Wrong ?? "Check the formula in the Learn tab and your arithmetic."}";
     }
 
     public static bool TryNumber(string text, out double number)

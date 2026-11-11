@@ -96,7 +96,7 @@ public sealed class TaskWorkspace : ContentControl
         page.Children.Add(new TextBlock
         {
             Text = exercise
-                ? $"Work it out with the formulas from the Learn tab, by hand or in Python or R, and type your results below. The analysis used: {_built.Analysis.Title}."
+                ? $"Work out the results asked for below (by hand, in Python or R, or in the Workbench, as the instructions say), type them in, and press Check my answers. The Workbench analysis that does this: {_built.Analysis.Title}."
                 : $"A worked example with {_built.Analysis.Title}: the data, every result, the figures, and the Python and R that give the same numbers. Open it in the Workbench to change the inputs and watch the results move.",
             Foreground = Muted, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 0, 0, 10),
         });
@@ -151,13 +151,65 @@ public sealed class TaskWorkspace : ContentControl
         return columns;
     }
 
+    /// <summary>
+    /// The settings a task gives, by the label the Workbench shows, for a task with no data column (a binomial's n and
+    /// p, a simulation's experiment). Blank numbers and the analysis's name are left out.
+    /// </summary>
+    public static IReadOnlyList<(string Label, string Value)> GivenValues(BuiltTask built)
+    {
+        var properties = built.Analysis.Properties().ToDictionary(p => p.XmlName, StringComparer.Ordinal);
+        var given = new List<(string, string)>();
+        foreach (var name in built.Task.Settings.Keys)
+        {
+            if (name == "Name" || !properties.TryGetValue(name, out var property) || property.IsResult) continue;
+            var shown = built.Analysis.Display(property);
+            if (shown.Length == 0 || shown == "—") continue;
+            given.Add((property.Label, shown));
+        }
+        return given;
+    }
+
+    /// <summary>The answer box's tooltip: how precise the answer must be, from the result and its tolerance.</summary>
+    public static string AnswerTip(ExpectedResult expected)
+    {
+        var precision = expected.Property.Decimals <= 0
+            ? "It is a count: type the whole number."
+            : expected.Tolerance < 0.005
+                ? "Give at least three decimals, such as 0.137."
+                : "Two decimals are usually enough, such as 4.87.";
+        return $"Type your result as a number. {precision} Enter checks your answers.";
+    }
+
     private FrameworkElement DataView(BuiltTask built)
     {
         var columns = DataColumns(built);
         var panel = new StackPanel();
         if (columns.Count == 0)
         {
-            panel.Children.Add(new TextBlock { Text = "This task works from the values set in the analysis below; it has no data column.", Foreground = Muted, TextWrapping = TextWrapping.Wrap });
+            var given = GivenValues(built);
+            panel.Children.Add(new TextBlock
+            {
+                Text = given.Count == 0
+                    ? "This task has no data table: the numbers it starts from are in the text above."
+                    : "This task has no data table. It starts from these values (also in the text above):",
+                Foreground = Muted, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 0, 0, 4),
+            });
+            if (given.Count > 0)
+            {
+                var table = new Grid { HorizontalAlignment = HorizontalAlignment.Left };
+                table.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                table.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                for (int i = 0; i < given.Count; i++)
+                {
+                    table.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                    var label = new TextBlock { Text = given[i].Label, Margin = new Thickness(0, 1, 16, 1), TextWrapping = TextWrapping.Wrap, MaxWidth = 420 };
+                    var value = new TextBlock { Text = given[i].Value, Margin = new Thickness(0, 1, 0, 1), FontFamily = new FontFamily("Consolas") };
+                    Grid.SetRow(label, i); Grid.SetRow(value, i); Grid.SetColumn(value, 1);
+                    table.Children.Add(label); table.Children.Add(value);
+                }
+                AutomationProperties.SetName(table, "Given values");
+                panel.Children.Add(table);
+            }
             return panel;
         }
 
@@ -246,7 +298,7 @@ public sealed class TaskWorkspace : ContentControl
             {
                 Text = saved.TryGetValue(expected.Asked.Result, out var s) ? s : "",
                 Margin = new Thickness(0, 3, 10, 3), Padding = new Thickness(4, 2, 4, 2), VerticalContentAlignment = VerticalAlignment.Center,
-                ToolTip = "Type your result as a number, such as 4.87. Round sensibly: two decimals are enough. Enter checks your answers.",
+                ToolTip = AnswerTip(expected),
             };
             AutomationProperties.SetName(box, expected.Label);
             box.KeyDown += (_, e) => { if (e.Key == Key.Enter) { CheckAnswers(); e.Handled = true; } };

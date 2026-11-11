@@ -21,6 +21,17 @@ public sealed class StatsContent
 
     public StatsTask? Find(string? id) => id is not null && Tasks.TryGetValue(id, out var t) ? t : null;
 
+    /// <summary>
+    /// A question's "lookAgain" item (quiz file, question id → item id): the item a learner who got it wrong should go
+    /// back to. The Learning Core ignores the field; without it the Course points to the first item teaching the outcome.
+    /// </summary>
+    public IReadOnlyDictionary<(string QuizFile, string QuestionId), string> LookAgain { get; init; } =
+        new Dictionary<(string, string), string>();
+
+    /// <summary>The item to look at again after a wrong answer to this question, when its quiz names one.</summary>
+    public LearningItem? LookAgainAt(LearningItem quizItem, Question question) =>
+        quizItem.QuizFile is { } file && LookAgain.TryGetValue((file, question.Id), out var id) ? Package.FindItem(id) : null;
+
     /// <exception cref="ContentException">The package itself cannot be read.</exception>
     public static StatsContent Load(string folder)
     {
@@ -39,7 +50,20 @@ public sealed class StatsContent
                 }
                 catch (ContentException ex) { problems.Add(ex.Message); }
             }
-        return new StatsContent { Package = package, Tasks = tasks, TaskProblems = problems };
+        var lookAgain = new Dictionary<(string, string), string>();
+        foreach (var file in package.AllItems.Select(i => i.QuizFile).OfType<string>().Distinct(StringComparer.Ordinal))
+        {
+            try
+            {
+                using var json = System.Text.Json.JsonDocument.Parse(File.ReadAllText(Path.Combine(folder, file)));
+                if (json.RootElement.TryGetProperty("questions", out var questions) && questions.ValueKind == System.Text.Json.JsonValueKind.Array)
+                    foreach (var q in questions.EnumerateArray())
+                        if (q.TryGetProperty("id", out var qid) && q.TryGetProperty("lookAgain", out var look) && look.ValueKind == System.Text.Json.JsonValueKind.String)
+                            lookAgain[(file, qid.GetString() ?? "")] = look.GetString() ?? "";
+            }
+            catch (System.Text.Json.JsonException ex) { problems.Add($"{file}: {ex.Message}"); }
+        }
+        return new StatsContent { Package = package, Tasks = tasks, TaskProblems = problems, LookAgain = lookAgain };
     }
 
     /// <summary>
@@ -71,6 +95,12 @@ public sealed class StatsContent
             // Widgets in questions (plan 10.15): the Learning Core checks them in Learn and Reference pages only.
             if (item.Quiz is { } quiz)
                 foreach (var q in quiz.Questions)
+                    if (item.QuizFile is { } qf && LookAgain.TryGetValue((qf, q.Id), out var look)
+                        && (Package.FindItem(look) is not { } target || target.Kind == ItemKind.Assess))
+                        problems.Add($"{qf}, question {q.Id}: \"lookAgain\" names {look}, which is not an item that teaches (a lesson of the package).");
+
+            if (item.Quiz is { } quiz2)
+                foreach (var q in quiz2.Questions)
                     foreach (var (part, text) in new[] { ("prompt", q.Prompt), ("explanation", q.Explanation ?? "") })
                         foreach (var w in Widgets.In(text))
                             if (CheckWidget(w) is { } problem)

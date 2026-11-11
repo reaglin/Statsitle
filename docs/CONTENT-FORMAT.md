@@ -99,7 +99,7 @@ the Exercise checks it.
 | `analysis` | The analysis class: `DescriptiveStatistics`, `ProbabilityRules`, `DiscreteDistribution`, `ContinuousDistribution`, `SamplingDistribution`, `ConfidenceInterval`, `SampleSize`, `OneSampleTest`, `TwoSampleTest`, `SimpleRegression`, `MultipleRegression`, `OneWayAnova`, `TwoWayAnova` (and those phase 10 adds) |
 | `settings` | Property name → value, **as the analysis's project file writes it** (the property names in `src/Statistle.Core/Analyses/*.cs`). A list of numbers is a series, one value per line. An enum is its name. A setting not given keeps the analysis's default; `null` leaves a number blank (no alternative mean, so no power; no upper bound x₂) |
 | `tables` | Data tables the task brings: `[{ "name": "Alloys", "columns": { "A": [..], "B": [..] } }]`. A setting `"@Alloys/A"` points the analysis at that column |
-| `ask` | The results asked, by property name (only numbers). A string, or `{ "result", "prompt", "tolerance" }` |
+| `ask` | The results asked, by property name (only numbers). A string, or `{ "result", "prompt", "tolerance", "wrong" }`. `wrong` is what a wrong answer that matches no known mistake should check, in place of "Check the formula in the Learn tab and your arithmetic" (for a number read in the Workbench: "Check the Workbench settings against the list above.") |
 | `mistakes` | Common mistakes the exercise recognizes, by asked result (below) |
 | `hints` | Shown one at a time on request |
 | `passThreshold` | The share of answers that must be right (default 1: all) |
@@ -155,6 +155,14 @@ A line on its own:
 
 As PLC+: `choice`, `multiple`, `numeric` (`answer`, `tolerance`, `unit`), `match`, `text` (`answers`). Every question has
 `id`, `prompt` (Markdown), `explanation` and `objective`. `practice: true` shows the answer after a wrong try.
+
+On a module check a wrong answer says "Look again at …". By default that is the first item listing the question's
+`objective`, which is often the module's introduction. Give a question `"lookAgain": "<item id>"` to name the item
+that teaches it; the validator checks that it is a lesson in the package. Statistics+ reads this field itself (the
+Learning Core ignores it).
+
+The answer box's tooltip says how precise to be: a count is a whole number; a result whose tolerance is below 0.005
+asks for at least three decimals; otherwise two are usually enough. Say the same in the exercise's intro.
 
 A **widget** may be written in a question too, on a line of its own (`\n` in the JSON string), so a question can show
 the picture it asks about:

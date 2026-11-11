@@ -226,8 +226,14 @@ public sealed class QuizView : UserControl
                 for (var i = 0; i < q.Pairs.Count; i++)
                 {
                     grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                    var left = new TextBlock { Text = q.Pairs[i].Left, FontFamily = new FontFamily("Consolas"), FontSize = 16, VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 3, 14, 3) };
-                    var combo = new ComboBox { MinWidth = 380, Margin = new Thickness(0, 3, 0, 3), ToolTip = $"Choose what {q.Pairs[i].Left} goes with" };
+                    var shortCode = q.Pairs[i].Left.Length <= 16 && !q.Pairs[i].Left.Contains(' ');
+                    var left = new TextBlock
+                    {
+                        Text = q.Pairs[i].Left, TextWrapping = TextWrapping.Wrap, MaxWidth = 420,
+                        VerticalAlignment = shortCode ? VerticalAlignment.Center : VerticalAlignment.Top, Margin = new Thickness(0, 5, 14, 3),
+                    };
+                    if (shortCode) { left.FontFamily = new FontFamily("Consolas"); left.FontSize = 16; }
+                    var combo = new ComboBox { MinWidth = 300, MaxWidth = 460, VerticalAlignment = VerticalAlignment.Top, Margin = new Thickness(0, 3, 0, 3), ToolTip = $"Choose what {q.Pairs[i].Left} goes with" };
                     combo.Items.Add("Choose…");
                     foreach (var c in choices) combo.Items.Add(c);
                     combo.SelectedIndex = 0;
@@ -294,7 +300,10 @@ public sealed class QuizView : UserControl
             drawn = null; // a widget that fails is a note in the question, never a crash of the page
         }
         if (drawn is FrameworkElement fe) fe.Margin = new Thickness(0, 4, 0, 10);
-        return drawn ?? Para($"(This question shows a {widget.Name} here that {LearningApp.Name} cannot draw: {widget.Argument})", 2, 8, muted: true);
+        if (drawn is not null) return drawn;
+        var note = Para("(The picture for this question could not be drawn. Answer from the text, and please tell your instructor.)", 2, 8, muted: true);
+        note.ToolTip = $"{widget.Name}: {widget.Argument}";
+        return note;
     }
 
     // ---- Text -----------------------------------------------------------------------------------------

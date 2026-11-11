@@ -8,7 +8,8 @@ namespace Statistle.Learning;
 public sealed record TaskTable(string Name, IReadOnlyList<(string Name, double[] Values)> Columns);
 
 /// <summary>One result the learner is asked for: an output property of the analysis, by its property name.</summary>
-public sealed record AskedResult(string Result, string? Prompt, double? Tolerance);
+/// <param name="Wrong">What a wrong answer that matches no known mistake should check, in place of "the formula in the Learn tab and your arithmetic" (e.g. the Workbench settings, for a number read there).</param>
+public sealed record AskedResult(string Result, string? Prompt, double? Tolerance, string? Wrong = null);
 
 /// <summary>
 /// A common mistake an exercise recognizes (plan 10.13): the number it gives, and the sentence the learner reads when
@@ -100,7 +101,8 @@ public sealed class StatsTask
                 if (result.Length == 0) throw new ContentException($"{file}: an entry of \"ask\" has no \"result\".");
                 ask.Add(new AskedResult(result,
                     entry.TryGetProperty("prompt", out var pr) ? pr.GetString() : null,
-                    entry.TryGetProperty("tolerance", out var tol) && tol.ValueKind == JsonValueKind.Number ? tol.GetDouble() : null));
+                    entry.TryGetProperty("tolerance", out var tol) && tol.ValueKind == JsonValueKind.Number ? tol.GetDouble() : null,
+                    entry.TryGetProperty("wrong", out var w) && w.ValueKind == JsonValueKind.String ? w.GetString() : null));
             }
 
         var mistakes = new Dictionary<string, IReadOnlyList<Mistake>>(StringComparer.Ordinal);

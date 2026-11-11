@@ -85,6 +85,32 @@ public class ContentTests(ITestOutputHelper output)
         }
     }
 
+    [Fact]
+    public void Content_a_check_question_can_name_the_item_to_look_at_again()
+    {
+        var copy = Path.Combine(Path.GetTempPath(), "statistle-content-" + Guid.NewGuid().ToString("N"));
+        try
+        {
+            CopyFolder(Egn3443, copy);
+            var quiz = Path.Combine(copy, "quizzes", "m2-check.json");
+            var json = System.Text.Json.Nodes.JsonNode.Parse(File.ReadAllText(quiz))!;
+            var questions = json["questions"]!.AsArray();
+            questions[0]!["lookAgain"] = "st.m2.variability";
+            questions[1]!["lookAgain"] = "st.m2.check";          // a check teaches nothing
+            File.WriteAllText(quiz, json.ToJsonString());
+
+            var content = StatsContent.Load(copy);
+            var check = content.Package.AllItems.Single(i => i.QuizFile == "quizzes/m2-check.json");
+            Assert.Equal("st.m2.variability", content.LookAgainAt(check, check.Quiz!.Questions[0])?.Id);
+            Assert.Contains(content.Validate(), p => p.Contains("m2-check.json, question " + check.Quiz.Questions[1].Id, StringComparison.Ordinal)
+                                                     && p.Contains("lookAgain", StringComparison.Ordinal));
+        }
+        finally
+        {
+            if (Directory.Exists(copy)) Directory.Delete(copy, recursive: true);
+        }
+    }
+
     private static void CopyFolder(string from, string to)
     {
         foreach (var dir in Directory.GetDirectories(from, "*", SearchOption.AllDirectories))

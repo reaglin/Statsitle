@@ -258,3 +258,33 @@ public class LearningViewsTests
         return root;
     }
 }
+
+/// <summary>UX review 2026-11-11 (modules 0–4): a task with no data column lists what it starts from; the answer box says how precise to be.</summary>
+public sealed class ExerciseHelpTests
+{
+    private static Statistle.Learning.BuiltTask Binomial()
+    {
+        var dir = AppContext.BaseDirectory;
+        while (dir is not null && !File.Exists(Path.Combine(dir, "Statistle.sln"))) dir = Path.GetDirectoryName(dir);
+        var task = Statistle.Learning.StatsTask.Load(Path.Combine(dir!, "content", "egn3443", "tasks", "m4-binomial-ex.json"), "m4-binomial-ex.json");
+        return Statistle.Learning.StatsTaskRunner.Build(task);
+    }
+
+    [Fact]
+    public void A_task_without_data_lists_its_given_values_by_their_Workbench_labels()
+    {
+        var given = TaskWorkspace.GivenValues(Binomial());
+        Assert.DoesNotContain(given, g => g.Label == "Name");
+        Assert.Contains(given, g => g.Value == "15");
+        Assert.Contains(given, g => g.Value.StartsWith("0.08", StringComparison.Ordinal));
+        Assert.True(given.Count >= 3);
+    }
+
+    [Fact]
+    public void The_answer_box_says_three_decimals_when_the_tolerance_needs_them()
+    {
+        var built = Binomial();
+        Assert.Contains("three decimals", TaskWorkspace.AnswerTip(built.Expected[0]), StringComparison.Ordinal);   // P(X = 2), tolerance 0.001
+        Assert.Contains("Two decimals", TaskWorkspace.AnswerTip(built.Expected[2]), StringComparison.Ordinal);      // the mean
+    }
+}
