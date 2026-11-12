@@ -463,6 +463,9 @@
                           ToolTip="Saves the selected item's numbers as a CSV file that Excel opens. Select a data table or an analysis first."
                           ToolTipService.ShowOnDisabled="True" />
                 <Separator />
+                <MenuItem Header="Chec_k a report (for instructors)…" Click="CheckReport_Click"
+                          ToolTip="Checks that a learner's Statistics+ progress report is genuine and unchanged, checks a result line, and makes a class code. Nothing is sent anywhere" />
+                <Separator />
                 <MenuItem Header="E_xit" Click="Exit_Click"
                           ToolTip="Closes Statistics+. If the project has unsaved changes, you are asked to save them first." />
             </MenuItem>
@@ -485,6 +488,8 @@
                 <MenuItem x:Name="SignOutMenu" Header="Sign _out" Click="SignOut_Click"
                           ToolTip="Saves your progress, locks your file and goes back to Who is learning? (for the next student, or to switch learner)" ToolTipService.ShowOnDisabled="True" />
                 <Separator />
+                <MenuItem x:Name="HandInMenu" Header="_Hand in a report…" Click="HandIn_Click"
+                          ToolTip="Makes a signed PDF report of a module check, or of everything so far, to hand in to your instructor" ToolTipService.ShowOnDisabled="True" />
                 <MenuItem x:Name="BackupMenu" Header="_Back up my progress…" Click="Backup_Click"
                           ToolTip="Saves a copy of your progress file to a USB drive or a cloud folder, in case this computer is changed" ToolTipService.ShowOnDisabled="True" />
             </MenuItem>

@@ -36,6 +36,8 @@ public sealed class CoursePage : UserControl
     private readonly TextBlock _itemStatus = new() { Foreground = LearningTheme.Brush("MutedTextBrush"), TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 2, 0, 0) };
     private readonly Button _previous = new() { Content = "◂ Previous", Padding = new Thickness(10, 3, 10, 3), Margin = new Thickness(0, 0, 6, 0) };
     private readonly Button _next = new() { Content = "Next ▸", Padding = new Thickness(10, 3, 10, 3) };
+    private readonly Button _handIn = new() { Content = "Hand in a re_port…", Padding = new Thickness(10, 3, 10, 3), Margin = new Thickness(6, 0, 0, 0) };
+    private readonly ReportsView _reports = new();
     private readonly TabControl _tabs = new() { Margin = new Thickness(0, 8, 0, 0) };
     private readonly TabItem _learnTab, _exampleTab, _exerciseTab, _referenceTab;
     private readonly MarkdownView _learn = new();
@@ -114,10 +116,22 @@ public sealed class CoursePage : UserControl
         left.Children.Add(_tree);
 
         // ── The item page ──
-        foreach (var b in new[] { _previous, _next, _read }) ToolTipService.SetShowOnDisabled(b, true);
+        foreach (var b in new[] { _previous, _next, _read, _handIn }) ToolTipService.SetShowOnDisabled(b, true);
         _previous.Click += (_, _) => { if (_item is not null && _path.PreviousInOrder(_item) is { } p) _path.Select(p); };
         _next.Click += (_, _) => { if (_item is not null && _path.NextInOrder(_item) is { } n) _path.Select(n); };
         _read.Click += (_, _) => MarkRead();
+        _handIn.Click += (_, _) => ShowReports(_item?.Id);
+
+        // Hand in a report (plan 14.1): the page shows each exercise that passed with its results and figure.
+        _reports.Package = content.Package;
+        _reports.Session = () => _session;
+        _reports.Save = () => { Save(); _path.Refresh(Progress); };
+        _reports.Status = text => Status?.Invoke(text);
+        _reports.Picture = evidence =>
+        {
+            try { return ExerciseEvidence.Png(_content, evidence); }
+            catch (Exception ex) when (ex is InvalidOperationException or ArgumentException or System.IO.IOException or NotSupportedException) { return null; }
+        };
 
         var learnPanel = new DockPanel();
         var footer = new DockPanel { Margin = new Thickness(0, 6, 0, 0) };
@@ -141,6 +155,7 @@ public sealed class CoursePage : UserControl
         var nav = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Top };
         nav.Children.Add(_previous);
         nav.Children.Add(_next);
+        nav.Children.Add(_handIn);
         DockPanel.SetDock(nav, Dock.Right);
         header.Children.Add(nav);
         var titles = new StackPanel();
@@ -233,6 +248,52 @@ public sealed class CoursePage : UserControl
         Status?.Invoke("How the Course works. Choose an item on the left to go back to it.");
     }
 
+    /// <summary>
+    /// Hand in a report (plan 14.1, 14.2): what a report covers, what it will say, saving the signed PDF, and the result line.
+    /// <paramref name="pointId"/> is a module check's ID to start on (null: the first one ready).
+    /// </summary>
+    public void ShowReports(string? pointId = null)
+    {
+        _item = null;
+        var page = new DockPanel { Margin = new Thickness(16, 12, 16, 8) };
+        var back = new Button { Content = "◂ Back to My progress", Padding = new Thickness(10, 3, 10, 3), HorizontalAlignment = HorizontalAlignment.Left, Margin = new Thickness(0, 0, 0, 8), ToolTip = "Shows My progress" };
+        back.Click += (_, _) => { _path.Dashboard.IsSelected = true; ShowDashboard(); };
+        DockPanel.SetDock(back, Dock.Top);
+        page.Children.Add(back);
+        var title = new TextBlock { Text = "Hand in a report", FontSize = 20, FontWeight = FontWeights.SemiBold };
+        AutomationProperties.SetHeadingLevel(title, AutomationHeadingLevel.Level1);
+        DockPanel.SetDock(title, Dock.Top);
+        page.Children.Add(title);
+        if (_session is null)
+        {
+            var text = new TextBlock { TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 8, 0, 0) };
+            var signIn = new Hyperlink(new Run("Sign in")) { ToolTip = "Opens the Who is learning? screen" };
+            signIn.Click += (_, _) => SignInRequested?.Invoke();
+            text.Inlines.Add(new Run("A report shows your own progress, so sign in first: "));
+            text.Inlines.Add(signIn);
+            text.Inlines.Add(new Run(". Nobody is signed in, so there is no progress to report."));
+            page.Children.Add(text);
+            _right.Content = page;
+            Status?.Invoke("Sign in to hand in a report.");
+            return;
+        }
+        var lead = new TextBlock
+        {
+            Text = "Your instructor may ask for a report when you finish a module check. Statistics+ makes it as a signed PDF that shows your scores, " +
+                   "your outcomes and the results of each exercise you passed. You hand in the file; your instructor can check it was not changed.",
+            TextWrapping = TextWrapping.Wrap, Foreground = LearningTheme.Brush("MutedTextBrush"), Margin = new Thickness(0, 2, 0, 4), MaxWidth = 900, HorizontalAlignment = HorizontalAlignment.Left,
+        };
+        DockPanel.SetDock(lead, Dock.Top);
+        page.Children.Add(lead);
+        page.Children.Add(_reports);
+        _right.Content = page;
+        _reports.Show(pointId);
+        Status?.Invoke("Hand in a report: 1. choose what it covers, 2. save the PDF, 3. hand it in as your instructor asks.");
+    }
+
+    /// <summary>The Hand in a report page (for the tests).</summary>
+    public ReportsView ReportsPage => _reports;
+
     private const string HelpMarkdown = """
         # How the Course works
 
@@ -272,6 +333,13 @@ public sealed class CoursePage : UserControl
         The **Workbench** (Ctrl+B) is the calculator, for your own data and assignments: data tables, every analysis, the
         report, the plots and the Python and R. **Course** (Ctrl+L) comes back here.
 
+        ## Handing in your work
+
+        When you finish a module check, your instructor may ask for a report. **Learner ▸ Hand in a report** (or the
+        **Hand in a report** button on My progress and on each module check) makes a signed PDF: your scores, your
+        outcomes, and the results of each exercise you passed with its figure. Upload that file as it is; your
+        instructor can check it was not changed. The **result line** is a one-line summary to paste where they ask.
+
         More help: Help ▸ Help on the web.
         """;
 
@@ -301,8 +369,18 @@ public sealed class CoursePage : UserControl
         ToolTipService.SetShowOnDisabled(go, true);
         if (next is null) go.ToolTip = "Every item in the course is complete";
         go.Click += (_, _) => { if (next is not null) _path.Select(next); };
-        DockPanel.SetDock(go, Dock.Top);
-        page.Children.Add(go);
+        var report = new Button
+        {
+            Content = "Hand in a re_port…", Padding = new Thickness(12, 4, 12, 4), Margin = new Thickness(8, 8, 0, 8), IsEnabled = _session is not null,
+            ToolTip = _session is null ? "Sign in first: a report shows your own progress" : "Makes a signed PDF report of a module check, or of everything so far, to hand in",
+        };
+        ToolTipService.SetShowOnDisabled(report, true);
+        report.Click += (_, _) => ShowReports();
+        var buttons = new StackPanel { Orientation = Orientation.Horizontal };
+        buttons.Children.Add(go);
+        buttons.Children.Add(report);
+        DockPanel.SetDock(buttons, Dock.Top);
+        page.Children.Add(buttons);
         page.Children.Add(new MarkdownView { Markdown = DashboardPage.Markdown(_content.Package, Progress) });
         _right.Content = page;
         Status?.Invoke("My progress: each module, the module checks, outcomes to review, and your time. Choose a module or an item on the left to work on it.");
@@ -453,6 +531,11 @@ public sealed class CoursePage : UserControl
         parts.Add(state == ItemState.Complete ? "Complete ✓" : _path.ItemDetail(item, state));
         _itemStatus.Text = string.Join(" · ", parts);
         _read.Visibility = item.CompletesByReading ? Visibility.Visible : Visibility.Collapsed;
+        _handIn.Visibility = item.Kind == ItemKind.Assess ? Visibility.Visible : Visibility.Collapsed;
+        _handIn.IsEnabled = _session is not null;
+        _handIn.ToolTip = _session is null ? "Sign in first: a report shows your own progress"
+            : state == ItemState.Complete ? "Makes the signed PDF report of this module check, to hand in"
+            : "Makes the report of this module check. It is not complete yet, so the report says Incomplete and lists what is missing";
         _read.IsEnabled = state != ItemState.Complete;
         _read.ToolTip = state == ItemState.Complete ? "This item is already complete" : "Marks this item complete. An item without an exercise is complete when you have read it.";
         _learnFooter.Text = item.Kind == ItemKind.Assess ? "The questions are on the Exercise tab (Ctrl+3)."

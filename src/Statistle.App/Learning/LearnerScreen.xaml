@@ -116,6 +116,8 @@
                             ToolTip="Opens the folder in File Explorer. An instructor can remove the file of a student who has left (the file name is in Remove's tooltip), with Statistics+ closed" />
                     <Button Content="_Settings…" Click="Settings_Click" Margin="0,0,8,8"
                             ToolTip="Where learners' files are kept, and when Statistics+ locks itself. For everyone on this computer" />
+                    <Button Content="C_heck a report (for instructors)…" Click="CheckReport_Click" Margin="0,0,8,8"
+                            ToolTip="Checks that a learner's progress report is genuine and unchanged, checks a result line, and makes a class code. No sign-in needed; nothing is sent anywhere" />
                     <Button Content="Help on the _web" Click="WebHelp_Click" Margin="0,0,8,8" ToolTip="Opens the Statistics+ help pages on softwareplus.ai in your web browser" />
                     <Button Content="Check for a new _version…" Click="CheckForUpdate_Click" Margin="0,0,8,8"
                             ToolTip="Asks the Microsoft Store whether a newer version of Statistics+ is out, and offers to install it" />

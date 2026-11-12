@@ -416,6 +416,8 @@ public partial class LearnerScreen : UserControl
         LockedText.Text = $"{learner.Name} is no longer on this computer. The file is in the Recycle Bin, if it was removed by mistake.";
     }
 
+    private void CheckReport_Click(object sender, RoutedEventArgs e) => new VerifyWindow(Owner).ShowDialog();
+
     private void Settings_Click(object sender, RoutedEventArgs e)
     {
         if (new SettingsWindow(Owner, Settings).ShowDialog() != true) return;

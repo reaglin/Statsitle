@@ -42,8 +42,8 @@ public static class DashboardPage
         if (d.ReviewSuggested.Count > 0) md.AppendLine();
 
         md.AppendLine("## Module checks").AppendLine();
-        md.AppendLine("Each module ends with a module check: questions on the whole module, complete when the items it covers are complete and you pass them. " +
-                      "Each module ends with a check: when it and the items it covers are complete, the module is complete.").AppendLine();
+        md.AppendLine("Each module ends with a module check: questions on the whole module. It is complete when the items it covers are complete and you pass the questions; " +
+                      "then the module is complete. If your instructor asks for a report, press **Hand in a report** above.").AppendLine();
         md.AppendLine("| Module check | Where you are |").AppendLine("|---|---|");
         foreach (var s in d.Submissions)
             md.AppendLine($"| {s.Check} | {(s.State == SubmissionState.NotReached ? "○ " : "✓ ")}{(s.State == SubmissionState.NotReached ? s.Detail : "Complete")} |");

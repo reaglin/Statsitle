@@ -216,7 +216,8 @@ public sealed class StatsTaskRunner : IChallengeRunner
         return Statistle.Core.Domain.DataSources.Reference(id, raw[(slash + 1)..]);
     }
 
-    private static Dictionary<string, string> ReadAnswers(string workJson)
+    /// <summary>The answers in a learner's work JSON, by result name (empty when there are none or it cannot be read).</summary>
+    public static Dictionary<string, string> ReadAnswers(string workJson)
     {
         var answers = new Dictionary<string, string>(StringComparer.Ordinal);
         if (string.IsNullOrWhiteSpace(workJson)) return answers;
