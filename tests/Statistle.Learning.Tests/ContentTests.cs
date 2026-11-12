@@ -98,6 +98,27 @@ public class ContentTests(ITestOutputHelper output)
     }
 
     [Fact]
+    public void Content_every_outcome_is_taught_by_an_item_and_asked_in_its_module_check()
+    {
+        // Plan 13.6 (docs/OUTCOMES.md): no outcome without an item that teaches it and a check question that assesses it.
+        var content = StatsContent.Load(Egn3443);
+        List<string> missing = [];
+        foreach (var module in content.Package.Modules)
+        {
+            var check = module.Items.FirstOrDefault(i => i.Kind == ItemKind.Assess);
+            foreach (var outcome in module.Outcomes)
+            {
+                if (!module.Items.Any(i => i.Kind != ItemKind.Assess && i.Objectives.Contains(outcome.Id, StringComparer.OrdinalIgnoreCase)))
+                    missing.Add($"{outcome.Id}: no item lists it in its objectives.");
+                if (check?.Quiz is not null && !check.Quiz.Questions.Any(q => string.Equals(q.Objective, outcome.Id, StringComparison.OrdinalIgnoreCase)))
+                    missing.Add($"{outcome.Id}: no question of {check.QuizFile} assesses it.");
+            }
+        }
+
+        Assert.True(missing.Count == 0, string.Join("\n", missing));
+    }
+
+    [Fact]
     public void Content_a_check_question_can_name_the_item_to_look_at_again()
     {
         var copy = Path.Combine(Path.GetTempPath(), "statistle-content-" + Guid.NewGuid().ToString("N"));
