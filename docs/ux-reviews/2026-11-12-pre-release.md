@@ -3,7 +3,7 @@
 Cognitive walkthrough + Nielsen heuristics, read from source against `..\USABILITY-CHECKLIST.md`, by two `ux-reviewer`
 passes in full-sweep mode (the Course side; the Workbench and the shell), then an inline re-check of the fixes.
 
-**1 Critical, 7 Major, 31 Minor, 3 notes. All fixed, except the one left to Ron (About wording, below).**
+**1 Critical, 7 Major, 31 Minor, 3 notes. All fixed** (the About wording by Ron's choice, below).
 
 Tasks walked: a new student's first start to Module 0; an exercise with the Workbench beside it; a module check failed on
 one question; forgetting the PIN, signing out and the idle lock; a second student on the same computer; an instructor
@@ -58,10 +58,10 @@ lead names the Data from / Data table entry; Undo keeps its step if the restore 
 Found while taking the Store screenshots: the exercise lead repeated the steps an exercise already gives (now skipped), and
 the status line under "Who is learning?" spoke about the page behind it.
 
-## Left to Ron
+## Decided by Ron (2026-11-12): the suggested wording
 
-- Help ▸ About says "nothing you enter leaves this computer". Send to my instructor and Check for a new version go online
-  when the person asks. Suggested: "Nothing leaves this computer unless you send it." (plan 5.7)
+- Help ▸ About said "nothing you enter leaves this computer". Send to my instructor and Check for a new version go online
+  when the person asks. Now: "Free software; nothing leaves this computer unless you send it." (plan 5.7)
 
 ## To look at by eye (hand-test part W)
 

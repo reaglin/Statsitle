@@ -20,12 +20,12 @@ everything ships as 2.0.0). 2.0.0 is an **update of the same product**: same ide
 | Privacy policy | ✅ `https://softwareplus.ai/statistle/privacy/`, revised 2026-11-12 for learners, the signing key and reports |
 | `runFullTrust` justification and certification notes | ✅ Below, rewritten for the Course |
 | Version | ✅ **2.0.0** (`StatistleVersion`), higher than the live 1.0.0 |
-| Store assets | ✅ Generated from the logo by `packaging/make-store-assets.ps1` (unchanged; see the icon note below) |
+| Store assets | ⚠️ Ron to look: remade 2026-11-12 by `packaging/make-store-assets.ps1` for Statistics+ (icons, tiles, box art, poster, hero); the old Statistle logo is no longer used |
 | `.msixupload` | ✅ Built 2026-11-12 (78 MB; the 401 course files and the report libraries checked inside) |
 | Listing copy | ✅ `STORE-LISTING.md`, rewritten for 2.0 |
 | WACK | ⚠️ Ron runs `packaging/run-wack.ps1` (needs elevation) on the final build |
 | Screenshots | ✅ Made by the tests (`STORE-LISTING.md`, end) |
-| Icon | ⚠️ Ron: the Statistle logo has no "+" (the suite's theme); keep it for 2.0, or make a "+" icon first? |
+| Icon | ⚠️ Ron to look: the banded bell with a white "+" (Ron, 2026-11-12: "make a + icon"); large tiles say "Statistics+" above the bell. Upload the new `StoreLogo-300x300.png`, box art, poster and hero images with the listing |
 | Submit | ⚠️ Ron, after his hand-test round 2.0 |
 
 ## The Partner Center account

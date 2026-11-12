@@ -1,18 +1,17 @@
 <#
 .SYNOPSIS
-    Regenerates every Statistle icon, tile and Store listing image from the logo.
+    Regenerates every Statistics+ icon, tile and Store listing image.
 
 .DESCRIPTION
     Two visual layers, chosen by size — the same rule SMADA uses:
 
-      * The LOGO (resources/images/Statistle_logo2048x2048.jpg) carries everything shown large:
-        the 310x310 tile, the splash screen, and the Partner Center listing images. Its white
-        rounded-rectangle surround is flood-filled to the logo's own navy so tiles are
-        full-bleed; a white notch in each corner reads as a mistake on a dark Start menu.
+      * The LOGO carries everything shown large: the 310x310 tile, the splash screen, and the
+        Partner Center listing images. It is drawn here: the name "Statistics+" above the banded
+        bell, on the navy of the old Statistle logo (resources/images/Statistle_logo2048x2048.jpg,
+        kept for the 1.x history).
       * The MARK carries anything small — the 44x44, 71x71 and 150x150 tiles, the taskbar target
-        sizes, the .statistle file icon and Statistle.ico. It is the logo's bell curve redrawn
-        without the wordmark or the annotations, in the logo's own palette, because at 16 px
-        "statistle" and "68.2%" are illegible noise while a banded bell still reads.
+        sizes, the .statistle file icon and Statistle.ico. It is the banded bell with a white "+"
+        at its shoulder: the "+" of the suite's names (Gamify+, Author+, ...) is in every icon.
 
     Every package asset is written under WACK's 204800-byte limit for logo images: 256 colours
     first, then 128, 64, 32 until it fits. On flat artwork like this that is invisible — the
@@ -31,15 +30,12 @@
 #>
 [CmdletBinding()]
 param(
-    [string]$Source,
     [switch]$SkipIco
 )
 
 $ErrorActionPreference = 'Stop'
 
 $repoRoot = Split-Path -Parent $PSScriptRoot
-if (-not $Source) { $Source = Join-Path $repoRoot 'resources/images/Statistle_logo2048x2048.jpg' }
-if (-not (Test-Path $Source)) { throw "Logo not found: $Source" }
 
 $assetsDir = Join-Path $repoRoot 'packaging/Assets'
 $storeDir  = Join-Path $repoRoot 'resources/images/store'
@@ -76,6 +72,7 @@ $stripes  = Join-Path $workDir 'stripes.png'
 $bands    = Join-Path $workDir 'bands.png'
 $mark     = Join-Path $workDir 'mark-2048.png'
 $glyph    = Join-Path $workDir 'glyph-2048.png'
+$plusMark = Join-Path $workDir 'plus-mark-2048.png'
 
 Invoke-Magick -size 2048x2048 'xc:none' -fill $white -stroke none -draw "path '$bell Z'" $bellMask
 Invoke-Magick -size 2048x2048 "xc:$orange" `
@@ -89,17 +86,24 @@ $outline = @(
     '-draw', "stroke-linecap round fill none stroke $white stroke-width 58 path '$bell'",
     '-draw', "stroke-linecap round stroke $white stroke-width 36 line 150,1670 1898,1670"
 )
-Invoke-Magick -size 2048x2048 "xc:$navy" $bands -compose over -composite @outline -strip $mark
+# The "+" sits in the empty corner above the bell's right shoulder, clear of the outline.
+$plus = @('-fill', $white, '-stroke', 'none',
+          '-draw', 'roundrectangle 1380,500 1880,640 24,24',
+          '-draw', 'roundrectangle 1560,320 1700,820 24,24')
+Invoke-Magick -size 2048x2048 "xc:$navy" $bands -compose over -composite @outline @plus -strip $mark
 Invoke-Magick -size 2048x2048 'xc:none'  $bands -compose over -composite @outline -strip $glyph
 
 # --- the logo ---------------------------------------------------------------------------------
-# Flood-fill the white outside the rounded rectangle to the logo's navy. Filling from the four
-# corners only touches that connected region — the white wordmark and curve outline inside are
-# not connected to it and are left alone.
+# The name above the bell, as the old Statistle logo had it. The name carries the "+", so the
+# bell here is the plain glyph.
 $artFull = Join-Path $workDir 'art-full.png'
-Invoke-Magick $Source -fuzz 45% -fill $navy `
-    -draw 'color 2,2 floodfill' -draw 'color 2045,2 floodfill' `
-    -draw 'color 2,2045 floodfill' -draw 'color 2045,2045 floodfill' -strip $artFull
+$word    = Join-Path $workDir 'wordmark.png'
+Invoke-Magick -background none -fill $white -font $font -size 1640x420 -gravity center `
+    'caption:Statistics+' -strip $word
+Invoke-Magick -size 2048x2048 "xc:$navy" `
+    $word -gravity north -geometry '+0+190' -compose over -composite `
+    '(' $glyph -filter Lanczos -resize 1420x1420 ')' -gravity south -geometry '+0+80' -composite `
+    -strip $artFull
 
 # --- emitters ---------------------------------------------------------------------------------
 function Write-Capped {
@@ -168,15 +172,19 @@ function Write-TargetSizes {
 function Write-WideTile {
     # The glyph beside the name, on flat navy. The logo is not used here: cropped to 310x150 it
     # keeps either the wordmark or the curve, never both.
+    # The name is set as caption: so it fits the column whatever the scale.
     param([int]$Width, [int]$Height, [string]$Dest)
     $margin = [int]($Width * 0.05)
-    $artW   = [int]($Height * 0.78)
-    $textX  = $margin + $artW + [int]($Width * 0.05)
+    $artW   = [int]($Height * 0.70)
+    $textX  = $margin + $artW + [int]($Width * 0.04)
+    $textW  = $Width - $textX - $margin
+    $name   = Join-Path $workDir "wide-name-$Width.png"
+    Invoke-Magick -background none -fill $white -font $font `
+        -size "${textW}x$([int]($Height * 0.24))" -gravity west 'caption:Statistics+' -strip $name
     Invoke-Magick -size "${Width}x${Height}" "xc:$navy" `
         '(' $glyph -filter Lanczos -resize "${artW}x${artW}" ')' `
         -gravity west -geometry "+$margin+0" -compose over -composite `
-        -gravity northwest -font $font -pointsize ([int]($Height * 0.20)) -fill $white `
-        -annotate "+$textX+$([int]($Height * 0.38))" 'Statistle' `
+        $name -gravity west -geometry "+$textX+0" -composite `
         -colors 256 -strip $Dest
 }
 
@@ -196,10 +204,10 @@ function Write-Hero {
     $tag = Join-Path $workDir "hero-tag-$Width.png"
     Invoke-Magick -background none -fill $white -font $font `
         -size "${textW}x$([int]($Height * 0.115))" -gravity west `
-        'caption:Statistics you can read' -strip $sub
+        'caption:Learn statistics for engineers' -strip $sub
     Invoke-Magick -background none -fill '#9FC4E4' -font $font `
         -size "${textW}x$([int]($Height * 0.058))" -gravity west `
-        'caption:Every result explained, and the Python and R that reproduce it' -strip $tag
+        'caption:Lessons, exercises, and the Python and R for every result' -strip $tag
 
     Invoke-Magick -size "${Width}x${Height}" "xc:$navy" `
         '(' $artFull -filter Lanczos -resize "${artW}x${artW}" ')' `
@@ -234,6 +242,8 @@ Write-Host '  Wide310x150Logo' -ForegroundColor DarkGray
 # --- Partner Center listing images -------------------------------------------------------------
 Write-Host 'Store listing -> resources/images/store' -ForegroundColor Cyan
 Write-Plain $mark    300  300  (Join-Path $storeDir 'StoreLogo-300x300.png')
+# The program's icon on SoftwarePlus.ai (site/images/icons/statistics-plus.png) is this one too.
+Write-Plain $mark    360  360  (Join-Path $storeDir 'SiteIcon-360x360.png')
 Write-Plain $artFull 1080 1080 (Join-Path $storeDir 'BoxArt-1080x1080.png')
 Write-Plain $artFull 720  1080 (Join-Path $storeDir 'PosterArt-720x1080.png') 'Pad'
 Write-Hero 2400 1200 (Join-Path $storeDir 'SuperHeroArt-2400x1200.png')

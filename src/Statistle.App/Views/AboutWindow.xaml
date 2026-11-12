@@ -15,7 +15,7 @@
                     Padding="14,4" BorderThickness="0" FontWeight="SemiBold"
                     Background="#2F3E4C" Foreground="White" Cursor="Hand" />
             <TextBlock VerticalAlignment="Center" Foreground="#6B7680" FontSize="11" TextWrapping="Wrap"
-                       Text="Copyright © Ron Eaglin. Free software; nothing you enter leaves this computer." />
+                       Text="Copyright © Ron Eaglin. Free software; nothing leaves this computer unless you send it." />
         </DockPanel>
 
         <StackPanel>

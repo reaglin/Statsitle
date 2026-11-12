@@ -232,6 +232,9 @@ W9. **Store text.** Read `resources/STORE-LISTING.md` (the new description, feat
 W10. **Privacy policy** (live): https://softwareplus.ai/statistle/privacy/, rewritten for learners, the signing key and reports.
 W11. **The site page for 2.0** (a draft, not linked, not indexed): https://softwareplus.ai/statistle/index-next.html. It becomes
     the Statistics+ page when 2.0 is live.
+W13. **The "+" icon and About.** The exe's icon (taskbar, Alt+Tab) is the bell with a white "+". Help ▸ About ends
+    "nothing leaves this computer unless you send it." Look at `resources/images/store/asset-contact-sheet.png` (the tiles:
+    "Statistics+" above the bell on the large ones) and `HeroImage-1920x1080.png`. Right for the Store?
 W12. **Store-installed copy only, after release:** a learner can be made (files in C:\ProgramData\Statistle\Learners),
     Help ▸ Check for a new version says you have the latest, and a .statistle file opens by double-click.
 
