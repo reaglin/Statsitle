@@ -19,8 +19,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 > outliers in Descriptive statistics; recognized mistakes, `wrong`, `lookAgain`, figures in questions.
 > **Phase 12 the same day:** Modules 5–9 written; **Chi-square tests** (new analysis), **Weibull** and a **fit to a
 > data column** (Continuous distribution); every analysis's generated R is now run in R by the tests (it found the
-> 'two-sided' and pstats bugs). ⚠️ Ron's hand-test round 2.0 (parts P, Q, R, S) covers all of it; modules 10–14 follow
-> (phase 13). Figures of every task as PNGs: `STATISTLE_FIGURE_SHOTS=<folder> dotnet test tests/Statistle.App.Tests --filter FigureShots`.
+> 'two-sided' and pstats bugs). **Phase 13 the same day:** Modules 10–14 written (two-sample II, regression,
+> multiple regression, validating regression, ANOVA); the **hold-out split** in Multiple regression (plan 10.10),
+> **Coefficient to read** (one coefficient as numbers), ANOVA figures that name their groups; `docs/OUTCOMES.md` from
+> `tools/make-outcomes.py`. ⚠️ Ron's hand-test round 2.0 (parts P–U) covers all of it; phases 14 (reports) and 15
+> (the release) are next. Figures of every task as PNGs: `STATISTLE_FIGURE_SHOTS=<folder> dotnet test tests/Statistle.App.Tests --filter FigureShots`.
 > Pictures of the Course for checking by eye: `STATISTLE_COURSE_SHOTS=<folder> dotnet test tests/Statistle.App.Tests --filter CourseShots`.
 
 **Statistle** — a Windows 10/11 desktop app that calculates the statistics of Ron's course
