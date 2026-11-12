@@ -72,7 +72,7 @@ A common practice with plenty of data is to do both: choose the model by k-fold 
 
 [[data: st.m13.cross-validation.eg]]
 
-The model predicts daily electricity use from the heating degree-days and the occupancy.
+The model predicts daily electricity use from the heating degree-days and the occupancy (a different building from item 12.2's).
 
 [[results: st.m13.cross-validation.eg]]
 

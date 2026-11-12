@@ -74,7 +74,7 @@ public static class SampleProjects
         regression.Recalculate();
 
         DataTable housing = document.AddTable("Housing");
-        housing.Description = "Twenty houses (synthetic, in the shape of the course's Module 12 problem): size in sq ft, age in years, bedrooms, distance to the centre in km, price in thousands.";
+        housing.Description = "Twenty houses (synthetic, in the shape of the course's Module 12 problem): size in sq ft, age in years, bedrooms, distance to the center in km, price in thousands.";
         housing.Columns.AddColumn("size", [1610, 1120, 3170, 2690, 1190, 2160, 2900, 1840, 1820, 2610, 2070, 2390, 1780, 1850, 2430, 2030, 1150, 2330, 2250, 2030]);
         housing.Columns.AddColumn("age", [13, 31, 27, 27, 27, 4, 24, 34, 2, 30, 39, 33, 28, 28, 37, 9, 28, 2, 4, 25]);
         housing.Columns.AddColumn("bedrooms", [4, 2, 5, 4, 2, 2, 4, 4, 2, 4, 5, 5, 3, 4, 4, 3, 4, 3, 3, 5]);

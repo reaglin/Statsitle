@@ -288,7 +288,7 @@ public sealed class SimpleRegression : Analysis, IHasFigures, IUsesProject, IHas
     }
 
     [StatistleProperty(Label = "Adjusted R²", Decimals = 4, Role = VariableRole.Calculated,
-        Help = "R² penalised for the number of coefficients: 1 − (1 − R²)(n − 1)/(n − 2). " +
+        Help = "R² penalized for the number of coefficients: 1 − (1 − R²)(n − 1)/(n − 2). " +
                "Matters when comparing models with different numbers of terms.")]
     public double AdjustedRSquared
     {

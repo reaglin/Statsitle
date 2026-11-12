@@ -35,7 +35,7 @@ The observed difference is x̄₁ − x̄₂, d̄ or p̂₁ − p̂₂. The diff
 
 ## Six steps
 
-The course page for this module gives six steps. They are Module 8's steps with two additions, the check of assumptions and the interpretation:
+Topic 1 of Module 10 on the course website (reaglin.github.io/EGN3443) gives six steps. They follow Module 8's steps (the Reference page *The steps of a hypothesis test*), with the parameter, hypotheses and α together as step 1, the check of assumptions added as step 2, and the conclusion written in context as step 6:
 
 1. **State H₀ and H₁, and choose α** before collecting the data.
 2. **Check the design and the assumptions** (item 10.3), and collect the data.
@@ -56,7 +56,9 @@ H₁ is one of three:
 | μ₁ − μ₂ > 0 (one-sided) | only an increase of group 1 over group 2 matters, and this was decided before the data were seen | P(T > t) |
 | μ₁ − μ₂ < 0 (one-sided) | only a decrease matters, decided in advance | P(T < t) |
 
-The same three forms hold for p₁ − p₂. Choosing the direction **after** seeing which way the data point is called HARKing (hypothesizing after the results are known). It halves the p-value without any new evidence, so the real chance of a Type I error is double the α you state.
+Here t is the statistic the data gave, and T stands for a value drawn from the t distribution with the test's degrees of freedom. The same three forms hold for p₁ − p₂, where the p-value comes from the standard normal Z and the observed z instead.
+
+Choosing the direction **after** seeing which way the data point is called HARKing (hypothesizing after the results are known). It halves the p-value without any new evidence, so the real chance of a Type I error is double the α you state.
 
 ## Two things a test cannot say
 

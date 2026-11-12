@@ -20,7 +20,7 @@ topics:
   - Applying Regression to Real-World Datasets
 ---
 
-Modules 8 and 9 tested claims about means and compared groups. Engineers just as often ask **how much one quantity changes with another**. How much weaker is concrete with more water in the mix? How much more fuel does a truck burn per tonne of payload? How much timber is in a tree of a given diameter? **Regression** answers questions like these. It fits an equation that predicts one variable (the **response**, y) from another (the **predictor**, x). It also says how good the predictions are and whether the relation could just be chance.
+Modules 8 to 10 tested claims about means and proportions and compared groups. Engineers just as often ask **how much one quantity changes with another**. How much weaker is concrete with more water in the mix? How much more fuel does a truck burn per tonne of payload? How much timber is in a tree of a given diameter? **Regression** answers questions like these. It fits an equation that predicts one variable (the **response**, y) from another (the **predictor**, x). It also says how good the predictions are and whether the relation could just be chance.
 
 This module builds the **simple linear regression** ŷ = b₀ + b₁x by least squares. It then reads the regression output: the coefficients, R², the standard error, the F-test and the p-values. It checks the model's assumptions with the residuals, and it applies the whole method to real data. One item previews **multiple regression**, with several predictors at once. Module 12 teaches that fully, and Module 13 goes deeper into checking a model.
 

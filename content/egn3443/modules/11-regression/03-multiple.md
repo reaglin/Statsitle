@@ -40,7 +40,7 @@ Use a multiple regression when:
 - the predictions must be **more accurate** than one predictor allows;
 - a predictor of interest **moves together with another** one, so a simple regression would mix their effects (the Example shows this).
 
-Keep a simple regression when one predictor answers the question, or when there are too few observations: each extra coefficient needs more data. A rough rule is at least 10 observations per predictor.
+Keep a simple regression when one predictor answers the question, or when there are too few observations: each extra coefficient needs more data. A rough rule is 10 to 15 observations per predictor (item 12.2).
 
 ## The Example: stack loss of a nitric acid plant
 
@@ -108,7 +108,7 @@ In both, adding a predictor is one more name after the `~`, joined with `+`.
 
 - **Adding predictors to push R² up.** R² always rises. Judge by adjusted R² and by whether the predictor makes engineering sense. Module 12 shows how to choose.
 - **Reading a multiple-regression coefficient as the simple slope.** 0.671 is air flow's effect at a fixed water temperature, not its effect on its own.
-- **Too many predictors for too few rows.** With 21 observations, two or three predictors is about the limit.
+- **Too many predictors for too few rows.** With 21 observations, two predictors is about the limit.
 
 ## What to do next
 

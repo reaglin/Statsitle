@@ -22,7 +22,7 @@ H₁ does **not** say that every mean differs from every other. Rejecting H₀ s
 
 ## Why not just use many t-tests?
 
-With three groups you could run three two-sample t-tests (Module 9): 1 against 2, 1 against 3, 2 against 3. With k groups there are k(k − 1)/2 pairs, so k = 4 needs 6 tests and k = 6 needs 15.
+With three groups you could run three two-sample t-tests (Modules 9 and 10): 1 against 2, 1 against 3, 2 against 3. With k groups there are k(k − 1)/2 pairs, so k = 4 needs 6 tests and k = 6 needs 15.
 
 Each test at α = 0.05 has a 5 % chance of a false alarm (a Type I error, Module 8) when its H₀ is true. Run many tests and the chance that **at least one** of them gives a false alarm, the **familywise error rate**, grows. If the m tests were independent:
 
@@ -54,7 +54,7 @@ A **one-way** ANOVA has one factor: bond strength at three curing temperatures (
 
 ## What ANOVA assumes (item 14.2)
 
-The same three conditions as the pooled t-test of Module 9: the observations are **independent**; within each group the response is roughly **normal**; and the groups have **equal variances**. Item 14.2 shows how to check them, and what to do when they fail.
+The same three conditions as the pooled t-test of Modules 9 and 10 (item 10.3): the observations are **independent**; within each group the response is roughly **normal**; and the groups have **equal variances**. Item 14.2 shows how to check them, and what to do when they fail.
 
 ## The Example: ten t-tests where nothing differs
 

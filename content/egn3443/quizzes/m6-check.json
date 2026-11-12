@@ -9,27 +9,27 @@
       "kind": "choice",
       "objective": "st.m6.o1",
       "lookAgain": "st.m6.parameters-statistics",
-      "prompt": "A water utility wants the mean daily use of **all** 48 000 homes it serves. It installs smart meters in 200 homes chosen at random and finds a mean of 412 litres a day. In this study, which is the parameter?",
+      "prompt": "A water utility wants the mean daily use of **all** 48 000 homes it serves. It installs smart meters in 200 homes chosen at random and finds a mean of 412 liters a day. In this study, which is the parameter?",
       "options": [
         "The mean daily use of all 48 000 homes, which is unknown",
-        "The mean daily use of the 200 metered homes, 412 litres",
+        "The mean daily use of the 200 metered homes, 412 liters",
         "The number of homes with smart meters, which is 200",
         "The standard deviation of the 200 metered homes' daily use"
       ],
       "correct": [0],
-      "explanation": "The parameter is the population's mean, μ, over all 48 000 homes; nobody has measured it. 412 litres is the sample mean x̄, a statistic that estimates μ. 200 is the sample size n, and the standard deviation of the 200 homes is the statistic s."
+      "explanation": "The parameter is the population's mean, μ, over all 48 000 homes; nobody has measured it. 412 liters is the sample mean x̄, a statistic that estimates μ. 200 is the sample size n, and the standard deviation of the 200 homes is the statistic s."
     },
     {
       "id": "q2",
       "kind": "choice",
       "objective": "st.m6.o1",
       "lookAgain": "st.m6.parameters-statistics",
-      "prompt": "For the same utility, a second random sample of 200 homes gives a mean of 405 litres a day. What does the difference between 412 and 405 show?",
+      "prompt": "For the same utility, a second random sample of 200 homes gives a mean of 405 liters a day. What does the difference between 412 and 405 show?",
       "options": [
         "Sampling variability: each random sample gives a different statistic",
         "The population mean changed between the first and second samples",
         "One of the two samples was taken or calculated with a mistake",
-        "The population mean must be exactly halfway, at 408.5 litres"
+        "The population mean must be exactly halfway, at 408.5 liters"
       ],
       "correct": [0],
       "explanation": "x̄ is a statistic, so it changes from sample to sample by chance. The population mean μ stays the same, nothing points to a mistake, and neither sample nor their average gives μ exactly."

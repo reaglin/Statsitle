@@ -15,10 +15,10 @@
     "Sample2Size": 420
   },
   "ask": [
-    { "result": "Statistic", "prompt": "Test statistic, z" },
-    { "result": "PValue", "prompt": "Two-sided p-value", "tolerance": 0.0002 },
-    { "result": "CiLower", "prompt": "95 % CI for p₁ − p₂, lower end", "tolerance": 0.001 },
-    { "result": "CiUpper", "prompt": "95 % CI for p₁ − p₂, upper end", "tolerance": 0.001 }
+    { "result": "Statistic", "prompt": "Test statistic, z", "wrong": "Check the Workbench settings against the list above: Test is Two proportions (pooled z), and each count goes with its own sample size." },
+    { "result": "PValue", "prompt": "Two-sided p-value", "tolerance": 0.0002, "wrong": "Check the Workbench settings against the list above: Test is Two proportions (pooled z), Alternative hypothesis is Two-sided (≠), and each count goes with its own sample size." },
+    { "result": "CiLower", "prompt": "95 % CI for p₁ − p₂, lower end", "tolerance": 0.001, "wrong": "Check the Workbench settings against the list above: Test is Two proportions (pooled z), and each count goes with its own sample size." },
+    { "result": "CiUpper", "prompt": "95 % CI for p₁ − p₂, upper end", "tolerance": 0.001, "wrong": "Check the Workbench settings against the list above: Test is Two proportions (pooled z), and each count goes with its own sample size." }
   ],
   "mistakes": {
     "Statistic": [
@@ -30,10 +30,10 @@
       { "value": 0.00583, "says": "That p-value comes from the unpooled z. The test uses the pooled standard error." }
     ],
     "CiLower": [
-      { "scale": -1, "says": "Check the order: the interval is for p₁ − p₂, seal A minus seal B, and seal A fails less often, so both ends are negative." }
+      { "result": "CiUpper", "scale": -1, "says": "Check the order: the interval is for p₁ − p₂, seal A minus seal B, and seal A fails less often, so both ends are negative." }
     ],
     "CiUpper": [
-      { "scale": -1, "says": "Check the order: the interval is for p₁ − p₂, seal A minus seal B, and seal A fails less often, so both ends are negative." }
+      { "result": "CiLower", "scale": -1, "says": "Check the order: the interval is for p₁ − p₂, seal A minus seal B, and seal A fails less often, so both ends are negative." }
     ]
   },
   "hints": [

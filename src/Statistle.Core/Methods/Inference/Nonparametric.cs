@@ -12,7 +12,7 @@ public sealed record AssumptionCheck(double Statistic, double PValue);
 /// The non-parametric alternatives and assumption checks of EGN3443 Modules 9–10: Mann–Whitney
 /// U and the Wilcoxon signed-rank test (normal approximations with tie corrections, as
 /// scipy's <c>method="asymptotic"</c> / <c>"approx"</c>), Shapiro–Wilk (Royston's AS R94, as R
-/// and scipy) and Levene's test centred on the median (Brown–Forsythe, scipy's and R's default).
+/// and scipy) and Levene's test centered on the median (Brown–Forsythe, scipy's and R's default).
 /// </summary>
 public static class Nonparametric
 {
@@ -212,7 +212,7 @@ public static class Nonparametric
     }
 
     /// <summary>
-    /// Levene's test for equal variances, centred on each group's median (Brown–Forsythe) — the
+    /// Levene's test for equal variances, centered on each group's median (Brown–Forsythe) — the
     /// default of scipy's <c>levene</c> and R's <c>car::leveneTest</c>. W ~ F(k − 1, N − k).
     /// </summary>
     public static AssumptionCheck Levene(IReadOnlyList<IReadOnlyList<double>> groups)

@@ -6,11 +6,11 @@ title: One-way ANOVA
 
 H₀: μ₁ = μ₂ = … = μₖ. H₁: at least one mean differs. k groups, nᵢ in group i, N = Σ nᵢ, ȳᵢ the group means, ȳ the grand mean.
 
-| Source | SS | df | MS | F |
+| Source | df | SS | MS | F |
 |---|---|---|---|---|
-| Between groups | Σ nᵢ(ȳᵢ − ȳ)² | k − 1 | SS between/(k − 1) | MS between/MS within |
-| Within groups | Σ Σ (yᵢⱼ − ȳᵢ)² = Σ (nᵢ − 1)sᵢ² | N − k | SS within/(N − k) | |
-| Total | Σ Σ (yᵢⱼ − ȳ)² | N − 1 | | |
+| Between groups | k − 1 | Σ nᵢ(ȳᵢ − ȳ)² | SS between/(k − 1) | MS between/MS within |
+| Within groups | N − k | Σ Σ (yᵢⱼ − ȳᵢ)² = Σ (nᵢ − 1)sᵢ² | SS within/(N − k) | |
+| Total | N − 1 | Σ Σ (yᵢⱼ − ȳ)² | | |
 
 - **p-value:** the area above F under the F distribution with k − 1 and N − k df. Reject H₀ when p < α, or when F > F(α; k − 1, N − k).
 - **MS within** is the pooled variance; √(MS within) estimates the common σ.

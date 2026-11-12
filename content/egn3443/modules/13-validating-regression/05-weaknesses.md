@@ -41,7 +41,7 @@ R² = 0.991 and F is huge, yet the flow's coefficient has p = 0.54. Engineering 
 
 **Refinement:** drop one of the pair. With **Predictor columns** set to *Load, WetBulb*:
 
-| Model | se of the load coefficient | Largest VIF | Adjusted R² | σ̂ (kW) | 5-fold CV RMSE (kW) |
+| Model | SE of the load coefficient | Largest VIF | Adjusted R² | σ̂ (kW) | 5-fold CV RMSE (kW) |
 |---|---|---|---|---|---|
 | Load, Flow, WetBulb | 0.1996 | 107.5 | 0.9883 | 5.99 | 7.17 |
 | Load, WetBulb | 0.0220 | 1.38 | 0.9889 | 5.84 | 6.79 |

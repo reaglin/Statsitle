@@ -14,10 +14,10 @@ title: Simple linear regression
 | Intercept | b₀ = ȳ − b₁x̄ (the line passes through (x̄, ȳ)) |
 | Residual | eᵢ = yᵢ − ŷᵢ (they sum to 0) |
 | Residual standard error | σ̂ = √(SS_E / (n − 2)) |
-| Slope's standard error | se(b₁) = σ̂ / √S_xx |
-| Intercept's standard error | se(b₀) = σ̂ √(1/n + x̄²/S_xx) |
-| Test of H₀: β₁ = 0 | t = b₁ / se(b₁), n − 2 df |
-| Interval for the slope | b₁ ± t(α/2, n − 2) se(b₁) |
+| Slope's standard error | SE(b₁) = σ̂ / √S_xx |
+| Intercept's standard error | SE(b₀) = σ̂ √(1/n + x̄²/S_xx) |
+| Test of H₀: β₁ = 0 | t = b₁ / SE(b₁), n − 2 df |
+| Interval for the slope | b₁ ± t(α/2, n − 2) SE(b₁) |
 | Mean response at x₀ | ŷ₀ ± t(α/2, n − 2) σ̂ √(1/n + (x₀ − x̄)²/S_xx) |
 | One new observation at x₀ | ŷ₀ ± t(α/2, n − 2) σ̂ √(1 + 1/n + (x₀ − x̄)²/S_xx) |
 

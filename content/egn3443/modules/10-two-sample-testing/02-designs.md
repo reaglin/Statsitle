@@ -11,7 +11,7 @@ reference: [independent-and-paired-designs, paired-t-test]
 
 # Independent vs paired samples
 
-**Review and new.** Item 9.2 (*Paired sample comparisons*) taught the paired t-test on the same units measured twice. This page is about recognizing the design in the first place, including two kinds of pairing Module 9 did not show, and what goes wrong when the design is misread. Decide the design **before** choosing a formula: the data alone cannot tell you.
+**Review and new.** Item 9.2 (*Paired sample comparisons*) taught the paired t-test on the same units measured twice. This page is about recognizing the design in the first place. Module 9's cases were mostly the same unit measured twice, with natural pairs in passing (item 9.2's two tires on one car); this page names all three kinds of pairing, adds matched pairs, and shows what goes wrong when the design is misread. Decide the design **before** choosing a formula: the data alone cannot tell you.
 
 ## The one question
 
@@ -26,7 +26,7 @@ reference: [independent-and-paired-designs, paired-t-test]
 |---|---|---|
 | **Repeated measures** | the same unit measured twice: before and after, or under two conditions | the deflection of 10 girders under a test load, before and after strengthening (item 9.2's pumps and specimens) |
 | **Matched pairs** | two different units, matched on what else affects the outcome; a coin decides which one gets which treatment | houses matched on floor area, age and orientation; one of each pair is retrofitted (the Example) |
-| **Natural pairs** | two units that come as a pair: two halves, two sides, two neighbors | two identical windows side by side in each of 8 offices, one with each glazing film |
+| **Natural pairs** | two units that come as a pair: two halves, two sides, two neighbors | two identical windows side by side in each of 8 offices, one with each glazing film (item 9.2's two tires on one car) |
 
 In every kind, the test works on the **differences** within the pairs, d = (group 1 value) − (group 2 value), and asks whether their mean μ_d is 0. With n pairs, that is a one-sample t-test on the n differences, with n − 1 degrees of freedom.
 
@@ -82,7 +82,7 @@ Rows must line up: row 3 of each column is the same pair of houses.
 
 ## In the Workbench
 
-Choose **Two-sample test** and set **Test** to *Paired samples (paired t)*; with **Data from** set to *Columns of a data table*, **Column (sample 1)** is the first member of each pair. To see what misreading the design does, change **Test** to *Two means, unequal variances (Welch t)* and watch p jump from 0.0001 to 0.31.
+Press **Open in the Workbench** on the Example tab, or press Ctrl+B and choose **Two-sample test** in the list on the left. Set **Test** to *Paired samples (paired t)*; with **Data from** set to *Columns of a data table*, **Column (sample 1)** is the first member of each pair. To see what misreading the design does, change **Test** to *Two means, unequal variances (Welch t)* and watch p jump from 0.0001 to 0.31. Ctrl+L brings you back to the Course. Ctrl+L brings you back to the Course.
 
 ## What to do next
 

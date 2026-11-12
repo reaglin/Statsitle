@@ -11,7 +11,7 @@ reference: [two-sample-t-tests, paired-t-test]
 
 # Comparing two means
 
-**Review and new.** Items 9.1 and 9.2 worked Welch's test and the paired t-test by hand. This page works the **pooled t** and a paired case with new numbers, then adds two things Module 9 did not use: a **one-sided** test, and a test against a difference **other than zero**. Choose the design first (item 10.2), check the assumptions (item 10.3), then compute.
+**Review and new.** Item 9.1 worked the pooled and Welch tests by hand, item 9.2 the paired t. This page works the pooled and paired tests again with new numbers, then adds two things Module 9 did not use: a **one-sided** test, and a test against a difference **other than zero**. Choose the design first (item 10.2), check the assumptions (item 10.3), then compute.
 
 ## The three t-tests
 
@@ -25,7 +25,7 @@ In every case t = (observed difference − Δ₀)/SE, and the (1 − α) confide
 
 ## The pooled t by hand
 
-The course page *Comparing Two Means* pools two samples: n₁ = 10 with s₁² = 4, and n₂ = 15 with s₂² = 6. It stops at the standard error; give the samples means of x̄₁ = 27.3 and x̄₂ = 25.6 and finish the test of H₀: μ₁ − μ₂ = 0 against H₁: μ₁ − μ₂ ≠ 0 at α = 0.05.
+The course website's page *Comparing Two Means* (Module 10, topic 4, at reaglin.github.io/EGN3443) pools two samples: n₁ = 10 with s₁² = 4, and n₂ = 15 with s₂² = 6. It stops at the standard error; give the samples the means x̄₁ = 27.3 and x̄₂ = 25.6 and finish the test of H₀: μ₁ − μ₂ = 0 against H₁: μ₁ − μ₂ ≠ 0 at α = 0.05.
 
 1. **Pooled variance:** sₚ² = (9 × 4 + 14 × 6)/23 = 120/23 = 5.217, so sₚ = 2.284. It is a weighted average of 4 and 6, closer to 6 because the second sample is larger.
 2. **Standard error:** SE = 2.284 × √(1/10 + 1/15) = 2.284 × 0.4082 = 0.9325.
@@ -60,7 +60,7 @@ H₀ need not say "no difference". If a change pays only when it gains at least 
 
 H₀: μ₁ − μ₂ = Δ₀ against H₁: μ₁ − μ₂ > Δ₀, with t = (x̄₁ − x̄₂ − Δ₀)/SE.
 
-Rejecting H₀ then says the gain is **more than Δ₀**, not only more than zero. In the Workbench this is **Hypothesised difference (Δ₀)**.
+Rejecting H₀ then says the gain is **more than Δ₀**, not only more than zero. In the Workbench this is **Hypothesized difference (Δ₀)**.
 
 ## The Example: a manual and a robotic cell
 
@@ -80,7 +80,7 @@ The shaded area is the rejection region, now all in the upper tail: t above t(0.
 
 **The interval.** The Workbench gives the two-sided 95 % interval for μ_manual − μ_robot, 1.95 to 5.96 s, whatever H₁ is. Its lower end is above 0, so a one-sided test at 0.05 rejects as well. (A one-sided test at α can reject while the two-sided (1 − α) interval still holds 0; the interval matches it exactly only at 1 − 2α, here 90 %.)
 
-**Faster by how much?** Suppose the robot pays for itself only if it saves more than 3 s per assembly. Set **Hypothesised difference (Δ₀)** to 3: t = (3.955 − 3)/0.932 = 1.03 and p = 0.162. The data show the robot is faster, but **not** that it is more than 3 s faster: the interval's lower end, 1.95 s, is below 3. That is a different decision from "it is faster", and item 10.6 builds on it.
+**Faster by how much?** Suppose the robot pays for itself only if it saves more than 3 s per assembly. Set **Hypothesized difference (Δ₀)** to 3: t = (3.955 − 3)/0.932 = 1.03 and p = 0.162. The data show the robot is faster, but **not** that it is more than 3 s faster: the interval's lower end, 1.95 s, is below 3. That is a different decision from "it is faster", and item 10.6 builds on it.
 
 ## In Python and R
 

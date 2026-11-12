@@ -11,7 +11,7 @@ reference: [validation-assumptions, validation-residual-plots]
 
 # Assessing model assumptions
 
-Item 13.1 named the four assumptions, **LINE**: linearity, independence, normality and equal variance of the errors. This item takes them one at a time: how to check each, and what goes wrong when it fails.
+Item 13.1 named the four assumptions, **LINE**: linearity, independence, normality and equal variance of the errors. Item 11.4 met them first, with the residual plot, the normal Q–Q plot and the Shapiro–Wilk test; this item takes them one at a time, adds the Durbin–Watson test for independence, and says how to check each, and what goes wrong when it fails.
 
 ## Linearity
 

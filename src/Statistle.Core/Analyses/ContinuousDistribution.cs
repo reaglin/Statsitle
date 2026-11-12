@@ -146,7 +146,7 @@ public sealed class ContinuousDistribution : Analysis, IUsesProject, IHasChoices
     // ── Entries ───────────────────────────────────────────────────────────────
 
     [StatistleProperty(Label = "Distribution", Role = VariableRole.Design,
-        Help = "The family. Measurements that pile up around a centre with symmetric scatter are " +
+        Help = "The family. Measurements that pile up around a center with symmetric scatter are " +
                "normal; times between random events are exponential; a quantity that is a " +
                "product of many small factors is lognormal; anything equally likely across a " +
                "range is uniform; the life of a part or the strength of a material is often " +
@@ -202,7 +202,7 @@ public sealed class ContinuousDistribution : Analysis, IUsesProject, IHasChoices
     }
 
     [StatistleProperty(Label = "Mean (μ)", Decimals = 4, Role = VariableRole.Design,
-        Help = "The centre of the normal distribution — its mean, median and mode all at once.")]
+        Help = "The center of the normal distribution — its mean, median and mode all at once.")]
     public double Mu
     {
         get => _mu;

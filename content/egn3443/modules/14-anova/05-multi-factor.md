@@ -40,13 +40,13 @@ The **interaction plot** shows it: the cell means against the levels of A, one l
 
 The total sum of squares splits into four parts:
 
-| Source | SS | df |
+| Source | df | SS |
 |---|---|---|
-| A | bn Σ (ȳᵢ. − ȳ)² | a − 1 |
-| B | an Σ (ȳ.ⱼ − ȳ)² | b − 1 |
-| A × B | n Σ Σ (ȳᵢⱼ − ȳᵢ. − ȳ.ⱼ + ȳ)² | (a − 1)(b − 1) |
-| Error | Σ Σ Σ (y − ȳᵢⱼ)², each run around its own cell mean | ab(n − 1) |
-| Total | Σ (y − ȳ)² over all N runs | N − 1 |
+| A | a − 1 | bn Σ (ȳᵢ. − ȳ)² |
+| B | b − 1 | an Σ (ȳ.ⱼ − ȳ)² |
+| A × B | (a − 1)(b − 1) | n Σ Σ (ȳᵢⱼ − ȳᵢ. − ȳ.ⱼ + ȳ)² |
+| Error | ab(n − 1) | Σ Σ Σ (y − ȳᵢⱼ)², each run around its own cell mean |
+| Total | N − 1 | Σ (y − ȳ)² over all N runs |
 
 Each MS is its SS over its df, and each of A, B and A × B has its own **F = MS / MS error**, tested on its df and the error df. There are three null hypotheses: no A effect, no B effect, no interaction. The interaction term ȳᵢⱼ − ȳᵢ. − ȳ.ⱼ + ȳ is how far a cell mean is from what the two main effects alone would predict.
 
@@ -80,13 +80,13 @@ The catalyst is on the axis, with one line per temperature. The lines are far fr
 
 [[results: st.m14.multi-factor.eg]]
 
-| Source | SS | df | MS | F | p |
+| Source | df | SS | MS | F | p |
 |---|---|---|---|---|---|
-| Catalyst (A) | 6.125 | 1 | 6.125 | 5.38 | 0.039 |
-| Temperature (B) | 56.573 | 2 | 28.287 | 24.82 | 0.00005 |
-| Interaction | 95.853 | 2 | 47.927 | 42.06 | 0.000004 |
-| Error | 13.673 | 12 | 1.139 | | |
-| Total | 172.225 | 17 | | | |
+| Catalyst (A) | 1 | 6.125 | 6.125 | 5.38 | 0.039 |
+| Temperature (B) | 2 | 56.573 | 28.287 | 24.82 | 0.00005 |
+| Interaction | 2 | 95.853 | 47.927 | 42.06 | 0.000004 |
+| Error | 12 | 13.673 | 1.139 | | |
+| Total | 17 | 172.225 | | | |
 
 **Read the interaction first.** p = 0.000004: the catalyst's effect depends on the temperature. The main effect of catalyst (means 76.3 and 77.5 %, p = 0.039) is an average over a positive effect at two temperatures and a negative one at the third. On its own it would recommend catalyst 2, the wrong choice at 200 °C. When the interaction is significant, compare the **cell means**: the best combination is catalyst 1 at 200 °C (81.3 %).
 

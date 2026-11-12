@@ -66,7 +66,7 @@
       "lookAgain": "st.m11.interpreting",
       "prompt": "From a regression of a bolt's clamp force on its tightening torque, an engineer wants a range that one particular bolt tightened to 60 N·m will fall in, 95 % of the time. Which interval?",
       "options": [
-        "The confidence interval on the slope, b₁ ± t × se(b₁)",
+        "The confidence interval on the slope, b₁ ± t × SE(b₁)",
         "The confidence interval on the mean response at 60 N·m",
         "The prediction interval on a new observation at 60 N·m",
         "The interval ŷ ± 1.96 σ̂ with z, ignoring the uncertainty in the line"

@@ -19,7 +19,7 @@ The phrase "with the others held fixed" is not decoration. Item 12.1 showed the 
 
 ## The Example: roughness of turned shafts
 
-Fifteen shafts were turned at five feed rates (mm per revolution) and three cutting speeds (m/min), and their surface roughness Ra (µm) was measured.
+Fifteen shafts (a new trial, not item 11.2's eight shafts) were turned at five feed rates (mm per revolution) and three cutting speeds (m/min), and their surface roughness Ra (µm) was measured.
 
 [[data: st.m12.coefficients.eg]]
 

@@ -27,10 +27,10 @@
   ],
   "mistakes": {
     "SlopeLower": [
-      { "value": 0.2668, "says": "That uses z = 1.96. The slope's interval uses t with n − 2 = 10 degrees of freedom: b₁ ± t(0.025, 10) × se(b₁)." }
+      { "value": 0.2668, "says": "That uses z = 1.96. The slope's interval uses t with n − 2 = 10 degrees of freedom: b₁ ± t(0.025, 10) × SE(b₁)." }
     ],
     "SlopeUpper": [
-      { "value": 0.4130, "says": "That uses z = 1.96. The slope's interval uses t with n − 2 = 10 degrees of freedom: b₁ ± t(0.025, 10) × se(b₁)." }
+      { "value": 0.4130, "says": "That uses z = 1.96. The slope's interval uses t with n − 2 = 10 degrees of freedom: b₁ ± t(0.025, 10) × SE(b₁)." }
     ],
     "NewLower": [
       { "value": 30.2098, "says": "That uses z = 1.96. The prediction interval uses t with n − 2 = 10 degrees of freedom: t(0.025, 10) = 2.228." },
@@ -42,8 +42,8 @@
     ]
   },
   "hints": [
-    "Fit the line and find σ̂ = √(SS error / (n − 2)) and S_xx = Σ(x − x̄)². Then se(b₁) = σ̂ / √S_xx.",
-    "The slope's interval is b₁ ± t(0.025, 10) × se(b₁); t(0.025, 10) is the t value with 10 degrees of freedom and 2.5 % above it (Python stats.t.ppf(0.975, 10), R qt(0.975, 10)).",
+    "Fit the line and find σ̂ = √(SS error / (n − 2)) and S_xx = Σ(x − x̄)². Then SE(b₁) = σ̂ / √S_xx.",
+    "The slope's interval is b₁ ± t(0.025, 10) × SE(b₁); t(0.025, 10) is the t value with 10 degrees of freedom and 2.5 % above it (Python stats.t.ppf(0.975, 10), R qt(0.975, 10)).",
     "At x₀ = 20: ŷ₀ = b₀ + 20 b₁, and the prediction interval is ŷ₀ ± t(0.025, 10) × σ̂ √(1 + 1/n + (x₀ − x̄)²/S_xx)."
   ]
 }

@@ -53,7 +53,7 @@ A clear falling relation, roughly straight, with no wild points.
 
 [[figure: st.m11.applying.eg 3]]
 
-Most residuals are within ±4 mpg, and the Q–Q plot is close to its line (Shapiro–Wilk p = 0.104). There is a slight bend, though. The lightest and the heaviest cars mostly have positive residuals, and the cars in the middle mostly negative ones. A gentle curve would fit a little better (Module 13 tries one). The straight line is still a fair summary over this range.
+Most residuals are within ±4 mpg, and the Q–Q plot is close to its line (Shapiro–Wilk p = 0.104). There is a slight bend, though. The lightest and the heaviest cars mostly have positive residuals, and the cars in the middle mostly negative ones. A gentle curve would fit a little better (item 13.6 shows how to try one, with **Transform x**). The straight line is still a fair summary over this range.
 
 **7. Communicate.** For a manager or a car buyer, without the jargon:
 
@@ -66,7 +66,7 @@ What makes it work for a non-technical reader:
 - put R² as **"accounts for about three quarters of the differences"**;
 - give a **prediction with its spread** for one unit, not just the line's value;
 - state **the limits**: the range of the data, when and where they came from, and what was not controlled;
-- **no causal claim from observational data**. Weight and engine power go together in these cars (r = 0.66), so "weight causes …" would overstate it. Module 12 separates the two with a multiple regression.
+- **no causal claim from observational data**. Weight and engine power go together in these cars (r = 0.66), so "weight causes …" would overstate it. Module 12 shows how a multiple regression separates two predictors that move together (item 12.1).
 
 ## Working in the Workbench with a data table
 

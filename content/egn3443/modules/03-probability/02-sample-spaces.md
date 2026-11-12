@@ -81,7 +81,7 @@ Counting works only when the outcomes are equally likely. If parts fail 5 % of t
 
 ## The Example: two dice rolled 1000 times
 
-The computer rolls two dice 1000 times. The second figure puts each sum's share of the rolls (blue and grey bars) beside its theoretical probability from the table (red bars):
+The computer rolls two dice 1000 times. The second figure puts each sum's share of the rolls (blue and gray bars) beside its theoretical probability from the table (red bars):
 
 [[figure: st.m3.sample-spaces.eg 2]]
 

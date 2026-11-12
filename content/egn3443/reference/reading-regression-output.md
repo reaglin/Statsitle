@@ -10,7 +10,7 @@ title: Reading and reporting regression output
 |---|---|---|
 | `(Intercept)` Estimate | b₀ | Intercept (b₀) |
 | `x` Estimate | b₁, the slope | Slope (b₁) |
-| Std. Error | se(b₀), se(b₁) | Intercept / Slope standard error |
+| Std. Error | SE(b₀), SE(b₁) | Intercept / Slope standard error |
 | t value | estimate / standard error | Slope t |
 | Pr(>\|t\|) | two-sided p-value of H₀: coefficient = 0 | Intercept / Slope p-value |
 | Residual standard error, on n − 2 degrees of freedom | σ̂ | Residual standard error (σ̂) |

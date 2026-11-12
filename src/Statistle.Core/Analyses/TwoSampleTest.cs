@@ -170,7 +170,7 @@ public sealed class TwoSampleTest : Analysis, IUsesProject, IHasChoices, ILinksT
         set => SetProperty(ref _alpha, value);
     }
 
-    [StatistleProperty(Label = "Hypothesised difference (Δ₀)", Decimals = 4, Role = VariableRole.Input,
+    [StatistleProperty(Label = "Hypothesized difference (Δ₀)", Decimals = 4, Role = VariableRole.Input,
         Help = "The difference H₀ claims, μ₁ − μ₂ = Δ₀ — almost always 0 (no difference). " +
                "Enter a non-zero value to test for at least a given improvement.")]
     public double Delta0
@@ -373,7 +373,7 @@ public sealed class TwoSampleTest : Analysis, IUsesProject, IHasChoices, ILinksT
     }
 
     [StatistleProperty(Label = "Normal approximation z", Decimals = 4, Role = VariableRole.Calculated,
-        Help = "The standardised statistic of the rank test, with continuity and tie corrections as scipy applies them.")]
+        Help = "The standardized statistic of the rank test, with continuity and tie corrections as scipy applies them.")]
     public double Z
     {
         get => _z;
@@ -423,7 +423,7 @@ public sealed class TwoSampleTest : Analysis, IUsesProject, IHasChoices, ILinksT
     }
 
     [StatistleProperty(Label = "Levene W", Decimals = 4, Role = VariableRole.Calculated,
-        Help = "Levene's test of equal variances, centred on the medians (Brown–Forsythe, the " +
+        Help = "Levene's test of equal variances, centered on the medians (Brown–Forsythe, the " +
                "default of scipy's levene and R's car::leveneTest).")]
     public double Levene
     {
@@ -675,7 +675,7 @@ public sealed class TwoSampleTest : Analysis, IUsesProject, IHasChoices, ILinksT
         if (!double.IsNaN(Shapiro1))
         {
             s.Line();
-            s.Comment("Assumption checks: Shapiro–Wilk normality, Levene (median-centred) equal variances");
+            s.Comment("Assumption checks: Shapiro–Wilk normality, Levene (median-centered) equal variances");
 
             if (IsPaired)
             {
@@ -687,7 +687,7 @@ public sealed class TwoSampleTest : Analysis, IUsesProject, IHasChoices, ILinksT
             {
                 s.Either("w1, p_w1 = stats.shapiro(x)", "sw1 <- shapiro.test(x); w1 <- sw1$statistic; p_w1 <- sw1$p.value");
                 s.Either("w2, p_w2 = stats.shapiro(y)", "sw2 <- shapiro.test(y); w2 <- sw2$statistic; p_w2 <- sw2$p.value");
-                s.Either("lev, p_lev = stats.levene(x, y)   # center='median' is the default", "# Levene, median-centred, by hand (car::leveneTest(y ~ g) gives the same)");
+                s.Either("lev, p_lev = stats.levene(x, y)   # center='median' is the default", "# Levene, median-centered, by hand (car::leveneTest(y ~ g) gives the same)");
                 s.Either(string.Empty, "zx <- abs(x - median(x)); zy <- abs(y - median(y)); zall <- c(zx, zy)");
                 s.Either(string.Empty, "between <- length(zx) * (mean(zx) - mean(zall))^2 + length(zy) * (mean(zy) - mean(zall))^2");
                 s.Either(string.Empty, "within <- sum((zx - mean(zx))^2) + sum((zy - mean(zy))^2)");
@@ -1272,7 +1272,7 @@ public sealed class TwoSampleColumnSource : CalculationMethod<TwoSampleTest>
     public override string Description => "Both samples' summaries (or the paired differences') are computed from the chosen columns; Shapiro–Wilk and Levene checks are reported for the mean tests.";
 
     public override string Citation =>
-        "Shapiro, S. S. and Wilk, M. B., Biometrika 52, 1965, by Royston's algorithm AS R94 (1995); Levene, H., 1960, median-centred (Brown and Forsythe, 1974).";
+        "Shapiro, S. S. and Wilk, M. B., Biometrika 52, 1965, by Royston's algorithm AS R94 (1995); Levene, H., 1960, median-centered (Brown and Forsythe, 1974).";
 
     public override bool IsApplicableTo(TwoSampleTest subject) => subject is not null && subject.Source == DataSource.Columns;
 

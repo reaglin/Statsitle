@@ -81,7 +81,7 @@
       "prompt": "Part of a one-way ANOVA table is smudged. The Between row reads SS = 120 with 3 df, and the Total row SS = 344 with 31 df; the Within row cannot be read. Complete the table and give F to two decimals.",
       "answer": 5.0,
       "tolerance": 0.01,
-      "explanation": "The SS and df columns add up: SS within = 344 − 120 = 224 and df within = 31 − 3 = 28. MS between = 120/3 = 40 and MS within = 224/28 = 8, so F = 40/8 = 5.00, on 3 and 28 df (k = 4 groups, N = 32). Its p-value is 0.007."
+      "explanation": "The df and SS columns add up: SS within = 344 − 120 = 224 and df within = 31 − 3 = 28. MS between = 120/3 = 40 and MS within = 224/28 = 8, so F = 40/8 = 5.00, on 3 and 28 df (k = 4 groups, N = 32). Its p-value is 0.007."
     },
     {
       "id": "q7",

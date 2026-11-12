@@ -18,7 +18,7 @@ namespace Statistle.Core.Analyses;
 /// </summary>
 [StatistleHelp(
     "Descriptive statistics for one sample (Module 2). Choose a column of a data table, or " +
-    "type the values into Sample. The results give the count, the centre (mean, median, mode), " +
+    "type the values into Sample. The results give the count, the center (mean, median, mode), " +
     "the spread (range, standard deviation and variance in both the sample and the population " +
     "forms, standard error, coefficient of variation), the position measures (quartiles two " +
     "ways, interquartile range, Tukey's fences and the outliers beyond them) and the shape " +
@@ -77,7 +77,7 @@ public sealed class DescriptiveStatistics : Analysis, IUsesProject, IHasChoices,
 
     public override string Title => "Descriptive statistics";
 
-    public override string Summary => "Count, centre, spread, position and shape of one sample (Module 2)";
+    public override string Summary => "Count, center, spread, position and shape of one sample (Module 2)";
 
     public override ToolKind Kind => ToolKind.FreeStanding;
 
@@ -94,7 +94,7 @@ public sealed class DescriptiveStatistics : Analysis, IUsesProject, IHasChoices,
     // ── Entries ───────────────────────────────────────────────────────────────
 
     [StatistleProperty(Label = "Column", Role = VariableRole.Input,
-        Help = "Which column of which data table to summarise — add one with + Data table in " +
+        Help = "Which column of which data table to summarize — add one with + Data table in " +
                "the rail and paste your measurements there — or 'Entered below' to type the " +
                "values into this analysis. With a column chosen its values show below, " +
                "read-only; Edit takes you to the table.")]

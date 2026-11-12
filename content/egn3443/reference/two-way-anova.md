@@ -6,13 +6,13 @@ title: Two-way ANOVA
 
 Factor A with a levels, factor B with b levels, n runs in each of the ab cells (balanced), N = abn. ȳᵢⱼ cell means, ȳᵢ. level means of A (averaged over B), ȳ.ⱼ level means of B (averaged over A), ȳ grand mean.
 
-| Source | SS | df | F |
+| Source | df | SS | F |
 |---|---|---|---|
-| A | bn Σ (ȳᵢ. − ȳ)² | a − 1 | MS A / MS error |
-| B | an Σ (ȳ.ⱼ − ȳ)² | b − 1 | MS B / MS error |
-| A × B | n Σ Σ (ȳᵢⱼ − ȳᵢ. − ȳ.ⱼ + ȳ)² | (a − 1)(b − 1) | MS AB / MS error |
-| Error | Σ Σ Σ (y − ȳᵢⱼ)² | ab(n − 1) | |
-| Total | Σ (y − ȳ)² | abn − 1 | |
+| A | a − 1 | bn Σ (ȳᵢ. − ȳ)² | MS A / MS error |
+| B | b − 1 | an Σ (ȳ.ⱼ − ȳ)² | MS B / MS error |
+| A × B | (a − 1)(b − 1) | n Σ Σ (ȳᵢⱼ − ȳᵢ. − ȳ.ⱼ + ȳ)² | MS AB / MS error |
+| Error | ab(n − 1) | Σ Σ Σ (y − ȳᵢⱼ)² | |
+| Total | abn − 1 | Σ (y − ȳ)² | |
 
 Each MS = SS / df. Each F is compared with the F distribution on its df and the error df.
 

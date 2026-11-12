@@ -45,7 +45,7 @@ where k is the number of predictors (1 in simple regression). For the four point
 R² has no units. An engineer also needs to know **how far off a prediction typically is, in y's units**.
 
 - The **residual standard error** σ̂ = √(SS error / (n − 2)) estimates σ, the standard deviation of the points around the true line. It divides by n − 2, the **error degrees of freedom**: two are used up by estimating b₀ and b₁. For the four points, σ̂ = √(1.80/2) = **0.949**. Statistics+, R's `summary(lm)` and statsmodels report this one.
-- The **root-mean-square error** RMSE = √(SS error / n) divides by n. It is the usual measure when models are compared on prediction (Module 13), and the course's reading uses it. For the four points, RMSE = √(1.80/4) = 0.671.
+- The **root-mean-square error** RMSE = √(SS error / n) divides by n. It is the usual measure when models are compared on prediction (Module 13), and it is the one the course website's Module 11 reading defines. (Module 13's *Fit for Purpose* activity compares models by **s**, which is σ̂: SS error divided by n minus the number of coefficients, item 13.6.) For the four points, RMSE = √(1.80/4) = 0.671.
 
 With many observations the two are nearly the same. Either way, about 95 % of the points lie within ±2σ̂ of the line, if the residuals are roughly normal.
 
@@ -53,11 +53,11 @@ With many observations the two are nearly the same. Either way, about 95 % of th
 
 The **ANOVA table** for regression sets out the sums of squares with their degrees of freedom (df). A **mean square** (MS) is a sum of squares divided by its df:
 
-| Source | df | SS | MS | F |
-|---|---|---|---|---|
-| Regression | 1 | SS regression | MS_R = SS regression / 1 | F = MS_R / MS_E |
-| Error | n − 2 | SS error | MS_E = SS error / (n − 2) = σ̂² | |
-| Total | n − 1 | SS total | | |
+| Source | df | SS | MS | F | p |
+|---|---|---|---|---|---|
+| Regression | 1 | SS regression | MS_R = SS regression / 1 | F = MS_R / MS_E | P(F > F observed) |
+| Error | n − 2 | SS error | MS_E = SS error / (n − 2) = σ̂² | | |
+| Total | n − 1 | SS total | | | |
 
 F tests H₀: β₁ = 0 (y does not depend on x linearly) against H₁: β₁ ≠ 0. If H₀ were true, F would follow the F distribution with 1 and n − 2 degrees of freedom (item 9.4 met the F distribution). A large F, and a p-value below α, is evidence of a relation.
 
@@ -92,7 +92,7 @@ The main tool is the plot of **residuals against fitted values**. If the model i
 
 [[figure: st.m11.evaluating.eg 2]]
 
-The **normal Q–Q plot** puts the sorted standardized residuals against the values a normal distribution would give. Normal residuals lie close to the gray line:
+The **normal Q–Q plot** puts the sorted **standardized residuals** (each residual divided by its own standard error, so that they lie on a scale of about −2 to 2; item 13.3 shows how they are computed) against the values a normal distribution would give. Normal residuals lie close to the gray line:
 
 [[figure: st.m11.evaluating.eg 3]]
 

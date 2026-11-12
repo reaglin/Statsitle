@@ -19,7 +19,7 @@ The check itself is ten questions, on the **Exercise** tab, over all five outcom
 - telling main effects from an interaction in a two-way design;
 - choosing a post-hoc procedure and reading its output.
 
-Have a calculator, or Python or R, ready. You may use the Workbench to check your work. Type numbers with a decimal point, rounded to the number of decimals the question asks for.
+Have a calculator, or Python or R, ready. You may use the Workbench (**One-way ANOVA**, **Two-way ANOVA** and **Simulation**) to check your work. Type numbers with a decimal point, rounded to the number of decimals the question asks for.
 
 You need 80 % (8 of 10) to pass, and you can try again. A wrong answer says "look again" and names the item that teaches it, and the explanation shows once your answer is right.
 

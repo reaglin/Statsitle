@@ -468,7 +468,7 @@
             </MenuItem>
             <MenuItem Header="_Edit">
                 <MenuItem Header="_Undo" Command="{Binding UndoCommand}" InputGestureText="Ctrl+Z"
-                          ToolTip="Puts back what the last add, delete, import or Use result changed. Nothing to undo yet when it is greyed. (A typed value is changed back by typing it again.)"
+                          ToolTip="Puts back what the last add, delete, import or Use result changed. Nothing to undo yet when it is grayed. (A typed value is changed back by typing it again.)"
                           ToolTipService.ShowOnDisabled="True" />
             </MenuItem>
             <MenuItem Header="_Project">

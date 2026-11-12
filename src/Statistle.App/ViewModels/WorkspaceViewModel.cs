@@ -700,7 +700,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         _handoff = null;
         Selected = target;
         RaiseHandoffChanged();
-        Status = "Calculation cancelled; nothing was changed";
+        Status = "Calculation canceled; nothing was changed";
     }
 
     private void RaiseHandoffChanged()

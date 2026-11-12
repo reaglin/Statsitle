@@ -19,9 +19,9 @@ eᵢ = yᵢ − ŷᵢ, where ŷᵢ = b₀ + b₁xᵢ is the line's value at xᵢ
 
 A positive residual means the point is above the line; a negative one, below. The **least-squares line** is the line that makes the **sum of squared residuals** as small as possible:
 
-SS_E = Σ(yᵢ − ŷᵢ)²
+SS error = Σ(yᵢ − ŷᵢ)²
 
-(E for error.) Squaring stops positive and negative misses from cancelling, and it punishes a big miss more than several small ones. Calculus gives the line that minimizes SS_E, with S_xx and S_xy as in item 11.1:
+(written SS_E for short, E for error; the Workbench shows **SS error**.) Squaring stops positive and negative misses from cancelling, and it punishes a big miss more than several small ones. Calculus gives the line that minimizes SS_E, with S_xx and S_xy as in item 11.1:
 
 - **slope** b₁ = S_xy / S_xx
 - **intercept** b₀ = ȳ − b₁x̄

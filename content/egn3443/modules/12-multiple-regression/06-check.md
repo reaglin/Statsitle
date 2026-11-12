@@ -19,7 +19,7 @@ The check itself is ten questions, on the **Exercise** tab, over all five outcom
 - the overall F-test: its hypotheses and its statistic;
 - justifying the inclusion or removal of a predictor.
 
-Have a calculator, or Python or R, ready. Type numbers with a decimal point, rounded to the number of decimals the question asks for.
+Have a calculator, or Python or R, ready. You may use the Workbench (**Multiple regression**) to check your work. Type numbers with a decimal point, rounded to the number of decimals the question asks for.
 
 You need 80 % (8 of 10) to pass, and you can try again. A wrong answer says "look again" and names the item that teaches it, and the explanation shows once your answer is right.
 

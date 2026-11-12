@@ -39,7 +39,7 @@ A sum of squares grows with the number of terms, so each is divided by its **deg
 - df within = N − k (N values, less one for each group mean), MS within = SS within / (N − k)
 - df total = N − 1 = (k − 1) + (N − k)
 
-MS within is the **pooled variance** of the groups, the k-group form of Module 9's sₚ². It estimates σ² whether H₀ is true or not. MS between estimates σ² too **when H₀ is true**, because then the group means differ only by chance; when the means really differ, it is larger. So
+MS within is the **pooled variance** of the groups, the k-group form of the pooled t-test's sₚ² (items 9.1 and 10.4). It estimates σ² whether H₀ is true or not. MS between estimates σ² too **when H₀ is true**, because then the group means differ only by chance; when the means really differ, it is larger. So
 
 F = MS between / MS within
 
@@ -47,15 +47,15 @@ is near 1 when H₀ is true and large when it is false. Under H₀, F follows th
 
 ## The ANOVA table
 
-Every program prints the results in the same layout:
+R's `anova()` and most programs print the results in this layout. You met it in items 11.4 and 12.4: there the rows were Regression and Error, here Between and Within; F is again the model's MS over the error MS, and the columns are in the same order (Source, df, SS, MS, F, p).
 
-| Source | SS | df | MS | F | p |
+| Source | df | SS | MS | F | p |
 |---|---|---|---|---|---|
-| Between groups | SS between | k − 1 | SS between/(k − 1) | MS between/MS within | P(F > F observed) |
-| Within groups | SS within | N − k | SS within/(N − k) | | |
-| Total | SS total | N − 1 | | | |
+| Between groups | k − 1 | SS between | SS between/(k − 1) | MS between/MS within | P(F > F observed) |
+| Within groups | N − k | SS within | SS within/(N − k) | | |
+| Total | N − 1 | SS total | | | |
 
-The SS and df columns add up; the MS column does not.
+The df and SS columns add up; the MS column does not.
 
 ## A worked case by hand
 
@@ -76,11 +76,11 @@ k = 3, n = 4 in each, N = 12, and the grand mean is ȳ = 138/12 = 11.5.
 5. **F** = 36/1.667 = **21.6**, with 2 and 9 degrees of freedom.
 6. **Decision:** F(0.05; 2, 9) = 4.256, and 21.6 is far beyond it. The area above 21.6 under the F curve with 2 and 9 df is p = **0.0004** < 0.05: reject H₀. The fertilizers do not all give the same mean yield.
 
-| Source | SS | df | MS | F | p |
+| Source | df | SS | MS | F | p |
 |---|---|---|---|---|---|
-| Fertilizer | 72 | 2 | 36.00 | 21.6 | 0.0004 |
-| Within | 15 | 9 | 1.667 | | |
-| Total | 87 | 11 | | | |
+| Fertilizer | 2 | 72 | 36.00 | 21.6 | 0.0004 |
+| Within | 9 | 15 | 1.667 | | |
+| Total | 11 | 87 | | | |
 
 ## The Example: concrete slump after three mixing times
 

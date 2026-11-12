@@ -21,10 +21,11 @@ title: Two-sample results and decisions
 |---|---|
 | excludes 0, all values matter | real and important: act |
 | excludes 0, no value matters | real but too small to matter |
+| excludes 0, holds values on both sides of the threshold | real, possibly too small to matter: test against Δ₀ or collect more |
 | contains 0, narrow | no difference that matters |
 | contains 0, holds values that matter | too few data: collect more |
 
-**Testing "better by enough":** H₀: μ₁ − μ₂ = Δ₀ against H₁: μ₁ − μ₂ > Δ₀, t = (x̄₁ − x̄₂ − Δ₀)/SE (Workbench: Hypothesised difference (Δ₀)).
+**Testing "better by enough":** H₀: μ₁ − μ₂ = Δ₀ against H₁: μ₁ − μ₂ > Δ₀, t = (x̄₁ − x̄₂ − Δ₀)/SE (Workbench: Hypothesized difference (Δ₀)).
 
 **Avoid:** "not significant, so equal"; "significant, so important"; p as the probability that H₀ is true; choosing α or the direction after seeing the data; "p < 0.05" without the number.
 

@@ -35,6 +35,6 @@ This module has six topics and a module check. Each topic is an item with four t
 - **Exercise** gives you a new case to test, or a set of questions. Work out the answers by hand, in Python or R, or in the Workbench, type them in, and press **Check my answers**. The item is complete when you pass. Hints are there if you are stuck.
 - **Reference** has the formulas, the Python and R functions, and where to read more.
 
-In the **Workbench** (the Workbench button, or Ctrl+B), choose **Two-sample test** in the list on the left. Set **Test** to the test you want (*Two proportions (pooled z)* is the new one), **Data from** to summary statistics or to two columns of a data table, and the **Alternative hypothesis** and **Significance level (α)**. Ctrl+L brings you back to the Course.
+In the **Workbench** (the Workbench button, or Ctrl+B), choose **Two-sample test** in the list on the left. Set **Test** to the test you want (*Two proportions (pooled z)* is the new one), **Data from** to *Summary statistics entered here* or *Columns of a data table*, and the **Alternative hypothesis** and **Significance level (α)**. Ctrl+L brings you back to the Course.
 
 The module check, the last item, asks ten questions over all five outcomes. You need 80 % to pass, and you can try again.

@@ -10,6 +10,8 @@ reference: [validation-residual-plots, validation-assumptions]
 
 # Foundations of regression validation
 
+**Review and new.** Item 11.4 (*Evaluating model performance*) introduced the four assumptions (LINE), the residual plot against the fitted values with its two classic failures (the tool-wear curve and the office-cost funnel), the normal Q–Q plot and the Shapiro–Wilk test of the residuals. This item gathers them into **validation**: what it is for, its two halves, and the cycle of checking and refining. Items 13.2 to 13.6 then add what is new: the Durbin–Watson test, standardized residuals, leverage and Cook's distance, cross-validation and refinement.
+
 ## What validation is, and why a good R² is not enough
 
 Least squares always finds *a* line. It finds one through data that curve, through data whose scatter grows tenfold from one end to the other, and through data with a typing error in them, and it reports an R² and a slope p-value for each. Those numbers answer "how much of y's variation does this line explain?" and "is there any relation at all?". They do not answer the questions an engineer needs answered before using the model:

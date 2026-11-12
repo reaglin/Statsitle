@@ -11,7 +11,7 @@ reference: [validation-residual-plots]
 
 # Residual analysis
 
-The two items before this one read residual plots. This one computes the residuals themselves, scales them so that "large" has a meaning, and reads what their pattern says.
+The two items before this one read residual plots. Item 11.2 computed residuals by hand for the least-squares line (e = y − ŷ, and their squares, SS error); this item computes them for any model, scales them so that "large" has a meaning, and reads what their pattern says.
 
 ## What a residual is
 

@@ -7,9 +7,10 @@ title: Checking the assumptions of two-sample tests
 | Assumption | Needed by | How to check |
 |---|---|---|
 | Random samples, independent observations | all tests | from how the data were collected (no test can check it) |
-| The two samples independent of each other | z, pooled, Welch, Mann–Whitney | from the design (otherwise paired) |
+| The two samples independent of each other | z, pooled, Welch, Mann–Whitney, two-proportion z | from the design (otherwise paired) |
 | Normal populations (or n large) | z, pooled, Welch; the **differences** for paired t | box plot or histogram; Shapiro–Wilk |
-| Equal variances | pooled t | s ratio under about 2; Levene's test |
+| Equal variances | pooled t | the course's rule: larger s² over smaller s² above about 2 to 3 → treat as unequal (a looser rule, larger s under about twice the smaller, allows a variance ratio up to 4); Levene's test |
+| Enough successes and failures | two-proportion z | n₁p̂, n₁(1 − p̂), n₂p̂, n₂(1 − p̂) all at least 10, with the pooled p̂; otherwise Fisher's exact test |
 | Normal populations | F-test for two variances | Shapiro–Wilk; the F-test is very sensitive to non-normality |
 
 ## Shapiro–Wilk test of normality

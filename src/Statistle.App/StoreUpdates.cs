@@ -92,7 +92,7 @@ public static class StoreUpdates
             string message = result.OverallState switch
             {
                 StorePackageUpdateState.Completed => $"The new version is installed. Close {ProgramName} and open it again to use it.",
-                StorePackageUpdateState.Canceled => "The update was cancelled. You can check again at any time, or the Store will install it later.",
+                StorePackageUpdateState.Canceled => "The update was canceled. You can check again at any time, or the Store will install it later.",
                 _ => "The update did not finish. The Microsoft Store will try again later, or open " +
                      $"{ProgramName}'s page on the Store and press Update.",
             };

@@ -21,17 +21,17 @@ H₀: β₁ = 0 (no linear relation) against H₁: β₁ ≠ 0
 
 It follows the steps of Module 8. The slope's **standard error** says how much b₁ would vary from sample to sample:
 
-se(b₁) = σ̂ / √S_xx
+SE(b₁) = σ̂ / √S_xx
 
-The test statistic is t = b₁ / se(b₁), on **n − 2 degrees of freedom**, and the p-value is 2 × P(T > |t|), where T has the t distribution with n − 2 degrees of freedom. A small p (below α, usually 0.05) is evidence that the slope is not 0. In simple regression this is the same test as the F-test of item 11.4 (F = t²).
+The test statistic is t = b₁ / SE(b₁), on **n − 2 degrees of freedom**, and the p-value is 2 × P(T > |t|), where T has the t distribution with n − 2 degrees of freedom. A small p (below α, usually 0.05) is evidence that the slope is not 0. In simple regression this is the same test as the F-test of item 11.4 (F = t²).
 
 The **confidence interval for the slope** gives the range of slopes the data are consistent with:
 
-b₁ ± t(α/2, n − 2) × se(b₁)
+b₁ ± t(α/2, n − 2) × SE(b₁)
 
 where t(α/2, n − 2) is the t value with n − 2 degrees of freedom and α/2 above it (item 7.3). If the interval does not contain 0, the test rejects H₀ at that α.
 
-**The four points by hand** (items 11.1 to 11.4): σ̂ = 0.949, S_xx = 5, so se(b₁) = 0.949 / √5 = 0.424, and t = 0.8 / 0.424 = 1.886 on 2 df, p = 0.200. With t(0.025, 2) = 4.303, the 95 % interval is 0.8 ± 4.303 × 0.424 = 0.8 ± 1.825, from −1.03 to 2.63. It contains 0, so the data cannot rule out "no relation". Four points are too few to show one.
+**The four points by hand** (items 11.1 to 11.4): σ̂ = 0.949, S_xx = 5, so SE(b₁) = 0.949 / √5 = 0.424, and t = 0.8 / 0.424 = 1.886 on 2 df, p = 0.200. With t(0.025, 2) = 4.303, the 95 % interval is 0.8 ± 4.303 × 0.424 = 0.8 ± 1.825, from −1.03 to 2.63. It contains 0, so the data cannot rule out "no relation". Four points are too few to show one.
 
 There is a test on the intercept too (H₀: β₀ = 0). It is rarely of interest, because x = 0 is usually far from the data.
 
@@ -60,7 +60,7 @@ Ten lap joints were cured at 60 to 105 °C and tested in shear (MPa).
 
 Reading the results:
 
-- **Slope** b₁ = 0.1285 MPa per °C, se(b₁) = 0.0117, t = 10.99 on 8 df, p = 0.000004. The strength clearly rises with cure temperature.
+- **Slope** b₁ = 0.1285 MPa per °C, SE(b₁) = 0.0117, t = 10.99 on 8 df, p = 0.000004. The strength clearly rises with cure temperature.
 - **95 % interval for the slope:** 0.1015 to 0.1554 MPa per °C. In engineering terms, each 10 °C more adds between about 1.0 and 1.6 MPa.
 - **R² = 0.938**, σ̂ = 0.53 MPa.
 - **At 88 °C**, ŷ₀ = 17.97 MPa. The mean strength of all joints cured at 88 °C is between 17.55 and 18.38 MPa (95 % confidence interval). One new joint cured at 88 °C is expected, with 95 % confidence, to be between 16.67 and 19.26 MPa (the prediction interval), more than three times as wide.

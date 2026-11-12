@@ -390,7 +390,7 @@ public sealed class OneWayAnova : Analysis, IHasFigures, IUsesProject, IHasChoic
     }
 
     [StatistleProperty(Label = "Levene W", Decimals = 4, Role = VariableRole.Calculated,
-        Help = "Levene's test of equal variances, median-centred (Brown–Forsythe), robust to " +
+        Help = "Levene's test of equal variances, median-centered (Brown–Forsythe), robust to " +
                "non-normality; the check the course uses. Python stats.levene; R car::leveneTest.")]
     public double Levene
     {
@@ -720,7 +720,7 @@ public sealed class OneWayAnova : Analysis, IHasFigures, IUsesProject, IHasChoic
         s.Line();
         s.Comment("Assumption checks and the rank-based alternative");
         s.Either("bart, p_bart = stats.bartlett(*groups)", "bt <- bartlett.test(groups); bart <- bt$statistic; p_bart <- bt$p.value");
-        s.Either("lev, p_lev = stats.levene(*groups)   # center='median' is the default", "# Levene, median-centred, by hand (car::leveneTest(y ~ g) gives the same)");
+        s.Either("lev, p_lev = stats.levene(*groups)   # center='median' is the default", "# Levene, median-centered, by hand (car::leveneTest(y ~ g) gives the same)");
         s.Either(string.Empty, "z <- lapply(groups, function(v) abs(v - median(v))); zall <- unlist(z)");
         s.Either(string.Empty, "between <- sum(sapply(z, function(v) length(v) * (mean(v) - mean(zall))^2)); within <- sum(sapply(z, function(v) sum((v - mean(v))^2)))");
         s.Either(string.Empty, "lev <- (N - k) / (k - 1) * between / within; p_lev <- 1 - pf(lev, k - 1, N - k)");
@@ -835,7 +835,7 @@ public sealed class AnovaAssumptionChecks : CalculationMethod<OneWayAnova>
     public override string Name => "Assumption checks";
 
     public override string Description =>
-        "Bartlett's χ² and Levene's median-centred F for equal variances; Shapiro–Wilk on the pooled residuals for normality.";
+        "Bartlett's χ² and Levene's median-centered F for equal variances; Shapiro–Wilk on the pooled residuals for normality.";
 
     public override string Citation =>
         "Bartlett, M. S., Proc. Royal Society A 160, 1937; Levene, H., 1960, with Brown and Forsythe's median centring " +

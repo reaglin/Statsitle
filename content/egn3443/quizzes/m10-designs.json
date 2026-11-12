@@ -64,10 +64,10 @@
       "id": "q5",
       "kind": "numeric",
       "objective": "st.m10.o1",
-      "prompt": "Twenty load cells were read before a recalibration and again after it, but two of them failed during the work and have no 'after' reading. How many degrees of freedom does the paired t-test have? It is a whole number.",
-      "answer": 17,
+      "prompt": "Twenty-four strain gauges were read before a bridge was load-tested and again after it, but three of them failed during the test and have no 'after' reading. How many degrees of freedom does the paired t-test have? It is a whole number.",
+      "answer": 20,
       "tolerance": 0,
-      "explanation": "A pair with a missing value cannot be used, so the two failed load cells are dropped and n = 18 pairs remain. The paired t-test has n − 1 = 17 degrees of freedom."
+      "explanation": "A pair with a missing value cannot be used, so the three failed gauges are dropped and n = 21 pairs remain. The paired t-test has n − 1 = 20 degrees of freedom."
     },
     {
       "id": "q6",
@@ -101,15 +101,15 @@
       "id": "q8",
       "kind": "choice",
       "objective": "st.m10.o1",
-      "prompt": "To compare two tire tread patterns on stopping distance, an engineer pairs test cars by the **color** of their paint, one car of each pair with each pattern. Why is this pairing of little use?",
+      "prompt": "To compare two tire tread patterns on stopping distance, an engineer pairs test cars by the **last digit of their license plate**, one car of each pair with each pattern. Why is this pairing of little use?",
       "options": [
-        "Paint color does not affect stopping distance, so it removes no variation",
+        "The plate number does not affect stopping distance, so it removes no variation",
         "Matched pairs are allowed only when the same unit is measured twice",
         "Pairs must be chosen at random, not by any feature of the units",
-        "Color is a categorical variable, and pairs need a measured variable"
+        "A plate digit is a label, and pairs need a measured variable instead"
       ],
       "correct": [0],
-      "explanation": "Pairing helps only when the two members of a pair are alike in what drives the outcome (weight, brakes, driver). Matching on color leaves all the car-to-car variation in the differences, and the paired test then has n − 1 degrees of freedom instead of n₁ + n₂ − 2, for nothing."
+      "explanation": "Pairing helps only when the two members of a pair are alike in what drives the outcome (weight, brakes, driver). Matching on a plate digit leaves all the car-to-car variation in the differences, and the paired test then has n − 1 degrees of freedom instead of n₁ + n₂ − 2, for nothing."
     }
   ]
 }

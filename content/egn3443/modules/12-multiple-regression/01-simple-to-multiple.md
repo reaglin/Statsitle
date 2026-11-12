@@ -12,7 +12,7 @@ reference: [multiple-regression]
 
 ## What one predictor cannot do
 
-Module 11's simple linear regression explains a response y with one predictor x. That works when one thing drives the response. When two or more things drive it, and they happen to move together in the data, the one-predictor line gives a misleading answer.
+Module 11's simple linear regression explains a response y with one predictor x. That works when one thing drives the response. When two or more things drive it, and they happen to move together in the data, the one-predictor line gives a misleading answer. Item 11.3 previewed this with the stack-loss data; this item explains it.
 
 Here is a case. A lab cast 12 concrete cylinders and tested them after 7, 14 or 28 days of curing. The mixes had water–cement (W/C) ratios from 0.40 to 0.62. Everyone knows two facts about concrete: it gains strength as it cures, and extra water weakens it. Yet look at the two simple regressions on these data (R², as in Module 11, is the share of the variation in strength the line explains; it is defined again below):
 

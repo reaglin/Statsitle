@@ -19,7 +19,7 @@ Items 12.1 to 12.4 each took one step. This item puts them in order, from a list
 2. **Estimate.** Fit the model with all the candidates by least squares (item 12.1).
 3. **Assess the fit.** R², adjusted R² and σ̂ (item 12.4).
 4. **Test the model.** The overall F-test: does it explain anything at all? (item 12.4)
-5. **Check the assumptions.** The residuals: no pattern, roughly normal, even spread (item 12.2; Module 13 in full).
+5. **Check the assumptions.** The residuals: no pattern, roughly normal, even spread (item 11.4 showed the plots; item 12.2; Module 13 in full).
 6. **Refine.** Remove or add predictors, one at a time, with reasons (below), and repeat steps 2 to 5.
 7. **Interpret and communicate.** Each coefficient with its units and "the others held fixed", the fit, and how the model was chosen.
 
@@ -82,7 +82,7 @@ For Binder: p = 0.966, adjusted R² rises from 0.7829 to 0.7964 without it, and 
 
 Two cautions about automatic selection:
 
-- **It is exploratory.** After a procedure has picked the predictors that look best in this sample, their p-values look better than they are, and R² is optimistic. Test the chosen model on new data: Module 13's cross-validation does that.
+- **It is exploratory.** After a procedure has picked the predictors that look best in this sample, their p-values look better than they are (many tests on one data set: the familywise error rate of item 14.1), and R² is optimistic. Test the chosen model on new data: Module 13's cross-validation does that.
 - **Forward and backward can disagree**, when predictors overlap or a p-value is near 0.05. Neither is "the right answer"; look at the evidence above.
 
 ## Interpreting and communicating the result

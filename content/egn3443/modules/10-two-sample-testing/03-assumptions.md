@@ -23,7 +23,7 @@ reference: [checking-assumptions, two-proportion-z-test, rank-tests]
 | **Roughly normal populations**, or large samples | pooled t, Welch t | box plot or histogram of each sample; Shapiro–Wilk |
 | **Roughly normal differences** | paired t | box plot of the differences; Shapiro–Wilk on the differences |
 | **Equal variances** | pooled t only | the variance ratio; Levene's test |
-| **Enough successes and failures** | two-proportion z | n₁p̂, n₁(1 − p̂), n₂p̂, n₂(1 − p̂) all at least 10 |
+| **Enough successes and failures** | two-proportion z | n₁p̂, n₁(1 − p̂), n₂p̂, n₂(1 − p̂) all at least 10, with p̂ the pooled proportion (below) |
 
 Random sampling lets you generalize to the populations. **Random assignment**, as in an experiment where a coin decides which unit gets which treatment, lets you go further: a difference can be put down to the treatment, not to how the units were chosen.
 
@@ -105,6 +105,4 @@ The Code tab writes Levene's test by hand in R, so no extra package is needed.
 
 ## What to do next
 
-On the **Exercise** tab, two tunings of a servo drive are compared. Read the Shapiro–Wilk and Levene checks in the Workbench, and press **Check my answers**.
-
-Then decide whether the checks support a t-test. Look at the box plots and at W for tuning 2 next to W for tuning 1. Notice also what Levene's test says about two samples whose standard deviations differ by a factor of five, and remember that it works from the medians: one far value moves it little. With samples of 10 and 11 and one run far from the rest, the mean and the standard deviation of tuning 2 rest heavily on that one run. Before any test, find out what happened in it; if it is a real result, compare the tunings with the Mann–Whitney test of item 9.5, which ranks the values.
+On the **Exercise** tab, two tunings of a servo drive are compared. Read the Shapiro–Wilk and Levene checks in the Workbench, and press **Check my answers**. Then decide whether the checks support a t-test; the Exercise says what to notice once you pass.

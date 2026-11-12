@@ -15,7 +15,7 @@ reference: [multiple-regression, model-building]
 
 How well does the model explain the response? Start, as in Module 11, from the variation of y around its mean, and split it into the part the model explains and the part it leaves:
 
-SS_T = SS_R + SS_E
+SS total = SS regression + SS error, written SS_T = SS_R + SS_E for short (the Workbench shows the long names)
 
 | Sum of squares | Formula | What it is |
 |---|---|---|
@@ -39,7 +39,7 @@ So R² cannot be used to decide whether a predictor belongs in the model, and a 
 
 ## Adjusted R²: a charge for each predictor
 
-**Adjusted R²** replaces the sums of squares by mean squares, each divided by its degrees of freedom:
+**Adjusted R²** (item 11.4 gave its formula for one predictor) replaces the sums of squares by mean squares, each divided by its degrees of freedom:
 
 adjusted R² = 1 − [SS_E/(n − k − 1)] / [SS_T/(n − 1)] = 1 − (1 − R²) (n − 1)/(n − k − 1)
 
@@ -95,7 +95,7 @@ How the F-test and the coefficients' t-tests relate:
 
 - With **one** predictor, F = t² and they are the same test (Module 11).
 - **F significant, no single t significant:** the predictors together explain y, but they overlap so much (high VIF) that the data cannot say which one does it.
-- **F not significant, one t significant:** with many predictors, one small p-value can turn up by chance. The F-test guards against that, so look at it first.
+- **F not significant, one t significant:** with many predictors, one small p-value can turn up by chance (the familywise error rate of item 14.1). The F-test guards against that, so look at it first.
 
 ## Using fit statistics to refine a model
 

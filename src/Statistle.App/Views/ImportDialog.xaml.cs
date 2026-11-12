@@ -54,11 +54,11 @@ public partial class ImportDialog : Window
         Heading.Text = $"Import into {target}";
         Summary.Text = kind switch
         {
-            ImportKind.Pairs => $"{fileName}: choose the x and y columns. Rows where either is not a number are skipped; a header row is recognised.",
+            ImportKind.Pairs => $"{fileName}: choose the x and y columns. Rows where either is not a number are skipped; a header row is recognized.",
             ImportKind.Table => $"{fileName}: every column shown below becomes a column of the table, replacing the columns it has now. " +
                                 "Cells that are not numbers are skipped; a header row gives the column names." +
                                 (tables.Count > 1 ? " Choose the sheet to import." : string.Empty),
-            _ => $"{fileName}: choose the column of values. Cells that are not numbers are skipped; a header row is recognised.",
+            _ => $"{fileName}: choose the column of values. Cells that are not numbers are skipped; a header row is recognized.",
         };
 
         SheetLabel.Visibility = tables.Count > 1 ? Visibility.Visible : Visibility.Collapsed;

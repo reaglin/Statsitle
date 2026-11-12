@@ -21,16 +21,17 @@ Give p as a number. p = 0.048 and p = 0.002 are both "below 0.05", but the secon
 
 ## Read the interval, not only the decision
 
-The (1 − α) confidence interval for the difference shows **how big** the difference may be and **how precisely** it is known. Four cases, with a threshold of practical importance in mind:
+The (1 − α) confidence interval for the difference shows **how big** the difference may be and **how precisely** it is known. Five cases, with a threshold of practical importance in mind:
 
 | The interval | What it says | Decision |
 |---|---|---|
 | excludes 0, and every value in it matters | a real difference that matters | act |
 | excludes 0, but every value in it is too small to matter | a real difference that does not matter (often large samples) | no change needed on these grounds |
+| excludes 0, but holds values on both sides of the threshold | a real difference, possibly too small to matter | test against Δ₀ (item 10.4), or collect more data |
 | contains 0, and is narrow: every value in it is too small to matter | no difference that matters | no change needed |
 | contains 0, but also values that would matter | the data are too few to tell | collect more data before deciding |
 
-The last row is the one a bare "not significant" hides.
+The last row is the one a bare "not significant" hides; the third is the one a bare "significant" hides (the robotic cell of item 10.4).
 
 ## The cost of each error
 
@@ -61,7 +62,7 @@ n = 1.96² × (0.07 × 0.93 + 0.04 × 0.96)/0.02² = 3.8416 × 0.1035/0.0004 = 9
 
 **The written conclusion:**
 
-> In a six-month pilot, 21 of 300 sensors with the old adhesive (7.0 %) and 12 of 300 with the new adhesive (4.0 %) were returned with a leaking housing. A two-sided two-proportion z-test with the pooled proportion found no significant difference at α = 0.05 (z = 1.61, p = 0.107); the conditions held (at least 16 expected returns in each group). The 95 % confidence interval for the difference in return rates, old − new, is −0.6 to 6.6 percentage points. The pilot therefore cannot tell a new adhesive that changes nothing from one that removes nearly all leak returns. We recommend a larger trial, about 1000 sensors per adhesive, which would estimate the difference within about ±2 points, before deciding.
+> The pilot cannot yet tell whether the new adhesive helps: it may change nothing, or remove nearly all leak returns. We recommend a larger trial, about 1000 sensors per adhesive, before deciding. In a six-month pilot, 21 of 300 sensors with the old adhesive (7.0 %) and 12 of 300 with the new adhesive (4.0 %) were returned with a leaking housing. A two-sided two-proportion z-test with the pooled proportion found no significant difference at α = 0.05 (z = 1.61, p = 0.107); the conditions held (at least 16 expected returns in each group). The 95 % confidence interval for the difference in return rates, old − new, is −0.6 to 6.6 percentage points; the larger trial would estimate the difference within about ±2 points.
 
 ## In Python and R
 

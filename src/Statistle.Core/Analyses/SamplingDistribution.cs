@@ -194,7 +194,7 @@ public sealed class SamplingDistribution : Analysis, IReportsProblem, IHasFigure
     }
 
     [StatistleProperty(Label = "z for the value", Decimals = 4, Role = VariableRole.Output,
-        Help = "(value − centre) / standard error: how many standard errors the sample statistic " +
+        Help = "(value − center) / standard error: how many standard errors the sample statistic " +
                "lies from its expectation. Compare with the z-score of a single observation, " +
                "which divides by σ instead.")]
     public double Z
@@ -229,7 +229,7 @@ public sealed class SamplingDistribution : Analysis, IReportsProblem, IHasFigure
     }
 
     [StatistleProperty(Label = "Middle 95 % from", Decimals = 4, Role = VariableRole.Calculated,
-        Help = "centre − 1.96 × standard error: 95 % of sample statistics fall between this and the value below.")]
+        Help = "center − 1.96 × standard error: 95 % of sample statistics fall between this and the value below.")]
     public double Lower95
     {
         get => _lower95;
@@ -237,7 +237,7 @@ public sealed class SamplingDistribution : Analysis, IReportsProblem, IHasFigure
     }
 
     [StatistleProperty(Label = "Middle 95 % to", Decimals = 4, Role = VariableRole.Calculated,
-        Help = "centre + 1.96 × standard error.")]
+        Help = "center + 1.96 × standard error.")]
     public double Upper95
     {
         get => _upper95;
@@ -361,22 +361,22 @@ public sealed class SamplingDistribution : Analysis, IReportsProblem, IHasFigure
 
         if (mean)
         {
-            s.Comment("Sampling distribution of the sample mean: centre μ, standard error σ/√n");
+            s.Comment("Sampling distribution of the sample mean: center μ, standard error σ/√n");
             s.Assign("mu", PopulationMean).Assign("sigma", PopulationSigma).Assign("n", (int)Math.Round(double.IsNaN(SampleSize) ? 1 : SampleSize));
-            s.Assign("centre", "mu");
+            s.Assign("center", "mu");
             s.Either("se = sigma / np.sqrt(n)", "se <- sigma / sqrt(n)");
         }
         else
         {
-            s.Comment("Sampling distribution of the sample proportion: centre p, standard error √(p(1 − p)/n)");
+            s.Comment("Sampling distribution of the sample proportion: center p, standard error √(p(1 − p)/n)");
             s.Assign("p", PopulationProportion).Assign("n", (int)Math.Round(double.IsNaN(SampleSize) ? 1 : SampleSize));
-            s.Assign("centre", "p");
+            s.Assign("center", "p");
             s.Either("se = np.sqrt(p * (1 - p) / n)", "se <- sqrt(p * (1 - p) / n)");
         }
 
-        s.Either("S = stats.norm(centre, se)   # the sampling distribution, by the central limit theorem", "# pnorm(value, centre, se) is the sampling distribution, by the central limit theorem");
+        s.Either("S = stats.norm(center, se)   # the sampling distribution, by the central limit theorem", "# pnorm(value, center, se) is the sampling distribution, by the central limit theorem");
         s.Line();
-        s.Print("Mean of the sampling distribution", "centre", "centre", 4);
+        s.Print("Mean of the sampling distribution", "center", "center", 4);
         s.Print("Standard error", "se", "se", 4);
 
         if (!double.IsNaN(Value))
@@ -388,18 +388,18 @@ public sealed class SamplingDistribution : Analysis, IReportsProblem, IHasFigure
                 s.Assign("upper", Value2);
             }
 
-            s.Print("z for the value", "(value - centre) / se", "(value - centre) / se", 4);
-            s.Print("P(statistic ≤ value)", "S.cdf(value)", "pnorm(value, centre, se)", 4);
-            s.Print("P(statistic ≥ value)", "S.sf(value)", "1 - pnorm(value, centre, se)", 4);
+            s.Print("z for the value", "(value - center) / se", "(value - center) / se", 4);
+            s.Print("P(statistic ≤ value)", "S.cdf(value)", "pnorm(value, center, se)", 4);
+            s.Print("P(statistic ≥ value)", "S.sf(value)", "1 - pnorm(value, center, se)", 4);
 
             if (!double.IsNaN(Value2))
             {
-                s.Print("P(value ≤ statistic ≤ upper)", "S.cdf(upper) - S.cdf(value)", "pnorm(upper, centre, se) - pnorm(value, centre, se)", 4);
+                s.Print("P(value ≤ statistic ≤ upper)", "S.cdf(upper) - S.cdf(value)", "pnorm(upper, center, se) - pnorm(value, center, se)", 4);
             }
         }
 
-        s.Print("Middle 95 % from", "centre - 1.959964 * se", "centre - qnorm(0.975) * se", 4);
-        s.Print("Middle 95 % to", "centre + 1.959964 * se", "centre + qnorm(0.975) * se", 4);
+        s.Print("Middle 95 % from", "center - 1.959964 * se", "center - qnorm(0.975) * se", 4);
+        s.Print("Middle 95 % to", "center + 1.959964 * se", "center + qnorm(0.975) * se", 4);
         s.PrintText("Normal approximation", Condition);
 
         return s.ToString();

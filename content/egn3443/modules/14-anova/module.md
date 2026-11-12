@@ -20,7 +20,7 @@ topics:
   - Post-Hoc Testing and Interpreting Results
 ---
 
-Module 9 compared two groups: two alloys, two ovens, two coatings. Engineers often have more: four suppliers of resin, three curing temperatures, five nozzle designs. **Analysis of variance (ANOVA)** compares the means of any number of groups in one test, so the chance of a false alarm stays at the α you chose.
+Modules 9 and 10 compared two groups: two alloys, two ovens, two coatings. Engineers often have more: four suppliers of resin, three curing temperatures, five nozzle designs. **Analysis of variance (ANOVA)** compares the means of any number of groups in one test, so the chance of a false alarm stays at the α you chose.
 
 The name says how it works. ANOVA splits the total variation of the measurements into the part **between** the groups (how far the group means are from each other) and the part **within** the groups (the scatter of the measurements around their own group mean). If the group means differ by more than the scatter inside the groups can explain, the groups really differ. The ratio of the two is the **F statistic**.
 
@@ -37,4 +37,4 @@ The module check, the last item, asks ten questions over all five outcomes. You 
 
 ## The end of the course
 
-This is the last module of EGN3443, and it draws on almost all of the others. The groups are described with the means and standard deviations of Module 2. The F distribution, which Module 9 used for the ratio of two variances, is the sampling distribution (Module 6's idea) of a ratio of two variance estimates. The test follows the five steps of Module 8, and the assumption checks are the ones Module 9 used for two samples. The ANOVA table is the same partition of variation, total = explained + unexplained, that gave R² in regression (Modules 11–13): a one-way ANOVA is a multiple regression on 0/1 variables that say which group each value is in, and η² is that regression's R². When you have finished, the Workbench stays: every analysis of the course is in its list, ready for the next data set you meet at work.
+This is the last module of EGN3443, and it draws on almost all of the others. The groups are described with the means and standard deviations of Module 2. The F distribution, which Module 9 used for the ratio of two variances, is the sampling distribution (Module 6's idea) of a ratio of two variance estimates. The test follows the steps of Module 8, and the assumption checks are the ones Modules 9 and 10 used for two samples (item 10.3). The ANOVA table is the same partition of variation, total = explained + unexplained, that gave R² in regression (Modules 11–13): a one-way ANOVA is a multiple regression on 0/1 variables that say which group each value is in, and η² is that regression's R². When you have finished, the Workbench stays: every analysis of the course is in its list, ready for the next data set you meet at work.

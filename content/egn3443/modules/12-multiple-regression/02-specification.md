@@ -65,7 +65,7 @@ A multiple **linear** regression is linear in the β's, not necessarily in the x
 - y = β₀ + β₁ ln x₁ + β₂x₂ + ε, a transformed predictor;
 - y = β₀ + β₁x₁ + β₂x₂ + β₃x₁x₂ + ε, an **interaction** (the effect of x₁ depends on x₂).
 
-y = β₀·exp(β₁x) + ε is not linear in β₁, so it is not a linear model as written (taking logs of y is one way round, as in Module 11).
+y = β₀·exp(β₁x) + ε is not linear in β₁, so it is not a linear model as written (taking logs of y is one way round, item 13.6).
 
 ## The role of the error term
 
@@ -82,7 +82,7 @@ The t-tests, F-test and intervals of a multiple regression rest on four assumpti
 3. **Normality**: ε is normally distributed.
 4. **Equal variance**: ε has the same standard deviation σ at every combination of the predictors.
 
-And one about the predictors: none is an exact linear combination of the others. The residuals are how you check the four; Module 13 teaches the residual plots and tests. A badly specified model, one that leaves out an important predictor or uses the wrong form, usually shows up there as a pattern in the residuals.
+And one about the predictors: none is an exact linear combination of the others. The residuals are how you check the four: item 11.4 introduced the residual plots and the Shapiro–Wilk check, and Module 13 teaches them in full, with the other tests. A badly specified model, one that leaves out an important predictor or uses the wrong form, usually shows up there as a pattern in the residuals.
 
 ## Common mistakes
 

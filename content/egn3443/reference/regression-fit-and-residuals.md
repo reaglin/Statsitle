@@ -8,11 +8,11 @@ title: Regression fit and residual checks
 
 SS total = Σ(y − ȳ)² = SS regression + SS error, with SS regression = Σ(ŷ − ȳ)² and SS error = Σ(y − ŷ)².
 
-| Source | df | SS | MS | F |
-|---|---|---|---|---|
-| Regression | k | SS regression | SS regression / k | MS_R / MS_E |
-| Error | n − k − 1 | SS error | SS error / (n − k − 1) | |
-| Total | n − 1 | SS total | | |
+| Source | df | SS | MS | F | p |
+|---|---|---|---|---|---|
+| Regression | k | SS regression | SS regression / k | MS_R / MS_E | P(F > F observed) |
+| Error | n − k − 1 | SS error | SS error / (n − k − 1) | | |
+| Total | n − 1 | SS total | | | |
 
 k is the number of predictors (1 in simple regression). F tests H₀: all slopes are 0, on k and n − k − 1 degrees of freedom. In simple regression F = t² of the slope.
 

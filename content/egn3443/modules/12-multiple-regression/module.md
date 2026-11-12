@@ -3,7 +3,7 @@ id: st.m12
 number: 12
 title: Multiple Regression
 status: draft
-minutes: 300
+minutes: 260
 prerequisites: [st.m11]
 outcomes:
   - st.m12.o1: Construct a multiple regression equation by selecting appropriate predictor variables and estimating coefficients using ordinary least squares

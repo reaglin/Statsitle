@@ -3,7 +3,7 @@ id: st.m13
 number: 13
 title: Validating Regression
 status: draft
-minutes: 300
+minutes: 315
 prerequisites: [st.m12]
 outcomes:
   - st.m13.o1: Identify violations of core regression assumptions — including linearity, homoscedasticity, independence, and normality of residuals — using residual diagnostic plots
@@ -20,7 +20,7 @@ topics:
   - Model Refinement and Decision-Making
 ---
 
-Modules 11 and 12 fitted regression models: a line through (x, y) pairs, then a plane through several predictors. A fitted model always comes with a high-looking R² and a table of small p-values, whether or not it deserves them. This module asks the questions that come **after** the fit. Is the model the right shape? Are its assumptions met, so that its p-values and intervals mean what they say? Does it predict new data as well as it fits the old? Which observations is it leaning on? And when something is wrong, what should change?
+Modules 11 and 12 fitted regression models: a line through (x, y) pairs, then a plane through several predictors. A fitted model can come with a high R² and small p-values whether or not it deserves them. This module asks the questions that come **after** the fit. Is the model the right shape? Are its assumptions met, so that its p-values and intervals mean what they say? Does it predict new data as well as it fits the old? Which observations is it leaning on? And when something is wrong, what should change?
 
 The tools are the **residuals** (what the model misses at each observation), their plots, a few diagnostic numbers (Durbin–Watson, Shapiro–Wilk, leverage, Cook's distance, the variance inflation factor), and **cross-validation**, which tests the model on rows it was not fitted to.
 

@@ -564,10 +564,10 @@ public sealed class ConfidenceInterval : Analysis, IUsesProject, IHasChoices, IL
         if (Target == IntervalFor.Proportion)
         {
             s.Comment("Wilson's score interval — what R's prop.test(x, n, correct = FALSE) and statsmodels' proportion_confint(method='wilson') give");
-            s.Either("centre = (p_hat + crit**2 / (2 * n)) / (1 + crit**2 / n)", "centre <- (p_hat + crit^2 / (2 * n)) / (1 + crit^2 / n)");
+            s.Either("center = (p_hat + crit**2 / (2 * n)) / (1 + crit**2 / n)", "center <- (p_hat + crit^2 / (2 * n)) / (1 + crit^2 / n)");
             s.Either("half = crit * np.sqrt(p_hat * (1 - p_hat) / n + crit**2 / (4 * n**2)) / (1 + crit**2 / n)", "half <- crit * sqrt(p_hat * (1 - p_hat) / n + crit^2 / (4 * n^2)) / (1 + crit^2 / n)");
-            s.Print("Wilson score lower", "centre - half", "centre - half", 4);
-            s.Print("Wilson score upper", "centre + half", "centre + half", 4);
+            s.Print("Wilson score lower", "center - half", "center - half", 4);
+            s.Print("Wilson score upper", "center + half", "center + half", 4);
         }
 
         s.PrintText("Interval", Statement);
