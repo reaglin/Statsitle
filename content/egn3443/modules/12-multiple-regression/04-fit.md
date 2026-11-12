@@ -43,7 +43,7 @@ So R² cannot be used to decide whether a predictor belongs in the model, and a 
 
 adjusted R² = 1 − [SS_E/(n − k − 1)] / [SS_T/(n − 1)] = 1 − (1 − R²) (n − 1)/(n − k − 1)
 
-Each added predictor costs a degree of freedom, so (n − 1)/(n − k − 1) grows. Adjusted R² rises only if the new predictor lowers SS_E by more than chance would; in fact it rises exactly when the new coefficient's |t| is greater than 1. It is always below R², and it can be negative for a useless model.
+Each added predictor costs a degree of freedom, so (n − 1)/(n − k − 1) grows. Adjusted R² rises only if the new predictor lowers SS_E by more than an average useless predictor would: exactly when the new coefficient's |t| is greater than 1. That is a much lower bar than p < 0.05, so adjusted R² can rise for a predictor that is not significant. Adjusted R² and σ̂ always move together (adjusted R² = 1 − σ̂²/s_y², with s_y the standard deviation of y), so count them as one piece of evidence, not two. It is always below R², and it can be negative for a useless model.
 
 For the concrete: adjusted R² = 1 − (1 − 0.8316) × 11/9 = 1 − 0.16836 × 1.2222 = **0.7942**.
 

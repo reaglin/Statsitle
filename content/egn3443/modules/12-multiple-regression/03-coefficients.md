@@ -40,7 +40,7 @@ The **Coefficients** result has one line per term, with seven numbers:
 | CI lower, CI upper | the confidence interval bⱼ ± t(α/2, n − k − 1) × SE(bⱼ) |
 | VIF | the variance inflation factor (below) |
 
-For Feed: b₁ = 8.033, SE = 0.2587, t = 8.033 / 0.2587 = 31.05 on 15 − 2 − 1 = 12 degrees of freedom, p < 0.0001. With t(0.025, 12) = 2.179 (the t value with 2.5 % above it on 12 df), the 95 % interval is 8.033 ± 2.179 × 0.2587, from 7.470 to 8.597 µm per mm/rev.
+For Feed: b₁ = 8.033, SE = 0.2587, t = 8.033 / 0.2587 = 31.05 on 15 − 2 − 1 = 12 degrees of freedom, p < 0.0001 (the table shows 0.0000: read it as p < 0.0001, never as exactly 0). With t(0.025, 12) = 2.179 (the t value with 2.5 % above it on 12 df), the 95 % interval is 8.033 ± 2.179 × 0.2587, from 7.470 to 8.597 µm per mm/rev.
 
 ## Positive and negative coefficients
 
@@ -55,12 +55,12 @@ b₀ = 0.572 µm is the predicted roughness at feed 0 and cutting speed 0, a lat
 
 ## Units and comparing coefficients
 
-The feed coefficient (8.033) is about 1700 times the size of the cutting-speed coefficient (−0.00472). That does **not** make feed 1700 times as important: feed is measured in tenths of a millimetre and speed in hundreds of metres per minute. A coefficient's size depends on its predictor's units; change feed to µm per revolution and its coefficient becomes 0.008033.
+The feed coefficient (8.033) is about 1700 times the size of the cutting-speed coefficient (−0.00472). That does **not** make feed 1700 times as important: feed is measured in tenths of a millimeter and speed in hundreds of meters per minute. A coefficient's size depends on its predictor's units; change feed to µm per revolution and its coefficient becomes 0.008033.
 
 To compare, put the predictors on a common footing:
 
 - **Over the range studied:** feed from 0.10 to 0.30 raises Ra by 8.033 × 0.20 = **1.61 µm**; speed from 100 to 250 lowers it by 0.00472 × 150 = **0.71 µm**. Over this trial's ranges, feed matters about twice as much.
-- **Per standard deviation of each predictor** (standardized coefficients): 0.588 µm for feed and −0.299 µm for speed, the same conclusion.
+- **Per standard deviation of each predictor** (b × sₓ, the change in Ra for one standard deviation of the predictor, sₓ): 0.588 µm for feed and −0.299 µm for speed, the same conclusion. (The fully standardized coefficients that some software reports also divide by the standard deviation of y, and have no units.)
 
 ## Unique contribution: the t-test of a coefficient
 

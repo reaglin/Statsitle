@@ -68,12 +68,12 @@ The residuals against the fitted values show no curve and no funnel: the spread 
 
 ## Justifying each decision
 
-Outcome MO5 asks you to **justify** including or removing a predictor. A procedure is not a justification on its own. Bring together:
+This module's last outcome asks you to **justify** including or removing a predictor. A procedure is not a justification on its own. Bring together:
 
 | Evidence | Points to keeping the predictor | Points to removing it |
 |---|---|---|
 | Its coefficient's t-test | small p-value: it adds information beyond the others | large p-value |
-| Adjusted R² and σ̂ | adjusted R² falls and σ̂ rises without it | adjusted R² rises and σ̂ falls without it |
+| Adjusted R² (and σ̂, which moves with it) | adjusted R² falls and σ̂ rises without it | adjusted R² rises and σ̂ falls without it |
 | Engineering knowledge | a known mechanism, or a standard model requires it | no plausible mechanism |
 | The assumptions | the residuals show a pattern when it is left out | the residuals are no better with it |
 | Overlap (VIF) | | very high VIF, and another predictor carries the same information |

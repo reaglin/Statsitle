@@ -19,8 +19,8 @@
       "objective": "st.m12.o1",
       "prompt": "In a fitted model Drying time (min) = b₀ + b₁·Film thickness (µm) + b₂·Humidity (%), what are the units of b₁?",
       "options": [
-        "Minutes per micrometre of film thickness",
-        "Micrometres of film thickness per minute",
+        "Minutes per micrometer of film thickness",
+        "Micrometers of film thickness per minute",
         "Minutes per percent of relative humidity",
         "No units, because b₁ is a pure number"
       ],
@@ -33,13 +33,13 @@
       "objective": "st.m12.o5",
       "prompt": "An engineer wants to predict a chiller's daily electricity use **the evening before** from columns in the plant log. Which are sensible candidate predictors? Choose every one that fits.",
       "options": [
-        "Tomorrow's forecast high temperature",
+        "Tomorrow's forecast high temperature (°C)",
         "Tomorrow's scheduled number of production shifts",
-        "The chiller's compressor run hours for that day",
-        "Tomorrow's forecast high temperature again, converted to °F"
+        "The day's measured chilled-water flow through the plant",
+        "A second column with the same forecast converted to °F"
       ],
       "correct": [0, 1],
-      "explanation": "The forecast temperature and the shift schedule are known the evening before and plausibly drive the load. The compressor run hours are a consequence of the load and are not known in advance. The temperature in °F is an exact linear function of the temperature in °C, so least squares cannot fit both."
+      "explanation": "The forecast temperature and the shift schedule are known the evening before and plausibly drive the load. The chilled-water flow is a consequence of the load and is not known in advance. A second column with the temperature in °F is an exact linear function of the temperature in °C, so least squares cannot fit both."
     },
     {
       "id": "q4",
@@ -47,13 +47,13 @@
       "objective": "st.m12.o1",
       "prompt": "Which of these is **not** a multiple linear regression model that ordinary least squares can fit as written?",
       "options": [
-        "y = β₀ + β₁x + β₂x² + ε",
-        "y = β₀ + β₁ ln x₁ + β₂x₂ + ε",
-        "y = β₀ + β₁x₁ + β₂x₂ + β₃x₁x₂ + ε",
-        "y = β₀ + β₁·exp(β₂x) + ε"
+        "y = β₀ + β₁√x₁ + β₂x₂ + ε",
+        "y = β₀ + β₁/x + ε",
+        "y = β₀ + β₁x₁ + β₂x₁² + β₃x₂ + ε",
+        "y = β₀·x^β₁ + ε"
       ],
       "correct": [3],
-      "explanation": "Linear means linear in the coefficients. x², ln x₁ and x₁x₂ are just new predictor columns, so the first three are linear models. In the last one β₂ sits inside the exponential, so the model is not linear in its coefficients."
+      "explanation": "Linear means linear in the coefficients. √x₁, 1/x and x₁² are just new predictor columns, so the first three are linear models. In the last one β₁ is an exponent, so the model is not linear in its coefficients (taking logs of both sides would make it linear, with ln y as the response)."
     },
     {
       "id": "q5",

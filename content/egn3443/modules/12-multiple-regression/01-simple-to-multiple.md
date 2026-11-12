@@ -14,14 +14,14 @@ reference: [multiple-regression]
 
 Module 11's simple linear regression explains a response y with one predictor x. That works when one thing drives the response. When two or more things drive it, and they happen to move together in the data, the one-predictor line gives a misleading answer.
 
-Here is a case. A lab cast 12 concrete cylinders and tested them after 7, 14 or 28 days of curing. The mixes had water–cement (W/C) ratios from 0.40 to 0.62. Everyone knows two facts about concrete: it gains strength as it cures, and extra water weakens it. Yet look at the two simple regressions on these data:
+Here is a case. A lab cast 12 concrete cylinders and tested them after 7, 14 or 28 days of curing. The mixes had water–cement (W/C) ratios from 0.40 to 0.62. Everyone knows two facts about concrete: it gains strength as it cures, and extra water weakens it. Yet look at the two simple regressions on these data (R², as in Module 11, is the share of the variation in strength the line explains; it is defined again below):
 
 | Model | Slope | p-value of the slope | R² |
 |---|---|---|---|
 | Strength on Curing days alone | 0.121 MPa per day | 0.299 | 0.107 |
 | Strength on W/C ratio alone | −10.4 MPa per unit of W/C | 0.509 | 0.045 |
 
-Neither slope is significant, and each line explains only a few percent of the variation. Read naively, curing time hardly matters.
+Neither slope is significant, and the lines explain only about 11 % and 5 % of the variation. Read naively, curing time hardly matters.
 
 The reason is in how the cylinders were made: the ones cured longest came from the wetter mixes. The correlation between Curing days and W/C ratio in this sample is 0.82. The simple regression on curing time compares long-cured wet cylinders with short-cured dry ones, so the strength gained from curing is cancelled by the strength lost to water. A predictor left out of the model does not go away: its effect is mixed into the slopes of the predictors that move with it.
 
@@ -56,13 +56,13 @@ The fitted equation is
 
 Strength = 62.767 + 0.5815·Curing days − 74.22·W/C ratio
 
-With both predictors in the model, curing time matters a lot: **0.582 MPa per day** with the W/C ratio held fixed (p = 0.0001), almost five times the simple slope. The W/C coefficient, −74.2 MPa per unit of W/C ratio, is −0.742 MPa for each 0.01 of extra water at a fixed curing time. Together the two predictors explain **R² = 0.832** of the variation in strength, against 0.107 and 0.045 for each alone, and the typical miss is σ̂ = 1.53 MPa.
+With both predictors in the model, curing time matters a lot: **0.582 MPa per day** with the W/C ratio held fixed (p = 0.0001), almost five times the simple slope. The W/C coefficient, −74.2 MPa per unit of W/C ratio, is −0.742 MPa for each 0.01 of extra water at a fixed curing time. Together the two predictors explain **R² = 0.832** of the variation in strength, against 0.107 and 0.045 for each alone, and the typical miss is σ̂ = 1.53 MPa (σ̂, the residual standard error, is √(SS_E/(n − k − 1)); item 12.2).
 
 To predict, put values into the equation. A cylinder with W/C = 0.50 cured for 21 days:
 
 ŷ = 62.767 + 0.5815 × 21 − 74.22 × 0.50 = 62.767 + 12.212 − 37.111 = **37.87 MPa**
 
-The same mix cured 28 days instead of 7 is predicted 0.5815 × 21 = **12.21 MPa** stronger. That is what "holding the others fixed" means, and item 12.3 is about it.
+A mix with W/C = 0.55 cured 28 days instead of 14 is predicted 0.5815 × 14 = **8.14 MPa** stronger; the data have cylinders of that mix at both ages. That is what "holding the others fixed" means, and item 12.3 is about it. (No mix was tested at both 7 and 28 days, so a 7-against-28-day comparison at one W/C ratio would reach outside the data: item 12.3 says why that matters.)
 
 [[figure: st.m12.simple-to-multiple.eg 1]]
 

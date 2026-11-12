@@ -2,7 +2,7 @@
   "id": "st.m12.coefficients.ex",
   "title": "Weld strength, current and travel speed",
   "analysis": "MultipleRegression",
-  "intro": "Fourteen test welds were made with welding currents from 150 to 250 A and travel speeds from 2.4 to 5.9 mm/s, and each was pulled to failure (strength in kN). The welders tended to travel faster when they used more current. Fit Strength = b₀ + b₁·Current + b₂·Travel speed by least squares, and read the line of the coefficient table for **Travel speed**.\n\nFind the coefficient of Travel speed, its standard error and its t statistic. Give each to three decimals.\n\nTo use the Workbench: press **Copy the data**, press Ctrl+B, click **+ Data table** and paste (Ctrl+V). Choose **Multiple regression**, set **Data table** to the table you pasted, **Response column (y)** to *Strength*, **Predictor columns** to *Current, Travel speed*, **Variable selection** to *All the predictors listed*, and type *Travel speed* in **Coefficient to read** (or read the Travel speed line of **Coefficients**). Ctrl+L brings you back.",
+  "intro": "Fourteen test welds were made with welding currents from 150 to 250 A and travel speeds from 2.4 to 5.9 mm/s, and each was pulled to failure (strength in kN). The welders tended to travel faster when they used more current. Fit Strength = b₀ + b₁·Current + b₂·Travel speed by least squares, and read the line of the coefficient table for **Travel speed**.\n\nFind the coefficient of Travel speed, its standard error and its t statistic. Give the coefficient and its standard error to three decimals, and t to two.\n\nTo use the Workbench: press **Copy the data**, press Ctrl+B, click **+ Data table** and paste (Ctrl+V). Choose **Multiple regression**, set **Data table** to the table you pasted, **Response column (y)** to *Strength*, **Predictor columns** to *Current, Travel speed*, **Variable selection** to *All the predictors listed*, and type *Travel speed* in **Coefficient to read**; then read **Chosen coefficient (b)**, **Standard error of b** and **t statistic of b** (the same numbers as the Travel speed line of **Coefficients**). Ctrl+L brings you back.",
   "tables": [
     {
       "name": "Welds",
@@ -32,7 +32,7 @@
   "mistakes": {
     "ChosenEstimate": [
       { "value": 0.7413, "says": "That is the slope of Strength on Travel speed alone. The faster welds were also made with more current, which raises strength, so the simple slope mixes the two effects. Fit Current and Travel speed together." },
-      { "scale": -1, "says": "Check the sign. With Current held fixed, a faster weld is weaker, so the coefficient is negative." }
+      { "scale": -1, "says": "Check the sign: think about what a faster travel speed does to strength when the current is the same." }
     ],
     "ChosenT": [
       { "value": 1.2448, "says": "That is the t of the simple regression on Travel speed alone. Use the Travel speed line from the model with both predictors." },

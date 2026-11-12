@@ -29,7 +29,7 @@ Three counts describe a fitted model:
 
 The **error degrees of freedom** are **n − k − 1** = n − p: the observations left over after p coefficients have been estimated. They are the divisor in σ̂, the degrees of freedom of every coefficient's t-test, and the denominator degrees of freedom of the F-test (item 12.4). With k = 1 they are Module 11's n − 2.
 
-You need more observations than coefficients, n > k + 1, just to fit the model, and many more to estimate it well. A common rule of thumb asks for at least 10 to 15 observations per predictor.
+You need more observations than coefficients, n > k + 1, just to fit the model, and many more to estimate it well. A common rule of thumb asks for at least 10 to 15 observations per predictor. The examples in this module are smaller, to keep the tables short; with so few observations per predictor, treat their conclusions as tentative.
 
 ## The Example: electricity use of an office building
 

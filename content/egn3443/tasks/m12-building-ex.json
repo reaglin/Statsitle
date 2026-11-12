@@ -33,7 +33,7 @@
   "mistakes": {
     "DfRegression": [
       { "value": 4, "says": "That is all four candidates. Forward selection adds a predictor only while its p-value is below 0.05; read the Selection line to see where it stopped." },
-      { "value": 3, "says": "Check the third step: the best remaining predictor's p-value there is not below 0.05, so forward selection stops before adding it." }
+      { "value": 3, "says": "Read the Selection line again: forward selection adds a predictor only while its p-value is below 0.05. Count the predictors it actually added." }
     ],
     "AdjustedRSquared": [
       { "value": 0.8306, "says": "That is the adjusted R² of the model with all four predictors. Forward selection kept fewer; give the adjusted R² of its model." },

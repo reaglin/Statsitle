@@ -2,7 +2,7 @@
   "id": "st.m12.specification.eg",
   "title": "Daily electricity use of an office building",
   "analysis": "MultipleRegression",
-  "intro": "A facilities engineer recorded 15 weekdays in an office building: the daily electricity use (kWh), the mean outdoor temperature (°C), the number of people badged in (Occupancy) and the hours of sunshine. The model has k = 3 predictors and so p = 4 coefficients: Energy = β₀ + β₁·Outdoor temp + β₂·Occupancy + β₃·Sunshine + ε. With n = 15 days, the error degrees of freedom are n − k − 1 = 11.",
+  "intro": "A facilities engineer recorded 15 weekdays in an office building: the daily electricity use (kWh), the mean outdoor temperature (°C), the number of people badged in (Occupancy) and the hours of sunshine. The model has k = 3 predictors and so p = 4 coefficients: Energy = b₀ + b₁·Outdoor temp + b₂·Occupancy + b₃·Sunshine. With n = 15 days, the error degrees of freedom are n − k − 1 = 11.",
   "tables": [
     {
       "name": "Building",

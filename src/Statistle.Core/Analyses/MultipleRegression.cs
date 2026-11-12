@@ -292,8 +292,8 @@ public sealed class MultipleRegression : Analysis, IHasFigures, IUsesProject, IH
     }
 
     [StatistleProperty(Label = "Adjusted R²", Decimals = 4, Role = VariableRole.Output,
-        Help = "1 − (1 − R²)(n − 1)/(n − p): R² charged for each coefficient. It falls when a " +
-               "predictor adds less than chance would; the number to compare models by.")]
+        Help = "1 − (1 − R²)(n − 1)/(n − p): R² charged for each coefficient. It falls when an " +
+               "added predictor's |t| is below 1; the number to compare models by.")]
     public double AdjustedRSquared
     {
         get => _adjustedRSquared;

@@ -79,7 +79,7 @@
       "options": [
         "B's higher R² is expected for any added predictor; by adjusted R², A is the better model",
         "B is the better model, because its R² is higher than A's for the same 28 batches",
-        "A and B fit equally well, because R² and adjusted R² differ by less than 0.01 in each",
+        "A and B fit equally well, because both were fitted to the same 28 brick batches",
         "Neither can be compared, because R² can only be read for a model with one predictor"
       ],
       "correct": [0],
