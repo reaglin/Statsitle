@@ -1,0 +1,44 @@
+{
+  "id": "st.m11.evaluating.ex",
+  "title": "Compressor age and energy use",
+  "analysis": "SimpleRegression",
+  "intro": "A plant logged the average daily energy use (kWh/day) of fourteen identical air compressors of different ages (years). Take x = age and y = energy use.\n\nHow well does a straight line describe the data? Find R², the residual standard error σ̂ (in kWh/day) and the ANOVA F statistic. Give R² to two decimals or more, σ̂ and F to two decimals.\n\nTo use the Workbench: press **Copy the data**, press Ctrl+B, click **+ Data table** and paste (Ctrl+V). Choose **Simple linear regression** in the list on the left, set **x column** to *Age (years)* and **y column** to *Energy (kWh/day)*. Read **R²**, **Residual standard error (σ̂)** and **ANOVA F**. Ctrl+L brings you back.",
+  "tables": [
+    {
+      "name": "Compressors",
+      "columns": {
+        "Age (years)": [1, 2, 2, 3, 4, 5, 5, 6, 7, 8, 9, 10, 11, 12],
+        "Energy (kWh/day)": [413, 425, 428, 428, 417, 448, 447, 440, 467, 472, 476, 490, 486, 467]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Compressor energy",
+    "XColumn": "@Compressors/Age (years)",
+    "YColumn": "@Compressors/Energy (kWh/day)",
+    "Confidence": 0.95
+  },
+  "ask": [
+    { "result": "RSquared", "prompt": "R²" },
+    { "result": "ResidualSe", "prompt": "Residual standard error, σ̂ (kWh/day)" },
+    { "result": "FStatistic", "prompt": "ANOVA F" }
+  ],
+  "mistakes": {
+    "RSquared": [
+      { "result": "Correlation", "says": "That is r. R² is r squared, or SS regression / SS total." },
+      { "result": "AdjustedRSquared", "says": "That is the adjusted R². The question asks the plain R² = SS regression / SS total." }
+    ],
+    "ResidualSe": [
+      { "value": 10.3342, "says": "That is the RMSE with n in the denominator, √(SS error / n). σ̂ divides by the error degrees of freedom, n − 2: σ̂ = √(SS error / (n − 2))." },
+      { "value": 124.5954, "says": "That is σ̂², the mean square error. Take its square root." }
+    ],
+    "FStatistic": [
+      { "result": "SlopeT", "says": "That is the t statistic of the slope. In simple regression F = t²." }
+    ]
+  },
+  "hints": [
+    "Fit the line first (b₁ = S_xy / S_xx, b₀ = ȳ − b₁x̄), then the residuals eᵢ = yᵢ − ŷᵢ.",
+    "SS total = Σ(y − ȳ)², SS error = Σeᵢ², SS regression = SS total − SS error. R² = SS regression / SS total.",
+    "σ̂ = √(SS error / (n − 2)). F = (SS regression / 1) / (SS error / (n − 2)) on 1 and n − 2 degrees of freedom."
+  ]
+}

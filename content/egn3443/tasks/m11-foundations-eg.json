@@ -1,0 +1,21 @@
+{
+  "id": "st.m11.foundations.eg",
+  "title": "Water–cement ratio and concrete strength",
+  "analysis": "SimpleRegression",
+  "intro": "A ready-mix supplier cast ten batches of concrete with water–cement ratios from 0.40 to 0.65 and tested a cylinder from each at 28 days. x is the water–cement ratio (kg of water per kg of cement) and y is the compressive strength (MPa). More water makes weaker concrete, so expect a falling pattern. Read the correlation r, R² and the fitted line.",
+  "tables": [
+    {
+      "name": "Concrete",
+      "columns": {
+        "W/C ratio": [0.40, 0.42, 0.45, 0.48, 0.50, 0.53, 0.55, 0.58, 0.60, 0.65],
+        "Strength (MPa)": [48.7, 48.7, 43.2, 41.4, 45.6, 38.8, 42.4, 38.8, 35.9, 30.3]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Concrete strength",
+    "XColumn": "@Concrete/W/C ratio",
+    "YColumn": "@Concrete/Strength (MPa)",
+    "Confidence": 0.95
+  }
+}

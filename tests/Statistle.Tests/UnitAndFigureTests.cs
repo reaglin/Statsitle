@@ -118,6 +118,18 @@ public class RegressionFigureTests
     }
 
     [Fact]
+    public void The_legend_keeps_clear_of_the_highest_points()
+    {
+        double[] x = [1, 2, 3, 4];
+
+        PlotSpec rising = RegressionFigures.Scatter("Fit", "x", "y", x, [1, 2, 3, 4], v => v);
+        PlotSpec falling = RegressionFigures.Scatter("Fit", "x", "y", x, [4, 3, 2, 1], v => 5 - v);
+
+        Assert.Equal(LegendCorner.UpperLeft, rising.Legend);
+        Assert.Equal(LegendCorner.UpperRight, falling.Legend);
+    }
+
+    [Fact]
     public void An_analysis_declares_its_own_figures_and_nothing_else_names_them()
     {
         var regression = new SimpleRegression();

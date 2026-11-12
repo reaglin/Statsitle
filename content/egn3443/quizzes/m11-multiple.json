@@ -1,0 +1,90 @@
+{
+  "id": "st.m11.multiple.quiz",
+  "title": "Simple or multiple?",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "choice",
+      "objective": "st.m11.o3",
+      "prompt": "A water utility wants to predict how often a water main breaks (breaks per km per year) from the pipe's age, its material and the soil's corrosivity, all known for every main. Which model fits the question?",
+      "options": [
+        "A simple regression of break rate on age, the most obvious cause",
+        "A multiple regression of break rate on age, material and soil",
+        "Three separate simple regressions, then the average of their slopes",
+        "A correlation r between break rate and age, with no regression"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "The break rate has several known causes, and the utility wants to predict from all of them together. That is a multiple regression with three predictors. Separate simple regressions would each mix in the effects of the others, and averaging their slopes has no meaning."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m11.o3",
+      "prompt": "A lab prints twenty test bars at infill densities from 20 % to 100 %, with everything else held the same, and measures their tensile strength. The question is how strength changes with infill density. Which model fits?",
+      "options": [
+        "A simple regression: one predictor, infill density, set by design",
+        "A multiple regression: infill density and the bar number as predictors",
+        "A multiple regression: infill density and its square, always",
+        "No regression: twenty bars are too few for any model at all"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "One predictor answers the question, and the experiment held everything else fixed, so a simple regression of strength on infill density is the model. The bar number is only a label. If the scatter plot curved, a curve could be tried (Module 13), but not \"always\"."
+    },
+    {
+      "id": "q3",
+      "kind": "choice",
+      "objective": "st.m11.o3",
+      "prompt": "Two models for the same 40 observations. Model A: one predictor, R² = 0.710, adjusted R² = 0.702. Model B: model A plus a second predictor, R² = 0.712, adjusted R² = 0.696. Which is the better choice, and why?",
+      "options": [
+        "Model B, because its R² of 0.712 is the higher of the two R² values",
+        "Model B, because a model with more predictors is always more accurate",
+        "Model A, because adjusted R² fell when the second predictor was added",
+        "Model A, because a model's R² must be below 0.71 to avoid overfitting"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "Plain R² always rises when a predictor is added, so its tiny rise from 0.710 to 0.712 says nothing. Adjusted R² charges for each predictor, and it fell from 0.702 to 0.696: the second predictor does not earn its place. Keep the simpler model A."
+    },
+    {
+      "id": "q4",
+      "kind": "choice",
+      "objective": "st.m11.o3",
+      "prompt": "A multiple regression of a building's daily electricity use (kWh) on outdoor temperature (°C) and occupancy (people) gives a temperature coefficient of 41.5. What does 41.5 mean?",
+      "options": [
+        "Each 1 °C warmer adds 41.5 kWh, for the same number of occupants",
+        "Each 1 °C warmer adds 41.5 kWh, whatever happens to the occupancy",
+        "Temperature explains 41.5 % of the variation in the electricity use",
+        "The use is 41.5 kWh when both the temperature and occupancy are 0"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "A coefficient in a multiple regression is the change in the predicted y for one unit more of its predictor with the other predictors held constant. Here: 41.5 kWh more per °C at the same occupancy. The share explained is R², not a coefficient, and the use at zero for both is the intercept."
+    },
+    {
+      "id": "q5",
+      "kind": "multiple",
+      "objective": "st.m11.o3",
+      "prompt": "The concrete supplier of item 11.1 recorded the curing temperature too, and added it to the water–cement ratio as a second predictor. R² went from 0.851 to 0.930, adjusted R² from 0.832 to 0.910, the residual standard error from 2.35 to 1.72 MPa, and the water–cement coefficient from −65.2 to −58.7. Which of these statements are true? Choose every one.",
+      "options": [
+        "The model explains more of the variation in strength",
+        "The water–cement coefficient means the same in both models",
+        "The typical miss of a prediction became smaller",
+        "Adjusted R² rose, so the new predictor earns its place"
+      ],
+      "correct": [
+        0,
+        2,
+        3
+      ],
+      "explanation": "R² rose (0.851 to 0.930), the typical miss σ̂ fell (2.35 to 1.72 MPa) and adjusted R² rose (0.832 to 0.910), so curing temperature earns its place. The water–cement coefficient changed meaning as well as value: alone, −65.2 carries part of the curing temperature's effect; in the multiple model, −58.7 is the effect of the ratio at a fixed curing temperature."
+    }
+  ]
+}

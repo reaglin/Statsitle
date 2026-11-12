@@ -1,0 +1,21 @@
+{
+  "id": "st.m11.evaluating.eg",
+  "title": "Pavement age and condition",
+  "analysis": "SimpleRegression",
+  "intro": "A county measured the Pavement Condition Index (PCI, 0 to 100, 100 = new) of twelve road sections resurfaced 1 to 12 years ago. x is the age (years), y the PCI. Read how well the line fits: R², the residual standard error σ̂, the ANOVA F, and the residual plots.",
+  "tables": [
+    {
+      "name": "Roads",
+      "columns": {
+        "Age (years)": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        "PCI": [93, 85, 88, 88, 79, 75, 73, 73, 69, 65, 60, 59]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Pavement condition",
+    "XColumn": "@Roads/Age (years)",
+    "YColumn": "@Roads/PCI",
+    "Confidence": 0.95
+  }
+}

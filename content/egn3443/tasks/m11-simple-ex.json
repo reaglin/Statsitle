@@ -1,0 +1,40 @@
+{
+  "id": "st.m11.simple.ex",
+  "title": "Weld current and penetration depth",
+  "analysis": "SimpleRegression",
+  "intro": "A welding engineer made ten test welds at currents from 120 to 210 A and sectioned each to measure the penetration depth (mm). Take x = current and y = depth.\n\nFind the least-squares intercept b₀ and slope b₁, and use the line to predict the depth at 175 A. b₀ can come out negative: 0 A is far outside the data, so it is only a fitting constant (item 11.2). Give b₀ and the predicted depth to two decimals, and b₁ to four decimals (it is small: about how many mm one more ampere adds).\n\nTo use the Workbench: press **Copy the data**, press Ctrl+B, click **+ Data table** and paste (Ctrl+V). Choose **Simple linear regression** in the list on the left, set **x column** to *Current (A)*, **y column** to *Depth (mm)* and **Predict at x₀, optional** to 175. Read **Intercept (b₀)**, **Slope (b₁)** and **Fitted y at x₀**. Ctrl+L brings you back.",
+  "tables": [
+    {
+      "name": "Welds",
+      "columns": {
+        "Current (A)": [120, 130, 140, 150, 160, 170, 180, 190, 200, 210],
+        "Depth (mm)": [2.73, 3.31, 3.59, 4.00, 4.21, 4.66, 5.19, 5.27, 5.45, 6.36]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Weld penetration",
+    "XColumn": "@Welds/Current (A)",
+    "YColumn": "@Welds/Depth (mm)",
+    "Confidence": 0.95,
+    "PredictAt": 175
+  },
+  "ask": [
+    { "result": "Intercept", "prompt": "Intercept, b₀ (mm)" },
+    { "result": "Slope", "prompt": "Slope, b₁ (mm per A)", "tolerance": 0.0002 },
+    { "result": "FittedAt", "prompt": "Predicted depth at 175 A (mm)" }
+  ],
+  "mistakes": {
+    "Slope": [
+      { "value": 26.9068, "says": "That is the slope of x on y (S_xy / S_yy): the current per mm of depth. Regress y on x: b₁ = S_xy / S_xx." }
+    ],
+    "Intercept": [
+      { "value": 10.484, "says": "Check the sign in b₀ = ȳ − b₁x̄: subtract b₁x̄ from ȳ, do not add it." }
+    ]
+  },
+  "hints": [
+    "x̄ = 165 A. Work out ȳ, then S_xx = Σ(x − x̄)² and S_xy = Σ(x − x̄)(y − ȳ).",
+    "b₁ = S_xy / S_xx, then b₀ = ȳ − b₁x̄. The line goes through the point (x̄, ȳ).",
+    "The prediction is ŷ = b₀ + b₁ × 175. Keep b₁ to at least four decimals until the end: it is multiplied by 175."
+  ]
+}

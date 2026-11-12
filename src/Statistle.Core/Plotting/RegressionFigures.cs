@@ -9,6 +9,7 @@ public static class RegressionFigures
     public static PlotSpec Scatter(string title, string xLabel, string yLabel, IReadOnlyList<double> x, IReadOnlyList<double> y, Func<double, double>? fitted)
     {
         List<PlotSeries> series = [new MarkerSeries("Observations", AxisSide.Left, x, y) { ColorHint = "#3B6EA5" }];
+        LegendCorner legend = LegendCorner.UpperRight;
 
         if (fitted is not null && x.Count > 1)
         {
@@ -28,6 +29,12 @@ public static class RegressionFigures
             }
 
             series.Add(new LineSeries("Fitted", AxisSide.Left, cx, cy) { ColorHint = "#C0392B", Width = 2 });
+
+            // A rising fit puts the highest points at the upper right, where the legend would hide them.
+            if (cy.Count > 1 && cy[^1] > cy[0])
+            {
+                legend = LegendCorner.UpperLeft;
+            }
         }
 
         return new PlotSpec
@@ -35,6 +42,7 @@ public static class RegressionFigures
             Title = title,
             Axes = [new AxisSpec(AxisSide.Bottom, xLabel), new AxisSpec(AxisSide.Left, yLabel)],
             Series = series,
+            Legend = legend,
         };
     }
 

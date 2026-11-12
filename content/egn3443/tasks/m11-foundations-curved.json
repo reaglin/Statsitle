@@ -1,0 +1,21 @@
+{
+  "id": "st.m11.foundations.curved",
+  "title": "Pump flow rate and efficiency (a curve, not a line)",
+  "analysis": "SimpleRegression",
+  "intro": "The efficiency (%) of a centrifugal pump measured at flow rates from 10 to 110 L/s. It peaks near 60 L/s, its best efficiency point, and falls off on both sides: a strong relation, but not a straight line.",
+  "tables": [
+    {
+      "name": "Pump",
+      "columns": {
+        "Flow (L/s)": [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110],
+        "Efficiency (%)": [31.2, 47.2, 62.5, 70.9, 78.9, 79.6, 78.7, 73.0, 60.7, 48.6, 29.1]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Pump efficiency",
+    "XColumn": "@Pump/Flow (L/s)",
+    "YColumn": "@Pump/Efficiency (%)",
+    "Confidence": 0.95
+  }
+}

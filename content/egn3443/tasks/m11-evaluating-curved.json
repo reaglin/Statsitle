@@ -1,0 +1,21 @@
+{
+  "id": "st.m11.evaluating.curved",
+  "title": "Tool wear over cutting time (a curve fitted with a line)",
+  "analysis": "SimpleRegression",
+  "intro": "Flank wear (mm) of a carbide insert measured every 2 minutes of cutting. Wear speeds up as the edge degrades, so the points bend upward. A straight line still gets a high R², but the residuals show the curve it misses.",
+  "tables": [
+    {
+      "name": "Wear",
+      "columns": {
+        "Cutting time (min)": [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24],
+        "Flank wear (mm)": [0.074, 0.077, 0.087, 0.126, 0.137, 0.189, 0.223, 0.271, 0.309, 0.359, 0.456, 0.484]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Tool wear",
+    "XColumn": "@Wear/Cutting time (min)",
+    "YColumn": "@Wear/Flank wear (mm)",
+    "Confidence": 0.95
+  }
+}

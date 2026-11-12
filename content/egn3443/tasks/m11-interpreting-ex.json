@@ -1,0 +1,49 @@
+{
+  "id": "st.m11.interpreting.ex",
+  "title": "Truck payload and fuel consumption",
+  "analysis": "SimpleRegression",
+  "intro": "A fleet manager ran one truck on the same route with payloads from 4 to 26 tonnes and recorded the fuel consumption (L/100 km). Take x = payload and y = fuel.\n\nFind the 95 % confidence interval for the slope (how much each extra tonne adds), and the 95 % **prediction interval** for the fuel use of one trip with a 20-tonne payload. Give the slope's limits to three decimals and the prediction limits to two.\n\nTo use the Workbench: press **Copy the data**, press Ctrl+B, click **+ Data table** and paste (Ctrl+V). Choose **Simple linear regression** in the list on the left, set **x column** to *Payload (t)*, **y column** to *Fuel (L/100 km)*, **Confidence level** to 0.95 and **Predict at x₀, optional** to 20. Read **Slope confidence interval lower** and **upper**, and **New observation lower** and **upper**. Ctrl+L brings you back.",
+  "tables": [
+    {
+      "name": "Fleet",
+      "columns": {
+        "Payload (t)": [4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26],
+        "Fuel (L/100 km)": [25.5, 28.1, 28.8, 28.8, 30.4, 28.9, 30.6, 30.2, 32.8, 32.0, 33.5, 34.8]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Fuel and payload",
+    "XColumn": "@Fleet/Payload (t)",
+    "YColumn": "@Fleet/Fuel (L/100 km)",
+    "Confidence": 0.95,
+    "PredictAt": 20
+  },
+  "ask": [
+    { "result": "SlopeLower", "prompt": "Slope, 95 % CI lower limit (L/100 km per t)", "tolerance": 0.002 },
+    { "result": "SlopeUpper", "prompt": "Slope, 95 % CI upper limit (L/100 km per t)", "tolerance": 0.002 },
+    { "result": "NewLower", "prompt": "One trip at 20 t, 95 % prediction interval lower (L/100 km)" },
+    { "result": "NewUpper", "prompt": "One trip at 20 t, 95 % prediction interval upper (L/100 km)" }
+  ],
+  "mistakes": {
+    "SlopeLower": [
+      { "value": 0.2668, "says": "That uses z = 1.96. The slope's interval uses t with n − 2 = 10 degrees of freedom: b₁ ± t(0.025, 10) × se(b₁)." }
+    ],
+    "SlopeUpper": [
+      { "value": 0.4130, "says": "That uses z = 1.96. The slope's interval uses t with n − 2 = 10 degrees of freedom: b₁ ± t(0.025, 10) × se(b₁)." }
+    ],
+    "NewLower": [
+      { "value": 30.2098, "says": "That uses z = 1.96. The prediction interval uses t with n − 2 = 10 degrees of freedom: t(0.025, 10) = 2.228." },
+      { "result": "MeanLower", "says": "That is the confidence interval for the mean fuel use of all 20-tonne trips. One trip varies more: the prediction interval adds 1 under the square root, σ̂ √(1 + 1/n + (x₀ − x̄)²/S_xx)." }
+    ],
+    "NewUpper": [
+      { "value": 33.9222, "says": "That uses z = 1.96. The prediction interval uses t with n − 2 = 10 degrees of freedom: t(0.025, 10) = 2.228." },
+      { "result": "MeanUpper", "says": "That is the confidence interval for the mean fuel use of all 20-tonne trips. One trip varies more: the prediction interval adds 1 under the square root, σ̂ √(1 + 1/n + (x₀ − x̄)²/S_xx)." }
+    ]
+  },
+  "hints": [
+    "Fit the line and find σ̂ = √(SS error / (n − 2)) and S_xx = Σ(x − x̄)². Then se(b₁) = σ̂ / √S_xx.",
+    "The slope's interval is b₁ ± t(0.025, 10) × se(b₁); t(0.025, 10) is the t value with 10 degrees of freedom and 2.5 % above it (Python stats.t.ppf(0.975, 10), R qt(0.975, 10)).",
+    "At x₀ = 20: ŷ₀ = b₀ + 20 b₁, and the prediction interval is ŷ₀ ± t(0.025, 10) × σ̂ √(1 + 1/n + (x₀ − x̄)²/S_xx)."
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "id": "st.m11.check.fan",
+  "title": "Fan speed and power draw",
+  "analysis": "SimpleRegression",
+  "intro": "The electrical power (W) drawn by a ventilation fan at ten speeds from 600 to 2400 rpm, with a straight line fitted.",
+  "tables": [
+    {
+      "name": "Fan",
+      "columns": {
+        "Speed (rpm)": [600, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2200, 2400],
+        "Power (W)": [12, 16, 41, 75, 118, 179, 267, 359, 480, 635]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Fan power",
+    "XColumn": "@Fan/Speed (rpm)",
+    "YColumn": "@Fan/Power (W)",
+    "Confidence": 0.95
+  }
+}

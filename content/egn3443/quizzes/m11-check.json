@@ -1,0 +1,165 @@
+{
+  "id": "st.m11.check.quiz",
+  "title": "Module 11 check: regression analysis",
+  "passThreshold": 0.8,
+  "practice": false,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "numeric",
+      "objective": "st.m11.o1",
+      "lookAgain": "st.m11.simple",
+      "prompt": "A heat exchanger was run at eight cooling-water flow rates x (L/min), and the outlet temperature y (°C) was recorded. The sums are x̄ = 12, ȳ = 40, S_xx = 56 and S_xy = −84. Find the least-squares intercept b₀. Give it to one decimal.",
+      "answer": 58.0,
+      "tolerance": 0.05,
+      "unit": "°C",
+      "explanation": "b₁ = S_xy / S_xx = −84 / 56 = −1.5 °C per L/min. b₀ = ȳ − b₁x̄ = 40 − (−1.5)(12) = 40 + 18 = 58.0 °C. The line is ŷ = 58.0 − 1.5x. With a negative slope, −b₁x̄ is added."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m11.o1",
+      "lookAgain": "st.m11.simple",
+      "prompt": "A line ŷ = 4.2 + 0.85x was fitted to the deflection y (mm) of beams under loads x from 10 to 40 kN. A designer asks for the deflection at 25 kN and at 90 kN. What should you give?",
+      "options": [
+        "Both: 25.45 mm and 80.70 mm, since the line holds for any load",
+        "25.45 mm at 25 kN; 90 kN is outside the data, so no prediction",
+        "Neither, because a regression line cannot be used to predict",
+        "80.7 mm at 90 kN only, since 25 kN is too close to the mean"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "At 25 kN, inside the tested 10–40 kN, ŷ = 4.2 + 0.85 × 25 = 25.45 mm. 90 kN is more than twice the largest load tested. Nothing in the data says the beams stay linear (they may yield), so the line should not be extrapolated there."
+    },
+    {
+      "id": "q3",
+      "kind": "numeric",
+      "objective": "st.m11.o2",
+      "lookAgain": "st.m11.evaluating",
+      "prompt": "A simple regression on n = 20 observations has SS regression = 420 and SS error = 180. Calculate the ANOVA F statistic. Give it to one decimal.",
+      "answer": 42.0,
+      "tolerance": 0.05,
+      "explanation": "MS_R = SS regression / 1 = 420. MS_E = SS error / (n − 2) = 180 / 18 = 10. F = MS_R / MS_E = 420 / 10 = 42.0 on 1 and 18 degrees of freedom: a very small p-value. Also R² = 420 / 600 = 0.70 and σ̂ = √10 = 3.16."
+    },
+    {
+      "id": "q4",
+      "kind": "choice",
+      "objective": "st.m11.o2",
+      "lookAgain": "st.m11.interpreting",
+      "prompt": "A regression of a pump's vibration (mm/s) on its running hours (thousands) gives: slope 0.42, standard error 0.12, p = 0.003, 95 % CI 0.16 to 0.68, R² = 0.52, n = 14. Which reading is right?",
+      "options": [
+        "Running hours explain 42 % of its variation, and the relation is weak",
+        "Vibration rises 0.16 to 0.68 mm/s per 1,000 h; hours explain 52 % of its variation",
+        "The chance that vibration does not depend on hours is 0.003, or 0.3 %",
+        "Each 1,000 h adds exactly 0.42 mm/s to every pump's vibration level"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "The slope's interval gives the plausible size of the effect, 0.16 to 0.68 mm/s per 1,000 h, and R² = 0.52 is the share of the variation explained. 0.42 is the slope, not R². A p-value is not the probability that H₀ is true. And 0.42 is an estimate of the average rise, not an exact rise for every pump."
+    },
+    {
+      "id": "q5",
+      "kind": "choice",
+      "objective": "st.m11.o2",
+      "lookAgain": "st.m11.interpreting",
+      "prompt": "From a regression of a bolt's clamp force on its tightening torque, an engineer wants a range that one particular bolt tightened to 60 N·m will fall in, 95 % of the time. Which interval?",
+      "options": [
+        "The confidence interval on the slope, b₁ ± t × se(b₁)",
+        "The confidence interval on the mean response at 60 N·m",
+        "The prediction interval on a new observation at 60 N·m",
+        "The interval ŷ ± 1.96 σ̂ with z, ignoring the uncertainty in the line"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "One particular bolt needs the prediction interval, ŷ₀ ± t(0.025, n − 2) σ̂ √(1 + 1/n + (x₀ − x̄)²/S_xx). The confidence interval on the mean response is for the average of all bolts at 60 N·m and is too narrow for one bolt. z with σ̂ alone ignores that b₀ and b₁ are estimates."
+    },
+    {
+      "id": "q6",
+      "kind": "choice",
+      "objective": "st.m11.o3",
+      "lookAgain": "st.m11.multiple",
+      "prompt": "A traffic engineer asks: \"How much does the crash rate at a signalized intersection change with its traffic volume, at the same speed limit and number of lanes?\" Which model answers this?",
+      "options": [
+        "A simple regression of crash rate on traffic volume alone",
+        "A multiple regression of crash rate on volume, speed limit and lanes",
+        "A simple regression of traffic volume on the crash rate instead",
+        "A correlation r between the crash rate and the posted speed limit only"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "\"At the same speed limit and number of lanes\" asks for the effect of volume with the other two held constant. That is a multiple-regression coefficient, from a model with all three predictors. A simple regression on volume alone would mix in the effects of speed and lanes if they go together with volume."
+    },
+    {
+      "id": "q7",
+      "kind": "choice",
+      "objective": "st.m11.o4",
+      "lookAgain": "st.m11.evaluating",
+      "prompt": "A straight line was fitted to a fan's power draw (W) at speeds from 600 to 2400 rpm. R² = 0.905. Here are the residuals against the fitted values. What do they show?\n[[figure: st.m11.check.fan 2]]",
+      "options": [
+        "A U-shaped curve: the relation is not linear, though R² is high",
+        "A funnel: the spread grows, so the variance is not constant",
+        "A shapeless band around 0: all four assumptions look fine",
+        "One outlier far from the others, and otherwise a good fit"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "The residuals are large and positive at both ends and negative in the middle: a U. The line misses a curve (fan power grows roughly with the cube of the speed). A high R² does not show that the form is right; a curve or a transformation is needed (Module 13)."
+    },
+    {
+      "id": "q8",
+      "kind": "choice",
+      "objective": "st.m11.o4",
+      "lookAgain": "st.m11.evaluating",
+      "prompt": "A line was fitted to fourteen delivery times (min) against distance (km). Here are the residuals against the fitted values. Which assumption is in doubt?\n[[figure: st.m11.check.delivery 2]]",
+      "options": [
+        "Linearity, since the residuals follow a curve",
+        "Equal variance, since the spread grows to the right",
+        "Normality, since the residuals are not all zero",
+        "None, since the residuals average out to zero"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "The residuals are small for short trips and fan out for long ones: the variance is not constant (heteroscedasticity, the opposite of homoscedasticity). There is no curve. The residuals of a least-squares line always average 0, and they are never all zero, so neither says anything about the assumptions. With a funnel, σ̂ is too big for short trips and too small for long ones, and the intervals are wrong at both ends."
+    },
+    {
+      "id": "q9",
+      "kind": "choice",
+      "objective": "st.m11.o4",
+      "lookAgain": "st.m11.evaluating",
+      "prompt": "A sensor's error was regressed on the room temperature, from 48 readings taken one every 10 minutes. Plotted in the order taken, the residuals run positive for about two hours, then negative for about two hours, then positive again. Which assumption does this put in doubt?",
+      "options": [
+        "Linearity of the mean of y in x",
+        "Independence of the errors",
+        "Normality of the errors",
+        "Equal variance of the errors"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "Long runs of the same sign in time order mean each error is like the one before it: the errors are not independent (autocorrelation, perhaps from a slow drift in the sensor). The standard errors and p-values are then too optimistic. Module 13 tests it with the Durbin–Watson statistic."
+    },
+    {
+      "id": "q10",
+      "kind": "choice",
+      "objective": "st.m11.o5",
+      "lookAgain": "st.m11.applying",
+      "prompt": "A city regressed the yearly repair cost of 40 of its pumps on their age (3 to 18 years, recorded from its records): slope $410 per year (95 % CI $300 to $520), R² = 0.61, p < 0.001. Which summary is best for the city council?",
+      "options": [
+        "Age is highly significant (p < 0.001), with a slope of 410 and R² = 0.61, so the regression model is a strong fit of repair cost on pump age.",
+        "Aging causes pump repairs: each year adds exactly $410 to every pump's cost, at any age, so replacing old pumps will save $410 a year.",
+        "Older pumps cost more to repair: about $410 more per year of age (likely $300 to $520). Age accounts for about 61 % of the differences, for ages 3 to 18.",
+        "Age explains 61 % of the repair cost of each pump, and a 30-year-old pump will cost about $12,300 more a year to repair than a new one."
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "The third gives the finding in plain words, its size with a plain range, how much age accounts for, and the range of ages the data cover. The first is jargon for a council. The second claims cause from recorded data, and an exact effect for every pump. The fourth misreads R² (a share of the differences between pumps, not of each pump's cost) and extrapolates 410 × 30 = $12,300 far beyond the 18 years in the data."
+    }
+  ]
+}

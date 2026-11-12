@@ -1,0 +1,24 @@
+{
+  "id": "st.m11.multiple.eg",
+  "title": "Stack loss of a nitric acid plant: two predictors",
+  "analysis": "MultipleRegression",
+  "intro": "Real operating data (Brownlee, 1965) from 21 days of a plant that oxidizes ammonia to nitric acid. The response is the stack loss: the ammonia that escapes unabsorbed (ten times the percentage lost). The predictors are the air flow to the plant (a coded rate of operation) and the temperature of the cooling water (°C). This fits stack loss on both at once; the simple regression on air flow alone is on the Learn tab, for comparison.",
+  "tables": [
+    {
+      "name": "Plant",
+      "columns": {
+        "Air flow": [80, 80, 75, 62, 62, 62, 62, 62, 58, 58, 58, 58, 58, 58, 50, 50, 50, 50, 50, 56, 70],
+        "Water temp": [27, 27, 25, 24, 22, 23, 24, 24, 23, 18, 18, 17, 18, 19, 18, 18, 19, 19, 20, 20, 20],
+        "Stack loss": [42, 37, 37, 28, 18, 18, 19, 20, 15, 14, 14, 13, 11, 12, 8, 7, 8, 8, 9, 15, 15]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Stack loss",
+    "Table": "1",
+    "Response": "Stack loss",
+    "Predictors": "Air flow, Water temp",
+    "Selection": "AllEntered",
+    "Confidence": 0.95
+  }
+}

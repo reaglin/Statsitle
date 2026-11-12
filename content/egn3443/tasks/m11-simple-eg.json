@@ -1,0 +1,22 @@
+{
+  "id": "st.m11.simple.eg",
+  "title": "Feed rate and surface roughness",
+  "analysis": "SimpleRegression",
+  "intro": "A machinist turned eight steel shafts at feed rates from 0.10 to 0.28 mm per revolution and measured the surface roughness Ra (µm) of each. x is the feed rate, y the roughness. The least-squares line predicts the roughness at a feed of 0.16 mm/rev, which is inside the range tested.",
+  "tables": [
+    {
+      "name": "Turning",
+      "columns": {
+        "Feed (mm/rev)": [0.10, 0.12, 0.15, 0.18, 0.20, 0.22, 0.25, 0.28],
+        "Ra (µm)": [1.26, 1.30, 1.36, 2.02, 2.19, 2.32, 2.67, 2.83]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Surface roughness",
+    "XColumn": "@Turning/Feed (mm/rev)",
+    "YColumn": "@Turning/Ra (µm)",
+    "Confidence": 0.95,
+    "PredictAt": 0.16
+  }
+}

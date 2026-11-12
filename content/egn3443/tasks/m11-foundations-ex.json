@@ -1,0 +1,39 @@
+{
+  "id": "st.m11.foundations.ex",
+  "title": "Outdoor temperature and a building's electricity use",
+  "analysis": "SimpleRegression",
+  "intro": "A facilities engineer logged the daily high temperature (°C) and the electricity a campus building used that day (MWh) on twelve summer weekdays. Air conditioning should make the use rise with the temperature. Take x = temperature and y = electricity.\n\nFind the correlation coefficient r and the coefficient of determination R². Give both to two decimals or more.\n\nTo use the Workbench: press **Copy the data**, press Ctrl+B, click **+ Data table** and paste (Ctrl+V). Choose **Simple linear regression** in the list on the left, and set **x column** to *High temperature (°C)* and **y column** to *Electricity (MWh)*. Read **Correlation (r)** and **R²**. Ctrl+L brings you back.",
+  "tables": [
+    {
+      "name": "Building",
+      "columns": {
+        "High temperature (°C)": [24, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
+        "Electricity (MWh)": [16.4, 18.0, 17.3, 19.1, 18.8, 20.5, 20.8, 22.5, 21.6, 22.0, 22.6, 23.8]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Building electricity",
+    "XColumn": "@Building/High temperature (°C)",
+    "YColumn": "@Building/Electricity (MWh)",
+    "Confidence": 0.95
+  },
+  "ask": [
+    { "result": "Correlation", "prompt": "Correlation coefficient, r" },
+    { "result": "RSquared", "prompt": "Coefficient of determination, R²" }
+  ],
+  "mistakes": {
+    "Correlation": [
+      { "result": "RSquared", "says": "That is R², the square of r. The correlation itself is the square root of R², with the sign of the slope." },
+      { "scale": -1, "says": "Check the sign. The electricity rises as the temperature rises, so r is positive." }
+    ],
+    "RSquared": [
+      { "result": "Correlation", "says": "That is r. R² is r squared: the share of the variation in y that the line explains." }
+    ]
+  },
+  "hints": [
+    "First the means x̄ and ȳ, then the three sums S_xx = Σ(x − x̄)², S_yy = Σ(y − ȳ)² and S_xy = Σ(x − x̄)(y − ȳ).",
+    "r = S_xy / √(S_xx · S_yy). It lies between −1 and 1, and its sign is the sign of S_xy.",
+    "R² = r² in simple regression. In Python, np.corrcoef(x, y)[0, 1]; in R, cor(x, y)."
+  ]
+}
