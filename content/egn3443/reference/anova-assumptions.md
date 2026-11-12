@@ -18,7 +18,7 @@ title: Checking the assumptions of ANOVA
 | Levene (Brown–Forsythe) | σ₁² = … = σₖ² | one-way ANOVA F on zᵢⱼ = \|yᵢⱼ − median of group i\|, with k − 1 and N − k df | robust to non-normality: the one to decide by |
 | Bartlett | σ₁² = … = σₖ² | χ² on k − 1 df | more powerful for normal data, but rejects for non-normality too |
 | Kruskal–Wallis | all k groups have the same distribution | H = 12/(N(N + 1)) Σ Rᵢ²/nᵢ − 3(N + 1), χ² on k − 1 df (ties corrected) | the rank-based alternative to one-way ANOVA |
-| Welch's ANOVA | μ₁ = … = μₖ, variances not assumed equal | F with k − 1 and an adjusted denominator df | the remedy for unequal variances |
+| Welch's ANOVA | μ₁ = … = μₖ, variances not assumed equal | wᵢ = nᵢ/sᵢ²; F* on k − 1 and an adjusted denominator df, (k² − 1)/(3Λ) with Λ = Σ(1 − wᵢ/Σwᵢ)²/(nᵢ − 1) | the remedy for unequal variances |
 
 ## Python and R
 
@@ -32,10 +32,11 @@ title: Checking the assumptions of ANOVA
 
 ## In the Workbench
 
-**One-way ANOVA** reports Bartlett, Levene, Shapiro–Wilk of the residuals and Kruskal–Wallis with the ANOVA table, and draws the box plots and the residuals' Q–Q plot. It does not calculate Welch's ANOVA.
+**One-way ANOVA** reports Bartlett, Levene, Shapiro–Wilk of the residuals, Kruskal–Wallis and Welch's ANOVA (Welch F, Welch denominator df, Welch p-value) with the ANOVA table, and draws the box plots and the residuals' Q–Q plot.
 
 ## Sources
 
 - Montgomery and Runger, *Applied Statistics and Probability for Engineers*, 7th ed., Section 13.2 (residual analysis).
 - NIST/SEMATECH *e-Handbook of Statistical Methods*, Sections 1.3.5.7 (Bartlett's test) and 1.3.5.10 (Levene test): https://www.itl.nist.gov/div898/handbook/eda/section3/eda357.htm
+- Welch, B. L. (1951), On the comparison of several mean values: an alternative approach, *Biometrika* 38, 330–336.
 - Kruskal, W. H. and Wallis, W. A. (1952), Use of ranks in one-criterion variance analysis, *Journal of the American Statistical Association* 47, 583–621.

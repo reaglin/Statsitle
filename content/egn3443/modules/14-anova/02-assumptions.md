@@ -37,7 +37,7 @@ Here yᵢⱼ is observation j in group i and ȳᵢ is the mean of group i. Pooli
 
 ## Remedies
 
-- **Welch's ANOVA** keeps each group's own variance, just as Welch's t-test does for two groups. R: `oneway.test(y ~ group)`; Python: `anova_oneway([a, b, c], use_var="unequal")` from statsmodels. The Workbench does not calculate it, so use the code below when Levene's test rejects.
+- **Welch's ANOVA** keeps each group's own variance, just as Welch's t-test does for two groups. Each group is weighted by wᵢ = nᵢ/sᵢ², so a noisy group counts less. Its F is compared with an F distribution on k − 1 and an adjusted denominator df, which is not a whole number and is smaller than N − k when the variances differ. The Workbench gives **Welch F**, **Welch denominator df** and **Welch p-value** at the bottom of One-way ANOVA's results. R: `oneway.test(y ~ group)`; Python: `anova_oneway([a, b, c], use_var="unequal")` from statsmodels. Read it when Levene's test rejects and the residuals look normal.
 - **Transform** the response. When the spread grows with the mean, the logarithm often makes the variances equal and the groups less skewed. Then analyze the transformed values.
 - **Kruskal–Wallis test**, the rank-based alternative to one-way ANOVA (the k-group form of Module 9's Mann–Whitney test). Rank all N values together (1 = smallest, ties share the average rank), let Rᵢ be the rank sum of group i, and
 
@@ -60,8 +60,9 @@ Read the checks at the bottom of the results:
 - **Levene** W = 19.77, p = 0.00001: strong evidence that the variances differ.
 - **Bartlett** gives 22.78, p = 0.00001, the same conclusion.
 - **Shapiro–Wilk of the residuals**, p = 0.242: no evidence against normality.
+- **Welch** F = 11.83 on 2 and 12.19 df, p = 0.0014.
 
-So the equal-variance assumption fails, and the F test above it cannot be trusted. Its F = 1.42 and p = 0.265 say "no difference", because the one pooled MS within (125.8) is dominated by supplier C and swamps the clear difference between A and B (means 411.4 and 420.8 MPa, each with a small spread). Welch's ANOVA, which keeps the variances apart, gives F = 11.83 on 2 and 12.19 df, p = 0.0014: the suppliers do differ. Kruskal–Wallis gives H = 5.55, p = 0.062. It compares ranks, and C's welds are spread from the lowest to the highest values, so the ranks blur the A–B difference.
+So the equal-variance assumption fails, and the F test above it cannot be trusted. Its F = 1.42 and p = 0.265 say "no difference", because the one pooled MS within (125.8) is dominated by supplier C and swamps the clear difference between A and B (means 411.4 and 420.8 MPa, each with a small spread). Welch's ANOVA keeps the variances apart. Its p = 0.0014 says the suppliers do differ, and with normal residuals it is the test to report here. Kruskal–Wallis gives H = 5.55, p = 0.062. It compares ranks, and C's welds are spread from the lowest to the highest values, so the ranks blur the A–B difference.
 
 [[figure: st.m14.assumptions.eg 3]]
 
@@ -96,7 +97,7 @@ oneway.test(y ~ g)                  # Welch's ANOVA
 
 ## In the Workbench
 
-**One-way ANOVA** reports Bartlett, Levene, Shapiro–Wilk of the residuals and Kruskal–Wallis under the ANOVA table, and draws the box plots and the Q–Q plot. Read them before the F.
+**One-way ANOVA** reports Bartlett, Levene, Shapiro–Wilk of the residuals, Kruskal–Wallis and Welch's ANOVA under the ANOVA table, and draws the box plots and the Q–Q plot. Read the checks before the F. If Levene rejects, read Welch's F and p in place of the ANOVA's.
 
 ## Common mistakes
 
@@ -107,4 +108,4 @@ oneway.test(y ~ g)                  # Welch's ANOVA
 
 ## What to do next
 
-On the **Exercise** tab, check the assumptions for the cycle times of three molding machines, and run the Kruskal–Wallis test.
+On the **Exercise** tab, check the assumptions for the cycle times of three molding machines, and run the Kruskal–Wallis test and Welch's ANOVA.

@@ -2,7 +2,7 @@
   "id": "st.m14.assumptions.eg",
   "title": "Weld strength from three suppliers",
   "analysis": "OneWayAnova",
-  "intro": "Eight test welds were made with filler wire from each of three suppliers, and their tensile strength measured (MPa). Before trusting the ANOVA, check its assumptions. The box plots and Levene's test show supplier C far more variable than A and B, so the equal-variance assumption fails, and the ANOVA's F and p-value cannot be taken at face value.",
+  "intro": "Eight test welds were made with filler wire from each of three suppliers, and their tensile strength measured (MPa). Before trusting the ANOVA, check its assumptions. The box plots and Levene's test show supplier C far more variable than A and B, so the equal-variance assumption fails, and the ANOVA's F and p-value cannot be taken at face value. Welch's ANOVA, at the bottom of the results, keeps each supplier's own variance and finds the difference the F test misses.",
   "tables": [
     {
       "name": "Welds",

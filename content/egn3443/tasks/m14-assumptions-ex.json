@@ -2,7 +2,7 @@
   "id": "st.m14.assumptions.ex",
   "title": "Cycle times on three molding machines",
   "analysis": "OneWayAnova",
-  "intro": "The cycle time (s) of ten parts was recorded on each of three injection-molding machines. Machine 3 sometimes stalls. Check the assumptions before comparing the machines, and run the rank-based test that does not need normality.\n\nFind Levene's W (median-centered) and its p-value, and the Kruskal–Wallis H and its p-value. Give W and H to two decimals and the p-values to three decimals or more.\n\nTo use the Workbench: press **Copy the data**, press Ctrl+B, click **+ Data table** and paste (Ctrl+V). Choose **One-way ANOVA** in the list on the left, set **Data table** to the table you pasted, **Layout** to *Each column is a group*, leave **Group columns** blank (every column) and set **Significance level (α)** to 0.05. Ctrl+L brings you back.",
+  "intro": "The cycle time (s) of ten parts was recorded on each of three injection-molding machines. Machine 3 sometimes stalls. Check the assumptions before comparing the machines, and run the rank-based test that does not need normality.\n\nFind Levene's W (median-centered) and its p-value, the Kruskal–Wallis H and its p-value, and Welch's F and its p-value. Give W, H and F to two decimals and the p-values to three decimals or more.\n\nTo use the Workbench: press **Copy the data**, press Ctrl+B, click **+ Data table** and paste (Ctrl+V). Choose **One-way ANOVA** in the list on the left, set **Data table** to the table you pasted, **Layout** to *Each column is a group*, leave **Group columns** blank (every column) and set **Significance level (α)** to 0.05. Ctrl+L brings you back.",
   "tables": [
     {
       "name": "Cycle",
@@ -23,7 +23,9 @@
     { "result": "Levene", "prompt": "Levene W (median-centered)" },
     { "result": "LeveneP", "prompt": "Levene p-value", "tolerance": 0.001 },
     { "result": "KruskalH", "prompt": "Kruskal–Wallis H" },
-    { "result": "KruskalP", "prompt": "Kruskal–Wallis p-value", "tolerance": 0.001 }
+    { "result": "KruskalP", "prompt": "Kruskal–Wallis p-value", "tolerance": 0.001 },
+    { "result": "WelchF", "prompt": "Welch F" },
+    { "result": "WelchP", "prompt": "Welch p-value", "tolerance": 0.001 }
   ],
   "mistakes": {
     "Levene": [
@@ -32,11 +34,18 @@
     ],
     "KruskalH": [
       { "result": "F", "says": "That is the ANOVA's F. Kruskal–Wallis ranks all 30 values together and compares the groups' mean ranks." }
+    ],
+    "WelchF": [
+      { "result": "F", "says": "That is the ANOVA's F, which pools the three variances into one MS within. Welch's F weights each group by nᵢ/sᵢ², so Machine 3's large spread does not swamp the other two. Read it under Kruskal–Wallis in the Workbench." }
+    ],
+    "WelchP": [
+      { "result": "P", "says": "That is the ANOVA's p-value, from the pooled F. Welch's p uses Welch's F and its own denominator df (about 16 here, not 27)." }
     ]
   },
   "hints": [
     "Levene: for each value, its distance from its own group's median. Then run a one-way ANOVA on those distances; W is its F.",
     "Levene's p is the area above W under the F curve with k − 1 = 2 and N − k = 27 df: Python stats.f.sf(W, 2, 27), R pf(W, 2, 27, lower.tail = FALSE).",
-    "Kruskal–Wallis: rank all 30 values (1 = smallest, ties share the average rank); H = 12/(N(N + 1)) × Σ Rᵢ²/nᵢ − 3(N + 1), with Rᵢ the rank sum of group i. Compare H with χ² on k − 1 = 2 df."
+    "Kruskal–Wallis: rank all 30 values (1 = smallest, ties share the average rank); H = 12/(N(N + 1)) × Σ Rᵢ²/nᵢ − 3(N + 1), with Rᵢ the rank sum of group i. Compare H with χ² on k − 1 = 2 df.",
+    "Welch's ANOVA: the Workbench gives Welch F, Welch denominator df and Welch p-value at the bottom of the results. R: oneway.test(y ~ g, var.equal = FALSE)."
   ]
 }

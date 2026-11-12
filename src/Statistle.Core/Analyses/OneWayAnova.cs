@@ -24,7 +24,7 @@ public enum GroupLayout
 
 /// <summary>
 /// EGN3443 Module 14: single-factor analysis of variance — the ANOVA table and F, effect size
-/// and power, Tukey's HSD on every pair, the assumption checks, and Kruskal–Wallis beside it.
+/// and power, Tukey's HSD on every pair, the assumption checks, and Kruskal–Wallis and Welch's ANOVA beside it.
 /// </summary>
 [StatistleHelp(
     "One-way ANOVA (Module 14): do k groups share one mean? The total variation of the " +
@@ -36,7 +36,8 @@ public enum GroupLayout
     "A significant F says only that some mean differs: Tukey's HSD then compares every pair " +
     "with one simultaneous confidence level. Bartlett and Levene check the equal-variance " +
     "assumption, Shapiro–Wilk on the residuals the normality; Kruskal–Wallis is the rank-based " +
-    "test to fall back on when they fail. The Code tab writes scipy's f_oneway and tukey_hsd, " +
+    "test to fall back on when they fail, and Welch's ANOVA the F test to read when only the " +
+    "variances differ. The Code tab writes scipy's f_oneway and tukey_hsd, " +
     "statsmodels' anova_lm and pairwise_tukeyhsd, and R's aov and TukeyHSD.")]
 public sealed class OneWayAnova : Analysis, IHasFigures, IUsesProject, IHasChoices, ILinksTo, IReportsProblem, ICodeSource
 {
@@ -78,6 +79,9 @@ public sealed class OneWayAnova : Analysis, IHasFigures, IUsesProject, IHasChoic
     private double _shapiroP = double.NaN;
     private double _kruskalH = double.NaN;
     private double _kruskalP = double.NaN;
+    private double _welchF = double.NaN;
+    private double _welchDf = double.NaN;
+    private double _welchP = double.NaN;
 
     public OneWayAnova()
     {
@@ -87,7 +91,7 @@ public sealed class OneWayAnova : Analysis, IHasFigures, IUsesProject, IHasChoic
 
     public override string Title => "One-way ANOVA";
 
-    public override string Summary => "k group means: ANOVA table, F, η², power, Tukey HSD, Bartlett, Levene, Kruskal–Wallis (Module 14)";
+    public override string Summary => "k group means: ANOVA table, F, η², power, Tukey HSD, Bartlett, Levene, Kruskal–Wallis, Welch (Module 14)";
 
     public override ToolKind Kind => ToolKind.FreeStanding;
 
@@ -439,6 +443,37 @@ public sealed class OneWayAnova : Analysis, IHasFigures, IUsesProject, IHasChoic
         set => SetProperty(ref _kruskalP, value);
     }
 
+    [StatistleProperty(Label = "Welch F", Decimals = 4, Role = VariableRole.Calculated,
+        Help = "Welch's ANOVA: the F test of equal means that keeps each group's own variance, as Welch's t-test " +
+               "does for two groups. Use it when Levene's p is small (below 0.05) or one group's variance is more " +
+               "than 2 to 3 times another's. Each group is weighted by nᵢ/sᵢ², so a noisy group counts less. " +
+               "It is blank when a group has fewer than two values or no spread. " +
+               "R: oneway.test(y ~ g, var.equal = FALSE). Python: statsmodels anova_oneway(groups, use_var=\"unequal\"), " +
+               "or the formula with numpy (see the Code tab).")]
+    public double WelchF
+    {
+        get => _welchF;
+        set => SetProperty(ref _welchF, value);
+    }
+
+    [StatistleProperty(Label = "Welch denominator df", Decimals = 2, Role = VariableRole.Calculated,
+        Help = "The denominator degrees of freedom of Welch's F, (k² − 1)/(3Λ). It is not a whole number, and it is " +
+               "smaller than N − k when the variances differ. The numerator df is k − 1, as in the ANOVA table.")]
+    public double WelchDf
+    {
+        get => _welchDf;
+        set => SetProperty(ref _welchDf, value);
+    }
+
+    [StatistleProperty(Label = "Welch p-value", Decimals = 4, Unit = ValueKind.Probability, Role = VariableRole.Calculated,
+        Help = "The area above Welch's F under the F curve with k − 1 and the Welch denominator df. Below α: at least " +
+               "one group mean differs. Read this p, not the ANOVA's, when the variances are unequal.")]
+    public double WelchP
+    {
+        get => _welchP;
+        set => SetProperty(ref _welchP, value);
+    }
+
     // ── Calculation ───────────────────────────────────────────────────────────
 
     public override void Recalculate()
@@ -452,7 +487,7 @@ public sealed class OneWayAnova : Analysis, IHasFigures, IUsesProject, IHasChoic
         GroupTable = Decision = TukeyTable = string.Empty;
         GrandMean = SsBetween = SsWithin = SsTotal = DfBetween = DfWithin = MsBetween = MsWithin = F = FCritical = P = double.NaN;
         EtaSquared = OmegaSquared = CohensF = Power = TukeyQ = TukeyMinP = double.NaN;
-        Bartlett = BartlettP = Levene = LeveneP = ShapiroW = ShapiroP = KruskalH = KruskalP = double.NaN;
+        Bartlett = BartlettP = Levene = LeveneP = ShapiroW = ShapiroP = KruskalH = KruskalP = WelchF = WelchDf = WelchP = double.NaN;
         Problem = Gather(out List<string> names, out List<IReadOnlyList<double>> groups);
 
         if (Problem is not null)
@@ -517,6 +552,10 @@ public sealed class OneWayAnova : Analysis, IHasFigures, IUsesProject, IHasChoic
         AssumptionCheck kruskal = Anova.KruskalWallis(groups);
         KruskalH = kruskal.Statistic;
         KruskalP = kruskal.PValue;
+        WelchResult welch = Anova.Welch(groups);
+        WelchF = welch.F;
+        WelchDf = welch.DfDenominator;
+        WelchP = welch.PValue;
     }
 
     private string? Gather(out List<string> names, out List<IReadOnlyList<double>> groups)
@@ -735,6 +774,17 @@ public sealed class OneWayAnova : Analysis, IHasFigures, IUsesProject, IHasChoic
         s.Print("Kruskal–Wallis H", "h", "h", 4);
         s.Print("Kruskal–Wallis p", "p_h", "p_h", 4);
         s.Line();
+        s.Comment("Welch's ANOVA: each group weighted by wᵢ = nᵢ/sᵢ², no equal-variance assumption (Welch 1951)");
+        s.Either("n_i = np.array([len(g) for g in groups]); m_i = np.array([g.mean() for g in groups]); v_i = np.array([g.var(ddof=1) for g in groups])",
+                 "wt <- oneway.test(y ~ g, var.equal = FALSE)");
+        s.Either("w_i = n_i / v_i; w_sum = w_i.sum(); m_w = (w_i * m_i).sum() / w_sum", "welch_f <- unname(wt$statistic); welch_df <- unname(wt$parameter[2]); welch_p <- wt$p.value");
+        s.Either("lam = ((1 - w_i / w_sum) ** 2 / (n_i - 1)).sum()", string.Empty);
+        s.Either("welch_f = (w_i * (m_i - m_w) ** 2).sum() / (k - 1) / (1 + 2 * (k - 2) * lam / (k ** 2 - 1))", string.Empty);
+        s.Either("welch_df = (k ** 2 - 1) / (3 * lam); welch_p = stats.f.sf(welch_f, k - 1, welch_df)", string.Empty);
+        s.Print("Welch F", "welch_f", "welch_f", 4);
+        s.Print("Welch denominator df", "welch_df", "welch_df", 2);
+        s.Print("Welch p-value", "welch_p", "welch_p", 4);
+        s.Line();
         s.Comment("The course's library calls, for comparison");
         s.Either("data = pd.DataFrame({'y': y, 'g': labels})", "print(summary(fit))");
         s.Either("print(anova_lm(ols('y ~ C(g)', data=data).fit(), typ=2))", "print(TukeyHSD(fit, conf.level = 1 - alpha))");
@@ -865,6 +915,25 @@ public sealed class KruskalWallisTest : CalculationMethod<OneWayAnova>
     public override IReadOnlyList<string> Inputs => [];
 
     public override IReadOnlyList<string> Outputs => [nameof(OneWayAnova.KruskalH), nameof(OneWayAnova.KruskalP)];
+
+    public override void Apply(OneWayAnova subject) => subject.Recalculate();
+}
+
+/// <summary>Welch's ANOVA, the F test of equal means without the equal-variance assumption.</summary>
+public sealed class WelchAnovaTest : CalculationMethod<OneWayAnova>
+{
+    public override string Name => "Welch's ANOVA";
+
+    public override string Description =>
+        "wᵢ = nᵢ/sᵢ², x̄_w = Σwᵢx̄ᵢ/Σwᵢ, A = Σwᵢ(x̄ᵢ − x̄_w)²/(k − 1), Λ = Σ(1 − wᵢ/Σwᵢ)²/(nᵢ − 1); " +
+        "F* = A/(1 + 2(k − 2)Λ/(k² − 1)) against F(k − 1, (k² − 1)/(3Λ)). As R's oneway.test(var.equal = FALSE).";
+
+    public override string Citation =>
+        "Welch, B. L., On the comparison of several mean values: an alternative approach, Biometrika 38, 1951, 330–336.";
+
+    public override IReadOnlyList<string> Inputs => [];
+
+    public override IReadOnlyList<string> Outputs => [nameof(OneWayAnova.WelchF), nameof(OneWayAnova.WelchDf), nameof(OneWayAnova.WelchP)];
 
     public override void Apply(OneWayAnova subject) => subject.Recalculate();
 }

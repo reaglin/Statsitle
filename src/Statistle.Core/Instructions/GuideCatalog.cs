@@ -635,7 +635,7 @@ public static class GuideCatalog
                 "treatments, machines. Use it in place of many two-sample tests, which would inflate the " +
                 "chance of a false finding; then use Tukey's HSD to say which pairs differ. It assumes roughly " +
                 "normal groups with roughly equal variances; the checks for both are on the form, with " +
-                "Kruskal–Wallis as the fallback when they fail.",
+                "Welch's ANOVA for unequal variances and Kruskal–Wallis for non-normal data as the fallbacks.",
             Steps:
             [
                 "Choose the data table. Choose the Layout: each column is a group (one column per alloy), or a factor column of level codes with a response column.",
@@ -643,7 +643,7 @@ public static class GuideCatalog
                 "Enter the significance level α, usually 0.05.",
                 "Read the group summaries, the ANOVA table (SS, df, MS), F with its critical value and p, the decision, η² and the power.",
                 "If F is significant, read Tukey's HSD: every pair with its difference, simultaneous interval and adjusted p; the starred pairs differ.",
-                "Read the checks — Bartlett and Levene for equal variances, Shapiro–Wilk on the residuals — and Kruskal–Wallis; open Plots for the groups as box plots, the means with intervals, and the residual Q–Q plot.",
+                "Read the checks — Bartlett and Levene for equal variances, Shapiro–Wilk on the residuals — then Kruskal–Wallis and Welch's ANOVA (F, denominator df, p); open Plots for the groups as box plots, the means with intervals, and the residual Q–Q plot.",
             ],
             ReadingResults:
                 "F compares the spread of the group means with the scatter inside the groups; a small p says " +
@@ -651,7 +651,8 @@ public static class GuideCatalog
                 "the power says how likely a real effect of the observed size was to be detected. Tukey's " +
                 "intervals hold the stated confidence for all the pairs together; a pair whose interval " +
                 "excludes zero differs honestly. Levene's p above 0.05 keeps the equal-variance assumption; " +
-                "if it fails, or the residuals are clearly non-normal, report Kruskal–Wallis instead.",
+                "if it is below 0.05 but the residuals look normal, read Welch's ANOVA, which keeps each group's " +
+                "own variance; if the residuals are clearly non-normal, report Kruskal–Wallis instead.",
             Pitfalls:
             [
                 "A significant F does not say which groups differ or in which direction; that is what Tukey is for.",
@@ -671,7 +672,9 @@ public static class GuideCatalog
             Code:
                 "scipy.stats f_oneway, tukey_hsd, studentized_range, bartlett, levene, shapiro, kruskal and ncf " +
                 "for the power, then statsmodels anova_lm and pairwise_tukeyhsd as the course does; R aov, " +
-                "anova, TukeyHSD, ptukey and qtukey, bartlett.test, kruskal.test and pf with ncp."),
+                "anova, TukeyHSD, ptukey and qtukey, bartlett.test, kruskal.test and pf with ncp. Welch's ANOVA is " +
+                "written out with numpy and stats.f.sf in Python (scipy has no Welch ANOVA) and is R's " +
+                "oneway.test(y ~ g, var.equal = FALSE)."),
 
         [typeof(TwoWayAnova)] = new(
             WhenToUse:

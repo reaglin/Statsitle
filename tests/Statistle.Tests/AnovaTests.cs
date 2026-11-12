@@ -99,6 +99,41 @@ public class AnovaTests
     }
 
     [Fact]
+    public void Welch_anova_matches_R_oneway_test()
+    {
+        // Module 14's weld example (item 14.2). R 4.4.3: oneway.test(y ~ g, var.equal = FALSE)
+        // F = 11.8251649884792, num df = 2, denom df = 12.1940805297769, p = 0.00139612537949536.
+        double[] a = [412, 405, 418, 409, 415, 411, 407, 414];
+        double[] b = [421, 416, 425, 419, 423, 418, 420, 424];
+        double[] c = [398, 431, 405, 440, 389, 426, 412, 435];
+        WelchResult welds = Anova.Welch([a, b, c]);
+        Assert.Equal(11.8251649884792, welds.F, 1e-10);
+        Assert.Equal(2, welds.DfNumerator);
+        Assert.Equal(12.1940805297769, welds.DfDenominator, 1e-10);
+        Assert.Equal(0.00139612537949536, welds.PValue, 1e-12);
+
+        // R's InsectSprays, six sprays of 12: oneway.test(count ~ spray, InsectSprays)
+        // F = 36.0654438935773, num df = 5, denom df = 30.0425605087674, p = 7.99937945567335e-12.
+        double[] counts =
+        [
+            10, 7, 20, 14, 14, 12, 10, 23, 17, 20, 14, 13, 11, 17, 21, 11, 16, 14, 17, 17, 19, 21, 7, 13,
+            0, 1, 7, 2, 3, 1, 2, 1, 3, 0, 1, 4, 3, 5, 12, 6, 4, 3, 5, 5, 5, 5, 2, 4, 3, 5, 3, 5, 3, 6,
+            1, 1, 3, 2, 6, 4, 11, 9, 15, 22, 15, 16, 13, 10, 26, 26, 24, 13,
+        ];
+        IReadOnlyList<double>[] sprays = [.. Enumerable.Range(0, 6).Select(i => (IReadOnlyList<double>)counts[(i * 12)..((i + 1) * 12)])];
+        WelchResult insects = Anova.Welch(sprays);
+        Assert.Equal(36.0654438935773, insects.F, 1e-9);
+        Assert.Equal(5, insects.DfNumerator);
+        Assert.Equal(30.0425605087674, insects.DfDenominator, 1e-9);
+        Assert.Equal(7.99937945567335e-12, insects.PValue, 1e-14);
+
+        // Blank, never an error, when a group has one value or no spread.
+        Assert.True(double.IsNaN(Anova.Welch([a, [400]]).F));
+        Assert.True(double.IsNaN(Anova.Welch([a, [400, 400, 400]]).PValue));
+        Assert.True(double.IsNaN(Anova.Welch([a]).F));
+    }
+
+    [Fact]
     public void The_two_way_engine_matches_a_hand_worked_balanced_case()
     {
         // Cells (A, B): (1,1) 10, 12; (1,2) 14, 16; (2,1) 20, 22; (2,2) 30, 32.
@@ -150,6 +185,10 @@ public class AnovaTests
         Assert.Contains("AA2024 − AA7075", analysis.TukeyTable, StringComparison.Ordinal);
         Assert.True(analysis.LeveneP > 0.05 && analysis.BartlettP > 0.05);
         Assert.True(analysis.KruskalP < 0.001);
+        // R: oneway.test on the alloys gives F = 46.9965979210163 on 2 and 17.7811241222349 df, p = 7.97862339648585e-08.
+        Assert.Equal(46.9965979210163, analysis.WelchF, 1e-9);
+        Assert.Equal(17.7811241222349, analysis.WelchDf, 1e-9);
+        Assert.Equal(7.97862339648585e-08, analysis.WelchP, 1e-13);
         Assert.Equal(3, analysis.Figures(null).Count);
         Assert.True(analysis.Power > 0.99);
         double ssBetween = analysis.SsBetween;
@@ -179,7 +218,7 @@ public class AnovaTests
         Assert.Contains(MethodScope.HiddenProperties(byFactor), p => p.XmlName == nameof(OneWayAnova.Groups));
         Assert.Contains(MethodScope.HiddenProperties(analysis), p => p.XmlName == nameof(OneWayAnova.FactorColumn));
 
-        Assert.Equal(6, MethodCatalog.For(typeof(OneWayAnova)).Count);
+        Assert.Equal(7, MethodCatalog.For(typeof(OneWayAnova)).Count);
         Assert.All(MethodCatalog.For(typeof(OneWayAnova)), m => Assert.Empty(MethodContract.Verify(m)));
         Assert.NotNull(new OneWayAnova().Problem);
     }

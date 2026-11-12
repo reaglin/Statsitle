@@ -26,6 +26,12 @@ public sealed record OneWayResult(
     double[] Fitted,
     double[] Residuals);
 
+/// <summary>Welch's one-way ANOVA: F*, its numerator and (adjusted) denominator df, and the p-value.</summary>
+public sealed record WelchResult(double F, double DfNumerator, double DfDenominator, double PValue)
+{
+    public static WelchResult None { get; } = new(double.NaN, double.NaN, double.NaN, double.NaN);
+}
+
 /// <summary>One pairwise comparison of Tukey's honestly significant difference.</summary>
 public sealed record TukeyPair(string A, string B, double Difference, double StandardError, double Q, double PValue, double Lower, double Upper, bool Significant);
 
@@ -154,6 +160,42 @@ public static class Anova
         }
 
         return (pairs, qCritical);
+    }
+
+    /// <summary>
+    /// Welch's ANOVA (Welch 1951), the one-way test of equal means that does not assume equal
+    /// variances: wᵢ = nᵢ/sᵢ², W = Σwᵢ, x̄_w = Σwᵢx̄ᵢ/W, A = Σwᵢ(x̄ᵢ − x̄_w)²/(k − 1),
+    /// Λ = Σ(1 − wᵢ/W)²/(nᵢ − 1), F* = A / (1 + 2(k − 2)Λ/(k² − 1)) against F(k − 1, (k² − 1)/(3Λ)).
+    /// As R's <c>oneway.test(y ~ g, var.equal = FALSE)</c>. NaN when a group has fewer than two
+    /// values or no spread.
+    /// </summary>
+    public static WelchResult Welch(IReadOnlyList<IReadOnlyList<double>> groups)
+    {
+        ArgumentNullException.ThrowIfNull(groups);
+        int k = groups.Count;
+
+        if (k < 2 || groups.Any(g => g.Count < 2))
+        {
+            return WelchResult.None;
+        }
+
+        double[] n = [.. groups.Select(g => (double)g.Count)];
+        double[] means = [.. groups.Select(g => g.Average())];
+        double[] variances = [.. groups.Select(g => SummaryStatistics.SampleVariance(g))];
+
+        if (variances.Any(v => !(v > 0)))
+        {
+            return WelchResult.None;
+        }
+
+        double[] w = [.. n.Select((ni, i) => ni / variances[i])];
+        double sumW = w.Sum();
+        double weightedMean = w.Select((wi, i) => wi * means[i]).Sum() / sumW;
+        double a = w.Select((wi, i) => wi * (means[i] - weightedMean) * (means[i] - weightedMean)).Sum() / (k - 1);
+        double lambda = w.Select((wi, i) => (1 - wi / sumW) * (1 - wi / sumW) / (n[i] - 1)).Sum();
+        double f = a / (1 + 2.0 * (k - 2) * lambda / (k * k - 1.0));
+        double df1 = k - 1, df2 = (k * k - 1.0) / (3 * lambda);
+        return new WelchResult(f, df1, df2, 1 - FisherSnedecor.CDF(df1, df2, f));
     }
 
     /// <summary>

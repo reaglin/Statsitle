@@ -42,7 +42,7 @@
         "Both assumptions fail, so the data cannot be compared by any test at all"
       ],
       "correct": [0],
-      "explanation": "Levene p = 0.004 < 0.05 is evidence that the variances differ, and one standard deviation (6.8) is about three times the others. Shapiro–Wilk p = 0.38 and a straight Q–Q plot give no reason to doubt normality. With unequal variances and unequal group sizes the F test's p-value is unreliable, so use Welch's ANOVA (R oneway.test), or a transformation such as the logarithm if the spread grows with the mean."
+      "explanation": "Levene p = 0.004 < 0.05 is evidence that the variances differ, and one standard deviation (6.8) is about three times the others. Shapiro–Wilk p = 0.38 and a straight Q–Q plot give no reason to doubt normality. With unequal variances and unequal group sizes the F test's p-value is unreliable, so use Welch's ANOVA (the Workbench's Welch F and Welch p-value, or R oneway.test), or a transformation such as the logarithm if the spread grows with the mean."
     },
     {
       "id": "q4",

@@ -152,7 +152,7 @@ T4. **13. Validating Regression** (6 items + check, the check shaped like the co
     size, and at the six-column tables in a narrow window.
 T5. **14. ANOVA** (6 items + check), ending with a paragraph over the whole course. 14.3 works the course reading's
     fertilizer data by hand (F = 21.6) — free to use, or is it graded? 14.2 teaches Welch's ANOVA for unequal variances,
-    which the Workbench does not calculate (the Python and R are given) — add it to One-way ANOVA? 14.1's simulation
+    which the Workbench now calculates (yes, Ron 2026-11-11; U6). 14.1's simulation
     runs independent tests (1 − (1 − α)ᵐ); the text also gives the lower rate of correlated pairwise tests.
 T6. Your course's own pages, from the writers' reading (now kept in `docs/COURSE-SITE-NOTES.md` for you to fix later):
     - **Module 10:** labelled Week 11/Module 10 in one place and Module 11 in another. It gives no formula for the
@@ -180,6 +180,11 @@ U4. **Simple linear regression**: with rising data the legend sits in the lower 
 U5. **One-way ANOVA** and **Two-way ANOVA** opened from a Course Example (Open in the Workbench) load their table. The
     box plots and the means plot name each group on its axis, and the interaction plot names each level of A (coded
     levels 1, 2, 3 had ticks 1.1, 1.2 …); each line is named once in its legend.
+U6. **One-way ANOVA** with unequal spreads: open Module 14 ▸ 14.2's Example (the welds) in the Workbench. Under
+    Kruskal–Wallis, expected: **Welch F** 11.8252, **Welch denominator df** 12.19 and **Welch p-value** 0.0014, as R's
+    `oneway.test(y ~ g, var.equal = FALSE)` gives (F = 11.825, num df = 2, denom df = 12.194, p = 0.001396). The
+    ANOVA's own F is 1.42 (p = 0.265). The Code tab prints the same three lines in Python and in R. Click each: the help panel
+    says when to read it (Levene's p small).
 
 ---
 
