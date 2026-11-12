@@ -1,0 +1,39 @@
+{
+  "id": "st.m13.assumptions.ex",
+  "title": "Delivery time against route length",
+  "analysis": "SimpleRegression",
+  "intro": "A courier timed 18 delivery routes of different lengths (km) through the same district; the table lists them from shortest to longest, the order they were driven in over one week. Delivery time (min) is fitted against route length with a straight line. Check two assumptions of the fit: **independence** with the Durbin–Watson statistic, and **normality of the residuals** with the Shapiro–Wilk test.\n\nFind the Durbin–Watson statistic, and Shapiro–Wilk's W and p-value **of the residuals**. Give Durbin–Watson and W to two decimals and p to three decimals or more. These are not hand calculations: use the Workbench, Python or R.\n\nTo use the Workbench: press **Copy the data**, press Ctrl+B, click **+ Data table** and paste (Ctrl+V). Choose **Simple linear regression**, set **x column** to *Length* and **y column** to *Time*, and leave **Transform x** and **Transform y** at *None*. The diagnostics are at the bottom of the results. Ctrl+L brings you back.",
+  "tables": [
+    {
+      "name": "Routes",
+      "columns": {
+        "Length": [5.0, 6.5, 8.0, 9.5, 11.0, 12.5, 14.0, 15.5, 17.0, 18.5, 20.0, 21.5, 23.0, 24.5, 26.0, 27.5, 29.0, 30.5],
+        "Time": [15.81, 17.2, 19.24, 18.79, 20.87, 23.46, 24.87, 23.45, 25.67, 26.75, 27.64, 32.06, 30.1, 31.11, 35.05, 34.01, 34.43, 35.64]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Delivery time",
+    "XColumn": "@Routes/Length",
+    "YColumn": "@Routes/Time",
+    "Confidence": 0.95
+  },
+  "ask": [
+    { "result": "DurbinWatson", "prompt": "Durbin–Watson statistic" },
+    { "result": "ShapiroW", "prompt": "Shapiro–Wilk W of the residuals" },
+    { "result": "ShapiroP", "prompt": "Shapiro–Wilk p-value of the residuals", "tolerance": 0.001 }
+  ],
+  "mistakes": {
+    "ShapiroW": [
+      { "value": 0.9451, "says": "That is Shapiro–Wilk of the delivery times themselves. The assumption is about the errors, so test the residuals, y − ŷ, of the fitted line." }
+    ],
+    "ShapiroP": [
+      { "value": 0.3536, "says": "That is the p-value for the delivery times themselves. The times are spread out by the trend with length, which is not an error; test the residuals, y − ŷ." }
+    ]
+  },
+  "hints": [
+    "Fit the line first (time against length), then work with its 18 residuals, eᵢ = yᵢ − ŷᵢ, in the order of the table.",
+    "Durbin–Watson = Σ(eᵢ − eᵢ₋₁)² / Σeᵢ², the first sum from i = 2. Python: durbin_watson(fit.resid) from statsmodels.stats.stattools; R: sum(diff(e)^2) / sum(e^2).",
+    "Shapiro–Wilk of the residuals: Python stats.shapiro(fit.resid); R shapiro.test(residuals(fit)). A small p is evidence against normality."
+  ]
+}

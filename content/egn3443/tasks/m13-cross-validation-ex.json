@@ -1,0 +1,48 @@
+{
+  "id": "st.m13.cross-validation.ex",
+  "title": "Surface roughness of turned parts",
+  "analysis": "MultipleRegression",
+  "intro": "Twenty-four steel shafts were turned at different feeds (mm per revolution) and cutting speeds (m/min), and the surface roughness Ra (µm) of each was measured. The model is Ra = b₀ + b₁·Feed + b₂·Speed. How well would it predict the roughness of new parts?\n\nFind the **in-sample RMSE**, the **leave-one-out cross-validated RMSE** (k = n = 24), and the **hold-out test RMSE** with a quarter of the rows held out and the program's seed 4. Give each to three decimals or more. The hold-out rows come from the program's own seeded shuffle, so use the Workbench for that one; the other two you can also get in Python or R.\n\nTo use the Workbench: press **Copy the data**, press Ctrl+B, click **+ Data table** and paste (Ctrl+V). Choose **Multiple regression** and set **Data table** to the table you pasted, **Response column (y)** to *Ra*, **Predictor columns** to *Feed, Speed*, **Variable selection** to *All the predictors listed*, **Cross-validation folds (k)** to 24, **Hold-out share** to 0.25 and **Hold-out seed** to 4. The three RMSEs are near the end of the results. Ctrl+L brings you back.",
+  "tables": [
+    {
+      "name": "Roughness",
+      "columns": {
+        "Feed": [0.118, 0.172, 0.07, 0.135, 0.068, 0.053, 0.121, 0.079, 0.128, 0.236, 0.059, 0.206, 0.084, 0.249, 0.234, 0.103, 0.262, 0.229, 0.069, 0.152, 0.225, 0.281, 0.093, 0.113],
+        "Speed": [270, 180, 120, 210, 120, 120, 180, 180, 210, 270, 270, 240, 270, 240, 270, 270, 240, 270, 270, 180, 240, 270, 120, 210],
+        "Ra": [1.05, 1.23, 0.59, 1.18, 0.82, 0.58, 0.92, 0.6, 0.8, 1.83, 0.47, 1.64, 0.68, 1.92, 1.82, 0.61, 2.19, 1.71, 0.38, 1.1, 1.65, 2.15, 0.94, 1.04]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Surface roughness",
+    "Table": "@Roughness/",
+    "Response": "Ra",
+    "Predictors": "Feed, Speed",
+    "Selection": "AllEntered",
+    "Confidence": 0.95,
+    "Folds": 24,
+    "HoldOutShare": 0.25,
+    "HoldOutSeed": 4
+  },
+  "ask": [
+    { "result": "InSampleRmse", "prompt": "In-sample RMSE (µm)", "tolerance": 0.001 },
+    { "result": "CvRmse", "prompt": "Leave-one-out cross-validated RMSE (µm)", "tolerance": 0.001 },
+    { "result": "HoldOutRmse", "prompt": "Hold-out test RMSE, seed 4 (µm)", "tolerance": 0.001, "wrong": "Check that Hold-out share is 0.25 and Hold-out seed is 4, and that both predictors are listed." }
+  ],
+  "mistakes": {
+    "InSampleRmse": [
+      { "result": "ResidualSe", "says": "That is the residual standard error σ̂, which divides SS error by n − p = 21. The in-sample RMSE divides by n = 24: √(SS error/n)." }
+    ],
+    "CvRmse": [
+      { "value": 0.1345, "says": "That is 5-fold cross-validation, the Workbench's default. Leave-one-out uses k = n: set Cross-validation folds (k) to 24." }
+    ],
+    "HoldOutRmse": [
+      { "result": "InSampleRmse", "says": "That matches the in-sample RMSE, on rows the model was fitted to (and, by chance, the hold-out RMSE for seed 1, the Workbench's default). The hold-out RMSE uses only the six test rows drawn by seed 4, with the model fitted to the other eighteen." }
+    ]
+  },
+  "hints": [
+    "In-sample RMSE = √(SS error/n): fit the model to all 24 rows and take the root of the mean squared residual.",
+    "Leave-one-out: leave out each row in turn, fit to the other 23, predict the one left out; RMSE = √(Σ(yᵢ − ŷ₍ᵢ₎)²/24). For least squares there is a shortcut: ŷ₍ᵢ₎'s error is eᵢ/(1 − hᵢᵢ), so in R sqrt(mean((residuals(fit) / (1 - hatvalues(fit)))^2)).",
+    "The hold-out RMSE depends on which rows are drawn. 0.25 × 24 = 6 rows; the Workbench lists them under Rows in the test set. Its Code tab writes the same calculation in Python and R with those rows."
+  ]
+}

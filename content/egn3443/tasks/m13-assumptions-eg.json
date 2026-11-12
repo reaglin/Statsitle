@@ -1,0 +1,21 @@
+{
+  "id": "st.m13.assumptions.eg",
+  "title": "Daily readings of a reference mass",
+  "analysis": "SimpleRegression",
+  "intro": "A load cell weighed the same 100 kg reference mass once a day for 20 days, to estimate how fast its reading drifts (creep). The line of reading against day fits well, but the residuals come in long runs: three days high, ten days low, then six of the last seven high. Durbin–Watson = 0.77 says the errors of successive days are related, so the independence assumption fails. The normal Q–Q plot and Shapiro–Wilk show no problem with normality.",
+  "tables": [
+    {
+      "name": "Creep",
+      "columns": {
+        "Day": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+        "Reading": [100.47, 100.8, 100.4, 99.9, 100.05, 100.44, 100.52, 100.21, 100.25, 100.88, 100.58, 101.08, 101.35, 101.59, 101.89, 101.77, 101.81, 102.43, 102.32, 102.23]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Load cell creep",
+    "XColumn": "@Creep/Day",
+    "YColumn": "@Creep/Reading",
+    "Confidence": 0.95
+  }
+}

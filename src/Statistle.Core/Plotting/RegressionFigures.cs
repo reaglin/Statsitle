@@ -9,16 +9,19 @@ public static class RegressionFigures
     public static PlotSpec Scatter(string title, string xLabel, string yLabel, IReadOnlyList<double> x, IReadOnlyList<double> y, Func<double, double>? fitted)
     {
         List<PlotSeries> series = [new MarkerSeries("Observations", AxisSide.Left, x, y) { ColorHint = "#3B6EA5" }];
-        LegendCorner legend = LegendCorner.UpperRight;
 
         if (fitted is not null && x.Count > 1)
         {
             double low = x.Min(), high = x.Max(), pad = (high - low) * 0.03;
+
+            // The curve runs a little past the data, but never across x = 0 from data on one side of it: a fit in
+            // ln x or 1/x shoots to infinity there and squashes the data flat (Module 13, cost against 1/x).
+            double from = low > 0 && low - pad <= 0 ? low : low - pad, to = high < 0 && high + pad >= 0 ? high : high + pad;
             List<double> cx = [], cy = [];
 
             for (int i = 0; i <= 120; i++)
             {
-                double v = low - pad + (high - low + 2 * pad) * i / 120;
+                double v = from + (to - from) * i / 120;
                 double f = fitted(v);
 
                 if (!double.IsNaN(f) && !double.IsInfinity(f))
@@ -29,12 +32,6 @@ public static class RegressionFigures
             }
 
             series.Add(new LineSeries("Fitted", AxisSide.Left, cx, cy) { ColorHint = "#C0392B", Width = 2 });
-
-            // A rising fit puts the highest points at the upper right, where the legend would hide them.
-            if (cy.Count > 1 && cy[^1] > cy[0])
-            {
-                legend = LegendCorner.UpperLeft;
-            }
         }
 
         return new PlotSpec
@@ -42,8 +39,34 @@ public static class RegressionFigures
             Title = title,
             Axes = [new AxisSpec(AxisSide.Bottom, xLabel), new AxisSpec(AxisSide.Left, yLabel)],
             Series = series,
-            Legend = legend,
+            Legend = Rises(x, y, fitted) ? LegendCorner.LowerRight : LegendCorner.UpperRight,
         };
+    }
+
+    /// <summary>
+    /// Whether the data rise from left to right (by the fitted curve's ends, or else the sign of the covariance):
+    /// then the upper right holds the last observations and the legend goes to the empty lower right
+    /// (Module 13: an influential point at the largest x was hidden under it).
+    /// </summary>
+    public static bool Rises(IReadOnlyList<double> x, IReadOnlyList<double> y, Func<double, double>? fitted)
+    {
+        if (x.Count < 2)
+        {
+            return false;
+        }
+
+        if (fitted is not null)
+        {
+            double atLow = fitted(x.Min()), atHigh = fitted(x.Max());
+
+            if (!double.IsNaN(atLow) && !double.IsNaN(atHigh))
+            {
+                return atHigh > atLow;
+            }
+        }
+
+        double mx = x.Average(), my = y.Average();
+        return x.Zip(y).Sum(p => (p.First - mx) * (p.Second - my)) > 0;
     }
 
     /// <summary>Residuals against fitted values with a zero line: a pattern means the model is missing something.</summary>

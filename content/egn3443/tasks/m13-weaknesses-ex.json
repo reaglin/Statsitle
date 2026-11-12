@@ -1,0 +1,45 @@
+{
+  "id": "st.m13.weaknesses.ex",
+  "title": "Diagnosing a tool-wear model",
+  "analysis": "MultipleRegression",
+  "intro": "Flank wear (mm) of 17 carbide inserts was measured after turning, with the cutting time (min), the number of parts machined and the feed (mm per revolution). Wear = b₀ + b₁·Time + b₂·Parts + b₃·Feed is fitted to all 17 rows. Diagnose it: find the **largest variance inflation factor**, the **largest leverage** and the **largest Cook's distance**. Give each to two decimals.\n\nTo use the Workbench: press **Copy the data**, press Ctrl+B, click **+ Data table** and paste (Ctrl+V). Choose **Multiple regression** and set **Data table** to the table you pasted, **Response column (y)** to *Wear*, **Predictor columns** to *Time, Parts, Feed* and **Variable selection** to *All the predictors listed*. Ctrl+L brings you back.",
+  "tables": [
+    {
+      "name": "Wear",
+      "columns": {
+        "Time": [58.1, 35.8, 31.1, 33.8, 47.2, 59.4, 28.1, 17.7, 25.6, 8.7, 40.4, 59.6, 16.4, 46.7, 16.6, 56.1, 32.0],
+        "Parts": [108, 68, 67, 69, 99, 115, 48, 28, 38, 22, 90, 129, 39, 96, 31, 107, 66],
+        "Feed": [0.13, 0.2, 0.23, 0.1, 0.23, 0.22, 0.1, 0.21, 0.1, 0.21, 0.22, 0.18, 0.17, 0.26, 0.14, 0.19, 0.48],
+        "Wear": [0.348, 0.267, 0.264, 0.22, 0.342, 0.379, 0.202, 0.179, 0.165, 0.133, 0.306, 0.384, 0.176, 0.325, 0.158, 0.377, 0.215]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Tool wear",
+    "Table": "@Wear/",
+    "Response": "Wear",
+    "Predictors": "Time, Parts, Feed",
+    "Selection": "AllEntered",
+    "Confidence": 0.95,
+    "Folds": 5,
+    "HoldOutShare": 0
+  },
+  "ask": [
+    { "result": "MaxVif", "prompt": "Largest variance inflation factor", "wrong": "Check that all three predictors are listed: Time, Parts, Feed." },
+    { "result": "MaxLeverage", "prompt": "Largest leverage, h", "wrong": "Check that all three predictors are listed: the leverages depend on every column of the model." },
+    { "result": "MaxCooksD", "prompt": "Largest Cook's distance", "wrong": "Check that all three predictors are listed and that all 17 rows are in the table." }
+  ],
+  "mistakes": {
+    "MaxLeverage": [
+      { "value": 0.4706, "says": "That is the threshold for high leverage, 2p/n = 2 × 4/17. The question asks for the largest leverage itself; compare it with this threshold afterwards." }
+    ],
+    "MaxCooksD": [
+      { "value": 0.2353, "says": "That is the cut-off 4/n = 4/17 that some use for Cook's distance. The question asks for the largest Cook's distance itself." }
+    ]
+  },
+  "hints": [
+    "VIF for a predictor = 1/(1 − R²) of that predictor regressed on the other two. Which two of these predictors would you expect to rise together?",
+    "Leverage is the diagonal of the hat matrix: Python fit.get_influence().hat_matrix_diag, R hatvalues(fit). Look for the row whose predictor values are unlike the others.",
+    "Cook's distance: Python fit.get_influence().cooks_distance[0], R cooks.distance(fit). The Workbench gives the largest, and which row it belongs to."
+  ]
+}

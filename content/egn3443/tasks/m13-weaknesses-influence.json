@@ -1,0 +1,21 @@
+{
+  "id": "st.m13.weaknesses.influence",
+  "title": "Strain against load, with one reading from a saturated amplifier",
+  "analysis": "SimpleRegression",
+  "intro": "A bracket was loaded from 2 to 10 kN and once at 25 kN, and the strain (µε) read from a gauge. At 25 kN the amplifier had reached the top of its range, so that reading is too low. The point sits far from the other x values (leverage 0.86) and pulls the line towards itself: its Cook's distance is 24.",
+  "tables": [
+    {
+      "name": "Bracket",
+      "columns": {
+        "Load": [2, 3, 4, 5, 6, 7, 8, 9, 10, 25],
+        "Strain": [41, 62, 79, 103, 118, 141, 160, 178, 203, 390]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Bracket strain",
+    "XColumn": "@Bracket/Load",
+    "YColumn": "@Bracket/Strain",
+    "Confidence": 0.95
+  }
+}

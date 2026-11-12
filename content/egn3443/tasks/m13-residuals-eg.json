@@ -1,0 +1,21 @@
+{
+  "id": "st.m13.residuals.eg",
+  "title": "Spring extension under load",
+  "analysis": "SimpleRegression",
+  "intro": "A spring was loaded with six weights (N) and its extension measured (mm). The least-squares line is ŷ = 0.1333 + 0.2000x. Each residual is the measured extension minus the line's value; their squares add up to SS error, and σ̂ = √(SS error/(n − 2)) is their typical size. The residuals alternate in sign with no curve or funnel, and none is large next to σ̂.",
+  "tables": [
+    {
+      "name": "Spring",
+      "columns": {
+        "Load": [10, 20, 30, 40, 50, 60],
+        "Extension": [2.1, 4.3, 5.9, 8.4, 9.8, 12.3]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Spring extension",
+    "XColumn": "@Spring/Load",
+    "YColumn": "@Spring/Extension",
+    "Confidence": 0.95
+  }
+}

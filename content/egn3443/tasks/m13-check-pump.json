@@ -1,0 +1,53 @@
+{
+  "id": "st.m13.check.pump",
+  "title": "Pump head against flow",
+  "analysis": "SimpleRegression",
+  "intro": "A centrifugal pump was run at 15 flow rates (L/s) and its head (m) measured. A straight line is fitted to head against flow.",
+  "tables": [
+    {
+      "name": "Pump",
+      "columns": {
+        "Flow": [
+          10,
+          15,
+          20,
+          25,
+          30,
+          35,
+          40,
+          45,
+          50,
+          55,
+          60,
+          65,
+          70,
+          75,
+          80
+        ],
+        "Head": [
+          51.1,
+          51.7,
+          51.8,
+          49.1,
+          48.7,
+          44.1,
+          44.3,
+          42.7,
+          40.4,
+          37.6,
+          35.6,
+          31.9,
+          27.7,
+          25.8,
+          21.3
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Pump head",
+    "XColumn": "@Pump/Flow",
+    "YColumn": "@Pump/Head",
+    "Confidence": 0.95
+  }
+}

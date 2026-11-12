@@ -1,0 +1,55 @@
+{
+  "id": "st.m13.check.crack",
+  "title": "Crack length against load cycles",
+  "analysis": "SimpleRegression",
+  "intro": "A fatigue specimen's crack length (mm) was measured every 5 000 load cycles (cycles in thousands). A straight line is fitted to length against cycles.",
+  "tables": [
+    {
+      "name": "Fatigue",
+      "columns": {
+        "Cycles": [
+          0,
+          5,
+          10,
+          15,
+          20,
+          25,
+          30,
+          35,
+          40,
+          45,
+          50,
+          55,
+          60,
+          65,
+          70,
+          75
+        ],
+        "Length": [
+          0.87,
+          1.02,
+          1.27,
+          1.45,
+          1.67,
+          2.13,
+          2.64,
+          2.92,
+          3.39,
+          4.33,
+          5.8,
+          6.79,
+          8.2,
+          11.53,
+          12.93,
+          15.34
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Crack length",
+    "XColumn": "@Fatigue/Cycles",
+    "YColumn": "@Fatigue/Length",
+    "Confidence": 0.95
+  }
+}

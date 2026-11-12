@@ -236,6 +236,26 @@ public class TaskRunnerTests
     }
 
     [Fact]
+    public void A_multiple_regression_task_points_at_its_table()
+    {
+        // "@Table/" names a whole table (Module 13); Multiple regression keeps only the table id from the reference.
+        // y = 1 + 2x₁ + 3x₂ give or take 0.2, so the fit is close to perfect.
+        var built = StatsTaskRunner.Build(StatsTask.Parse("""
+            {
+              "id": "test.mreg.table", "title": "Plane", "analysis": "MultipleRegression",
+              "tables": [ { "name": "Plane", "columns": { "x1": [1, 2, 3, 4, 5, 6], "x2": [2, 1, 4, 3, 6, 5], "y": [9.1, 7.9, 19.2, 17.8, 29.1, 27.9] } } ],
+              "settings": { "Table": "@Plane/", "Response": "y", "Predictors": "x1, x2", "Folds": 0, "HoldOutShare": 0 },
+              "ask": [ "RSquared", "Count" ]
+            }
+            """));
+        var regression = Assert.IsType<MultipleRegression>(built.Analysis);
+        Assert.Null(regression.Problem);
+        Assert.InRange(built.Expected[0].Value, 0.99, 1.0);
+        Assert.Equal(6, built.Expected[1].Value);
+        Assert.Equal(built.Project!.Tables[0].Id.ToString(System.Globalization.CultureInfo.InvariantCulture), regression.Table);
+    }
+
+    [Fact]
     public void Every_analysis_can_be_built_from_a_task_with_its_defaults()
     {
         // Each analysis opens on a worked example, so a task with no settings must build and calculate.

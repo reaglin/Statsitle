@@ -118,15 +118,28 @@ public class RegressionFigureTests
     }
 
     [Fact]
-    public void The_legend_keeps_clear_of_the_highest_points()
+    public void The_legend_keeps_clear_of_the_last_observations()
     {
-        double[] x = [1, 2, 3, 4];
+        // Rising data end in the upper right, so the legend goes to the lower right; falling data, the reverse.
+        double[] x = [1, 2, 3, 10], up = [2, 4, 5, 20], down = [20, 9, 7, 1];
 
-        PlotSpec rising = RegressionFigures.Scatter("Fit", "x", "y", x, [1, 2, 3, 4], v => v);
-        PlotSpec falling = RegressionFigures.Scatter("Fit", "x", "y", x, [4, 3, 2, 1], v => 5 - v);
+        Assert.Equal(LegendCorner.LowerRight, RegressionFigures.Scatter("Fit", "x", "y", x, up, v => 2 * v).Legend);
+        Assert.Equal(LegendCorner.UpperRight, RegressionFigures.Scatter("Fit", "x", "y", x, down, v => 20 - 2 * v).Legend);
+        Assert.Equal(LegendCorner.LowerRight, RegressionFigures.Scatter("Fit", "x", "y", x, up, fitted: null).Legend);
+        Assert.Equal(LegendCorner.UpperRight, RegressionFigures.Scatter("Fit", "x", "y", x, down, fitted: null).Legend);
+    }
 
-        Assert.Equal(LegendCorner.UpperLeft, rising.Legend);
-        Assert.Equal(LegendCorner.UpperRight, falling.Legend);
+    [Fact]
+    public void A_curve_in_one_over_x_does_not_cross_zero()
+    {
+        // Cost per part against 1/batch: the 3 % margin past the data would reach x < 0 and the curve 1/x would shoot off.
+        double[] x = [10, 20, 50, 100, 400], y = [43, 23.5, 11.8, 7.9, 5];
+        PlotSpec spec = RegressionFigures.Scatter("Fit", "x", "y", x, y, v => 4 + 390 / v);
+
+        var curve = Assert.IsType<LineSeries>(spec.Series[1]);
+        Assert.Equal(10, curve.X.Min(), 12);
+        Assert.True(curve.X.Max() > 400);
+        Assert.InRange(curve.Y.Max(), 42.9, 43.1);
     }
 
     [Fact]

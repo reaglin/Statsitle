@@ -1,0 +1,147 @@
+{
+  "id": "st.m13.check.quiz",
+  "title": "Module 13 check: validating regression",
+  "passThreshold": 0.8,
+  "practice": false,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "choice",
+      "objective": "st.m13.o1",
+      "lookAgain": "st.m13.foundations",
+      "prompt": "A centrifugal pump was run at 15 flow rates and a straight line fitted to its head against the flow: R² = 0.952, slope p < 0.0001. Here are the residuals against the fitted values. What do they say about the line?\n[[figure: st.m13.check.pump 2]]",
+      "options": [
+        "The residuals arch, so the head falls along a curve that the line cuts across",
+        "The residuals fan out, so the error spread grows with the head",
+        "The residuals form a random band, so the line is a valid model of the pump",
+        "The residuals are small next to the head, so the high R² settles the matter"
+      ],
+      "correct": [0],
+      "explanation": "The residuals are negative at both ends (−4.4 m at the lowest flow, −3.7 m at the highest) and positive through the middle: an arch. The pump's head falls faster and faster as the flow rises (a pump curve is close to a parabola), and the line misses that. The linearity assumption fails despite R² = 0.95; a quadratic term in the flow is the usual refinement."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m13.o1",
+      "lookAgain": "st.m13.assumptions",
+      "prompt": "The outlet temperature of a heat exchanger was logged every hour for 30 hours and fitted against the inlet flow. The residuals against the fitted values show no curve and no funnel, Shapiro–Wilk of the residuals gives p = 0.47, and with the rows in time order the Durbin–Watson statistic is 0.84. What should the engineer conclude?",
+      "options": [
+        "The residuals are not normal, so the slope's p-value cannot be trusted",
+        "Successive hourly errors are related, so the standard errors are too small",
+        "The variances are unequal, so the prediction intervals are too narrow",
+        "All the assumptions hold, since the residual plot shows no pattern at all"
+      ],
+      "correct": [1],
+      "explanation": "Durbin–Watson near 2 means independent errors; 0.84 on rows in time order is well below 2 (and below the table's lower bound for n = 30, about 1.35), so the errors of successive hours are positively autocorrelated. The independence assumption fails, and the standard errors, p-values and intervals are too optimistic. Shapiro–Wilk p = 0.47 gives no evidence against normality, and the plot against ŷ shows no funnel; neither of those checks looks at time order."
+    },
+    {
+      "id": "q3",
+      "kind": "numeric",
+      "objective": "st.m13.o2",
+      "lookAgain": "st.m13.residuals",
+      "prompt": "A line fitted to six points has the residuals 0.4, −0.7, 0.2, 0.9, −0.5 and −0.3. Calculate the residual standard error σ̂. Give it to two decimals.",
+      "answer": 0.68,
+      "tolerance": 0.005,
+      "explanation": "SS error = 0.16 + 0.49 + 0.04 + 0.81 + 0.25 + 0.09 = 1.84. A line estimates two coefficients, so σ̂ = √(1.84/(6 − 2)) = √0.46 = 0.678. (Dividing by n = 6 would give 0.554, and by n − 1 = 5, 0.607.) The residuals add up to 0, as they must for a least-squares line with an intercept."
+    },
+    {
+      "id": "q4",
+      "kind": "choice",
+      "objective": "st.m13.o2",
+      "lookAgain": "st.m13.residuals",
+      "prompt": "In a model of bearing temperature, one run has the residual e = −6.2 °C and the standardized residual r = −3.4. What does this say about that run?",
+      "options": [
+        "The model under-predicted it, but by a normal amount for the data's scatter",
+        "The model over-predicted it, but by a normal amount for the data's scatter",
+        "The model under-predicted it by far more than the scatter of the rest",
+        "The model over-predicted it by far more than the scatter of the rest"
+      ],
+      "correct": [3],
+      "explanation": "e = y − ŷ is negative, so the observed temperature is below the fitted value: the model over-predicted. A standardized residual of −3.4 is beyond ±3, far more than normal scatter: an outlier. Check that run's record first (a sensor fault, a different lubricant), then judge its influence with leverage and Cook's distance."
+    },
+    {
+      "id": "q5",
+      "kind": "choice",
+      "objective": "st.m13.o3",
+      "lookAgain": "st.m13.cross-validation",
+      "prompt": "Only 12 full-scale beam tests could be afforded. The engineer wants an estimate of the model's prediction error that uses every test for both fitting and testing and gives the same number every time it is run. Which method?",
+      "options": [
+        "The holdout method, with 3 of the 12 tests held out at random",
+        "Leave-one-out cross-validation, fitting 12 times to 11 tests",
+        "The in-sample RMSE, from the model fitted to all 12 tests",
+        "The adjusted R², from the model fitted to all 12 tests"
+      ],
+      "correct": [1],
+      "explanation": "Leave-one-out tests every row once with a model fitted to all the others and involves no random draw, so it is repeatable; with 12 tests it costs 12 fits (one, with the PRESS shortcut for least squares). A holdout split would test on only 3 rows and change with the draw. The in-sample RMSE and adjusted R² use no unseen rows, so they do not measure prediction error on new tests."
+    },
+    {
+      "id": "q6",
+      "kind": "choice",
+      "objective": "st.m13.o3",
+      "lookAgain": "st.m13.cross-validation",
+      "prompt": "Two models of weld strength were fitted to the same 40 welds. Model A has 3 predictors: in-sample RMSE 21 MPa, 10-fold cross-validated RMSE 24 MPa. Model B has 9 predictors: in-sample RMSE 15 MPa, 10-fold cross-validated RMSE 33 MPa. Which model should be used to predict new welds?",
+      "options": [
+        "Model B, because its in-sample RMSE is the smaller of the two",
+        "Model B, because with more predictors it uses more of the information",
+        "Model A, because its error on welds it has not seen is smaller",
+        "Model A, because a model with fewer predictors always predicts better"
+      ],
+      "correct": [2],
+      "explanation": "The question is about new welds, so compare the cross-validated errors: 24 MPa for A against 33 MPa for B. B fits its own welds better (15 MPa) but its error more than doubles on unseen ones: it is overfitted, its extra terms following the noise in these 40 welds. Fewer predictors is not always better; here cross-validation shows it."
+    },
+    {
+      "id": "q7",
+      "kind": "choice",
+      "objective": "st.m13.o4",
+      "lookAgain": "st.m13.weaknesses",
+      "prompt": "A model of truck fuel use has three predictors: gross weight (VIF 14.2), number of axles loaded (VIF 13.8) and average speed (VIF 1.3). The overall F-test has p < 0.0001, but neither weight nor axles is significant on its own (p = 0.31 and 0.44). What is the diagnosis, and the refinement?",
+      "options": [
+        "Weight and axles overlap: keep one of them, or combine them, and refit",
+        "Weight and axles have no effect on fuel use: remove both of them and refit",
+        "The speed is the only real predictor: report the model with speed alone",
+        "The F-test is wrong when the t-tests disagree: report the model without tests"
+      ],
+      "correct": [0],
+      "explanation": "VIFs of 14.2 and 13.8 (above 5 to 10) mean weight and axles carry nearly the same information: their standard errors are inflated about √14 ≈ 3.7 times, so neither is significant alone although together they clearly matter (the F-test). Removing both would throw away a real effect. Keep the one that is cheaper to measure or easier to interpret, or combine them, refit, and check the VIFs and the cross-validated error again."
+    },
+    {
+      "id": "q8",
+      "kind": "numeric",
+      "objective": "st.m13.o4",
+      "lookAgain": "st.m13.weaknesses",
+      "prompt": "In a simple linear regression (p = 2 coefficients), one observation has the standardized residual r = 2.5 and the leverage h = 0.40. Calculate its Cook's distance, D = (r²/p) × h/(1 − h). Give it to two decimals.",
+      "answer": 2.08,
+      "tolerance": 0.01,
+      "explanation": "D = (2.5²/2) × 0.40/(1 − 0.40) = 3.125 × 0.6667 = 2.08. That is above 1: the observation is influential, a fairly large residual at high leverage, and the fit would change noticeably without it. Check its record before deciding anything."
+    },
+    {
+      "id": "q9",
+      "kind": "choice",
+      "objective": "st.m13.o5",
+      "lookAgain": "st.m13.refinement",
+      "prompt": "A fatigue specimen's crack length was measured every 5 000 load cycles, and a straight line fitted to length against cycles (R² = 0.85). The crack grows faster and faster. Here are the residuals. Which refinement fits the finding best?\n[[figure: st.m13.check.crack 2]]",
+      "options": [
+        "Remove the first and last points, whose residuals are the largest of all",
+        "Fit ln(length) against cycles, the form of growth at a constant rate",
+        "Fit length against 1/cycles, the form of a fall towards a floor",
+        "Keep the line and report R², since 0.85 is high for test data"
+      ],
+      "correct": [1],
+      "explanation": "The residuals form a U: positive at the start and end, negative in the middle. The line cuts across a curve that bends upward, and growth that accelerates in proportion to its size is exponential: ln(length) against cycles is a straight line. (For these data its R² on the ln scale is 0.995.) The end points are not errors; they are where the curve departs most from the line. A reciprocal suits a fall towards a floor, the opposite shape."
+    },
+    {
+      "id": "q10",
+      "kind": "match",
+      "objective": "st.m13.o5",
+      "lookAgain": "st.m13.refinement",
+      "prompt": "Settlement (mm) of a clay layer was measured at 14 times. Four candidate models were fitted, all to settlement itself, so their R² and s compare directly:\n\n| Model | R² | Adjusted R² | s (mm) | Term p-values | Residuals |\n|---|---|---|---|---|---|\n| Line in t | 0.912 | 0.905 | 9.3 | t < 0.0001 | arch |\n| Quadratic in t | 0.981 | 0.978 | 4.5 | t, t² < 0.0001 | random band |\n| ln t | 0.989 | 0.988 | 3.3 | ln t < 0.0001 | random band |\n| ln t and t | 0.9893 | 0.987 | 3.4 | ln t < 0.0001, t = 0.47 | random band |\n\nAs in *Fit for Purpose*, keep or eliminate each model with its reason.",
+      "pairs": [
+        { "left": "Line in t", "right": "Eliminate: residual pattern" },
+        { "left": "Quadratic in t", "right": "Eliminate: larger s" },
+        { "left": "ln t and t", "right": "Eliminate: non-significant term" },
+        { "left": "ln t", "right": "Keep: the final model" }
+      ],
+      "explanation": "The line's residuals arch, so its form is wrong. The quadratic's residuals are clean and both its terms significant, but its s (4.5 mm) is larger than the log model's (3.3 mm) on the same y. Adding t to ln t raises R² a little, as any term does, but t's p = 0.47 says it adds nothing, and adjusted R² falls from 0.988 to 0.987. The ln t model is clean, has one significant term and the smallest s: keep it, and cross-validate it before use."
+    }
+  ]
+}

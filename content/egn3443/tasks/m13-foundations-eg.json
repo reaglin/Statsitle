@@ -1,0 +1,21 @@
+{
+  "id": "st.m13.foundations.eg",
+  "title": "Braking distance against speed",
+  "analysis": "SimpleRegression",
+  "intro": "A test driver braked a car from 13 speeds (km/h) on dry asphalt and measured the distance from brake application to stop (m). A straight line fits with R² near 0.99, yet the residual plot shows that the line is the wrong shape: the residuals run positive, then negative, then positive again.",
+  "tables": [
+    {
+      "name": "Braking",
+      "columns": {
+        "Speed": [20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80],
+        "Distance": [5.9, 11.1, 13.0, 16.0, 17.1, 24.8, 26.6, 33.5, 37.9, 43.2, 48.1, 53.3, 61.0]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Braking distance",
+    "XColumn": "@Braking/Speed",
+    "YColumn": "@Braking/Distance",
+    "Confidence": 0.95
+  }
+}

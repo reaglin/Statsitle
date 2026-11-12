@@ -1,0 +1,24 @@
+{
+  "id": "st.m13.refinement.eg",
+  "title": "Concrete strength gain with ln(age)",
+  "analysis": "SimpleRegression",
+  "intro": "Compressive strength (MPa) of cylinders from one concrete mix, tested at ages from 1 to 90 days. Strength rises quickly at first and then more and more slowly, so a straight line in age fits badly (R² = 0.739, with an arch in its residuals). With **Transform x** set to the natural log, the model Strength = b₀ + b₁·ln(age) is linear in ln(age): R² = 0.989, σ̂ = 1.24 MPa, and the residuals show no pattern. The fitted curve is drawn back in days. Predicted strength at 60 days: 39.3 MPa.",
+  "tables": [
+    {
+      "name": "Concrete",
+      "columns": {
+        "Age": [1, 2, 3, 5, 7, 10, 14, 21, 28, 42, 56, 90],
+        "Strength": [7.3, 12.3, 15.0, 20.6, 21.9, 27.5, 25.6, 30.2, 34.7, 36.0, 38.3, 43.0]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Concrete strength",
+    "XColumn": "@Concrete/Age",
+    "YColumn": "@Concrete/Strength",
+    "XTransformation": "Log",
+    "YTransformation": "None",
+    "Confidence": 0.95,
+    "PredictAt": 60
+  }
+}

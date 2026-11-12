@@ -1,0 +1,63 @@
+{
+  "id": "st.m13.foundations.funnel",
+  "title": "Weld time against plate thickness",
+  "analysis": "SimpleRegression",
+  "intro": "Twenty welds on plates 2 to 21 mm thick: the time to complete each weld (s).",
+  "tables": [
+    {
+      "name": "Welds",
+      "columns": {
+        "Thickness": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ],
+        "Time": [
+          7.4,
+          7.8,
+          10.3,
+          12.8,
+          12.2,
+          12.3,
+          17.6,
+          17.9,
+          17.0,
+          24.1,
+          21.2,
+          20.1,
+          28.4,
+          28.5,
+          22.7,
+          31.0,
+          36.1,
+          29.2,
+          33.1,
+          40.1
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Weld time",
+    "XColumn": "@Welds/Thickness",
+    "YColumn": "@Welds/Time",
+    "Confidence": 0.95
+  }
+}

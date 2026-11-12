@@ -668,6 +668,7 @@ public sealed class MultipleRegression : Analysis, IHasFigures, IUsesProject, IH
         return null;
     }
 
+    /// <summary>The stored table id: a reference "id␟column" (as a task's "@Table/" writes) keeps only the table.</summary>
     private static string TableId(string? value)
     {
         (int id, _) = DataSources.Split(value);

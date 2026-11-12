@@ -1,0 +1,27 @@
+{
+  "id": "st.m13.weaknesses.eg",
+  "title": "Chiller power with two overlapping predictors",
+  "analysis": "MultipleRegression",
+  "intro": "The electric power of a building's chiller (kW) on 15 summer afternoons, with the cooling load (tons), the chilled-water flow (L/s) and the outdoor wet-bulb temperature (°C). The flow is set by the control system almost in proportion to the load, so the two predictors carry nearly the same information. The model explains 99 % of the variation, yet the flow's coefficient has p = 0.54, and the variance inflation factors of load and flow are both above 100: multicollinearity.",
+  "tables": [
+    {
+      "name": "Chiller",
+      "columns": {
+        "Load": [177, 435, 195, 372, 402, 374, 241, 255, 367, 440, 349, 312, 266, 272, 366],
+        "Flow": [16.8, 46.5, 18.9, 37.4, 43.3, 39.6, 24.7, 24.8, 38.8, 45.8, 36.9, 34.6, 27.9, 27.5, 38.6],
+        "WetBulb": [20.8, 25.5, 19.0, 26.4, 20.8, 21.3, 19.8, 22.2, 25.6, 20.0, 23.0, 22.0, 20.7, 19.2, 24.3],
+        "Power": [184.5, 353.6, 199.0, 321.8, 323.3, 314.9, 214.3, 240.9, 330.3, 342.7, 295.5, 275.5, 246.2, 236.4, 317.9]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Chiller power",
+    "Table": "@Chiller/",
+    "Response": "Power",
+    "Predictors": "Load, Flow, WetBulb",
+    "Selection": "AllEntered",
+    "Confidence": 0.95,
+    "Folds": 5,
+    "HoldOutShare": 0
+  }
+}

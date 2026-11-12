@@ -1,0 +1,48 @@
+{
+  "id": "st.m13.refinement.ex",
+  "title": "Cost per part against batch size",
+  "analysis": "SimpleRegression",
+  "intro": "A machine shop recorded the cost per part ($) for twelve batch sizes. Each batch carries a fixed setup cost shared among its parts, so the cost per part should fall like a + b/x, where x is the batch size. A straight line in x fits badly (R² = 0.40, with a strong curve in the residuals).\n\nRefine the model: fit cost against **1/x**, the reciprocal of the batch size. Find its **R²**, its **residual standard error** σ̂, and the **fitted cost per part for a batch of 120**. Give each to two decimals or more.\n\nTo use the Workbench: press **Copy the data**, press Ctrl+B, click **+ Data table** and paste (Ctrl+V). Choose **Simple linear regression**, set **x column** to *Batch*, **y column** to *Cost*, **Transform x** to *Reciprocal, 1/*, **Transform y** to *None*, and **Predict at x₀, optional** to 120. Compare the residual plot with the one for Transform x set to *None*. Ctrl+L brings you back.",
+  "tables": [
+    {
+      "name": "Batches",
+      "columns": {
+        "Batch": [10, 15, 20, 30, 40, 50, 75, 100, 150, 200, 300, 400],
+        "Cost": [42.96, 29.92, 23.71, 16.78, 14.2, 11.62, 8.46, 7.22, 6.77, 6.24, 5.53, 5.27]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Cost per part",
+    "XColumn": "@Batches/Batch",
+    "YColumn": "@Batches/Cost",
+    "XTransformation": "Inverse",
+    "YTransformation": "None",
+    "Confidence": 0.95,
+    "PredictAt": 120
+  },
+  "ask": [
+    { "result": "RSquared", "prompt": "R² of cost against 1/x" },
+    { "result": "ResidualSe", "prompt": "Residual standard error, σ̂ ($)" },
+    { "result": "FittedAt", "prompt": "Fitted cost per part for a batch of 120 ($)" }
+  ],
+  "mistakes": {
+    "RSquared": [
+      { "value": 0.4022, "says": "That is the straight line in x, the model being refined. Transform x to its reciprocal, 1/x, and fit again." },
+      { "value": 0.7889, "says": "That is the fit against ln x. It is better than the line, but this exercise asks for 1/x, the form the setup cost suggests." }
+    ],
+    "ResidualSe": [
+      { "value": 9.555, "says": "That is σ̂ of the straight line in x. Fit cost against 1/x." },
+      { "value": 5.678, "says": "That is σ̂ of the fit against ln x. Fit cost against 1/x." }
+    ],
+    "FittedAt": [
+      { "value": 14.64, "says": "That is the straight line's prediction at x = 120. Use the model in 1/x: ŷ = b₀ + b₁/120." },
+      { "value": 9.413, "says": "That is the prediction from the fit against ln x. Use the model in 1/x: ŷ = b₀ + b₁/120." }
+    ]
+  },
+  "hints": [
+    "Make a new column u = 1/x (1/10 = 0.1, 1/15 = 0.0667, …) and fit cost against u by least squares; everything else is ordinary simple regression.",
+    "b₀ is the cost per part of a very large batch (u near 0); b₁ is the setup cost shared over the batch.",
+    "The fitted cost at x = 120 is b₀ + b₁ × (1/120). Python: sm.OLS(cost, sm.add_constant(1 / batch)).fit(); R: lm(cost ~ I(1 / batch))."
+  ]
+}

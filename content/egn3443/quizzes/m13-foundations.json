@@ -1,0 +1,91 @@
+{
+  "id": "st.m13.foundations.quiz",
+  "title": "Reading residual plots",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "choice",
+      "objective": "st.m13.o1",
+      "prompt": "Twenty welds were made on plates 2 to 21 mm thick, and a line was fitted to the weld time against the thickness (R² = 0.92). Here are its residuals against the fitted values. Which assumption does the plot call into question?\n[[figure: st.m13.foundations.funnel 2]]",
+      "options": [
+        "Linearity: the residuals follow a curve, so the line is the wrong shape",
+        "Equal variance: the residuals spread wider as the fitted time grows",
+        "Normality: the residuals are too few to come from a normal distribution",
+        "None: the residuals sit on both sides of zero, so the model is fine"
+      ],
+      "correct": [1],
+      "explanation": "The points form a funnel: within about ±2 s of zero at the short welds, and out to about ±6 s at the long ones. The spread of the errors grows with the size of y, so the equal-variance (homoscedasticity) assumption fails. Residuals on both sides of zero are not enough; the spread must be the same along the whole plot. A funnel often means the error is proportional to y; item 13.6 shows how a log of y can even it out."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m13.o1",
+      "prompt": "A water heater was run at 14 power settings and a line was fitted to the temperature rise against the power (R² = 0.84, slope p < 0.0001). Here are the residuals against the fitted values. What do they say?\n[[figure: st.m13.foundations.curve 2]]",
+      "options": [
+        "The relation bends, so a straight line is the wrong form for these data",
+        "The error spread grows along the plot, so the variances are unequal",
+        "One observation is an outlier, and without it the line would fit well",
+        "The residuals look random, so the line is a valid model for the heater"
+      ],
+      "correct": [0],
+      "explanation": "The residuals make an arch: negative at both ends (−16.4 °C at the lowest power, −9.7 °C at the highest) and positive in the middle, up to +9.1 °C. That is curvature the line misses: the temperature rise levels off at high power. The linearity assumption fails. The first point's residual is large, but it belongs to the arch, not to a single wild value. A small slope p-value only says that x and y are related; it says nothing about the shape."
+    },
+    {
+      "id": "q3",
+      "kind": "choice",
+      "objective": "st.m13.o1",
+      "prompt": "Sixteen loads were applied to a test beam and a line was fitted to the deflection against the load (R² = 0.97). Here are the residuals against the fitted values. What do they say?\n[[figure: st.m13.foundations.random 2]]",
+      "options": [
+        "The residuals curve upward, so a quadratic term is needed",
+        "The residuals fan out, so the error grows with the deflection",
+        "The residuals form a band with no pattern, so no assumption is in doubt",
+        "The residuals are all within ±2 mm, so the model must be perfect"
+      ],
+      "correct": [2],
+      "explanation": "The residuals scatter between about −1.3 and +1.1 mm with no curve, no funnel and no point far from the rest. That is what a valid straight-line model looks like. It is not 'perfect': the residuals are the scatter the model cannot explain, and σ̂ measures it. A pattern-free plot says the model's form and assumptions are reasonable, nothing more."
+    },
+    {
+      "id": "q4",
+      "kind": "multiple",
+      "objective": "st.m13.o1",
+      "prompt": "A line fitted to 30 observations has R² = 0.96 and a slope p-value of 0.0001. Which of these can still be true? Choose every one that can.",
+      "options": [
+        "The relation between x and y is curved",
+        "The spread of the residuals grows tenfold across the range of x",
+        "One observation is steering the slope",
+        "The model predicts new observations much worse than it fits these"
+      ],
+      "correct": [0, 1, 2, 3],
+      "explanation": "All four. R² measures how much of y's variation the line explains, and the p-value whether there is any linear relation; neither checks the form, the equal-variance assumption, the influence of single points, or how the model does on new data. A curved relation often has a high R² (the braking Example had 0.98). That is why validation looks at the residuals and at cross-validation, not only at R²."
+    },
+    {
+      "id": "q5",
+      "kind": "match",
+      "objective": "st.m13.o1",
+      "prompt": "Match each assumption with the pattern in the residuals that breaks it.",
+      "pairs": [
+        { "left": "Linearity", "right": "A U shape or an arch against ŷ" },
+        { "left": "Equal variance", "right": "A funnel: the spread changes along ŷ" },
+        { "left": "Independence", "right": "Long runs of one sign in time order" },
+        { "left": "Normality", "right": "A Q–Q plot that bends away from its line" }
+      ],
+      "explanation": "Each assumption has its own picture. Curvature against ŷ means the form is wrong; a changing spread means unequal variances; runs in time order mean the errors are related; a bent normal Q–Q plot (item 13.2) means the errors are not normal."
+    },
+    {
+      "id": "q6",
+      "kind": "choice",
+      "objective": "st.m13.o3",
+      "prompt": "A model fits its own 40 observations closely and every residual check is clean. A colleague asks whether it will predict next month's production as well. Which half of validation is her question about, and which tool answers it?",
+      "options": [
+        "Reliability, answered by the residual plot of the fitted model",
+        "Reliability, answered by the slope's t-test and its p-value",
+        "Generalizability, answered by testing on rows the model did not see",
+        "Generalizability, answered by a higher R² on the same 40 rows"
+      ],
+      "correct": [2],
+      "explanation": "How the model does on new data is generalizability. The residual checks say the model describes its own data soundly (reliability), but a model can fit its own data well and still predict new data poorly. Only rows the model was not fitted to can show that: a hold-out test set or cross-validation (item 13.4). R² on the same rows is the optimistic number."
+    }
+  ]
+}

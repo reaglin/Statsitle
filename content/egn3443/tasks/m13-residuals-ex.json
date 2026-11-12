@@ -1,0 +1,44 @@
+{
+  "id": "st.m13.residuals.ex",
+  "title": "Residuals of a strain-gauge amplifier calibration",
+  "analysis": "SimpleRegression",
+  "intro": "A strain-gauge amplifier was calibrated at seven loads, 1 to 7 kN, in that order, and its output (V) was recorded. The least-squares line is ŷ = 1.00 + 2.00x (you may check it).\n\nCompute the seven residuals eᵢ = yᵢ − ŷᵢ by hand, then find **SS error** (the sum of the squared residuals), the **residual standard error** σ̂ = √(SS error/(n − 2)), and the **Durbin–Watson** statistic d = Σ(eᵢ − eᵢ₋₁)²/Σeᵢ² (item 13.2). Give SS error to two decimals and σ̂ and d to three decimals or more.\n\nTo check your work in the Workbench: press **Copy the data**, press Ctrl+B, click **+ Data table** and paste (Ctrl+V). Choose **Simple linear regression** and set **x column** to *Load* and **y column** to *Output*; SS error, the residual standard error and Durbin–Watson are among the results, and the Plots tab shows the residuals. Ctrl+L brings you back.",
+  "tables": [
+    {
+      "name": "Amplifier",
+      "columns": {
+        "Load": [1, 2, 3, 4, 5, 6, 7],
+        "Output": [3.1, 4.7, 7.1, 9.4, 10.5, 13.3, 14.9]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Amplifier calibration",
+    "XColumn": "@Amplifier/Load",
+    "YColumn": "@Amplifier/Output",
+    "Confidence": 0.95
+  },
+  "ask": [
+    { "result": "SsError", "prompt": "SS error (V²)" },
+    { "result": "ResidualSe", "prompt": "Residual standard error, σ̂ (V)", "tolerance": 0.001 },
+    { "result": "DurbinWatson", "prompt": "Durbin–Watson, d", "tolerance": 0.001 }
+  ],
+  "mistakes": {
+    "SsError": [
+      { "value": 0, "says": "That is the sum of the residuals, which is always 0 for a least-squares line with an intercept. Square each residual first, then add." }
+    ],
+    "ResidualSe": [
+      { "value": 0.2976, "says": "You divided by n = 7. Two coefficients were estimated from the data, so σ̂ divides SS error by n − 2 = 5." },
+      { "value": 0.3215, "says": "You divided by n − 1 = 6, as for a sample standard deviation. A line estimates two coefficients, so divide by n − 2 = 5." },
+      { "value": 0.124, "says": "That is σ̂², the mean square error. σ̂ is its square root." }
+    ],
+    "DurbinWatson": [
+      { "value": 2.02, "says": "That is only the top of the fraction, Σ(eᵢ − eᵢ₋₁)². Divide it by Σeᵢ², which is SS error." }
+    ]
+  },
+  "hints": [
+    "ŷ at x = 1 is 1 + 2(1) = 3.0, so the first residual is 3.1 − 3.0 = 0.1. Do the same for the other six; they should add up to 0.",
+    "SS error is the sum of the seven squared residuals; σ̂ = √(SS error/5).",
+    "For d, take the six differences between successive residuals (second minus first, third minus second, …), square them, add them, and divide by SS error."
+  ]
+}

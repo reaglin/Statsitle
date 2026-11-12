@@ -1,0 +1,23 @@
+{
+  "id": "st.m13.refinement.line",
+  "title": "Concrete strength gain with a straight line",
+  "analysis": "SimpleRegression",
+  "intro": "The same twelve concrete cylinders, fitted with a plain straight line in age (no transformation): R² = 0.739 and σ̂ = 5.92 MPa, with residuals negative at the youngest and oldest ages and positive in between.",
+  "tables": [
+    {
+      "name": "Concrete",
+      "columns": {
+        "Age": [1, 2, 3, 5, 7, 10, 14, 21, 28, 42, 56, 90],
+        "Strength": [7.3, 12.3, 15.0, 20.6, 21.9, 27.5, 25.6, 30.2, 34.7, 36.0, 38.3, 43.0]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Concrete strength, straight line",
+    "XColumn": "@Concrete/Age",
+    "YColumn": "@Concrete/Strength",
+    "XTransformation": "None",
+    "YTransformation": "None",
+    "Confidence": 0.95
+  }
+}
