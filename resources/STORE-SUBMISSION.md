@@ -26,7 +26,9 @@ everything ships as 2.0.0). 2.0.0 is an **update of the same product**: same ide
 | WACK | ⚠️ Ron runs `packaging/run-wack.ps1` (needs elevation) on the final build |
 | Screenshots | ✅ Made by the tests (`STORE-LISTING.md`, end) |
 | Icon | ⚠️ Ron to look: the banded bell with a white "+" (Ron, 2026-11-12: "make a + icon"); large tiles say "Statistics+" above the bell. Upload the new `StoreLogo-300x300.png`, box art, poster and hero images with the listing |
-| Submit | ⚠️ Ron, after his hand-test round 2.0 |
+| Hand-test round 2.0 | ✅ Ron passed it 2026-11-12 |
+| Final package | ✅ built 2026-11-12: `artifacts\Statistle_2.0.0.0_x64_bundle.msixupload` (77.7 MB) |
+| Submit | ⚠️ Ron, after WACK |
 
 ## The Partner Center account
 
