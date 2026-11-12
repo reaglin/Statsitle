@@ -23,7 +23,7 @@ public static class DashboardPage
         var t = d.Totals;
         var md = new StringBuilder();
         md.AppendLine("## So far").AppendLine();
-        md.AppendLine($"- **{t.ItemsComplete} of {t.Items} items** complete, in the modules written so far");
+        md.AppendLine($"- **{t.ItemsComplete} of {t.Items} items** complete");
         md.AppendLine($"- **{t.ModulesComplete} of {t.Modules} modules** complete");
         md.AppendLine($"- **{t.OutcomesMastered} of {t.Outcomes} outcomes** mastered");
         md.AppendLine($"- **Time in {app}:** " + (t.Time.TotalMinutes < 1 ? "none yet" :
@@ -56,7 +56,8 @@ public static class DashboardPage
             md.AppendLine($"| {e.Module.Number}. {e.Module.Title} | {CoreDashboard.Mark(e.State)} {CoreDashboard.Words(e)} | " +
                           (e.State == PathState.ComingLater ? "–" : $"{e.Complete} of {e.Total}") + $" | {(e.Time > TimeSpan.Zero ? CoreDashboard.Duration(e.Time) : "–")} |");
         md.AppendLine();
-        md.AppendLine("*★ mastered: complete, and every outcome mastered. ✓ complete, not every outcome mastered yet. ↺ complete, review suggested. ◐ in progress. ○ not started (\"after module N\": recommended first, not required). – coming later.*").AppendLine();
+        md.AppendLine("*★ mastered: complete, and every outcome mastered. ✓ complete, not every outcome mastered yet. ↺ complete, review suggested. ◐ in progress. ○ not started (\"after module N\": recommended first, not required)." +
+                      (d.Modules.Any(e => e.State == PathState.ComingLater) ? " – coming later." : "") + "*").AppendLine();
 
         md.AppendLine("## Outcomes").AppendLine();
         foreach (var e in d.Modules.Where(e => LearningProgress.Learnable(e.Module) && e.Outcomes.Count > 0))

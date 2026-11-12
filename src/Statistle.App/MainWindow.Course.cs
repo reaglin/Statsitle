@@ -122,7 +122,7 @@ public partial class MainWindow
     /// Covers the window with "Who is learning?" (plan 9.1). Called by the program at start-up and by Sign out; the
     /// tests never call it, so they never read the real learners' folder.
     /// </summary>
-    public void ShowLearnerScreen(string? banner = null)
+    public void ShowLearnerScreen(string? banner = null, string? selectProfileId = null)
     {
         if (_coursePage is null) return;
         if (_learnerScreen is null)
@@ -130,26 +130,74 @@ public partial class MainWindow
             _learnerScreen = new Statistle.App.Learning.LearnerScreen();
             _learnerScreen.SignedIn += file =>
             {
+                // The learner the idle lock signed out, coming back: their item (and the Workbench, if they were there) again.
+                var resume = _resume is { } r && r.ProfileId == file.Header.ProfileId ? r : null;
+                _resume = null;
                 EndSession();
                 _coursePage.SignIn(file);
                 UpdateLearnerUi();
-                LearnerOverlay.Visibility = Visibility.Collapsed;
-                ShowCourse();
-                _workspace.Status = $"Welcome, {file.Data.Profile.DisplayName}. Your progress is saved as you go.";
+                SetLearnerOverlay(false);
+                if (resume?.Item is { } item) _coursePage.Path.Select(item);
+                if (resume is { Workbench: true }) ShowWorkbench();
+                else ShowCourse();
+                _workspace.Status = resume is null
+                    ? $"Welcome, {file.Data.Profile.DisplayName}. Your progress is saved as you go."
+                    : $"Welcome back, {file.Data.Profile.DisplayName}. You are where you left off, with the answers you were typing.";
             };
             _learnerScreen.WorkbenchOnly += () =>
             {
-                LearnerOverlay.Visibility = Visibility.Collapsed;
+                // Nobody signed in may read the Course, so the last learner's unchecked answers go now.
+                _resume = null;
+                _coursePage.ForgetAnswers();
+                SetLearnerOverlay(false);
                 ShowWorkbench();
                 _workspace.Status = "The Workbench, without signing in. The Course is still there to read (Ctrl+L), but progress is kept only when you sign in.";
             };
             _learnerScreen.Done += text => _workspace.Status = text;
             LearnerOverlay.Content = _learnerScreen;
+            PreviewKeyDown += Overlay_PreviewKeyDown;
             StartIdleLock();
         }
 
-        _learnerScreen.Show(banner);
-        LearnerOverlay.Visibility = Visibility.Visible;
+        _learnerScreen.Show(banner, selectProfileId);
+        SetLearnerOverlay(true);
+    }
+
+    /// <summary>Where the idle lock found a learner, so that learner comes back to it.</summary>
+    private sealed record Resume(string ProfileId, global::Learning.Core.Content.LearningItem? Item, bool Workbench);
+
+    private Resume? _resume;
+
+    /// <summary>
+    /// Shows or hides "Who is learning?". While it shows, the menu bar and the Course | Workbench strip are off, so nothing
+    /// behind it can be used and their access keys do not compete with the screen's (UX sweep, plan 15.1).
+    /// </summary>
+    private void SetLearnerOverlay(bool visible)
+    {
+        LearnerOverlay.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+        MainMenu.IsEnabled = !visible;
+        ModeStrip.IsEnabled = !visible;
+    }
+
+    /// <summary>Whether "Who is learning?" covers the window.</summary>
+    public bool IsLearnerScreenShown => LearnerOverlay.Visibility == Visibility.Visible;
+
+    /// <summary>
+    /// Keys while "Who is learning?" covers the window: F1 shows the screen's own help; the window's shortcuts (Ctrl+N, O,
+    /// S, Z, L, B) would act on what is hidden behind it, so they do nothing.
+    /// </summary>
+    private void Overlay_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (!IsLearnerScreenShown || _learnerScreen is null) return;
+        if (e.Key == Key.F1)
+        {
+            _learnerScreen.ShowHelp();
+            e.Handled = true;
+        }
+        else if (Keyboard.Modifiers == ModifierKeys.Control && e.Key is Key.N or Key.O or Key.S or Key.Z or Key.L or Key.B)
+        {
+            e.Handled = true;
+        }
     }
 
     /// <summary>The strip and the Learner menu follow who is signed in.</summary>
@@ -172,6 +220,8 @@ public partial class MainWindow
         HandInMenu.IsEnabled = session is not null;
         HandInMenu.ToolTip = _coursePage is null ? "The Course could not be read, so there is nothing to report"
             : session is null ? "Sign in first: a report shows your own progress" : "Makes a signed progress report (PDF) of a module check, or of everything so far, to hand in to your instructor";
+        ChangePinMenu.IsEnabled = session is not null;
+        ChangePinMenu.ToolTip = session is null ? "Sign in first: the PIN is the one that opens your own progress" : "Sets a new PIN; you type the one you use now first.";
         BackupMenu.IsEnabled = session is not null;
         BackupMenu.ToolTip = session is null ? "Sign in first: the backup is of your own progress file" : "Saves a copy of your progress file to a USB drive or a cloud folder, in case this computer is changed";
     }
@@ -207,9 +257,13 @@ public partial class MainWindow
         _idleTimer.Tick += (_, _) =>
         {
             var minutes = _learnerScreen?.Settings.LockMinutes ?? 15;
-            if (_coursePage?.Session is null || minutes <= 0 || DateTime.UtcNow - _lastInput < TimeSpan.FromMinutes(minutes)) return;
+            if (_coursePage?.Session is not { } session || minutes <= 0 || DateTime.UtcNow - _lastInput < TimeSpan.FromMinutes(minutes)) return;
+            var id = session.Header.ProfileId;
+            _resume = new Resume(id, _coursePage.CurrentItem, WorkbenchMode.IsChecked == true);
             EndSession();
-            ShowLearnerScreen($"Statistics+ signed you out after {minutes} minutes without use, so nobody else could use your progress. It is saved: choose your name to go on.");
+            ShowLearnerScreen($"Statistics+ signed you out after {minutes} minutes without use, so nobody else could use your progress. " +
+                              "Your progress and the answers you were typing are kept: type your PIN to go on. " +
+                              "(Answers you have not checked yet are kept only while Statistics+ stays open.)", id);
         };
         _idleTimer.Start();
     }
@@ -224,8 +278,30 @@ public partial class MainWindow
         UpdateLearnerUi();
     }
 
+    /// <summary>Learner ▸ Change my PIN (UX sweep, plan 15.1): the PIN now, then the new one twice.</summary>
+    private void ChangePin_Click(object sender, RoutedEventArgs e)
+    {
+        if (_coursePage?.Session is not { } session) return;
+        var w = new Statistle.App.Learning.NewPinWindow(this, recovering: false, session.Data.Profile.DisplayName, (now, newPin) =>
+        {
+            if (!session.IsPin(now)) return "That is not the PIN you use now. Type it again; if you have forgotten it, sign out and press Forgot my PIN on the start screen.";
+            try
+            {
+                session.ChangePin(newPin, DateTimeOffset.Now);
+                return null;
+            }
+            catch (Exception ex) when (ex is ArgumentException or IOException or UnauthorizedAccessException)
+            {
+                return $"The PIN could not be changed: {ex.Message}";
+            }
+        });
+        if (w.ShowDialog() == true)
+            _workspace.Status = "Your new PIN is set: use it from now on. Backups made before now still open with your old PIN.";
+    }
+
     private void SignOut_Click(object sender, RoutedEventArgs e)
     {
+        _resume = null;
         EndSession();
         ShowLearnerScreen("Signed out. Your progress is saved.");
     }

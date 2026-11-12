@@ -37,6 +37,7 @@ public sealed class TaskWorkspace : ContentControl
     private TextBlock? _summary;
     private StackPanel? _hintPanel;
     private int _hintsShown;
+    private Button? _hintButton;
 
     // What was typed in each exercise this session, so moving to another item and back keeps it (as the quizzes do).
     private static readonly Dictionary<string, string> Typed = new(StringComparer.OrdinalIgnoreCase);
@@ -96,7 +97,7 @@ public sealed class TaskWorkspace : ContentControl
         page.Children.Add(new TextBlock
         {
             Text = exercise
-                ? $"Work out the results asked for below (by hand, in Python or R, or in the Workbench, as the instructions say), type them in, and press Check my answers. The Workbench analysis that does this: {_built.Analysis.Title}."
+                ? ExerciseLead(_built)
                 : $"A worked example with {_built.Analysis.Title}: the data, every result, the figures, and the Python and R that give the same numbers. Open it in the Workbench to change the inputs and watch the results move.",
             Foreground = Muted, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 0, 0, 10),
         });
@@ -169,6 +170,21 @@ public sealed class TaskWorkspace : ContentControl
         return given;
     }
 
+    /// <summary>
+    /// The sentence at the top of an exercise: what to do, which Workbench analysis does it, and how to get the data there
+    /// and back (UX sweep, plan 15.1).
+    /// </summary>
+    public static string ExerciseLead(BuiltTask built)
+    {
+        var x = built.Analysis.Title;
+        var steps = DataColumns(built).Count > 0
+            ? $"To use it: press Copy the data, then Workbench (Ctrl+B) and + Data table; click in the table's box, press Ctrl+V, then Tab. " +
+              $"Then choose {x} under Analyses on the left and choose your data table and column in its entries (where it asks where the data comes from, choose the data table)."
+            : $"To use it: Workbench (Ctrl+B), choose {x} under Analyses on the left, and type the values this task gives.";
+        return "Work out the results asked for below (by hand, in Python or R, or in the Workbench, as the instructions say), type them in, " +
+               $"and press Check my answers. The Workbench analysis that does this: {x}. {steps} Course (Ctrl+L) brings you back here; your answers stay.";
+    }
+
     /// <summary>The answer box's tooltip: how precise the answer must be, from the result and its tolerance.</summary>
     public static string AnswerTip(ExpectedResult expected)
     {
@@ -177,7 +193,7 @@ public sealed class TaskWorkspace : ContentControl
             : expected.Tolerance < 0.005
                 ? "Give at least three decimals, such as 0.137."
                 : "Two decimals are usually enough, such as 4.87.";
-        return $"Type your result as a number. {precision} Enter checks your answers.";
+        return $"Type your result as a number. {precision} Enter goes to the next box; on the last one it checks your answers.";
     }
 
     private FrameworkElement DataView(BuiltTask built)
@@ -217,11 +233,11 @@ public sealed class TaskWorkspace : ContentControl
 
         var buttons = new WrapPanel { Margin = new Thickness(0, 6, 0, 0) };
         buttons.Children.Add(SmallButton("Copy the data", "Copies the data with a header row, separated by tabs: paste it into a spreadsheet, or into the Workbench (+ Data table, then Ctrl+V)",
-            () => Clipboard.SetText(DataText(columns))));
+            () => Clipboard.SetText(DataText(columns)), copies: true));
         buttons.Children.Add(SmallButton("Copy as Python", "Copies the data as numpy arrays, to paste into Python or a Colab notebook",
-            () => Clipboard.SetText(DataCode(columns, CodeLanguage.Python))));
+            () => Clipboard.SetText(DataCode(columns, CodeLanguage.Python)), copies: true));
         buttons.Children.Add(SmallButton("Copy as R", "Copies the data as R vectors, to paste into R or RStudio",
-            () => Clipboard.SetText(DataCode(columns, CodeLanguage.R))));
+            () => Clipboard.SetText(DataCode(columns, CodeLanguage.R)), copies: true));
         panel.Children.Add(buttons);
         return panel;
     }
@@ -322,7 +338,7 @@ public sealed class TaskWorkspace : ContentControl
                 ToolTip = AnswerTip(expected),
             };
             AutomationProperties.SetName(box, expected.Label);
-            box.KeyDown += (_, e) => { if (e.Key == Key.Enter) { CheckAnswers(); e.Handled = true; } };
+            box.KeyDown += (_, e) => { if (e.Key == Key.Enter) { Enter(box); e.Handled = true; } };
             box.TextChanged += (_, _) => RememberTyped();
             var mark = new TextBlock { TextWrapping = TextWrapping.Wrap, VerticalAlignment = VerticalAlignment.Center };
             Grid.SetRow(label, i); Grid.SetRow(box, i); Grid.SetRow(mark, i);
@@ -342,10 +358,12 @@ public sealed class TaskWorkspace : ContentControl
         };
         check.Click += (_, _) => CheckAnswers();
         buttons.Children.Add(check);
+        _hintButton = null;
         if (built.Task.Hints.Count > 0)
         {
-            var hint = SmallButton("Show a hint", $"Shows the next hint ({built.Task.Hints.Count} in all). Hints are noted in your progress.", ShowHint);
-            buttons.Children.Add(hint);
+            _hintButton = SmallButton("Show a hint", $"Shows the next hint ({built.Task.Hints.Count} in all). Hints are noted in your progress.", ShowHint);
+            ToolTipService.SetShowOnDisabled(_hintButton, true);
+            buttons.Children.Add(_hintButton);
         }
         panel.Children.Add(buttons);
         _hintPanel = new StackPanel();
@@ -370,7 +388,28 @@ public sealed class TaskWorkspace : ContentControl
             Child = new TextBlock { Text = $"Hint {_hintsShown + 1}: {_built.Task.Hints[_hintsShown]}", TextWrapping = TextWrapping.Wrap },
         });
         _hintsShown++;
+        if (_hintButton is not null && _hintsShown >= _built.Task.Hints.Count)
+        {
+            _hintButton.IsEnabled = false;
+            _hintButton.ToolTip = _hintsShown == 1 ? "The hint is shown above." : $"All {_hintsShown} hints are shown above.";
+        }
     }
+
+    /// <summary>
+    /// Enter in an answer box (UX sweep, plan 15.1): goes to the next empty box, so a learner typing down the list is never
+    /// graded half-way; when every box is filled, it checks the answers.
+    /// </summary>
+    public void Enter(TextBox from)
+    {
+        var boxes = _boxes.Values.ToList();
+        var at = boxes.IndexOf(from);
+        var next = boxes.Skip(at + 1).Concat(boxes.Take(Math.Max(at, 0))).FirstOrDefault(b => string.IsNullOrWhiteSpace(b.Text));
+        if (next is not null) { next.Focus(); return; }
+        CheckAnswers();
+    }
+
+    /// <summary>The answer boxes, in order (for the tests).</summary>
+    public IReadOnlyList<TextBox> AnswerBoxes => [.. _boxes.Values];
 
     /// <summary>Types an answer into a result's box (the tests, and a future "fill from my Workbench" button).</summary>
     public void Type(string result, string text)
@@ -383,9 +422,10 @@ public sealed class TaskWorkspace : ContentControl
     {
         if (_built is null) return;
         var answers = _boxes.ToDictionary(b => b.Key, b => b.Value.Text, StringComparer.Ordinal);
-        if (answers.Values.All(string.IsNullOrWhiteSpace))
+        if (_boxes.Values.FirstOrDefault(b => string.IsNullOrWhiteSpace(b.Text)) is { } empty)
         {
-            Summary("Type a result in each box, then press Check my answers. Nothing has been counted yet.", false);
+            Summary("Fill in every box, then press Check my answers. Nothing has been counted yet.", false);
+            empty.Focus();
             return;
         }
         var work = StatsTaskRunner.Work(answers);
@@ -503,7 +543,7 @@ public sealed class TaskWorkspace : ContentControl
                 MaxHeight = 360, BorderThickness = new Thickness(0), Background = Panel, Padding = new Thickness(6),
             };
             AutomationProperties.SetName(text, $"{name} code");
-            var copy = SmallButton("Copy " + name, $"Copies the {name} to paste into {(language == CodeLanguage.Python ? "Python or a Colab notebook" : "R or RStudio")}", () => Clipboard.SetText(code));
+            var copy = SmallButton("Copy " + name, $"Copies the {name} to paste into {(language == CodeLanguage.Python ? "Python or a Colab notebook" : "R or RStudio")}", () => Clipboard.SetText(code), copies: true);
             copy.HorizontalAlignment = HorizontalAlignment.Left;
             var panel = new DockPanel();
             DockPanel.SetDock(copy, Dock.Bottom);
@@ -532,13 +572,27 @@ public sealed class TaskWorkspace : ContentControl
         return cell;
     }
 
-    private static Button SmallButton(string text, string tip, Action click)
+    private static Button SmallButton(string text, string tip, Action click, bool copies = false)
     {
         var button = new Button { Content = text, Padding = new Thickness(8, 3, 8, 3), Margin = new Thickness(0, 4, 8, 0), ToolTip = tip };
+        System.Windows.Threading.DispatcherTimer? back = null;
         button.Click += (_, _) =>
         {
             try { click(); }
-            catch (System.Runtime.InteropServices.ExternalException) { /* the clipboard was busy; the person can press again */ }
+            catch (System.Runtime.InteropServices.ExternalException)
+            {
+                // The clipboard was busy; the person can press again.
+                if (copies) button.Content = "Not copied: press again";
+                return;
+            }
+            if (!copies) return;
+            // Copying shows nothing by itself, so the button says it worked for two seconds (UX sweep, plan 15.1).
+            button.MinWidth = Math.Max(button.MinWidth, button.ActualWidth);
+            button.Content = "Copied ✓";
+            back?.Stop();
+            back = new System.Windows.Threading.DispatcherTimer { Interval = TimeSpan.FromSeconds(2) };
+            back.Tick += (_, _) => { back!.Stop(); button.Content = text; };
+            back.Start();
         };
         return button;
     }

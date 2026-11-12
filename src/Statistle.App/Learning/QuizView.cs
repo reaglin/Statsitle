@@ -124,15 +124,59 @@ public sealed class QuizView : UserControl
         Session[_quiz.Id] = (answers, Session.TryGetValue(_quiz.Id, out var old) ? old.Result : null);
     }
 
-    private void Check()
+    /// <summary>Clears the questions on screen without keeping them (another learner signs in).</summary>
+    public void Reset()
+    {
+        _quiz = null;
+        _questions.Clear();
+        _panel.Children.Clear();
+    }
+
+    /// <summary>Checks the answers on screen, as the Check my answers button does (also for the tests).</summary>
+    public void Check()
     {
         if (_quiz is null) return;
         var answers = _questions.ToDictionary(x => x.Question.Id, x => x.Read());
+        // A question left blank is not marked wrong: nothing is counted until every question has an answer (UX sweep, plan 15.1).
+        var blank = _questions.Where(e => IsBlank(e.Question, answers[e.Question.Id])).Select(e => e.Number).ToList();
+        if (blank.Count > 0)
+        {
+            Session[_quiz.Id] = (answers, Session.TryGetValue(_quiz.Id, out var old) ? old.Result : null);
+            _score.Text = BlankMessage(blank);
+            _score.Foreground = Res("WrongBrush");
+            _questions.First(e => e.Number == blank[0]).Card.BringIntoView();
+            return;
+        }
+        _score.ClearValue(TextBlock.ForegroundProperty);
         var result = QuizGrader.Grade(_quiz, answers, WhereToLook);
         Session[_quiz.Id] = (answers, result);
         Show(result, scroll: true);
         Graded?.Invoke(result);
     }
+
+    /// <summary>"Questions 4 and 6 have no answer yet. Answer them, then press Check my answers. Nothing has been counted."</summary>
+    public static string BlankMessage(IReadOnlyList<int> numbers)
+    {
+        ArgumentNullException.ThrowIfNull(numbers);
+        var culture = System.Globalization.CultureInfo.CurrentCulture;
+        var list = numbers.Count == 1
+            ? numbers[0].ToString(culture)
+            : string.Join(", ", numbers.Take(numbers.Count - 1).Select(n => n.ToString(culture))) + " and " + numbers[numbers.Count - 1].ToString(culture);
+        return (numbers.Count == 1 ? $"Question {list} has" : $"Questions {list} have") +
+               " no answer yet. Answer " + (numbers.Count == 1 ? "it" : "them") + ", then press Check my answers. Nothing has been counted.";
+    }
+
+    /// <summary>
+    /// Whether a question has no answer (pairs to match: one still on Choose…). PLC+'s own kinds cannot be answered here,
+    /// so they never hold a check up.
+    /// </summary>
+    private static bool IsBlank(Question q, QuestionAnswer a) => q.Kind switch
+    {
+        QuestionKind.Choice or QuestionKind.Multiple => a.Chosen.Count == 0,
+        QuestionKind.Numeric or QuestionKind.Text => string.IsNullOrWhiteSpace(a.Text),
+        QuestionKind.Match => a.Matches.Count == 0 || a.Matches.Any(m => m < 0),
+        _ => false,
+    };
 
     private void Show(QuizResult result, bool scroll)
     {

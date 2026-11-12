@@ -104,7 +104,7 @@ public sealed class CoursePage : UserControl
         var leftTitle = new TextBlock { Text = "The course", FontSize = 15, FontWeight = FontWeights.SemiBold, Margin = new Thickness(4, 0, 0, 2) };
         var leftLead = new TextBlock
         {
-            Text = "Work through the modules in order. Each item has a lesson, a worked example, an exercise and a reference page. ✓ complete · ◐ started · ○ not started.",
+            Text = "Work through the modules in order. Each item has a lesson, a worked example, an exercise and a reference page. ▤ your progress · ★ mastered · ✓ complete · ↺ review suggested · ◐ started · ○ not started.",
             TextWrapping = TextWrapping.Wrap, Foreground = LearningTheme.Brush("MutedTextBrush"), Margin = new Thickness(4, 0, 0, 8), FontSize = 11.5,
         };
         DockPanel.SetDock(leftTitle, Dock.Top);
@@ -142,10 +142,11 @@ public sealed class CoursePage : UserControl
         learnPanel.Children.Add(footer);
         learnPanel.Children.Add(_learn);
 
-        _learnTab = Tab("_Learn", learnPanel, "The lesson: the idea, the formulas, a worked case, and the Python and R");
-        _exampleTab = Tab("Exa_mple", _example, "A worked example: the data, every result, the figures and the code");
-        _exerciseTab = Tab("Exerc_ise", _exerciseHost, "Your turn: work out the results and check them, or answer the questions");
-        _referenceTab = Tab("_Reference", _reference, "The formulas, the Python and R functions, and the sources, to look back at");
+        // No access keys on the tabs: Ctrl+1 to Ctrl+4 choose them, and Alt+L must open the Learner menu (UX sweep, plan 15.1).
+        _learnTab = Tab("Learn", learnPanel, "The lesson: the idea, the formulas, a worked case, and the Python and R (Ctrl+1)");
+        _exampleTab = Tab("Example", _example, "A worked example: the data, every result, the figures and the code (Ctrl+2)");
+        _exerciseTab = Tab("Exercise", _exerciseHost, "Your turn: work out the results and check them, or answer the questions (Ctrl+3)");
+        _referenceTab = Tab("Reference", _reference, "The formulas, the Python and R functions, and the sources, to look back at (Ctrl+4)");
         _tabs.Items.Add(_learnTab);
         _tabs.Items.Add(_exampleTab);
         _tabs.Items.Add(_exerciseTab);
@@ -211,16 +212,40 @@ public sealed class CoursePage : UserControl
     /// <summary>The learner whose progress is shown and kept (null: nobody signed in).</summary>
     public LearnerFile? Session => _session;
 
-    /// <summary>Shows the Course for a learner (or for nobody), on My progress.</summary>
+    /// <summary>
+    /// Shows the Course for a learner (or for nobody), on My progress. The answers typed but not yet checked are kept in
+    /// memory while Statistics+ is open: signing out (or the idle lock) keeps them, so the same learner finds them again;
+    /// they are forgotten when a different learner signs in (UX sweep, plan 15.1).
+    /// </summary>
     public void SignIn(LearnerFile? session)
     {
+        _quiz.Remember();
+        if (session is not null)
+        {
+            var who = session.Header.ProfileId;
+            if (!string.Equals(who, _lastLearner, StringComparison.Ordinal)) ForgetAnswers();
+            _lastLearner = who;
+        }
         _session = session;
-        QuizView.ForgetAll();
-        TaskWorkspace.ForgetAll();
         _notSignedIn.Visibility = session is null ? Visibility.Visible : Visibility.Collapsed;
         _path.Refresh(Progress);
         _path.Dashboard.IsSelected = true;
         ShowDashboard();
+    }
+
+    private string? _lastLearner;
+
+    /// <summary>
+    /// Forgets every answer typed in this session (another learner signs in, or someone uses the Course without signing in
+    /// after a learner), so nobody sees another learner's answers.
+    /// </summary>
+    public void ForgetAnswers()
+    {
+        QuizView.ForgetAll();
+        TaskWorkspace.ForgetAll();
+        _quiz.Reset();
+        _lastLearner = null;
+        if (_item is not null) { _item = null; _path.Dashboard.IsSelected = true; ShowDashboard(); }
     }
 
     /// <summary>Saves the learner's progress now (after every change, and before signing out or closing).</summary>
@@ -304,7 +329,9 @@ public sealed class CoursePage : UserControl
 
         - **My progress**: every module, the module checks, the outcomes to review, and your time.
         - Each **module** opens on a page with what it teaches (its outcomes) and its items.
+        - A module's mark: **★** mastered, **✓** complete, **↺** review suggested, **◐** in progress, **○** not started.
         - Each **item** is one topic. Its mark: **✓** complete, **◐** started, **○** not started.
+        - **▤** is My progress.
 
         ## The four tabs of an item
 
@@ -480,14 +507,14 @@ public sealed class CoursePage : UserControl
         if (_content.Find(item.Example) is { } example)
         {
             _example.ShowExample(example);
-            _exampleTab.Header = "Exa_mple";
+            _exampleTab.Header = "Example";
         }
         else
         {
             _example.ShowMessage(item.Kind == ItemKind.Assess
                 ? "A module check has no example of its own: each item it covers has its own."
                 : "This item has no worked example. Its Learn tab has the figures and tables that go with it.");
-            _exampleTab.Header = "Exa_mple (none)";
+            _exampleTab.Header = "Example (none)";
         }
 
         // Exercise: a task, the questions, or what the check covers.
@@ -496,7 +523,7 @@ public sealed class CoursePage : UserControl
             var saved = _session?.Data.Work.TryGetValue(WorkKey(exercise.Id), out var w) == true ? w.Content : null;
             _exercise.ShowExercise(exercise, saved, Progress.StateOf(item) == ItemState.Complete);
             _exerciseHost.Content = _exercise;
-            _exerciseTab.Header = "Exerc_ise";
+            _exerciseTab.Header = "Exercise";
         }
         else if (item.Quiz is { } quiz)
         {
@@ -517,14 +544,14 @@ public sealed class CoursePage : UserControl
             _quiz.ShuffleSeed = _session?.Data.Profile.ProfileId ?? "";
             _quiz.Load(quiz, item.Kind == ItemKind.Assess ? $"Module {item.Module.Number} check: the questions" : "Questions", intro);
             _exerciseHost.Content = new ScrollViewer { Content = _quiz, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
-            _exerciseTab.Header = "Exerc_ise (questions)";
+            _exerciseTab.Header = "Exercise (questions)";
         }
         else
         {
             _exerciseNone.Markdown = item.Kind == ItemKind.Assess ? CoversMarkdown(item)
                 : "## No exercise for this item\n\nThis item is complete when you have read it: press **I have read this** on the Learn tab.";
             _exerciseHost.Content = _exerciseNone;
-            _exerciseTab.Header = item.Kind == ItemKind.Assess ? "Exerc_ise" : "Exerc_ise (none)";
+            _exerciseTab.Header = item.Kind == ItemKind.Assess ? "Exercise" : "Exercise (none)";
         }
 
         _reference.Markdown = ReferenceMarkdown(item);

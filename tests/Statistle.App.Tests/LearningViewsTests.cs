@@ -163,8 +163,16 @@ public class LearningViewsTests
 
                 var check = ((StackPanel)quiz.Content).Children.OfType<Button>().Single();
                 check.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+                Assert.Null(graded); // nothing answered: nothing counted (UX sweep, plan 15.1)
+                var all = Descendants(quiz).ToList();
+                Assert.Contains(all.OfType<TextBlock>(), t => t.Text.StartsWith("Questions 1, 2, 3 and 4 have no answer yet", StringComparison.Ordinal));
+
+                all.OfType<RadioButton>().First().IsChecked = true;
+                foreach (var box in all.OfType<TextBox>()) box.Text = "5";
+                foreach (var combo in all.OfType<ComboBox>()) combo.SelectedIndex = 1;
+                quiz.Check();
                 Assert.NotNull(graded);
-                Assert.False(graded!.Passed); // nothing answered
+                Assert.False(graded!.Passed); // the numeric and text answers are wrong
                 Assert.Equal(4, graded.Questions.Count);
 
                 progress.Record(item, graded.ToOutcome(), DateTimeOffset.Now, machine: "test");
@@ -177,6 +185,15 @@ public class LearningViewsTests
         finally
         {
             try { Directory.Delete(folder, recursive: true); } catch (IOException) { } catch (UnauthorizedAccessException) { }
+        }
+    }
+
+    private static IEnumerable<DependencyObject> Descendants(DependencyObject root)
+    {
+        foreach (var child in LogicalTreeHelper.GetChildren(root).OfType<DependencyObject>())
+        {
+            yield return child;
+            foreach (var d in Descendants(child)) yield return d;
         }
     }
 

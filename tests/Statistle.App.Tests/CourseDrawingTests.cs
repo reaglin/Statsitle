@@ -119,7 +119,7 @@ public sealed class CourseDrawingTests
                 Assert.Equal(item.Exercise, page.ExerciseView.Built?.Task.Id);
                 page.ExerciseView.CheckAnswers();
                 Assert.DoesNotContain(statuses, t => t.Contains("right", StringComparison.Ordinal));   // an empty check is not counted
-                page.ExerciseView.Type(page.ExerciseView.Built!.Expected[0].Asked.Result, "-1");
+                foreach (var expected in page.ExerciseView.Built!.Expected) page.ExerciseView.Type(expected.Asked.Result, "-1");
                 page.ExerciseView.CheckAnswers();
                 Assert.Contains(statuses, s => s.Contains("not kept", StringComparison.Ordinal));
                 Assert.Null(page.Session);
@@ -127,8 +127,98 @@ public sealed class CourseDrawingTests
             finally
             {
                 window.Close();
+                TaskWorkspace.ForgetAll();
             }
         });
+    }
+
+    [Fact]
+    public void Enter_in_an_answer_box_goes_to_the_next_empty_box_and_checks_only_when_all_are_filled()
+    {
+        var content = StatsContent.Load(Egn3443());
+        var item = content.Package.AllItems.First(i => i.Exercise is not null && content.Find(i.Exercise) is { } t && StatsTaskRunner.Build(t).Expected.Count >= 2);
+        WpfHost.Run(() =>
+        {
+            var page = new CoursePage(content);
+            var window = new Window { Content = page, Width = 1440, Height = 900, Left = -10000, Top = -10000, ShowInTaskbar = false, ShowActivated = false };
+            window.Show();
+            try
+            {
+                var checks = 0;
+                page.ExerciseView.Checked += (_, _, _) => checks++;
+                page.Path.Select(item);
+                page.ItemTabs.SelectedIndex = 2;
+                WpfHost.Pump();
+                var boxes = page.ExerciseView.AnswerBoxes;
+                boxes[0].Text = "1";
+                page.ExerciseView.Enter(boxes[0]);
+                Assert.Equal(0, checks);                          // the other boxes are empty: nothing graded
+                page.ExerciseView.CheckAnswers();
+                Assert.Equal(0, checks);                          // Check with an empty box: nothing counted
+                foreach (var box in boxes) box.Text = "1";
+                page.ExerciseView.Enter(boxes[^1]);
+                Assert.Equal(1, checks);                          // every box filled: Enter checks
+            }
+            finally
+            {
+                window.Close();
+                TaskWorkspace.ForgetAll();
+            }
+        });
+    }
+
+    [Fact]
+    public void The_same_learner_keeps_typed_answers_after_signing_out_and_another_learner_does_not_see_them()
+    {
+        var content = StatsContent.Load(Egn3443());
+        var item = content.Package.AllItems.First(i => i.Exercise is not null);
+        string folder = Path.Combine(Path.GetTempPath(), "statistle-learners-" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(folder);
+        try
+        {
+            WpfHost.Run(() =>
+            {
+                var store = new global::Learning.Core.Learners.LearnerStore(folder,
+                    // Not LearnerPlaces.Options: touching LearnerPlaces fixes its data folder before the start-screen test sets it.
+                    new global::Learning.Core.Learners.LearnerFileOptions("Statistle", ".statprogress", "test", Environment.MachineName));
+                var (ada, _) = store.Create("Ada Lovelace", null, "2468", DateTimeOffset.Now);
+                var (bob, _) = store.Create("Bob Boole", null, "1357", DateTimeOffset.Now);
+                var page = new CoursePage(content);
+                var window = new Window { Content = page, Width = 1440, Height = 900, Left = -10000, Top = -10000, ShowInTaskbar = false, ShowActivated = false };
+                window.Show();
+                try
+                {
+                    page.SignIn(ada);
+                    page.Path.Select(item);
+                    WpfHost.Pump();
+                    page.ExerciseView.AnswerBoxes[0].Text = "42";
+
+                    page.SignIn(null);           // the idle lock, or Sign out
+                    page.SignIn(ada);            // Ada again: her answer is there
+                    page.Path.Select(item);
+                    WpfHost.Pump();
+                    Assert.Equal("42", page.ExerciseView.AnswerBoxes[0].Text);
+
+                    page.SignIn(null);
+                    page.SignIn(bob);            // someone else: a blank box
+                    page.Path.Select(item);
+                    WpfHost.Pump();
+                    Assert.Equal("", page.ExerciseView.AnswerBoxes[0].Text);
+                }
+                finally
+                {
+                    window.Close();
+                    page.SignIn(null);
+                    ada.Dispose();
+                    bob.Dispose();
+                    TaskWorkspace.ForgetAll();
+                }
+            });
+        }
+        finally
+        {
+            try { Directory.Delete(folder, recursive: true); } catch (IOException) { } catch (UnauthorizedAccessException) { }
+        }
     }
 }
 

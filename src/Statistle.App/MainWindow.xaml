@@ -435,7 +435,7 @@
     </Window.Resources>
 
     <DockPanel>
-        <Menu DockPanel.Dock="Top">
+        <Menu x:Name="MainMenu" DockPanel.Dock="Top">
             <MenuItem Header="_File">
                 <MenuItem Header="_New project" Command="{Binding NewCommand}" InputGestureText="Ctrl+N"
                           ToolTip="Starts an empty project. If the open one has unsaved changes, you are asked to save them first." />
@@ -487,6 +487,8 @@
                           ToolTip="Opens Who is learning?, so your progress in the Course is kept" ToolTipService.ShowOnDisabled="True" />
                 <MenuItem x:Name="SignOutMenu" Header="Sign _out" Click="SignOut_Click"
                           ToolTip="Saves your progress, locks your file and goes back to Who is learning? (for the next student, or to switch learner)" ToolTipService.ShowOnDisabled="True" />
+                <MenuItem x:Name="ChangePinMenu" Header="_Change my PIN…" Click="ChangePin_Click"
+                          ToolTip="Sets a new PIN; you type the one you use now first." ToolTipService.ShowOnDisabled="True" />
                 <Separator />
                 <MenuItem x:Name="HandInMenu" Header="_Hand in a progress report…" Click="HandIn_Click"
                           ToolTip="Makes a signed progress report (PDF) of a module check, or of everything so far, to hand in to your instructor" ToolTipService.ShowOnDisabled="True" />
@@ -495,7 +497,7 @@
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Header="_Help for this screen" Command="ApplicationCommands.Help" InputGestureText="F1"
-                          ToolTip="Shows the Instructions tab for what is selected: what it is for, the steps, and every entry and result explained" />
+                          ToolTip="Help about the screen you are on: in the Course, how the Course works; in the Workbench, the Instructions tab for what is selected." />
                 <MenuItem Header="Help on the _web (softwareplus.ai/statistle)" Click="WebHelp_Click"
                           ToolTip="Opens Statistics+'s help on SoftwarePlus.ai in your web browser" />
                 <Separator />
@@ -513,7 +515,7 @@
 
         <!-- Statistics+ (plan 9.2): the Course (the learning path) and the Workbench (the calculator) share the window.
              The strip switches between them; the learner's name and Sign out sit at its right. -->
-        <Border DockPanel.Dock="Top" Background="{StaticResource RailBrush}" Padding="8,4">
+        <Border x:Name="ModeStrip" DockPanel.Dock="Top" Background="{StaticResource RailBrush}" Padding="8,4">
             <DockPanel>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
                     <RadioButton x:Name="CourseMode" GroupName="Mode" Content="Course" Style="{StaticResource {x:Type ToggleButton}}"

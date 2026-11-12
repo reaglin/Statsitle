@@ -287,7 +287,18 @@ public sealed class NewLearnerWindow : FormWindow
         row.Children.Add(print);
         row.Children.Add(copy);
         Body.Children.Add(row);
-        _kept = new CheckBox { Content = "I have written down or printed my recovery code", Margin = new Thickness(0, 4, 0, 6) };
+        _kept = new CheckBox
+        {
+            Content = "I have _written down or printed my recovery code", Margin = new Thickness(0, 4, 0, 6),
+            ToolTip = "Start learning is available once this is ticked.",
+        };
+        // There is no Cancel on this page, so Esc asks the closing question (have you kept the code?) instead of doing nothing.
+        PreviewKeyDown += (_, e) =>
+        {
+            if (e.Key != System.Windows.Input.Key.Escape) return;
+            e.Handled = true;
+            Close();
+        };
         Body.Children.Add(_kept);
         var start = AddButton("Start learning", "Opens your progress. Available once you have ticked the box above.", (_, _) => DialogResult = true, isDefault: true);
         start.IsEnabled = false;
@@ -360,7 +371,7 @@ public sealed class SettingsWindow : FormWindow
     private void Save()
     {
         var folder = _folder.Text.Trim();
-        if (folder.Length == 0 || !Path.IsPathFullyQualified(folder)) { Say("Type a full folder path, such as D:\\Statistle\\Learners, or press Choose a folder."); return; }
+        if (folder.Length == 0 || !Path.IsPathFullyQualified(folder)) { Say("Type a full folder path, such as D:\\Statistics\\Learners, or press Choose a folder."); return; }
         if (!string.Equals(Path.GetFullPath(folder).TrimEnd('\\'), Path.GetFullPath(_settings.Folder).TrimEnd('\\'), StringComparison.OrdinalIgnoreCase))
         {
             var here = Directory.Exists(_settings.Folder) ? Directory.GetFiles(_settings.Folder, "*" + LearnerPlaces.Extension).Length : 0;

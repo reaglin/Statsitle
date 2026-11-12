@@ -65,6 +65,7 @@ public partial class LearnerScreen : UserControl
         PinBox.Clear();
         Refresh(selectProfileId);
         Visibility = Visibility.Visible;
+        if (IsVisible) Dispatcher.BeginInvoke(DispatcherPriority.Input, FocusFirst);
     }
 
     private void Refresh(string? selectProfileId = null)
@@ -100,6 +101,19 @@ public partial class LearnerScreen : UserControl
     {
         if (Selected is not null) PinBox.Focus();
         else if (LearnersList.Items.Count > 0) LearnersList.Focus();
+        else NewButton.Focus(); // nobody here yet: the first thing to do is make a learner
+    }
+
+    /// <summary>
+    /// F1 on this screen (UX sweep, plan 15.1): the help is the panel on the right, so F1 brings it into view and says
+    /// so, with where to read more.
+    /// </summary>
+    public void ShowHelp()
+    {
+        HelpTitle.BringIntoView();
+        LockedBanner.Visibility = Visibility.Visible;
+        LockedText.Text = "Help for this screen is in the panel on the right, \"This screen: who is learning?\". " +
+                          $"More help: the Help on the web button below ({WebHelp.Display("index.html")}).";
     }
 
     private void UpdateButtons()

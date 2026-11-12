@@ -53,7 +53,7 @@ public sealed class LearningPath
     /// <summary>The My progress row.</summary>
     public PathNode Dashboard { get; }
 
-    /// <summary>"12 of 98 items · 2 of 15 modules complete (the 15 written so far)", for the status bar.</summary>
+    /// <summary>"12 of 98 items · 2 of 15 modules complete", for the status bar.</summary>
     public string TotalsText { get; private set; } = "";
 
     /// <summary>"Time in Statistics+: 3 h 10 min (today 25 min)", for the status bar.</summary>
@@ -123,7 +123,7 @@ public sealed class LearningPath
                     : "A reading: complete when you press I have read this";
             }
         }
-        TotalsText = $"{summary.Totals.ItemsComplete} of {summary.Totals.Items} items · {summary.Totals.ModulesComplete} of {summary.Totals.Modules} modules complete (the {summary.Totals.Modules} written so far)";
+        TotalsText = $"{summary.Totals.ItemsComplete} of {summary.Totals.Items} items · {summary.Totals.ModulesComplete} of {summary.Totals.Modules} modules complete";
         TimeText = TimeWords(Progress, now);
     }
 

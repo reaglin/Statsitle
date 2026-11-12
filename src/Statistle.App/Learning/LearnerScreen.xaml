@@ -11,15 +11,14 @@
                 BorderThickness="1,0,0,0" Padding="18,18">
             <ScrollViewer VerticalScrollBarVisibility="Auto" Focusable="False">
                 <StackPanel>
-                    <TextBlock Text="This screen: who is learning?" Style="{DynamicResource PanelTitle}" AutomationProperties.HeadingLevel="Level2" />
+                    <TextBlock x:Name="HelpTitle" Text="This screen: who is learning?" Style="{DynamicResource PanelTitle}" AutomationProperties.HeadingLevel="Level2" />
                     <TextBlock Style="{DynamicResource Lead}" Foreground="{DynamicResource InkBrush}"
                                Text="Each learner's progress is kept in a file of their own, locked with their PIN. Choose your name, type your PIN and press Open. New here? Press New learner." />
                     <TextBlock Text="Just the calculator?" FontWeight="SemiBold" Margin="0,6,0,2" />
                     <TextBlock Style="{DynamicResource Lead}"
                                Text="Just the Workbench opens the statistics calculator (data tables, analyses, Report, Plots and Code) without signing in, for your own assignments. Nothing is recorded as progress, and you can sign in later from the Learner menu." />
                     <TextBlock Text="Instructors" FontWeight="SemiBold" Margin="0,6,0,2" />
-                    <TextBlock Style="{DynamicResource Lead}"
-                               Text="To try Statistics+ yourself, press New learner with any name and PIN; Remove takes it off again." />
+                    <TextBlock Style="{DynamicResource Lead}"><Run Text="To try Statistics+ yourself, press New learner with any name and PIN; Remove takes it off again. To check a student's progress report or result line, press " /><Bold>Check reports and class codes (for instructors)</Bold><Run Text=" at the bottom of this screen. No sign-in is needed." /></TextBlock>
                     <TextBlock Text="Your PIN" FontWeight="SemiBold" Margin="0,6,0,2" />
                     <TextBlock Style="{DynamicResource Lead}"
                                Text="4 to 6 digits that you chose. After 5 wrong tries Statistics+ makes you wait a little before the next, and the wait grows. Forgot it? Choose your name and press Forgot my PIN: your recovery code sets a new one." />
@@ -86,7 +85,7 @@
                            AutomationProperties.LiveSetting="Polite" />
 
                 <WrapPanel Margin="0,10,0,0">
-                    <Button Content="_New learner…" Click="New_Click" Margin="0,0,8,8"
+                    <Button x:Name="NewButton" Content="_New learner…" Click="New_Click" Margin="0,0,8,8"
                             ToolTip="Start your own progress file: your name, an optional student ID, and a PIN" />
                     <Button Content="_Add learner from file…" Click="Import_Click" Margin="0,0,8,8"
                             ToolTip="Bring in a progress file from another computer or a backup. If that learner is already here, the two copies are combined and nothing is lost" />
@@ -112,7 +111,7 @@
                 <Separator Margin="0,14,0,10" />
                 <TextBlock x:Name="FolderText" TextWrapping="Wrap" Foreground="{DynamicResource MutedTextBrush}" Margin="0,0,0,8" />
                 <WrapPanel>
-                    <Button Content="Open the learners' _folder" Click="OpenFolder_Click" Margin="0,0,8,8"
+                    <Button Content="Open the learners' fol_der" Click="OpenFolder_Click" Margin="0,0,8,8"
                             ToolTip="Opens the folder in File Explorer. An instructor can remove the file of a student who has left (the file name is in Remove's tooltip), with Statistics+ closed" />
                     <Button Content="_Settings…" Click="Settings_Click" Margin="0,0,8,8"
                             ToolTip="Where learners' files are kept, and when Statistics+ locks itself. For everyone on this computer" />
