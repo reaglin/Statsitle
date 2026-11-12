@@ -154,7 +154,7 @@ T5. **14. ANOVA** (6 items + check), ending with a paragraph over the whole cour
     fertilizer data by hand (F = 21.6) — free to use, or is it graded? 14.2 teaches Welch's ANOVA for unequal variances,
     which the Workbench does not calculate (the Python and R are given) — add it to One-way ANOVA? 14.1's simulation
     runs independent tests (1 − (1 − α)ᵐ); the text also gives the lower rate of correlated pairwise tests.
-T6. Your course's own pages, from the writers' reading (worth a look):
+T6. Your course's own pages, from the writers' reading (now kept in `docs/COURSE-SITE-NOTES.md` for you to fix later):
     - **Module 10:** labelled Week 11/Module 10 in one place and Module 11 in another. It gives no formula for the
       p₁ − p₂ interval, and its Example 2 claims a direction ("significantly higher in Group 1") from a two-sided test.
       Levene's test is called an "F-test". d is x₂ − x₁ on one page and x₁ − x₂ on another.

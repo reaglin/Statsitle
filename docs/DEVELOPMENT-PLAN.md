@@ -297,6 +297,13 @@ uget-local` (Ron, 2026-11-11) → phase 8 |
 | Q6 | 2026-11-11 | Is the course's "Additional Advanced Topics" module in the path at 2.0, or kept for later (phase 16)? | **Later** (phase 16), not in 2.0 (Ron, 2026-11-11) |
 | Q8 | 2026-11-11 | The Workbench project belongs to the computer, as in 1.1, so after Sign out the next student sees it. Should Sign out offer to save and clear it (or should each learner have their own Workbench project)? | **2026-11-11, Ron:** "It is OK for students to see who else might have logged in, as long as they don't have the pin." Kept as is: the Workbench project stays the computer's; a learner's progress stays behind their PIN. |
 | Q7 | 2026-11-11 | AI: PLC+ has none in its first release. Statistics+ has none either (the Workbench never had any). Is that right for 2.0? | **Correct, no AI (yet).** Once a use case is made for AI in either application (Statistics+ or PLC+) it might be added (Ron, 2026-11-11) |
+| Q9 | 2026-11-11 | Equal variances: Modules 10 and 14 use the course's rule (variance ratio above about 2–3 → unequal); Module 9 says "SD ratio under 2". Change Module 9 too? | **Yes, change 9 also** (Ron, 2026-11-11). Done: Module 9, its quizzes and the reference pages use the course's rule; the "looser rule" asides are gone |
+| Q10 | 2026-11-11 | Real data: R's `stackloss`, `mtcars`, `trees` (Module 11) and the course reading's fertilizer data (14.3) — allowed? | **Publicly available data sources are OK** (Ron, 2026-11-11) |
+| Q11 | 2026-11-11 | Welch's ANOVA is taught in 14.2 but not calculated by the Workbench. Add it to One-way ANOVA? | **Yes** (Ron, 2026-11-11) → 10.11 |
+| Q12 | 2026-11-11 | ANOVA tables in the lessons follow R's column order (df before SS); the Workbench lists SS before df. Acceptable? | **Yes** (Ron, 2026-11-11) |
+| Q13 | 2026-11-11 | Depth: 13.4's cross-validation (PRESS, six hold-out seeds); 13.2's Durbin–Watson bounds table or just "below about 1.5"? | **13.4 is OK; keep the bounds table in 13.2** (Ron, 2026-11-11) |
+| Q14 | 2026-11-11 | Slips found on the course site (part T6 of the hand-test) | **Make a note for Ron; he addresses them later** (Ron, 2026-11-11) → `docs/COURSE-SITE-NOTES.md` |
+| Q15 | 2026-11-11 | Push Statistle to GitHub? | **Yes, to the Statistle repo** (Ron, 2026-11-11). Pushed to `github.com/reaglin/Statsitle` (the repository's name has the letters swapped; ⚠️ Ron: rename it on GitHub to `Statistle` if wanted — GitHub redirects the old address, and the local remote is then updated) |
 
 ## References
 
@@ -306,6 +313,8 @@ uget-local` (Ron, 2026-11-11) → phase 8 |
 | `docs/PLAN.md` | The strategy: what the student does, the module-to-analysis map, the architecture |
 | `docs/METHODS-AND-SOURCES.md` | Every statistic with its formula, source, Python and R |
 | `docs/MANUAL-TESTING.md` | Ron's hand-tests, newest round first, and the publish command for `manual-test\Statistle.exe` |
+| `docs/COURSE-SITE-NOTES.md` | Slips found on the course site, for Ron to fix there (Q14) |
+| `docs/OUTCOMES.md` | Every outcome with the items, exercises and questions that assess it (13.6) |
 | `docs/CONTENT-FORMAT.md` | How Course content is written: modules, items, tasks, widgets, quizzes |
 | `docs/ux-reviews/2026-11-11-course.md` | The UX review of the Course (plan 9.6) |
 | `docs/ux-reviews/2026-10-31-pre-release.md` | The pre-release UX review that phase 6 answers |
