@@ -8,8 +8,8 @@
 
   <ItemGroup>
     <!-- The shared learning engine (learners, PINs, progress, quizzes, the dashboard), from the local feed C:\nuget-local. -->
-    <PackageReference Include="Eaglin.Learning.Core" Version="1.1.0" />
-    <PackageReference Include="Eaglin.Learning.Reports.Pdf" Version="1.1.0" />
+    <PackageReference Include="Eaglin.Learning.Core" Version="1.2.0" />
+    <PackageReference Include="Eaglin.Learning.Reports.Pdf" Version="1.2.0" />
   </ItemGroup>
 
   <ItemGroup>

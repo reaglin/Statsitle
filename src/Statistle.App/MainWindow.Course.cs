@@ -171,14 +171,14 @@ public partial class MainWindow
         SignOutMenu.ToolTip = session is null ? "Nobody is signed in" : "Saves your progress, locks your file and goes back to Who is learning? (for the next student, or to switch learner)";
         HandInMenu.IsEnabled = session is not null;
         HandInMenu.ToolTip = _coursePage is null ? "The Course could not be read, so there is nothing to report"
-            : session is null ? "Sign in first: a report shows your own progress" : "Makes a signed PDF report of a module check, or of everything so far, to hand in to your instructor";
+            : session is null ? "Sign in first: a report shows your own progress" : "Makes a signed progress report (PDF) of a module check, or of everything so far, to hand in to your instructor";
         BackupMenu.IsEnabled = session is not null;
         BackupMenu.ToolTip = session is null ? "Sign in first: the backup is of your own progress file" : "Saves a copy of your progress file to a USB drive or a cloud folder, in case this computer is changed";
     }
 
     private void SignIn_Click(object sender, RoutedEventArgs e) => ShowLearnerScreen();
 
-    /// <summary>Learner ▸ Hand in a report (plan 14.1): the report page in the Course.</summary>
+    /// <summary>Learner ▸ Hand in a progress report (plan 14.1): the report page in the Course.</summary>
     private void HandIn_Click(object sender, RoutedEventArgs e)
     {
         if (_coursePage is null) return;
@@ -186,7 +186,7 @@ public partial class MainWindow
         _coursePage.ShowReports(_coursePage.CurrentItem is { Kind: global::Learning.Core.Content.ItemKind.Assess } check ? check.Id : null);
     }
 
-    /// <summary>File ▸ Check a report (for instructors) (plan 14.2): works without the Course and without signing in.</summary>
+    /// <summary>File ▸ Check reports and class codes (for instructors) (plan 14.2): works without the Course and without signing in.</summary>
     private void CheckReport_Click(object sender, RoutedEventArgs e) => new Statistle.App.Learning.VerifyWindow(this).ShowDialog();
 
     private void Backup_Click(object sender, RoutedEventArgs e)

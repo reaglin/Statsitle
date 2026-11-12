@@ -26,7 +26,7 @@ Build: `manual-test\Statistle.exe` (made 2026-11-11, version 2.0.0; the content 
 `manual-test\content\egn3443`). Close any copy that is open first. Plan phases 7–11 (`docs/DEVELOPMENT-PLAN.md`).
 The Module 2 pilot was approved (plan 11.1 ✅). **This round: the program (part P), modules 0, 1, 3 and 4 (part Q),
 modules 5–9 (part R), what is new in the Workbench (part S), modules 10–14 (part T) and the Workbench additions made
-for them (part U).** Read as much of Q, R and T as you have time for;
+for them (part U), and handing in a report (part V, plan 14).** Module 9 now uses the course's variance rule (Ron's answer). Read as much of Q, R and T as you have time for;
 your view on the shape of one or two modules is as useful as a full read.
 
 ### P. The program, as a student meets it
@@ -185,6 +185,26 @@ U6. **One-way ANOVA** with unequal spreads: open Module 14 ▸ 14.2's Example (t
     `oneway.test(y ~ g, var.equal = FALSE)` gives (F = 11.825, num df = 2, denom df = 12.194, p = 0.001396). The
     ANOVA's own F is 1.42 (p = 0.265). The Code tab prints the same three lines in Python and in R. Click each: the help panel
     says when to read it (Levene's p small).
+
+### V. Handing in a report (plan 14.1–14.3)
+
+V1. Sign in as a test learner. Pass one exercise in a module, then **Learner ▸ Hand in a progress report…**
+    (also a button on My progress, and **Hand in a progress report…** at the top of a module check). Expected: 1. the module checks
+    and "Everything so far", each with where you are; 2. a card that says Complete or Incomplete, the score, the items, the
+    outcomes and the time, and what is still to do.
+V2. **Save the progress report (PDF)…**. The first time, **My details for reports** opens (student ID, course, section, your e-mail,
+    your instructor's e-mail, class code; all optional). Continue, save, and open the PDF. Expected: the cover, the summary,
+    each item, the outcomes, **Exercise evidence** (the answers you typed beside the values Statistics+ calculated, ✓/✗,
+    and the exercise's figure) and Verification with a QR code. Is the evidence what you want to see as the instructor?
+V3. Under **3. Hand it in**: the result line starts `STAT1|`; **Copy the result line**, **Send to my instructor…** (opens
+    your e-mail with the line, and the folder with the PDF) and **Show the file in its folder**. The report is listed under
+    **Reports you have made**.
+V4. As the instructor: **File ▸ Check reports and class codes (for instructors)…** (or the button on Who is learning?). **Make a new class
+    code**, then check the PDF and the pasted line. Expected: "The report is genuine". Open the PDF in a PDF editor, save it,
+    check again: "The report was changed". With a class code typed in My details, a line checks with the code alone.
+V5. Signed out: **Learner ▸ Hand in a progress report** is grayed with "Sign in first"; the page says to sign in.
+V6. The instructors' help page https://softwareplus.ai/statistle/help/reports.html (not linked from the site until 2.0
+    ships, plan 15.4): is it what an instructor needs?
 
 ---
 

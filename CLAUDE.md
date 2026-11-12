@@ -22,8 +22,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 > 'two-sided' and pstats bugs). **Phase 13 the same day:** Modules 10–14 written (two-sample II, regression,
 > multiple regression, validating regression, ANOVA); the **hold-out split** in Multiple regression (plan 10.10),
 > **Coefficient to read** (one coefficient as numbers), ANOVA figures that name their groups; `docs/OUTCOMES.md` from
-> `tools/make-outcomes.py`. ⚠️ Ron's hand-test round 2.0 (parts P–U) covers all of it; phases 14 (reports) and 15
-> (the release) are next. Figures of every task as PNGs: `STATISTLE_FIGURE_SHOTS=<folder> dotnet test tests/Statistle.App.Tests --filter FigureShots`.
+> `tools/make-outcomes.py`. Ron's answers the same day: Module 9 uses the course's variance rule, **Welch's ANOVA**
+> in One-way ANOVA (plan 10.17), course-site slips kept in `docs/COURSE-SITE-NOTES.md`, pushed to GitHub (`reaglin/Statsitle`).
+> **Phase 14 the same day:** Hand in a progress report (signed PDF with each passed exercise's results and figure, the
+> `STAT1|` result line, File ▸ Check reports and class codes) on **Learning Core 1.2.0** (`Eaglin.Learning.Reports.Pdf`); the
+> instructors' page softwareplus.ai/statistle/help/reports.html. ⚠️ Ron's hand-test round 2.0 (parts P–V); phase 15
+> (the release) is next. A sample report: `STATISTLE_REPORT_SAMPLES=<folder> dotnet test tests/Statistle.App.Tests --filter Write_a_sample_report`. Figures of every task as PNGs: `STATISTLE_FIGURE_SHOTS=<folder> dotnet test tests/Statistle.App.Tests --filter FigureShots`.
 > Pictures of the Course for checking by eye: `STATISTLE_COURSE_SHOTS=<folder> dotnet test tests/Statistle.App.Tests --filter CourseShots`.
 
 **Statistle** — a Windows 10/11 desktop app that calculates the statistics of Ron's course

@@ -22,7 +22,7 @@ public static class StatsReports
     public static ReportOptions Options => new("Statistics+", LearnerPlaces.AppVersion, "STAT1", "StatisticsPlus");
 
     public static readonly ReportWords Words = new(
-        "To check it, an instructor opens Statistics+ and chooses File, then Check a report (for instructors), or Check a report on the Who is learning? screen.",
+        "To check it, an instructor opens Statistics+ and chooses File, then Check reports and class codes (for instructors), or the same button on the Who is learning? screen.",
         "Counted only while the learner was using Statistics+ (a key or the mouse in the last two minutes), so it is a lower bound.")
     {
         EvidenceHeading = "Exercise evidence",
@@ -30,6 +30,13 @@ public static class StatsReports
                        "The fingerprint is the SHA-256 of the answers that were graded; the answers themselves are inside this file.",
         FingerprintName = "Answers fingerprint (SHA-256)",
         PictureText = e => $"The results of {e.Title}: the learner's answers beside the values Statistics+ calculated, and the exercise's figure",
+        // Not "tests": in this course a test is a hypothesis test. Each check is one answer the learner typed.
+        PointName = "Module check",
+        ChecksNote = "The answers checked in each exercise and set of questions follow the table.",
+        ChecksHeading = "Answers checked, from the best attempt",
+        Passed = "right",
+        NotPassed = "WRONG",
+        HighStakesNote = "For a high-stakes assessment, use a proctored exam.",
     };
 
     public static string Percent(double? value) => value is { } v ? $"{Math.Round(v, MidpointRounding.AwayFromZero).ToString(CultureInfo.CurrentCulture)}%" : "no score";
@@ -81,7 +88,7 @@ internal sealed class ReportDetailsWindow : FormWindow
         _details = details;
         _id = AddText("_Student ID (optional):", "Your college or school ID, if your instructor wants it on the report.");
         _course = AddText("_Course (optional):", "The course, such as \"EGN3443 Probability and Statistics for Engineers\".");
-        _section = AddText("S_ection (optional):", "Your section or class group, if there is more than one.");
+        _section = AddText("Sec_tion (optional):", "Your section or class group, if there is more than one.");
         _email = AddText("Your _e-mail (optional):", "Printed on the cover, so the instructor can reply.");
         _instructor = AddText("Your _instructor's e-mail (optional):", "Send to my instructor starts an e-mail to this address. Statistics+ never sends anything itself.");
         _code = AddText("C_lass code (optional, from your instructor):", "16 letters and numbers, such as 7K3M-9QX2-4F2A-BD30. With it, your reports show they came from your class. Leave it empty if your instructor did not give you one.");
@@ -94,7 +101,7 @@ internal sealed class ReportDetailsWindow : FormWindow
         Body.Children.Add(_programs);
         (_id.Text, _course.Text, _section.Text, _email.Text, _instructor.Text, _code.Text, _programs.IsChecked) =
             (details.StudentId ?? "", details.Course ?? "", details.Section ?? "", details.Email ?? "", details.InstructorEmail ?? "", details.ClassCode ?? "", details.IncludePrograms);
-        AddButton(firstReport ? "_Continue" : "_Save my details", firstReport ? "Keeps these details (empty boxes are fine) and goes on to save the report" : "Keeps these details for your reports",
+        AddButton(firstReport ? "C_ontinue" : "Save my _details", firstReport ? "Keeps these details (empty boxes are fine) and goes on to save the report" : "Keeps these details for your reports",
             Save_Click, isDefault: true);
         AddButton(firstReport ? "Cancel (no report)" : "Cancel", firstReport ? "Closes this; no report is made" : "Closes this without changing anything",
             (_, _) => DialogResult = false, isCancel: true);
@@ -146,8 +153,9 @@ public sealed class VerifyWindow : FormWindow
     private readonly TextBlock _newCodeText = new() { TextWrapping = TextWrapping.Wrap, Visibility = Visibility.Collapsed, FontSize = 12.5 };
 
     public VerifyWindow(Window? owner)
-        : base(owner, "Statistics+ — Check a report (for instructors)", "Check a report (for instructors)",
+        : base(owner, "Statistics+ — Check reports and class codes (for instructors)", "Check reports and class codes (for instructors)",
             "Checks that a Statistics+ progress report is genuine and was not changed after the learner saved it, and checks a result line. " +
+            "At the start of a term, Make a new class code (below) to give your class. " +
             "Choose the PDF, paste the result line, or both. If your class uses a class code, type it too. Nothing is sent anywhere.", 720)
     {
         var fileLabel = new Label { Content = "The _report (a PDF file from Statistics+):", Target = _file, Padding = new Thickness(0, 6, 0, 2), FontWeight = FontWeights.SemiBold };
@@ -191,7 +199,7 @@ public sealed class VerifyWindow : FormWindow
         _newCode.Text = code;
         _newCode.Visibility = _newCodeText.Visibility = Visibility.Visible;
         _newCodeText.Text = (copied ? "Your new class code (copied). " : "Your new class code: select it and press Ctrl+C to copy it. ") +
-                       "Give it to your class, in your course page or assignment instructions; each learner types it in Hand in a report ▸ My details for reports. " +
+                       "Give it to your class, in your course page or assignment instructions; each learner types it in Learner ▸ Hand in a progress report ▸ My details for reports. " +
                        "Keep it somewhere safe: you need it to check their reports. Anyone with the code can sign as your class, so give it only to your class. " +
                        "Make a new one each term. The class code box above is not changed: type this one there when you check reports made with it.";
     }
@@ -225,7 +233,7 @@ public sealed class VerifyWindow : FormWindow
         if (pdf is not null)
         {
             var v = ReportSeal.Verify(pdf, code.Length > 0 ? code : null);
-            text.AppendLine(v.Outcome switch { ReportCheck.Genuine => "✓ THE REPORT IS GENUINE", ReportCheck.Altered => "✗ THE REPORT WAS CHANGED", _ => "✗ NOT A SIGNED Statistics+ REPORT" });
+            text.AppendLine(v.Outcome switch { ReportCheck.Genuine => "✓ THE REPORT IS GENUINE", ReportCheck.Altered => "✗ THE REPORT WAS CHANGED", _ => "✗ NOT A SIGNED Statistics+ PROGRESS REPORT (a Workbench analysis report is not signed)" });
             text.AppendLine(v.Explanation);
             if (v.Snapshot is not null)
                 text.AppendLine("(The verification code is printed on the report, to quote it; the computer key names the computer it was made on.)");
@@ -264,12 +272,12 @@ public sealed class ReportsView : UserControl
     private readonly TextBlock _cardMissing = new() { TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 6, 0, 0) };
     private readonly TextBlock _cardCover = new() { TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 8, 0, 4) };
     private readonly CheckBox _programs = new() { Content = "Put my exercise _results in the report", Margin = new Thickness(0, 4, 0, 8) };
-    private readonly Button _save = new() { Content = "_Save the PDF report…", FontWeight = FontWeights.SemiBold, Padding = new Thickness(14, 5, 14, 5) };
+    private readonly Button _save = new() { Content = "_Save the progress report (PDF)…", FontWeight = FontWeights.SemiBold, Padding = new Thickness(14, 5, 14, 5) };
     private readonly TextBlock _handInLead = new() { TextWrapping = TextWrapping.Wrap };
     private readonly TextBox _line = new() { IsReadOnly = true, TextWrapping = TextWrapping.Wrap, Padding = new Thickness(4, 3, 4, 3), Margin = new Thickness(0, 6, 0, 6), FontFamily = new FontFamily("Consolas") };
     private readonly Button _copy = new() { Content = "_Copy the result line" };
     private readonly Button _send = new() { Content = "Send to my _instructor…" };
-    private readonly Button _show = new() { Content = "Show the _file in its folder" };
+    private readonly Button _show = new() { Content = "Show the file in its f_older" };
     private readonly ListBox _history = new() { MinHeight = 60, Margin = new Thickness(0, 4, 0, 0) };
     private readonly StackPanel _handIn = new();
     private readonly TextBlock _handInDetail = new() { TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 6, 0, 0), FontWeight = FontWeights.SemiBold };
@@ -409,10 +417,10 @@ public sealed class ReportsView : UserControl
                 _ => "○ not complete yet: " + s.Detail,
             };
             _points.Items.Add(Entry($"Module {s.Check.Module.Number} check: {s.Check.Module.Title} — {words}", s.Check,
-                $"A report for module {s.Check.Module.Number}, {s.Check.Module.Title}: its items, scores, tests and outcomes"));
+                $"A report for module {s.Check.Module.Number}, {s.Check.Module.Title}: its items, scores, answers and outcomes"));
         }
-        _points.Items.Add(Entry("Everything so far — a full progress report, every module written so far", SubmissionRecord.FullReport,
-            "A report of every item in the modules written so far"));
+        _points.Items.Add(Entry("Everything so far — every module, with what you have done and what is left", SubmissionRecord.FullReport,
+            "A full progress report: every item of the course, done or still to do"));
         var chosen = _points.Items.Cast<ListBoxItem>().FirstOrDefault(i => i.Tag is LearningItem c && c.Id.Equals(pointId, StringComparison.OrdinalIgnoreCase))
             ?? (pointId == SubmissionRecord.FullReport ? _points.Items.Cast<ListBoxItem>().Last() : null)
             ?? _points.Items.Cast<ListBoxItem>().FirstOrDefault(i => i.Tag is LearningItem c && d.Progress.StateOf(c) == ItemState.Complete
@@ -439,7 +447,9 @@ public sealed class ReportsView : UserControl
         _cardTitle.Text = r.PointTitle;
         _cardStatus.Text = r.Status == ReportStatus.Complete
             ? "✓ Complete: ready to hand in"
-            : "Incomplete: you can hand it in now, marked Incomplete, or finish first";
+            : ChosenPoint is null
+                ? "A full report: it lists every item still to do, and says Incomplete until the whole course is done"
+                : "Incomplete: you can hand it in now, marked Incomplete, or finish first";
         _cardFacts.Text = $"{d.Profile.DisplayName} · overall score {StatsReports.Percent(s.OverallScore)} · {s.ItemsComplete} of {s.Items} items complete · " +
                           $"{s.OutcomesMastered} of {s.Outcomes} outcomes mastered · time {ReportPdf.Duration(s.Time)}" +
                           (r.Evidence.Count > 0 ? $" · {r.Evidence.Count} exercise{(r.Evidence.Count == 1 ? "" : "s")} shown with your results" : "");
@@ -453,7 +463,7 @@ public sealed class ReportsView : UserControl
         cover.Add(det.ClassCode is null ? "no class code (only needed if your instructor gave you one)" : "your class code");
         _cardCover.Text = "On the cover: your name, " + string.Join(", ", cover) + ".";
         _programs.IsChecked = det.IncludePrograms;
-        _save.Content = r.Status == ReportStatus.Complete ? "_Save the PDF report…" : "_Save the PDF report (marked Incomplete)…";
+        _save.Content = r.Status == ReportStatus.Complete ? "_Save the progress report (PDF)…" : "_Save the progress report (PDF), marked Incomplete…";
         // Section 3 shows the latest report for the point chosen here, never another point's (so a line is not copied for the wrong check).
         ShowHandIn(d.Progress.Submissions.Where(x => x.PointId.Equals(r.PointId, StringComparison.OrdinalIgnoreCase)).MaxBy(x => x.Generated));
     }
@@ -465,7 +475,7 @@ public sealed class ReportsView : UserControl
         var window = new ReportDetailsWindow(Window.GetWindow(this), file.Data.Profile.DisplayName, details, firstReport);
         if (window.ShowDialog() != true)
         {
-            if (firstReport) Status("No report was made. Press Save the PDF report again when you are ready: only your name is required, so the other boxes can stay empty.");
+            if (firstReport) Status("No report was made. Press Save the progress report again when you are ready: only your name is required, so the other boxes can stay empty.");
             return false;
         }
         file.Data.ReportDetails = details;
@@ -487,14 +497,14 @@ public sealed class ReportsView : UserControl
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or CryptographicException)
         {
             MessageBox.Show(owner, $"Statistics+ could not get this computer's signing key, so it cannot sign the report. Try again; if it keeps happening, ask whoever looks after this computer.\n\nDetails for support: {ex.Message}",
-                "Statistics+ — Save the PDF report", MessageBoxButton.OK, MessageBoxImage.Warning);
+                "Statistics+ — Save the progress report", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
         using (key)
         {
             var now = DateTimeOffset.Now;
             var r = ReportBuilder.Build(Package, d, ChosenPoint, StatsReports.Options, now, key.Fingerprint);
-            if (r.Status == ReportStatus.Incomplete && !ChoiceWindow.Ask(owner, "Statistics+ — Save the PDF report", "Make an incomplete report?",
+            if (r.Status == ReportStatus.Incomplete && ChosenPoint is not null && !ChoiceWindow.Ask(owner, "Statistics+ — Save the progress report", "Make an incomplete report?",
                     $"{r.PointTitle} is not complete yet. The report will say Incomplete on its cover and list what is missing ({r.Missing.Count} " +
                     $"thing{(r.Missing.Count == 1 ? "" : "s")}). Your instructor decides whether to accept it. You can make another report when you have finished.",
                     "_Make it, marked Incomplete", "Makes the report now, marked Incomplete", "_Not now", "Goes back, so you can finish first"))
@@ -522,7 +532,7 @@ public sealed class ReportsView : UserControl
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
             {
                 MessageBox.Show(owner, $"Statistics+ could not save the report there. The folder may be read-only, or a file with that name is open in another program (close it, or choose another name).\n\nDetails for support: {ex.Message}",
-                    "Statistics+ — Save the PDF report", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    "Statistics+ — Save the progress report", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             var line = ResultLine.Issue(r, StatsReports.Options.LineMarker, sealedReport.Signature, details.ClassCode).Text();
@@ -591,7 +601,8 @@ public sealed class ReportsView : UserControl
         if (_shown is not { } r || Data is not { } d) return;
         var to = Details(d).InstructorEmail ?? "";
         var subject = $"Statistics+ report: {d.Profile.DisplayName}, {r.Title}";
-        var body = $"Hello,\n\nMy Statistics+ progress report for {r.Title} is attached ({(r.FileName is { } f ? Path.GetFileName(f) : "the PDF")}).\n\nResult line:\n{r.ResultLine}\n\n{d.Profile.DisplayName}";
+        var body = $"Hello,\n\nMy Statistics+ progress report for {r.Title} is attached ({(r.FileName is { } f ? Path.GetFileName(f) : "the PDF")})." +
+                   (r.ResultLine is { } line ? $"\n\nResult line:\n{line}" : "") + $"\n\n{d.Profile.DisplayName}";
         var mailto = $"mailto:{Uri.EscapeDataString(to)}?subject={Uri.EscapeDataString(subject)}&body={Uri.EscapeDataString(body)}";
         try
         {

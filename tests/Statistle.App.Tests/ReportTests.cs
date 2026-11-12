@@ -125,6 +125,25 @@ public sealed class ReportTests
         }
     }
 
+    /// <summary>A sample report and its evidence picture, when STATISTLE_REPORT_SAMPLES names a folder (to look at by eye).</summary>
+    [Fact]
+    public void Write_a_sample_report_when_asked()
+    {
+        var folder = Environment.GetEnvironmentVariable("STATISTLE_REPORT_SAMPLES");
+        if (string.IsNullOrEmpty(folder)) return;
+        Directory.CreateDirectory(folder);
+        WpfHost.Run(() =>
+        {
+            LearningApp.Name = "Statistics+";
+            var (_, check, data) = PassedOne();
+            using var key = ComputerKey.New();
+            var report = ReportBuilder.Build(Content.Package, data, check, StatsReports.Options, DateTimeOffset.Now, key.Fingerprint);
+            File.WriteAllBytes(Path.Combine(folder, "evidence.png"), ExerciseEvidence.Png(Content, report.Evidence[0])!);
+            var pdf = ReportPdf.Render(report, key.PublicKey, StatsReports.Words, e => ExerciseEvidence.Png(Content, e));
+            File.WriteAllBytes(Path.Combine(folder, report.FileName(StatsReports.Options.FilePrefix)), ReportSeal.Seal(pdf, key, data.ReportDetails!.ClassCode).Pdf);
+        });
+    }
+
     private static ListBox? FindList(DependencyObject root, string name)
     {
         if (root is ListBox list && AutomationProperties.GetName(list) == name && list.IsVisible) return list;
