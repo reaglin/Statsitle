@@ -28,7 +28,9 @@ public sealed class StoreShots
         var folder = Environment.GetEnvironmentVariable("STATISTLE_STORE_SHOTS");
         if (string.IsNullOrEmpty(folder)) return;
         Directory.CreateDirectory(folder);
-        var data = Path.Combine(Path.GetTempPath(), "statistle-shots-" + Guid.NewGuid().ToString("N"));
+        // A short folder for the start screen to show (it prints where learners' files are), made and removed here.
+        var data = Path.Combine(Path.GetPathRoot(Path.GetTempPath())!, "Lab", "Statistics+");
+        if (Directory.Exists(data)) throw new InvalidOperationException($"{data} already exists: remove it, or it would be deleted.");
         Environment.SetEnvironmentVariable(LearnerPlaces.DataVariable, data);
         try
         {
@@ -36,7 +38,13 @@ public sealed class StoreShots
         }
         finally
         {
-            try { Directory.Delete(data, recursive: true); } catch (IOException) { } catch (UnauthorizedAccessException) { }
+            try
+            {
+                Directory.Delete(data, recursive: true);
+                var lab = Path.GetDirectoryName(data)!;
+                if (!Directory.EnumerateFileSystemEntries(lab).Any()) Directory.Delete(lab);
+            }
+            catch (IOException) { } catch (UnauthorizedAccessException) { }
         }
     }
 

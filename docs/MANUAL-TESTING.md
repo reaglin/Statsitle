@@ -206,6 +206,35 @@ V5. Signed out: **Learner ▸ Hand in a progress report** is grayed with "Sign i
 V6. The instructors' help page https://softwareplus.ai/statistle/help/reports.html (not linked from the site until 2.0
     ships, plan 15.4): is it what an instructor needs?
 
+### W. Before the Store: the full UX sweep's fixes and the release text (plan 15.1–15.4)
+
+The sweep (`docs/ux-reviews/2026-11-12-pre-release.md`) found 1 Critical, 7 Major and 31 Minor; all were fixed. Try these:
+
+W1. **Who is learning?** The menu bar and the Course | Workbench strip are grayed while it shows; F1 points to the help on
+    the right; the status line says what to do on this screen. Alt+F, Alt+P do nothing behind it.
+W2. **Idle lock.** Sign in, type an answer in an exercise without checking it, and leave Statistics+ alone past the lock time
+    (Learner settings; set 1 minute to try it). Sign in again as the same learner: you are back on that item with your
+    answer still there. Sign in as someone else: their boxes are empty.
+W3. **Enter in an exercise.** Type the first answer and press Enter: the cursor goes to the next box, nothing is counted.
+    Press **Check my answers** with a box empty: "Fill in every box … Nothing has been counted yet."
+W4. **A module check with blanks.** Answer some questions and press Check: it names the unanswered questions, marks each
+    "No answer yet", and counts nothing.
+W5. **Learner ▸ Change my PIN…** (signed in). Copy buttons in an exercise say "Copied ✓". The Learn/Example/Exercise/Reference
+    tabs are Ctrl+1 to Ctrl+4, and Alt+L opens the Learner menu.
+W6. **Workbench, import.** Import a CSV with `NA` in one row of y and `#DIV/0!` in another of x: the preview says which rows
+    will be left out, the whole rows go, and a regression on x and y uses the rest in their own order.
+W7. **Workbench, Undo.** Add a data table, paste numbers, change α in an analysis, then Ctrl+Z (outside a text box) a few
+    times: each press undoes one step and the status line says which; nothing typed earlier is lost all at once.
+W8. **Workbench, tree.** Choose a table in the Project tree, then an analysis on the left, then the same table again: it
+    opens. Out-of-range values (α = 0.7) show a sentence under the box, not only a red border.
+W9. **Store text.** Read `resources/STORE-LISTING.md` (the new description, features and What's new) and the screenshots in
+    `resources/images/store/screenshots-2.0/`. Right for the listing?
+W10. **Privacy policy** (live): https://softwareplus.ai/statistle/privacy/, rewritten for learners, the signing key and reports.
+W11. **The site page for 2.0** (a draft, not linked, not indexed): https://softwareplus.ai/statistle/index-next.html. It becomes
+    the Statistics+ page when 2.0 is live.
+W12. **Store-installed copy only, after release:** a learner can be made (files in C:\ProgramData\Statistle\Learners),
+    Help ▸ Check for a new version says you have the latest, and a .statistle file opens by double-click.
+
 ---
 
 ## Round 2026-11 — usability (Ron, 2026-10-31)

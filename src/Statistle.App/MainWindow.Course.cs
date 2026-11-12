@@ -181,6 +181,8 @@ public partial class MainWindow
         LearnerOverlay.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
         MainMenu.IsEnabled = !visible;
         ModeStrip.IsEnabled = !visible;
+        // The status line under the start screen speaks about it, not about the page hidden behind it.
+        if (visible) _workspace.Status = "Who is learning? Choose your name, type your PIN and press Open; or press New learner.";
     }
 
     /// <summary>Whether "Who is learning?" covers the window.</summary>
