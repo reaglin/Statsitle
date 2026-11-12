@@ -4,7 +4,7 @@ number: 13
 title: Validating Regression
 status: draft
 minutes: 300
-prerequisites: [st.m9]
+prerequisites: [st.m12]
 outcomes:
   - st.m13.o1: Identify violations of core regression assumptions — including linearity, homoscedasticity, independence, and normality of residuals — using residual diagnostic plots
   - st.m13.o2: Compute residuals for a given regression model and interpret their patterns to detect model misfit or assumption violations

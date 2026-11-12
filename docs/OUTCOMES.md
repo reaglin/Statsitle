@@ -102,7 +102,57 @@ Written by `tools/make-outcomes.py`; do not edit by hand. `ContentTests` fails i
 | `st.m9.o4` | Interpret p-values and confidence intervals from two-sample and paired-sample tests to distinguish between statistical significance and practical significance | 9.6 Interpreting and communicating results | 1 | 2 / 0 |
 | `st.m9.o5` | Identify an appropriate non-parametric alternative when the assumptions of a parametric two-sample test cannot be satisfied | 9.3 Selecting the appropriate test; 9.5 Introduction to non-parametric methods | 1 | 2 / 2 |
 
+## Module 10: Two-Sample Hypothesis Testing
+
+| ID | The learner can | Taught in | Graded exercises | Questions (check / practice) |
+|---|---|---|---|---|
+| `st.m10.o1` | Distinguish between independent and paired sample designs based on the relationship between observations across two groups | 10.1 Foundations of two-sample testing; 10.2 Independent vs paired samples | — | 2 / 10 |
+| `st.m10.o2` | Verify the statistical assumptions required for a selected two-sample hypothesis test prior to its application | 10.3 Assumptions and conditions; 10.5 Comparing two proportions | 2 | 2 / 0 |
+| `st.m10.o3` | Calculate the appropriate test statistic for comparing two population means using either the independent samples t-test or the paired samples t-test | 10.4 Comparing two means | 1 | 2 / 0 |
+| `st.m10.o4` | Compute the z-test statistic for the difference between two population proportions using a pooled proportion estimate | 10.5 Comparing two proportions | 1 | 2 / 0 |
+| `st.m10.o5` | Evaluate two-sample hypothesis test results by interpreting p-values and confidence intervals within the real-world context of the problem | 10.1 Foundations of two-sample testing; 10.4 Comparing two means; 10.6 Interpreting results and decisions | 2 | 2 / 4 |
+
+## Module 11: Regression Analysis
+
+| ID | The learner can | Taught in | Graded exercises | Questions (check / practice) |
+|---|---|---|---|---|
+| `st.m11.o1` | Construct a simple linear regression equation using the least squares method from a given dataset | 11.1 Foundations of regression; 11.2 Simple linear regression | 2 | 2 / 0 |
+| `st.m11.o2` | Interpret regression coefficients, R-squared, Adjusted R-squared, p-values, and the F-statistic from regression output to draw conclusions about model fit and predictor significance | 11.4 Evaluating model performance; 11.5 Interpreting regression results | 2 | 3 / 0 |
+| `st.m11.o3` | Differentiate between simple and multiple regression models based on the number of predictor variables and the research question being addressed | 11.1 Foundations of regression; 11.3 Multiple regression models (a preview) | 1 | 1 / 5 |
+| `st.m11.o4` | Evaluate a regression model's validity by performing residual analysis and checking key assumptions such as linearity, independence, homoscedasticity, and normality | 11.4 Evaluating model performance; 11.6 Applying regression to real data | 2 | 3 / 0 |
+| `st.m11.o5` | Apply regression analysis to a real-world dataset and communicate findings as actionable, data-driven insights appropriate for a non-technical audience | 11.5 Interpreting regression results; 11.6 Applying regression to real data | 2 | 1 / 0 |
+
+## Module 12: Multiple Regression
+
+| ID | The learner can | Taught in | Graded exercises | Questions (check / practice) |
+|---|---|---|---|---|
+| `st.m12.o1` | Construct a multiple regression equation by selecting appropriate predictor variables and estimating coefficients using ordinary least squares | 12.1 From simple to multiple regression; 12.2 Model specification and structure; 12.5 Building and evaluating models | 2 | 2 / 4 |
+| `st.m12.o2` | Interpret partial regression coefficients in a multiple regression model as the unique effect of each predictor on the outcome while holding all other predictors constant | 12.1 From simple to multiple regression; 12.3 Interpreting regression coefficients | 2 | 2 / 0 |
+| `st.m12.o3` | Differentiate between R-squared and adjusted R-squared as measures of model fit in the context of multiple predictor variables | 12.4 Assessing model fit; 12.5 Building and evaluating models | 2 | 2 / 0 |
+| `st.m12.o4` | Evaluate overall multiple regression model significance using the F-test to determine whether the model explains a statistically significant proportion of variance in the outcome variable | 12.4 Assessing model fit; 12.5 Building and evaluating models | 2 | 2 / 0 |
+| `st.m12.o5` | Justify the inclusion or removal of predictor variables during model refinement based on adjusted R-squared, coefficient significance, and underlying regression assumptions | 12.2 Model specification and structure; 12.5 Building and evaluating models | 1 | 2 / 2 |
+
+## Module 13: Validating Regression
+
+| ID | The learner can | Taught in | Graded exercises | Questions (check / practice) |
+|---|---|---|---|---|
+| `st.m13.o1` | Identify violations of core regression assumptions — including linearity, homoscedasticity, independence, and normality of residuals — using residual diagnostic plots | 13.1 Foundations of regression validation; 13.2 Assessing model assumptions; 13.3 Residual analysis; 13.6 Model refinement and decisions | 3 | 2 / 5 |
+| `st.m13.o2` | Compute residuals for a given regression model and interpret their patterns to detect model misfit or assumption violations | 13.1 Foundations of regression validation; 13.3 Residual analysis | 1 | 2 / 0 |
+| `st.m13.o3` | Distinguish among the holdout method, k-fold cross-validation, and leave-one-out cross-validation in terms of their procedures and appropriate use cases | 13.4 Cross-validation techniques | 1 | 2 / 1 |
+| `st.m13.o4` | Diagnose common regression model weaknesses — including multicollinearity, outliers, and influential observations — using systematic diagnostic workflows and plots | 13.5 Diagnosing model weaknesses | 1 | 2 / 0 |
+| `st.m13.o5` | Recommend specific model refinement strategies — such as variable removal, variable transformation, or functional form adjustment — based on validation findings | 13.6 Model refinement and decisions | 1 | 2 / 0 |
+
+## Module 14: ANOVA
+
+| ID | The learner can | Taught in | Graded exercises | Questions (check / practice) |
+|---|---|---|---|---|
+| `st.m14.o1` | Justify the use of ANOVA over multiple t-tests when comparing means across three or more groups by explaining how multiple t-tests inflate the Type I error rate | 14.1 Introduction to ANOVA; 14.6 Post-hoc testing and interpreting results | 2 | 2 / 0 |
+| `st.m14.o2` | Verify that a dataset meets the core ANOVA assumptions of normality, homogeneity of variance, and independence of observations using visual methods and formal statistical tests | 14.2 Assumptions underlying ANOVA; 14.4 One-way ANOVA | 2 | 2 / 0 |
+| `st.m14.o3` | Calculate the F-statistic for a one-way ANOVA by partitioning total variance into between-group and within-group components and organizing results in an ANOVA summary table | 14.3 The F-statistic and ANOVA logic; 14.4 One-way ANOVA | 2 | 2 / 0 |
+| `st.m14.o4` | Differentiate between main effects and interaction effects in a multi-factor ANOVA design by analyzing F-statistics and their associated p-values for each variance component | 14.5 Multi-factor designs | 1 | 2 / 0 |
+| `st.m14.o5` | Select an appropriate post-hoc testing procedure and interpret its pairwise comparison output to identify which specific group means differ following a significant ANOVA result | 14.6 Post-hoc testing and interpreting results | 1 | 2 / 0 |
+
 ## Totals
 
-47 outcomes; 59 graded exercises, 90 module-check questions and 161 practice questions
+72 outcomes; 98 graded exercises, 140 module-check questions and 192 practice questions
 list one of them (an exercise counts once for each outcome its item lists).

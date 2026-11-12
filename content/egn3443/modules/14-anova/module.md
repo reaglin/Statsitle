@@ -4,7 +4,7 @@ number: 14
 title: ANOVA
 status: draft
 minutes: 330
-prerequisites: [st.m9]
+prerequisites: [st.m13]
 outcomes:
   - st.m14.o1: Justify the use of ANOVA over multiple t-tests when comparing means across three or more groups by explaining how multiple t-tests inflate the Type I error rate
   - st.m14.o2: Verify that a dataset meets the core ANOVA assumptions of normality, homogeneity of variance, and independence of observations using visual methods and formal statistical tests
