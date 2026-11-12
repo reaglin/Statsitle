@@ -22,11 +22,11 @@ version says it cannot check and offers the Store page — that is expected.
 
 ## Round 2.0 — Statistics+: the Course, Start here and Modules 1–14 (2026-11-11)
 
-Build: `manual-test\Statistle.exe` (made 2026-11-11, version 2.0.0; the content package is in
+Build: `manual-test\Statistle.exe` (made 2026-11-12, version 2.0.0; the content package is in
 `manual-test\content\egn3443`). Close any copy that is open first. Plan phases 7–11 (`docs/DEVELOPMENT-PLAN.md`).
 The Module 2 pilot was approved (plan 11.1 ✅). **This round: the program (part P), modules 0, 1, 3 and 4 (part Q),
 modules 5–9 (part R), what is new in the Workbench (part S), modules 10–14 (part T) and the Workbench additions made
-for them (part U), and handing in a report (part V, plan 14).** Module 9 now uses the course's variance rule (Ron's answer). Read as much of Q, R and T as you have time for;
+for them (part U), handing in a report (part V, plan 14), and the release: the UX sweep's fixes, the Store text, privacy and site (part W, plan 15).** Module 9 now uses the course's variance rule (Ron's answer). Read as much of Q, R and T as you have time for;
 your view on the shape of one or two modules is as useful as a full read.
 
 ### P. The program, as a student meets it

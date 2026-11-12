@@ -26,8 +26,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 > in One-way ANOVA (plan 10.17), course-site slips kept in `docs/COURSE-SITE-NOTES.md`, pushed to GitHub (`reaglin/Statsitle`).
 > **Phase 14 the same day:** Hand in a progress report (signed PDF with each passed exercise's results and figure, the
 > `STAT1|` result line, File ▸ Check reports and class codes) on **Learning Core 1.2.0** (`Eaglin.Learning.Reports.Pdf`); the
-> instructors' page softwareplus.ai/statistle/help/reports.html. ⚠️ Ron's hand-test round 2.0 (parts P–V); phase 15
-> (the release) is next. A sample report: `STATISTLE_REPORT_SAMPLES=<folder> dotnet test tests/Statistle.App.Tests --filter Write_a_sample_report`. Figures of every task as PNGs: `STATISTLE_FIGURE_SHOTS=<folder> dotnet test tests/Statistle.App.Tests --filter FigureShots`.
+> instructors' page softwareplus.ai/statistle/help/reports.html. **Phase 15 (2026-11-12):** the full UX sweep (1 Critical, 7 Major,
+> 31 Minor, all fixed: `docs/ux-reviews/2026-11-12-pre-release.md`), the Store listing and submission notes for 2.0, the privacy page
+> for learners and reports (live), Store screenshots from `StoreShots` (`STATISTLE_STORE_SHOTS=<folder> dotnet test tests/Statistle.App.Tests --filter StoreShots`),
+> the site page drafted as `statistle/index-next.html`. ⚠️ Ron's hand-test round 2.0 (parts P–W), then WACK and submit. A sample report: `STATISTLE_REPORT_SAMPLES=<folder> dotnet test tests/Statistle.App.Tests --filter Write_a_sample_report`. Figures of every task as PNGs: `STATISTLE_FIGURE_SHOTS=<folder> dotnet test tests/Statistle.App.Tests --filter FigureShots`.
 > Pictures of the Course for checking by eye: `STATISTLE_COURSE_SHOTS=<folder> dotnet test tests/Statistle.App.Tests --filter CourseShots`.
 
 **Statistle** — a Windows 10/11 desktop app that calculates the statistics of Ron's course

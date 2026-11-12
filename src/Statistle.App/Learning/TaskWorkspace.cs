@@ -185,7 +185,9 @@ public sealed class TaskWorkspace : ContentControl
         var pick = tableEntry is null
             ? "and pick your table's column (listed as table › column) in its entries."
             : $"set {tableEntry} to your table, and pick the column.";
-        var steps = DataColumns(built).Count > 0
+        // An exercise that says how to use the Workbench itself does not need the general steps too.
+        var steps = built.Task.Intro.Contains("To use the Workbench", StringComparison.OrdinalIgnoreCase) ? "The task says how, below."
+            : DataColumns(built).Count > 0
             ? $"To use it: press Copy the data, then Workbench (Ctrl+B) and + Data table; click in the table's box, press Ctrl+V, then Tab. " +
               $"Then choose {x} under Analyses on the left, {pick}"
             : $"To use it: Workbench (Ctrl+B), choose {x} under Analyses on the left, and type the values this task gives.";
