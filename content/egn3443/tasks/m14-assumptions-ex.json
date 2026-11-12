@@ -1,0 +1,42 @@
+{
+  "id": "st.m14.assumptions.ex",
+  "title": "Cycle times on three molding machines",
+  "analysis": "OneWayAnova",
+  "intro": "The cycle time (s) of ten parts was recorded on each of three injection-molding machines. Machine 3 sometimes stalls. Check the assumptions before comparing the machines, and run the rank-based test that does not need normality.\n\nFind Levene's W (median-centered) and its p-value, and the Kruskal–Wallis H and its p-value. Give W and H to two decimals and the p-values to three decimals or more.\n\nTo use the Workbench: press **Copy the data**, press Ctrl+B, click **+ Data table** and paste (Ctrl+V). Choose **One-way ANOVA** in the list on the left, set **Data table** to the table you pasted, **Layout** to *Each column is a group*, leave **Group columns** blank (every column) and set **Significance level (α)** to 0.05. Ctrl+L brings you back.",
+  "tables": [
+    {
+      "name": "Cycle",
+      "columns": {
+        "Machine 1": [31.2, 30.8, 32.0, 31.5, 30.9, 31.7, 31.1, 31.4, 30.6, 31.9],
+        "Machine 2": [32.1, 31.6, 32.8, 31.9, 32.4, 32.0, 31.8, 32.6, 32.2, 31.7],
+        "Machine 3": [31.0, 30.7, 33.9, 31.3, 36.8, 30.9, 31.2, 34.6, 31.5, 30.8]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Cycle time",
+    "Table": "@Cycle/",
+    "Layout": "ColumnsAreGroups",
+    "Alpha": 0.05
+  },
+  "ask": [
+    { "result": "Levene", "prompt": "Levene W (median-centered)" },
+    { "result": "LeveneP", "prompt": "Levene p-value", "tolerance": 0.001 },
+    { "result": "KruskalH", "prompt": "Kruskal–Wallis H" },
+    { "result": "KruskalP", "prompt": "Kruskal–Wallis p-value", "tolerance": 0.001 }
+  ],
+  "mistakes": {
+    "Levene": [
+      { "value": 14.2695, "says": "That is Levene's original test, with distances from each group's mean. Statistics+, like scipy's stats.levene and R's car::leveneTest, centers on the median: zᵢⱼ = |yᵢⱼ − median of group i|, then a one-way ANOVA on the z's." },
+      { "result": "Bartlett", "says": "That is Bartlett's statistic. Levene's W is the F of a one-way ANOVA on the distances from the group medians." }
+    ],
+    "KruskalH": [
+      { "result": "F", "says": "That is the ANOVA's F. Kruskal–Wallis ranks all 30 values together and compares the groups' mean ranks." }
+    ]
+  },
+  "hints": [
+    "Levene: for each value, its distance from its own group's median. Then run a one-way ANOVA on those distances; W is its F.",
+    "Levene's p is the area above W under the F curve with k − 1 = 2 and N − k = 27 df: Python stats.f.sf(W, 2, 27), R pf(W, 2, 27, lower.tail = FALSE).",
+    "Kruskal–Wallis: rank all 30 values (1 = smallest, ties share the average rank); H = 12/(N(N + 1)) × Σ Rᵢ²/nᵢ − 3(N + 1), with Rᵢ the rank sum of group i. Compare H with χ² on k − 1 = 2 df."
+  ]
+}

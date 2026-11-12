@@ -1,0 +1,41 @@
+{
+  "id": "st.m14.one-way.ex",
+  "title": "Resin viscosity from four suppliers",
+  "analysis": "OneWayAnova",
+  "intro": "A plant buys epoxy resin from four suppliers and measured the viscosity (Pa·s) of the drums on hand: 7 from supplier 1, 5 from supplier 2, 6 from supplier 3 and 8 from supplier 4. The groups differ in size, which one-way ANOVA allows. Do the suppliers' mean viscosities differ, at α = 0.05?\n\nFind MS within, F and η². Give each to two decimals.\n\nTo use the Workbench: press **Copy the data**, press Ctrl+B, click **+ Data table** and paste (Ctrl+V). Choose **One-way ANOVA** in the list on the left, set **Data table** to the table you pasted, **Layout** to *Each column is a group*, leave **Group columns** blank and set **Significance level (α)** to 0.05. Ctrl+L brings you back.",
+  "tables": [
+    {
+      "name": "Resin",
+      "columns": {
+        "Supplier 1": [42.1, 44.3, 43.0, 41.8, 43.6, 42.7, 44.0],
+        "Supplier 2": [45.2, 46.8, 44.9, 46.1, 45.7],
+        "Supplier 3": [43.4, 42.2, 44.1, 43.0, 42.8, 43.9],
+        "Supplier 4": [44.6, 45.9, 43.8, 45.1, 44.4, 46.0, 45.3, 44.8]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Viscosity",
+    "Table": "@Resin/",
+    "Layout": "ColumnsAreGroups",
+    "Alpha": 0.05
+  },
+  "ask": [
+    { "result": "MsWithin", "prompt": "MS within" },
+    { "result": "F", "prompt": "F" },
+    { "result": "EtaSquared", "prompt": "η² (eta squared)" }
+  ],
+  "mistakes": {
+    "MsWithin": [
+      { "value": 0.56193, "says": "You divided SS within by N − 1 = 25. The within-groups df are N − k = 26 − 4 = 22: each group's mean uses up one." }
+    ],
+    "EtaSquared": [
+      { "value": 2.23073, "says": "You divided SS between by SS within. η² is the share of the total: SS between / SS total." }
+    ]
+  },
+  "hints": [
+    "N = 7 + 5 + 6 + 8 = 26 and k = 4, so the df are k − 1 = 3 between and N − k = 22 within.",
+    "SS between = Σ nᵢ(ȳᵢ − ȳ)², using each group's own nᵢ; SS within = Σ (nᵢ − 1)sᵢ².",
+    "MS within = SS within/22, F = (SS between/3)/MS within, η² = SS between/SS total."
+  ]
+}

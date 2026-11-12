@@ -1,0 +1,24 @@
+{
+  "id": "st.m14.multi-factor.eg",
+  "title": "Yield by catalyst and temperature",
+  "analysis": "TwoWayAnova",
+  "intro": "A reaction was run with two catalysts (factor A, coded 1 and 2) at three temperatures (factor B: 160, 180 and 200 °C), three runs for every combination, and the yield measured (%). Every combination has the same number of runs, so the design is balanced. The interaction plot has the catalyst on the axis and one line per temperature: the 160 and 180 °C lines rise from catalyst 1 to 2, the 200 °C line falls, and the lines cross. Catalyst 2 gives the higher yield at 160 and 180 °C, catalyst 1 at 200 °C. The interaction is the largest effect.",
+  "tables": [
+    {
+      "name": "Reactor",
+      "columns": {
+        "Catalyst": [1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+        "Temperature": [160, 160, 160, 180, 180, 180, 200, 200, 200, 160, 160, 160, 180, 180, 180, 200, 200, 200],
+        "Yield": [71.6, 72.4, 70.3, 76.4, 74.9, 77.3, 81.0, 80.2, 82.6, 78.3, 76.6, 77.9, 78.1, 77.6, 79.8, 76.9, 75.4, 76.6]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Yield",
+    "Table": "@Reactor/",
+    "FactorA": "Catalyst",
+    "FactorB": "Temperature",
+    "Response": "Yield",
+    "Alpha": 0.05
+  }
+}

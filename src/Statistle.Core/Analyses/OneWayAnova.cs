@@ -125,7 +125,7 @@ public sealed class OneWayAnova : Analysis, IHasFigures, IUsesProject, IHasChoic
     public string Table
     {
         get => _table;
-        set => SetProperty(ref _table, value ?? string.Empty);
+        set => SetProperty(ref _table, TableId(value));
     }
 
     [StatistleProperty(Label = "Layout", Role = VariableRole.Design,
@@ -589,6 +589,16 @@ public sealed class OneWayAnova : Analysis, IHasFigures, IUsesProject, IHasChoic
         }
 
         return groups.Count < 2 ? "The factor column has fewer than two distinct levels." : null;
+    }
+
+    /// <summary>
+    /// The table's id. A column reference ("id␟column", as a lesson's "@Table/" setting is written) is read as
+    /// the table it points to, as the Chi-square tests read theirs.
+    /// </summary>
+    private static string TableId(string? value)
+    {
+        (int id, _) = DataSources.Split(value);
+        return id > 0 ? id.ToString(CultureInfo.InvariantCulture) : value ?? string.Empty;
     }
 
     private DataTable? TableChosen() =>

@@ -1,0 +1,40 @@
+{
+  "id": "st.m14.post-hoc.ex",
+  "title": "Flow through five nozzle designs",
+  "analysis": "OneWayAnova",
+  "intro": "Five spray-nozzle designs (A to E) were each tested five times and the flow rate measured (L/min). The ANOVA rejects equal means. Which designs differ? Use Tukey's HSD at α = 0.05.\n\nFind the Tukey critical value q and how many of the 10 pairs differ. (On the way, work out the honestly significant difference HSD = q × √(MS within / n).) Give q to three decimals; the number of pairs is a whole number.\n\nTo use the Workbench: press **Copy the data**, press Ctrl+B, click **+ Data table** and paste (Ctrl+V). Choose **One-way ANOVA** in the list on the left, set **Data table** to the table you pasted, **Layout** to *Each column is a group*, leave **Group columns** blank and set **Significance level (α)** to 0.05. Ctrl+L brings you back.",
+  "tables": [
+    {
+      "name": "Nozzles",
+      "columns": {
+        "Nozzle A": [12.4, 11.8, 12.9, 12.1, 12.6],
+        "Nozzle B": [13.1, 13.6, 12.8, 13.4, 13.0],
+        "Nozzle C": [12.2, 12.7, 11.9, 12.5, 12.3],
+        "Nozzle D": [13.9, 14.3, 13.5, 14.1, 13.8],
+        "Nozzle E": [12.8, 13.3, 12.6, 13.2, 12.9]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Flow rate",
+    "Table": "@Nozzles/",
+    "Layout": "ColumnsAreGroups",
+    "Alpha": 0.05
+  },
+  "ask": [
+    { "result": "TukeyQ", "prompt": "Tukey critical value q(0.05; 5, 20)", "tolerance": 0.002 },
+    { "result": "TukeySignificant", "prompt": "Pairs that differ (Tukey)" }
+  ],
+  "mistakes": {
+    "TukeySignificant": [
+      { "value": 8, "says": "That is how many pairs plain two-sample t-tests at α = 0.05 call different. With 10 comparisons that inflates the familywise error. Compare each difference of means with Tukey's HSD instead." },
+      { "value": 6, "says": "That is the Bonferroni count (each t-test at α/10 = 0.005). Bonferroni is valid but more conservative than Tukey for all pairs; the exercise asks Tukey's HSD." },
+      { "value": 10, "says": "Not every pair differs. A significant F says at least one mean differs; compare each |ȳᵢ − ȳⱼ| with the HSD." }
+    ]
+  },
+  "hints": [
+    "There are k = 5 groups and N − k = 25 − 5 = 20 within-groups df. q comes from the studentized range distribution: Python stats.studentized_range.ppf(0.95, 5, 20), R qtukey(0.95, 5, 20).",
+    "HSD = q × √(MS within / n) with n = 5 per group. Any two means further apart than the HSD differ.",
+    "Write the five means in order and check each of the 10 differences against the HSD."
+  ]
+}

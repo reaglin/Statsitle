@@ -215,4 +215,33 @@ public class AnovaTests
         Assert.All(MethodCatalog.For(typeof(TwoWayAnova)), m => Assert.Empty(MethodContract.Verify(m)));
         Assert.NotNull(new TwoWayAnova().Problem);
     }
+
+    /// <summary>
+    /// A lesson's "@Table/" setting arrives as a column reference with no column ("id␟"); both ANOVAs read it as
+    /// the table, as the Chi-square tests read theirs (Module 14 content).
+    /// </summary>
+    [Fact]
+    public void A_table_reference_is_read_as_the_table()
+    {
+        StatistleDocument alloyProject = AlloyProject(out DataTable alloys);
+        var oneWay = new OneWayAnova { Project = alloyProject, Table = DataSources.Reference(alloys.Id, string.Empty) };
+        Assert.Equal(alloys.Id.ToString(CultureInfo.InvariantCulture), oneWay.Table);
+        oneWay.Recalculate();
+        Assert.Null(oneWay.Problem);
+        Assert.Equal(3, oneWay.K);
+
+        StatistleDocument batteryProject = BatteryProject(out DataTable battery);
+        var twoWay = new TwoWayAnova
+        {
+            Project = batteryProject, Table = DataSources.Reference(battery.Id, string.Empty),
+            FactorA = "temperature", FactorB = "material", Response = "life",
+        };
+        Assert.Equal(battery.Id.ToString(CultureInfo.InvariantCulture), twoWay.Table);
+        twoWay.Recalculate();
+        Assert.Null(twoWay.Problem);
+
+        // The interaction plot names each level of B once in its legend (the markers carry no legend entry).
+        var plot = twoWay.Figures(null)[0];
+        Assert.Equal(2, plot.Series.Count(s => !string.IsNullOrEmpty(s.Name)));
+    }
 }

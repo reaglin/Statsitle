@@ -1,0 +1,147 @@
+{
+  "id": "st.m14.check.quiz",
+  "title": "Module 14 check: ANOVA",
+  "passThreshold": 0.8,
+  "practice": false,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "numeric",
+      "objective": "st.m14.o1",
+      "lookAgain": "st.m14.introduction",
+      "prompt": "A quality engineer has hardness readings from 7 heat-treatment furnaces and plans a two-sample t-test for every pair of furnaces at α = 0.05. Suppose all seven furnaces really give the same mean hardness. Treating the tests as independent, what is the probability that at least one test rejects H₀? Give it to three decimals.",
+      "answer": 0.659,
+      "tolerance": 0.001,
+      "explanation": "Seven furnaces give k(k − 1)/2 = 7 × 6/2 = 21 pairs. The probability that none of 21 independent tests rejects a true H₀ is 0.95²¹ = 0.341, so the familywise error rate is 1 − 0.341 = 0.659: two chances in three of a false alarm. One ANOVA F test at α = 0.05 keeps it at 0.05."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m14.o1",
+      "lookAgain": "st.m14.introduction",
+      "prompt": "Why is one ANOVA preferred to a t-test for every pair when comparing the means of five groups?",
+      "options": [
+        "One F test at level α holds the chance of any false alarm at α",
+        "ANOVA needs neither normal data nor equal variances, unlike the pooled t-test",
+        "ANOVA says which pairs of means differ, which separate t-tests cannot do",
+        "ANOVA compares the medians of the groups, so outliers do not affect it"
+      ],
+      "correct": [0],
+      "explanation": "Each t-test at α = 0.05 has a 5 % chance of a false alarm, and with 10 pairs the chance of at least one grows to about 0.40 (0.28 when the correlation between the pairwise tests is allowed for). ANOVA asks one question with one test. It assumes normality and equal variances like the pooled t-test, it does not say which pairs differ (that is the post-hoc test's job), and it compares means, not medians."
+    },
+    {
+      "id": "q3",
+      "kind": "choice",
+      "objective": "st.m14.o2",
+      "lookAgain": "st.m14.assumptions",
+      "prompt": "Before a one-way ANOVA on four groups (sizes 5, 8, 6 and 12), an engineer finds: standard deviations 2.1, 2.4, 6.8 and 2.2; Levene p = 0.004; Shapiro–Wilk of the residuals p = 0.38; the residuals' Q–Q plot is nearly straight. What should she conclude?",
+      "options": [
+        "Normality holds but the variances differ: use Welch's ANOVA or a transformation",
+        "The variances are equal but normality fails: use the Kruskal–Wallis test instead",
+        "Both assumptions hold, so the ordinary F test can be used and trusted as it is",
+        "Both assumptions fail, so the data cannot be compared by any test at all"
+      ],
+      "correct": [0],
+      "explanation": "Levene p = 0.004 < 0.05 is evidence that the variances differ, and one standard deviation (6.8) is about three times the others. Shapiro–Wilk p = 0.38 and a straight Q–Q plot give no reason to doubt normality. With unequal variances and unequal group sizes the F test's p-value is unreliable, so use Welch's ANOVA (R oneway.test), or a transformation such as the logarithm if the spread grows with the mean."
+    },
+    {
+      "id": "q4",
+      "kind": "choice",
+      "objective": "st.m14.o2",
+      "lookAgain": "st.m14.assumptions",
+      "prompt": "To compare three adhesives, a technician bonds one test joint with each adhesive and measures each joint's stiffness five times in a non-destructive test, recording 15 readings, 5 per adhesive. He runs a one-way ANOVA with 12 within-groups df. Which assumption does this break, and how would you find out?",
+      "options": [
+        "Independence, which shows only in how the data were collected",
+        "Normality, which the Shapiro–Wilk test of the residuals reveals",
+        "Equal variances, which Levene's test on the three groups reveals",
+        "Balance, which shows in the different group sizes in the table"
+      ],
+      "correct": [0],
+      "explanation": "Five readings of one joint are not five independent observations: they share everything about that joint. The analysis has really one joint per adhesive, and its 12 within-groups df are an illusion. No test on the numbers reveals this; it comes from reading how the data were collected. (The groups are the same size, so the design is balanced.)"
+    },
+    {
+      "id": "q5",
+      "kind": "match",
+      "objective": "st.m14.o3",
+      "lookAgain": "st.m14.f-statistic",
+      "prompt": "Match each entry of a one-way ANOVA table with how it is calculated. (k groups, N observations.)",
+      "pairs": [
+        { "left": "df within", "right": "N − k" },
+        { "left": "MS between", "right": "SS between / (k − 1)" },
+        { "left": "F", "right": "MS between / MS within" },
+        { "left": "df total", "right": "N − 1" }
+      ],
+      "explanation": "Each mean square is its sum of squares over its df: k − 1 between and N − k within. F is the ratio of the mean squares, and the total df, N − 1, is the sum of the other two."
+    },
+    {
+      "id": "q6",
+      "kind": "numeric",
+      "objective": "st.m14.o3",
+      "lookAgain": "st.m14.f-statistic",
+      "prompt": "Part of a one-way ANOVA table is smudged. The Between row reads SS = 120 with 3 df, and the Total row SS = 344 with 31 df; the Within row cannot be read. Complete the table and give F to two decimals.",
+      "answer": 5.0,
+      "tolerance": 0.01,
+      "explanation": "The SS and df columns add up: SS within = 344 − 120 = 224 and df within = 31 − 3 = 28. MS between = 120/3 = 40 and MS within = 224/28 = 8, so F = 40/8 = 5.00, on 3 and 28 df (k = 4 groups, N = 32). Its p-value is 0.007."
+    },
+    {
+      "id": "q7",
+      "kind": "choice",
+      "objective": "st.m14.o4",
+      "lookAgain": "st.m14.multi-factor",
+      "prompt": "Tool life (min) in a 2 × 2 study, as cell means: tool material 1 lasts 40 at low speed and 30 at high speed; tool material 2 lasts 35 at low speed and 36 at high speed. Drawn as an interaction plot (speed on the axis, one line per material), what do these means suggest?",
+      "options": [
+        "An interaction: the speed shortens tool life for material 1 but hardly for material 2",
+        "No interaction: both materials last longer at low speed than they do at high speed",
+        "Only a main effect of material: material 2 lasts longer at both speeds than material 1",
+        "Only a main effect of speed: life falls by about the same amount for both materials"
+      ],
+      "correct": [0],
+      "explanation": "Material 1 falls by 10 minutes from low to high speed; material 2 rises by 1. The lines are far from parallel (they cross), which suggests an interaction: the effect of speed depends on the material. The F test for the interaction, with the within-cell scatter, decides whether it is real. Material 2 does not last longer at low speed (35 against 40), and its life does not fall."
+    },
+    {
+      "id": "q8",
+      "kind": "choice",
+      "objective": "st.m14.o4",
+      "lookAgain": "st.m14.multi-factor",
+      "prompt": "A balanced two-way ANOVA of surface roughness against feed rate (A) and coolant (B) gives: p = 0.002 for A, p = 0.31 for B, and p = 0.004 for the A × B interaction. Which reading is right?",
+      "options": [
+        "The effect of coolant depends on the feed rate, so compare the cell means",
+        "Coolant has no effect at any feed rate, because its main effect has p = 0.31",
+        "Feed rate is the only factor that matters; the interaction can be ignored",
+        "Each factor should now be tested again in its own one-way ANOVA instead"
+      ],
+      "correct": [0],
+      "explanation": "Read the interaction first. p = 0.004 says the effect of one factor depends on the level of the other. Coolant's main effect (p = 0.31) is an average over the feed rates, and effects of opposite sign can cancel in it: coolant may matter a great deal at some feed rates. Compare the cell means, with the interaction plot. One-way ANOVAs would put the other factor and the interaction in the error."
+    },
+    {
+      "id": "q9",
+      "kind": "choice",
+      "objective": "st.m14.o5",
+      "lookAgain": "st.m14.post-hoc",
+      "prompt": "After a significant one-way ANOVA of three fluxes, Tukey's HSD gives these 95 % simultaneous intervals for the differences of mean joint strength: A − B from −1.2 to 3.4; A − C from 2.1 to 6.7; B − C from 1.0 to 5.6. Which pairs differ?",
+      "options": [
+        "A and C, and B and C; A and B cannot be told apart",
+        "A and B only; the other two intervals are too wide",
+        "All three pairs, because the ANOVA was significant",
+        "A and C only, as its interval is the farthest from 0"
+      ],
+      "correct": [0],
+      "explanation": "A pair differs when its Tukey interval does not contain 0. A − C (2.1 to 6.7) and B − C (1.0 to 5.6) lie wholly above 0: C is lower than both A and B. A − B (−1.2 to 3.4) contains 0, so these data cannot tell A and B apart. A significant F says only that some mean differs."
+    },
+    {
+      "id": "q10",
+      "kind": "choice",
+      "objective": "st.m14.o5",
+      "lookAgain": "st.m14.post-hoc",
+      "prompt": "A plant tests three new bearing greases against the grease it uses now, and wants to know only which new greases differ from the current one. The ANOVA rejects equal means. Which follow-up procedure fits best?",
+      "options": [
+        "Dunnett's test: each new grease against the current one as the control",
+        "Tukey's HSD: all six pairs of the four greases at one family-wide level",
+        "Scheffé's method: every pair and every contrast of the four greases",
+        "Plain two-sample t-tests at α = 0.05 for each pair, with no correction"
+      ],
+      "correct": [0],
+      "explanation": "Only three comparisons are wanted, each new grease against the control, and Dunnett's test is made for exactly that, so it has more power than procedures that protect comparisons nobody asked for. Tukey (all six pairs) and Scheffé (all contrasts) are valid but more conservative here. Uncorrected t-tests do not hold the familywise error rate."
+    }
+  ]
+}

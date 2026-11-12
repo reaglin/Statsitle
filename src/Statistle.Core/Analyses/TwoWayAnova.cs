@@ -100,7 +100,7 @@ public sealed class TwoWayAnova : Analysis, IHasFigures, IUsesProject, IHasChoic
     public string Table
     {
         get => _table;
-        set => SetProperty(ref _table, value ?? string.Empty);
+        set => SetProperty(ref _table, TableId(value));
     }
 
     [StatistleProperty(Label = "Factor A column", Role = VariableRole.Input,
@@ -476,6 +476,16 @@ public sealed class TwoWayAnova : Analysis, IHasFigures, IUsesProject, IHasChoic
     private string Decide(string factor, double p) => p < Alpha
         ? $"Reject H₀ at α = {Alpha:G3} — the levels of {factor} differ (p = {p:G3})"
         : $"Do not reject H₀ at α = {Alpha:G3} — no evidence the levels of {factor} differ (p = {p:G3})";
+
+    /// <summary>
+    /// The table's id. A column reference ("id␟column", as a lesson's "@Table/" setting is written) is read as
+    /// the table it points to, as the Chi-square tests read theirs.
+    /// </summary>
+    private static string TableId(string? value)
+    {
+        (int id, _) = DataSources.Split(value);
+        return id > 0 ? id.ToString(CultureInfo.InvariantCulture) : value ?? string.Empty;
+    }
 
     private DataTable? TableChosen() =>
         int.TryParse(Table, NumberStyles.Integer, CultureInfo.InvariantCulture, out int id) ? Project?.Tables.FirstOrDefault(t => t.Id == id) : null;

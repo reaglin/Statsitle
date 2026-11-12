@@ -1,0 +1,44 @@
+{
+  "id": "st.m14.f-statistic.ex",
+  "title": "Rod diameter from three dies",
+  "analysis": "OneWayAnova",
+  "intro": "Six lengths of steel rod were drawn through each of three dies and their diameter measured (mm). Build the ANOVA table by hand: the sums of squares between and within the dies, and F.\n\nGive SS between and F to two decimals and SS within to three decimals.\n\nTo check in the Workbench: press **Copy the data**, press Ctrl+B, click **+ Data table** and paste (Ctrl+V). Choose **One-way ANOVA** in the list on the left, set **Data table** to the table you pasted, **Layout** to *Each column is a group*, leave **Group columns** blank and set **Significance level (α)** to 0.05. Ctrl+L brings you back.",
+  "tables": [
+    {
+      "name": "Dies",
+      "columns": {
+        "Die 1": [6.2, 5.8, 6.5, 6.0, 6.3, 5.9],
+        "Die 2": [6.8, 7.1, 6.6, 7.0, 6.9, 7.3],
+        "Die 3": [6.1, 6.4, 6.7, 6.3, 6.0, 6.5]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Rod diameter",
+    "Table": "@Dies/",
+    "Layout": "ColumnsAreGroups",
+    "Alpha": 0.05
+  },
+  "ask": [
+    { "result": "SsBetween", "prompt": "SS between groups" },
+    { "result": "SsWithin", "prompt": "SS within groups", "tolerance": 0.002 },
+    { "result": "F", "prompt": "F = MS between / MS within" }
+  ],
+  "mistakes": {
+    "SsBetween": [
+      { "result": "MsBetween", "says": "That is MS between, the sum of squares divided by its df. The sum of squares itself is Σ nᵢ(ȳᵢ − ȳ)²." },
+      { "value": 0.37388889, "says": "You left out the group sizes. Each group's squared distance from the grand mean counts once per observation: SS between = Σ nᵢ(ȳᵢ − ȳ)²." }
+    ],
+    "SsWithin": [
+      { "result": "MsWithin", "says": "That is MS within, the sum of squares divided by N − k. The sum of squares itself is Σ (yᵢⱼ − ȳᵢ)² over every value." }
+    ],
+    "F": [
+      { "value": 2.29693, "says": "You divided the sums of squares. F divides the mean squares: MS between = SS between/(k − 1) and MS within = SS within/(N − k)." }
+    ]
+  },
+  "hints": [
+    "First the three group means and the grand mean of all 18 values.",
+    "SS between = Σ nᵢ(ȳᵢ − ȳ)² over the 3 dies; SS within = Σ (yᵢⱼ − ȳᵢ)² over all 18 values, or Σ (nᵢ − 1)sᵢ².",
+    "MS between = SS between/(k − 1) with k − 1 = 2; MS within = SS within/(N − k) with N − k = 15. F = MS between/MS within."
+  ]
+}

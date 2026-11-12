@@ -1,0 +1,15 @@
+{
+  "id": "st.m14.introduction.eg",
+  "title": "Ten t-tests where nothing differs",
+  "analysis": "Simulation",
+  "intro": "Five groups give 10 pairs, so comparing every pair takes 10 t-tests. Here each trial runs 10 independent t-tests at α = 0.05, every one on a sample of n = 10 from a population where the null hypothesis is true, and counts how many reject. 1000 trials (seed 1). The event is \"at least one of the 10 tests rejects\": a false alarm somewhere in the family.",
+  "settings": {
+    "Name": "Ten t-tests",
+    "Experiment": "FamilywiseError",
+    "SampleSize": 10,
+    "Alpha": 0.05,
+    "Tests": 10,
+    "Trials": 1000,
+    "Seed": 1
+  }
+}

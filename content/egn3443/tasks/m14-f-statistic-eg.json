@@ -1,0 +1,22 @@
+{
+  "id": "st.m14.f-statistic.eg",
+  "title": "Concrete slump after three mixing times",
+  "analysis": "OneWayAnova",
+  "intro": "Five batches of concrete were mixed for each of three times, and the slump of each measured (mm). The ANOVA splits the total variation of the 15 slumps into the part between the three mixing times and the part within them, and compares the two as F.",
+  "tables": [
+    {
+      "name": "Slump",
+      "columns": {
+        "5 min": [82, 78, 85, 80, 79],
+        "10 min": [88, 84, 90, 86, 87],
+        "15 min": [85, 83, 89, 81, 86]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Slump",
+    "Table": "@Slump/",
+    "Layout": "ColumnsAreGroups",
+    "Alpha": 0.05
+  }
+}

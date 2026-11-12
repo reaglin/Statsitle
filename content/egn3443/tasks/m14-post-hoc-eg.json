@@ -1,0 +1,23 @@
+{
+  "id": "st.m14.post-hoc.eg",
+  "title": "Wear life of four coatings",
+  "analysis": "OneWayAnova",
+  "intro": "Six cutting tools with each of four coatings were run until worn out (minutes of cutting). The ANOVA's F is large, so some mean differs. Tukey's HSD compares all six pairs with one family-wide 95 % confidence level and finds four pairs that differ. Plain t-tests on every pair would have called all six different.",
+  "tables": [
+    {
+      "name": "Coatings",
+      "columns": {
+        "Coating 1": [54, 58, 51, 56, 55, 57],
+        "Coating 2": [62, 59, 64, 61, 63, 60],
+        "Coating 3": [57, 61, 55, 60, 58, 59],
+        "Coating 4": [66, 63, 68, 65, 67, 64]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Tool life",
+    "Table": "@Coatings/",
+    "Layout": "ColumnsAreGroups",
+    "Alpha": 0.05
+  }
+}

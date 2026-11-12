@@ -1,0 +1,31 @@
+{
+  "id": "st.m14.introduction.ex",
+  "title": "Four pump impellers, every pair compared",
+  "analysis": "Simulation",
+  "intro": "An engineer has four impeller designs and plans to compare every pair of them with a two-sample t-test at α = 0.05. Suppose the four designs really give the same mean flow, so every null hypothesis is true.\n\n1. How many pairs does she test? Use that many tests in a trial.\n2. Treating the tests as independent, what is the probability that at least one of them rejects (the familywise error rate)? Calculate it by hand.\n3. Run the experiment in the Workbench (it runs each test as a one-sample t-test on its own n values; any test of a true H₀ at level α rejects with probability α, so the kind of t-test does not change the answer) and read the experimental probability.\n\nGive both probabilities to three decimals.\n\nIn the Workbench (Ctrl+B), choose **Simulation** in the list on the left and set **Experiment** to *Many t-tests: the familywise error*, **Sample size (n)** to 8, **Significance level (α)** to 0.05, **Tests per trial** to the number of pairs, **Number of trials** to 2000 and **Seed** to 14. Ctrl+L brings you back.",
+  "settings": {
+    "Name": "Four impellers",
+    "Experiment": "FamilywiseError",
+    "SampleSize": 8,
+    "Alpha": 0.05,
+    "Tests": 6,
+    "Trials": 2000,
+    "Seed": 14
+  },
+  "ask": [
+    { "result": "TheoreticalProbability", "prompt": "Familywise error rate, 1 − (1 − α)ᵐ", "tolerance": 0.001 },
+    { "result": "ExperimentalProbability", "prompt": "Experimental probability (2000 trials, seed 14)", "tolerance": 0.001, "wrong": "Check the Workbench settings against the list above: the tests per trial must be the number of pairs, and the seed 14." }
+  ],
+  "mistakes": {
+    "TheoreticalProbability": [
+      { "value": 0.3, "says": "You added α once for each test, m × α. That is only an upper bound (Bonferroni's), not the probability: P(at least one rejects) = 1 − P(none rejects) = 1 − (1 − α)ᵐ." },
+      { "value": 0.18549375, "says": "You used m = 4, the number of designs. The tests are the pairs: with k groups there are k(k − 1)/2 of them." },
+      { "value": 0.735091890625, "says": "That is the probability that none of the tests rejects, (1 − α)ᵐ. The familywise error rate is 1 minus it." }
+    ]
+  },
+  "hints": [
+    "With k groups there are k(k − 1)/2 pairs.",
+    "One test does not reject a true H₀ with probability 1 − α = 0.95. For m independent tests, none rejects with probability 0.95ᵐ.",
+    "The familywise error rate is 1 − 0.95ᵐ. For the experimental value, run the Simulation with the settings above and read **Experimental probability**."
+  ]
+}

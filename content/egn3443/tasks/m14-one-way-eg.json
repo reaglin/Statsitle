@@ -1,0 +1,23 @@
+{
+  "id": "st.m14.one-way.eg",
+  "title": "Bond strength at three curing temperatures",
+  "analysis": "OneWayAnova",
+  "intro": "An adhesive was cured at 150, 170 and 190 °C, six lap joints at each temperature, and the joints pulled apart (bond strength, MPa). The data are in the long layout: one row per joint, a column Temp with the temperature it was cured at in °C (the factor) and a column Strength with its strength (the response). Does the curing temperature change the mean strength?",
+  "tables": [
+    {
+      "name": "Curing",
+      "columns": {
+        "Temp": [150, 150, 150, 150, 150, 150, 170, 170, 170, 170, 170, 170, 190, 190, 190, 190, 190, 190],
+        "Strength": [18.2, 17.5, 19.1, 18.6, 17.9, 18.4, 20.3, 19.8, 21.0, 20.6, 19.5, 20.9, 19.6, 20.4, 19.1, 20.0, 19.4, 20.8]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Bond strength",
+    "Table": "@Curing/",
+    "Layout": "FactorAndResponse",
+    "FactorColumn": "Temp",
+    "ResponseColumn": "Strength",
+    "Alpha": 0.05
+  }
+}

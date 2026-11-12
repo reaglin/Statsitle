@@ -71,7 +71,9 @@ public static class AnovaFigures
         {
             double[] y = [.. Enumerable.Range(0, result.LevelsA.Count).Select(i => result.CellMeans[i, j])];
             series.Add(new LineSeries($"{bName} = {result.LevelsB[j]:G6}", AxisSide.Left, x, y) { ColorHint = palette[j % palette.Length], Width = 2 });
-            series.Add(new MarkerSeries($"{bName} = {result.LevelsB[j]:G6} means", AxisSide.Left, x, y) { ColorHint = palette[j % palette.Length] });
+            // No legend entry of its own: the line's entry names the level, and a second entry per level made the
+            // legend twice as tall, so it hid cell means in the upper right corner.
+            series.Add(new MarkerSeries(string.Empty, AxisSide.Left, x, y) { ColorHint = palette[j % palette.Length] });
         }
 
         return new PlotSpec
