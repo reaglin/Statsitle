@@ -581,13 +581,18 @@ public sealed class ReportsView : UserControl
         try
         {
             Clipboard.SetText(line);
+            // The button says it worked, as the Course's copy buttons do (UX re-check, plan 15.1).
+            TaskWorkspace.ShowBriefly(_copy, "_Copy the result line", "Copied ✓", ref _copyBack);
             Status("Copied the result line. Paste it (Ctrl+V) where your instructor asks: an assignment's comment box, a discussion, or an e-mail.");
         }
         catch (System.Runtime.InteropServices.ExternalException)
         {
+            TaskWorkspace.ShowBriefly(_copy, "_Copy the result line", "Not copied: press again", ref _copyBack);
             Status("The result line could not be copied just now (another program is using the clipboard). Try again, or select the line and press Ctrl+C.");
         }
     }
+
+    private System.Windows.Threading.DispatcherTimer? _copyBack;
 
     private void ShowFile()
     {

@@ -144,6 +144,16 @@ public sealed class QuizView : UserControl
             Session[_quiz.Id] = (answers, Session.TryGetValue(_quiz.Id, out var old) ? old.Result : null);
             _score.Text = BlankMessage(blank);
             _score.Foreground = Res("WrongBrush");
+            // The message above is out of sight once the first blank card is scrolled to, so each blank card says it too
+            // (UX re-check, plan 15.1).
+            foreach (var e in _questions.Where(e => blank.Contains(e.Number)))
+            {
+                e.Feedback.Text = "No answer yet.";
+                e.Feedback.Foreground = Res("WrongBrush");
+                e.Feedback.Visibility = Visibility.Visible;
+                e.FeedbackWidgets.Children.Clear();
+                e.FeedbackWidgets.Visibility = Visibility.Collapsed;
+            }
             _questions.First(e => e.Number == blank[0]).Card.BringIntoView();
             return;
         }

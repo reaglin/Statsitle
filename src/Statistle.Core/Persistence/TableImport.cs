@@ -154,31 +154,81 @@ public sealed record TableColumnsImport(IReadOnlyList<double[]> Columns, IReadOn
 
     /// <summary>
     /// "Rows 7 and 12 were left out: 'NA' in y, '#DIV/0!' in x. The other rows keep their order."
-    /// Null when no row was left out.
+    /// Null when no row was left out. Said after the import; <see cref="Describe"/> with
+    /// <c>preview: true</c> says "will be left out" for the preview before it.
     /// </summary>
-    public string? Description
+    public string? Description => Describe(preview: false);
+
+    /// <summary>
+    /// The rows left out: "Rows 7 and 12 will be left out: …" in the preview before the import,
+    /// "… were left out: …" after it. Null when no row is.
+    /// </summary>
+    public string? Describe(bool preview)
     {
-        get
+        if (LeftOut.Count == 0)
         {
-            if (LeftOut.Count == 0)
-            {
-                return null;
-            }
-
-            List<string> numbers = [.. LeftOut.Take(RowsListed).Select(r => r.RowNumber.ToString(CultureInfo.CurrentCulture))];
-
-            if (LeftOut.Count > RowsListed)
-            {
-                numbers.Add($"{LeftOut.Count - RowsListed} more");
-            }
-
-            string rows = LeftOut.Count == 1 ? $"Row {numbers[0]} was" : $"Rows {JoinAnd(numbers)} were";
-
-            var cells = LeftOut.SelectMany(r => r.Cells).Select(c => $"'{c.Cell}' in {c.Column}").Distinct().ToList();
-            string reasons = string.Join(", ", cells.Take(CellsListed)) + (cells.Count > CellsListed ? ", …" : string.Empty);
-
-            return $"{rows} left out: {reasons}. The other rows keep their order.";
+            return null;
         }
+
+        List<string> numbers = [.. LeftOut.Take(RowsListed).Select(r => r.RowNumber.ToString(CultureInfo.CurrentCulture))];
+
+        if (LeftOut.Count > RowsListed)
+        {
+            numbers.Add($"{LeftOut.Count - RowsListed} more");
+        }
+
+        string rows = preview
+            ? (LeftOut.Count == 1 ? $"Row {numbers[0]} will be" : $"Rows {JoinAnd(numbers)} will be")
+            : (LeftOut.Count == 1 ? $"Row {numbers[0]} was" : $"Rows {JoinAnd(numbers)} were");
+
+        var cells = LeftOut.SelectMany(r => r.Cells).Select(c => $"'{c.Cell}' in {c.Column}").Distinct().ToList();
+        string reasons = string.Join(", ", cells.Take(CellsListed)) + (cells.Count > CellsListed ? ", …" : string.Empty);
+
+        return $"{rows} left out: {reasons}. The other rows keep their order.";
+    }
+
+    /// <summary>
+    /// Columns that came out of different lengths, because a blank cell is skipped in its own
+    /// column: "'x' has 24 values and 'y' has 23 (a blank cell was skipped), so pairs are not
+    /// made until they match." Each shorter column is compared with the longest. Null when every
+    /// column has the same length.
+    /// </summary>
+    public string? LengthNote(IReadOnlyList<string> names, bool preview)
+    {
+        ArgumentNullException.ThrowIfNull(names);
+
+        if (Columns.Count < 2 || Columns.All(c => c.Length == Columns[0].Length))
+        {
+            return null;
+        }
+
+        int longest = 0;
+
+        for (int i = 1; i < Columns.Count; i++)
+        {
+            if (Columns[i].Length > Columns[longest].Length)
+            {
+                longest = i;
+            }
+        }
+
+        string Name(int i) => i < names.Count ? names[i] : $"Column {i + 1}";
+
+        List<int> shorter = [.. Enumerable.Range(0, Columns.Count).Where(i => Columns[i].Length < Columns[longest].Length)];
+        List<string> listed = [.. shorter.Take(CellsListed).Select(i => $"'{Name(i)}' has {Columns[i].Length}")];
+
+        if (shorter.Count > CellsListed)
+        {
+            listed.Add($"{shorter.Count - CellsListed} more are shorter");
+        }
+
+        string skipped = shorter.Count == 1
+            ? (preview ? "a blank cell will be skipped" : "a blank cell was skipped")
+            : (preview ? "blank cells will be skipped" : "blank cells were skipped");
+        int most = Columns[longest].Length;
+
+        return $"'{Name(longest)}' has {(most == 1 ? "1 value" : $"{most} values")} and {JoinAnd(listed)} ({skipped}), " +
+               "so pairs are not made until they match.";
     }
 
     private static string JoinAnd(IReadOnlyList<string> items) =>

@@ -279,8 +279,8 @@ public class DataTableTests
         Assert.Equal(0, regression.Data.Count);
         Assert.True(double.IsNaN(regression.Slope));
         Assert.Equal(
-            "'y' has 4 values and 'x' has 5, so these pairs may not belong together. Check the table for a missing or " +
-            "blank cell; the analysis is not run until the columns are the same length.",
+            "'Ragged › x' has 5 values and 'Ragged › y' has 4 values, so these pairs may not belong together. " +
+            "'Ragged › y' is the shorter: check it for a missing or blank cell. The analysis is not run until the columns are the same length.",
             regression.Problem);
     }
 

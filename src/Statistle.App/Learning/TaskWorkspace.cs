@@ -177,9 +177,17 @@ public sealed class TaskWorkspace : ContentControl
     public static string ExerciseLead(BuiltTask built)
     {
         var x = built.Analysis.Title;
+        // Name the entry that chooses the table where the analysis has one ("Data from" or "Data table"); the others
+        // pick the column straight from a "table › column" list (UX re-check, plan 15.1).
+        string? tableEntry = built.Analysis.Properties()
+            .Select(p => p.Label)
+            .FirstOrDefault(label => label is "Data from" or "Data table");
+        var pick = tableEntry is null
+            ? "and pick your table's column (listed as table › column) in its entries."
+            : $"set {tableEntry} to your table, and pick the column.";
         var steps = DataColumns(built).Count > 0
             ? $"To use it: press Copy the data, then Workbench (Ctrl+B) and + Data table; click in the table's box, press Ctrl+V, then Tab. " +
-              $"Then choose {x} under Analyses on the left and choose your data table and column in its entries (where it asks where the data comes from, choose the data table)."
+              $"Then choose {x} under Analyses on the left, {pick}"
             : $"To use it: Workbench (Ctrl+B), choose {x} under Analyses on the left, and type the values this task gives.";
         return "Work out the results asked for below (by hand, in Python or R, or in the Workbench, as the instructions say), type them in, " +
                $"and press Check my answers. The Workbench analysis that does this: {x}. {steps} Course (Ctrl+L) brings you back here; your answers stay.";
@@ -193,7 +201,7 @@ public sealed class TaskWorkspace : ContentControl
             : expected.Tolerance < 0.005
                 ? "Give at least three decimals, such as 0.137."
                 : "Two decimals are usually enough, such as 4.87.";
-        return $"Type your result as a number. {precision} Enter goes to the next box; on the last one it checks your answers.";
+        return $"Type your result as a number. {precision} Enter goes to the next empty box; when every box has an answer, Enter checks them.";
     }
 
     private FrameworkElement DataView(BuiltTask built)
@@ -582,18 +590,27 @@ public sealed class TaskWorkspace : ContentControl
             catch (System.Runtime.InteropServices.ExternalException)
             {
                 // The clipboard was busy; the person can press again.
-                if (copies) button.Content = "Not copied: press again";
+                if (copies) ShowBriefly(button, text, "Not copied: press again", ref back);
                 return;
             }
-            if (!copies) return;
             // Copying shows nothing by itself, so the button says it worked for two seconds (UX sweep, plan 15.1).
-            button.MinWidth = Math.Max(button.MinWidth, button.ActualWidth);
-            button.Content = "Copied ✓";
-            back?.Stop();
-            back = new System.Windows.Threading.DispatcherTimer { Interval = TimeSpan.FromSeconds(2) };
-            back.Tick += (_, _) => { back!.Stop(); button.Content = text; };
-            back.Start();
+            if (copies) ShowBriefly(button, text, "Copied ✓", ref back);
         };
         return button;
+    }
+
+    /// <summary>
+    /// Shows <paramref name="message"/> on a button for two seconds, then its own words again. The button keeps
+    /// its width, so the row does not jump (UX re-check, plan 15.1). Used by every Copy button in the program.
+    /// </summary>
+    public static void ShowBriefly(Button button, object original, string message, ref System.Windows.Threading.DispatcherTimer? timer)
+    {
+        button.MinWidth = Math.Max(button.MinWidth, button.ActualWidth);
+        button.Content = message;
+        timer?.Stop();
+        var tick = new System.Windows.Threading.DispatcherTimer { Interval = TimeSpan.FromSeconds(2) };
+        tick.Tick += (_, _) => { tick.Stop(); button.Content = original; };
+        timer = tick;
+        tick.Start();
     }
 }

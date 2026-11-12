@@ -35,6 +35,9 @@ public partial class MainWindow : Window
     /// The window over a given workspace — the tests pass one with their own dialogs and autosave
     /// folder, so drawing every row never touches the real recovery copy.
     /// </summary>
+    /// <summary>Puts "Copy code" back on its button two seconds after it said "Copied ✓".</summary>
+    private System.Windows.Threading.DispatcherTimer? _copyCodeBack;
+
     public MainWindow(WorkspaceViewModel workspace)
     {
         _workspace = workspace;
@@ -49,6 +52,7 @@ public partial class MainWindow : Window
         _workspace.FigureRenderer = _renderer;
         _workspace.CommitPendingEdit = CommitFocusedBox;
         _workspace.PropertyChanged += Workspace_PropertyChanged;
+        _workspace.CodeCopied += () => Learning.TaskWorkspace.ShowBriefly(CopyCodeButton, "Copy code", "Copied ✓", ref _copyCodeBack);
         _workspace.Rows.CollectionChanged += (_, _) => ScheduleSeriesHeight();
         ContentTabs.SelectionChanged += ContentTabs_SelectionChanged;
         InitializeCourse();
@@ -452,8 +456,9 @@ public partial class MainWindow : Window
 
             string sheet = tables.Count > 1 ? $", sheet '{table.Name}'" : string.Empty;
             string leftOut = imported.Description is string described ? " " + described : string.Empty;
+            string lengths = imported.LengthNote([.. numeric.Select(i => table.Headers[i])], preview: false) is string note ? " " + note : string.Empty;
             _workspace.Announce(
-                $"Imported {WorkspaceViewModel.Count(numeric.Length, "column", "columns")} from {fileName}{sheet}.{leftOut} Edit ▸ Undo (Ctrl+Z) puts the old data back.");
+                $"Imported {WorkspaceViewModel.Count(numeric.Length, "column", "columns")} from {fileName}{sheet}.{leftOut}{lengths} Edit ▸ Undo (Ctrl+Z) puts the old data back.");
             return;
         }
 

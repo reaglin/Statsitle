@@ -190,7 +190,13 @@ public sealed class NewPinWindow : FormWindow
             var newPin = _pin.Password;
             var problem = await Busy(() => apply(first, newPin));
             if (problem is null) DialogResult = true;
-            else { Say(problem); _first.Focus(); }
+            else
+            {
+                // A wrong PIN or code is cleared, so the person types it afresh rather than adding to it (UX re-check, plan 15.1).
+                if (_first is PasswordBox wrong) wrong.Clear();
+                Say(problem);
+                _first.Focus();
+            }
         }, isDefault: true);
         AddButton("Cancel", "Closes this; the PIN stays as it was.", (_, _) => DialogResult = false, isCancel: true);
         Loaded += (_, _) => _first.Focus();
@@ -276,9 +282,26 @@ public sealed class NewLearnerWindow : FormWindow
         var row = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 0, 0, 10) };
         var print = new Button { Content = "_Print…", ToolTip = "Prints the code with your name, to keep somewhere safe." };
         print.Click += (_, _) => Print();
-        var copy = new Button { Content = "_Copy", ToolTip = "Copies the code, to paste into a password manager or a note you keep." };
-        copy.ToolTip = "Copies the code, to paste straight away into a password manager or a note you keep. Statistics+ clears it from the clipboard when this window closes.";
-        copy.Click += (_, _) => { Clipboard.SetText(_code!); Say(null); copy.Content = "Copied ✓"; };
+        var copy = new Button
+        {
+            Content = "_Copy",
+            ToolTip = "Copies the code, to paste straight away into a password manager or a note you keep. Statistics+ clears it from the clipboard when this window closes.",
+        };
+        System.Windows.Threading.DispatcherTimer? copyBack = null;
+        copy.Click += (_, _) =>
+        {
+            Say(null);
+            try
+            {
+                Clipboard.SetText(_code!);
+                TaskWorkspace.ShowBriefly(copy, "_Copy", "Copied ✓", ref copyBack);
+            }
+            catch (System.Runtime.InteropServices.ExternalException)
+            {
+                // The clipboard was busy (another program had it open); the person can press again (UX re-check, plan 15.1).
+                TaskWorkspace.ShowBriefly(copy, "_Copy", "Not copied: press again", ref copyBack);
+            }
+        };
         Closed += (_, _) =>
         {
             try { if (Clipboard.ContainsText() && Clipboard.GetText() == _code) Clipboard.Clear(); }

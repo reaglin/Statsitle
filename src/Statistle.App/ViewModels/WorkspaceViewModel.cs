@@ -47,7 +47,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
 
     private StatistleDocument _document = new();
     private StatistleObject? _selected;
-    private string _status = "New project";
+    private string _status = "New project.";
     private bool _isDirty;
     private bool _restoring;
     private Handoff? _handoff;
@@ -104,6 +104,12 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
     private sealed record UndoStep(string Snapshot, string What);
 
     public event PropertyChangedEventHandler? PropertyChanged;
+
+    /// <summary>
+    /// Raised when Copy code has put the code on the clipboard, so the window can say "Copied ✓" on the button for two
+    /// seconds, as the Course's copy buttons do (UX re-check, plan 15.1).
+    /// </summary>
+    public event Action? CodeCopied;
 
     public RelayCommand NewCommand { get; }
 
@@ -203,7 +209,8 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         try
         {
             System.Windows.Clipboard.SetText(CodeText);
-            Status = $"{(_codeLanguage == CodeLanguage.Python ? "Python" : "R")} code copied to the clipboard";
+            Status = $"{(_codeLanguage == CodeLanguage.Python ? "Python" : "R")} code copied to the clipboard.";
+            CodeCopied?.Invoke();
         }
         catch (System.Runtime.InteropServices.ExternalException ex)
         {
@@ -242,7 +249,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         try
         {
             File.WriteAllText(dialog.FileName, CodeText);
-            Status = $"Saved to {dialog.FileName}";
+            Status = $"Saved to {dialog.FileName}.";
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
@@ -267,7 +274,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
             string file = Path.Combine(Path.GetTempPath(), $"statistle-instructions-{Guid.NewGuid():N}.html");
             File.WriteAllText(file, Statistle.Core.Instructions.InstructionsHtmlWriter.Write(CurrentInstructions));
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(file) { UseShellExecute = true });
-            Status = $"Instructions opened for {CurrentInstructions.Title}";
+            Status = $"Instructions opened for {CurrentInstructions.Title}.";
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or System.ComponentModel.Win32Exception)
         {
@@ -298,7 +305,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
             File.WriteAllText(dialog.FileName, text
                 ? Statistle.Core.Instructions.InstructionsTextWriter.Write(page)
                 : Statistle.Core.Instructions.InstructionsHtmlWriter.Write(page));
-            Status = $"Saved to {dialog.FileName}";
+            Status = $"Saved to {dialog.FileName}.";
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
@@ -712,7 +719,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
             return;
         }
 
-        PushUndo($"Use result ({property.Label})");
+        PushUndo($"using the result in {property.Label}");
         property.Property.SetValue(target, converted);
 
         _handoff = null;
@@ -731,7 +738,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         _dialogs.ShowError(
             "Statistics+ — Could not use the result",
             $"This result cannot go into {property.Label}; nothing was changed. Type the value into {property.Label} " +
-            $"yourself, or press Cancel to go back.\n\n{details}");
+            $"yourself, or press Cancel in the yellow bar above the entries (the one that says \"Result goes to …\") to go back.\n\n{details}");
     }
 
     private void CancelHandoff()
@@ -745,7 +752,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         _handoff = null;
         Selected = target;
         RaiseHandoffChanged();
-        Status = "Calculation canceled; nothing was changed";
+        Status = "Calculation canceled; nothing was changed.";
     }
 
     private void RaiseHandoffChanged()
@@ -797,9 +804,19 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         get => _status;
         set
         {
-            _status = value;
+            _status = AsSentence(value);
             Raise(nameof(Status));
         }
+    }
+
+    /// <summary>
+    /// Every status message ends as a sentence does, with a full stop unless it already ends with one, a question
+    /// mark, an exclamation mark or an ellipsis (UX re-check, plan 15.1).
+    /// </summary>
+    public static string AsSentence(string? message)
+    {
+        string text = (message ?? string.Empty).TrimEnd();
+        return text.Length == 0 || text[^1] is '.' or '!' or '?' or '…' ? text : text + ".";
     }
 
     /// <summary>
@@ -1101,7 +1118,6 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
 
         UndoStep step = _undo[^1];
         string snapshot = step.Snapshot;
-        _undo.RemoveAt(_undo.Count - 1);
         _pending = null;
         _pendingField = null;
         _lastEdit = null;
@@ -1120,7 +1136,13 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
             File.WriteAllBytes(temporary, Convert.FromBase64String(snapshot));
 
             StatistleDocument restored = StatistleDocument.Open(temporary);
-            File.Delete(temporary);
+
+            // The step is spent only once the project it holds has opened, so a failed undo can be tried again
+            // (UX re-check, plan 15.1).
+            _undo.RemoveAt(_undo.Count - 1);
+
+            try { File.Delete(temporary); }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { /* a temporary file; Windows clears it later */ }
 
             Document = restored;
             Document.SetFilePath(path);
@@ -1136,7 +1158,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
             Status = $"Undone: {step.What}." +
                      (_undo.Count > 0 ? $" Ctrl+Z again undoes {_undo[^1].What}." : " There is nothing more to undo.");
         }
-        catch (Exception ex) when (ex is IOException or InvalidDataException or FormatException)
+        catch (Exception ex) when (ex is IOException or InvalidDataException or FormatException or UnauthorizedAccessException)
         {
             Status = "Could not undo.";
             _dialogs.ShowError("Statistics+ — Could not undo",
@@ -1318,7 +1340,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         }
 
         NewProject();
-        Status = "New project";
+        Status = "New project.";
     }
 
     private void NewProject()
@@ -1476,7 +1498,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         try
         {
             StatistleDocument.ExportArtifact(Selected, dialog.FileName);
-            Status = $"Saved to {dialog.FileName}";
+            Status = $"Saved to {dialog.FileName}.";
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
@@ -1513,7 +1535,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
             System.Diagnostics.Process.Start(
                 new System.Diagnostics.ProcessStartInfo(file) { UseShellExecute = true });
 
-            Status = $"Report opened for {Selected.Name}";
+            Status = $"Report opened for {Selected.Name}.";
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException
                                        or System.ComponentModel.Win32Exception)
@@ -1532,7 +1554,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         _dialogs.ShowError(
             "Statistics+ — Could not open the browser",
             $"Statistics+ could not open {what} in your web browser. Check that Windows has a default web browser " +
-            "(Settings ▸ Apps ▸ Default apps), then try again. Save as PDF or Save instructions as… keeps a copy instead.\n\n" +
+            "(Settings ▸ Apps ▸ Default apps), then try again. File ▸ Save report as PDF… or Save instructions as… keeps a copy instead.\n\n" +
             $"Details for support: {ex.Message}");
     }
 
@@ -1562,7 +1584,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         try
         {
             PdfReportWriter.Write(ReportBuilder.For(Selected, Document.Units), dialog.FileName, FigureRenderer);
-            Status = $"Saved to {dialog.FileName}";
+            Status = $"Saved to {dialog.FileName}.";
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
@@ -1602,7 +1624,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
                 : CsvExport.ReportToCsv(ReportBuilder.For(Selected, Document.Units));
 
             File.WriteAllText(dialog.FileName, csv);
-            Status = $"Saved to {dialog.FileName}";
+            Status = $"Saved to {dialog.FileName}.";
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
@@ -1636,7 +1658,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
     {
         Selected = artifact;
         MarkDirty();
-        Status = $"Added {artifact.Name}";
+        Status = $"Added {artifact.Name}.";
     }
 
     private void BuildRows()

@@ -169,11 +169,14 @@ public partial class ImportDialog : Window
             int[] numeric = NumericColumns(_table);
             int columns = numeric.Length;
             int textOnly = _table.ColumnCount - columns;
-            string? leftOut = _table.ColumnsTogether(numeric).Description;
+            TableColumnsImport together = _table.ColumnsTogether(numeric);
+            string? leftOut = together.Describe(preview: true);
+            string? lengths = together.LengthNote([.. numeric.Select(i => _table.Headers[i])], preview: true);
             Outcome.Text = $"{ViewModels.WorkspaceViewModel.Count(columns, "column", "columns")} will be imported" +
                            (textOnly > 0 ? $" ({ViewModels.WorkspaceViewModel.Count(textOnly, "column", "columns")} with no numbers left out)" : string.Empty) +
                            (_columnsNow > 0 ? $", replacing the {ViewModels.WorkspaceViewModel.Count(_columnsNow, "column", "columns")} the table has now" : string.Empty) +
                            ". " + (leftOut is null ? string.Empty : leftOut + " ") +
+                           (lengths is null ? string.Empty : lengths + " ") +
                            "Edit ▸ Undo (Ctrl+Z) puts the old data back.";
             OkButton.IsEnabled = columns > 0;
         }

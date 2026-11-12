@@ -242,10 +242,12 @@ public static class DataSources
             return null;
         }
 
-        DataColumn? x = analysis.Project?.Tables.FirstOrDefault(t => t.Id == xId)?.Columns.Column(xName);
-        DataColumn? y = analysis.Project?.Tables.FirstOrDefault(t => t.Id == yId)?.Columns.Column(yName);
+        DataTable? xTable = analysis.Project?.Tables.FirstOrDefault(t => t.Id == xId);
+        DataTable? yTable = analysis.Project?.Tables.FirstOrDefault(t => t.Id == yId);
+        DataColumn? x = xTable?.Columns.Column(xName);
+        DataColumn? y = yTable?.Columns.Column(yName);
 
-        if (x is null || y is null)
+        if (xTable is null || yTable is null || x is null || y is null)
         {
             return "A chosen column is no longer in the project; the pairs shown are as last copied.";
         }
@@ -256,8 +258,11 @@ public static class DataSources
         {
             // Pairing the first min(n) would put an x beside the wrong y wherever a cell is
             // missing in one column, so nothing is paired until the lengths agree (UX sweep C1).
-            return $"'{y.Name}' has {Values(y.Count)} and '{x.Name}' has {x.Count}, so these pairs may not belong together. " +
-                   "Check the table for a missing or blank cell; the analysis is not run until the columns are the same length.";
+            string xLabel = $"'{xTable.Name} › {x.Name}'";
+            string yLabel = $"'{yTable.Name} › {y.Name}'";
+            string shorter = x.Count < y.Count ? xLabel : yLabel;
+            return $"{xLabel} has {Values(x.Count)} and {yLabel} has {Values(y.Count)}, so these pairs may not belong together. " +
+                   $"{shorter} is the shorter: check it for a missing or blank cell. The analysis is not run until the columns are the same length.";
         }
 
         for (int i = 0; i < x.Count; i++)

@@ -80,6 +80,26 @@ public class TableImportTests
         Assert.Equal([3.0, 6, 9], imported.Columns[2]);
         Assert.Empty(imported.LeftOut);
         Assert.Null(imported.Description);
+        Assert.Equal(
+            "'A' has 4 values and 'B' has 2 and 'C' has 3 (blank cells were skipped), so pairs are not made until they match.",
+            imported.LengthNote(table.Headers, preview: false));
+    }
+
+    [Fact]
+    public void The_preview_says_what_will_be_left_out_and_which_column_comes_out_shorter()
+    {
+        ImportedTable table = TableImport.ReadText("x,y\n1,10\n2,NA\n3,\n4,40\n", "pairs.csv");
+
+        TableColumnsImport imported = table.ColumnsTogether([0, 1]);
+
+        Assert.Equal("Row 3 will be left out: 'NA' in y. The other rows keep their order.", imported.Describe(preview: true));
+        Assert.Equal("Row 3 was left out: 'NA' in y. The other rows keep their order.", imported.Describe(preview: false));
+        Assert.Equal(
+            "'x' has 3 values and 'y' has 2 (a blank cell will be skipped), so pairs are not made until they match.",
+            imported.LengthNote(table.Headers, preview: true));
+        Assert.Equal(
+            "'x' has 3 values and 'y' has 2 (a blank cell was skipped), so pairs are not made until they match.",
+            imported.LengthNote(table.Headers, preview: false));
     }
 
     [Fact]

@@ -830,7 +830,7 @@
                                              ToolTip="Show the code in Python (numpy, scipy.stats), for Colab or Jupyter" />
                                 <RadioButton Content="R" IsChecked="{Binding IsR}" Margin="0,0,14,0" VerticalAlignment="Center"
                                              ToolTip="Show the code in R (base R, no packages), for RStudio" />
-                                <Button Content="Copy code" Command="{Binding CopyCodeCommand}"
+                                <Button x:Name="CopyCodeButton" Content="Copy code" Command="{Binding CopyCodeCommand}"
                                         ToolTip="Copies the code shown below to the clipboard, to paste into Colab, Jupyter or RStudio. Select a data table or an analysis first."
                                         ToolTipService.ShowOnDisabled="True"
                                         Padding="8,3" BorderThickness="0" Background="#E4E8ED" Cursor="Hand" />
