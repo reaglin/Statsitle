@@ -599,9 +599,16 @@ public sealed class TwoSampleTest : Analysis, IUsesProject, IHasChoices, ILinksT
         {
             string name1 = DataSources.Split(Column).ColumnName is { Length: > 0 } a ? a : "Sample 1";
             string name2 = DataSources.Split(Column2).ColumnName is { Length: > 0 } b ? b : "Sample 2";
-            figures.Add(IsPaired
-                ? DescriptiveFigures.BoxPlot($"{Name} — paired differences", [.. Sample.YValues.Zip(Sample2.YValues, (p, q) => p - q)], double.NaN, double.NaN, double.NaN, double.NaN, double.NaN)
-                : InferenceFigures.TwoBoxes($"{Name} — the two samples", name1, Sample.YValues, name2, Sample2.YValues));
+            if (IsPaired)
+            {
+                double[] d = [.. Sample.YValues.Zip(Sample2.YValues, (p, q) => p - q)];
+                Quartiles q = SummaryStatistics.Type7Quartiles(d);
+                figures.Add(DescriptiveFigures.BoxPlot($"{Name} — paired differences", d, q.Q1, q.Median, q.Q3, q.LowerFence, q.UpperFence));
+            }
+            else
+            {
+                figures.Add(InferenceFigures.TwoBoxes($"{Name} — the two samples", name1, Sample.YValues, name2, Sample2.YValues));
+            }
         }
 
         if (Outcome is not null && !IsRankTest)

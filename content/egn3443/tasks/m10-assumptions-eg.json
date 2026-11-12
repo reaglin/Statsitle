@@ -1,0 +1,25 @@
+{
+  "id": "st.m10.assumptions.eg",
+  "title": "Shrinkage of parts molded from two resins",
+  "analysis": "TwoSampleTest",
+  "intro": "A molder compares the shrinkage (%) of a housing made from the resin of supplier A and of supplier B: twelve parts from each, molded in random order on the same press. Before comparing the means, check the assumptions. Both samples look normal (Shapiro–Wilk), and the spreads are alike (variance ratio 1.16, Levene p = 0.73), so the pooled t-test is justified. H₀: μ_A − μ_B = 0 against H₁: μ_A − μ_B ≠ 0 at α = 0.05.",
+  "tables": [
+    {
+      "name": "Resins",
+      "columns": {
+        "Supplier A": [1.42, 1.38, 1.51, 1.45, 1.40, 1.47, 1.36, 1.49, 1.44, 1.41, 1.53, 1.39],
+        "Supplier B": [1.50, 1.46, 1.58, 1.44, 1.55, 1.52, 1.47, 1.61, 1.49, 1.54, 1.43, 1.57]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Shrinkage",
+    "TestKind": "PooledT",
+    "Source": "Columns",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Delta0": 0,
+    "Column": "@Resins/Supplier A",
+    "Column2": "@Resins/Supplier B"
+  }
+}

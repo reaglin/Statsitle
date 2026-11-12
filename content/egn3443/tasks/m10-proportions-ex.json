@@ -1,0 +1,44 @@
+{
+  "id": "st.m10.proportions.ex",
+  "title": "Warranty failures of two pump seal designs",
+  "analysis": "TwoSampleTest",
+  "intro": "A pump maker tracked two shaft-seal designs in the field for one year. Of 400 pumps with seal A, 22 failed within the warranty year; of 420 pumps with seal B, 45 did. Do the failure rates differ? With p₁ for seal A and p₂ for seal B, test H₀: p₁ = p₂ against H₁: p₁ ≠ p₂ at α = 0.05 with the **two-proportion z-test** (pooled), and find the 95 % confidence interval for p₁ − p₂.\n\nFind z, the two-sided p-value, and the two ends of the interval. Give z to two decimals, p to four decimals or more (it is small), and the interval to three decimals or more.\n\nTo use the Workbench: press Ctrl+B and choose **Two-sample test**. Set **Test** to *Two proportions (pooled z)*, **Data from** to *Summary statistics entered here*, **Alternative hypothesis** to *Two-sided (≠)* and **Significance level (α)** to 0.05, then type **Successes in sample 1 (x₁)** = 22, **Sample 1 size (n₁)** = 400, **Successes in sample 2 (x₂)** = 45 and **Sample 2 size (n₂)** = 420. A \"success\" is just the outcome counted, here a failed seal. Ctrl+L brings you back.",
+  "settings": {
+    "Name": "Seal failures",
+    "TestKind": "TwoProportions",
+    "Source": "Summary",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Successes": 22,
+    "SampleSize": 400,
+    "Successes2": 45,
+    "Sample2Size": 420
+  },
+  "ask": [
+    { "result": "Statistic", "prompt": "Test statistic, z" },
+    { "result": "PValue", "prompt": "Two-sided p-value", "tolerance": 0.0002 },
+    { "result": "CiLower", "prompt": "95 % CI for p₁ − p₂, lower end", "tolerance": 0.001 },
+    { "result": "CiUpper", "prompt": "95 % CI for p₁ − p₂, upper end", "tolerance": 0.001 }
+  ],
+  "mistakes": {
+    "Statistic": [
+      { "value": -2.757, "says": "That z uses the unpooled standard error, √(p̂₁(1 − p̂₁)/n₁ + p̂₂(1 − p̂₂)/n₂). The test assumes H₀: p₁ = p₂, so it uses one pooled p̂ = (x₁ + x₂)/(n₁ + n₂) in the standard error." },
+      { "scale": -1, "says": "Check the sign. z = (p̂₁ − p̂₂)/SE with seal A first, and seal A has the lower failure rate, so z is negative." }
+    ],
+    "PValue": [
+      { "scale": 0.5, "says": "That is a one-tailed p-value. H₁ is two-sided (≠), so p = 2 × P(Z > |z|)." },
+      { "value": 0.00583, "says": "That p-value comes from the unpooled z. The test uses the pooled standard error." }
+    ],
+    "CiLower": [
+      { "scale": -1, "says": "Check the order: the interval is for p₁ − p₂, seal A minus seal B, and seal A fails less often, so both ends are negative." }
+    ],
+    "CiUpper": [
+      { "scale": -1, "says": "Check the order: the interval is for p₁ − p₂, seal A minus seal B, and seal A fails less often, so both ends are negative." }
+    ]
+  },
+  "hints": [
+    "The sample proportions are p̂₁ = 22/400 and p̂₂ = 45/420. The pooled proportion is p̂ = (22 + 45)/(400 + 420).",
+    "Test: z = (p̂₁ − p̂₂)/√(p̂(1 − p̂)(1/n₁ + 1/n₂)) with the pooled p̂, and p = 2 × P(Z > |z|): Python 2 * stats.norm.sf(abs(z)), R 2 * pnorm(abs(z), lower.tail = FALSE).",
+    "Interval: (p̂₁ − p̂₂) ± 1.96 × √(p̂₁(1 − p̂₁)/n₁ + p̂₂(1 − p̂₂)/n₂), with each sample's own proportion, not the pooled one."
+  ]
+}

@@ -193,6 +193,12 @@ public class Phase3AnalysisTests
         Assert.False(double.IsNaN(welch.Shapiro1));
         Assert.True(double.IsNaN(welch.Levene), "one sample of differences: no variance comparison");
 
+        // The box plot of the differences is drawn from their quartiles (it was blank when they were NaN).
+        var differences = welch.Figures(null)[0];
+        Assert.All(differences.Series.OfType<Statistle.Core.Plotting.PolygonSeries>().SelectMany(s => s.X), x => Assert.False(double.IsNaN(x)));
+        Assert.Equal(Statistle.Core.Methods.Descriptive.SummaryStatistics.Median([.. CatalystA.Zip(CatalystB, (a, b) => a - b)]),
+            differences.Series.OfType<Statistle.Core.Plotting.LineSeries>().First(s => s.Name == "Median").X[0], 12);
+
         welch.TestKind = TwoSampleTestKind.VarianceRatio;
         welch.Recalculate();
         Assert.Equal(welch.SampleSd * welch.SampleSd / (welch.Sample2Sd * welch.Sample2Sd), welch.Statistic, 12);

@@ -1,0 +1,17 @@
+{
+  "id": "st.m10.proportions.eg",
+  "title": "Solder defects with an old and a new stencil",
+  "analysis": "TwoSampleTest",
+  "intro": "A circuit-board line changed its solder-paste stencil to cut solder defects. Of 600 boards made with the old stencil, 42 had a defect; of 550 boards made with the new one, 19 did. The new stencil was designed to lower the defect rate, and that direction was fixed before the data were collected, so with p₁ the old stencil's defect rate and p₂ the new one's: H₀: p₁ = p₂ against H₁: p₁ > p₂ at α = 0.05. The test is the two-proportion z-test with the pooled proportion.",
+  "settings": {
+    "Name": "Solder defects",
+    "TestKind": "TwoProportions",
+    "Source": "Summary",
+    "AlternativeHypothesis": "Greater",
+    "Alpha": 0.05,
+    "Successes": 42,
+    "SampleSize": 600,
+    "Successes2": 19,
+    "Sample2Size": 550
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "id": "st.m10.interpreting.eg",
+  "title": "Field returns with two housing adhesives",
+  "analysis": "TwoSampleTest",
+  "intro": "A sensor maker ran a pilot of a new housing adhesive. Of 300 sensors built with the old adhesive, 21 came back from the field within six months with a leaking housing; of 300 built with the new adhesive, 12 did. With p₁ the old adhesive's return rate and p₂ the new one's, H₀: p₁ = p₂ against H₁: p₁ ≠ p₂ at α = 0.05. The test does not reject H₀, but the confidence interval for p₁ − p₂ says much more about what to do next.",
+  "settings": {
+    "Name": "Field returns",
+    "TestKind": "TwoProportions",
+    "Source": "Summary",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Successes": 21,
+    "SampleSize": 300,
+    "Successes2": 12,
+    "Sample2Size": 300
+  }
+}

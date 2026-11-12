@@ -1,0 +1,25 @@
+{
+  "id": "st.m10.two-means.eg",
+  "title": "Cycle time of a manual and a robotic cell",
+  "analysis": "TwoSampleTest",
+  "intro": "A plant added a robotic assembly cell beside its manual one and timed separate assemblies on each: 12 on the manual cell and 10 on the robotic cell (cycle time, s). The robot was bought to be faster, and that direction was fixed before any timing, so the test is one-sided: H₀: μ_manual − μ_robot = 0 against H₁: μ_manual − μ_robot > 0 at α = 0.05. The robot's times are far less spread out (Levene p = 0.005), so the test is Welch's.",
+  "tables": [
+    {
+      "name": "Cells",
+      "columns": {
+        "Manual": [48.2, 52.6, 45.9, 55.1, 50.3, 47.8, 53.9, 49.6, 51.2, 46.5, 54.4, 50.8],
+        "Robotic": [46.1, 47.0, 45.4, 47.9, 46.6, 45.8, 47.3, 46.9, 45.2, 47.5]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Cycle time",
+    "TestKind": "WelchT",
+    "Source": "Columns",
+    "AlternativeHypothesis": "Greater",
+    "Alpha": 0.05,
+    "Delta0": 0,
+    "Column": "@Cells/Manual",
+    "Column2": "@Cells/Robotic"
+  }
+}

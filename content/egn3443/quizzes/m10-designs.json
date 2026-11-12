@@ -1,0 +1,115 @@
+{
+  "id": "st.m10.designs.quiz",
+  "title": "Name the design",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "choice",
+      "objective": "st.m10.o1",
+      "prompt": "Sixteen bridge decks are put in eight pairs with similar traffic, age and exposure. In each pair, a coin decides which deck gets sealant A and which gets sealant B, and chloride penetration is measured after three winters. Which design is this?",
+      "options": [
+        "Independent samples of 8 and 8 decks",
+        "Matched pairs: 8 pairs of decks",
+        "Repeated measures on 16 decks",
+        "Independent samples of 16 and 16 decks"
+      ],
+      "correct": [1],
+      "explanation": "Two different decks form each pair, matched on what else affects chloride penetration, and the treatment is assigned within the pair. That is a matched-pairs design: test the 8 differences A − B with the paired t-test, 7 degrees of freedom."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m10.o1",
+      "prompt": "A lab measures the surface roughness of 25 shafts turned on lathe 1 and 32 different shafts turned on lathe 2. Which design is this?",
+      "options": [
+        "Paired: 25 pairs, with the 7 extra shafts dropped",
+        "Matched pairs on the shaft diameter",
+        "Independent samples of 25 and 32 shafts",
+        "Repeated measures on 57 shafts"
+      ],
+      "correct": [2],
+      "explanation": "Different shafts on each lathe, chosen separately: no shaft from lathe 1 has a partner on lathe 2. The samples are independent, and the different sizes (25 and 32) confirm it. Dropping shafts to make pairs would invent a pairing that does not exist."
+    },
+    {
+      "id": "q3",
+      "kind": "choice",
+      "objective": "st.m10.o1",
+      "prompt": "On each of nine hillsides, two adjacent test plots are laid out. One gets a straw erosion blanket and the other a coir blanket, and the soil lost in a season is weighed. Which design is this?",
+      "options": [
+        "Natural pairs: the two plots on one hillside",
+        "Independent samples of 9 straw and 9 coir plots",
+        "Repeated measures on 9 plots",
+        "Independent samples of 18 plots"
+      ],
+      "correct": [0],
+      "explanation": "The two plots on a hillside share its slope, soil and rainfall, so they come as a natural pair. Test the nine differences straw − coir with the paired t-test, 8 degrees of freedom. Treated as independent, the hillside-to-hillside variation would hide the difference between the blankets."
+    },
+    {
+      "id": "q4",
+      "kind": "multiple",
+      "objective": "st.m10.o1",
+      "prompt": "Which of these studies are **paired** designs? Choose every one that is.",
+      "options": [
+        "The flow of 12 culverts measured before and after cleaning",
+        "Each of 10 steel coupons cut in two; one half is coated, one is not",
+        "The cycle time of 15 parts from cell A and 15 other parts from cell B",
+        "The strength of 20 bolts from each of two suppliers, tested in random order"
+      ],
+      "correct": [0, 1],
+      "explanation": "The culverts are measured twice (repeated measures), and the two halves of one coupon are natural pairs. Cells A and B make different parts, and the bolts come from two suppliers: independent samples. Equal sample sizes do not make a design paired; a partner for each value does."
+    },
+    {
+      "id": "q5",
+      "kind": "numeric",
+      "objective": "st.m10.o1",
+      "prompt": "Twenty load cells were read before a recalibration and again after it, but two of them failed during the work and have no 'after' reading. How many degrees of freedom does the paired t-test have? It is a whole number.",
+      "answer": 17,
+      "tolerance": 0,
+      "explanation": "A pair with a missing value cannot be used, so the two failed load cells are dropped and n = 18 pairs remain. The paired t-test has n − 1 = 17 degrees of freedom."
+    },
+    {
+      "id": "q6",
+      "kind": "choice",
+      "objective": "st.m10.o1",
+      "prompt": "Fourteen compressors were measured for noise (dBA) before and after a silencer was fitted. An analyst ran Welch's test on the 14 'before' and 14 'after' values as if they were independent. What is the likely effect?",
+      "options": [
+        "The p-value is too small, so a difference may be claimed that is not real",
+        "The p-value is unchanged, because the two tests use the same means",
+        "The compressor-to-compressor variation stays in the SE, so a real effect may be missed",
+        "The test cannot be run, because Welch needs different sample sizes"
+      ],
+      "correct": [2],
+      "explanation": "Compressors differ in loudness much more than the silencer changes one. The paired test removes that by subtracting within each compressor; Welch's test keeps it in s₁ and s₂, so the standard error is large, t small and p large. The test loses power and may miss a real reduction."
+    },
+    {
+      "id": "q7",
+      "kind": "choice",
+      "objective": "st.m10.o1",
+      "prompt": "An analyst has the strengths of 12 beams from plant A and 12 different beams from plant B. She sorts both columns from smallest to largest and runs a paired t-test on the 12 differences. What is wrong?",
+      "options": [
+        "Nothing, as long as the two columns have the same length",
+        "The pairs are invented: sorted, unrelated beams are not partners, so the p-value is wrong",
+        "She should have sorted only one column and kept the other in its original order",
+        "The paired test needs at least 30 pairs, so she should use Welch instead"
+      ],
+      "correct": [1],
+      "explanation": "The beams from the two plants have nothing to do with each other, so there are no pairs. Sorting both columns lines up values that only look alike, and the differences are small by construction: the paired test then claims far more precision than the data have. Use a two-sample test (Welch unless equal variances are reasonable)."
+    },
+    {
+      "id": "q8",
+      "kind": "choice",
+      "objective": "st.m10.o1",
+      "prompt": "To compare two tire tread patterns on stopping distance, an engineer pairs test cars by the **color** of their paint, one car of each pair with each pattern. Why is this pairing of little use?",
+      "options": [
+        "Paint color does not affect stopping distance, so it removes no variation",
+        "Matched pairs are allowed only when the same unit is measured twice",
+        "Pairs must be chosen at random, not by any feature of the units",
+        "Color is a categorical variable, and pairs need a measured variable"
+      ],
+      "correct": [0],
+      "explanation": "Pairing helps only when the two members of a pair are alike in what drives the outcome (weight, brakes, driver). Matching on color leaves all the car-to-car variation in the differences, and the paired test then has n − 1 degrees of freedom instead of n₁ + n₂ − 2, for nothing."
+    }
+  ]
+}

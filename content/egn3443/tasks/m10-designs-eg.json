@@ -1,0 +1,25 @@
+{
+  "id": "st.m10.designs.eg",
+  "title": "Attic insulation in matched pairs of houses",
+  "analysis": "TwoSampleTest",
+  "intro": "A utility tested a new attic insulation in a matched-pairs study. Twenty houses were put in ten pairs matched on floor area, age and orientation, and in each pair a coin decided which house was retrofitted. The heating energy over the winter (kWh per m² of floor) was then recorded for both. The two houses of a pair belong together, so the test is the paired t on the ten differences d = retrofitted − not retrofitted: H₀: μ_d = 0 against H₁: μ_d ≠ 0 at α = 0.05.",
+  "tables": [
+    {
+      "name": "Houses",
+      "columns": {
+        "Retrofitted": [104, 90, 118, 99, 115, 86, 127, 96, 108, 120],
+        "Not retrofitted": [112, 95, 130, 104, 121, 88, 140, 101, 117, 126]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Heating energy",
+    "TestKind": "PairedT",
+    "Source": "Columns",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Delta0": 0,
+    "Column": "@Houses/Retrofitted",
+    "Column2": "@Houses/Not retrofitted"
+  }
+}

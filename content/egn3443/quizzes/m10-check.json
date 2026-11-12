@@ -1,0 +1,138 @@
+{
+  "id": "st.m10.check.quiz",
+  "title": "Module 10 check: two-sample hypothesis testing",
+  "passThreshold": 0.8,
+  "practice": false,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "choice",
+      "objective": "st.m10.o1",
+      "lookAgain": "st.m10.designs",
+      "prompt": "Each of 10 batches of repair mortar is cast into two cubes. One cube of each batch is cured wet and the other dry, and both are tested for compressive strength. Which analysis fits?",
+      "options": [
+        "Welch t-test on two independent samples of 10 cubes",
+        "Pooled t-test on two independent samples, with 18 df",
+        "Paired t-test on the 10 differences, with 9 df",
+        "Two-proportion z-test on the cubes that pass"
+      ],
+      "correct": [2],
+      "explanation": "The two cubes of a batch share its mix, water content and age: they are natural pairs. Test the 10 differences wet − dry with the paired t-test, n − 1 = 9 degrees of freedom. Treating them as independent would leave the batch-to-batch variation in the standard error."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m10.o1",
+      "lookAgain": "st.m10.designs",
+      "prompt": "The fatigue life of 12 shot-peened springs is compared with that of 15 unpeened springs from a separate production lot. Which description of the design is right?",
+      "options": [
+        "Paired: drop 3 unpeened springs to make 12 pairs",
+        "Independent samples: no spring has a partner in the other group",
+        "Paired: sort both groups by life and pair them in that order",
+        "Matched pairs: the springs share the same design drawing"
+      ],
+      "correct": [1],
+      "explanation": "The springs in the two groups are different units chosen separately, so nothing links a peened spring to an unpeened one, and the sizes differ. Dropping or sorting springs would invent pairs; sharing a drawing is true of every spring and matches nothing. Use a two-sample t-test (Welch unless equal variances are reasonable)."
+    },
+    {
+      "id": "q3",
+      "kind": "choice",
+      "objective": "st.m10.o2",
+      "lookAgain": "st.m10.assumptions",
+      "prompt": "Supplier 1's lot had 4 cracked tiles in 60, supplier 2's lot 7 in 75. The pooled proportion is p̂ = 11/135 = 0.0815. Can the two-proportion z-test be used?",
+      "options": [
+        "Yes: both samples are larger than 30",
+        "Yes: the pooled proportion is below 0.10",
+        "No: n₁p̂ = 4.9 and n₂p̂ = 6.1 are under 10; use Fisher's exact test",
+        "No: the two samples have different sizes, so they cannot be compared"
+      ],
+      "correct": [2],
+      "explanation": "The z-test needs n₁p̂, n₁(1 − p̂), n₂p̂ and n₂(1 − p̂) all at least 10. Here n₁p̂ = 60 × 0.0815 = 4.9 and n₂p̂ = 75 × 0.0815 = 6.1: too few expected cracked tiles for the normal curve to be trusted. Fisher's exact test works from the counts themselves. Different sample sizes are no problem for either test."
+    },
+    {
+      "id": "q4",
+      "kind": "choice",
+      "objective": "st.m10.o2",
+      "lookAgain": "st.m10.assumptions",
+      "prompt": "Two independent samples of pipe-wall thickness (n₁ = 9, n₂ = 11) both look normal (Shapiro–Wilk p = 0.52 and 0.38). Their standard deviations are s₁ = 1.8 mm and s₂ = 4.1 mm. Which t-test should compare the means, and why?",
+      "options": [
+        "Pooled t: both samples look normal, so the variances can be pooled",
+        "Welch t: the variance ratio is 4.1²/1.8² = 5.2, well above 2 to 3",
+        "Pooled t: the standard deviations are both under 5 mm",
+        "Welch t: with n₁ ≠ n₂ the pooled t-test can never be used"
+      ],
+      "correct": [1],
+      "explanation": "Normality and equal variances are separate assumptions. The variance ratio 16.81/3.24 = 5.2 is far above the course's rule of thumb of 2 to 3 (and the standard deviations differ by more than a factor of 2), so do not pool: use Welch. Unequal sample sizes alone do not rule out the pooled test; they make pooling riskier when the variances differ."
+    },
+    {
+      "id": "q5",
+      "kind": "numeric",
+      "objective": "st.m10.o3",
+      "lookAgain": "st.m10.two-means",
+      "prompt": "Two anchor-bolt epoxies are pull-tested on separate bolts. Epoxy 1: n₁ = 8, x̄₁ = 31.6 kN, s₁ = 2.2 kN. Epoxy 2: n₂ = 10, x̄₂ = 29.1 kN, s₂ = 2.6 kN. Equal variances are reasonable. Calculate the **pooled** t statistic for H₀: μ₁ − μ₂ = 0. Give it to two decimals.",
+      "answer": 2.17,
+      "tolerance": 0.01,
+      "explanation": "sₚ² = (7 × 4.84 + 9 × 6.76)/16 = (33.88 + 60.84)/16 = 5.920, so sₚ = 2.433. SE = 2.433 × √(1/8 + 1/10) = 2.433 × 0.4743 = 1.154. t = (31.6 − 29.1)/1.154 = 2.5/1.154 = 2.17, with 16 degrees of freedom; the two-sided p = 0.046."
+    },
+    {
+      "id": "q6",
+      "kind": "numeric",
+      "objective": "st.m10.o3",
+      "lookAgain": "st.m10.two-means",
+      "prompt": "The skid resistance of five road sections was measured before and after grooving. The differences after − before are 0.4, 1.1, 0.7, 0.2 and 0.9. Their mean is 0.66 and their standard deviation 0.3647. Calculate the paired t statistic for H₀: μ_d = 0. Give it to two decimals.",
+      "answer": 4.05,
+      "tolerance": 0.01,
+      "explanation": "t = d̄/(s_d/√n) = 0.66/(0.3647/√5) = 0.66/0.1631 = 4.05, with n − 1 = 4 degrees of freedom. The two-sided p-value is 2 × P(T > 4.05) with T on 4 df = 0.016."
+    },
+    {
+      "id": "q7",
+      "kind": "numeric",
+      "objective": "st.m10.o4",
+      "lookAgain": "st.m10.proportions",
+      "prompt": "Of 250 castings poured by shift A, 18 were scrapped; of 300 poured by shift B, 31 were scrapped. What is the **pooled** proportion p̂ used in the two-proportion z-test? Give it to three decimals or more.",
+      "answer": 0.0891,
+      "tolerance": 0.001,
+      "explanation": "p̂ = (x₁ + x₂)/(n₁ + n₂) = (18 + 31)/(250 + 300) = 49/550 = 0.0891. It is the total scrapped over the total poured, not the average of p̂₁ = 0.072 and p̂₂ = 0.103 (which would be 0.0877, because the samples have different sizes)."
+    },
+    {
+      "id": "q8",
+      "kind": "numeric",
+      "objective": "st.m10.o4",
+      "lookAgain": "st.m10.proportions",
+      "prompt": "Of 500 rivets set with tool 1, 45 failed a pull test; of 480 set with tool 2, 28 failed. Calculate the two-proportion z statistic (pooled) for H₀: p₁ = p₂, with tool 1 first. Give it to two decimals.",
+      "answer": 1.89,
+      "tolerance": 0.01,
+      "explanation": "p̂₁ = 45/500 = 0.0900, p̂₂ = 28/480 = 0.0583, pooled p̂ = 73/980 = 0.0745. SE = √(0.0745 × 0.9255 × (1/500 + 1/480)) = 0.01678. z = (0.0900 − 0.0583)/0.01678 = 0.0317/0.01678 = 1.89. The two-sided p = 0.059: not significant at 0.05."
+    },
+    {
+      "id": "q9",
+      "kind": "choice",
+      "objective": "st.m10.o5",
+      "lookAgain": "st.m10.interpreting",
+      "prompt": "A plant compared the reject rate of its old and new paint lines. The 95 % confidence interval for p_old − p_new is 0.012 to 0.058. Which statement interprets it in context?",
+      "options": [
+        "The new line's reject rate is 1.2 % to 5.8 %, so it is acceptable",
+        "There is a 95 % chance that the new line is better than the old one",
+        "The new line rejects 1.2 to 5.8 percentage points fewer parts than the old",
+        "The lines do not differ, because the interval is narrower than 0.05"
+      ],
+      "correct": [2],
+      "explanation": "The interval is for the difference old − new, and it lies entirely above 0: the new line's reject rate is lower, by somewhere between 1.2 and 5.8 percentage points. It is not an interval for the new line's rate itself, and a 95 % confidence interval is not a 95 % probability that a hypothesis is true."
+    },
+    {
+      "id": "q10",
+      "kind": "choice",
+      "objective": "st.m10.o5",
+      "lookAgain": "st.m10.interpreting",
+      "prompt": "A new pump impeller costs more and pays only if it raises mean efficiency by **more than 2 percentage points**. Welch's test of H₀: μ_new − μ_old = 0 gives p = 0.003, and the 95 % interval for μ_new − μ_old is 0.8 to 3.1 points. What should the engineer conclude?",
+      "options": [
+        "Buy it: p = 0.003 shows the gain is large enough to pay",
+        "Do not buy it: the gain is not statistically significant",
+        "Buy it: the middle of the interval, 1.95 points, is close to 2",
+        "Not yet: the gain is real, but it may be under 2 points"
+      ],
+      "correct": [3],
+      "explanation": "p = 0.003 shows the impeller raises efficiency, but the interval runs from 0.8 to 3.1 points: gains under 2 points are still plausible, so the data do not show it pays. Test H₀: μ_new − μ_old = 2 against H₁: > 2, or collect more data. A small p is evidence of a difference, not of a difference large enough to matter."
+    }
+  ]
+}

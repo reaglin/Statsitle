@@ -1,0 +1,43 @@
+{
+  "id": "st.m10.assumptions.ex",
+  "title": "Settling time of two controller tunings",
+  "analysis": "TwoSampleTest",
+  "intro": "A servo drive was tuned two ways, and the settling time (s) after a step command was measured on separate test runs: 11 runs with tuning 1 and 10 with tuning 2. Before comparing the mean settling times, check the assumptions in the Workbench: is each sample normal-looking, and are the variances equal?\n\nFind the Shapiro–Wilk p-value for tuning 1, the Shapiro–Wilk W for tuning 2, and Levene's p-value. Give each to three decimals or more.\n\nTo use the Workbench: press **Copy the data**, press Ctrl+B, click **+ Data table** and paste (Ctrl+V). Choose **Two-sample test**, set **Test** to *Two means, unequal variances (Welch t)*, **Data from** to *Columns of a data table*, **Column (sample 1)** to *Tuning 1* and **Column (sample 2)** to *Tuning 2*. The checks are at the bottom of the results. Ctrl+L brings you back.",
+  "tables": [
+    {
+      "name": "Settling",
+      "columns": {
+        "Tuning 1": [2.31, 2.18, 2.45, 2.27, 2.39, 2.22, 2.34, 2.29, 2.41, 2.25, 2.36],
+        "Tuning 2": [2.05, 2.12, 1.98, 2.21, 2.09, 3.46, 2.02, 2.15, 2.08, 1.95]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Settling time",
+    "TestKind": "WelchT",
+    "Source": "Columns",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Delta0": 0,
+    "Column": "@Settling/Tuning 1",
+    "Column2": "@Settling/Tuning 2"
+  },
+  "ask": [
+    { "result": "Shapiro1P", "prompt": "Shapiro–Wilk p, tuning 1", "tolerance": 0.001, "wrong": "Check the Workbench settings against the list above: Column (sample 1) is Tuning 1." },
+    { "result": "Shapiro2", "prompt": "Shapiro–Wilk W, tuning 2", "tolerance": 0.001, "wrong": "Check the Workbench settings against the list above, and read W, not its p-value." },
+    { "result": "LeveneP", "prompt": "Levene p", "tolerance": 0.001, "wrong": "Check the Workbench settings against the list above, and read Levene p, not Levene W." }
+  ],
+  "mistakes": {
+    "Shapiro2": [
+      { "result": "Shapiro2P", "says": "That is the p-value of the Shapiro–Wilk test for tuning 2. The question asks its statistic, W, the row above it." }
+    ],
+    "LeveneP": [
+      { "result": "Levene", "says": "That is Levene's statistic W. The question asks its p-value, the row below it." }
+    ]
+  },
+  "hints": [
+    "Look at the box plots first: one of the tuning 2 runs is far from the others.",
+    "The Shapiro–Wilk rows give W and p for each sample, in the order of the columns: sample 1 is Tuning 1.",
+    "Levene's rows are the last two: its statistic (Levene W) and its p-value (Levene p)."
+  ]
+}

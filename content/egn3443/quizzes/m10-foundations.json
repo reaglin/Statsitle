@@ -1,0 +1,86 @@
+{
+  "id": "st.m10.foundations.quiz",
+  "title": "Setting up a two-sample test",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "choice",
+      "objective": "st.m10.o1",
+      "prompt": "A water utility compares two leak-detection methods. On 180 pipe segments checked by method A and 160 other segments checked by method B, each segment is recorded as *leak found* or *no leak found*. Which parameter does the test compare?",
+      "options": [
+        "The mean number of segments, μ₁ − μ₂",
+        "The proportions with a leak found, p₁ − p₂",
+        "The mean difference within pairs, μ_d",
+        "The variances of the two methods, σ₁²/σ₂²"
+      ],
+      "correct": [1],
+      "explanation": "Each segment gives a yes or no, so the outcome is binary and the parameter is a proportion: the share of segments where each method finds a leak. The groups are different segments (independent), so the test compares p₁ − p₂ with the two-proportion z-test of item 10.5."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m10.o5",
+      "prompt": "A new bearing seal is meant to **lower** the share of pumps that leak within a year. Before the trial, the engineer names the old seal group 1 and the new seal group 2. Which hypotheses fit the question?",
+      "options": [
+        "H₀: p₁ − p₂ = 0 against H₁: p₁ − p₂ > 0",
+        "H₀: p₁ − p₂ = 0 against H₁: p₁ − p₂ < 0",
+        "H₀: p₁ − p₂ > 0 against H₁: p₁ − p₂ = 0",
+        "H₀: p̂₁ − p̂₂ = 0 against H₁: p̂₁ − p̂₂ > 0"
+      ],
+      "correct": [0],
+      "explanation": "The claim to find evidence for is that the new seal (group 2) leaks less, so p₂ < p₁, which is p₁ − p₂ > 0. That goes in H₁; H₀ is the equality. Hypotheses are about the population proportions p, never the sample proportions p̂, which are known once the data are in."
+    },
+    {
+      "id": "q3",
+      "kind": "numeric",
+      "objective": "st.m10.o5",
+      "prompt": "Two batches of a coating are compared for dry-film thickness. The difference of the sample means is x̄₁ − x̄₂ = 4.2 µm, H₀ says the difference is 0, and the standard error of the difference is 1.75 µm. What is the test statistic? Give it to two decimals.",
+      "answer": 2.4,
+      "tolerance": 0.005,
+      "explanation": "Every two-sample statistic is (observed difference − difference under H₀) / SE = (4.2 − 0) / 1.75 = 2.40. The data lie 2.4 standard errors above what H₀ predicts. Whether that is a t or a z, and with how many degrees of freedom, depends on how the SE was found."
+    },
+    {
+      "id": "q4",
+      "kind": "choice",
+      "objective": "st.m10.o5",
+      "prompt": "An engineer planned a two-sided test of two cooling designs at α = 0.05. The two-sided p-value came out 0.08, with design 1 cooler. She then wrote H₁: μ₁ − μ₂ < 0 and reported p = 0.04. What is wrong?",
+      "options": [
+        "Nothing: design 1 was cooler, so the one-sided test is the more natural one",
+        "The one-sided p-value should be 0.16, double the two-sided one",
+        "The direction was chosen after seeing the data, so the stated α is not the real one",
+        "A one-sided test can only be used with the z-test, never with a t-test"
+      ],
+      "correct": [2],
+      "explanation": "Choosing the direction after seeing the data (HARKing) halves the p-value without any new evidence. Had design 1 come out warmer, she would have chosen the other direction, so the real Type I error rate is 2 × 0.05 = 0.10. The direction must be fixed before the data are seen; here the report should say p = 0.08, two-sided."
+    },
+    {
+      "id": "q5",
+      "kind": "match",
+      "objective": "st.m10.o1",
+      "prompt": "Match each study with the test it needs.",
+      "pairs": [
+        { "left": "Hardness of 10 gears before and after nitriding", "right": "Paired t-test" },
+        { "left": "Share of welds that pass X-ray, two procedures", "right": "Two-proportion z-test" },
+        { "left": "Tensile strength of 12 bars from mill A, 15 from mill B", "right": "Two-sample t-test" },
+        { "left": "Consistency (spread) of two filling machines", "right": "F-test or Levene's test" }
+      ],
+      "explanation": "The same 10 gears measured twice are pairs: paired t on the differences. Pass or fail is binary: two-proportion z. Different bars from two mills are independent samples of a measurement: two-sample t (Welch unless equal variances are reasonable). A question about spread compares variances: the F-test, or Levene's test, which is robust to non-normal data."
+    },
+    {
+      "id": "q6",
+      "kind": "choice",
+      "objective": "st.m10.o5",
+      "prompt": "A test of two mortar mixes gives p = 0.31 at α = 0.05. Which sentence should the report use?",
+      "options": [
+        "The two mixes have the same mean strength.",
+        "The data give no evidence that the mean strengths differ.",
+        "There is a 31 % chance that the mixes have the same mean strength.",
+        "The difference in mean strength is too small to matter."
+      ],
+      "correct": [1],
+      "explanation": "Not rejecting H₀ means the data cannot tell the means apart; it does not show they are equal, and it says nothing on its own about whether a difference would matter (the confidence interval does, item 10.6). p is calculated assuming H₀ is true, so it is not the probability that H₀ is true."
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "id": "st.m10.two-means.ex",
+  "title": "Shear strength of laminates cured at two temperatures",
+  "analysis": "TwoSampleTest",
+  "intro": "A composites shop cures carbon-fiber laminates at two temperatures and tests the interlaminar shear strength (MPa) of coupons cut from separate panels. Cure 1: n₁ = 11 coupons, mean 62.4 MPa, standard deviation 3.1 MPa. Cure 2: n₂ = 9 coupons, mean 58.9 MPa, standard deviation 3.6 MPa. Both samples looked normal, and the variance ratio is 3.6²/3.1² = 1.35, so equal variances are reasonable. Test H₀: μ₁ − μ₂ = 0 against H₁: μ₁ − μ₂ ≠ 0 at α = 0.05 with the **pooled t-test**.\n\nFind the t statistic, its degrees of freedom, the two-sided p-value, and the 95 % confidence interval for μ₁ − μ₂. Give t and the interval to two decimals, and p to three decimals or more.\n\nTo use the Workbench: press Ctrl+B and choose **Two-sample test**. Set **Test** to *Two means, equal variances (pooled t)*, **Data from** to *Summary statistics entered here*, **Alternative hypothesis** to *Two-sided (≠)*, **Significance level (α)** to 0.05 and **Hypothesised difference (Δ₀)** to 0, then type the means, standard deviations and sizes into the sample 1 and sample 2 boxes. Ctrl+L brings you back.",
+  "settings": {
+    "Name": "Shear strength",
+    "TestKind": "PooledT",
+    "Source": "Summary",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Delta0": 0,
+    "SampleMean": 62.4,
+    "SampleSd": 3.1,
+    "SampleSize": 11,
+    "Sample2Mean": 58.9,
+    "Sample2Sd": 3.6,
+    "Sample2Size": 9
+  },
+  "ask": [
+    { "result": "Statistic", "prompt": "Test statistic, t" },
+    { "result": "DegreesOfFreedom", "prompt": "Degrees of freedom" },
+    { "result": "PValue", "prompt": "Two-sided p-value", "tolerance": 0.001 },
+    { "result": "CiLower", "prompt": "95 % CI for μ₁ − μ₂, lower end (MPa)" },
+    { "result": "CiUpper", "prompt": "95 % CI for μ₁ − μ₂, upper end (MPa)" }
+  ],
+  "mistakes": {
+    "Statistic": [
+      { "value": 2.301, "says": "That is Welch's t, with the variances kept apart. The exercise asks the pooled t: SE = sₚ √(1/n₁ + 1/n₂)." }
+    ],
+    "DegreesOfFreedom": [
+      { "value": 20, "says": "n₁ + n₂ = 20. Each sample's standard deviation uses up one degree of freedom: the pooled test has n₁ + n₂ − 2." },
+      { "value": 15.95, "says": "That is Welch's ν. The pooled test has n₁ + n₂ − 2 degrees of freedom." }
+    ],
+    "PValue": [
+      { "scale": 0.5, "says": "That is a one-tailed p-value. H₁ is two-sided (≠), so p = 2 × P(T > |t|)." },
+      { "value": 0.0352, "says": "That is the p-value of Welch's test. The exercise asks the pooled test, with n₁ + n₂ − 2 degrees of freedom." }
+    ],
+    "CiLower": [
+      { "value": 0.5652, "says": "You used z = 1.96. With samples this small, use the t quantile with n₁ + n₂ − 2 = 18 degrees of freedom." }
+    ],
+    "CiUpper": [
+      { "value": 6.4348, "says": "You used z = 1.96. With samples this small, use the t quantile with n₁ + n₂ − 2 = 18 degrees of freedom." }
+    ]
+  },
+  "hints": [
+    "First the pooled standard deviation: sₚ² = [(n₁ − 1)s₁² + (n₂ − 1)s₂²]/(n₁ + n₂ − 2).",
+    "SE = sₚ √(1/n₁ + 1/n₂) and t = (x̄₁ − x̄₂)/SE, with n₁ + n₂ − 2 degrees of freedom.",
+    "p = 2 × P(T > |t|): Python 2 * stats.t.sf(abs(t), df), R 2 * pt(abs(t), df, lower.tail = FALSE). The interval is (x̄₁ − x̄₂) ± t(0.025, df) × SE, with t(0.025, df) from Python stats.t.ppf(0.975, df) or R qt(0.975, df)."
+  ]
+}

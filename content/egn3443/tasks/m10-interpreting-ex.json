@@ -1,0 +1,41 @@
+{
+  "id": "st.m10.interpreting.ex",
+  "title": "Does a new coolant cool enough to pay?",
+  "analysis": "TwoSampleTest",
+  "intro": "A machine shop is trialling a new cutting coolant. It costs more, and the tooling engineer worked out that it pays only if it lowers the mean tool-tip temperature by **more than 3 °C**. Separate cuts were measured with each coolant. Old coolant: n₁ = 14 cuts, mean 413.8 °C, standard deviation 6.8 °C. New coolant: n₂ = 12 cuts, mean 405.1 °C, standard deviation 5.9 °C. The decision rule was set before the trial: switch only if a one-sided **Welch** test at α = 0.05 shows μ₁ − μ₂ > 3, that is, H₀: μ₁ − μ₂ = 3 against H₁: μ₁ − μ₂ > 3.\n\nFind the t statistic and the one-sided p-value. Give t to two decimals and p to four decimals or more.\n\nTo use the Workbench: press Ctrl+B and choose **Two-sample test**. Set **Test** to *Two means, unequal variances (Welch t)*, **Data from** to *Summary statistics entered here*, **Alternative hypothesis** to *Greater than (>)*, **Significance level (α)** to 0.05 and **Hypothesised difference (Δ₀)** to 3, then type the old coolant as sample 1 and the new one as sample 2. Ctrl+L brings you back.",
+  "settings": {
+    "Name": "Tool temperature",
+    "TestKind": "WelchT",
+    "Source": "Summary",
+    "AlternativeHypothesis": "Greater",
+    "Alpha": 0.05,
+    "Delta0": 3,
+    "SampleMean": 413.8,
+    "SampleSd": 6.8,
+    "SampleSize": 14,
+    "Sample2Mean": 405.1,
+    "Sample2Sd": 5.9,
+    "Sample2Size": 12
+  },
+  "ask": [
+    { "result": "Statistic", "prompt": "Test statistic, t" },
+    { "result": "PValue", "prompt": "One-sided p-value", "tolerance": 0.0005 }
+  ],
+  "mistakes": {
+    "Statistic": [
+      { "value": 3.493, "says": "That t tests a difference of 0. The question is whether the cut is more than 3 °C: subtract Δ₀ = 3 from x̄₁ − x̄₂ before dividing by the SE." },
+      { "value": 2.263, "says": "That is the pooled t. The decision rule says Welch: SE = √(s₁²/n₁ + s₂²/n₂)." },
+      { "scale": -1, "says": "Check the sign and the order: t = (x̄₁ − x̄₂ − Δ₀)/SE with the old coolant first. The old coolant runs hotter, so x̄₁ − x̄₂ is positive." }
+    ],
+    "PValue": [
+      { "scale": 2, "says": "That is a two-sided p-value. H₁ is one-sided (>): p = P(T > t), one tail." },
+      { "value": 0.01649, "says": "That is the pooled test's p-value. The decision rule says Welch, with ν from the Welch–Satterthwaite formula." },
+      { "value": 0.00094, "says": "That p-value tests a difference of 0. The decision needs the test against Δ₀ = 3." }
+    ]
+  },
+  "hints": [
+    "With the old coolant as sample 1, the observed difference is x̄₁ − x̄₂, and H₀ says it is Δ₀ = 3.",
+    "SE = √(s₁²/n₁ + s₂²/n₂) and t = (x̄₁ − x̄₂ − 3)/SE. ν = (a + b)²/(a²/(n₁ − 1) + b²/(n₂ − 1)) with a = s₁²/n₁ and b = s₂²/n₂.",
+    "One-sided (>): p = P(T > t). Python stats.t.sf(t, nu), R pt(t, nu, lower.tail = FALSE)."
+  ]
+}
