@@ -25,7 +25,8 @@ public static class AnovaFigures
             Axes =
             [
                 new AxisSpec(AxisSide.Bottom, valueLabel, Min: min - pad, Max: max + pad),
-                new AxisSpec(AxisSide.Left, string.Join(", ", names.Reverse()) + " (bottom to top)", Min: 0.5, Max: k + 0.5),
+                // Each box named at its own height (the first group at the top), not by numbered ticks.
+                new AxisSpec(AxisSide.Left, "group", Min: 0.5, Max: k + 0.5, TickLabels: [.. names.Reverse()]),
             ],
             Series = series,
         };
@@ -53,7 +54,7 @@ public static class AnovaFigures
             ShowLegend = false,
             Axes =
             [
-                new AxisSpec(AxisSide.Bottom, string.Join(", ", groups.Select((g, i) => $"{i + 1} = {g.Name}")), Min: 0.5, Max: groups.Count + 0.5),
+                new AxisSpec(AxisSide.Bottom, "group", Min: 0.5, Max: groups.Count + 0.5, TickLabels: [.. groups.Select(g => g.Name)]),
                 new AxisSpec(AxisSide.Left, valueLabel, Min: lo - pad, Max: hi + pad),
             ],
             Series = series,
@@ -65,7 +66,8 @@ public static class AnovaFigures
     {
         List<PlotSeries> series = [];
         string[] palette = ["#3B6EA5", "#C0392B", "#2E8B57", "#8E44AD", "#D68910", "#1F2933"];
-        double[] x = [.. result.LevelsA];
+        // The levels of A as categories at 1 … a, each named by its level: coded levels 1, 2, 3 no longer get ticks 1.1, 1.2 …
+        double[] x = [.. Enumerable.Range(1, result.LevelsA.Count).Select(i => (double)i)];
 
         for (int j = 0; j < result.LevelsB.Count; j++)
         {
@@ -79,7 +81,12 @@ public static class AnovaFigures
         return new PlotSpec
         {
             Title = title,
-            Axes = [new AxisSpec(AxisSide.Bottom, $"level of {aName}"), new AxisSpec(AxisSide.Left, $"mean {valueLabel}")],
+            Axes =
+            [
+                new AxisSpec(AxisSide.Bottom, $"level of {aName}", Min: 0.7, Max: result.LevelsA.Count + 0.3,
+                    TickLabels: [.. result.LevelsA.Select(v => v.ToString("G6", System.Globalization.CultureInfo.CurrentCulture))]),
+                new AxisSpec(AxisSide.Left, $"mean {valueLabel}"),
+            ],
             Series = series,
         };
     }

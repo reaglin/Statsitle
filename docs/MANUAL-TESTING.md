@@ -20,12 +20,13 @@ version says it cannot check and offers the Store page — that is expected.
 
 ---
 
-## Round 2.0 — Statistics+: the Course, Start here and Modules 1–9 (2026-11-11)
+## Round 2.0 — Statistics+: the Course, Start here and Modules 1–14 (2026-11-11)
 
 Build: `manual-test\Statistle.exe` (made 2026-11-11, version 2.0.0; the content package is in
 `manual-test\content\egn3443`). Close any copy that is open first. Plan phases 7–11 (`docs/DEVELOPMENT-PLAN.md`).
 The Module 2 pilot was approved (plan 11.1 ✅). **This round: the program (part P), modules 0, 1, 3 and 4 (part Q),
-modules 5–9 (part R), and what is new in the Workbench (part S).** Read as much of Q and R as you have time for;
+modules 5–9 (part R), what is new in the Workbench (part S), modules 10–14 (part T) and the Workbench additions made
+for them (part U).** Read as much of Q, R and T as you have time for;
 your view on the shape of one or two modules is as useful as a full read.
 
 ### P. The program, as a student meets it
@@ -129,6 +130,56 @@ S5. Workbench ▸ **Continuous distribution** ▸ Family **Weibull** (shape β, 
 S6. Workbench ▸ **Sampling distribution**: **Population shape** Normal removes the "n < 30" warning; **Shade on the
     figure** Above shades the right-hand tail.
 S7. The **Code** tab's R for a one- or two-sample test now runs in R (it stopped on 'two-sided' before).
+
+
+### T. Modules 10–14 (plan 13.1–13.5)
+
+T1. **10. Two-Sample Hypothesis Testing** (6 items + check). It revisits Module 9 with new cases and adds the
+    two-proportion z-test (10.5), one-sided tests and tests against a difference Δ₀ (10.4), and deciding from an
+    interval (10.6). Questions: 10.3 calls the course's "variance ratio above 2–3" the cautious rule, while Module 9
+    uses "SD ratio under 2" (a variance ratio up to 4) — should one rule be used in both? Is 10.6 (the decision table,
+    n per group, the written conclusion) the right depth? 10.4 finishes the course page's own pooled example with
+    means it adds (27.3 and 25.6) — all right?
+T2. **11. Regression Analysis** (6 items + check). The course reading's four points (1,2), (2,3), (3,5), (4,4) are
+    worked by hand through the module. 11.3 and 11.6 use R's built-in real data (`stackloss`, `mtcars`, `trees`) —
+    allowed? σ̂ (÷ n − 2) is taught as the typical miss, with the course's RMSE (÷ n) beside it — as you want it?
+T3. **12. Multiple Regression** (5 items + check). It opens with a confounded concrete case: neither one-predictor
+    regression is significant, but the two together explain 83 %. Is that the first message you want? Selection uses
+    p < 0.05 as the Workbench does; R's AIC `step()` is only mentioned. All data sets are generated.
+T4. **13. Validating Regression** (6 items + check, the check shaped like the course's *Fit for Purpose*). Is 13.4 the
+    right depth (PRESS, the contiguous folds, a table of six hold-out seeds)? Durbin–Watson: keep the Savin–White bounds
+    (d_L 1.20, d_U 1.41 at n = 20), or say only "below about 1.5"? Look at the quiz figures (residual patterns) at quiz
+    size, and at the six-column tables in a narrow window.
+T5. **14. ANOVA** (6 items + check), ending with a paragraph over the whole course. 14.3 works the course reading's
+    fertilizer data by hand (F = 21.6) — free to use, or is it graded? 14.2 teaches Welch's ANOVA for unequal variances,
+    which the Workbench does not calculate (the Python and R are given) — add it to One-way ANOVA? 14.1's simulation
+    runs independent tests (1 − (1 − α)ᵐ); the text also gives the lower rate of correlated pairwise tests.
+T6. Your course's own pages, from the writers' reading (worth a look):
+    - **Module 10:** labelled Week 11/Module 10 in one place and Module 11 in another. It gives no formula for the
+      p₁ − p₂ interval, and its Example 2 claims a direction ("significantly higher in Group 1") from a two-sided test.
+      Levene's test is called an "F-test". d is x₂ − x₁ on one page and x₁ − x₂ on another.
+    - **Module 11:** a CI of [0.2, 0.4] with SE = 0.1 is inconsistent (±1.96·SE ≈ ±0.2). The Topic 4 adjusted R² table
+      (0.774, 0.799, 0.791) doesn't match its own formula (0.775, 0.802, 0.800).
+    - **Module 12:** the landing page links its lecture as "Module 12 - Hypothesis Testing for 2 Samples". The study
+      page's Python uses `pd`, `X` and `y` without defining them.
+    - **Module 14:** the FWER formula is given without saying pairwise tests are correlated.
+
+### U. New in the Workbench for Modules 10–14 (plan 10.10 and the module writers' fixes)
+
+U1. Workbench ▸ **Multiple regression** on a data table: the new **Hold-out share** (0.2) and **Hold-out seed** (1) give
+    **Hold-out test rows**, **Rows in the test set** and **Hold-out test RMSE**, beside the in-sample and cross-validated
+    RMSE. Change the seed: the rows and the test RMSE change. The Code tab lists the drawn rows (numpy and R would draw
+    others from a seed) and reproduces the RMSE.
+U2. Multiple regression ▸ **Coefficient to read**: type a predictor's name (or Intercept). Expected: **Chosen
+    coefficient (b)**, **Standard error of b**, **t statistic of b** and **p-value of b** match that row of the
+    Coefficients table; a name not in the model gives "—".
+U3. **Two-sample test** ▸ Paired t from two columns: the box plot of the differences is drawn (it was blank, also in
+    Module 9's 9.2).
+U4. **Simple linear regression**: with rising data the legend sits in the lower right, clear of the points; a fit in
+    1/x or ln x no longer shoots off the plot near x = 0.
+U5. **One-way ANOVA** and **Two-way ANOVA** opened from a Course Example (Open in the Workbench) load their table. The
+    box plots and the means plot name each group on its axis, and the interaction plot names each level of A (coded
+    levels 1, 2, 3 had ticks 1.1, 1.2 …); each line is named once in its legend.
 
 ---
 

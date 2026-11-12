@@ -64,6 +64,16 @@ public sealed class ScottPlotSurface : IPlotSurface
             _plot.Axes.Bottom.TickGenerator = manual;
         }
 
+        _plot.Axes.Left.TickGenerator = new ScottPlot.TickGenerators.NumericAutomatic();
+
+        if (spec.Axes.FirstOrDefault(a => a.Side == CoreAxisSide.Left)?.TickLabels is { Count: > 0 } rows)
+        {
+            // Named rows at y = 1 … n (the groups of a box plot laid on their side).
+            var manual = new ScottPlot.TickGenerators.NumericManual();
+            for (int i = 0; i < rows.Count; i++) manual.AddMajor(i + 1, rows[i]);
+            _plot.Axes.Left.TickGenerator = manual;
+        }
+
         if (spec.Axes.Any(a => a.Side == CoreAxisSide.Right))
         {
             _rightAxis = _plot.Axes.AddRightAxis();
