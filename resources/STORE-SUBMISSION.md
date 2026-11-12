@@ -15,7 +15,7 @@ everything ships as 2.0.0). 2.0.0 is an **update of the same product**: same ide
 
 | Item | Status |
 |---|---|
-| Name Statistics+ on this product | ⚠️ Ron reserved it as a separate new app (2026-11-11). To move it: in that new app, reserve a stand-in name, delete Statistics+ (an app must keep one name), then reserve Statistics+ at once on Statistle (Product management → Manage app names). Deleting releases the name to anyone, so do both steps together; the empty app can be left or deleted |
+| Name Statistics+ on this product | ✅ Moved by Ron 2026-11-12 from a separate new app (stand-in name reserved there, Statistics+ deleted) to Statistle via Manage app names; the empty app may stay |
 | Manifest | ✅ `DisplayName` and the tile's `ShortName` are Statistics+; identity unchanged |
 | Privacy policy | ✅ `https://softwareplus.ai/statistle/privacy/`, revised 2026-11-12 for learners, the signing key and reports |
 | `runFullTrust` justification and certification notes | ✅ Below, rewritten for the Course |
@@ -192,7 +192,7 @@ pass avoids a failed round trip.
 
 ## Submission order — 2.0.0
 
-1. Move the name Statistics+ from the separate new app onto this product (see the table above).
+1. ~~Move the name Statistics+ onto this product~~ — done by Ron (2026-11-12).
 2. ~~Privacy page revised and live~~ — 2026-11-12.
 3. ~~Version 2.0.0, manifest names, listing copy~~ — done (plan 15.3).
 4. Ron's hand-test round 2.0 (`docs/MANUAL-TESTING.md`) on `manual-test\Statistle.exe`.
