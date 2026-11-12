@@ -74,7 +74,7 @@
       "prompt": "Ten cylinders from a concrete truck are cured in a moist room and ten **other** cylinders from another truck are cured in the field. The strengths look normal, but the field-cured standard deviation is twice the moist-room one. Which test compares the mean strengths?",
       "options": ["Two-sample z-test", "Pooled t-test", "Welch t-test", "Paired t-test", "Mann–Whitney U test", "Wilcoxon signed-rank test", "F-test for two variances", "Two-proportion z-test"],
       "correct": [2],
-      "explanation": "Independent samples (different cylinders from different trucks, so no pairs), σ unknown, normal data, and clearly unequal spreads. Welch's t-test does not assume equal variances; the pooled test does."
+      "explanation": "Independent samples (different cylinders from different trucks, so no pairs), σ unknown, normal data, and clearly unequal spreads (an SD twice the other is a variance ratio of 4, above the course's 2 to 3). Welch's t-test does not assume equal variances; the pooled test does."
     }
   ]
 }

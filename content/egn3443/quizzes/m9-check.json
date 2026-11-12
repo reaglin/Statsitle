@@ -32,7 +32,7 @@
         "Two-sample z-test, with no degrees of freedom"
       ],
       "correct": [1],
-      "explanation": "Independent samples (different bricks), σ unknown, and one standard deviation more than twice the other, so equal variances cannot be assumed. Welch's t-test does not pool; its degrees of freedom come from ν = (a + b)²/[a²/(n₁ − 1) + b²/(n₂ − 1)] with a = s₁²/n₁ and b = s₂²/n₂."
+      "explanation": "Independent samples (different bricks), σ unknown, and a variance ratio of 4.8²/2.1² = 5.2, far above the course's 2 to 3, so equal variances cannot be assumed. Welch's t-test does not pool; its degrees of freedom come from ν = (a + b)²/[a²/(n₁ − 1) + b²/(n₂ − 1)] with a = s₁²/n₁ and b = s₂²/n₂."
     },
     {
       "id": "q3",

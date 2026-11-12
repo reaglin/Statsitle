@@ -25,7 +25,7 @@ Here yᵢⱼ is observation j in group i and ȳᵢ is the mean of group i. Pooli
 
 - **Look first.** Box plots side by side show a group that is much more spread out, a skewed group, or a far outlier. The normal Q–Q plot of the residuals (Module 5) should be close to a straight line.
 - **Shapiro–Wilk on the residuals.** H₀: the residuals come from a normal distribution. A small p (below 0.05) is evidence against normality.
-- **Rule of thumb for spread.** The course's rule: if the largest group variance is more than about 2 to 3 times the smallest, treat the variances as unequal (item 10.3). A looser rule many texts use — largest SD under about twice the smallest — allows a variance ratio up to 4. The F test is least affected when the groups are the same size.
+- **Rule of thumb for spread.** The course's rule: if the largest group variance is more than about 2 to 3 times the smallest, treat the variances as unequal (item 10.3). The F test is least affected when the groups are the same size.
 - **Levene's test.** H₀: all k variances are equal. Take each value's distance from its own group's **median**, zᵢⱼ = |yᵢⱼ − ỹᵢ|, and run a one-way ANOVA on the z's; Levene's W is that ANOVA's F, with k − 1 and N − k degrees of freedom. A small p says the variances differ. Centered on the median (the Brown–Forsythe form, used by Statistics+, scipy and R's car package), it is robust to non-normal data.
 - **Bartlett's test.** Also H₀: equal variances, compared with a χ² distribution on k − 1 df. It is more powerful than Levene's when the data are normal, but it cannot tell unequal variances from non-normality: a skewed group or an outlier makes it reject too. Use Levene to decide; read Bartlett alongside.
 

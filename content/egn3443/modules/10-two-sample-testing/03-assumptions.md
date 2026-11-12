@@ -38,7 +38,7 @@ The **10 % condition**: when you sample without replacement from a small populat
 
 ## Equal variances (for the pooled t only)
 
-- **The variance ratio**, larger s² over smaller s². The course's rule of thumb: above about 2 to 3, treat the variances as unequal. (Module 9's rule, a ratio of standard deviations under about 2, allows a variance ratio up to 4; the course's rule is the more cautious one.)
+- **The variance ratio**, larger s² over smaller s². The course's rule of thumb: above about 2 to 3, treat the variances as unequal. (The same rule as in Module 9.)
 - **Levene's test:** H₀ is equal variances. It uses each value's distance from its sample's **median**, so a single far value moves it little: it is robust. A small p says the variances differ.
 - **When it fails, or when in doubt:** use Welch. Welch costs very little when the variances are equal, which is why it is the safe default.
 

@@ -8,7 +8,7 @@ title: Checking the assumptions of ANOVA
 |---|---|---|
 | Independent observations | from the design: separate units, random assignment, no repeated readings of one unit | redesign, or a method for the dependence (repeated measures, blocking) |
 | Normal errors | box plots; normal Q–Q plot and Shapiro–Wilk of the **residuals** eᵢⱼ = yᵢⱼ − ȳᵢ | mild: little harm, especially with equal groups of 10 or more; strong skew: transform (log) or Kruskal–Wallis |
-| Equal variances | the course's rule: largest group variance more than about 2 to 3 times the smallest → treat as unequal (item 10.3; the looser rule, largest SD under about twice the smallest, allows a ratio up to 4); Levene's test (median-centered); Bartlett's test | Welch's ANOVA; a transformation; equal group sizes make F more robust |
+| Equal variances | the course's rule: largest group variance more than about 2 to 3 times the smallest → treat as unequal (item 10.3); Levene's test (median-centered); Bartlett's test | Welch's ANOVA; a transformation; equal group sizes make F more robust |
 
 ## The tests
 

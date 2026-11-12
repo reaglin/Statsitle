@@ -34,7 +34,7 @@ Independence and random sampling come from **how the data were collected**: no t
 
 ## Checking equal variances
 
-- **Rule of thumb:** if the larger standard deviation is less than about twice the smaller, pooling does little harm, especially when n₁ = n₂.
+- **Rule of thumb (the course's):** divide the larger variance s² by the smaller. Above about 2 to 3, treat the variances as unequal and use Welch. Square the standard deviations first: s's of 3 and 2 give a variance ratio of 9/4 = 2.25, already at the edge. Pooling does least harm when n₁ = n₂.
 - **Levene's test.** H₀: σ₁² = σ₂². It compares the average distance of each value from its sample's median. A **small p** says the variances differ: do not pool, use Welch. Levene's test is robust: it works even when the data are not normal.
 - **F-test.** F = s₁²/s₂², with n₁ − 1 and n₂ − 1 degrees of freedom. If the variances are equal, F is near 1. The **F distribution** is the distribution this ratio follows when both samples come from normal populations with equal variances: it takes only positive values, is skewed to the right, and has two degrees of freedom, one for the top (n₁ − 1) and one for the bottom (n₂ − 1). F(0.025; 9, 11) is the F value with 0.025 of the area above it, with 9 and 11 degrees of freedom: Python stats.f.ppf(0.975, 9, 11), R qf(0.975, 9, 11), which both take the area below it. The two-sided p-value is twice the smaller tail. It answers the question "are the spreads different?" well when the data are normal, but it is easily fooled by non-normal data. So use Levene to decide whether to pool, and the F-test when the variance itself is the question (repeatability, consistency), with normal data.
 
