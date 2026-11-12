@@ -1,0 +1,27 @@
+{
+  "id": "st.m12.specification.eg",
+  "title": "Daily electricity use of an office building",
+  "analysis": "MultipleRegression",
+  "intro": "A facilities engineer recorded 15 weekdays in an office building: the daily electricity use (kWh), the mean outdoor temperature (°C), the number of people badged in (Occupancy) and the hours of sunshine. The model has k = 3 predictors and so p = 4 coefficients: Energy = β₀ + β₁·Outdoor temp + β₂·Occupancy + β₃·Sunshine + ε. With n = 15 days, the error degrees of freedom are n − k − 1 = 11.",
+  "tables": [
+    {
+      "name": "Building",
+      "columns": {
+        "Outdoor temp": [25.1, 24.3, 25.7, 32.7, 31.5, 26.3, 25.0, 23.5, 18.2, 19.9, 29.1, 22.2, 21.6, 23.5, 30.5],
+        "Occupancy": [104, 97, 59, 34, 110, 77, 24, 69, 55, 117, 99, 80, 56, 96, 46],
+        "Sunshine": [6.4, 9.1, 6.0, 5.0, 7.6, 3.2, 6.9, 10.3, 4.5, 10.3, 5.0, 3.3, 7.5, 5.4, 8.9],
+        "Energy": [651, 588, 602, 615, 728, 577, 463, 524, 490, 626, 704, 580, 512, 579, 611]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Building energy",
+    "Table": "@Building/",
+    "Response": "Energy",
+    "Predictors": "Outdoor temp, Occupancy, Sunshine",
+    "Selection": "AllEntered",
+    "Confidence": 0.95,
+    "Folds": 0,
+    "HoldOutShare": 0
+  }
+}

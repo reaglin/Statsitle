@@ -80,6 +80,11 @@ public sealed class MultipleRegression : Analysis, IHasFigures, IUsesProject, IH
     private double _inSampleRmse = double.NaN;
     private double _cvRmse = double.NaN;
     private string _selectionNote = string.Empty;
+    private string _coefficientOf = string.Empty;
+    private double _chosenEstimate = double.NaN;
+    private double _chosenSe = double.NaN;
+    private double _chosenT = double.NaN;
+    private double _chosenP = double.NaN;
 
     public MultipleRegression()
     {
@@ -121,7 +126,7 @@ public sealed class MultipleRegression : Analysis, IHasFigures, IUsesProject, IH
     public string Table
     {
         get => _table;
-        set => SetProperty(ref _table, value ?? string.Empty);
+        set => SetProperty(ref _table, TableId(value));
     }
 
     [StatistleProperty(Label = "Response column (y)", Role = VariableRole.Input,
@@ -160,6 +165,17 @@ public sealed class MultipleRegression : Analysis, IHasFigures, IUsesProject, IH
     {
         get => _confidence;
         set => SetProperty(ref _confidence, value);
+    }
+
+    [StatistleProperty(Label = "Coefficient to read", Role = VariableRole.Input,
+        Help = "Optional: the name of one predictor in the model (or '(Intercept)'). Its line of " +
+               "the coefficient table is then also shown as numbers below — the coefficient b, " +
+               "its standard error, t and p-value — to copy or compare. Leave blank to skip; a " +
+               "predictor that selection dropped shows '—'.")]
+    public string CoefficientOf
+    {
+        get => _coefficientOf;
+        set => SetProperty(ref _coefficientOf, value ?? string.Empty);
     }
 
     [StatistleProperty(Label = "Cross-validation folds (k)", Decimals = 0, Unit = ValueKind.Count, Role = VariableRole.Design, Min = 0, Max = 50,
@@ -229,6 +245,41 @@ public sealed class MultipleRegression : Analysis, IHasFigures, IUsesProject, IH
     {
         get => _coefficientTable;
         set => SetProperty(ref _coefficientTable, value);
+    }
+
+    [StatistleProperty(Label = "Chosen coefficient (b)", Decimals = 4, Role = VariableRole.Output,
+        Help = "The estimate for the predictor named in 'Coefficient to read': the change in y for " +
+               "one unit more of that predictor with the other predictors held fixed (a partial " +
+               "regression coefficient), in y's units per unit of the predictor.")]
+    public double ChosenEstimate
+    {
+        get => _chosenEstimate;
+        set => SetProperty(ref _chosenEstimate, value);
+    }
+
+    [StatistleProperty(Label = "Standard error of b", Decimals = 4, Role = VariableRole.Output,
+        Help = "How much the chosen coefficient would vary from sample to sample: √(σ̂² [(XᵀX)⁻¹]ⱼⱼ).")]
+    public double ChosenSe
+    {
+        get => _chosenSe;
+        set => SetProperty(ref _chosenSe, value);
+    }
+
+    [StatistleProperty(Label = "t statistic of b", Decimals = 4, Role = VariableRole.Output,
+        Help = "b / SE(b): the test of H₀: βⱼ = 0 with the other predictors in the model, on n − k − 1 degrees of freedom.")]
+    public double ChosenT
+    {
+        get => _chosenT;
+        set => SetProperty(ref _chosenT, value);
+    }
+
+    [StatistleProperty(Label = "p-value of b", Decimals = 4, Unit = ValueKind.Probability, Role = VariableRole.Output,
+        Help = "The two-sided p-value of the chosen coefficient's t: small means the predictor adds " +
+               "information beyond the others in the model.")]
+    public double ChosenP
+    {
+        get => _chosenP;
+        set => SetProperty(ref _chosenP, value);
     }
 
     [StatistleProperty(Label = "R²", Decimals = 4, Unit = ValueKind.Probability, Role = VariableRole.Output,
@@ -420,6 +471,7 @@ public sealed class MultipleRegression : Analysis, IHasFigures, IUsesProject, IH
         HoldOutTestRows = [];
         PredictorsUsed = Equation = CoefficientTable = MaxVifPredictor = Influential = SelectionNote = HoldOutRowList = string.Empty;
         HoldOutCount = HoldOutRmse = double.NaN;
+        ChosenEstimate = ChosenSe = ChosenT = ChosenP = double.NaN;
         RSquared = AdjustedRSquared = ResidualSe = FStatistic = FP = DfRegression = DfError = MaxVif = double.NaN;
         DurbinWatson = ShapiroW = ShapiroP = MaxCooksD = MaxLeverage = InSampleRmse = CvRmse = double.NaN;
 
@@ -540,6 +592,16 @@ public sealed class MultipleRegression : Analysis, IHasFigures, IUsesProject, IH
 
         Equation = equation.ToString();
         CoefficientTable = rows.ToString();
+
+        if (ChosenIndex() is int chosenIndex)
+        {
+            Coefficient read = m.Coefficients[chosenIndex];
+            ChosenEstimate = read.Estimate;
+            ChosenSe = read.StandardError;
+            ChosenT = read.T;
+            ChosenP = read.PValue;
+        }
+
         RSquared = m.RSquared;
         AdjustedRSquared = m.AdjustedRSquared;
         ResidualSe = m.ResidualStandardError;
@@ -579,6 +641,38 @@ public sealed class MultipleRegression : Analysis, IHasFigures, IUsesProject, IH
     /// <summary>The 0-based rows of the last hold-out test set (empty without one), for the code.</summary>
     [StatistleIgnore]
     public IReadOnlyList<int> HoldOutTestRows { get; private set; } = [];
+
+    /// <summary>Where the coefficient named in <see cref="CoefficientOf"/> is in the fitted model (0 = the intercept); null when it is not there.</summary>
+    private int? ChosenIndex()
+    {
+        string name = CoefficientOf.Trim();
+
+        if (Model is null || name.Length == 0)
+        {
+            return null;
+        }
+
+        if (name.Equals("Intercept", StringComparison.OrdinalIgnoreCase))
+        {
+            name = "(Intercept)";
+        }
+
+        for (int j = 0; j < Model.Coefficients.Count; j++)
+        {
+            if (string.Equals(Model.Coefficients[j].Name, name, StringComparison.OrdinalIgnoreCase))
+            {
+                return j;
+            }
+        }
+
+        return null;
+    }
+
+    private static string TableId(string? value)
+    {
+        (int id, _) = DataSources.Split(value);
+        return id > 0 ? id.ToString(CultureInfo.InvariantCulture) : value ?? string.Empty;
+    }
 
     private DataTable? TableChosen() =>
         int.TryParse(Table, NumberStyles.Integer, CultureInfo.InvariantCulture, out int id) ? Project?.Tables.FirstOrDefault(t => t.Id == id) : null;
@@ -654,6 +748,17 @@ public sealed class MultipleRegression : Analysis, IHasFigures, IUsesProject, IH
         s.PrintText("Predictors in the model", PredictorsUsed);
         s.PrintText("Equation", Equation);
         s.Either("print(\"Coefficients:\"); print(fit.summary2(alpha=alpha).tables[1])", "cat(\"Coefficients:\\n\"); print(cbind(summary(fit)$coefficients, confint(fit, level = 1 - alpha)))");
+
+        if (ChosenIndex() is int j)
+        {
+            string name = Model.Coefficients[j].Name;
+            s.Comment($"The line of the coefficient table for {name}");
+            s.Print("Chosen coefficient (b)", $"fit.params.iloc[{j}]", $"coef(summary(fit))[{j + 1}, 1]", 4);
+            s.Print("Standard error of b", $"fit.bse.iloc[{j}]", $"coef(summary(fit))[{j + 1}, 2]", 4);
+            s.Print("t statistic of b", $"fit.tvalues.iloc[{j}]", $"coef(summary(fit))[{j + 1}, 3]", 4);
+            s.Print("p-value of b", $"fit.pvalues.iloc[{j}]", $"coef(summary(fit))[{j + 1}, 4]", 4);
+        }
+
         s.Print("R²", "fit.rsquared", "summary(fit)$r.squared", 4);
         s.Print("Adjusted R²", "fit.rsquared_adj", "summary(fit)$adj.r.squared", 4);
         s.Print("Residual standard error (σ̂)", "np.sqrt(fit.mse_resid)", "summary(fit)$sigma", 4);
@@ -745,12 +850,13 @@ public abstract class SelectionMethod : CalculationMethod<MultipleRegression>, I
         "modeling: multicollinearity and variable selection).";
 
     public override IReadOnlyList<string> Inputs =>
-        [nameof(MultipleRegression.Table), nameof(MultipleRegression.Response), nameof(MultipleRegression.Predictors), nameof(MultipleRegression.Confidence), nameof(MultipleRegression.Folds),
+        [nameof(MultipleRegression.Table), nameof(MultipleRegression.Response), nameof(MultipleRegression.Predictors), nameof(MultipleRegression.Confidence), nameof(MultipleRegression.CoefficientOf), nameof(MultipleRegression.Folds),
          nameof(MultipleRegression.HoldOutShare), nameof(MultipleRegression.HoldOutSeed)];
 
     public override IReadOnlyList<string> Outputs =>
     [
         nameof(MultipleRegression.Count), nameof(MultipleRegression.PredictorsUsed), nameof(MultipleRegression.Equation), nameof(MultipleRegression.CoefficientTable),
+        nameof(MultipleRegression.ChosenEstimate), nameof(MultipleRegression.ChosenSe), nameof(MultipleRegression.ChosenT), nameof(MultipleRegression.ChosenP),
         nameof(MultipleRegression.RSquared), nameof(MultipleRegression.AdjustedRSquared), nameof(MultipleRegression.ResidualSe),
         nameof(MultipleRegression.FStatistic), nameof(MultipleRegression.FP), nameof(MultipleRegression.DfRegression), nameof(MultipleRegression.DfError),
         nameof(MultipleRegression.MaxVif), nameof(MultipleRegression.MaxVifPredictor), nameof(MultipleRegression.DurbinWatson),

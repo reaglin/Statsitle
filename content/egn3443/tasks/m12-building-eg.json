@@ -1,0 +1,28 @@
+{
+  "id": "st.m12.building.eg",
+  "title": "Rut depth in asphalt test sections (backward elimination)",
+  "analysis": "MultipleRegression",
+  "intro": "Twenty asphalt test sections were cored after one summer. The rut depth (mm) is to be explained by four candidate predictors: air voids in the mix (%), binder content (%), the highest pavement temperature (°C) and the truck traffic (thousands of equivalent single-axle loads, ESALs). Backward elimination starts with all four and removes the predictor with the largest p-value while that p-value is 0.05 or more. Read the Selection line to see what it did, then the final model.",
+  "tables": [
+    {
+      "name": "Sections",
+      "columns": {
+        "Air voids": [4.7, 7.3, 8.2, 8.7, 7.4, 5.7, 8.1, 8.1, 6.4, 5.7, 8.2, 8.9, 4.0, 3.0, 5.7, 5.2, 6.3, 7.2, 8.6, 3.1],
+        "Binder": [4.5, 6.3, 5.3, 5.5, 5.4, 5.4, 5.5, 5.1, 5.7, 5.0, 5.9, 5.8, 6.2, 4.9, 6.5, 5.4, 5.6, 6.3, 6.1, 4.9],
+        "Pavement temp": [45, 39, 58, 45, 59, 56, 40, 39, 37, 39, 49, 59, 41, 36, 37, 37, 59, 42, 58, 49],
+        "Traffic": [107, 881, 333, 333, 404, 849, 281, 848, 546, 665, 333, 687, 551, 751, 472, 665, 526, 524, 753, 563],
+        "Rut depth": [4.7, 8.6, 8.5, 7.9, 9.8, 9.4, 6.2, 9.8, 7.2, 7.5, 7.2, 11.9, 8.0, 5.8, 4.3, 4.7, 8.8, 7.0, 12.6, 4.9]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Rut depth",
+    "Table": "@Sections/",
+    "Response": "Rut depth",
+    "Predictors": "Air voids, Binder, Pavement temp, Traffic",
+    "Selection": "Backward",
+    "Confidence": 0.95,
+    "Folds": 0,
+    "HoldOutShare": 0
+  }
+}

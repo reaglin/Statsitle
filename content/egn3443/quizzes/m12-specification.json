@@ -1,0 +1,86 @@
+{
+  "id": "st.m12.specification.quiz",
+  "title": "Specify the model",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "numeric",
+      "objective": "st.m12.o1",
+      "prompt": "A model predicts the settlement of 26 footings (mm) from four predictors: footing width, applied load, soil modulus and depth to groundwater. How many **error degrees of freedom** does the fitted model have?",
+      "answer": 21,
+      "tolerance": 0,
+      "explanation": "n = 26 footings and k = 4 predictors, so p = k + 1 = 5 coefficients are estimated (the intercept too). The error degrees of freedom are n − k − 1 = 26 − 4 − 1 = 21."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m12.o1",
+      "prompt": "In a fitted model Drying time (min) = b₀ + b₁·Film thickness (µm) + b₂·Humidity (%), what are the units of b₁?",
+      "options": [
+        "Minutes per micrometre of film thickness",
+        "Micrometres of film thickness per minute",
+        "Minutes per percent of relative humidity",
+        "No units, because b₁ is a pure number"
+      ],
+      "correct": [0],
+      "explanation": "Every term of the equation is in the response's units (minutes), so b₁ × thickness must be in minutes: b₁ is in minutes per µm. b₂ is in minutes per percent of humidity."
+    },
+    {
+      "id": "q3",
+      "kind": "multiple",
+      "objective": "st.m12.o5",
+      "prompt": "An engineer wants to predict a chiller's daily electricity use **the evening before** from columns in the plant log. Which are sensible candidate predictors? Choose every one that fits.",
+      "options": [
+        "Tomorrow's forecast high temperature",
+        "Tomorrow's scheduled number of production shifts",
+        "The chiller's compressor run hours for that day",
+        "Tomorrow's forecast high temperature again, converted to °F"
+      ],
+      "correct": [0, 1],
+      "explanation": "The forecast temperature and the shift schedule are known the evening before and plausibly drive the load. The compressor run hours are a consequence of the load and are not known in advance. The temperature in °F is an exact linear function of the temperature in °C, so least squares cannot fit both."
+    },
+    {
+      "id": "q4",
+      "kind": "choice",
+      "objective": "st.m12.o1",
+      "prompt": "Which of these is **not** a multiple linear regression model that ordinary least squares can fit as written?",
+      "options": [
+        "y = β₀ + β₁x + β₂x² + ε",
+        "y = β₀ + β₁ ln x₁ + β₂x₂ + ε",
+        "y = β₀ + β₁x₁ + β₂x₂ + β₃x₁x₂ + ε",
+        "y = β₀ + β₁·exp(β₂x) + ε"
+      ],
+      "correct": [3],
+      "explanation": "Linear means linear in the coefficients. x², ln x₁ and x₁x₂ are just new predictor columns, so the first three are linear models. In the last one β₂ sits inside the exponential, so the model is not linear in its coefficients."
+    },
+    {
+      "id": "q5",
+      "kind": "match",
+      "objective": "st.m12.o1",
+      "prompt": "Match each part of the model Y = β₀ + β₁X₁ + … + βₖXₖ + ε with what it is.",
+      "pairs": [
+        { "left": "β₀", "right": "The mean response when every predictor is 0" },
+        { "left": "β₁", "right": "The change in mean Y per unit of X₁, others fixed" },
+        { "left": "ε", "right": "What the predictors leave unexplained" },
+        { "left": "k", "right": "The number of predictors in the model" }
+      ],
+      "explanation": "β₀ is the intercept, β₁ … βₖ are the partial regression coefficients (each with the other predictors held fixed), ε is the error term, and k counts the predictors, so the model has k + 1 coefficients."
+    },
+    {
+      "id": "q6",
+      "kind": "choice",
+      "objective": "st.m12.o5",
+      "prompt": "Which statement about the error term ε of a multiple regression model is part of the usual assumptions?",
+      "options": [
+        "Its standard deviation is the same at every combination of predictors",
+        "Its standard deviation grows in proportion to the fitted value ŷ",
+        "Its errors are correlated from one observation to the next",
+        "Its values follow a uniform distribution centered on zero"
+      ],
+      "correct": [0],
+      "explanation": "The LINE assumptions: the mean of Y is linear in the coefficients, the errors are independent, normally distributed, with equal variance σ² everywhere. Module 13 checks them with the residuals."
+    }
+  ]
+}

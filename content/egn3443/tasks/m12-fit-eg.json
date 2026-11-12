@@ -1,0 +1,28 @@
+{
+  "id": "st.m12.fit.eg",
+  "title": "Concrete strength with a useless third predictor",
+  "analysis": "MultipleRegression",
+  "intro": "The twelve concrete cylinders of item 12.1 again, now with a third column: the laboratory's air temperature (°C) on the day each cylinder was tested. The test machine sits in a climate-controlled room, so there is no reason to expect the room temperature to change the strength. The model is Strength = b₀ + b₁·Curing days + b₂·W/C ratio + b₃·Lab temp. Compare R², adjusted R² and the overall F-test with the two-predictor model of item 12.1 (R² = 0.8316, adjusted R² = 0.7942, F = 22.23).",
+  "tables": [
+    {
+      "name": "Cylinders",
+      "columns": {
+        "Curing days": [7, 7, 7, 7, 14, 14, 14, 14, 28, 28, 28, 28],
+        "W/C ratio": [0.40, 0.42, 0.45, 0.48, 0.45, 0.50, 0.52, 0.55, 0.52, 0.55, 0.60, 0.62],
+        "Lab temp": [20.3, 20.6, 22.0, 20.1, 21.6, 23.0, 20.4, 24.4, 24.3, 23.9, 22.8, 24.6],
+        "Strength": [35.6, 38.8, 32.9, 30.9, 35.2, 34.3, 32.8, 30.3, 40.8, 39.5, 34.2, 32.1]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Concrete, three predictors",
+    "Table": "@Cylinders/",
+    "Response": "Strength",
+    "Predictors": "Curing days, W/C ratio, Lab temp",
+    "Selection": "AllEntered",
+    "Confidence": 0.95,
+    "CoefficientOf": "Lab temp",
+    "Folds": 0,
+    "HoldOutShare": 0
+  }
+}

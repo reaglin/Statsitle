@@ -206,6 +206,8 @@ public class CodeGenerationTests
         yield return ["Multiple regression, backward, no CV", new MultipleRegression { Project = housingProject, Table = housingId, Response = "price", Selection = VariableSelection.Backward, Folds = 0 }];
         yield return ["Multiple regression, one predictor, LOO", new MultipleRegression { Project = housingProject, Table = housingId, Response = "price", Predictors = "size", Folds = 20 }];
         yield return ["Multiple regression, two predictors", new MultipleRegression { Project = housingProject, Table = housingId, Response = "distance", Predictors = "size, bedrooms", Folds = 4 }];
+        yield return ["Multiple regression, one coefficient read", new MultipleRegression { Project = housingProject, Table = housingId, Response = "price", Predictors = "size, age, bedrooms", CoefficientOf = "age" }];
+        yield return ["Multiple regression, intercept read, backward", new MultipleRegression { Project = housingProject, Table = housingId, Response = "price", Selection = VariableSelection.Backward, CoefficientOf = "(Intercept)" }];
 
         // Module 14: the ANOVAs, against scipy (f_oneway, tukey_hsd, studentized_range, ncf, kruskal) and statsmodels (anova_lm).
         StatistleDocument alloyProject = AnovaTests.AlloyProject(out DataTable alloys);

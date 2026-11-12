@@ -1,0 +1,144 @@
+{
+  "id": "st.m12.check.quiz",
+  "title": "Module 12 check: multiple regression",
+  "passThreshold": 0.8,
+  "practice": false,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "choice",
+      "objective": "st.m12.o1",
+      "lookAgain": "st.m12.specification",
+      "prompt": "A model explains the deck condition rating of 40 bridges with five predictors: age, daily truck traffic, deck area, de-icing salt used per year and distance to the coast. How many coefficients does least squares estimate, and how many error degrees of freedom are left?",
+      "options": [
+        "6 coefficients and 34 error degrees of freedom",
+        "5 coefficients and 35 error degrees of freedom",
+        "6 coefficients and 35 error degrees of freedom",
+        "5 coefficients and 34 error degrees of freedom"
+      ],
+      "correct": [0],
+      "explanation": "k = 5 predictors plus the intercept gives p = k + 1 = 6 coefficients. The error degrees of freedom are n − k − 1 = 40 − 5 − 1 = 34."
+    },
+    {
+      "id": "q2",
+      "kind": "numeric",
+      "objective": "st.m12.o1",
+      "lookAgain": "st.m12.simple-to-multiple",
+      "prompt": "A fitted model for the cooling time of a molded part is Cooling time (s) = 12.4 + 0.85·Part mass (g) − 3.2·Coolant flow (L/min). Predict the cooling time of a 20 g part with a coolant flow of 1.5 L/min. Give it to one decimal.",
+      "answer": 24.6,
+      "tolerance": 0.05,
+      "unit": "s",
+      "explanation": "Put the values into the equation: ŷ = 12.4 + 0.85 × 20 − 3.2 × 1.5 = 12.4 + 17.0 − 4.8 = 24.6 s."
+    },
+    {
+      "id": "q3",
+      "kind": "choice",
+      "objective": "st.m12.o2",
+      "lookAgain": "st.m12.coefficients",
+      "prompt": "A fitted model for the efflux time of a paint through a viscosity cup is Flow time (s) = 31.0 − 0.62·Temperature (°C) + 41·Solids fraction. Which sentence interprets the coefficient −0.62 correctly?",
+      "options": [
+        "Each 1 °C warmer, at the same solids fraction, lowers mean flow time by 0.62 s",
+        "Each 1 °C warmer, whatever the solids fraction does, lowers flow time by 0.62 s",
+        "Temperature explains 62 % of the variation in flow time, after solids fraction",
+        "Each 1 s more flow time, at the same solids fraction, means 0.62 °C cooler paint"
+      ],
+      "correct": [0],
+      "explanation": "A partial regression coefficient is the change in the mean response for one unit more of its predictor with the other predictors held fixed. It is in seconds per °C. It is not a share of variation (that is R²), and it does not run backwards from y to x."
+    },
+    {
+      "id": "q4",
+      "kind": "choice",
+      "objective": "st.m12.o2",
+      "lookAgain": "st.m12.simple-to-multiple",
+      "prompt": "In a survey of 30 houses, the simple regression of annual heating energy on window area has slope +5.1 kWh per m². In a multiple regression on window area and wall insulation thickness, the window-area coefficient is +11.8 kWh per m². The houses with large windows were mostly the newer, better-insulated ones. Why do the two slopes differ?",
+      "options": [
+        "The predictors are correlated, so the simple slope also carries insulation's effect",
+        "Least squares gives a different answer for the same data each time it is run",
+        "The multiple regression uses fewer of the 30 houses than the simple regression",
+        "The simple slope is wrong, because a regression always needs two predictors"
+      ],
+      "correct": [0],
+      "explanation": "Large windows came with thick insulation, which lowers heating energy. The simple slope compares big-windowed, well-insulated houses with small-windowed, poorly insulated ones, so part of insulation's saving is mixed into it. The multiple-regression coefficient compares houses with the same insulation: each m² of window adds 11.8 kWh."
+    },
+    {
+      "id": "q5",
+      "kind": "numeric",
+      "objective": "st.m12.o3",
+      "lookAgain": "st.m12.fit",
+      "prompt": "A model with k = 4 predictors fitted to n = 25 observations has R² = 0.72. Calculate its adjusted R². Give it to three decimals.",
+      "answer": 0.664,
+      "tolerance": 0.001,
+      "explanation": "Adjusted R² = 1 − (1 − R²)(n − 1)/(n − k − 1) = 1 − 0.28 × 24/20 = 1 − 0.336 = 0.664."
+    },
+    {
+      "id": "q6",
+      "kind": "choice",
+      "objective": "st.m12.o3",
+      "lookAgain": "st.m12.fit",
+      "prompt": "Two models of the compressive strength of 28 brick batches. Model A (kiln temperature, firing time, clay moisture): R² = 0.811, adjusted R² = 0.787. Model B (A plus the humidity on the day of firing): R² = 0.814, adjusted R² = 0.782. Which conclusion is right?",
+      "options": [
+        "B's higher R² is expected for any added predictor; by adjusted R², A is the better model",
+        "B is the better model, because its R² is higher than A's for the same 28 batches",
+        "A and B fit equally well, because R² and adjusted R² differ by less than 0.01 in each",
+        "Neither can be compared, because R² can only be read for a model with one predictor"
+      ],
+      "correct": [0],
+      "explanation": "R² never falls when a predictor is added, so B's small rise (0.811 to 0.814) says nothing. Adjusted R² charges for the extra coefficient: 1 − 0.189 × 27/24 = 0.787 for A and 1 − 0.186 × 27/23 = 0.782 for B. It fell, so humidity did not earn its place."
+    },
+    {
+      "id": "q7",
+      "kind": "numeric",
+      "objective": "st.m12.o4",
+      "lookAgain": "st.m12.fit",
+      "prompt": "A model with k = 3 predictors fitted to n = 30 observations has R² = 0.64. Calculate the overall F statistic. Give it to two decimals.",
+      "answer": 15.41,
+      "tolerance": 0.02,
+      "explanation": "F = (R²/k) / [(1 − R²)/(n − k − 1)] = (0.64/3) / (0.36/26) = 0.21333 / 0.013846 = 15.41, on 3 and 26 degrees of freedom. Its p-value is about 0.000006, so the model is significant."
+    },
+    {
+      "id": "q8",
+      "kind": "choice",
+      "objective": "st.m12.o4",
+      "lookAgain": "st.m12.fit",
+      "prompt": "A model has three predictors: Y = β₀ + β₁X₁ + β₂X₂ + β₃X₃ + ε. What are the hypotheses of its overall F-test?",
+      "options": [
+        "H₀: β₁ = β₂ = β₃ = 0 against H₁: at least one of β₁, β₂, β₃ is not 0",
+        "H₀: β₀ = β₁ = β₂ = β₃ = 0 against H₁: every one of β₀ to β₃ is not 0",
+        "H₀: at least one of β₁, β₂, β₃ is 0 against H₁: β₁ = β₂ = β₃ = 0",
+        "H₀: β₁ = β₂ = β₃ against H₁: the three coefficients are not all equal"
+      ],
+      "correct": [0],
+      "explanation": "The overall F-test asks whether the predictors together explain anything: H₀ says every slope coefficient is 0 (the intercept is not tested), and H₁ says at least one is not. Rejecting H₀ does not say which predictors matter; the coefficients' t-tests do that."
+    },
+    {
+      "id": "q9",
+      "kind": "choice",
+      "objective": "st.m12.o5",
+      "lookAgain": "st.m12.building",
+      "prompt": "A model of a reactor's yield has four predictors with these p-values: temperature 0.003, pressure 0.41, catalyst age 0.07 and stirring speed 0.62. The overall F-test is significant. Using backward elimination at α = 0.05, what is the next step?",
+      "options": [
+        "Remove stirring speed, the largest p-value, then refit and look again",
+        "Remove pressure and stirring speed together, both p-values above 0.05",
+        "Remove catalyst age, the p-value nearest to 0.05, then refit and look again",
+        "Stop and keep all four, because the overall F-test is already significant"
+      ],
+      "correct": [0],
+      "explanation": "Backward elimination removes one predictor at a time, the one with the largest p-value while that p-value is 0.05 or more: stirring speed (0.62). The other p-values change when it leaves, so refit before deciding about pressure and catalyst age."
+    },
+    {
+      "id": "q10",
+      "kind": "multiple",
+      "objective": "st.m12.o5",
+      "lookAgain": "st.m12.building",
+      "prompt": "In a model of a machine's vibration level, the predictor *ambient temperature* has p = 0.48. Without it, adjusted R² rises from 0.853 to 0.858, σ̂ falls, and the residual plot shows no new pattern. No mechanism links room temperature to the vibration. Which of these are good reasons to remove it? Choose every one that fits.",
+      "options": [
+        "Its coefficient's p-value is large: it adds little beyond the other predictors",
+        "Adjusted R² rises and σ̂ falls when it is removed",
+        "The residuals show no new pattern when it is left out",
+        "R² rises when it is removed from the model"
+      ],
+      "correct": [0, 1, 2],
+      "explanation": "A large p-value, a better adjusted R² and σ̂ without it, unchanged residuals and no mechanism all point the same way: remove it. The last statement is false: removing a predictor can only lower R² or leave it the same, just as adding one can never lower it."
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "id": "st.m12.simple-to-multiple.ex",
+  "title": "Fuel use of delivery trucks",
+  "analysis": "MultipleRegression",
+  "intro": "A fleet engineer logged 12 delivery runs: the payload (tonnes), the average speed (km/h) and the fuel used (L per 100 km). On this route the heavier loads were driven more slowly. Fit Fuel = b₀ + b₁·Payload + b₂·Speed by least squares.\n\nFind the coefficient of Payload in the two-predictor model, R², and the residual standard error σ̂. Give the coefficient to three decimals, R² to four decimals and σ̂ to two decimals.\n\nTo use the Workbench: press **Copy the data**, press Ctrl+B, click **+ Data table** and paste (Ctrl+V). Choose **Multiple regression**, set **Data table** to the table you pasted, **Response column (y)** to *Fuel*, **Predictor columns** to *Payload, Speed*, **Variable selection** to *All the predictors listed*, and type *Payload* in **Coefficient to read** (or read the Payload line of **Coefficients**). Ctrl+L brings you back.",
+  "tables": [
+    {
+      "name": "Trucks",
+      "columns": {
+        "Payload": [2.5, 4.0, 5.5, 6.0, 7.5, 9.0, 10.0, 11.5, 13.0, 14.5, 16.0, 17.5],
+        "Speed": [93, 95, 77, 95, 84, 84, 87, 76, 80, 76, 73, 73],
+        "Fuel": [30.8, 34.5, 32.8, 33.0, 33.7, 35.4, 36.3, 37.4, 39.7, 41.1, 40.7, 43.6]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Truck fuel",
+    "Table": "@Trucks/",
+    "Response": "Fuel",
+    "Predictors": "Payload, Speed",
+    "Selection": "AllEntered",
+    "Confidence": 0.95,
+    "CoefficientOf": "Payload",
+    "Folds": 0,
+    "HoldOutShare": 0
+  },
+  "ask": [
+    { "result": "ChosenEstimate", "prompt": "Coefficient of Payload, b₁ (L/100 km per tonne)", "tolerance": 0.002, "wrong": "Check the Workbench settings against the list above: Fuel is the response, and Payload and Speed are both predictors in one model." },
+    { "result": "RSquared", "prompt": "R²", "tolerance": 0.0005, "wrong": "Check the Workbench settings against the list above: Fuel is the response, and Payload and Speed are both predictors in one model." },
+    { "result": "ResidualSe", "prompt": "Residual standard error, σ̂ (L/100 km)", "wrong": "Check the Workbench settings against the list above: Fuel is the response, and Payload and Speed are both predictors in one model." }
+  ],
+  "mistakes": {
+    "ChosenEstimate": [
+      { "value": 0.7878, "says": "That is the slope of the simple regression of Fuel on Payload alone. Here Speed is in the model too, so the coefficient of Payload is the change in fuel per tonne at a fixed speed. Fit both predictors together." }
+    ],
+    "RSquared": [
+      { "result": "AdjustedRSquared", "says": "That is adjusted R². The question asks R² itself, the share of the variation in Fuel the model explains." }
+    ]
+  },
+  "hints": [
+    "Both predictors go into one model: Predictor columns *Payload, Speed*. Fitting Payload alone gives a different slope.",
+    "The coefficient table has one line per term; the first number on the Payload line is b₁. In Python: sm.OLS(fuel, sm.add_constant(X)).fit().params; in R: coef(lm(fuel ~ payload + speed)).",
+    "R² = 1 − SS_E/SS_T and σ̂ = √(SS_E/(n − k − 1)) with n = 12 runs and k = 2 predictors."
+  ]
+}

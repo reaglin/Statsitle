@@ -210,6 +210,36 @@ public class RegressionTests
         Assert.Empty(blank.Figures(null));
     }
     [Fact]
+    public void One_coefficient_can_be_read_as_numbers_and_the_table_given_as_a_reference()
+    {
+        StatistleDocument project = HousingProject(out DataTable housing);
+
+        // A stored column reference ("id␟") names the table too, as a task's "@Housing/" does.
+        var m = new MultipleRegression { Project = project, Table = DataSources.Reference(housing.Id, string.Empty), Response = "price", Predictors = "size, age" };
+        m.Recalculate();
+        Assert.Null(m.Problem);
+        Assert.Equal(housing.Id.ToString(CultureInfo.InvariantCulture), m.Table);
+        Assert.True(double.IsNaN(m.ChosenEstimate));
+
+        m.CoefficientOf = "age";
+        m.Recalculate();
+        Coefficient age = m.Model!.Coefficients.Single(c => c.Name == "age");
+        Assert.Equal(age.Estimate, m.ChosenEstimate, 12);
+        Assert.Equal(age.StandardError, m.ChosenSe, 12);
+        Assert.Equal(age.T, m.ChosenT, 12);
+        Assert.Equal(age.PValue, m.ChosenP, 12);
+
+        m.CoefficientOf = "Intercept";
+        m.Recalculate();
+        Assert.Equal(m.Model!.Intercept, m.ChosenEstimate, 12);
+
+        m.CoefficientOf = "bedrooms";   // not in the model
+        m.Recalculate();
+        Assert.Null(m.Problem);
+        Assert.True(double.IsNaN(m.ChosenEstimate) && double.IsNaN(m.ChosenP));
+    }
+
+    [Fact]
     public void The_hold_out_split_tests_the_seeded_rows_on_a_model_fitted_to_the_others()
     {
         StatistleDocument project = HousingProject(out DataTable housing);

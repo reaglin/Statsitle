@@ -1,0 +1,51 @@
+{
+  "id": "st.m12.fit.ex",
+  "title": "Power drawn by a circulating pump",
+  "analysis": "MultipleRegression",
+  "intro": "A test rig ran a circulating pump at 16 operating points. At each it recorded the flow (L/s), the head (m), the temperature of the water (°C) and the electrical power drawn (kW). Fit Power = b₀ + b₁·Flow + b₂·Head + b₃·Water temp by least squares and judge the fit.\n\nFind R², adjusted R², the overall F statistic and its error degrees of freedom. Give R² and adjusted R² to four decimals, F to two decimals; the degrees of freedom are a whole number.\n\nTo use the Workbench: press **Copy the data**, press Ctrl+B, click **+ Data table** and paste (Ctrl+V). Choose **Multiple regression**, set **Data table** to the table you pasted, **Response column (y)** to *Power*, **Predictor columns** to *Flow, Head, Water temp* and **Variable selection** to *All the predictors listed*. Ctrl+L brings you back.",
+  "tables": [
+    {
+      "name": "Pump rig",
+      "columns": {
+        "Flow": [59.6, 53.2, 43.4, 36.7, 46.5, 35.2, 37.0, 53.7, 35.1, 56.5, 30.3, 28.1, 29.0, 56.6, 55.6, 31.2],
+        "Head": [27.9, 23.2, 30.4, 25.7, 18.8, 23.8, 19.8, 30.2, 26.3, 20.6, 17.9, 40.3, 20.2, 15.7, 32.2, 21.9],
+        "Water temp": [22.7, 18.0, 26.0, 20.6, 25.8, 34.5, 28.9, 24.8, 24.5, 19.9, 25.5, 35.0, 34.3, 23.5, 20.2, 34.9],
+        "Power": [12.87, 10.66, 12.50, 10.91, 10.20, 8.64, 11.19, 14.19, 10.13, 12.52, 7.44, 14.26, 8.25, 12.26, 14.04, 8.62]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Pump power",
+    "Table": "@Pump rig/",
+    "Response": "Power",
+    "Predictors": "Flow, Head, Water temp",
+    "Selection": "AllEntered",
+    "Confidence": 0.95,
+    "Folds": 0,
+    "HoldOutShare": 0
+  },
+  "ask": [
+    { "result": "RSquared", "prompt": "R²", "tolerance": 0.0005, "wrong": "Check the Workbench settings against the list above: Power is the response, with Flow, Head and Water temp all as predictors." },
+    { "result": "AdjustedRSquared", "prompt": "Adjusted R²", "tolerance": 0.0005, "wrong": "Check the Workbench settings against the list above: Power is the response, with Flow, Head and Water temp all as predictors." },
+    { "result": "FStatistic", "prompt": "Overall F statistic", "wrong": "Check the Workbench settings against the list above: Power is the response, with Flow, Head and Water temp all as predictors." },
+    { "result": "DfError", "prompt": "Error degrees of freedom, n − k − 1", "wrong": "Check the Workbench settings against the list above: Power is the response, with Flow, Head and Water temp all as predictors." }
+  ],
+  "mistakes": {
+    "RSquared": [
+      { "result": "AdjustedRSquared", "says": "That is adjusted R². R² itself is 1 − SS_E/SS_T, with no charge for the number of predictors." }
+    ],
+    "AdjustedRSquared": [
+      { "result": "RSquared", "says": "That is R². Adjusted R² charges for the predictors: 1 − (1 − R²)(n − 1)/(n − k − 1)." },
+      { "value": 0.7763, "says": "You divided by n − k = 13. The error degrees of freedom are n − k − 1: the intercept is a coefficient too." }
+    ],
+    "DfError": [
+      { "value": 13, "says": "n − k = 13 forgets the intercept. Four coefficients are estimated (b₀ to b₃), so the error degrees of freedom are n − k − 1." },
+      { "value": 15, "says": "n − 1 = 15 is the total degrees of freedom. Subtract the k = 3 degrees of freedom of the regression as well." }
+    ]
+  },
+  "hints": [
+    "All three predictors go into one model; n = 16 operating points and k = 3 predictors.",
+    "Adjusted R² = 1 − (1 − R²)(n − 1)/(n − k − 1).",
+    "F = (R²/k) / [(1 − R²)/(n − k − 1)], the same as MS_R/MS_E, with k and n − k − 1 degrees of freedom."
+  ]
+}

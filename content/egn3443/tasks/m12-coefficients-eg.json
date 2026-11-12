@@ -1,0 +1,27 @@
+{
+  "id": "st.m12.coefficients.eg",
+  "title": "Surface roughness of turned shafts",
+  "analysis": "MultipleRegression",
+  "intro": "Fifteen shafts were turned on a lathe at five feed rates (0.10 to 0.30 mm per revolution) and three cutting speeds (100, 175 and 250 m/min), and the surface roughness Ra (µm) was measured. The model is Roughness = b₀ + b₁·Feed + b₂·Cutting speed. Each coefficient is the change in Ra for one unit more of its predictor with the other held fixed; the line for Feed is also shown as numbers.",
+  "tables": [
+    {
+      "name": "Turning",
+      "columns": {
+        "Feed": [0.10, 0.10, 0.10, 0.15, 0.15, 0.15, 0.20, 0.20, 0.20, 0.25, 0.25, 0.25, 0.30, 0.30, 0.30],
+        "Cutting speed": [100, 175, 250, 100, 175, 250, 100, 175, 250, 100, 175, 250, 100, 175, 250],
+        "Roughness": [0.97, 0.60, 0.12, 1.29, 0.88, 0.57, 1.79, 1.38, 0.94, 2.02, 1.84, 1.47, 2.43, 2.13, 1.86]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Surface roughness",
+    "Table": "@Turning/",
+    "Response": "Roughness",
+    "Predictors": "Feed, Cutting speed",
+    "Selection": "AllEntered",
+    "Confidence": 0.95,
+    "CoefficientOf": "Feed",
+    "Folds": 0,
+    "HoldOutShare": 0
+  }
+}
