@@ -38,7 +38,7 @@ where the top sum runs over successive residuals (i = 2 to n) and the bottom ove
 | d | Means |
 |---|---|
 | near 2 | successive residuals unrelated (r₁ near 0) |
-| well below 2 | positive autocorrelation: neighbours alike, long runs |
+| well below 2 | positive autocorrelation: neighbors alike, long runs |
 | well above 2 | negative autocorrelation: residuals alternate in sign |
 
 How far below 2 is "well below" depends on n and the number of predictors; published tables give two bounds. For n = 20 and one predictor at α = 0.05 they are d_L = 1.20 and d_U = 1.41: below 1.20 the positive autocorrelation is significant, above 1.41 it is not, and between them the test cannot decide. A common rough rule: below about 1.5 deserves a look.

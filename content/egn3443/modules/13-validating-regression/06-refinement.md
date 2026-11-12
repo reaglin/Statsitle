@@ -33,7 +33,7 @@ Each refinement is followed by the checks again: a transformation that straighte
 
 A **transformation** replaces x or y by a function of it, and the model is fitted as a straight line in the new variables. It is still least squares; only the columns change.
 
-- **Transform x** (ln x, √x, 1/x) changes the **shape** of the curve but keeps y's scale, so the spread of the residuals is unchanged. Use it when the relation bends but the scatter is even. Which one: ln x for a rise that keeps slowing (strength gain, learning curves), 1/x for a fall towards a floor (cost per part with a setup cost, a heat sink's resistance against fin area), √x for a milder bend.
+- **Transform x** (ln x, √x, 1/x) changes the **shape** of the curve but keeps y's scale, so the residuals stay in y's units and can be compared directly with the line's; it cannot even out a funnel. Use it when the relation bends but the scatter is even. Which one: ln x for a rise that keeps slowing (strength gain, learning curves), 1/x for a fall towards a floor (cost per part with a setup cost, a heat sink's resistance against fin area), √x for a milder bend.
 - **Transform y** (ln y) changes both the shape and the **spread**: it shrinks large values more than small ones, so it can turn a funnel into a band and exponential growth into a line. Predictions are turned back by exp(), and then estimate the **median** of y rather than its mean.
 - **Functional form** can also change by adding terms: a **quadratic** term (a column x² in Multiple regression) for a curve with a peak or a valley, which no single transform can follow.
 
@@ -84,7 +84,7 @@ All three models have the same y, so R² and σ̂ compare directly. The log mode
 The best-fitting model is not always the one to use:
 
 - **Purpose.** A calibration curve must have small, patternless residuals across its whole range. An early design estimate can accept a larger σ̂ for a simpler model engineers can check by hand.
-- **Range.** Every model is validated only inside the data. The ln(age) model keeps rising for ever, while real concrete levels off: do not use it far beyond 90 days.
+- **Range.** Every model is validated only inside the data. The ln(age) model keeps rising forever, while real concrete levels off: do not use it far beyond 90 days.
 - **Simplicity.** Between two models with nearly the same cross-validated error, choose the one with fewer terms and coefficients that mean something.
 - **Cost of data.** A predictor that costs money to measure must earn its place in prediction error.
 
@@ -123,7 +123,7 @@ predict(fit, data.frame(age = 60), interval = "prediction")
 
 ## In the Workbench
 
-In **Simple linear regression**, change **Transform x** or **Transform y** and watch R², σ̂ and the residual plot. Keep a note of each model's numbers, or add the analysis twice and compare. For a quadratic term, add a column x² to the data table and use **Multiple regression**.
+In **Simple linear regression**, change **Transform x** or **Transform y** and watch R², σ̂ and the residual plot. Keep a note of each model's R², σ̂ and residual plot before you change Transform x again. For a quadratic term, add a column x² to the data table and use **Multiple regression**.
 
 ## Common mistakes
 

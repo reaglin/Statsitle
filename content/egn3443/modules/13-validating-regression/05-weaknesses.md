@@ -46,7 +46,7 @@ R² = 0.991 and F is huge, yet the flow's coefficient has p = 0.54. Engineering 
 | Load, Flow, WetBulb | 0.1996 | 107.5 | 0.9883 | 5.99 | 7.17 |
 | Load, WetBulb | 0.0220 | 1.38 | 0.9889 | 5.84 | 6.79 |
 
-The load coefficient's standard error falls ninefold (√107.5 ≈ 10), and the simpler model predicts unseen afternoons better. Flow lost nothing: its information is in load. (Keeping both and reporting only their combined effect is the other choice; ridge regression, beyond this course, is a third.)
+The load coefficient's standard error falls ninefold (√(107.5/1.38) ≈ 9, the ratio of the two VIFs), and the simpler model predicts unseen afternoons better. Flow lost nothing: its information is in load. (Keeping both and reporting only their combined effect is the other choice; ridge regression, beyond this course, is a third.)
 
 ## Outliers
 
@@ -54,7 +54,7 @@ An **outlier** is an observation whose y is far from the model's prediction: a s
 
 ## Leverage
 
-**Leverage** hᵢᵢ measures how far observation i's **predictor values** are from the centre of all of them; it ignores y. For a line, hᵢᵢ = 1/n + (xᵢ − x̄)²/S_xx. The leverages always average p/n (p coefficients, n rows), so:
+**Leverage** hᵢᵢ measures how far observation i's **predictor values** are from the center of all of them; it ignores y. For a line, hᵢᵢ = 1/n + (xᵢ − x̄)²/S_xx. The leverages always average p/n (p coefficients, n rows), so:
 
 - hᵢᵢ above **2p/n** is **high leverage** (some use 3p/n).
 
@@ -120,7 +120,7 @@ plot(fit, which = 5)                # standardized residuals against leverage, w
 
 ## In the Workbench
 
-**Multiple regression** reports the **Largest VIF** and the **Predictor with the largest VIF** (every predictor's VIF is the last number on its line of **Coefficients**), the **Largest leverage**, the **Largest Cook's distance** and the **Most influential observation**. **Simple linear regression** reports the same leverage and Cook's distance rows. Try a model without a suspect row by deleting it from a copy of the data table.
+**Multiple regression** reports the **Largest VIF** and the **Predictor with the largest VIF** (every predictor's VIF is the last number on its line of **Coefficients**), the **Largest leverage**, the **Largest Cook's distance** and the **Most influential observation**. **Simple linear regression** reports the same leverage and Cook's distance rows. To try a model without a suspect row, make a copy of the data: on the Example press **Copy the data**, then in the Workbench click **+ Data table**, paste (Ctrl+V), delete that row, and choose the new table in **Data table**.
 
 ## Common mistakes
 

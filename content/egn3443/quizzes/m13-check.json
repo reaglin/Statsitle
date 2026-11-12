@@ -122,7 +122,7 @@
       "prompt": "A fatigue specimen's crack length was measured every 5 000 load cycles, and a straight line fitted to length against cycles (R² = 0.85). The crack grows faster and faster. Here are the residuals. Which refinement fits the finding best?\n[[figure: st.m13.check.crack 2]]",
       "options": [
         "Remove the first and last points, whose residuals are the largest of all",
-        "Fit ln(length) against cycles, the form of growth at a constant rate",
+        "Fit ln(length) against cycles, the form of growth at a constant percentage rate",
         "Fit length against 1/cycles, the form of a fall towards a floor",
         "Keep the line and report R², since 0.85 is high for test data"
       ],
@@ -134,11 +134,11 @@
       "kind": "match",
       "objective": "st.m13.o5",
       "lookAgain": "st.m13.refinement",
-      "prompt": "Settlement (mm) of a clay layer was measured at 14 times. Four candidate models were fitted, all to settlement itself, so their R² and s compare directly:\n\n| Model | R² | Adjusted R² | s (mm) | Term p-values | Residuals |\n|---|---|---|---|---|---|\n| Line in t | 0.912 | 0.905 | 9.3 | t < 0.0001 | arch |\n| Quadratic in t | 0.981 | 0.978 | 4.5 | t, t² < 0.0001 | random band |\n| ln t | 0.989 | 0.988 | 3.3 | ln t < 0.0001 | random band |\n| ln t and t | 0.9893 | 0.987 | 3.4 | ln t < 0.0001, t = 0.47 | random band |\n\nAs in *Fit for Purpose*, keep or eliminate each model with its reason.",
+      "prompt": "Settlement (mm) of a clay layer was measured at 14 times t (months). Four candidate models were fitted, all to settlement itself, so their R² and s (the residual standard error σ̂) compare directly:\n\n| Model | R² | Adjusted R² | s = σ̂ (mm) | p-values of the terms | Residuals |\n|---|---|---|---|---|---|\n| Line in t | 0.912 | 0.905 | 9.3 | p(t) < 0.0001 | arch |\n| Quadratic in t | 0.981 | 0.978 | 4.5 | p(t), p(t²) < 0.0001 | random band |\n| ln t | 0.989 | 0.988 | 3.3 | p(ln t) < 0.0001 | random band |\n| ln t and t | 0.9893 | 0.987 | 3.4 | p(ln t) < 0.0001, p(t) = 0.47 | random band |\n\nAs in *Fit for Purpose*, keep or eliminate each model with its reason.",
       "pairs": [
         { "left": "Line in t", "right": "Eliminate: residual pattern" },
-        { "left": "Quadratic in t", "right": "Eliminate: larger s" },
-        { "left": "ln t and t", "right": "Eliminate: non-significant term" },
+        { "left": "Quadratic in t", "right": "Eliminate: larger s, though every term is significant" },
+        { "left": "ln t and t", "right": "Eliminate: a term that is not significant" },
         { "left": "ln t", "right": "Keep: the final model" }
       ],
       "explanation": "The line's residuals arch, so its form is wrong. The quadratic's residuals are clean and both its terms significant, but its s (4.5 mm) is larger than the log model's (3.3 mm) on the same y. Adding t to ln t raises R² a little, as any term does, but t's p = 0.47 says it adds nothing, and adjusted R² falls from 0.988 to 0.987. The ln t model is clean, has one significant term and the smallest s: keep it, and cross-validate it before use."

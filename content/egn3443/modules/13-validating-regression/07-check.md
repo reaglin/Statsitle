@@ -21,6 +21,6 @@ The check itself is ten questions, on the **Exercise** tab, over all five outcom
 
 Have a calculator, or Python or R, ready. You may use the Workbench (**Simple linear regression**, **Multiple regression**) to check your work. Type numbers with a decimal point, rounded to the number of decimals the question asks for.
 
-You need 80 % (8 of 10) to pass, and you can try again. A wrong answer says "look again" and names the item that teaches it, and the explanation shows once your answer is right.
+You need 80 % (8 of 10) to pass, and you can try again. In this check, a wrong answer says "look again" and names the item that teaches it; the explanation shows once your answer is right (unlike the practice questions, which show it after a wrong try).
 
 When every item and the check are complete, the module is complete.

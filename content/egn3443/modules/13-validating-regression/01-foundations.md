@@ -109,4 +109,4 @@ Choose **Simple linear regression**, set **x column** and **y column** (or type 
 
 ## What to do next
 
-On the **Exercise** tab, six practice questions show you residual plots and ask what each one says. After a wrong try the explanation shows. You need 80 % to complete the item.
+On the **Exercise** tab, six practice questions, three of them with residual plots, ask what the plots and the numbers say. After a wrong try the explanation shows. You need 80 % to complete the item.

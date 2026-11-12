@@ -28,6 +28,8 @@ over the m predictions being tested. Two versions of it appear in this item:
 
 ## The holdout method (train/test split)
 
+(The idea is the *holdout method*; the Workbench's settings call it **Hold-out**.)
+
 1. Set aside a share of the rows at random as the **test set** (20 to 30 % is usual).
 2. Fit the model to the rest, the **training set**.
 3. Predict the test rows and compute the RMSE on them.
@@ -60,7 +62,7 @@ where eᵢ is the ordinary residual and hᵢᵢ the leverage of item 13.3. The s
 |---|---|---|---|
 | Procedure | One random split, train and test | k folds, each held out once | n folds of one row |
 | Fits needed | 1 | k | n (1 for least squares, with PRESS) |
-| Depends on the random draw | Yes, strongly | Somewhat (which rows share a fold) | No |
+| Depends on the random draw | Yes, strongly | Somewhat, when the rows are shuffled into folds (Statistics+ does not shuffle) | No |
 | Each estimate rests on | the test rows only | all n rows | all n rows |
 | Use when | n is large; a quick check, or a final test kept apart from model choosing | the usual choice for small and moderate n | n is small; you want an exact, repeatable number |
 
@@ -117,14 +119,15 @@ Adding Wind raised R² and lowered the in-sample RMSE, as adding any column must
 import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import KFold, LeaveOneOut, cross_val_predict
-X = np.column_stack([hdd, occupancy]); y = kwh             # the data table's columns
+# hdd, occupancy, kwh: the Example's columns as numpy arrays (Copy the data, or the Code tab, has them)
+X = np.column_stack([hdd, occupancy]); y = kwh
 for cv in (KFold(5), LeaveOneOut()):                        # KFold(5) without shuffling: contiguous folds
     pred = cross_val_predict(LinearRegression(), X, y, cv=cv)
     print(np.sqrt(np.mean((y - pred) ** 2)))
 ```
 
 ```r
-fit <- lm(kWh ~ HDD + Occupancy, data = energy)               # energy: a data frame of the table's columns
+fit <- lm(kWh ~ HDD + Occupancy, data = energy)               # energy: a data frame of the Example's columns (the Code tab builds it)
 sqrt(mean(residuals(fit)^2))                                 # in-sample RMSE
 sqrt(mean((residuals(fit) / (1 - hatvalues(fit)))^2))        # LOOCV RMSE, by PRESS
 test <- c(3, 5, 7, 13, 14)                                    # the rows seed 1 drew
