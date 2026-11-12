@@ -28,7 +28,20 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
     /// <summary>Beside the autosave: the project file it belongs to (empty for an untitled project).</summary>
     private const string AutosavePathFileName = "autosave.path";
 
-    private readonly List<string> _undo = [];
+    /// <summary>Edits to the same field closer together than this are one step for Undo (a combo box run through with the arrows).</summary>
+    private static readonly TimeSpan MergeWindow = TimeSpan.FromSeconds(2);
+
+    private readonly List<UndoStep> _undo = [];
+
+    /// <summary>The project as it was just before a row's edit, pushed when the edit is used (UX sweep M3).</summary>
+    private UndoStep? _pending;
+    private (StatistleObject Target, string Property)? _pendingField;
+
+    /// <summary>The field of the newest undo step and when it was last edited, for merging rapid edits.</summary>
+    private (StatistleObject Target, string Property, DateTime At)? _lastEdit;
+
+    /// <summary>Above zero inside <see cref="RunAsOneChange"/>: the change already has its undo step.</summary>
+    private int _oneChange;
     private readonly IWorkspaceDialogs _dialogs;
     private readonly string _autosaveFolder;
 
@@ -62,7 +75,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         AddTableCommand = new RelayCommand(
             () =>
             {
-                PushUndo();
+                PushUndo("adding a data table");
                 Select(Document.AddTable());
             });
         // Only a data table can be deleted; an analysis is opened from the rail, not owned by the tree.
@@ -86,6 +99,9 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
     /// An analysis opened from another object's field, and where its result is to go.
     /// </summary>
     private sealed record Handoff(StatistleObject Target, StatistleProperty Property, ValueProvider Provider);
+
+    /// <summary>The project before a change, and the change in words ("the change to Confidence level").</summary>
+    private sealed record UndoStep(string Snapshot, string What);
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -191,7 +207,11 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         }
         catch (System.Runtime.InteropServices.ExternalException ex)
         {
-            Status = $"Could not copy: {ex.Message}";
+            Status = "Could not copy the code.";
+            _dialogs.ShowError(
+                "Statistics+ — Could not copy",
+                "Statistics+ could not copy the code. Another program may be holding the clipboard; try again.\n\n" +
+                $"Details for support: {ex.Message}");
         }
     }
 
@@ -211,6 +231,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
             DefaultExt = python ? ".py" : ".R",
             FileName = CodeText_FileName(python),
             InitialDirectory = DefaultFolder(),
+            Title = python ? "Save Python code as" : "Save R code as",
         };
 
         if (dialog.ShowDialog() != true)
@@ -221,7 +242,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         try
         {
             File.WriteAllText(dialog.FileName, CodeText);
-            Status = $"Saved {Path.GetFileName(dialog.FileName)}";
+            Status = $"Saved to {dialog.FileName}";
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
@@ -250,7 +271,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or System.ComponentModel.Win32Exception)
         {
-            Status = $"Could not open the instructions: {ex.Message}";
+            CouldNotOpen("the instructions", ex);
         }
     }
 
@@ -261,8 +282,9 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         {
             Filter = "Web page (*.html)|*.html|Plain text (*.txt)|*.txt",
             DefaultExt = ".html",
-            FileName = Statistle.Core.Code.CodeText.Identifier(page.Title, "statistle").Replace('_', '-') + "-instructions.html",
+            FileName = Statistle.Core.Code.CodeText.Identifier(page.Title, "statistics").Replace('_', '-') + "-instructions.html",
             InitialDirectory = DefaultFolder(),
+            Title = "Save instructions as",
         };
 
         if (dialog.ShowDialog() != true)
@@ -276,7 +298,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
             File.WriteAllText(dialog.FileName, text
                 ? Statistle.Core.Instructions.InstructionsTextWriter.Write(page)
                 : Statistle.Core.Instructions.InstructionsHtmlWriter.Write(page));
-            Status = $"Saved {Path.GetFileName(dialog.FileName)}";
+            Status = $"Saved to {dialog.FileName}";
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
@@ -288,7 +310,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         CodeText_Base() + (python ? ".py" : ".R");
 
     private string CodeText_Base() =>
-        Selected is null ? "statistle" : Statistle.Core.Code.CodeText.Identifier(Selected.Name, "statistle").Replace('_', '-');
+        Selected is null ? "statistics" : Statistle.Core.Code.CodeText.Identifier(Selected.Name, "statistics").Replace('_', '-');
 
     public StatistleDocument Document
     {
@@ -386,7 +408,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
 
             if (Selected is null)
             {
-                return EmptyStateHelp;
+                return IsNothingSelected ? NothingSelectedHelp : EmptyStateHelp;
             }
 
             string overall = StatistleObject.HelpOf(Selected.GetType());
@@ -414,8 +436,17 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         "Or click + Data table to enter your own numbers, then pick an analysis on the left. " +
         "This panel describes whichever field you click into; with no field selected it describes the item as a whole.";
 
-    /// <summary>True when nothing is selected: the Properties tab offers the sample project.</summary>
+    /// <summary>With tables in the project but none selected (one was just deleted): where to click (UX sweep m3).</summary>
+    public const string NothingSelectedHelp = "Click a data table in the Project tree, or an analysis on the left.";
+
+    /// <summary>True when nothing is selected.</summary>
     public bool IsEmptyState => Selected is null;
+
+    /// <summary>Nothing selected and no data tables yet: the Properties tab offers the sample project.</summary>
+    public bool IsFirstRun => Selected is null && Document.Tables.Count == 0;
+
+    /// <summary>Nothing selected, but the project has tables: the Properties tab says where to click.</summary>
+    public bool IsNothingSelected => Selected is null && Document.Tables.Count > 0;
 
     /// <summary>The analysis open now, so the rail can highlight its button; null for a data table or nothing.</summary>
     public Type? SelectedToolType => (Selected as Analysis)?.GetType();
@@ -461,7 +492,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
             return $"The Workbench has no analysis called {task.Analysis}.";
         }
 
-        PushUndo();
+        PushUndo($"copying '{task.Title}' from the Course");
         var ids = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
         foreach (Statistle.Learning.TaskTable table in task.Tables)
         {
@@ -527,6 +558,8 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
             Raise(nameof(Selected));
             Raise(nameof(SelectedHeading));
             Raise(nameof(IsEmptyState));
+            Raise(nameof(IsFirstRun));
+            Raise(nameof(IsNothingSelected));
             Raise(nameof(SelectedToolType));
             Raise(nameof(WebHelpPage));
             Raise(nameof(WebHelpText));
@@ -656,29 +689,31 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         StatistleProperty? result = tool.Properties()
             .FirstOrDefault(p => p.XmlName == _handoff.Provider.Value.ResultProperty);
 
+        (StatistleObject target, StatistleProperty property, _) = _handoff;
+
         if (result is null)
         {
-            Status = $"{tool.Title} has no '{_handoff.Provider.Value.ResultProperty}' to hand over.";
+            CannotUseResult(property, $"{tool.Title} has no result of that kind to hand over.");
             return;
         }
 
-        (StatistleObject target, StatistleProperty property, _) = _handoff;
         object? value = result.Read(tool);
-
-        PushUndo();
+        object? converted;
 
         try
         {
             // Both sides hold base units, so the value crosses as it is; only the type may differ.
             Type type = Nullable.GetUnderlyingType(property.Property.PropertyType) ?? property.Property.PropertyType;
-            property.Property.SetValue(
-                target, value is null ? null : Convert.ChangeType(value, type, System.Globalization.CultureInfo.InvariantCulture));
+            converted = value is null ? null : Convert.ChangeType(value, type, System.Globalization.CultureInfo.InvariantCulture);
         }
         catch (Exception ex) when (ex is InvalidCastException or FormatException or OverflowException)
         {
-            Status = $"Could not put a {value?.GetType().Name} into {property.Label}: {ex.Message}";
+            CannotUseResult(property, $"Details for support: {ex.Message}");
             return;
         }
+
+        PushUndo($"Use result ({property.Label})");
+        property.Property.SetValue(target, converted);
 
         _handoff = null;
         Selected = target;
@@ -687,6 +722,16 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
 
         Status = $"{property.Label} set to {target.Display(property, Document.Units)} " +
                  $"{Document.Units.LabelFor(property.Unit)} from {tool.Title}".TrimEnd();
+    }
+
+    /// <summary>Use result that cannot be done is said in a box, in plain words (UX sweep m4).</summary>
+    private void CannotUseResult(StatistleProperty property, string details)
+    {
+        Status = $"This result cannot go into {property.Label}; nothing was changed.";
+        _dialogs.ShowError(
+            "Statistics+ — Could not use the result",
+            $"This result cannot go into {property.Label}; nothing was changed. Type the value into {property.Label} " +
+            $"yourself, or press Cancel to go back.\n\n{details}");
     }
 
     private void CancelHandoff()
@@ -833,9 +878,15 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
     /// <summary>True when there is something Edit ▸ Undo would bring back.</summary>
     public bool CanUndo => _undo.Count > 0;
 
+    /// <summary>What Edit ▸ Undo would undo now, in words; empty when nothing.</summary>
+    public string UndoDescription => _undo.Count > 0 ? _undo[^1].What : string.Empty;
+
     private void ClearUndo()
     {
         _undo.Clear();
+        _pending = null;
+        _pendingField = null;
+        _lastEdit = null;
         UndoCommand.RaiseCanExecuteChanged();
     }
 
@@ -876,6 +927,20 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         {
             return;
         }
+
+        // The project as it was before this edit becomes the newest undo step (UX sweep M3).
+        if (_pending is UndoStep step && _oneChange == 0)
+        {
+            AddUndoStep(step);
+
+            if (_pendingField is { } field)
+            {
+                _lastEdit = (field.Target, field.Property, DateTime.UtcNow);
+            }
+        }
+
+        _pending = null;
+        _pendingField = null;
 
         IsDirty = true;
 
@@ -929,22 +994,91 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         }
     }
 
-    /// <summary>Takes a snapshot of the project as it stands, before an edit changes it.</summary>
-    public void PushUndo()
+    /// <summary>
+    /// Takes a snapshot of the project as it stands, before a change that is not made through a
+    /// field (adding or deleting a table, Use result, copying a Course task) changes it.
+    /// </summary>
+    /// <param name="what">The change in words, for the status line after Undo: "deleting the data table 'Strength'".</param>
+    public void PushUndo(string what = "the last change")
     {
         if (_restoring)
         {
             return;
         }
 
+        _pending = null;
+        _pendingField = null;
+        _lastEdit = null;
+
         try
         {
-            _undo.Add(Snapshot());
+            AddUndoStep(new UndoStep(Snapshot(), what));
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
+            // Without a snapshot the change still goes ahead; it just cannot be undone.
+        }
+    }
+
+    /// <summary>
+    /// One undo step for a change made through one or more fields (an import replaces a table's
+    /// columns): the snapshot is taken first, and the fields' own edits inside it add none.
+    /// </summary>
+    public void RunAsOneChange(string what, Action change)
+    {
+        ArgumentNullException.ThrowIfNull(change);
+        PushUndo(what);
+        _oneChange++;
+
+        try
+        {
+            change();
+        }
+        finally
+        {
+            _oneChange--;
+        }
+    }
+
+    /// <summary>
+    /// Called by a row just before it writes a value: keeps the project as it is now, to become
+    /// an undo step once the edit is used. A second edit of the same field within a moment is
+    /// part of the same step, so Undo goes back to before the first.
+    /// </summary>
+    private void BeforeRowEdit(PropertyRow row)
+    {
+        if (_restoring || _oneChange > 0)
+        {
             return;
         }
+
+        string property = row.Property.XmlName;
+
+        if (_lastEdit is { } last && _undo.Count > 0 && ReferenceEquals(last.Target, row.Target)
+            && last.Property == property && DateTime.UtcNow - last.At < MergeWindow)
+        {
+            _pending = null;
+            _pendingField = null;
+            _lastEdit = (last.Target, last.Property, DateTime.UtcNow);
+            return;
+        }
+
+        try
+        {
+            _pending = new UndoStep(Snapshot(), $"the change to {row.Label}");
+            _pendingField = (row.Target, property);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            _pending = null;
+            _pendingField = null;
+        }
+    }
+
+    private void AddUndoStep(UndoStep step)
+    {
+        _undo.Add(step);
+        _lastEdit = null;
 
         if (_undo.Count > UndoDepth)
         {
@@ -965,10 +1099,17 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
             return;
         }
 
-        string snapshot = _undo[^1];
+        UndoStep step = _undo[^1];
+        string snapshot = step.Snapshot;
         _undo.RemoveAt(_undo.Count - 1);
+        _pending = null;
+        _pendingField = null;
+        _lastEdit = null;
 
         string? selectedName = Selected?.Name;
+        int selectedId = Selected?.Id ?? -1;
+        Type? selectedType = Selected?.GetType();
+        bool wasTable = Selected is DataTable;
         string? path = Document.FilePath;
 
         _restoring = true;
@@ -984,11 +1125,16 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
             Document = restored;
             Document.SetFilePath(path);
 
-            Selected = (StatistleObject?)Document.Tables.FirstOrDefault(t => t.Name == selectedName)
-                       ?? Document.Tools.Values.FirstOrDefault(t => t.Name == selectedName);
+            // By id first, so undoing a rename keeps the item open; then by name.
+            Selected = wasTable
+                ? (StatistleObject?)Document.Tables.FirstOrDefault(t => t.Id == selectedId)
+                  ?? Document.Tables.FirstOrDefault(t => t.Name == selectedName)
+                : (StatistleObject?)Document.Tools.Values.FirstOrDefault(t => t.Id == selectedId && t.GetType() == selectedType)
+                  ?? Document.Tools.Values.FirstOrDefault(t => t.Name == selectedName);
 
             IsDirty = true;
-            Status = "Undone";
+            Status = $"Undone: {step.What}." +
+                     (_undo.Count > 0 ? $" Ctrl+Z again undoes {_undo[^1].What}." : " There is nothing more to undo.");
         }
         catch (Exception ex) when (ex is IOException or InvalidDataException or FormatException)
         {
@@ -1296,7 +1442,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
             return;
         }
 
-        PushUndo();
+        PushUndo($"deleting the data table '{table.Name}'");
         Document.Tables.Remove(table);
 
         Selected = null;
@@ -1318,6 +1464,8 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
             Filter = "XML file (*.xml)|*.xml",
             DefaultExt = ".xml",
             FileName = $"{Selected.GetType().Name.ToLowerInvariant()}-{Selected.Id}.xml",
+            InitialDirectory = DefaultFolder(),
+            Title = "Export as XML",
         };
 
         if (dialog.ShowDialog() != true)
@@ -1328,7 +1476,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         try
         {
             StatistleDocument.ExportArtifact(Selected, dialog.FileName);
-            Status = $"Exported {Path.GetFileName(dialog.FileName)}";
+            Status = $"Saved to {dialog.FileName}";
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
@@ -1370,8 +1518,22 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException
                                        or System.ComponentModel.Win32Exception)
         {
-            Status = $"Could not open the report: {ex.Message}";
+            CouldNotOpen("the report", ex);
         }
+    }
+
+    /// <summary>
+    /// A page that could not be opened in the browser is said in a box, not only in the status
+    /// line (UX sweep m4).
+    /// </summary>
+    private void CouldNotOpen(string what, Exception ex)
+    {
+        Status = $"Could not open {what}.";
+        _dialogs.ShowError(
+            "Statistics+ — Could not open the browser",
+            $"Statistics+ could not open {what} in your web browser. Check that Windows has a default web browser " +
+            "(Settings ▸ Apps ▸ Default apps), then try again. Save as PDF or Save instructions as… keeps a copy instead.\n\n" +
+            $"Details for support: {ex.Message}");
     }
 
     private void ExportPdf()
@@ -1388,6 +1550,8 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
             Filter = "PDF (*.pdf)|*.pdf",
             DefaultExt = ".pdf",
             FileName = $"{Sanitise(Selected.Name)}.pdf",
+            InitialDirectory = DefaultFolder(),
+            Title = "Save report as PDF",
         };
 
         if (dialog.ShowDialog() != true)
@@ -1398,7 +1562,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         try
         {
             PdfReportWriter.Write(ReportBuilder.For(Selected, Document.Units), dialog.FileName, FigureRenderer);
-            Status = $"Saved the report as {Path.GetFileName(dialog.FileName)}";
+            Status = $"Saved to {dialog.FileName}";
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
@@ -1420,6 +1584,8 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
             Filter = "CSV (*.csv)|*.csv",
             DefaultExt = ".csv",
             FileName = $"{Sanitise(Selected.Name)}.csv",
+            InitialDirectory = DefaultFolder(),
+            Title = "Export data as CSV",
         };
 
         if (dialog.ShowDialog() != true)
@@ -1436,7 +1602,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
                 : CsvExport.ReportToCsv(ReportBuilder.For(Selected, Document.Units));
 
             File.WriteAllText(dialog.FileName, csv);
-            Status = $"Wrote {Path.GetFileName(dialog.FileName)}";
+            Status = $"Saved to {dialog.FileName}";
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
@@ -1461,7 +1627,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
 
     private static string Sanitise(string name)
     {
-        string cleaned = string.IsNullOrWhiteSpace(name) ? "statistle" : name;
+        string cleaned = string.IsNullOrWhiteSpace(name) ? "statistics" : name;
 
         return string.Concat(cleaned.Split(Path.GetInvalidFileNameChars()));
     }
@@ -1494,7 +1660,7 @@ public sealed class WorkspaceViewModel : INotifyPropertyChanged
         // declared Hidden is set some other way (a result clicked) and is not offered.
         foreach (StatistleProperty property in MethodScope.VisibleProperties(Selected).Where(p => !p.Hidden))
         {
-            var row = new PropertyRow(Selected, property, Document.Units, OnEdited);
+            var row = new PropertyRow(Selected, property, Document.Units, OnEdited, BeforeRowEdit);
             row.PropertyChanged += Row_PropertyChanged;
             Rows.Add(row);
 

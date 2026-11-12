@@ -76,9 +76,9 @@ public static class GuideCatalog
                 "Click + Data table in the rail. Give it a name that says what was measured, and a description.",
                 "Paste the data into the Data box: the first line is the column names, then one row per line, columns separated by tabs, commas or semicolons. Straight from a spreadsheet works.",
                 "Or click Import… beside the Data box to read a CSV, text, .xd2 or Excel file. A preview shows the file (choose the sheet of a workbook there); every column of it replaces the table's columns, and Ctrl+Z puts the old data back.",
-                "Columns may differ in length — a shorter column simply ends earlier. Leave a cell blank for a missing value rather than typing zero.",
+                "A blank cell moves the values below it up a row in that column. That is fine for groups of different sizes. In paired data (x and y, before and after, factor and response), delete the whole row instead of leaving one cell blank.",
                 "Factor levels must be numeric codes (1, 2, 3 …), because a table holds numbers only. Say what the codes mean in the description.",
-                "Open an analysis and pick this table, or one of its columns, in the analysis's drop-down. The analysis links back to the table (Edit… beside the field).",
+                "Open an analysis and pick this table, or one of its columns, in the analysis's drop-down. The analysis links back to the table (Go to table beside the field).",
             ],
             ReadingResults:
                 "The table's report lists each column with its number of values; the numbers themselves go out " +
@@ -88,7 +88,7 @@ public static class GuideCatalog
             Pitfalls:
             [
                 "A header line is required. Without it the first row of numbers becomes the column names.",
-                "Text in a cell (a unit, a note) stops the read; put units in the column name instead.",
+                "Text in a cell stops a paste. Import leaves out the whole row that has it, and says which rows.",
                 "Two columns of a paired design must have the same length and the same row order.",
             ],
             Example:

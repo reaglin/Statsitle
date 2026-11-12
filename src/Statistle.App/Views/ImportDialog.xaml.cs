@@ -56,7 +56,8 @@ public partial class ImportDialog : Window
         {
             ImportKind.Pairs => $"{fileName}: choose the x and y columns. Rows where either is not a number are skipped; a header row is recognized.",
             ImportKind.Table => $"{fileName}: every column shown below becomes a column of the table, replacing the columns it has now. " +
-                                "Cells that are not numbers are skipped; a header row gives the column names." +
+                                "A row with text in a number column (such as NA or #DIV/0!) is left out of every column, so the rows stay lined up; " +
+                                "a blank cell is skipped in its own column only. A header row gives the column names." +
                                 (tables.Count > 1 ? " Choose the sheet to import." : string.Empty),
             _ => $"{fileName}: choose the column of values. Cells that are not numbers are skipped; a header row is recognized.",
         };
@@ -72,6 +73,7 @@ public partial class ImportDialog : Window
         FirstLabel.Visibility = _wholeTable ? Visibility.Collapsed : Visibility.Visible;
         FirstBox.Visibility = FirstLabel.Visibility;
         FirstBox.ToolTip = _pairs ? "The column that holds the x values" : "The column whose numbers are imported";
+        System.Windows.Automation.AutomationProperties.SetName(FirstBox, FirstLabel.Text);
 
         ShowTable(_table);
     }
@@ -164,12 +166,15 @@ public partial class ImportDialog : Window
 
         if (_wholeTable)
         {
-            int columns = NumericColumns(_table).Length;
+            int[] numeric = NumericColumns(_table);
+            int columns = numeric.Length;
             int textOnly = _table.ColumnCount - columns;
+            string? leftOut = _table.ColumnsTogether(numeric).Description;
             Outcome.Text = $"{ViewModels.WorkspaceViewModel.Count(columns, "column", "columns")} will be imported" +
                            (textOnly > 0 ? $" ({ViewModels.WorkspaceViewModel.Count(textOnly, "column", "columns")} with no numbers left out)" : string.Empty) +
                            (_columnsNow > 0 ? $", replacing the {ViewModels.WorkspaceViewModel.Count(_columnsNow, "column", "columns")} the table has now" : string.Empty) +
-                           ". Edit ▸ Undo (Ctrl+Z) puts the old data back.";
+                           ". " + (leftOut is null ? string.Empty : leftOut + " ") +
+                           "Edit ▸ Undo (Ctrl+Z) puts the old data back.";
             OkButton.IsEnabled = columns > 0;
         }
         else if (_pairs)

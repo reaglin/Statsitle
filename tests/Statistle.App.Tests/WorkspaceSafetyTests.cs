@@ -308,6 +308,97 @@ public sealed class WorkspaceSafetyTests : IDisposable
         Assert.False(workspace.DeleteCommand.CanExecute(null));
     }
 
+    // ── UX sweep 2026-11 (plan 15.1) ─────────────────────────────────────────
+
+    [Fact]
+    public void Undo_puts_back_a_typed_value_and_says_what_it_undid()
+    {
+        WorkspaceViewModel workspace = WithTable(Workspace());
+        PropertyRow name = Assert.Single(workspace.Rows, r => r.Property.XmlName == "Name");
+        string before = name.Text;
+
+        name.Text = "Tensile strength";
+        Assert.Equal("Tensile strength", Assert.Single(workspace.Tables).Name);
+
+        workspace.UndoCommand.Execute(null);
+
+        Assert.Equal(before, Assert.Single(workspace.Tables).Name);
+        Assert.StartsWith("Undone: the change to ", workspace.Status, StringComparison.Ordinal);
+        Assert.Contains("Ctrl+Z again undoes adding a data table", workspace.Status, StringComparison.Ordinal);
+
+        workspace.UndoCommand.Execute(null);
+        Assert.Empty(workspace.Tables);
+        Assert.Equal("Undone: adding a data table. There is nothing more to undo.", workspace.Status);
+    }
+
+    [Fact]
+    public void Undo_steps_back_one_edit_at_a_time_and_quick_edits_to_one_field_are_one_step()
+    {
+        WorkspaceViewModel workspace = WithTable(Workspace());
+        PropertyRow data = Assert.Single(workspace.Rows, r => r.IsTable);
+        data.Text = "a\tb\n1\t2";
+        PropertyRow name = Assert.Single(workspace.Rows, r => r.Property.XmlName == "Name");
+        string original = name.Text;
+
+        name.Text = "First";
+        name.Text = "Second";   // the same field a moment later: one step with the first
+
+        workspace.UndoCommand.Execute(null);
+        DataTable table = Assert.Single(workspace.Tables);
+        Assert.Equal(original, table.Name);
+        Assert.Equal(1, table.Columns.RowCount);
+
+        workspace.UndoCommand.Execute(null);
+        Assert.Equal(0, Assert.Single(workspace.Tables).Columns.RowCount);
+    }
+
+    [Fact]
+    public void A_refused_entry_adds_no_undo_step()
+    {
+        WorkspaceViewModel workspace = WithTable(Workspace());
+        PropertyRow data = Assert.Single(workspace.Rows, r => r.IsTable);
+
+        data.Text = "a\tb\n1\tx";
+
+        Assert.True(data.HasRejection);
+        workspace.UndoCommand.Execute(null);
+        Assert.Equal("Undone: adding a data table. There is nothing more to undo.", workspace.Status);
+    }
+
+    [Fact]
+    public void Deleting_a_table_leaves_a_hint_where_to_click_not_the_first_run_banner()
+    {
+        WorkspaceViewModel workspace = WithTable(WithTable(Workspace()));
+        Assert.True(workspace.IsFirstRun is false && workspace.IsNothingSelected is false);
+
+        _dialogs.Confirms.Enqueue(true);
+        workspace.DeleteCommand.Execute(null);
+
+        Assert.Null(workspace.Selected);
+        Assert.False(workspace.IsFirstRun);
+        Assert.True(workspace.IsNothingSelected);
+        Assert.Equal(WorkspaceViewModel.NothingSelectedHelp, workspace.HelpText);
+
+        Assert.True(Workspace().IsFirstRun);
+    }
+
+    [Fact]
+    public void A_value_outside_its_range_says_so_under_the_box()
+    {
+        WorkspaceViewModel workspace = Workspace();
+        workspace.SelectTool(Assert.Single(workspace.Analyses, a => a.ToolType == typeof(ConfidenceInterval)));
+        PropertyRow row = workspace.Rows.First(r => !r.IsReadOnly && r.HasRange
+            && r.Property.Property.PropertyType == typeof(double));
+
+        row.Text = "5000";
+
+        Assert.False(row.IsValid);
+        Assert.False(row.HasRejection);
+        Assert.True(row.HasValueNote);
+        Assert.StartsWith(row.Text + " is outside the allowed range (", row.ValueNote, StringComparison.Ordinal);
+        Assert.EndsWith("The results use it anyway; enter a value inside the range.", row.ValueNote, StringComparison.Ordinal);
+    }
+
     [Fact]
     public void Counts_read_as_words()
     {

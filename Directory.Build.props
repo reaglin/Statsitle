@@ -22,7 +22,7 @@
 
   <PropertyGroup>
     <Company>Ron Eaglin</Company>
-    <Product>Statistle</Product>
+    <Product>Statistics+</Product>
     <Copyright>Copyright © Ron Eaglin</Copyright>
     <RepositoryUrl>https://github.com/reaglin/Statistle</RepositoryUrl>
   </PropertyGroup>

@@ -53,6 +53,47 @@ public class TableImportTests
     }
 
     [Fact]
+    public void A_whole_table_import_leaves_out_a_row_with_text_in_every_column_so_pairs_stay_together()
+    {
+        ImportedTable table = TableImport.ReadText(
+            "x,y\n1,10\n2,20\n3,NA\n4,40\n#DIV/0!,50\n6,60\n", "pairs.csv");
+
+        TableColumnsImport imported = table.ColumnsTogether([0, 1]);
+
+        Assert.Equal([1.0, 2, 4, 6], imported.Columns[0]);
+        Assert.Equal([10.0, 20, 40, 60], imported.Columns[1]);
+        Assert.Equal([4, 6], imported.LeftOut.Select(r => r.RowNumber));
+        Assert.Equal(
+            "Rows 4 and 6 were left out: 'NA' in y, '#DIV/0!' in x. The other rows keep their order.",
+            imported.Description);
+    }
+
+    [Fact]
+    public void Blank_cells_in_groups_of_different_sizes_are_only_skipped_in_their_own_column()
+    {
+        ImportedTable table = TableImport.ReadText("A,B,C\n1,2,3\n4,5,6\n7,,9\n10,,\n", "groups.csv");
+
+        TableColumnsImport imported = table.ColumnsTogether([0, 1, 2]);
+
+        Assert.Equal([1.0, 4, 7, 10], imported.Columns[0]);
+        Assert.Equal([2.0, 5], imported.Columns[1]);
+        Assert.Equal([3.0, 6, 9], imported.Columns[2]);
+        Assert.Empty(imported.LeftOut);
+        Assert.Null(imported.Description);
+    }
+
+    [Fact]
+    public void One_left_out_row_is_named_in_the_singular_and_its_number_counts_blank_lines()
+    {
+        ImportedTable table = TableImport.ReadText("x,y\r\n1,2\r\n\r\n3,n/a\r\n5,6\r\n", "t.csv");
+
+        TableColumnsImport imported = table.ColumnsTogether([0, 1]);
+
+        Assert.Equal([1.0, 5], imported.Columns[0]);
+        Assert.Equal("Row 4 was left out: 'n/a' in y. The other rows keep their order.", imported.Description);
+    }
+
+    [Fact]
     public void An_xlsx_workbook_is_read_sheet_by_sheet_with_shared_strings()
     {
         string file = Path.Combine(Path.GetTempPath(), $"statistle-import-{Guid.NewGuid():N}.xlsx");

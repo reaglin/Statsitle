@@ -10,6 +10,7 @@ using Statistle.Core.Persistence;
 using Statistle.Core.Plotting;
 using Statistle.Core.Reporting;
 using Statistle.Core.Analyses;
+using Statistle.Core.Domain;
 
 namespace Statistle.App;
 
@@ -80,6 +81,11 @@ public partial class MainWindow : Window
     /// </summary>
     private void Workspace_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
+        if (e.PropertyName == nameof(WorkspaceViewModel.Selected))
+        {
+            SyncTreeSelection();
+        }
+
         if (e.PropertyName == nameof(WorkspaceViewModel.Figures))
         {
             _reportStale = true;
@@ -272,8 +278,98 @@ public partial class MainWindow : Window
         }
     }
 
-    private void ProjectTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) =>
-        _workspace.Selected = e.NewValue as StatistleObject;
+    /// <summary>
+    /// A table clicked in the tree is selected. The "Data tables" heading (or the tree's own
+    /// selection being cleared) keeps the item that is open (UX sweep m3).
+    /// </summary>
+    private void ProjectTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+    {
+        if (_syncingTree)
+        {
+            return;
+        }
+
+        if (e.NewValue is StatistleObject chosen && !ReferenceEquals(chosen, _workspace.Selected))
+        {
+            _workspace.Selected = chosen;
+        }
+    }
+
+    /// <summary>
+    /// A click on the table the tree already shows as selected still opens it, should the open
+    /// item have changed since (an analysis opened from the rail; UX sweep M2).
+    /// </summary>
+    private void ProjectTree_PreviewMouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        DependencyObject? source = e.OriginalSource as DependencyObject;
+
+        while (source is not null and not TreeViewItem)
+        {
+            source = source is Visual or System.Windows.Media.Media3D.Visual3D
+                ? VisualTreeHelper.GetParent(source)
+                : LogicalTreeHelper.GetParent(source);
+        }
+
+        if (source is TreeViewItem { DataContext: DataTable table } item && !ReferenceEquals(item, TablesNode)
+            && !ReferenceEquals(_workspace.Selected, table))
+        {
+            _workspace.Selected = table;
+            ContentTabs.SelectedIndex = 0;
+        }
+    }
+
+    private bool _syncingTree;
+
+    /// <summary>
+    /// Keeps the tree in step with what is open, whoever opened it — the rail, a Go to table
+    /// link, Open, Undo or Delete (UX sweep M2): a table is selected in the tree, anything else
+    /// clears the tree's selection.
+    /// </summary>
+    private void SyncTreeSelection() => SyncTreeSelection(attempt: 0);
+
+    private void SyncTreeSelection(int attempt)
+    {
+        _syncingTree = true;
+
+        try
+        {
+            if (_workspace.Selected is DataTable table)
+            {
+                if (TablesNode.ItemContainerGenerator.ContainerFromItem(table) is TreeViewItem item)
+                {
+                    item.IsSelected = true;
+                }
+                else if (attempt < 3)
+                {
+                    // The item's container is made on the next layout pass (a table just added,
+                    // a project just opened); a hidden Workbench makes none, so only a few tries.
+                    Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Loaded, () =>
+                    {
+                        if (ReferenceEquals(_workspace.Selected, table))
+                        {
+                            SyncTreeSelection(attempt + 1);
+                        }
+                    });
+                }
+
+                return;
+            }
+
+            TablesNode.IsSelected = false;
+
+            foreach (object entry in TablesNode.Items)
+            {
+                if (TablesNode.ItemContainerGenerator.ContainerFromItem(entry) is TreeViewItem { IsSelected: true } selected)
+                {
+                    selected.IsSelected = false;
+                }
+            }
+        }
+        finally
+        {
+            _syncingTree = false;
+        }
+    }
 
     /// <summary>
     /// Opens whichever discovered analysis was clicked. The handler names no analysis — the
@@ -349,13 +445,15 @@ public partial class MainWindow : Window
             }
 
             int[] numeric = ImportDialog.NumericColumns(table);
+            TableColumnsImport imported = table.ColumnsTogether(numeric);
 
-            _workspace.PushUndo();
-            row.ImportColumns(numeric.Select(i => new DataColumn(table.Headers[i], table.Column(i))));
+            _workspace.RunAsOneChange($"the import from {fileName}",
+                () => row.ImportColumns(numeric.Select((i, c) => new DataColumn(table.Headers[i], imported.Columns[c]))));
 
             string sheet = tables.Count > 1 ? $", sheet '{table.Name}'" : string.Empty;
+            string leftOut = imported.Description is string described ? " " + described : string.Empty;
             _workspace.Announce(
-                $"Imported {WorkspaceViewModel.Count(numeric.Length, "column", "columns")} from {fileName}{sheet}. Edit ▸ Undo (Ctrl+Z) puts the old data back.");
+                $"Imported {WorkspaceViewModel.Count(numeric.Length, "column", "columns")} from {fileName}{sheet}.{leftOut} Edit ▸ Undo (Ctrl+Z) puts the old data back.");
             return;
         }
 
@@ -369,16 +467,14 @@ public partial class MainWindow : Window
             return;
         }
 
-        _workspace.PushUndo();
-
         if (dialog.Pairs is DataPoint[] pairs)
         {
-            row.ImportPairs(pairs);
+            _workspace.RunAsOneChange($"the import from {fileName}", () => row.ImportPairs(pairs));
             _workspace.Announce($"Imported {WorkspaceViewModel.Count(pairs.Length, "pair", "pairs")} from {fileName}. Edit ▸ Undo (Ctrl+Z) puts the old data back.");
         }
         else if (dialog.Values is double[] values)
         {
-            row.ImportValues(values);
+            _workspace.RunAsOneChange($"the import from {fileName}", () => row.ImportValues(values));
             _workspace.Announce($"Imported {WorkspaceViewModel.Count(values.Length, "value", "values")} from {fileName}. Edit ▸ Undo (Ctrl+Z) puts the old data back.");
         }
     }

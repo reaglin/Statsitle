@@ -29,19 +29,28 @@ public sealed class PropertyRow : INotifyPropertyChanged
     private readonly StatistleProperty _property;
     private readonly UnitSelection _units;
     private readonly Action _onEdited;
+    private readonly Action<PropertyRow>? _beforeEdit;
     private bool _entryRejected;
     private string _rejection = string.Empty;
     private IReadOnlyList<ChoiceOption>? _choices;
     private bool _applyingChoice;
     private Action? _tableChanged;
 
-    public PropertyRow(StatistleObject target, StatistleProperty property, UnitSelection units, Action onEdited)
+    /// <param name="beforeEdit">
+    /// Called just before the row writes a new value into its object, so the workspace can keep
+    /// the project as it was for Edit ▸ Undo (UX sweep M3). Not called for a value that is refused.
+    /// </param>
+    public PropertyRow(StatistleObject target, StatistleProperty property, UnitSelection units, Action onEdited,
+                       Action<PropertyRow>? beforeEdit = null)
     {
         _target = target;
         _property = property;
         _units = units;
         _onEdited = onEdited;
+        _beforeEdit = beforeEdit;
     }
+
+    private void BeforeEdit() => _beforeEdit?.Invoke(this);
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -111,6 +120,7 @@ public sealed class PropertyRow : INotifyPropertyChanged
 
             try
             {
+                BeforeEdit();
                 _property.Property.SetValue(_target, value.Value);
                 _onEdited();
             }
@@ -159,6 +169,7 @@ public sealed class PropertyRow : INotifyPropertyChanged
             return;
         }
 
+        BeforeEdit();
         table.SetColumns(columns);
         Edited();
     }
@@ -293,6 +304,7 @@ public sealed class PropertyRow : INotifyPropertyChanged
             return;
         }
 
+        BeforeEdit();
         existing.SetValues([.. values.Select(v => _units.ToBase(_property.Unit, v))], _property.StepOf(_target));
         Edited();
     }
@@ -307,6 +319,7 @@ public sealed class PropertyRow : INotifyPropertyChanged
             return;
         }
 
+        BeforeEdit();
         existing.Clear();
         foreach (DataPoint point in pairs)
         {
@@ -372,6 +385,7 @@ public sealed class PropertyRow : INotifyPropertyChanged
             return;
         }
 
+        BeforeEdit();
         Chooser.Choose(method);
         _onEdited();
     }
@@ -524,8 +538,19 @@ public sealed class PropertyRow : INotifyPropertyChanged
                 Type type = PropertyType;
                 object? parsed;
 
+                // A data box committed as it is shown (Save commits the focused box) is not an
+                // edit: nothing to recompute, and nothing for Undo to step back over.
+                if ((type == typeof(DataSeries) || type == typeof(ColumnTable)) && !_entryRejected
+                    && SameText(value, Text))
+                {
+                    return;
+                }
+
                 if (type == typeof(DataSeries))
                 {
+                    // The snapshot for Undo is taken first; a refused paste leaves it unused.
+                    BeforeEdit();
+
                     if (!TrySetSeries(value, out string? problem))
                     {
                         Reject($"{problem} The paste was not used; your earlier data is kept. " +
@@ -545,6 +570,8 @@ public sealed class PropertyRow : INotifyPropertyChanged
                     {
                         return;
                     }
+
+                    BeforeEdit();
 
                     if (!table.TryLoad(value, CultureInfo.CurrentCulture, out string? problem))
                     {
@@ -621,6 +648,7 @@ public sealed class PropertyRow : INotifyPropertyChanged
                     return;
                 }
 
+                BeforeEdit();
                 _property.Property.SetValue(_target, parsed);
                 Edited();
             }
@@ -632,6 +660,12 @@ public sealed class PropertyRow : INotifyPropertyChanged
         }
     }
 
+    private static bool SameText(string? a, string? b) =>
+        string.Equals(
+            (a ?? string.Empty).Replace("\r\n", "\n", StringComparison.Ordinal).TrimEnd(),
+            (b ?? string.Empty).Replace("\r\n", "\n", StringComparison.Ordinal).TrimEnd(),
+            StringComparison.Ordinal);
+
     private void Edited()
     {
         _entryRejected = false;
@@ -641,6 +675,7 @@ public sealed class PropertyRow : INotifyPropertyChanged
         _onEdited();
         Raise(nameof(Text));
         Raise(nameof(IsValid));
+        RaiseValueNote();
         Raise(nameof(HelpText));
     }
 
@@ -662,6 +697,7 @@ public sealed class PropertyRow : INotifyPropertyChanged
         Raise(nameof(RangeHint));
         Raise(nameof(SeriesHint));
         Raise(nameof(IsValid));
+        RaiseValueNote();
         Raise(nameof(IsReadOnly));
         Raise(nameof(IsChosen));
         Raise(nameof(IsDimmed));
@@ -734,6 +770,34 @@ public sealed class PropertyRow : INotifyPropertyChanged
 
     public bool HasRejection => _rejection.Length > 0;
 
+    /// <summary>
+    /// What is said under the box: why an entry was refused, or that the value in use is outside
+    /// the range declared on the property (a red box alone did not say why; UX sweep m1).
+    /// </summary>
+    public string ValueNote
+    {
+        get
+        {
+            if (HasRejection)
+            {
+                return _rejection;
+            }
+
+            return IsValid || !_property.HasRange || Text.Length == 0
+                ? string.Empty
+                : $"{Text} is outside the allowed range ({_property.RangeText(_units)}). " +
+                  "The results use it anyway; enter a value inside the range.";
+        }
+    }
+
+    public bool HasValueNote => ValueNote.Length > 0;
+
+    private void RaiseValueNote()
+    {
+        Raise(nameof(ValueNote));
+        Raise(nameof(HasValueNote));
+    }
+
     /// <summary>The value in use, as the person reads it, for a rejection message.</summary>
     private string ShownValue => Text is { Length: > 0 } shown ? shown : "no value (the box was blank)";
 
@@ -746,6 +810,7 @@ public sealed class PropertyRow : INotifyPropertyChanged
         _entryRejected = true;
         _rejection = message;
         Raise(nameof(IsValid));
+        RaiseValueNote();
         Raise(nameof(RejectionMessage));
         Raise(nameof(HasRejection));
         Raise(nameof(HelpText));
@@ -756,6 +821,7 @@ public sealed class PropertyRow : INotifyPropertyChanged
         _entryRejected = false;
         _rejection = string.Empty;
         Raise(nameof(IsValid));
+        RaiseValueNote();
         Raise(nameof(RejectionMessage));
         Raise(nameof(HasRejection));
         Raise(nameof(HelpText));

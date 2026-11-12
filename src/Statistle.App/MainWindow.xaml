@@ -116,7 +116,7 @@
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Foreground" Value="#1F5FA8" />
             <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Content" Value="Edit…" />
+            <Setter Property="Content" Value="Go to table" />
         </Style>
 
         <!-- A link beside a value that some analysis declared it can calculate. -->
@@ -214,8 +214,8 @@
             <Setter Property="MaxWidth" Value="440" />
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="Margin" Value="0,3,0,2" />
-            <Setter Property="Text" Value="{Binding RejectionMessage}" />
-            <Setter Property="Visibility" Value="{Binding HasRejection, Converter={StaticResource BoolToVisibility}}" />
+            <Setter Property="Text" Value="{Binding ValueNote}" />
+            <Setter Property="Visibility" Value="{Binding HasValueNote, Converter={StaticResource BoolToVisibility}}" />
         </Style>
 
         <!-- One row of the property editor. Which editor appears is decided by the property's
@@ -471,7 +471,7 @@
             </MenuItem>
             <MenuItem Header="_Edit">
                 <MenuItem Header="_Undo" Command="{Binding UndoCommand}" InputGestureText="Ctrl+Z"
-                          ToolTip="Puts back what the last add, delete, import or Use result changed. Nothing to undo yet when it is grayed. (A typed value is changed back by typing it again.)"
+                          ToolTip="Puts back the last change: a value typed or chosen, a paste, an import, a table added or deleted, or Use result. Press it again to go back one more step. Nothing to undo yet when it is grayed. There is no Redo."
                           ToolTipService.ShowOnDisabled="True" />
             </MenuItem>
             <MenuItem Header="_Project">
@@ -608,8 +608,10 @@
                             Background="#E4E8ED" Cursor="Hand" />
                     <TreeView x:Name="ProjectTree"
                               SelectedItemChanged="ProjectTree_SelectedItemChanged"
+                              PreviewMouseLeftButtonUp="ProjectTree_PreviewMouseLeftButtonUp"
+                              AutomationProperties.Name="Project tree"
                               Background="Transparent" BorderThickness="0">
-                        <TreeViewItem Header="Data tables" IsExpanded="True"
+                        <TreeViewItem x:Name="TablesNode" Header="Data tables" IsExpanded="True"
                                       ItemsSource="{Binding Tables}">
                             <!-- A screen reader says the table's name, not its class name (UX review 2026-10-31). -->
                             <TreeViewItem.ItemContainerStyle>
@@ -644,7 +646,7 @@
 
                             <!-- Nothing selected: say what to do, with a button for the first step (checklist 1.4, 1.5). -->
                             <Border DockPanel.Dock="Top" Background="#EEF3F8" Padding="12,10" CornerRadius="3" Margin="0,0,0,8"
-                                    Visibility="{Binding IsEmptyState, Converter={StaticResource BoolToVisibility}}">
+                                    Visibility="{Binding IsFirstRun, Converter={StaticResource BoolToVisibility}}">
                                 <StackPanel>
                                     <TextBlock TextWrapping="Wrap" Foreground="#33506B"
                                                Text="Statistics+ computes the statistics of your course, explains every input and result, and writes the Python and R that give the same numbers. New here? Open the sample project to see it with data already in it. Or click + Data table to enter your own numbers, then pick an analysis on the left." />
@@ -659,6 +661,13 @@
                                                 Background="#E4E8ED" Cursor="Hand" />
                                     </StackPanel>
                                 </StackPanel>
+                            </Border>
+
+                            <!-- The project has tables but nothing is selected (a table was deleted): where to click (UX sweep m3). -->
+                            <Border DockPanel.Dock="Top" Background="#EEF3F8" Padding="12,10" CornerRadius="3" Margin="0,0,0,8"
+                                    Visibility="{Binding IsNothingSelected, Converter={StaticResource BoolToVisibility}}">
+                                <TextBlock TextWrapping="Wrap" Foreground="#33506B"
+                                           Text="{x:Static vm:WorkspaceViewModel.NothingSelectedHelp}" />
                             </Border>
 
                             <!-- An analysis opened from another object's field says where its
@@ -792,7 +801,7 @@
                         </DockPanel>
                         <Border Margin="14,0,14,10" BorderBrush="{StaticResource BorderBrush}"
                                 BorderThickness="1" Background="White">
-                            <FlowDocumentScrollViewer x:Name="ReportView"
+                            <FlowDocumentScrollViewer x:Name="ReportView" AutomationProperties.Name="Report"
                                                       VerticalScrollBarVisibility="Auto"
                                                       IsToolBarVisible="False" />
                         </Border>
@@ -836,7 +845,7 @@
                         </DockPanel>
                         <Border Margin="14,0,14,10" BorderBrush="{StaticResource BorderBrush}"
                                 BorderThickness="1" Background="White">
-                            <TextBox Text="{Binding CodeText, Mode=OneWay}" IsReadOnly="True"
+                            <TextBox Text="{Binding CodeText, Mode=OneWay}" IsReadOnly="True" AutomationProperties.Name="Python or R code"
                                      FontFamily="Consolas" FontSize="12.5" Padding="10"
                                      BorderThickness="0" AcceptsReturn="True"
                                      VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" />
@@ -873,7 +882,7 @@
                         </DockPanel>
                         <Border Margin="14,0,14,10" BorderBrush="{StaticResource BorderBrush}"
                                 BorderThickness="1" Background="White">
-                            <FlowDocumentScrollViewer x:Name="InstructionsView"
+                            <FlowDocumentScrollViewer x:Name="InstructionsView" AutomationProperties.Name="Instructions"
                                                       VerticalScrollBarVisibility="Auto"
                                                       IsToolBarVisible="False" />
                         </Border>

@@ -12,10 +12,17 @@ namespace Statistle.Core.Persistence;
 /// </summary>
 public sealed class ImportedTable
 {
-    public ImportedTable(string name, IReadOnlyList<string[]> rows)
+    /// <param name="rowNumbers">
+    /// Each row's number in the file (its line, or its spreadsheet row), for saying which rows an
+    /// import left out. Null numbers them 1, 2, 3… in order.
+    /// </param>
+    public ImportedTable(string name, IReadOnlyList<string[]> rows, IReadOnlyList<int>? rowNumbers = null)
     {
         Name = name;
         Rows = rows;
+        RowNumbers = rowNumbers is not null && rowNumbers.Count == rows.Count
+            ? rowNumbers
+            : [.. Enumerable.Range(1, rows.Count)];
         ColumnCount = rows.Count == 0 ? 0 : rows.Max(r => r.Length);
         HasHeader = rows.Count > 1 && rows[0].All(c => !IsNumber(c)) && rows[0].Any(c => c.Length > 0) && rows.Skip(1).Any(r => r.Any(IsNumber));
     }
@@ -68,6 +75,59 @@ public sealed class ImportedTable
         return [.. pairs];
     }
 
+    /// <summary>
+    /// Several columns imported together, as a data table's columns, keeping the rows lined up:
+    /// a row with a cell that is not a number (and not blank) in any of the columns is left out of
+    /// every column, so the values below it do not move up in one column and not in the others —
+    /// which would pair x with the wrong y. A blank cell is only a missing value, as in groups of
+    /// different sizes, and is skipped in its own column.
+    /// </summary>
+    public TableColumnsImport ColumnsTogether(IReadOnlyList<int> indices)
+    {
+        ArgumentNullException.ThrowIfNull(indices);
+
+        List<double>[] columns = [.. indices.Select(_ => new List<double>())];
+        List<LeftOutRow> leftOut = [];
+        IReadOnlyList<string> headers = Headers;
+
+        for (int r = HasHeader ? 1 : 0; r < Rows.Count; r++)
+        {
+            string[] row = Rows[r];
+            List<(string Column, string Cell)> bad = [];
+
+            foreach (int index in indices)
+            {
+                string cell = index < row.Length ? (row[index] ?? string.Empty).Trim() : string.Empty;
+
+                if (cell.Length > 0 && !TryNumber(cell, out _))
+                {
+                    bad.Add((index < headers.Count ? headers[index] : $"Column {index + 1}", cell));
+                }
+            }
+
+            if (bad.Count > 0)
+            {
+                leftOut.Add(new LeftOutRow(RowNumbers[r], bad));
+                continue;
+            }
+
+            for (int c = 0; c < indices.Count; c++)
+            {
+                int index = indices[c];
+
+                if (index < row.Length && TryNumber(row[index], out double value))
+                {
+                    columns[c].Add(value);
+                }
+            }
+        }
+
+        return new TableColumnsImport([.. columns.Select(c => c.ToArray())], leftOut);
+    }
+
+    /// <summary>Each row's number in the file, parallel to <see cref="Rows"/>.</summary>
+    public IReadOnlyList<int> RowNumbers { get; }
+
     /// <summary>How many numbers each column holds — for choosing a sensible default column.</summary>
     public int[] NumericCounts() =>
         [.. Enumerable.Range(0, ColumnCount).Select(i => Column(i).Length)];
@@ -81,6 +141,48 @@ public sealed class ImportedTable
         return double.TryParse(trimmed, NumberStyles.Float, CultureInfo.InvariantCulture, out value)
                || double.TryParse(trimmed, NumberStyles.Float, CultureInfo.CurrentCulture, out value);
     }
+}
+
+/// <summary>A row a whole-table import left out, with the cells that were not numbers.</summary>
+public sealed record LeftOutRow(int RowNumber, IReadOnlyList<(string Column, string Cell)> Cells);
+
+/// <summary>The columns of a whole-table import, and the rows it left out.</summary>
+public sealed record TableColumnsImport(IReadOnlyList<double[]> Columns, IReadOnlyList<LeftOutRow> LeftOut)
+{
+    private const int RowsListed = 10;
+    private const int CellsListed = 5;
+
+    /// <summary>
+    /// "Rows 7 and 12 were left out: 'NA' in y, '#DIV/0!' in x. The other rows keep their order."
+    /// Null when no row was left out.
+    /// </summary>
+    public string? Description
+    {
+        get
+        {
+            if (LeftOut.Count == 0)
+            {
+                return null;
+            }
+
+            List<string> numbers = [.. LeftOut.Take(RowsListed).Select(r => r.RowNumber.ToString(CultureInfo.CurrentCulture))];
+
+            if (LeftOut.Count > RowsListed)
+            {
+                numbers.Add($"{LeftOut.Count - RowsListed} more");
+            }
+
+            string rows = LeftOut.Count == 1 ? $"Row {numbers[0]} was" : $"Rows {JoinAnd(numbers)} were";
+
+            var cells = LeftOut.SelectMany(r => r.Cells).Select(c => $"'{c.Cell}' in {c.Column}").Distinct().ToList();
+            string reasons = string.Join(", ", cells.Take(CellsListed)) + (cells.Count > CellsListed ? ", …" : string.Empty);
+
+            return $"{rows} left out: {reasons}. The other rows keep their order.";
+        }
+    }
+
+    private static string JoinAnd(IReadOnlyList<string> items) =>
+        items.Count <= 1 ? string.Concat(items) : string.Join(", ", items.Take(items.Count - 1)) + " and " + items[^1];
 }
 
 /// <summary>
@@ -122,10 +224,12 @@ public static class TableImport
         ArgumentNullException.ThrowIfNull(text);
 
         List<string[]> rows = [];
+        List<int> numbers = [];
+        string[] lines = text.Split(["\r\n", "\n", "\r"], StringSplitOptions.None);
 
-        foreach (string raw in text.Split(['\n', '\r'], StringSplitOptions.RemoveEmptyEntries))
+        for (int n = 0; n < lines.Length; n++)
         {
-            string line = raw.TrimStart('﻿').Trim();
+            string line = lines[n].TrimStart('﻿').Trim();
 
             if (line.Length == 0)
             {
@@ -140,9 +244,10 @@ public static class TableImport
                 : line.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
             rows.Add([.. cells.Select(c => c.Trim().Trim('"'))]);
+            numbers.Add(n + 1);
         }
 
-        return new ImportedTable(name, rows);
+        return new ImportedTable(name, rows, numbers);
     }
 
     /// <summary>
@@ -189,7 +294,8 @@ public static class TableImport
                 continue;
             }
 
-            tables.Add(new ImportedTable(sheetName, ReadSheet(data, shared)));
+            List<string[]> sheetRows = ReadSheet(data, shared, out List<int> sheetRowNumbers);
+            tables.Add(new ImportedTable(sheetName, sheetRows, sheetRowNumbers));
         }
 
         if (tables.Count == 0)
@@ -200,8 +306,9 @@ public static class TableImport
         return tables;
     }
 
-    private static List<string[]> ReadSheet(XElement sheet, IReadOnlyList<string> shared)
+    private static List<string[]> ReadSheet(XElement sheet, IReadOnlyList<string> shared, out List<int> rowNumbers)
     {
+        rowNumbers = [];
         Dictionary<int, Dictionary<int, string>> grid = [];
         int maxRow = 0;
         int maxColumn = 0;
@@ -255,6 +362,7 @@ public static class TableImport
             if (line.Any(v => v.Length > 0))
             {
                 rows.Add(line);
+                rowNumbers.Add(r);
             }
         }
 

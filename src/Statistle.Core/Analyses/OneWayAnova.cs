@@ -144,7 +144,8 @@ public sealed class OneWayAnova : Analysis, IHasFigures, IUsesProject, IHasChoic
 
     [StatistleProperty(Label = "Group columns", Role = VariableRole.Input,
         Help = "The columns that are the groups, by name and separated by commas. Leave blank " +
-               "to use every column of the table. Groups may differ in size.")]
+               "to use every column of the table. Each name must match a column header of the " +
+               "table exactly. Groups may differ in size.")]
     public string Groups
     {
         get => _groups;
@@ -585,7 +586,7 @@ public sealed class OneWayAnova : Analysis, IHasFigures, IUsesProject, IHasChoic
 
                     if (column is null)
                     {
-                        return $"The table has no column named '{name}'.";
+                        return $"The table has no column named '{name}'. Its columns are: {string.Join(", ", table.Columns.Names)}.";
                     }
 
                     columns.Add(column);

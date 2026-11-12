@@ -139,8 +139,9 @@ public sealed class MultipleRegression : Analysis, IHasFigures, IUsesProject, IH
 
     [StatistleProperty(Label = "Predictor columns", Role = VariableRole.Input,
         Help = "The predictors' column names, separated by commas — 'size, age, bedrooms'. Leave " +
-               "blank to use every column of the table except the response. A name the table " +
-               "does not have is reported.")]
+               "blank to use every column of the table except the response. Each name must match " +
+               "a column header of the table exactly; a name the table does not have is reported " +
+               "with the table's column names.")]
     public string Predictors
     {
         get => _predictors;
@@ -505,7 +506,7 @@ public sealed class MultipleRegression : Analysis, IHasFigures, IUsesProject, IH
 
                 if (column is null)
                 {
-                    Problem = $"The table has no column named '{name}'.";
+                    Problem = $"The table has no column named '{name}'. Its columns are: {string.Join(", ", table.Columns.Names)}.";
                     return;
                 }
 

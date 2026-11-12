@@ -455,7 +455,7 @@ public sealed class SimpleRegression : Analysis, IHasFigures, IUsesProject, IHas
     {
         string? note = DataSources.PullPairs(this, XColumn, YColumn, Data);
         string? problem = Fit();
-        Problem = note is null ? problem : problem is null ? note : note + " " + problem;
+        Problem = note is null ? problem : problem is null || Data.Count == 0 ? note : note + " " + problem;
     }
 
     /// <summary>Fits from whatever pairs are in Data; returns why it could not.</summary>

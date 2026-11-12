@@ -263,21 +263,25 @@ public class DataTableTests
     }
 
     [Fact]
-    public void Columns_of_unequal_length_are_paired_as_far_as_they_go_and_the_analysis_says_so()
+    public void Columns_of_unequal_length_are_not_paired_and_the_analysis_says_why()
     {
         var document = new StatistleDocument();
         DataTable table = document.AddTable("Ragged");
-        table.Columns.AddColumn("x", [1, 2, 3, 4]);
-        table.Columns.AddColumn("y", [2, 4]);
+        table.Columns.AddColumn("x", [1, 2, 3, 4, 5]);
+        table.Columns.AddColumn("y", [2, 4, 6, 8]);
 
         SimpleRegression regression = document.Tool<SimpleRegression>();
         regression.XColumn = DataSources.Reference(table.Id, "x");
         regression.YColumn = DataSources.Reference(table.Id, "y");
         regression.Recalculate();
 
-        Assert.Equal(2, regression.Count);
-        Assert.NotNull(regression.Problem);
-        Assert.Contains("were paired", regression.Problem, StringComparison.Ordinal);
+        Assert.Equal(0, regression.Count);
+        Assert.Equal(0, regression.Data.Count);
+        Assert.True(double.IsNaN(regression.Slope));
+        Assert.Equal(
+            "'y' has 4 values and 'x' has 5, so these pairs may not belong together. Check the table for a missing or " +
+            "blank cell; the analysis is not run until the columns are the same length.",
+            regression.Problem);
     }
 
     [Fact]

@@ -160,7 +160,7 @@ public static class DataSources
                 options.Add(new ChoiceOption(
                     Reference(table.Id, column.Name),
                     $"{table.Name} › {column.Name}",
-                    $"{column.Count} value(s) in '{table.Name}'. {table.Description}".Trim()));
+                    $"{Values(column.Count)} in '{table.Name}'. {table.Description}".Trim()));
             }
         }
 
@@ -225,8 +225,9 @@ public static class DataSources
     }
 
     /// <summary>
-    /// Copies two columns into <paramref name="into"/> as (x, y) pairs, taking only the rows
-    /// where both columns have a value.
+    /// Copies two columns into <paramref name="into"/> as (x, y) pairs, row by row. Columns of
+    /// different lengths are not paired at all (a missing cell in one would pair the rows below
+    /// it wrongly): <paramref name="into"/> is left empty and the problem returned.
     /// </summary>
     public static string? PullPairs(IUsesProject analysis, string? xReference, string? yReference, DataSeries into)
     {
@@ -249,20 +250,24 @@ public static class DataSources
             return "A chosen column is no longer in the project; the pairs shown are as last copied.";
         }
 
-        int rows = Math.Min(x.Count, y.Count);
-
         into.Clear();
-        for (int i = 0; i < rows; i++)
+
+        if (x.Count != y.Count)
+        {
+            // Pairing the first min(n) would put an x beside the wrong y wherever a cell is
+            // missing in one column, so nothing is paired until the lengths agree (UX sweep C1).
+            return $"'{y.Name}' has {Values(y.Count)} and '{x.Name}' has {x.Count}, so these pairs may not belong together. " +
+                   "Check the table for a missing or blank cell; the analysis is not run until the columns are the same length.";
+        }
+
+        for (int i = 0; i < x.Count; i++)
         {
             into.Add(x.Values[i], y.Values[i]);
         }
 
-        return rows switch
-        {
-            0 => "The chosen columns have no rows in common yet.",
-            _ when x.Count != y.Count =>
-                $"'{x.Name}' has {x.Count} value(s) and '{y.Name}' has {y.Count}; the first {rows} of each were paired.",
-            _ => null,
-        };
+        return x.Count == 0 ? "The chosen columns have no values yet." : null;
     }
+
+    /// <summary>"1 value", "49 values".</summary>
+    private static string Values(int count) => count == 1 ? "1 value" : $"{count} values";
 }
