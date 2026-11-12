@@ -209,4 +209,45 @@ public class RegressionTests
         Assert.NotNull(blank.Problem);
         Assert.Empty(blank.Figures(null));
     }
+    [Fact]
+    public void The_hold_out_split_tests_the_seeded_rows_on_a_model_fitted_to_the_others()
+    {
+        StatistleDocument project = HousingProject(out DataTable housing);
+        var m = new MultipleRegression { Project = project, Table = housing.Id.ToString(CultureInfo.InvariantCulture), Response = "price", Predictors = "size, age" };
+        m.Recalculate();
+
+        // 20 rows × 0.2 = 4 test rows, drawn by a Fisher–Yates shuffle of the program's random stream.
+        Assert.Equal(4, m.HoldOutCount);
+        int[] order = [.. Enumerable.Range(0, 20)];
+        var random = new Statistle.Core.Methods.Chance.RandomStream(1);
+        for (int i = 19; i > 0; i--)
+        {
+            int j = random.NextInt(i + 1);
+            (order[i], order[j]) = (order[j], order[i]);
+        }
+
+        int[] expected = [.. order.Take(4).Order()];
+        Assert.Equal(expected, m.HoldOutTestRows);
+        Assert.Equal(string.Join(", ", expected.Select(r => r + 1)), m.HoldOutRowList);
+
+        // The RMSE is that of the model fitted to the other 16 rows.
+        double[] size = [.. housing.Columns.Column("size")!.Values], age = [.. housing.Columns.Column("age")!.Values], price = [.. housing.Columns.Column("price")!.Values];
+        int[] train = [.. Enumerable.Range(0, 20).Except(expected)];
+        LinearModel fit = LinearModel.Fit(["size", "age"], [[.. train.Select(i => size[i])], [.. train.Select(i => age[i])]], [.. train.Select(i => price[i])])!;
+        double rmse = Math.Sqrt(expected.Average(i => Math.Pow(price[i] - fit.Predict([size[i], age[i]]).Fitted, 2)));
+        Assert.Equal(rmse, m.HoldOutRmse, 10);
+
+        m.HoldOutSeed = 2;
+        m.Recalculate();
+        Assert.NotEqual(expected, m.HoldOutTestRows);
+
+        m.HoldOutShare = 0;
+        m.Recalculate();
+        Assert.True(double.IsNaN(m.HoldOutRmse));
+        Assert.Empty(m.HoldOutTestRows);
+
+        // Too few training rows for the coefficients: blank, not an exception.
+        Assert.Empty(LinearModel.HoldOutRows(5, 0.5, 4, 1));
+        Assert.Equal(3, LinearModel.HoldOutRows(10, 0.25, 3, 7).Length);   // 2.5 rounds up
+    }
 }

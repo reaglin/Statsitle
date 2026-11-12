@@ -228,6 +228,65 @@ public sealed class LinearModel
         return (Math.Sqrt(whole.SumSquaresError / n), Math.Sqrt(sumSquares / counted));
     }
 
+    /// <summary>
+    /// The rows a hold-out split tests on: a seeded shuffle (Fisher–Yates over the program's own
+    /// random stream) of 0 … n − 1, of which the first round(share × n) are kept, sorted.
+    /// Empty when the share leaves no test row or too few training rows for p coefficients.
+    /// </summary>
+    public static int[] HoldOutRows(int n, double share, int coefficients, ulong seed)
+    {
+        int test = (int)Math.Round(share * n, MidpointRounding.AwayFromZero);
+
+        if (double.IsNaN(share) || test < 1 || n - test < coefficients + 1)
+        {
+            return [];
+        }
+
+        int[] order = [.. Enumerable.Range(0, n)];
+        var random = new Chance.RandomStream(seed);
+
+        for (int i = n - 1; i > 0; i--)
+        {
+            int j = random.NextInt(i + 1);
+            (order[i], order[j]) = (order[j], order[i]);
+        }
+
+        return [.. order.Take(test).Order()];
+    }
+
+    /// <summary>The model fitted to every row not in <paramref name="testRows"/>, its RMSE on the test rows.</summary>
+    public static double HoldOutRmse(IReadOnlyList<IReadOnlyList<double>> predictors, IReadOnlyList<double> y, IReadOnlyList<int> testRows)
+    {
+        ArgumentNullException.ThrowIfNull(predictors);
+        ArgumentNullException.ThrowIfNull(y);
+        ArgumentNullException.ThrowIfNull(testRows);
+
+        if (testRows.Count == 0)
+        {
+            return double.NaN;
+        }
+
+        var held = new HashSet<int>(testRows);
+        int[] train = [.. Enumerable.Range(0, y.Count).Where(i => !held.Contains(i))];
+        string[] names = [.. Enumerable.Range(1, predictors.Count).Select(i => $"x{i}")];
+        LinearModel? model = Fit(names, [.. predictors.Select(c => (IReadOnlyList<double>)[.. train.Select(i => c[i])])], [.. train.Select(i => y[i])]);
+
+        if (model is null)
+        {
+            return double.NaN;
+        }
+
+        double sum = 0;
+
+        foreach (int i in testRows)
+        {
+            double e = y[i] - model.Predict([.. predictors.Select(c => c[i])]).Fitted;
+            sum += e * e;
+        }
+
+        return Math.Sqrt(sum / testRows.Count);
+    }
+
     /// <summary>1/(1 − R²ⱼ), from regressing column j of the design on the other predictors.</summary>
     private static double VarianceInflation(Matrix<double> x, int column)
     {

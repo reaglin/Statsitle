@@ -52,6 +52,11 @@ public sealed class MultipleRegression : Analysis, IHasFigures, IUsesProject, IH
     private VariableSelection _selection = VariableSelection.AllEntered;
     private double _confidence = 0.95;
     private double _folds = 5;
+    private double _holdOutShare = 0.2;
+    private double _holdOutSeed = 1;
+    private double _holdOutCount = double.NaN;
+    private string _holdOutRowList = string.Empty;
+    private double _holdOutRmse = double.NaN;
 
     private int _count;
     private string _predictorsUsed = string.Empty;
@@ -166,6 +171,28 @@ public sealed class MultipleRegression : Analysis, IHasFigures, IUsesProject, IH
     {
         get => _folds;
         set => SetProperty(ref _folds, value);
+    }
+
+    [StatistleProperty(Label = "Hold-out share", Decimals = 2, Unit = ValueKind.Probability, Role = VariableRole.Design, Min = 0, Max = 0.5,
+        Help = "The share of rows set aside as a test set for a hold-out check: the model is " +
+               "fitted to the other rows and tested once on these. 0.2 to 0.3 is usual (as " +
+               "scikit-learn's train_test_split(test_size=0.2)); 0 skips it. One split depends " +
+               "on which rows were drawn, which is why k-fold cross-validation averages over k.")]
+    public double HoldOutShare
+    {
+        get => _holdOutShare;
+        set => SetProperty(ref _holdOutShare, value);
+    }
+
+    [StatistleProperty(Label = "Hold-out seed", Decimals = 0, Role = VariableRole.Design, Min = 0,
+        Help = "Fixes which rows are drawn for the test set: the same seed gives the same rows " +
+               "every time (the program's own random numbers, as in Simulation). Change it to " +
+               "see how much the test RMSE moves with the split. The Python and R list the rows " +
+               "drawn, since numpy and R would draw others from the same seed.")]
+    public double HoldOutSeed
+    {
+        get => _holdOutSeed;
+        set => SetProperty(ref _holdOutSeed, value);
     }
 
     // ── Results ───────────────────────────────────────────────────────────────
@@ -347,6 +374,32 @@ public sealed class MultipleRegression : Analysis, IHasFigures, IUsesProject, IH
         set => SetProperty(ref _cvRmse, value);
     }
 
+    [StatistleProperty(Label = "Hold-out test rows", Decimals = 0, Unit = ValueKind.Count, Role = VariableRole.Calculated,
+        Help = "How many rows were set aside as the test set: the hold-out share of n, rounded.")]
+    public double HoldOutCount
+    {
+        get => _holdOutCount;
+        set => SetProperty(ref _holdOutCount, value);
+    }
+
+    [StatistleProperty(Label = "Rows in the test set", Role = VariableRole.Calculated,
+        Help = "The row numbers (1 = the first row) the seed drew for the test set.")]
+    public string HoldOutRowList
+    {
+        get => _holdOutRowList;
+        set => SetProperty(ref _holdOutRowList, value);
+    }
+
+    [StatistleProperty(Label = "Hold-out test RMSE", Decimals = 4, Role = VariableRole.Output,
+        Help = "The root-mean-square error on the test rows of the model fitted to the other " +
+               "rows: √(Σ(y − ŷ)²/n_test). Compare it with the in-sample RMSE (optimistic) and the " +
+               "cross-validated RMSE (an average over k splits, so steadier than one split).")]
+    public double HoldOutRmse
+    {
+        get => _holdOutRmse;
+        set => SetProperty(ref _holdOutRmse, value);
+    }
+
     [StatistleProperty(Label = "Selection", Role = VariableRole.Calculated,
         Help = "What the selection procedure did, step by step.")]
     public string SelectionNote
@@ -364,7 +417,9 @@ public sealed class MultipleRegression : Analysis, IHasFigures, IUsesProject, IH
         Columns = [];
         ResponseColumn = null;
         Count = 0;
-        PredictorsUsed = Equation = CoefficientTable = MaxVifPredictor = Influential = SelectionNote = string.Empty;
+        HoldOutTestRows = [];
+        PredictorsUsed = Equation = CoefficientTable = MaxVifPredictor = Influential = SelectionNote = HoldOutRowList = string.Empty;
+        HoldOutCount = HoldOutRmse = double.NaN;
         RSquared = AdjustedRSquared = ResidualSe = FStatistic = FP = DfRegression = DfError = MaxVif = double.NaN;
         DurbinWatson = ShapiroW = ShapiroP = MaxCooksD = MaxLeverage = InSampleRmse = CvRmse = double.NaN;
 
@@ -506,7 +561,24 @@ public sealed class MultipleRegression : Analysis, IHasFigures, IUsesProject, IH
 
         int folds = double.IsNaN(Folds) ? 0 : (int)Math.Round(Folds);
         (InSampleRmse, CvRmse) = LinearModel.CrossValidate([.. chosen.Select(c => (IReadOnlyList<double>)c.Values)], y.Values, folds);
+
+        if (HoldOutShare > 0 && !double.IsNaN(HoldOutSeed) && HoldOutSeed >= 0)
+        {
+            int[] test = LinearModel.HoldOutRows(y.Values.Count, HoldOutShare, chosen.Count + 1, (ulong)Math.Round(HoldOutSeed));
+
+            if (test.Length > 0)
+            {
+                HoldOutCount = test.Length;
+                HoldOutRowList = string.Join(", ", test.Select(i => (i + 1).ToString(CultureInfo.InvariantCulture)));
+                HoldOutRmse = LinearModel.HoldOutRmse([.. chosen.Select(c => (IReadOnlyList<double>)c.Values)], y.Values, test);
+                HoldOutTestRows = test;
+            }
+        }
     }
+
+    /// <summary>The 0-based rows of the last hold-out test set (empty without one), for the code.</summary>
+    [StatistleIgnore]
+    public IReadOnlyList<int> HoldOutTestRows { get; private set; } = [];
 
     private DataTable? TableChosen() =>
         int.TryParse(Table, NumberStyles.Integer, CultureInfo.InvariantCulture, out int id) ? Project?.Tables.FirstOrDefault(t => t.Id == id) : null;
@@ -635,6 +707,20 @@ public sealed class MultipleRegression : Analysis, IHasFigures, IUsesProject, IH
             s.Print("Cross-validated RMSE", "np.sqrt(sq / n)", "sqrt(sq / n)", 4);
         }
 
+        if (HoldOutTestRows.Count > 0)
+        {
+            s.Line();
+            s.Comment($"Hold-out: {HoldOutTestRows.Count} test rows drawn by the program's seeded shuffle (seed {HoldOutSeed:F0}); numpy and R would draw others from the same seed, so the rows are listed");
+            s.Either("Xc = sm.add_constant(X).values; yv = np.asarray(" + yName + ", dtype=float)",
+                     $"Xc <- cbind(1, as.matrix(data[, seq_len(ncol(data) - 1)])); yv <- {yName}");
+            s.Either($"test = np.array([{string.Join(", ", HoldOutTestRows)}]); train = np.setdiff1d(np.arange(n), test)",
+                     $"test <- c({string.Join(", ", HoldOutTestRows.Select(i => i + 1))}); train <- setdiff(seq_len(n), test)");
+            s.PrintRaw("Hold-out test rows", "len(test)", "length(test)");
+            s.PrintText("Rows in the test set", HoldOutRowList);
+            s.Either("beta = np.linalg.lstsq(Xc[train], yv[train], rcond=None)[0]", "beta <- qr.solve(Xc[train, , drop = FALSE], yv[train])");
+            s.Print("Hold-out test RMSE", "np.sqrt(np.mean((yv[test] - Xc[test] @ beta) ** 2))", "sqrt(mean((yv[test] - Xc[test, , drop = FALSE] %*% beta)^2))", 4);
+        }
+
         s.Line();
         s.Either("print(fit.summary())", "print(summary(fit))");
         return s.ToString();
@@ -659,7 +745,8 @@ public abstract class SelectionMethod : CalculationMethod<MultipleRegression>, I
         "modeling: multicollinearity and variable selection).";
 
     public override IReadOnlyList<string> Inputs =>
-        [nameof(MultipleRegression.Table), nameof(MultipleRegression.Response), nameof(MultipleRegression.Predictors), nameof(MultipleRegression.Confidence), nameof(MultipleRegression.Folds)];
+        [nameof(MultipleRegression.Table), nameof(MultipleRegression.Response), nameof(MultipleRegression.Predictors), nameof(MultipleRegression.Confidence), nameof(MultipleRegression.Folds),
+         nameof(MultipleRegression.HoldOutShare), nameof(MultipleRegression.HoldOutSeed)];
 
     public override IReadOnlyList<string> Outputs =>
     [
@@ -668,7 +755,8 @@ public abstract class SelectionMethod : CalculationMethod<MultipleRegression>, I
         nameof(MultipleRegression.FStatistic), nameof(MultipleRegression.FP), nameof(MultipleRegression.DfRegression), nameof(MultipleRegression.DfError),
         nameof(MultipleRegression.MaxVif), nameof(MultipleRegression.MaxVifPredictor), nameof(MultipleRegression.DurbinWatson),
         nameof(MultipleRegression.ShapiroW), nameof(MultipleRegression.ShapiroP), nameof(MultipleRegression.MaxCooksD), nameof(MultipleRegression.Influential),
-        nameof(MultipleRegression.MaxLeverage), nameof(MultipleRegression.InSampleRmse), nameof(MultipleRegression.CvRmse), nameof(MultipleRegression.SelectionNote),
+        nameof(MultipleRegression.MaxLeverage), nameof(MultipleRegression.InSampleRmse), nameof(MultipleRegression.CvRmse),
+        nameof(MultipleRegression.HoldOutCount), nameof(MultipleRegression.HoldOutRowList), nameof(MultipleRegression.HoldOutRmse), nameof(MultipleRegression.SelectionNote),
     ];
 
     public override void Apply(MultipleRegression subject) => subject.Recalculate();
