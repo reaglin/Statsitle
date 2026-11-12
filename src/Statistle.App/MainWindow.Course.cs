@@ -128,22 +128,7 @@ public partial class MainWindow
         if (_learnerScreen is null)
         {
             _learnerScreen = new Statistle.App.Learning.LearnerScreen();
-            _learnerScreen.SignedIn += file =>
-            {
-                // The learner the idle lock signed out, coming back: their item (and the Workbench, if they were there) again.
-                var resume = _resume is { } r && r.ProfileId == file.Header.ProfileId ? r : null;
-                _resume = null;
-                EndSession();
-                _coursePage.SignIn(file);
-                UpdateLearnerUi();
-                SetLearnerOverlay(false);
-                if (resume?.Item is { } item) _coursePage.Path.Select(item);
-                if (resume is { Workbench: true }) ShowWorkbench();
-                else ShowCourse();
-                _workspace.Status = resume is null
-                    ? $"Welcome, {file.Data.Profile.DisplayName}. Your progress is saved as you go."
-                    : $"Welcome back, {file.Data.Profile.DisplayName}. You are where you left off, with the answers you were typing.";
-            };
+            _learnerScreen.SignedIn += SignIn;
             _learnerScreen.WorkbenchOnly += () =>
             {
                 // Nobody signed in may read the Course, so the last learner's unchecked answers go now.
@@ -161,6 +146,25 @@ public partial class MainWindow
 
         _learnerScreen.Show(banner, selectProfileId);
         SetLearnerOverlay(true);
+    }
+
+    /// <summary>Signs a learner in, as "Who is learning?" does after the PIN (also the Store-screenshot test).</summary>
+    public void SignIn(global::Learning.Core.Learners.LearnerFile file)
+    {
+        if (_coursePage is null) return;
+        // The learner the idle lock signed out, coming back: their item (and the Workbench, if they were there) again.
+        var resume = _resume is { } r && r.ProfileId == file.Header.ProfileId ? r : null;
+        _resume = null;
+        EndSession();
+        _coursePage.SignIn(file);
+        UpdateLearnerUi();
+        SetLearnerOverlay(false);
+        if (resume?.Item is { } item) _coursePage.Path.Select(item);
+        if (resume is { Workbench: true }) ShowWorkbench();
+        else ShowCourse();
+        _workspace.Status = resume is null
+            ? $"Welcome, {file.Data.Profile.DisplayName}. Your progress is saved as you go."
+            : $"Welcome back, {file.Data.Profile.DisplayName}. You are where you left off, with the answers you were typing.";
     }
 
     /// <summary>Where the idle lock found a learner, so that learner comes back to it.</summary>

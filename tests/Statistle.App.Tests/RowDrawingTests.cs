@@ -171,20 +171,20 @@ public sealed class RowDrawingTests : IDisposable
             }
         }
     }
+}
 
-    /// <summary>Answers nothing and shows nothing; records any error the workspace would have shown.</summary>
-    private sealed class SilentDialogs : IWorkspaceDialogs
-    {
-        public List<string> Errors { get; } = [];
+/// <summary>Answers nothing and shows nothing; records any error the workspace would have shown.</summary>
+internal sealed class SilentDialogs : IWorkspaceDialogs
+{
+    public List<string> Errors { get; } = [];
 
-        public UnsavedChoice AskToSave(string fileName, string beforeWhat) => UnsavedChoice.Discard;
+    public UnsavedChoice AskToSave(string fileName, string beforeWhat) => UnsavedChoice.Discard;
 
-        public bool Confirm(string title, string message) => false;
+    public bool Confirm(string title, string message) => false;
 
-        public void ShowError(string title, string message) => Errors.Add($"{title}: {message}");
+    public void ShowError(string title, string message) => Errors.Add($"{title}: {message}");
 
-        public string? ChooseProjectToOpen(string initialFolder) => null;
+    public string? ChooseProjectToOpen(string initialFolder) => null;
 
-        public string? ChooseProjectSavePath(string suggestedName, string initialFolder) => null;
-    }
+    public string? ChooseProjectSavePath(string suggestedName, string initialFolder) => null;
 }
