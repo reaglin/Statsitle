@@ -4,7 +4,7 @@ number: 11
 title: Regression Analysis
 status: draft
 minutes: 300
-prerequisites: [st.m9]
+prerequisites: [st.m10]
 outcomes:
   - st.m11.o1: Construct a simple linear regression equation using the least squares method from a given dataset
   - st.m11.o2: Interpret regression coefficients, R-squared, Adjusted R-squared, p-values, and the F-statistic from regression output to draw conclusions about model fit and predictor significance

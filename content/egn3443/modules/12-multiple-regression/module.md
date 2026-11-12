@@ -4,7 +4,7 @@ number: 12
 title: Multiple Regression
 status: draft
 minutes: 300
-prerequisites: [st.m9]
+prerequisites: [st.m11]
 outcomes:
   - st.m12.o1: Construct a multiple regression equation by selecting appropriate predictor variables and estimating coefficients using ordinary least squares
   - st.m12.o2: Interpret partial regression coefficients in a multiple regression model as the unique effect of each predictor on the outcome while holding all other predictors constant
