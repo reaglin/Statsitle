@@ -1,4 +1,4 @@
-# Statistle — Microsoft Store submission
+# Statistics+ (Statistle) — Microsoft Store submission
 
 Everything Partner Center asks for that is not listing copy. Listing text is in
 `STORE-LISTING.md`; the privacy policy is `PRIVACY-POLICY.md`; licence text is
@@ -8,20 +8,25 @@ Everything Partner Center asks for that is not listing copy. Listing text is in
 Modelled on SMADA's `resources/STORE-SUBMISSION.md` — the two apps are the same kind of
 offline desktop calculator on the same Partner Center account, so most answers are identical.
 
-## Where each item stands
+## Where each item stands — 2.0.0 as Statistics+ (plan 15.3)
+
+1.0.0 is live (Store ID 9MV608S7M9X6, https://apps.microsoft.com/detail/9MV608S7M9X6); 1.1.0 was never submitted (Q1:
+everything ships as 2.0.0). 2.0.0 is an **update of the same product**: same identity, new Product name.
 
 | Item | Status |
 |---|---|
-| Name reserved | ✅ `DeanEaglin.statistle` |
-| Privacy policy page | ✅ Live at `https://punchmonkeyserver.com/privacy/statistle` |
-| `runFullTrust` justification | ✅ Written — below |
-| Version | ✅ **1.0.0**, the first release version |
-| Store assets | ✅ Generated from the logo by `packaging/make-store-assets.ps1` |
-| `.msixupload` | ✅ Built and identity-verified — below |
-| Listing copy, categories, age rating | ✅ `STORE-LISTING.md` |
-| WACK | ✅ **PASS**, 23/24, on 1.0.0 (2026-09-09 12:09) — see below |
-| Screenshots | **Outstanding** — shot list at the end of `STORE-LISTING.md` |
-| Submit | Blocked only on the screenshots |
+| Name Statistics+ on this product | ⚠️ Ron reserved it as a separate new app (2026-11-11). To move it: in that new app, reserve a stand-in name, delete Statistics+ (an app must keep one name), then reserve Statistics+ at once on Statistle (Product management → Manage app names). Deleting releases the name to anyone, so do both steps together; the empty app can be left or deleted |
+| Manifest | ✅ `DisplayName` and the tile's `ShortName` are Statistics+; identity unchanged |
+| Privacy policy | ✅ `https://softwareplus.ai/statistle/privacy/`, revised 2026-11-12 for learners, the signing key and reports |
+| `runFullTrust` justification and certification notes | ✅ Below, rewritten for the Course |
+| Version | ✅ **2.0.0** (`StatistleVersion`), higher than the live 1.0.0 |
+| Store assets | ✅ Generated from the logo by `packaging/make-store-assets.ps1` (unchanged; see the icon note below) |
+| `.msixupload` | ✅ Built 2026-11-12 (78 MB; the 401 course files and the report libraries checked inside) |
+| Listing copy | ✅ `STORE-LISTING.md`, rewritten for 2.0 |
+| WACK | ⚠️ Ron runs `packaging/run-wack.ps1` (needs elevation) on the final build |
+| Screenshots | ✅ Made by the tests (`STORE-LISTING.md`, end) |
+| Icon | ⚠️ Ron: the Statistle logo has no "+" (the suite's theme); keep it for 2.0, or make a "+" icon first? |
+| Submit | ⚠️ Ron, after his hand-test round 2.0 |
 
 ## The Partner Center account
 
@@ -66,19 +71,20 @@ the identity breaks that match, which is a stronger check than reading the value
 
 Paste into *Submission → Product declarations → notes*, and into the certification notes:
 
-> Statistle is a Win32 desktop application (WPF on .NET 10) distributed as an MSIX package. The
-> `runFullTrust` restricted capability is required for any desktop application packaged this
-> way. Statistle uses it only to run as an ordinary desktop process and to read and write the
-> user's own files through standard Windows file dialogs — `.statistle` project files, and
-> exported PDF, HTML, text, CSV, Python and R files, saved by default under the user's
-> `Documents\Statistle` folder. It does not access other applications' data, does not require
-> administrator rights, installs no drivers or services, and collects no user data. It goes online
-> only when the user asks: Help > Check for a new version asks the Microsoft Store
-> (`Windows.Services.Store`), and Help on the web and the About links open a page in the browser.
+> Statistics+ (formerly Statistle) is a Win32 desktop application (WPF on .NET 10) distributed as an MSIX package. The
+> `runFullTrust` restricted capability is required for any desktop application packaged this way. Statistics+ uses it
+> only to run as an ordinary desktop process: it reads its own lessons from the package, keeps each learner's progress
+> in `C:\ProgramData\Statistle\Learners` (shared by every account on the computer, since several students use one lab
+> computer, each with a PIN-locked file of their own), and reads and writes the user's own files through standard
+> Windows file dialogs — `.statistle` projects, PDF progress reports, and exported PDF, HTML, text, CSV, Python and R
+> files, by default under `Documents\Statistle`. It does not access other applications' data, does not require
+> administrator rights, installs no drivers or services, and collects no user data. It goes online only when the user
+> asks: Check for a new version asks the Microsoft Store (`Windows.Services.Store`), and Help on the web and the About
+> links open a page in the browser.
 
 ## Age rating (IARC questionnaire)
 
-Statistle is a statistics calculator. The expected answers, all negative, give **3+ / Everyone**:
+Statistics+ is a statistics course and calculator. The expected answers, all negative, give **3+ / Everyone**:
 
 | Question area | Answer |
 |---|---|
@@ -95,28 +101,33 @@ Statistle is a statistics calculator. The expected answers, all negative, give *
 | Declaration | Answer |
 |---|---|
 | Allows purchases outside the Microsoft commerce engine | No |
-| Tested to meet accessibility guidelines | **No** — leave unchecked; Statistle has not been through an accessibility pass |
+| Tested to meet accessibility guidelines | **No** — leave unchecked; Statistics+ has not been through a formal accessibility test |
 | Depends on non-Microsoft drivers or NT services | No |
 | Can run on Windows in S mode | No — a `runFullTrust` desktop app cannot |
-| Contains cryptography | No |
+| Contains cryptography | **Yes** (new in 2.0): .NET's own AES locks each learner's progress file with their PIN, and ECDSA signs progress reports so an instructor can check them. Standard mass-market encryption protecting the user's own data, which the export rules exempt; confirm it is limited to authentication, data integrity and the protection of the user's own files (as PLC+) |
 
-**Notes for certification** (free text, tells the tester how to exercise the app):
+**Notes for certification** (Partner Center's *Additional Testing Information* page):
 
-> Statistle requires no account, sign-in, or network connection, and has no trial or paid tier.
-> (Help > Check for a new version asks the Microsoft Store, and only when chosen.)
-> To exercise it: open a sample project from `File → Open` (samples ship with the package), or
-> add a Data table from the left rail, type a few numbers into a column, and then add a
-> Descriptive statistics analysis. Every analysis has an Instructions tab describing what it
-> does and a Code tab showing the Python and R that reproduce it. User files are written to the
-> signed-in user's `Documents\Statistle` folder; recovery autosave goes to
-> `%LOCALAPPDATA%\Statistle`. Nothing is written beside the executable.
+> Statistics+ (formerly Statistle) requires no account, sign-in with us, purchase or network connection.
+> (Check for a new version asks the Microsoft Store, and only when chosen.)
 >
-> Statistle calls ShellExecute only to open a page in the user's default browser: a generated
-> report or instructions page as HTML, from a file it has just written to the temporary folder,
-> or, when the user chooses Help on the web or an About link, a page on softwareplus.ai or the
-> Microsoft Store. It launches no other process, installs no service or driver, and goes online only
-> when the user asks (Check for a new version, Help on the web, the About links). In particular it does not run the Python or R it generates — that code is text for
-> the user to copy.
+> **How to try it.** On the first screen, "Who is learning?", press New learner, type any name and a 4-digit PIN,
+> and keep or skip the recovery code. The Course opens: a tree of modules on the left. Choose Module 2 and an item,
+> then its tabs: Learn (a lesson), Example (a worked case), Exercise (type an answer and press Check; the program
+> checks it against the value it calculates). The Workbench (the strip at the top, or "Just the Workbench" on the
+> first screen) is the statistics calculator: open a sample project from File > Open, or add a Data table and an
+> analysis from the left rail; every analysis has an Instructions tab and a Code tab with the Python and R.
+>
+> **Files.** Learners' progress files go to `C:\ProgramData\Statistle\Learners`, shared by every account on a lab
+> computer; user projects and exports to `Documents\Statistle`; recovery autosave to `%LOCALAPPDATA%\Statistle`.
+> Nothing is written beside the executable.
+>
+> **Launching other programs.** Statistics+ calls ShellExecute only to open a page in the user's default browser
+> (a generated report or instructions page as HTML, from a file it has just written to the temporary folder, or
+> Help on the web and the About links), to open the user's own e-mail program with a message when the learner
+> chooses Send to my instructor (the learner presses Send; the program sends nothing), and to show a saved report in
+> File Explorer. It launches no other process, installs no service or driver, and does not run the Python or R it
+> generates — that code is text for the user to copy.
 
 ## Pricing and availability
 
@@ -135,7 +146,7 @@ Statistle is a statistics calculator. The expected answers, all negative, give *
 |---|---|
 | OS | Windows 10 version 2004 (build 19041) or later — the manifest's `MinVersion`. Windows 11 supported |
 | Architecture | x64 |
-| Disk | ~200 MB (self-contained; it carries the .NET runtime, so no prerequisite install) |
+| Disk | ~250 MB (self-contained; it carries the .NET runtime, so no prerequisite install) |
 | Memory | 4 GB recommended |
 | Graphics | No special requirement; plots render through ScottPlot on the CPU |
 
@@ -179,15 +190,16 @@ The rest of the run makes the substring behaviour plain: it also reports `CsI`, 
 WACK is not a gate on submission — Store certification runs its own equivalent — but a local
 pass avoids a failed round trip.
 
-## Submission order
+## Submission order — 2.0.0
 
-1. ~~Reserve the name~~ — done: `DeanEaglin.statistle`.
-2. ~~Publish the privacy page~~ — done and live.
-3. ~~Set the release version~~ — done: 1.0.0.
-4. ~~Generate the Store assets~~ — done, from the logo.
-5. ~~Build the `.msixupload`~~ — done and PFN-verified.
-6. ~~Run WACK~~ — done: PASS, 23/24.
-7. Capture the screenshots (list in `STORE-LISTING.md`) — **at least 1366 px wide**.
-8. Partner Center: packages → listing copy → images → screenshots → properties → age rating →
-   pricing → submit.
-9. Once live: tag the commit, and record the result here.
+1. Move the name Statistics+ from the separate new app onto this product (see the table above).
+2. ~~Privacy page revised and live~~ — 2026-11-12.
+3. ~~Version 2.0.0, manifest names, listing copy~~ — done (plan 15.3).
+4. Ron's hand-test round 2.0 (`docs/MANUAL-TESTING.md`) on `manual-test\Statistle.exe`.
+5. Build the final `.msixupload` (command above) and run WACK (`packaging/run-wack.ps1`, elevated).
+6. Partner Center, on the existing product: Store listings → Product name **Statistics+**, the new description,
+   features, what's new and screenshots; Properties → privacy URL; Product declarations → cryptography **Yes**;
+   Packages → the 2.0.0 `.msixupload`; Additional Testing Information → the notes above; submit.
+7. Once live: SoftwarePlus.ai's page goes live as Statistics+ (plan 15.4), tag `v2.0.0` (15.5), and record it here.
+
+The 1.0.0 history (WACK result, first submission) is kept above.

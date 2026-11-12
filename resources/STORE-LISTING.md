@@ -1,176 +1,171 @@
-# Statistle — Microsoft Store listing copy
+# Statistics+ — Microsoft Store listing copy
 
 Paste-ready text for Partner Center → *Store listings → English (United States)*.
 Character limits in brackets are Partner Center's. Keep this file in step with what is actually
-submitted.
+submitted. **2.0.0 renames the product Statistle → Statistics+** (the name is reserved on this same product;
+Ron, 2026-11-11): change *Product name* in the listing, and keep the identity `DeanEaglin.statistle`.
 
 Images for the listing are in `resources/images/store/` — see the README there for which file
-goes in which slot. Screenshots are Ron's to capture (list at the end).
+goes in which slot. Screenshots: the list at the end.
 
 ---
 
 ## Product name  [256]
 
 ```
-Statistle
+Statistics+
 ```
 
-Reserved in Partner Center; identity `DeanEaglin.statistle` (see `STORE-IDENTITY.md`).
+Reserved in Partner Center on the existing Statistle product (Manage app names); identity `DeanEaglin.statistle`
+(see `STORE-IDENTITY.md`) does not change. Once 2.0.0 is live, the old name Statistle may be deleted there.
 
 ## Short title  [50]
 
 ```
-Statistle
+Statistics+ for engineers
 ```
 
 ## Short description  [1000]
 
 ```
-Statistle is free statistics software for students. Enter a data table, choose an analysis, and
-it computes the result, explains every input and every number it reports, and writes the Python
-and R that reproduce the same analysis - so you can check the work, not just copy the answer.
+Statistics+ teaches probability and statistics for engineers, topic by topic. Each topic has a
+lesson, a worked example, an exercise the program checks, and a reference page; module checks
+show what you have mastered, and a signed progress report hands your work in. The Workbench
+calculates any analysis in the course, explains every number, and writes the Python and R that
+reproduce it. Free, offline, no account.
 ```
 
 ## Description  [10000]
 
 ```
-Statistle is a free statistics package for the Windows desktop, written for students working
-through a first course in probability and statistics for engineers. It follows the syllabus of
-EGN3443 module by module, from descriptive statistics to two-way ANOVA.
+Statistics+ is a free, self-paced course in probability and statistics for engineers, with a
+statistics calculator built in. It follows the syllabus of EGN3443, Probability and Statistics
+for Engineers, from describing data to two-way ANOVA, in fifteen modules.
 
-It is built around one idea: a statistics answer is only useful if you can see where it came
-from. So every analysis names the method it used, explains what each input means and where each
-result comes from, and writes out the Python and the R that reproduce it.
-
-
-WHAT IT DOES
-
-Describing data
-  - Descriptive statistics for one sample: count, mean, median and mode, variance, standard
-    deviation, quartiles and the five-number summary
-  - Histogram with a fitted normal curve, and a box plot
-
-Probability and distributions
-  - The probability rules for two events - independent, mutually exclusive, or given the
-    intersection, a conditional probability, or the union
-  - Discrete distributions: read P(X = k), the cumulative probability and a range, with the
-    mean and variance of the family
-  - Continuous distributions: density, cumulative probability, a range, and the quantile for a
-    given probability, with the region shaded on the plot
-  - The sampling distribution of the mean or a proportion, drawn against the population it
-    came from
-
-Estimation and testing
-  - Confidence intervals for a mean, a proportion or a variance
-  - The sample size needed for a given margin of error and confidence
-  - One-sample tests of a mean, a proportion or a variance
-  - Two-sample tests: pooled t when the variances can be assumed equal, Welch t when not,
-    paired t, and the proportion and variance tests
-  - The assumption checks that belong with them - Shapiro-Wilk for normality, Levene for equal
-    variance - and the nonparametric alternatives, Mann-Whitney and Wilcoxon signed-rank
-
-Regression
-  - Simple linear regression: the least-squares line, slope and intercept with their standard
-    errors and tests, r and r-squared, confidence and prediction intervals, and the common
-    transformations when the straight line does not fit
-  - Multiple regression: several predictors at once, with forward and backward selection and
-    k-fold cross-validation
-
-Analysis of variance
-  - One-way ANOVA, with Tukey HSD for which pairs differ, Bartlett and Levene for equal
-    variance, Kruskal-Wallis as the nonparametric alternative, and the power of the test
-  - Two-way ANOVA for balanced designs
+(Statistics+ was called Statistle until version 2.0. The calculator is still here, as the
+Workbench, and opens your .statistle projects as before.)
 
 
-THE CODE TAB
+THE COURSE
 
-Every analysis writes the Python and the R that reproduce it - the data, the call, and the
-printing of the result - in ordinary, readable style using numpy, scipy and statsmodels, or
-base R. Copy it into your own notebook and run it. Statistle does not run the code and does not
-need Python or R installed; the code is there so that what the app did is never a black box, and
-so the step from a teaching tool to real analysis is a short one.
+Fifteen modules, about a hundred items, each with four tabs:
+  - Learn: the idea, in plain words, with figures
+  - Example: a worked case, with the analysis already set up in the Workbench
+  - Exercise: a new case for you to work; type your answers and Statistics+ checks each one
+    against the value the analysis calculates, and names the common mistake when you make it
+  - Reference: the formulas, the Python and R, and where to read more
+
+Every module ends with a module check: questions on the whole module. My progress shows what
+you have done, what is left, which outcomes you have mastered and what to review.
+
+Modules: statistics for engineers; descriptive statistics; probability; discrete and continuous
+distributions; sampling distributions and the central limit theorem; estimation; hypothesis
+testing; two-sample tests (two modules); simple, multiple and validating regression; and
+analysis of variance.
 
 
-HOW IT WORKS
+LEARNERS AND REPORTS
 
-One project file. Data tables and every analysis you set up are saved together in a .statistle
-file, so a whole assignment comes back exactly as you left it.
+Several students can share one computer: each has a progress file locked with a PIN, with a
+recovery code if the PIN is forgotten, and backs it up to a drive or cloud folder of their own.
 
-Every entry explains itself. Each field knows its meaning, its valid range and its units; the
-help panel under the form describes what to put there and why.
+When an instructor asks, a student makes a progress report: a signed PDF of a module check or of
+the whole course so far, with the scores, the outcomes, and the results of each exercise passed,
+with its figure. A one-line result can be pasted where the instructor asks. Instructors check a
+report or a line in the same program (File > Check reports and class codes), with no account and
+nothing sent anywhere.
 
-Every tool has a manual page. The Instructions tab explains what the analysis is for, what each
-entry means, what it produces, and which method and source stand behind the result - written to
-be read by someone learning the material.
 
-Report, plot and export. Any analysis produces a formatted report as text, HTML or PDF, the
-plots that belong with it, and a CSV of its values.
+THE WORKBENCH
+
+  - Descriptive statistics, with histogram, fitted normal curve, box plot and control limits
+  - Probability rules for two events
+  - Discrete and continuous distributions, including Weibull, and a fit to a data column
+  - Sampling distributions, and a seeded Simulation
+  - Confidence intervals and the sample size for a margin of error
+  - One- and two-sample tests: t (pooled, Welch, paired), proportions, variances, with
+    Shapiro-Wilk, Levene, Mann-Whitney and Wilcoxon
+  - Chi-square tests of goodness of fit and independence
+  - Simple and multiple regression, with transformations, intervals, forward and backward
+    selection, k-fold and hold-out validation, VIF, leverage and Cook's distance
+  - One-way ANOVA with Tukey HSD, Welch's ANOVA, Bartlett, Levene and Kruskal-Wallis; two-way
+    ANOVA with interaction
+
+Every analysis explains every input and result, has a manual page, makes a report (text, HTML
+or PDF) with its plots, and writes the Python (numpy, scipy, statsmodels) and the R that
+reproduce it. Statistics+ does not run the code and does not need Python or R installed.
 
 
 PRIVACY
 
-Statistle runs entirely on your computer. It collects nothing and sends none of your work
-anywhere. It goes online only when you ask: Help > Check for a new version asks the Microsoft
-Store, and Help on the web opens a page in your browser. Your work is saved in Documents\Statistle or wherever you choose.
+Statistics+ works offline, collects nothing and sends nothing. Learners' progress stays on the
+computer; a report leaves it only as a file the learner saves and hands in. It goes online only
+when you ask: Check for a new version asks the Microsoft Store, and Help on the web opens a page
+in your browser.
 
 
 FREE
 
-Statistle is free, with no advertising, no accounts and no in-app purchases. It is published to
-support the course it was written for.
+Free, with no advertising, no accounts and no in-app purchases. Created by Dr. Ron Eaglin for the
+course it follows.
 ```
 
 ## Product features  [up to 20, 200 each]
 
 ```
-Descriptive statistics with histogram, fitted normal curve and box plot
-Probability rules for two events - independent, exclusive, conditional or joint
-Discrete and continuous distributions, with the region shaded on the plot
-The sampling distribution of a mean or proportion, drawn against its population
-Confidence intervals for a mean, a proportion or a variance
-The sample size needed for a given margin of error and confidence
-One-sample tests of a mean, a proportion or a variance
-Two-sample tests - pooled t, Welch t, paired t, proportions and variances
-Shapiro-Wilk and Levene assumption checks, with Mann-Whitney and Wilcoxon alternatives
-Simple linear regression with transformations, confidence and prediction intervals
-Multiple regression with forward and backward selection and k-fold cross-validation
-One-way ANOVA with Tukey HSD, Bartlett, Levene, Kruskal-Wallis and power
-Two-way ANOVA for balanced designs
+A self-paced course in probability and statistics for engineers: 15 modules, about 100 items
+Each item has Learn, Example, Exercise and Reference tabs
+Exercises checked against the value the analysis calculates, with the common mistakes named
+A module check at the end of every module, and mastery of each outcome
+My progress: what is done, what is left, what to review, and time spent
+Several learners on one computer, each with a PIN-locked progress file and a recovery code
+Signed PDF progress reports with each passed exercise's results and figure
+A one-line signed result to paste where the instructor asks; instructors check it in the program
+The Workbench: every analysis in the course, from a data table
+Descriptive statistics, distributions, sampling, simulation and confidence intervals
+One- and two-sample tests with assumption checks and rank-test alternatives
+Chi-square tests of goodness of fit and independence
+Simple and multiple regression with selection, cross-validation and diagnostics
+One- and two-way ANOVA with Tukey HSD and Welch's ANOVA
 Writes the Python and R that reproduce every analysis
-A manual page for every analysis, written for someone learning the material
-Reports as text, HTML or PDF; plots and CSV export from any analysis
-One .statistle project file holds the whole assignment
-Works offline: no account, no telemetry; online only when you ask (new version, web help)
+A manual page for every analysis, and help for every input and result
+Reports as text, HTML or PDF with plots; CSV export
+Works offline: no account, no telemetry; online only when you ask
 ```
 
 ## What's new in this version  [1500]
 
 ```
-First public release.
+Statistle is now Statistics+, a self-paced course with the calculator built in.
 
-Statistle covers a first course in probability and statistics for engineers: descriptive
-statistics, probability rules, discrete and continuous distributions, sampling distributions,
-confidence intervals and sample size, one- and two-sample tests with their assumption checks and
-nonparametric alternatives, simple and multiple regression, and one- and two-way ANOVA - each
-with a manual page, an explanation of every number, and the Python and R that reproduce it.
+- The Course: 15 modules following EGN3443, each topic with a lesson, a worked example, an
+  exercise the program checks, and a reference page; a module check ends each module.
+- Learners: several students on one computer, each with a PIN-locked progress file, backups
+  and My progress.
+- Progress reports: a signed PDF to hand in, a one-line result, and Check reports and class
+  codes for instructors.
+- The Workbench (the calculator, as before) gains chi-square tests, Weibull and fitting a
+  distribution to data, a seeded Simulation, control limits, one coefficient read from a
+  multiple regression, a hold-out split, and Welch's ANOVA.
+- Help > Check for a new version, and About links to the program's page and the Store.
 ```
 
 ## Search terms  [up to 7, 30 each]
 
 ```
 statistics
+engineering statistics
 hypothesis test
-confidence interval
 regression
 ANOVA
-probability distribution
-statistics homework
+probability
+statistics course
 ```
 
 ## Copyright and trademark info  [200]
 
 ```
-Copyright (c) 2026 Dean Eaglin. Statistle follows the syllabus of EGN3443, Probability and
+Copyright (c) 2026 Dean Eaglin. Statistics+ follows the syllabus of EGN3443, Probability and
 Statistics for Engineers.
 ```
 
@@ -201,31 +196,26 @@ audience.)
 
 | Field | Value |
 |---|---|
-| Privacy policy URL | **From 1.1.0:** `https://softwareplus.ai/statistle/privacy/` (the policies moved to SoftwarePlus.ai; revised 2026-10-31 for Check for a new version and Help on the web). 1.0 used `https://punchmonkeyserver.com/privacy/statistle`, which stays up for older installs. |
+| Privacy policy URL | `https://softwareplus.ai/statistle/privacy/` (revised 2026-11-12 for 2.0: learners' progress files, the computer's signing key, progress reports, Send to my instructor). 1.0 used `https://punchmonkeyserver.com/privacy/statistle`, which stays up for older installs. |
 | Support contact info | ron.eaglin@gmail.com |
-| Website | *(optional)* |
+| Website | `https://softwareplus.ai/statistle/` |
 
 ---
 
-## Screenshots — Ron to capture
+## Screenshots
 
-Requirements: **.png**, at least **1366 × 768**, up to 10 (Microsoft recommends 4).
+Requirements: **.png**, at least **1366 × 768**, up to 10 (Microsoft recommends 4). Made by the tests
+(`STATISTLE_STORE_SHOTS=<folder> dotnet test tests/Statistle.App.Tests --filter StoreShots`), 1600 × 1000, with the
+sample learner; Ron's 1.0 Workbench set is in `resources/images/store/screenshots/`. In listing order (the first is
+what appears in search results):
 
-**Capture wider than 1366.** SMADA's first set came out 1341–1347 px and had to be padded before
-Partner Center would take them. A maximised window on a 1920-wide display is comfortably clear.
-
-Capture with a real worked example loaded — a sample from `samples/` — not an empty form.
-Suggested set, in listing order; the first is what appears in search results:
-
-1. **A two-sample test** — the result, the assumption checks, and the reference distribution with
-   the rejection region shaded. The clearest picture of what Statistle is for.
-2. **The Code tab** — the Python (or R) written for that same analysis. This is the
-   differentiator; it belongs high in the list.
-3. **Descriptive statistics** — the summary with the histogram and fitted normal curve.
-4. **Confidence interval** — with the interval bar plot.
-5. **Simple regression** — the fitted line with its scatter, slope and r-squared.
-6. **One-way ANOVA** — the table with Tukey HSD.
-7. **Instructions tab** — a full manual page for one analysis.
-8. **A data table** — the left-hand table with columns entered, showing where the data lives.
+1. **An exercise** — the Exercise tab of a module item: the task, the Workbench analysis beside it, answers checked.
+2. **A Learn tab** — a lesson with its figure, the module tree on the left.
+3. **My progress** — the path, module checks and outcomes.
+4. **A module check** — a question with its feedback.
+5. **The Workbench** — a two-sample test with its reference distribution.
+6. **The Code tab** — the Python and R for that analysis.
+7. **A progress report** — the report page, with what it covers and the card.
+8. **Who is learning?** — learners on a shared computer.
 
 Captions are optional; if used, keep them to one plain sentence each.
