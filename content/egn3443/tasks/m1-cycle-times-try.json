@@ -1,0 +1,11 @@
+{
+  "id": "st.m1.cycle-times.try",
+  "title": "Assembly station cycle times",
+  "analysis": "DescriptiveStatistics",
+  "intro": "Twenty cycle times of an assembly station, in seconds (s), drawn as a histogram.",
+  "settings": {
+    "Name": "Cycle time",
+    "Sample": [43.1, 45.5, 40.0, 44.4, 47.5, 42.8, 46.4, 44.2, 49.1, 43.6, 45.9, 41.5, 52.0, 44.8, 42.3, 46.8, 43.9, 48.3, 45.1, 50.6],
+    "Classes": 6
+  }
+}

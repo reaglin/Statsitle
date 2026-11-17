@@ -48,6 +48,8 @@ Some data are **counts**: how many items fell in each of k categories. The quest
 
 df = 6 − 1 = 5. The critical value χ²(0.05, 5) is 11.07, and P(χ² ≥ 4.2) with 5 df = **0.521**. Do not reject: the counts are well within what a fair die gives.
 
+[[see-example: 1]]
+
 ## The Example: unplanned shutdowns by weekday
 
 A plant had 110 unplanned shutdowns in a year. If the day does not matter, each weekday expects 110/5 = 22.
@@ -89,6 +91,8 @@ The row totals are Day 90 and Night 90; the column totals are Porosity 80, Crack
 
 χ² = **11.25**, df = (2 − 1)(3 − 1) = **2**, p = **0.0036**. Reject H₀: the type of defect depends on the shift. The large contributions show where: the night shift makes many more misruns (35 against 25 expected).
 
+[[see-example: 2]]
+
 [[results: st.m8.applying.table]]
 
 [[figure: st.m8.applying.table 2]]
@@ -121,7 +125,7 @@ For stated proportions, give them: `stats.chisquare(observed, f_exp=n * p)` in P
 
 ## Try it in the Workbench
 
-Press **Open in the Workbench** on the Example tab and change Monday's count (the first in **Observed counts**) from 30 to 34; the total becomes 114. χ² rises to 9.95 with p = 0.041: now the days differ significantly at α = 0.05. Then try **Test** *Independence or homogeneity* to type a table of your own.
+The Example tab does this with the die's counts. For the shutdowns, press **Open in the Workbench** on the Example tab and change Monday's count (the first in **Observed counts**) from 30 to 34; the total becomes 114. χ² rises to 9.95 with p = 0.041: now the days differ significantly at α = 0.05. Then try **Test** *Independence or homogeneity* to type a table of your own.
 
 ## Common mistakes
 
@@ -134,3 +138,23 @@ Press **Open in the Workbench** on the Example tab and change Monday's count (th
 ## What to do next
 
 On the **Exercise** tab, a supplier claims a mix of 50 % grade A, 35 % grade B and 15 % grade C capacitors, and inspection grades 200 of them. Test the claim: find χ², its degrees of freedom and the p-value.
+
+[[example: Is the die fair?]]
+
+This is the Learn page's worked case: a die rolled 60 times, with faces 1 to 6 coming up 8, 12, 9, 11, 6 and 14 times. It starts there: χ² = **4.2** with **5** degrees of freedom, below the critical value **11.07**, and p = **0.521**: do not reject. In the second figure, the observed bars stay close to the expected 10.
+
+1. **Change the 14 (face 6) to 22.** The total becomes 68, χ² = **14.06** and p = **0.0152**: reject. One face far above its share is enough.
+2. **Change it to 20 instead.** χ² = **10.91**, just under 11.07, and p = **0.0532**: do not reject, by a hair.
+3. **Back to the start, then make every count three times as large** (24, 36, 27, 33, 18, 42: 180 rolls). The shares are the same, but χ² triples to **12.6** and p = **0.0274**: reject. The same pattern from more rolls is stronger evidence.
+
+[[try: st.m8.die.try Observed | Total Statistic Critical P Decision figure=2]]
+
+[[example: Defect type by shift]]
+
+This is the Learn page's second worked case: 180 defective castings by shift and type of defect. It starts there: χ² = **11.25** with **2** degrees of freedom, p = **0.0036**: reject, the type of defect depends on the shift. Cramér's V is **0.25**.
+
+1. **Change the night shift's misruns from 35 to 25.** The total is 170, χ² falls to **5.18**, under the critical value **5.99**, and p = **0.0750**: do not reject. The night's extra misruns were most of the evidence.
+2. **Change the day shift's misruns from 15 to 25 too.** Both shifts now have 25 misruns: χ² = **1.04** and p = **0.594**. The rows look alike, and V falls to **0.08**.
+3. **Back to the start** puts the table back.
+
+[[try: st.m8.castings.try @Defects/Misrun @Defects/Porosity @Defects/Crack | Statistic Critical P Decision CramersV figure=2]]

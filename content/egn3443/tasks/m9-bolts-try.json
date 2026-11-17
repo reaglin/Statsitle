@@ -1,0 +1,22 @@
+{
+  "id": "st.m9.bolts.try",
+  "title": "Clamp load of two suppliers' bolts",
+  "analysis": "TwoSampleTest",
+  "intro": "20 bolts from supplier 1 and 35 from supplier 2 were tested for clamp load (kN). Supplier 1: mean 41.0, standard deviation 1.8. Supplier 2: mean 37.0, standard deviation 4.2. Different bolts, σ unknown, very different spreads: Welch's t. H₀: μ₁ − μ₂ = 0 against H₁: μ₁ − μ₂ ≠ 0 at α = 0.05.",
+  "settings": {
+    "Name": "Clamp load",
+    "TestKind": "WelchT",
+    "Source": "Summary",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Delta0": 0,
+    "SampleMean": 41.0,
+    "SampleSd": 1.8,
+    "Sigma": 1.8,
+    "SampleSize": 20,
+    "Sample2Mean": 37.0,
+    "Sample2Sd": 4.2,
+    "Sigma2": 4.2,
+    "Sample2Size": 35
+  }
+}

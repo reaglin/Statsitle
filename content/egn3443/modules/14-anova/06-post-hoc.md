@@ -45,6 +45,8 @@ The fertilizer data of item 14.3: means 11.5 (A), 8.5 (B), 14.5 (C), n = 4 each,
 2. HSD = 3.948 × √(1.667/4) = 3.948 × 0.6455 = **2.549**.
 3. The differences: A − B = 3.0, C − A = 3.0, C − B = 6.0. All three exceed 2.549, so **every pair differs**: C gives the highest yield, then A, then B.
 
+[[see-example: 1]]
+
 ## The Example: wear life of four coatings
 
 [[data: st.m14.post-hoc.eg]]
@@ -122,3 +124,13 @@ pairwise.t.test(life, coating, p.adjust.method = "bonferroni")
 ## What to do next
 
 On the **Exercise** tab, five nozzle designs. Find Tukey's q and how many of the ten pairs differ.
+
+[[example: Fertilizer yields: when does a pair differ?]]
+
+This is the Learn page's worked case by hand. It starts there: q(0.05; 3, 9) = **3.948**, HSD = **2.549**, and all three pairs differ: A − B = 3, A − C = −3 and B − C = −6, each interval clear of 0.
+
+1. **Raise every B yield by 1** (9, 10, 8, 11). A − B shrinks to **2**, less than the HSD: its interval now runs from **−0.55 to 4.55**, its adjusted p is **0.126**, and only **2** pairs differ. The F test still rejects (p = **0.0013**): "some mean differs" does not say which.
+2. **Back to the start, then set α to 0.01.** q rises to **5.428**, so the HSD grows to about 3.50, and only B − C (6) is beyond it: **1** pair differs. A stricter family-wide level asks for bigger differences.
+3. **Back to the start** puts B and α = 0.05 back.
+
+[[try: st.m14.post-hoc.try @Fertilizer/A @Fertilizer/B @Fertilizer/C Alpha=0.01..0.1 | F P TukeyQ TukeyTable TukeySignificant figure=2]]

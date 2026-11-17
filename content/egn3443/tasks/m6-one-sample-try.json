@@ -1,0 +1,16 @@
+{
+  "id": "st.m6.one-sample.try",
+  "title": "One sample of ten resistors at a time",
+  "analysis": "Simulation",
+  "intro": "The resistor line has μ = 100 Ω and σ = 2 Ω: parameters. The computer draws one random sample of n = 10 resistors (the seed picks which sample) and works out its mean x̄: a statistic.",
+  "settings": {
+    "Name": "One sample of ten",
+    "Experiment": "SampleMeans",
+    "Distribution": "Normal",
+    "PopulationMean": 100,
+    "PopulationSigma": 2,
+    "SampleSize": 10,
+    "Trials": 1,
+    "Seed": 1
+  }
+}

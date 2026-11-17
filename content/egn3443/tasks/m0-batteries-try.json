@@ -1,0 +1,10 @@
+{
+  "id": "st.m0.batteries.try",
+  "title": "Battery run times",
+  "analysis": "DescriptiveStatistics",
+  "intro": "Eight battery packs for a handheld meter were run until they shut down, in hours (h): the data of the Learn page's code.",
+  "settings": {
+    "Name": "Battery run times",
+    "Sample": [9.8, 10.4, 10.1, 9.6, 10.9, 10.2, 9.9, 10.5]
+  }
+}

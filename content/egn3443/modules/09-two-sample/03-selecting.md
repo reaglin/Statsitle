@@ -56,6 +56,19 @@ Sample size changes the choice in two ways:
 
 **Two suppliers' bolts.** 20 bolts from supplier 1 and 35 from supplier 2 are tested for clamp load. Compared: the mean load. Paired: no, different bolts. σ known: no. The standard deviations are 1.8 and 4.2 kN, very different. **Welch t.**
 
+[[see-example: 1]]
+
 ## What to do next
 
 On the **Exercise** tab, eight short cases ask you to choose the test. They are practice questions: after a wrong try the explanation shows, walking through the four questions for that case. You need 80 % to complete the item.
+
+[[example: Two suppliers' bolts: when the choice matters]]
+
+This is the Learn page's second case, with means added: supplier 1's 20 bolts average **41.0 kN** (s = 1.8), supplier 2's 35 bolts **37.0 kN** (s = 4.2). It starts with Welch's test: t = **4.90** on **50.11** df, p below **0.0001**. With samples this large and a difference this clear, the choice hardly matters.
+
+1. **Change the test to the pooled t.** t = **4.04** with **53** df and p = **0.0002**. Pooling mixes a small and a large spread, so the standard error is wrong, but the decision stands.
+2. **Change the test back to Welch's t and move the sizes to 5 and 6 bolts.** Now t = **2.11** on **7.02** df and p = **0.073**: not rejected.
+3. **Change the test to the two-sample z**, using the sample standard deviations as if they were σ. The same statistic, 2.11, read on the normal curve gives p = **0.035**, and H₀ is rejected. That is the shortcut the Learn page warns about: with small samples it makes p too small.
+4. **Change the test to the pooled t.** t = **1.97** with **9** df and p = **0.080**.
+
+[[try: st.m9.bolts.try TestKind SampleSize=2..40 Sample2Size=2..40 | Statistic DegreesOfFreedom PValue Decision figure=1]]

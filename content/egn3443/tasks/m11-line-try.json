@@ -1,0 +1,16 @@
+{
+  "id": "st.m11.line.try",
+  "title": "The least-squares line through four points",
+  "analysis": "SimpleRegression",
+  "intro": "The four points of item 11.1: (1, 2), (2, 3), (3, 5), (4, 4). The least-squares line, its sum of squared residuals, and its prediction at x = 2.5.",
+  "tables": [
+    { "name": "Points", "columns": { "x": [1, 2, 3, 4], "y": [2, 3, 5, 4] } }
+  ],
+  "settings": {
+    "Name": "Four points",
+    "XColumn": "@Points/x",
+    "YColumn": "@Points/y",
+    "Confidence": 0.95,
+    "PredictAt": 2.5
+  }
+}

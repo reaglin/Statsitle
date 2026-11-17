@@ -1,0 +1,16 @@
+{
+  "id": "st.m4.sampling-plan.try",
+  "title": "How many parts should the inspector take?",
+  "analysis": "DiscreteDistribution",
+  "intro": "An inspector takes n parts, without replacement, from a lot of 40 that holds 4 defective parts, and accepts the lot if none is defective. P(X = 0) is the chance the bad lot is accepted. The binomial settings (8 parts, p = 0.1) are there for the comparison.",
+  "settings": {
+    "Name": "Acceptance sampling",
+    "Family": "Hypergeometric",
+    "PopulationSize": 40,
+    "PopulationSuccesses": 4,
+    "Draws": 8,
+    "Trials": 8,
+    "SuccessProbability": 0.1,
+    "K": 0
+  }
+}

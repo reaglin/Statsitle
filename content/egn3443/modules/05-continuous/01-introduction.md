@@ -84,6 +84,8 @@ The **CDF** is a smooth S-shaped curve. At 84 s it has climbed to 0.1587: about 
 
 The area between 84 and 96 s is F(96) − F(84) = 0.8413 − 0.1587 = **0.6827**: about 68 % of boards take between 84 and 96 s. The density at 84 s, 0.0403 per second, is a height, not a probability.
 
+[[see-example: 1]]
+
 ## In Python and R
 
 ```python
@@ -114,3 +116,14 @@ The pattern is the same for every family: `pdf` / `d…` is the density, `cdf` /
 ## What to do next
 
 Look at the **Example** tab and press **Open in the Workbench**. Change the **Upper value (x₂)** and watch the shaded area change. Then answer the questions on the **Exercise** tab.
+
+[[example: Time to reflow temperature: a probability is an area]]
+
+This is the Learn page's reflow oven: the time to soldering temperature is normal with mean **90 s** and standard deviation **6 s**. (The Learn page's ramp-shaped density is not one of the program's families, so the example uses the oven.) It starts with the area between **84 and 96 s**: **0.6827**. The density at 84 s is **0.0403** per second.
+
+1. **Move the upper value to 90 s.** The shaded area halves to **0.3413**: the curve is symmetric about 90.
+2. **Move it to 85 s, then 84.1 s.** The area shrinks to **0.0437**, then **0.0041**. As the interval closes on one value, the area goes to 0: P(X = 84) is **0**.
+3. **Set x to 90, the upper value to 91 and σ to 0.3 s.** The density at 90 s is **1.33**, more than 1, yet the area between 90 and 91 s is only **0.4996**. The height is not a probability; the area is.
+4. **Back to the start** puts the oven back.
+
+[[try: st.m5.reflow-area.try X=70..110 X2=70..110 Sigma=0.2..12 | Density AtMost Between figure=1]]

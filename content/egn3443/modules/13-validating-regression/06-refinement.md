@@ -79,6 +79,8 @@ Strength rises quickly and then ever more slowly, the shape of a logarithm. With
 
 All three models have the same y, so R² and σ̂ compare directly. The log model's residuals form a band, Shapiro–Wilk p = 0.800, and its σ̂ is a fifth of the line's. Its equation is Strength = 7.06 + 7.87 ln(age): each doubling of the age adds 7.87 × ln 2 = 5.5 MPa. At 60 days it predicts 39.3 MPa, with a 95 % prediction interval of 36.2 to 42.3 MPa for one cylinder.
 
+[[see-example: 1]]
+
 ## Balancing statistics and practical use
 
 The best-fitting model is not always the one to use:
@@ -135,3 +137,13 @@ In **Simple linear regression**, change **Transform x** or **Transform y** and w
 ## What to do next
 
 On the **Exercise** tab, refine a cost-per-part model with the reciprocal of the batch size: find its R², σ̂ and the fitted cost for a batch of 120, and press **Check my answers**.
+
+[[example: Concrete strength gain: line, square root or log]]
+
+This is the Learn page's Example, from its first try: a straight line in age. It starts there: R² = **0.739**, σ̂ = **5.92 MPa**, a largest Cook's distance of **2.68**, an arch in the residuals, and a prediction of **38.9 MPa** at 60 days with a 95 % interval for one cylinder from 24.1 to 53.6 MPa.
+
+1. **Set Transform x to Square root.** R² = **0.903** and σ̂ = **3.60 MPa**: better, but the residuals still arch.
+2. **Set Transform x to Natural log.** R² = **0.989**, σ̂ = **1.24 MPa**, the arch is gone and the largest Cook's distance is **0.18**. At 60 days it predicts **39.3 MPa**, and the interval for one cylinder narrows to **36.2 to 42.3 MPa**.
+3. **Set Transform x back to None and Transform y to Natural log.** The wrong cure for this curve: R² = **0.537**, Shapiro–Wilk p = **0.045**, and σ̂ = 0.375 is in units of ln(MPa), so it cannot be set beside the other models' σ̂. Compare the residual plots instead.
+
+[[try: st.m13.refinement.try XTransformation YTransformation | Equation RSquared ResidualSe MaxCooksD FittedAt NewLower NewUpper figure=2]]

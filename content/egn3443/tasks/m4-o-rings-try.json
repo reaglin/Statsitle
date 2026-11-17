@@ -1,0 +1,13 @@
+{
+  "id": "st.m4.o-rings.try",
+  "title": "Defective O-rings in a sample of five",
+  "analysis": "DiscreteDistribution",
+  "intro": "A supplier's O-rings are defective with probability 0.1, independently. Five are inspected, and X is the number defective: Binomial(n = 5, p = 0.1).",
+  "settings": {
+    "Name": "O-rings",
+    "Family": "Binomial",
+    "Trials": 5,
+    "SuccessProbability": 0.1,
+    "K": 1
+  }
+}

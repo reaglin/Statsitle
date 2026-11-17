@@ -58,6 +58,8 @@ P(X = 0) = 0.3935: a lot with 10 % defective parts is **accepted about 39 % of t
 
 **Interpreting the result** is the last step, and the one the reader cares about. A good statement names the probability, says what it means in the situation, and draws the conclusion: "With this plan, about 4 of every 10 lots that are 10 % defective would be accepted. To reject such lots at least 90 % of the time, the inspector must sample more parts."
 
+[[see-example: 1]]
+
 ## Another example: retrying a radio link
 
 A sensor sends its reading over a radio link. Each attempt gets through with probability 0.8, independently, and the sensor retries until one does. X, the attempt that first gets through, is geometric with p = 0.8.
@@ -97,3 +99,14 @@ dnbinom(4 - 2, 2, 0.5)    # failures before the r-th success: 0.1875
 ## What to do next
 
 The **Exercise** tab has ten questions. Most are short cases: decide which model fits each one. The last ones ask for a calculation and an interpretation.
+
+[[example: How many parts should the inspector take?]]
+
+This is the Learn page's acceptance-sampling plan: n = **8** parts from a lot of 40 with 4 defective, accepted if none of the 8 is defective. It starts there: P(X = 0) = **0.3935**, so the bad lot is accepted about 39 % of the time.
+
+1. **Change the model to Binomial** (8 parts, p = 0.1). P(X = 0) is **0.4305**: the sample is a fifth of the lot, so the binomial is off. Change it back to Hypergeometric.
+2. **Move the parts sampled to 12, then 16.** P(accept) falls to **0.2240**, then **0.1163**.
+3. **Move it to 17.** P(accept) is **0.0969**: the plan now rejects such a lot more than 90 % of the time. That is the answer the Learn page asks for: sample at least 17 parts.
+4. **Move the defective parts in the lot** to see how the plan treats a better or a worse lot. **Back to the start** puts the plan of 8 back.
+
+[[try: st.m4.sampling-plan.try Family Draws=1..40 PopulationSuccesses=0..20 | Exactly MoreThan Mean figure=1]]

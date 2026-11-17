@@ -1,0 +1,61 @@
+{
+  "id": "st.m14.one-way.try",
+  "title": "Bond strength at three curing temperatures",
+  "analysis": "OneWayAnova",
+  "intro": "Six lap joints cured at each of 150, 170 and 190 °C, in the long layout (a Temp column and a Strength column, MPa). Change the strengths and watch F, p and η².",
+  "tables": [
+    {
+      "name": "Curing",
+      "columns": {
+        "Temp": [
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          170,
+          170,
+          170,
+          170,
+          170,
+          170,
+          190,
+          190,
+          190,
+          190,
+          190,
+          190
+        ],
+        "Strength": [
+          18.2,
+          17.5,
+          19.1,
+          18.6,
+          17.9,
+          18.4,
+          20.3,
+          19.8,
+          21.0,
+          20.6,
+          19.5,
+          20.9,
+          19.6,
+          20.4,
+          19.1,
+          20.0,
+          19.4,
+          20.8
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Bond strength",
+    "Table": "@Curing/",
+    "Layout": "FactorAndResponse",
+    "FactorColumn": "Temp",
+    "ResponseColumn": "Strength",
+    "Alpha": 0.05
+  }
+}

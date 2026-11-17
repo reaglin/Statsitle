@@ -114,7 +114,9 @@ R's `power.t.test` and Python's `statsmodels` `TTestPower` compute power with th
 
 ## Try it in the Workbench
 
-Press **Open in the Workbench** on the Example tab. Change **Significance level (α)** to 0.01: the power at 3750 falls to 0.569. Then set **Sample size (n)** to 16: it climbs back to 0.843. Lower α costs power; more cylinders buy it back.
+On the Example tab, the concrete test has α, n and the true mean on sliders. Change α to 0.01: the power at 3750 falls to 0.569. Then set n to 16: it climbs back to 0.843. Lower α costs power; more cylinders buy it back. **Open in the Workbench** on the Example tab does the same with every setting.
+
+[[see-example: 1]]
 
 ## Common mistakes
 
@@ -126,3 +128,14 @@ Press **Open in the Workbench** on the Example tab. Change **Significance level 
 ## What to do next
 
 On the **Exercise** tab, relief valves should open at 150 kPa and a lot opening at 154 kPa is a safety concern. Find the power of the 10-valve test against 154 kPa, and the number of valves that gives a power of 0.90.
+
+[[example: Concrete strength: buying power]]
+
+This is the Learn page's Example: a mix specified at 4000 psi, σ = 300 psi, n = 9 cylinders, H₁: μ < 4000, α = 0.05, and a true mean of 3750 psi to detect. It starts there: the power is **0.804**, and **13** cylinders would give a power of 0.90. This sample (x̄ = 3870 psi) gives z = **−1.30** and p = **0.0968**: not rejected.
+
+1. **Change α to 0.01.** The rejection region moves out to z < **−2.326**, and the power falls to **0.569**: fewer false alarms, more misses. Now **19** cylinders are needed for a power of 0.90.
+2. **Change n to 16.** The power climbs back to **0.843**. More cylinders buy back what the lower α cost.
+3. **Back to α = 0.05 and n = 9, and change the true mean to 3900 psi**, a smaller shortfall. The power is only **0.260**, and **78** cylinders would be needed: a small shift is hard to catch.
+4. **True mean 3750 again, and change σ to 150 psi**, a steadier process. The power is **0.9996**: a precise measurement shows the same shortfall almost every time.
+
+[[try: st.m8.concrete-power.try Alpha=0.01..0.10 SampleSize=3..40 AlternativeValue=3600..3990 Sigma=100..500 | RejectionRegion PValue Decision Power SampleSizeForPower figure=1]]

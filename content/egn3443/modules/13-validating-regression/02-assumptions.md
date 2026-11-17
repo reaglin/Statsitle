@@ -84,6 +84,8 @@ Here x is the day, so the fitted values increase with the day, and this plot is 
 
 The Q–Q plot is close to its line, and Shapiro–Wilk gives W = 0.975 with p = 0.859: no evidence against normality. So one assumption fails and another holds; the checks are separate questions.
 
+[[see-example: 1]]
+
 What to do? The engineer would look for the cause (temperature in the lab is a common one, and adding it as a predictor may remove the runs), or use a time-series method that models the autocorrelation, which is beyond this course.
 
 ## In Python and R
@@ -129,3 +131,13 @@ plot(fit, which = 2)                     # normal Q–Q plot of the standardized
 ## What to do next
 
 On the **Exercise** tab, delivery times are fitted against route length. Find the Durbin–Watson statistic and Shapiro–Wilk's W and p of the residuals, and press **Check my answers**.
+
+[[example: The load cell: one assumption at a time]]
+
+This is the Learn page's Example: twenty daily readings of a 100 kg mass. It starts there: Durbin–Watson = **0.77**, far below the bound 1.20, while Shapiro–Wilk gives W = **0.975** and p = **0.86**. Independence fails; normality holds.
+
+1. **Change day 18's reading from 102.43 to 104.43 kg**, a slip of 2 kg in the log. Its point stands off the line of the Q–Q plot, and Shapiro–Wilk now rejects normality: W = **0.754**, p = **0.0002**. The standard error of the drift rate grows from 0.0148 to **0.0258** kg per day.
+2. **Look at Durbin–Watson: it has risen to 1.63**, as if the runs had gone. They have not: one large residual dominates both sums in the statistic. Deal with the outlier first, then read the other checks.
+3. **Back to the start** puts 102.43 back.
+
+[[try: st.m13.assumptions.try @Creep/Reading | Equation SlopeSe DurbinWatson ShapiroW ShapiroP figure=all]]

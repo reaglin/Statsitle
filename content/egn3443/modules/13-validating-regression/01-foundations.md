@@ -73,6 +73,8 @@ They are not a random band. At 20 to 30 km/h the residuals are positive (+2.6, +
 
 The R² of 0.98 did not warn of any of this. **Always look at the residual plot before you believe a fit.** The cure (a transformation, or a curved model) is item 13.6; with ln y fitted against ln x, for example, the U disappears.
 
+[[see-example: 1]]
+
 ## Validation is a cycle
 
 Validation is not a single test at the end. It is a loop:
@@ -112,3 +114,13 @@ Choose **Simple linear regression**, set **x column** and **y column** (or type 
 ## What to do next
 
 On the **Exercise** tab, six practice questions, three of them with residual plots, ask what the plots and the numbers say. After a wrong try the explanation shows. You need 80 % to complete the item.
+
+[[example: Braking distance: straighten the U]]
+
+This is the Learn page's Example: a straight line through 13 braking distances. It starts there: R² = **0.98**, but the residuals form a U, and Durbin–Watson is **0.82** because the rows are sorted by speed and the residuals come in runs.
+
+1. **Set Transform y to Square root.** Braking distance grows with the square of speed, so √distance should be close to a straight line in speed. Watch the residual plot lose its U, and Durbin–Watson rise to **2.59**: the runs were the curve, not dependence.
+2. **Set Transform x and Transform y both to Natural log.** The fit is ln(distance) = −2.88 + 1.59·ln(speed), and Durbin–Watson is **2.43**: no runs here either. (R² and σ̂ are now on the scale of ln y or √y, so do not set them beside the straight line's; item 13.6 says why.)
+3. **Back to the start** puts the straight line back, U and all.
+
+[[try: st.m13.foundations.try XTransformation YTransformation | Equation RSquared ResidualSe DurbinWatson figure=2]]

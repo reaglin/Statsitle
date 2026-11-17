@@ -51,6 +51,8 @@ The joints cured at 150 °C are weaker than the others; 170 and 190 °C look ali
 
 In a report: "A one-way ANOVA showed that the curing temperature affected the bond strength, F(2, 15) = 19.54, p < 0.001, η² = 0.72. The mean strengths were 18.3, 20.4 and 19.9 MPa at 150, 170 and 190 °C." Item 14.6 adds which temperatures differ (150 °C from both others; 170 and 190 °C cannot be told apart).
 
+[[see-example: 1]]
+
 [[figure: st.m14.one-way.eg 3]]
 
 The residuals' Q–Q plot: close to the line, as normal errors should be.
@@ -95,3 +97,14 @@ summary(fit)                                         # F value 19.54, Pr(>F) 6.6
 ## What to do next
 
 On the **Exercise** tab, four suppliers' resin with groups of different sizes. Find MS within, F and η².
+
+[[example: Bond strength: shrink the effect]]
+
+This is the Learn page's Example: six joints at each of 150, 170 and 190 °C, in the long layout. It starts there: F = **19.54**, p below 0.001, and η² = **0.72**.
+
+1. **Make the 170 °C joints 1 MPa weaker**: rows 7 to 12 of Strength become 19.3, 18.8, 20.0, 19.6, 18.5, 19.9. F falls to **11.04** (p = **0.0011**), and η² to **0.60**.
+2. **Make the 190 °C joints 1 MPa weaker too**: rows 13 to 18 become 18.6, 19.4, 18.1, 19.0, 18.4, 19.8. F = **4.76** and p = **0.025**: still significant at 0.05, but the temperature now accounts for only **39 %** of the variation.
+3. **Change the Temp codes to 1, 2 and 3** (six of each). Nothing in the analysis changes: the program treats the codes as labels of groups, so df between stays 2. Only the names in the group table change.
+4. **Back to the start** puts the measured strengths and temperatures back.
+
+[[try: st.m14.one-way.try @Curing/Temp @Curing/Strength Alpha=0.01..0.1 | GroupTable F P EtaSquared Decision figure=1]]

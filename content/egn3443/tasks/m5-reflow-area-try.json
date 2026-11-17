@@ -1,0 +1,15 @@
+{
+  "id": "st.m5.reflow-area.try",
+  "title": "Time to reflow temperature: probability is area",
+  "analysis": "ContinuousDistribution",
+  "intro": "The time X for a circuit board to reach soldering temperature is normal with mean 90 s and standard deviation 6 s. The shaded area between the two values is the probability that X falls between them.",
+  "settings": {
+    "Name": "Time to reflow temperature",
+    "Family": "Normal",
+    "Mu": 90,
+    "Sigma": 6,
+    "X": 84,
+    "X2": 96,
+    "Probability": 0.9
+  }
+}

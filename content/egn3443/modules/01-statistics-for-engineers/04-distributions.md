@@ -35,6 +35,8 @@ P(X = k) = C(n, k) pᵏ (1 − p)ⁿ⁻ᵏ, with mean μ = np.
 - At least one: P(X ≥ 1) = 1 − 0.3585 = **0.6415**.
 - On average, μ = np = 20 × 0.05 = **1** defective chip per sample.
 
+[[see-example: 1]]
+
 The Example works this case:
 
 [[figure: st.m1.distributions.eg 1]]
@@ -62,6 +64,8 @@ Use it for **continuous measurements** that vary symmetrically around a mean bec
 The **z-score** says how many standard deviations a value is from the mean: z = (x − μ) / σ. The **empirical rule**: about 68 % of values are within μ ± σ, 95 % within μ ± 2σ, and 99.7 % within μ ± 3σ.
 
 **Worked case.** A filler puts μ = 500 mL in each bottle with σ = 4 mL. The label says 492 mL. z = (492 − 500) / 4 = −2, so 492 mL is two standard deviations below the mean. By the empirical rule about 95 % of bottles are within 492 to 508 mL, and the 5 % outside are split equally between the two tails, so about 2.5 % hold less than 492 mL. The exact value, from the normal table or the program, is **0.0228** (2.28 %).
+
+[[see-example: 2]]
 
 [[figure: st.m1.distributions.normal 1]]
 
@@ -117,4 +121,24 @@ In both languages, `pmf` / `d…` gives P(X = k) and `cdf` / `p…` gives P(X �
 
 ## What to do next
 
-Open the **Example** tab and press **Open in the Workbench**. Change the defect rate p from 0.05 to 0.10 and watch P(X = 0) fall. Then answer the "which distribution?" questions on the **Exercise** tab.
+On the **Example** tab, Example 1 lets you change the defect rate p from 0.05 to 0.10 and watch P(X = 0) fall, and Example 2 moves the bottle filler. Then answer the "which distribution?" questions on the **Exercise** tab.
+
+[[example: Defective chips: change the defect rate]]
+
+This is the Learn page's binomial case: 20 chips tested from a process that makes 5 % defective chips. It starts at k = 0: the chance of no defective chip is **0.3585**, the chance of at least one (more than 0) is **0.6415**, and the mean is **1** chip.
+
+1. **Change p to 0.10.** P(X = 0) falls to **0.1216**, and the mean doubles to **2** chips. A worse process is much more likely to show itself in the sample.
+2. **Set p back to 0.05 and k to 1.** P(X = 1) is **0.3774**, as worked by hand, and the chance of more than one defective chip is **0.2642**.
+3. **Set k back to 0 and n to 50.** With 50 chips tested, P(X = 0) is only **0.0769**: a larger sample rarely misses a 5 % defect rate.
+
+[[try: st.m1.chips.try Trials=5..50 SuccessProbability=0.01..0.2 K | Exactly MoreThan Mean figure=1]]
+
+[[example: Bottles below the label: move the filler]]
+
+This is the Learn page's normal case: fill volumes with mean **500 mL** and standard deviation **4 mL**, and a label of 492 mL. It starts there: z = **−2**, and the chance that a bottle holds 492 mL or less is **0.0228** (2.28 %), the shaded area.
+
+1. **Change σ to 2 mL**, a steadier filler. Now 492 mL is z = **−4**, and the probability shows as **0.0000**: fewer than 1 bottle in 10,000.
+2. **Set σ back to 4 and the mean to 505 mL.** z = **−3.25**, and the share below the label is **0.0006**. Overfilling also works, but it gives product away in every bottle.
+3. **Set the mean back to 500 and x to 488 mL.** z = **−3**, and P(X ≤ 488) is **0.0013**: the further into the tail, the smaller the area.
+
+[[try: st.m1.fill.try Mu=490..510 Sigma=1..8 X=480..500 | ZScore AtMost figure=1]]

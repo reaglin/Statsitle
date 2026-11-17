@@ -1,0 +1,15 @@
+{
+  "id": "st.m11.fourpoints.try",
+  "title": "Four points and their correlation",
+  "analysis": "SimpleRegression",
+  "intro": "Four points from the course's reading on regression: (1, 2), (2, 3), (3, 5), (4, 4). Read the correlation r and R², and watch the scatter plot.",
+  "tables": [
+    { "name": "Points", "columns": { "x": [1, 2, 3, 4], "y": [2, 3, 5, 4] } }
+  ],
+  "settings": {
+    "Name": "Four points",
+    "XColumn": "@Points/x",
+    "YColumn": "@Points/y",
+    "Confidence": 0.95
+  }
+}

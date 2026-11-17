@@ -40,6 +40,8 @@ The price: when the data really are normal, a rank test is slightly less powerfu
 
 R₁ = 1 + 2 + 3 + 6 = 12, so U₁ = 12 − 4 × 5/2 = 12 − 10 = **2** and U₂ = 20 − 2 = 18. Under H₀ the mean is 4 × 5/2 = 10 and the SD √(20 × 10/12) = 4.082. z = (|2 − 10| − 0.5)/4.082 = **1.837**, and p = 2 × P(Z > 1.837) = **0.066**. Not significant at 0.05: with only four and five values, even this clear separation is weak evidence. (For samples this small the exact p-value, 0.0635, is better; both libraries give it by default. Statistics+ reports the normal approximation.)
 
+[[see-example: 1]]
+
 ## The Wilcoxon signed-rank test
 
 For pairs:
@@ -96,3 +98,13 @@ Choose **Two-sample test**, set **Data from** to the two columns (the rank tests
 ## What to do next
 
 On the **Exercise** tab, compare the repair times of two crews with the Mann–Whitney U test. Find U₁ and the p-value, and press **Check my answers**.
+
+[[example: Set times: ranks shrug off an outlier]]
+
+This is the Learn page's Mann–Whitney case by hand: adhesive A set in 3.1, 4.6, 2.8 and 5.9 hours, adhesive B in 5.2, 7.4, 6.1, 4.9 and 8.3. It starts there: U₁ = **2**, z = **1.837** and p = **0.066**, not significant at 0.05.
+
+1. **Change B's 8.3 to 38.3**, a batch that took a day and a half to set. It was already the largest value, so its rank is still 9: U₁ stays **2** and p stays **0.066**.
+2. **Now change the test to Welch's t.** The one slow batch pulls B's mean up and inflates its standard deviation: t = **−1.27** and p = **0.272**, against t = −2.36 and p = 0.053 with the 8.3. Shapiro–Wilk for sample 2 gives p = **0.0009**: B is far from normal, so the t-test is the wrong tool.
+3. **Change the test back to Mann–Whitney, put the 8.3 back, and add three more batches of A: 3.5, 4.0 and 2.9.** A is still almost always faster: U₁ is still **2**, but out of 7 × 5 = 35 pairs now, and p = **0.015**. Reject H₀. More data turn a clear pattern into evidence.
+
+[[try: st.m9.settime.try TestKind @Adhesives/A @Adhesives/B | Statistic Z PValue Decision Note figure=1]]

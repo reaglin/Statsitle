@@ -1,0 +1,16 @@
+{
+  "id": "st.m11.slope.try",
+  "title": "Four points: the slope's test and the intervals",
+  "analysis": "SimpleRegression",
+  "intro": "The four points of items 11.1 to 11.4: (1, 2), (2, 3), (3, 5), (4, 4). The test on the slope, its 95 % confidence interval, and at x₀ = 2.5 the confidence interval on the mean response and the prediction interval for one new point.",
+  "tables": [
+    { "name": "Points", "columns": { "x": [1, 2, 3, 4], "y": [2, 3, 5, 4] } }
+  ],
+  "settings": {
+    "Name": "Four points",
+    "XColumn": "@Points/x",
+    "YColumn": "@Points/y",
+    "Confidence": 0.95,
+    "PredictAt": 2.5
+  }
+}

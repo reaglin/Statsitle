@@ -45,6 +45,8 @@ A lab calibrated 150 new pressure sensors, and 12 failed calibration. Find the 9
 
 "We are 95 % confident that between 3.7 % and 12.3 % of these sensors fail calibration." A range that wide comes from only 150 sensors; item 7.6 shows how many would make it narrower.
 
+[[see-example: 1]]
+
 ## The Example: porosity in welds
 
 An inspector X-rayed 400 welds from a production line, and 26 showed porosity.
@@ -94,3 +96,13 @@ R's `prop.test` gives Wilson's interval, and by default with a continuity correc
 ## What to do next
 
 On the **Exercise** tab, 48 of 320 solder joints failed a thermal-cycling test. Find the 90 % confidence interval for the failure proportion.
+
+[[example: Pressure sensors: more data, fewer failures, more confidence]]
+
+This is the Learn page's worked case: 12 of 150 sensors failed calibration. It starts there: p̂ = **0.080**, the margin of error is **0.0434**, and the 95 % interval runs from **0.0366 to 0.1234**. Wilson's interval is **0.0464 to 0.1346**.
+
+1. **Change n to 600 and x to 48**: the same p̂ = 0.080 from four times the sensors. The margin halves to **0.0217**, and the interval is **0.0583 to 0.1017**.
+2. **Back to n = 150, and change x to 3.** p̂ = **0.020**, and n·p̂ = 3 is under 10. The hand formula's lower end, 0.020 − 0.0224, would be below zero; the Workbench shows it as **0.0000**. Wilson's interval, **0.0068 to 0.0571**, stays inside 0 to 1 and is the one to use here.
+3. **Back to x = 12, and change the confidence to 99 %.** The margin grows to **0.0571**: **0.0229 to 0.1371**. More confidence, a wider interval.
+
+[[try: st.m7.sensors.try Successes=1..150 SampleSize=20..1000 Confidence=0.80..0.99 | Estimate MarginOfError Lower Upper WilsonLower WilsonUpper figure=1]]

@@ -1,0 +1,18 @@
+{
+  "id": "st.m1.bores.try",
+  "title": "Is the boring machine centered?",
+  "analysis": "OneSampleTest",
+  "intro": "Bearing housings bored to 25.000 mm: sixteen measured, mean 25.004 mm, standard deviation 0.008 mm.",
+  "settings": {
+    "Name": "Bore diameter",
+    "TestKind": "MeanSigmaUnknown",
+    "Source": "Summary",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "NullValue": 25.000,
+    "SampleMean": 25.004,
+    "SampleSd": 0.008,
+    "SampleSize": 16,
+    "AlternativeValue": null
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "st.m4.board-defects.try",
+  "title": "Defects per circuit board: reading the words",
+  "analysis": "DiscreteDistribution",
+  "intro": "X is the number of defects on a circuit board, from 0 to 5, with the probabilities in the table. Move k and k₂ to see which bars each question adds.",
+  "settings": {
+    "Name": "Defects per board",
+    "Family": "Table",
+    "Table": "0\t0.40\n1\t0.30\n2\t0.15\n3\t0.08\n4\t0.05\n5\t0.02",
+    "K": 1,
+    "K2": 3
+  }
+}

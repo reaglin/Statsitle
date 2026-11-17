@@ -1,0 +1,13 @@
+{
+  "id": "st.m1.chips.try",
+  "title": "Defective chips in a sample of 20",
+  "analysis": "DiscreteDistribution",
+  "intro": "A process makes 5 % defective chips, and 20 chips are tested. X, the number defective, is binomial.",
+  "settings": {
+    "Name": "Defective chips",
+    "Family": "Binomial",
+    "Trials": 20,
+    "SuccessProbability": 0.05,
+    "K": 0
+  }
+}

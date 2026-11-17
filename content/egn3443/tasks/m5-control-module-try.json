@@ -1,0 +1,14 @@
+{
+  "id": "st.m5.control-module.try",
+  "title": "The life of an electronic control module",
+  "analysis": "ContinuousDistribution",
+  "intro": "An electronic control module fails at random at a rate of 0.0002 per hour, a mean life of 5000 hours. Its life X is exponential; the shaded area is the chance it fails by age x.",
+  "settings": {
+    "Name": "Control module life",
+    "Family": "Exponential",
+    "Rate": 0.0002,
+    "X": 2000,
+    "X2": null,
+    "Probability": 0.5
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "id": "st.m13.refinement.try",
+  "title": "Concrete strength gain: choosing the form",
+  "analysis": "SimpleRegression",
+  "intro": "Compressive strength (MPa) of one concrete mix at ages from 1 to 90 days, starting with a straight line in age. Transform x and watch the residuals, R² and σ̂.",
+  "tables": [
+    {
+      "name": "Concrete",
+      "columns": {
+        "Age": [
+          1,
+          2,
+          3,
+          5,
+          7,
+          10,
+          14,
+          21,
+          28,
+          42,
+          56,
+          90
+        ],
+        "Strength": [
+          7.3,
+          12.3,
+          15.0,
+          20.6,
+          21.9,
+          27.5,
+          25.6,
+          30.2,
+          34.7,
+          36.0,
+          38.3,
+          43.0
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Concrete strength, straight line",
+    "XColumn": "@Concrete/Age",
+    "YColumn": "@Concrete/Strength",
+    "XTransformation": "None",
+    "YTransformation": "None",
+    "Confidence": 0.95,
+    "PredictAt": 60
+  }
+}

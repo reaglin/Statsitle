@@ -1,0 +1,75 @@
+{
+  "id": "st.m12.coefficients.try",
+  "title": "Roughness of turned shafts, in other units",
+  "analysis": "MultipleRegression",
+  "intro": "The fifteen turned shafts of the Learn page: feed (mm/rev), cutting speed (m/min) and roughness Ra (µm). The Feed line is shown as numbers. Change a predictor's units and watch its coefficient.",
+  "tables": [
+    {
+      "name": "Turning",
+      "columns": {
+        "Feed": [
+          0.1,
+          0.1,
+          0.1,
+          0.15,
+          0.15,
+          0.15,
+          0.2,
+          0.2,
+          0.2,
+          0.25,
+          0.25,
+          0.25,
+          0.3,
+          0.3,
+          0.3
+        ],
+        "Cutting speed": [
+          100,
+          175,
+          250,
+          100,
+          175,
+          250,
+          100,
+          175,
+          250,
+          100,
+          175,
+          250,
+          100,
+          175,
+          250
+        ],
+        "Roughness": [
+          0.97,
+          0.6,
+          0.12,
+          1.29,
+          0.88,
+          0.57,
+          1.79,
+          1.38,
+          0.94,
+          2.02,
+          1.84,
+          1.47,
+          2.43,
+          2.13,
+          1.86
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Surface roughness",
+    "Table": "@Turning/",
+    "Response": "Roughness",
+    "Predictors": "Feed, Cutting speed",
+    "Selection": "AllEntered",
+    "Confidence": 0.95,
+    "CoefficientOf": "Feed",
+    "Folds": 0,
+    "HoldOutShare": 0
+  }
+}

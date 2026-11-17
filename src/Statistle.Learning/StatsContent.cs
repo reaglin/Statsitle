@@ -10,8 +10,12 @@ namespace Statistle.Learning;
 /// </summary>
 public sealed class StatsContent
 {
-    /// <summary>Widgets a Learn page may use. Each takes a task id; <c>figure</c> also takes the figure's number (1 = first).</summary>
-    public static readonly IReadOnlyList<string> WidgetNames = ["figure", "data", "code", "results"];
+    /// <summary>
+    /// Widgets a page may use. Each takes a task id; <c>figure</c> also takes the figure's number (1 = first); <c>try</c> is an
+    /// example to change (<see cref="TrySpec"/>). <c>example</c> starts an example on the Example tab and <c>see-example</c> is the
+    /// Learn page's button to one (<see cref="ExamplePages"/>; Learning Core plan 3.22).
+    /// </summary>
+    public static readonly IReadOnlyList<string> WidgetNames = ["figure", "data", "code", "results", "try", "example", "see-example"];
 
     public required ContentPackage Package { get; init; }
     public required IReadOnlyDictionary<string, StatsTask> Tasks { get; init; }
@@ -87,6 +91,8 @@ public sealed class StatsContent
             catch (ContentException ex) { problems.Add(ex.Message); }
         }
 
+        problems.AddRange(CheckExamples());
+
         foreach (var item in Package.AllItems)
         {
             if (item.Exercise is { } ex && Find(ex) is { IsExercise: false })
@@ -156,10 +162,44 @@ public sealed class StatsContent
 
     private static string Short(string text) => text.Length <= 40 ? text : text[..37] + "…";
 
+    /// <summary>
+    /// The Example tab's written examples (Learning Core plan 3.22): each has a title and a figure (an example to try, a figure, the
+    /// data or the results: Ron, 2026-11-17, "always contains some type of figure"); no see-example button inside one; and every
+    /// <c>[[see-example: N]]</c> on a Learn page names one of the item's examples (the written ones first, then the item's own
+    /// <c>example:</c> task).
+    /// </summary>
+    public IEnumerable<string> CheckExamples()
+    {
+        foreach (var item in Package.AllItems)
+        {
+            var (learn, pages) = ExamplePages.Split(item.Learn);
+            for (var i = 0; i < pages.Count; i++)
+            {
+                var widgets = Widgets.In(pages[i].Markdown).ToList();
+                if (pages[i].Title.Length == 0) yield return $"{item.File}: example {i + 1} has no title. Write it as [[example: A title]].";
+                if (!widgets.Any(w => ExamplePages.FigureWidgets.Contains(w.Name, StringComparer.OrdinalIgnoreCase)))
+                    yield return $"{item.File}: example {i + 1} ({pages[i].Title}) has no figure: give it an example to try ([[try: …]]), a [[figure: …]], the [[data: …]] or the [[results: …]].";
+                if (widgets.Any(w => w.Name.Equals("see-example", StringComparison.OrdinalIgnoreCase)))
+                    yield return $"{item.File}: example {i + 1} ({pages[i].Title}) has a see-example button; those go on the Learn page.";
+            }
+            if (Widgets.In(learn).Any(w => w.Name.Equals("try", StringComparison.OrdinalIgnoreCase)))
+                yield return $"{item.File}: a [[try: …]] is on the Learn page. Examples to try go on the Example tab: put it in an [[example: Title]] section at the end of the file, and a [[see-example: N]] button where it belongs in the lesson.";
+            var count = pages.Count + (Find(item.Example) is null ? 0 : 1);
+            foreach (var w in Widgets.In(learn).Where(w => w.Name.Equals("see-example", StringComparison.OrdinalIgnoreCase)))
+                if (!int.TryParse(w.Argument.Trim(), out var n) || n < 1 || n > count)
+                    yield return $"{item.File}: [[see-example: {w.Argument.Trim()}]] names no example: the item has {count} (number them from 1).";
+        }
+    }
+
     private string? CheckWidget(WidgetTag tag)
     {
         if (!WidgetNames.Contains(tag.Name, StringComparer.OrdinalIgnoreCase))
             return $"[[{tag.Name}: …]] is not a widget. Use one of: {string.Join(", ", WidgetNames)}.";
+        if (tag.Name.Equals("example", StringComparison.OrdinalIgnoreCase) || tag.Name.Equals("see-example", StringComparison.OrdinalIgnoreCase))
+            return null; // checked with their item (CheckExamples)
+        if (tag.Name.Equals("try", StringComparison.OrdinalIgnoreCase))
+            return TrySpec.Parse(tag.Argument, out var parseProblem) is not { } spec ? parseProblem
+                : spec.Problems(this).FirstOrDefault() is { } problem ? problem : null;
         var (id, number) = WidgetArgument(tag.Argument);
         if (Find(id) is not { } task) return $"[[{tag.Name}: {tag.Argument}]] names the task {id}, which is not in tasks/.";
         if (!tag.Name.Equals("figure", StringComparison.OrdinalIgnoreCase)) return null;

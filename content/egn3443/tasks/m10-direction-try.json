@@ -1,0 +1,20 @@
+{
+  "id": "st.m10.direction.try",
+  "title": "Cycle time, old process against new",
+  "analysis": "TwoSampleTest",
+  "intro": "Fifteen cycles timed on the old process (group 1) and fifteen on the new one (group 2), in seconds. Old: mean 52.0, standard deviation 4.0. New: mean 49.5, standard deviation 4.5. Welch's t-test at α = 0.05.",
+  "settings": {
+    "Name": "Cycle time",
+    "TestKind": "WelchT",
+    "Source": "Summary",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Delta0": 0,
+    "SampleMean": 52.0,
+    "SampleSd": 4.0,
+    "SampleSize": 15,
+    "Sample2Mean": 49.5,
+    "Sample2Sd": 4.5,
+    "Sample2Size": 15
+  }
+}

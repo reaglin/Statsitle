@@ -55,6 +55,8 @@ A clear falling relation, roughly straight, with no wild points.
 
 Most residuals are within ±4 mpg, and the Q–Q plot is close to its line (Shapiro–Wilk p = 0.104). There is a slight bend, though. The lightest and the heaviest cars mostly have positive residuals, and the cars in the middle mostly negative ones. A gentle curve would fit a little better (item 13.6 shows how to try one, with **Transform x**). The straight line is still a fair summary over this range.
 
+[[see-example: 1]]
+
 **7. Communicate.** For a manager or a car buyer, without the jargon:
 
 > Heavier cars use more fuel. Among 32 cars tested by *Motor Trend* in 1973–74, each extra 1,000 lb of weight cost about 5.3 miles per gallon (likely between 4.2 and 6.5). Weight alone accounts for about three quarters of the differences in fuel economy between the cars. A typical 3,000 lb car got about 21 mpg, but a single car of that weight could get anywhere from about 15 to 28 mpg. These are 1970s cars from 1,500 to 5,400 lb. The figures should not be applied to modern cars, or to weights outside that range. Heavier cars also had bigger engines, so part of this effect may be engine size rather than weight itself.
@@ -104,3 +106,14 @@ plot(fit, which = 1:2)                 # the residual checks
 ## What to do next
 
 On the **Exercise** tab, a forester's question: regress the timber volume of 31 black cherry trees on their diameter, and predict the volume of one 15-inch tree. Look at the residual plot too: it is not a shapeless band. Then write the two or three sentences you would send the forester, including what the residual plot means for the prediction (they are not graded, but item 11.7 asks about such a summary).
+
+[[example: The 32 cars: one bad entry, a curve, a prediction too far]]
+
+This is the Learn page's Example, fuel economy against weight for the 32 *Motor Trend* cars. It starts there: ŷ = 37.29 − 5.344 × weight, R² = **0.753**, σ̂ = **3.05 mpg**, and a 3,000 lb car is predicted at **21.3 mpg** (one such car: **14.9** to **27.6 mpg**).
+
+1. **Slip a decimal point:** in the MPG column, change the 28th value (the lightest car, 1,513 lb) from 30.4 to 3.04. One wrong entry flattens the line to a slope of **−3.77**, R² falls to **0.328**, σ̂ grows to **5.37**, and Shapiro–Wilk's p drops below **0.0001**. The most influential observation is now that car (Cook's distance **1.51**). A step-3 plot would have caught it. Put the 30.4 back.
+2. **Change the x transformation to Log.** The gentle bend the Learn page saw is taken in: ŷ = 39.26 − 17.09 × ln(weight), R² = **0.810** and σ̂ = **2.67 mpg**. Shapiro–Wilk's p is **0.031**, though, so look at the residual plots before you choose this model.
+3. **Put x back to None and change the y transformation to Log.** ln(mpg) = 3.832 − 0.2718 × weight: each 1,000 lb costs about the same share of the fuel economy, rather than the same number of mpg. R² = **0.798**, Shapiro–Wilk's p = **0.308**, and the 3,000 lb car is predicted at **20.4 mpg**.
+4. **Put y back to None and move x₀ (Predict at) to 6.5,** a 6,500 lb car. The line predicts **2.5 mpg**, and its prediction interval runs below zero (**−4.8** to **9.9 mpg**). That is extrapolation: no car in the data weighs more than 5,424 lb.
+
+[[try: st.m11.cars.try "@Cars/MPG" XTransformation YTransformation PredictAt=1..7 | Equation RSquared ResidualSe ShapiroP Influential FittedAt figure=1]]

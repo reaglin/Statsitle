@@ -1,0 +1,16 @@
+{
+  "id": "st.m3.hearts.try",
+  "title": "One chance in four: drawing a heart",
+  "analysis": "Simulation",
+  "intro": "A card is drawn from a well-shuffled deck, many times. A heart is one suit of four, so the theoretical probability is 1/4 = 0.25, like the spinner with one red section of four.",
+  "settings": {
+    "Name": "Hearts",
+    "Experiment": "Cards",
+    "Cards": 1,
+    "CardOutcome": "Hearts",
+    "EventIs": "EqualTo",
+    "CardTarget": 1,
+    "Trials": 200,
+    "Seed": 18
+  }
+}

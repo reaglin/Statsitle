@@ -57,6 +57,8 @@ A buffer solution should have pH 7.00. Five readings: 7.08, 7.12, 6.98, 7.10, 7.
 
 Had the analyst used z for the same 2.91, the two-sided p-value would be 0.0037, more than ten times smaller. With only 4 degrees of freedom the difference between z and t is large.
 
+[[see-example: 1]]
+
 ## The Example: coating thickness
 
 A paint line should lay down 50 µm. Twelve panels: x̄ = 52.1 µm, s = 3.0 µm.
@@ -106,7 +108,7 @@ t.test(x, mu = 7.00)                       # t = 2.9066, df = 4, p-value = 0.043
 
 ## Try it in the Workbench
 
-Press **Open in the Workbench** on the Example tab. Change **Test** to *Mean, σ known (z-test)* and set **Population σ** to 3: the curve becomes the standard normal, the critical values move in to ±1.96, and p falls to 0.0153. Set it back to the t-test: with s from the sample, t is the right choice.
+The Example tab does this with the five pH readings. For the coating panels, press **Open in the Workbench** on the Example tab. Change **Test** to *Mean, σ known (z-test)* and set **Population σ** to 3: the curve becomes the standard normal, the critical values move in to ±1.96, and p falls to 0.0153. Set it back to the t-test: with s from the sample, t is the right choice.
 
 ## Common mistakes
 
@@ -118,3 +120,13 @@ Press **Open in the Workbench** on the Example tab. Change **Test** to *Mean, σ
 ## What to do next
 
 On the **Exercise** tab, twelve aluminum specimens are tested against a claimed mean strength of 310 MPa. The values are in a table. Find t, its degrees of freedom and the two-sided p-value.
+
+[[example: Buffer pH: t or z from five readings]]
+
+This is the Learn page's worked case: five pH readings, 7.08, 7.12, 6.98, 7.10 and 7.07, tested against H₀: μ = 7.00 with σ unknown. It starts there: t = **2.91** with **4** degrees of freedom, the rejection region is beyond ±**2.776**, and p = **0.0438**: reject H₀.
+
+1. **Change the test to *Mean, σ known (z-test)*** (σ is set to 0.0539, the s of these readings). z = **2.90** is almost the same number, but it is read from the normal curve: the critical values move in to ±**1.96** and p = **0.0037**, more than ten times smaller. Treating s as a known σ overstates the evidence.
+2. **Back to the t-test, and change the 6.98 to 6.88.** One low reading widens s: t falls to **1.15** and p rises to **0.3131**, so H₀ is not rejected.
+3. **Back to the start** puts the five readings back.
+
+[[try: st.m8.ph.try TestKind "@Buffer/pH" | Statistic DegreesOfFreedom RejectionRegion PValue Decision figure=1]]

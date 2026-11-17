@@ -1,0 +1,10 @@
+{
+  "id": "st.m7.coating.try",
+  "title": "Coating thickness: point estimates",
+  "analysis": "DescriptiveStatistics",
+  "intro": "Ten painted steel panels, coating thickness in µm. x̄ estimates μ, s² estimates σ², and s/√n is the standard error of x̄.",
+  "settings": {
+    "Name": "Coating thickness",
+    "Sample": [52.1, 49.8, 50.6, 51.3, 48.9, 50.2, 52.7, 49.5, 50.9, 51.0]
+  }
+}

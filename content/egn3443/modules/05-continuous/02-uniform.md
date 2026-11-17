@@ -53,6 +53,8 @@ A distance sensor rounds its reading to the nearest millimeter, so the rounding 
 
 That 0.289 is why a reading rounded to the nearest unit is said to carry a "standard uncertainty" of 0.29 units.
 
+[[see-example: 1]]
+
 ## The Example: waiting at a red light
 
 A traffic signal's red phase lasts 60 s. A car that arrives during the red, at a random moment, waits X seconds: uniform between 0 and 60. The shaded area is the probability of waiting between 15 and 45 s:
@@ -98,3 +100,14 @@ punif(45, a, b) - punif(15, a, b)       # R takes the limits: 0.5
 ## What to do next
 
 On the **Exercise** tab, a batch reactor's cycle time is uniform. Find two probabilities, the mean and the standard deviation, and press **Check my answers**.
+
+[[example: The rounding error of a distance sensor]]
+
+This is the Learn page's worked case: a rounding error uniform between **−0.5 and +0.5 mm**, a rectangle of height **1 per mm**. It starts with an error within ±0.2 mm: P = width × height = **0.4**. The mean is **0 mm** and σ = **0.289 mm**.
+
+1. **Move x to −0.5 and the upper value to 0.5.** The whole rectangle is shaded: the area is **1**.
+2. **Move x to 0.3** (upper value still 0.5). An error above 0.3 mm: **0.2**, the same as P(X > 0.3).
+3. **Round to the nearest half millimeter instead:** limits −0.25 and +0.25, with x back to −0.2 and the upper value to 0.2. The rectangle is twice as tall (**2 per mm**), so ±0.2 mm now holds **0.8** of the errors, and σ halves to **0.144 mm**.
+4. **Back to the start** puts the 1 mm rounding back.
+
+[[try: st.m5.rounding-error.try Lower=-2..0 Upper=0..2 X=-2..2 X2=-2..2 | Density Between MoreThan Mean StandardDeviation figure=1]]

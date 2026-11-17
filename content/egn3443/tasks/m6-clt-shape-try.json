@@ -1,0 +1,17 @@
+{
+  "id": "st.m6.clt-shape.try",
+  "title": "Means of a skewed population",
+  "analysis": "Simulation",
+  "intro": "Times between calls to a help desk are exponential with rate λ = 0.25 per minute: mean 4 minutes, standard deviation 4 minutes, strongly skewed. The computer takes 5000 samples of n times (seed 1) and draws the histogram of their means with the normal curve the Central Limit Theorem predicts.",
+  "settings": {
+    "Name": "Help-desk gaps",
+    "Experiment": "SampleMeans",
+    "Distribution": "Exponential",
+    "Rate": 0.25,
+    "Lower": 0,
+    "Upper": 8,
+    "SampleSize": 2,
+    "Trials": 5000,
+    "Seed": 1
+  }
+}

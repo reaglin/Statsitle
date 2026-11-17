@@ -59,6 +59,8 @@ The lifetimes of a type of LED driver are skewed to the right, with mean μ = 50
 
 Only about 5 % of test runs of 64 drivers would average under 46 000 hours. For one driver, z would be (46 000 − 50 000)/20 000 = −0.20, and a single driver lasts under 46 000 hours far more often than that. (That single-driver probability cannot be read from Φ, though: the lifetimes are skewed, not normal. Only the mean of many is normal.)
 
+[[see-example: 1]]
+
 ## The Example: the CLT from a skewed population
 
 Times between calls to a help desk are **exponential** with mean 4 minutes and standard deviation 4 minutes. That population is strongly skewed: most gaps are short, and a few are long. The computer drew 5000 samples at each of three sample sizes and plotted the means, with the normal curve the CLT predicts.
@@ -121,7 +123,9 @@ mean(means); sd(means); 4 / sqrt(30)
 
 ## Try it in the Workbench
 
-Press **Open in the Workbench** on the Example tab. Set **Sample size (n)** to 2, then 5, 10 and 30, and watch the histogram change shape. Then set **Population** to *Uniform (a, b)*: a flat population needs a much smaller n before its means look normal.
+On the Example tab, the help-desk simulation has the sample size on a slider. Set it to 2, then 5, 10 and 30, and watch the histogram change shape. Then change the population to *Uniform (a, b)*: a flat population needs a much smaller n before its means look normal. **Open in the Workbench** on the Example tab does the same with every setting.
+
+[[see-example: 2]]
 
 ## Common mistakes
 
@@ -132,3 +136,23 @@ Press **Open in the Workbench** on the Example tab. Set **Sample size (n)** to 2
 ## What to do next
 
 On the **Exercise** tab, repair times at a service desk are skewed, and a supervisor averages 36 of them each day. Find the mean and standard error of x̄ and the probability that a day's mean is 10 minutes or less.
+
+[[example: LED drivers: the mean of 64]]
+
+This is the Learn page's worked case: lifetimes with μ = 50 000 h and σ = 20 000 h, a test of n = 64 drivers, and a mean below 46 000 h. It starts there: the standard error is **2500 h**, z = **−1.60** and P(x̄ ≤ 46 000) = **0.0548**.
+
+1. **Change n to 16.** The standard error doubles to **5000 h**, z is only **−0.80**, and the probability rises to **0.2119**. The Workbench also warns that n = 16 is under 30: with skewed lifetimes this number is rough.
+2. **Change n to 256**, four times 64. The standard error halves to **1250 h**, z = **−3.20**, and the probability is only **0.0007**. A mean of 256 drivers almost never falls that far below μ.
+3. **Change n to 1.** The standard error is σ itself, **20 000 h**, and z = **−0.20**. The 0.4207 it shows is not to be trusted: one driver's lifetime is skewed, not normal, and the Condition line says so.
+
+[[try: st.m6.led.try SampleSize=1..300 Value=40000..50000 | StandardError Z AtMost Condition figure=1]]
+
+[[example: Watch the means of a skewed population turn normal]]
+
+This is the Learn page's simulation: help-desk gaps, exponential with mean 4 minutes and σ = 4 minutes, 5000 samples (seed 1). It starts at **n = 2**: the means are skewed to the right, like the population. Their standard deviation is **2.7891 min**, against σ/√n = **2.8284 min**.
+
+1. **Change n to 5.** Less skewed, but the right tail is still long. The spread is **1.7803 min** (σ/√n = **1.7889**).
+2. **Change n to 30.** The histogram follows the normal curve closely; the spread is **0.7336 min** (σ/√n = **0.7303**). The centre stays near 4 minutes at every n: **3.97** at n = 2, **3.99** at n = 30.
+3. **Change the population to *Uniform (a, b)*** (from 0 to 8 minutes, also with mean 4) **and n back to 2.** The means of a flat population already pile up in the middle: a triangle, with no long tail. At **n = 5** they look normal.
+
+[[try: st.m6.clt-shape.try SampleSize=2..50 Distribution | MeanOfMeans SdOfMeans TheoreticalStandardError figure=1]]

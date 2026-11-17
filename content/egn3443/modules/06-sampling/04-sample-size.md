@@ -94,7 +94,9 @@ ceiling((sigma / 50)^2)                   # n for SE ≤ 50 psi: 49
 
 ## Try it in the Workbench
 
-Press **Open in the Workbench** on the Example tab and change **Sample size (n)** from 16 to 64. The standard error halves again, to 43.75 psi.
+On the Example tab, the concrete cylinders have the sample size on a slider. Change it from 16 to 64: the standard error halves again, to 43.75 psi. **Open in the Workbench** on the Example tab does the same with every setting.
+
+[[see-example: 1]]
 
 ## Common mistakes
 
@@ -106,3 +108,13 @@ Press **Open in the Workbench** on the Example tab and change **Sample size (n)*
 ## What to do next
 
 On the **Exercise** tab, a lab quadruples the number of wire specimens it tests. Find the new standard error and the range the middle 95 % of sample means fall in.
+
+[[example: Concrete cylinders: four times n, half the standard error]]
+
+This is the Learn page's Example: concrete with μ = 4200 psi and σ = 350 psi, and the mean of n = 16 cylinders. It starts there: the standard error is **87.5 psi**, and the middle 95 % of sample means runs from **4028.5 to 4371.5 psi**.
+
+1. **Change n to 64**, four times 16. The standard error halves to **43.75 psi**, and the middle 95 % narrows to **4114.3 to 4285.7 psi**. The dark curve gets narrower and taller.
+2. **Change n to 4**, a quarter of 16. The standard error doubles to **175 psi**: **3857.0 to 4543.0 psi**.
+3. **Change n to 1.** The sampling distribution is the population itself: the standard error is σ = **350 psi**, and the two curves lie on top of each other.
+
+[[try: st.m6.cylinders.try SampleSize=1..100 | StandardError Lower95 Upper95 figure=1]]

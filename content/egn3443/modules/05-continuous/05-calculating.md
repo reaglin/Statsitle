@@ -65,6 +65,8 @@ A number is not an answer until it is tied to the decision. A good statement:
 
 For the panel gaps: "P(1.8 ≤ X ≤ 2.2) = 0.58. About 42 of every 100 car bodies have a gap outside 1.8 to 2.2 mm. The process cannot meet this specification as it runs: σ must be reduced, or the specification widened."
 
+[[see-example: 1]]
+
 Some phrases to translate carefully:
 
 | Words | Means |
@@ -102,3 +104,14 @@ pnorm(2.2, 2.0, 0.25) - pnorm(1.8, 2.0, 0.25) # 0.5763
 ## What to do next
 
 The **Exercise** tab has eight questions: probabilities from each of the three families, reading the right function, and saying what a result means.
+
+[[example: Panel gaps: what would meet the specification?]]
+
+This is the Learn page's example: panel gaps normal with μ = **2.0 mm** and σ = **0.25 mm**, against a specification of 1.8 to 2.2 mm. It starts there: only **0.5763** of gaps meet it, and the density at 1.8 mm is **1.16**, a height, not a probability.
+
+1. **Move σ to 0.1 mm**, the cure the Learn page names. The limits are now 2σ from the mean, and **0.9545** of gaps meet the specification.
+2. **Move μ to 2.1 mm** with σ = 0.1. The share in specification falls to **0.84**: a process that is off-centre loses parts on one side.
+3. **Set μ back to 2.0 and σ to 0.5 mm.** Only **0.3108** meet it. The same five steps, the same CDF, every time.
+4. **Back to the start** puts the line as it runs back.
+
+[[try: st.m5.panel-gap.try Mu=1.5..2.5 Sigma=0.05..0.6 X=1..3 X2=1..3 | Density AtMost Between figure=1]]

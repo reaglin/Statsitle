@@ -47,6 +47,8 @@ Energy = 155.8 + 12.09·Outdoor temp + 1.907·Occupancy − 2.13·Sunshine
 
 For a day at 28 °C with 90 people and 6 hours of sunshine the model predicts 155.79 + 12.089 × 28 + 1.9072 × 90 − 2.128 × 6 = **653.2 kWh**. The residual standard error σ̂ = 26.7 kWh is the typical size of a day's miss.
 
+[[see-example: 1]]
+
 ## Selecting predictor variables
 
 Choose predictors from knowledge of the process first, and from the data second.
@@ -93,3 +95,14 @@ And one about the predictors: none is an exact linear combination of the others.
 ## What to do next
 
 On the **Exercise** tab, answer six practice questions on specifying a model. A wrong answer shows the explanation, so you can learn from it.
+
+[[example: Office electricity: counting coefficients, and a predictor that repeats another]]
+
+This is the Learn page's Example: 15 days, three predictors, four coefficients. It starts there: **11** error degrees of freedom, σ̂ = **26.7 kWh**, and a largest VIF of **1.04**, so the three predictors hardly overlap.
+
+1. **Set Variable selection to Backward elimination.** Sunshine is dropped (p = **0.51**). With two predictors the error degrees of freedom become 15 − 2 − 1 = **12**, and σ̂ falls a little, to **26.1 kWh**.
+2. **Set it back to All the predictors listed, and copy the Outdoor temp values into Sunshine.** Two predictors are now the same column, like °C and °F, and least squares cannot separate them: the program reports the predictors as collinear and fits nothing.
+3. **Now change the last Sunshine value from 30.5 to 31.5.** The fit works again, but the two nearly identical predictors have a VIF of **334**, and the temperature coefficient turns to **−3.5 kWh per °C**: warmer days using less electricity, the wrong sign. That is multicollinearity.
+4. **Back to the start** puts the real sunshine hours back.
+
+[[try: st.m12.specification.try Selection "@Building/Outdoor temp" @Building/Occupancy @Building/Sunshine | Equation DfError ResidualSe MaxVif SelectionNote figure=1]]

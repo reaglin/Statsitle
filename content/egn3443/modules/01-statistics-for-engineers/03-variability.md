@@ -50,6 +50,8 @@ The **histogram** draws the frequency table: one bar per class, its height the c
 
 The bars rise to a peak at 44 to 46 s and fall away more slowly on the right than on the left. A few slow cycles make a short tail to the right.
 
+[[see-example: 1]]
+
 ## The box plot
 
 The **box plot** draws five numbers. The box runs from Q1 to Q3, so it holds the middle half of the data; the line inside is the median. The whiskers reach the smallest and largest values inside the **fences**, Q1 − 1.5 × IQR and Q3 + 1.5 × IQR. A value beyond a fence is drawn as a separate point: an **outlier**, to be looked at.
@@ -125,4 +127,14 @@ In R, `right = FALSE` makes each class include its lower limit, as the program d
 
 ## What to do next
 
-Open the **Example** tab and press **Open in the Workbench**. Set **Histogram classes** to 12, then to 3, and watch the histogram change. Then answer the questions on the **Exercise** tab: you will build a small frequency table by hand.
+On the **Example** tab, Example 1 lets you set the number of classes to 12, then to 3, and watch the histogram change. Then answer the questions on the **Exercise** tab: you will build a small frequency table by hand.
+
+[[example: How many classes? The cycle times]]
+
+These are the twenty cycle times of the Learn page's frequency table. It starts there: **6 classes** 2 s wide, with the peak at 44 to 46 s. The mean is **45.39 s**, the median **44.95 s** and the skewness **0.49**.
+
+1. **Set Classes to 12.** The bars are 1 s wide and hold only one to three cycles each. The ups and downs are noise, and the shape is harder to see.
+2. **Set Classes to 3.** Three wide bars, 4 s each: one lump, and the slight tail on the right is harder to see. The numbers do not change, only the picture: the classes are a choice of how to draw the data.
+3. **Set Classes back to 6 and add a 21st cycle of 58.0 s**, a jam. The histogram stretches out to 58 s and the tail on the right grows longer: the skewness rises to **1.38** and the mean to **45.99 s**, while the median moves only to **45.10 s**.
+
+[[try: st.m1.cycle-times.try Sample Classes=3..12 | ClassesUsed Mean Median StandardDeviation Skewness figure=1]]

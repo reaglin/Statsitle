@@ -45,6 +45,8 @@ A state has 2400 bridges on its inspection list. Records of every bridge give a 
 3. **8 of 30** is a sample proportion: p̂ = 8/30 = 0.267. The proportion of all 2400 bridges needing repair, p, is a parameter, and it is unknown.
 4. **Sampling error of the mean:** x̄ − μ = 43.5 − 41.0 = **2.5 years**. Another 30 bridges would give another x̄ and another error.
 
+[[see-example: 1]]
+
 ## The Example: one sample of ten resistors
 
 The resistor line of item 6.1 has μ = 100 Ω and σ = 2 Ω. These are parameters; here they are known because the line has a long record. An inspector measured one sample of 10:
@@ -92,3 +94,13 @@ sd(x) / sqrt(length(x))               # s/√n
 ## What to do next
 
 The **Exercise** tab has five questions: tell parameters from statistics, and work out a sampling error.
+
+[[example: The parameter stays, the statistic moves]]
+
+Here the parameters are known, as they are for the resistor line: μ = 100 Ω and σ = 2 Ω. The computer draws **one** random sample of 10 resistors and works out its mean x̄, the statistic. The **seed** picks which 10 resistors come out. It starts with seed 1: x̄ = **99.53 Ω**, a sampling error of 99.53 − 100 = **−0.47 Ω**.
+
+1. **Change the seed to 2**: another sample of ten. x̄ = **100.16 Ω**, an error of **+0.16 Ω**. μ is still **100 Ω**: the parameter does not move.
+2. **Change the seed to 3.** x̄ = **99.80 Ω**, an error of **−0.20 Ω**. Each sample misses μ by a different amount, sometimes high, sometimes low.
+3. **Seed 1 again, and change the number of samples to 2000.** Now the histogram holds 2000 sample means: they centre on **100.02 Ω**, and their spread, **0.63 Ω**, is the typical size of the sampling error (σ/√n = **0.6325 Ω**).
+
+[[try: st.m6.one-sample.try Seed=1..20 Trials=1..2000 | MeanOfMeans SdOfMeans TheoreticalMean TheoreticalStandardError figure=1]]

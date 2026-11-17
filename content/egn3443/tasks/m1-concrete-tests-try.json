@@ -1,0 +1,10 @@
+{
+  "id": "st.m1.concrete-tests.try",
+  "title": "Ten cylinder tests and one low result",
+  "analysis": "DescriptiveStatistics",
+  "intro": "A concrete supplier's last ten cylinder tests, in megapascals (MPa). The design strength is 30 MPa, and the last test came in at 28 MPa.",
+  "settings": {
+    "Name": "Cylinder strength",
+    "Sample": [33.4, 29.1, 32.0, 30.6, 34.2, 31.6, 29.4, 33.5, 31.2, 28.0]
+  }
+}

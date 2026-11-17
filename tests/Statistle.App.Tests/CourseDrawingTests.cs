@@ -48,6 +48,16 @@ public sealed class CourseDrawingTests
                             window.UpdateLayout();
                             WpfHost.Pump();
                         }
+                        // Every example to try draws (Learning Core plan 3.22): no widget left as a grey "cannot draw" note.
+                        tabs.SelectedIndex = 1;
+                        for (var k = 0; k < page.ExampleTitles.Count; k++)
+                        {
+                            page.ShowExamplePart(k);
+                            window.UpdateLayout();
+                            WpfHost.Pump();
+                            if (page.ExamplePageShowing is { } shown)
+                                Assert.DoesNotContain(new System.Windows.Documents.TextRange(shown.Document.ContentStart, shown.Document.ContentEnd).Text, "cannot draw", StringComparison.Ordinal);
+                        }
                         opened++;
                     }
                 }
@@ -259,9 +269,16 @@ public sealed class CourseShots
                 {
                     page.Path.Select(item);
                     var slug = item.Id.Split('.').Last();
+                    for (var k = 0; k < page.ExampleTitles.Count - 1; k++)
+                    {
+                        page.ItemTabs.SelectedIndex = 1;
+                        page.ShowExamplePart(k);
+                        Shot($"item-{item.Number}-{slug}-2-example-{k + 1}");
+                    }
                     for (var t = 0; t < page.ItemTabs.Items.Count; t++)
                     {
                         page.ItemTabs.SelectedIndex = t;
+                        if (t == 1) page.ShowExamplePart(page.ExampleTitles.Count - 1);
                         if (t == 2 && item.Exercise is not null)
                         {
                             page.ExerciseView.Type(page.ExerciseView.Built!.Expected[0].Asked.Result, "1");

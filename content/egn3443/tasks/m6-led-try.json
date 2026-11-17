@@ -1,0 +1,15 @@
+{
+  "id": "st.m6.led.try",
+  "title": "LED drivers: the mean lifetime of 64",
+  "analysis": "SamplingDistribution",
+  "intro": "LED driver lifetimes are skewed, with mean μ = 50 000 hours and standard deviation σ = 20 000 hours. A test lab runs n = 64 drivers. How likely is their mean lifetime to be below 46 000 hours?",
+  "settings": {
+    "Name": "LED drivers",
+    "Statistic": "SampleMean",
+    "PopulationMean": 50000,
+    "PopulationSigma": 20000,
+    "SampleSize": 64,
+    "Value": 46000,
+    "Shade": "Below"
+  }
+}

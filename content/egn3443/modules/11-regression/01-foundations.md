@@ -82,6 +82,8 @@ Four points, from the course's reading on regression: (1, 2), (2, 3), (3, 5), (4
 
 The square of r, **R²**, is the share of the variation in y that the straight line explains. For the four points, R² = 0.80² = 0.64: the line explains 64 % of the variation in y, and 36 % is left over as scatter around it. For the concrete, R² = 0.851. Item 11.4 shows where R² comes from and why it is read this way.
 
+[[see-example: 1]]
+
 ## What r cannot tell you
 
 **r measures straight-line relations only.** A strong curved relation can have r near 0. Here is a centrifugal pump's efficiency at flow rates from 10 to 110 L/s. It peaks near 60 L/s and falls off on both sides:
@@ -131,3 +133,14 @@ The Workbench writes the whole regression in both languages, under the results o
 ## What to do next
 
 On the **Exercise** tab, find r and R² for a building's electricity use against the outdoor temperature, and press **Check my answers**.
+
+[[example: Four points: what moves r]]
+
+This is the Learn page's small case by hand: the points (1, 2), (2, 3), (3, 5) and (4, 4). It starts there: r = **0.80** and R² = **0.64**, with the line y = 1.5 + 0.8·x through the scatter.
+
+1. **Change y to 2, 3, 4, 5.** Every point is now on a rising line: r = **1.00** and R² = **1.00**.
+2. **Put y back to 2, 3, 5, 4, and add a fifth point far out: x = 10, y = 2.** One unusual point turns the relation round: r = **−0.27** and R² = **0.07**.
+3. **Change that fifth point's y to 12.** Now the same point pulls the other way: r = **0.98** and R² = **0.96**. Four ordinary points and one far one: the far one decides r. Always look at the plot.
+4. **Go back to the four points, and multiply every x by 10** (10, 20, 30, 40), as if x were in other units. The slope becomes 0.08, but r stays **0.80**: r has no units.
+
+[[try: st.m11.fourpoints.try @Points/x @Points/y | Count Equation Correlation RSquared figure=1]]

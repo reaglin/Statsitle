@@ -44,6 +44,13 @@ public sealed class CoursePage : UserControl
     private readonly Button _read = new() { Content = "I have read this", Padding = new Thickness(12, 4, 12, 4), HorizontalAlignment = HorizontalAlignment.Left };
     private readonly TextBlock _learnFooter = new() { TextWrapping = TextWrapping.Wrap, VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(12, 0, 0, 0) };
     private readonly TaskWorkspace _example;
+    // The Example tab (Learning Core plan 3.22): the item's written examples to try, each a page with a figure, then its own worked
+    // example (the task); with more than one, the tabs Example 1, Example 2 … above them.
+    private readonly TabControl _exampleParts = new() { Margin = new Thickness(0, 6, 0, 4), Padding = new Thickness(0), BorderThickness = new Thickness(0, 1, 0, 0), Visibility = Visibility.Collapsed };
+    private readonly Grid _exampleHost = new();
+    private readonly List<MarkdownView> _examplePages = [];
+    private List<string> _exampleTitles = [];
+    private bool _exampleHasTask, _showingExamples;
     private readonly TaskWorkspace _exercise;
     private readonly QuizView _quiz = new();
     private readonly MarkdownView _exerciseNone = new();
@@ -76,7 +83,9 @@ public sealed class CoursePage : UserControl
         _exercise.OpenInWorkbench += b => OpenInWorkbench?.Invoke(b);
         _exercise.Checked += Exercise_Checked;
         _quiz.Graded += Quiz_Graded;
-        _learn.WidgetFactory = _reference.WidgetFactory = _exerciseNone.WidgetFactory = Widget;
+        _reference.WidgetFactory = _exerciseNone.WidgetFactory = Widget;
+        // The Learn page's [[see-example: N]] is a button to Example N (Learning Core plan 3.22: the Try it goes on the Example tab).
+        _learn.WidgetFactory = w => w.Name.Equals("see-example", StringComparison.OrdinalIgnoreCase) ? SeeExampleButton(w.Argument) : Widget(w);
         _quiz.WidgetFactory = WidgetElement;
 
         // ── The tree ──
@@ -144,7 +153,14 @@ public sealed class CoursePage : UserControl
 
         // No access keys on the tabs: Ctrl+1 to Ctrl+4 choose them, and Alt+L must open the Learner menu (UX sweep, plan 15.1).
         _learnTab = Tab("Learn", learnPanel, "The lesson: the idea, the formulas, a worked case, and the Python and R (Ctrl+1)");
-        _exampleTab = Tab("Example", _example, "A worked example: the data, every result, the figures and the code (Ctrl+2)");
+        AutomationProperties.SetName(_exampleParts, "This item's examples: choose one");
+        _exampleParts.SelectionChanged += ExampleParts_SelectionChanged;
+        _exampleHost.Children.Add(_example);
+        var examplePanel = new DockPanel();
+        DockPanel.SetDock(_exampleParts, Dock.Top);
+        examplePanel.Children.Add(_exampleParts);
+        examplePanel.Children.Add(_exampleHost);
+        _exampleTab = Tab("Example", examplePanel, "Examples to try, each with a figure, and a worked example: the data, every result, the figures and the code (Ctrl+2)");
         _exerciseTab = Tab("Exercise", _exerciseHost, "Your turn: work out the results and check them, or answer the questions (Ctrl+3)");
         _referenceTab = Tab("Reference", _reference, "The formulas, the Python and R functions, and the sources, to look back at (Ctrl+4)");
         _tabs.Items.Add(_learnTab);
@@ -338,9 +354,11 @@ public sealed class CoursePage : UserControl
         | Tab | Keys | What it is for |
         |---|---|---|
         | **Learn** | Ctrl+1 | The lesson: the idea, the formulas, a worked case, the Python and R |
-        | **Example** | Ctrl+2 | A worked example: the data, every result, the figures and the code. **Open in the Workbench** copies it to the calculator, to change the inputs |
+        | **Example** | Ctrl+2 | Examples to try, each with a figure: move a slider or change the data and watch the results and the figure change. Then the worked example: the data, every result, the figures and the code (**Open in the Workbench** copies it to the calculator). With more than one, choose **Example 1**, **Example 2** … at the top. Nothing here counts toward your progress |
         | **Exercise** | Ctrl+3 | Your turn: work out the results (by hand, or in Python or R) and press **Check my answers**, or answer the questions |
         | **Reference** | Ctrl+4 | The formulas, the Python and R functions, and the sources |
+
+        On the Learn page, **▶ Try it on the Example tab** opens the example that goes with what you have just read.
 
         An item is complete when its exercise passes, when you pass its questions, or (for a reading) when you press
         **I have read this**. **Previous** and **Next** (top right) go through the items in order.
@@ -475,9 +493,9 @@ public sealed class CoursePage : UserControl
             foreach (var i in m.Items)
             {
                 var kind = i.Kind == ItemKind.Assess ? "Module check"
-                    : i.Exercise is not null ? "Lesson, example and exercise"
-                    : i.Quiz is not null ? (i.Example is null ? "Lesson and questions" : "Lesson, example and questions")
-                    : "Reading";
+                    : i.Exercise is not null ? (ExampleCount(i) > 1 ? "Lesson, examples and exercise" : "Lesson, example and exercise")
+                    : i.Quiz is not null ? (ExampleCount(i) == 0 ? "Lesson and questions" : ExampleCount(i) > 1 ? "Lesson, examples and questions" : "Lesson, example and questions")
+                    : ExampleCount(i) == 0 ? "Reading" : "Reading, with examples to try";
                 md.AppendLine($"| {i.Number} {i.Title} | {kind} | {_path.WhereYouAre(i)} |");
             }
             md.AppendLine();
@@ -501,21 +519,56 @@ public sealed class CoursePage : UserControl
         _previous.ToolTip = _path.PreviousInOrder(item) is { } before ? $"Back to {before}" : "This is the first item";
         _next.ToolTip = _path.NextInOrder(item) is { } after ? $"On to {after}" : "This is the last item";
 
-        _learn.Markdown = item.Learn.Trim().Length > 0 ? item.Learn : $"# {item.Title}\n\n*This page is still to be written.*";
+        // The examples first: the Learn page's see-example buttons name them.
+        var (learn, written) = ExamplePages.Split(item.Learn);
+        var example = _content.Find(item.Example);
+        _exampleTitles = [.. written.Select(p => p.Title), .. example is null ? Array.Empty<string>() : [example.Title]];
+        _learn.Markdown = learn.Trim().Length > 0 ? learn : $"# {item.Title}\n\n*This page is still to be written.*";
 
-        // Example
-        if (_content.Find(item.Example) is { } example)
+        // Example: the written examples (each a page with a figure to try), then the item's worked example.
+        foreach (var old in _examplePages) _exampleHost.Children.Remove(old);
+        _examplePages.Clear();
+        string Heading(int k) => (_exampleTitles.Count > 1 ? $"Example {k + 1}: " : "Example: ") + _exampleTitles[k];
+        for (var k = 0; k < written.Count; k++)
         {
-            _example.ShowExample(example);
-            _exampleTab.Header = "Example";
+            var page = written[k];
+            // The way back to the lesson on the page itself, and the progress note where it is seen (UX review 2026-11-17).
+            var view = new MarkdownView
+            {
+                Visibility = Visibility.Collapsed,
+                WidgetFactory = w => w.Name == "back-to-lesson" ? BackToLessonButton() : Widget(w),
+            };
+            AutomationProperties.SetName(view, Heading(k));
+            view.Markdown = $"[[back-to-lesson: ]]\n\n# {Heading(k)}\n\n*An example to try: change the values and watch. Nothing here counts toward your progress.*\n\n{page.Markdown}";
+            _exampleHost.Children.Add(view);
+            _examplePages.Add(view);
         }
-        else
+        _exampleHasTask = example is not null;
+        if (example is not null)
+            _example.ShowExample(example, Heading(_exampleTitles.Count - 1), written.Count == 0 ? null
+                : "Also on this tab, to try for yourself: " + string.Join("; ", Enumerable.Range(0, written.Count).Select(k => $"Example {k + 1}, {_exampleTitles[k]}")) + " (choose it above).");
+        else _example.ShowMessage(item.Kind == ItemKind.Assess
+            ? "A module check has no example of its own: each item it covers has its own."
+            : "This item has no example to try. Its Learn tab has the figures and tables that go with it.");
+        _showingExamples = true;
+        _exampleParts.Items.Clear();
+        for (var k = 0; k < _exampleTitles.Count; k++)
+            _exampleParts.Items.Add(new TabItem
+            {
+                Header = new TextBlock { Text = $"Example {k + 1}: " + _exampleTitles[k], MaxWidth = 420, TextTrimming = TextTrimming.CharacterEllipsis },
+                ToolTip = k < written.Count ? $"Example {k + 1}: {_exampleTitles[k]}, to try here" : $"Example {k + 1}: {_exampleTitles[k]}, worked: the data, every result, the figures and the Python and R",
+            });
+        _exampleParts.Visibility = _exampleTitles.Count > 1 ? Visibility.Visible : Visibility.Collapsed;
+        _showingExamples = false;
+        // The worked example first when there is one, as the Learn pages' "The Example" sections describe it (PLC+ opens on its machine).
+        ShowExamplePart(_exampleHasTask ? written.Count : 0);
+        _exampleTab.Header = _exampleTitles.Count switch { 0 => "Example (none)", 1 => "Example", var n => $"Examples ({n})" };
+        _exampleTab.ToolTip = _exampleTitles.Count switch
         {
-            _example.ShowMessage(item.Kind == ItemKind.Assess
-                ? "A module check has no example of its own: each item it covers has its own."
-                : "This item has no worked example. Its Learn tab has the figures and tables that go with it.");
-            _exampleTab.Header = "Example (none)";
-        }
+            0 => "This item has no example (Ctrl+2)",
+            1 => example is null ? $"An example to try: {_exampleTitles[0]} (Ctrl+2)" : "A worked example: the data, every result, the figures and the code (Ctrl+2)",
+            var n => $"{n} examples: {string.Join("; ", _exampleTitles)} (Ctrl+2)",
+        };
 
         // Exercise: a task, the questions, or what the check covers.
         if (_content.Find(item.Exercise) is { } exercise)
@@ -578,9 +631,96 @@ public sealed class CoursePage : UserControl
         _read.IsEnabled = state != ItemState.Complete;
         _read.ToolTip = state == ItemState.Complete ? "This item is already complete" : "Marks this item complete. An item without an exercise is complete when you have read it.";
         _learnFooter.Text = item.Kind == ItemKind.Assess ? "The questions are on the Exercise tab (Ctrl+3)."
-            : item.Exercise is not null ? "Next: the worked Example (Ctrl+2), then your own Exercise (Ctrl+3)."
+            : item.Exercise is not null ? (ExampleCount(item) > 1 ? "Next: the Examples (Ctrl+2): the ones to try, then the worked one. Then your own Exercise (Ctrl+3)." : "Next: the worked Example (Ctrl+2), then your own Exercise (Ctrl+3).")
             : item.Quiz is not null ? (state == ItemState.Complete ? "Complete. Next ▸ goes on." : "When you have read the page, answer the questions on the Exercise tab (Ctrl+3).")
-            : state == ItemState.Complete ? "Complete. Next ▸ goes on." : "When you have read the page, press I have read this.";
+            : state == ItemState.Complete ? "Complete. Next ▸ goes on."
+            : ExampleCount(item) > 0 ? "Try the Example tab (Ctrl+2) too. When you have read the page, press I have read this."
+            : "When you have read the page, press I have read this.";
+    }
+
+    // ── The Example tab's parts ──────────────────────────────────────────────
+
+    /// <summary>How many examples an item's Example tab has: its written ones and its own worked example.</summary>
+    private int ExampleCount(LearningItem item) =>
+        ExamplePages.Split(item.Learn).Examples.Count + (_content.Find(item.Example) is null ? 0 : 1);
+
+    /// <summary>The Example tab's examples, by title, in order (for the tests).</summary>
+    public IReadOnlyList<string> ExampleTitles => _exampleTitles;
+
+    /// <summary>The Example tab's Example 1, Example 2 … strip (for the tests).</summary>
+    public TabControl ExampleParts => _exampleParts;
+
+    /// <summary>The written example showing on the Example tab, if one is (for the tests).</summary>
+    public MarkdownView? ExamplePageShowing => _examplePages.FirstOrDefault(v => v.Visibility == Visibility.Visible);
+
+    /// <summary>Shows Example k (from 0) of the item: one of its written pages, or the worked example after them.</summary>
+    public void ShowExamplePart(int k)
+    {
+        for (var i = 0; i < _examplePages.Count; i++) _examplePages[i].Visibility = i == k ? Visibility.Visible : Visibility.Collapsed;
+        _example.Visibility = k >= _examplePages.Count ? Visibility.Visible : Visibility.Collapsed;
+        if (_exampleParts.SelectedIndex != k && k < _exampleParts.Items.Count)
+        {
+            _showingExamples = true;
+            _exampleParts.SelectedIndex = k;
+            _showingExamples = false;
+        }
+    }
+
+    private void ExampleParts_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (!ReferenceEquals(e.OriginalSource, _exampleParts)) return;
+        e.Handled = true; // not the item's own tabs
+        if (_showingExamples || _exampleParts.SelectedIndex < 0) return;
+        var k = _exampleParts.SelectedIndex;
+        ShowExamplePart(k);
+        Status?.Invoke(k < _examplePages.Count
+            ? $"Example {k + 1}: {_exampleTitles[k]}. Try it: change the values and watch the figure and the results. Nothing here counts toward your progress."
+            : $"Example {k + 1}: {_exampleTitles[k]}, worked: the data, every result, the figures and the Python and R. Open in the Workbench to change it.");
+    }
+
+    /// <summary>"◂ Back to the lesson" at the top of a written example: the Learn tab, as the learner left it.</summary>
+    private Block BackToLessonButton()
+    {
+        var back = new Button
+        {
+            Content = "◂ Back to the lesson", Padding = new Thickness(10, 3, 10, 3), HorizontalAlignment = HorizontalAlignment.Left,
+            ToolTip = "Goes back to the Learn tab, where you were reading (Ctrl+1)",
+        };
+        back.Click += (_, _) =>
+        {
+            _tabs.SelectedItem = _learnTab;
+            Status?.Invoke("Back to the lesson. The examples stay on the Example tab (Ctrl+2).");
+        };
+        return MarkdownView.Wrap(back);
+    }
+
+    /// <summary>The Learn page's <c>[[see-example: N]]</c>: a button that opens Example N on the Example tab.</summary>
+    private Block? SeeExampleButton(string argument)
+    {
+        if (!int.TryParse(argument.Trim(), out var n) || n < 1 || n > _exampleTitles.Count) return null;
+        var title = _exampleTitles[n - 1];
+        var words = _exampleTitles.Count > 1 ? $"Example {n}: {title}" : title;
+        var text = new TextBlock { TextWrapping = TextWrapping.Wrap };
+        text.Inlines.Add(new Run("▶ Try it on the Example tab: ") { Foreground = new SolidColorBrush(Color.FromRgb(0x1F, 0x6F, 0x3A)), FontWeight = FontWeights.SemiBold });
+        text.Inlines.Add(new Run(words) { FontWeight = FontWeights.SemiBold });
+        var button = new Button
+        {
+            Content = text, HorizontalAlignment = HorizontalAlignment.Left, Padding = new Thickness(12, 6, 12, 6),
+            ToolTip = $"Opens {words} on the Example tab (Ctrl+2), with a figure to try. Come back with the Learn tab (Ctrl+1).",
+        };
+        AutomationProperties.SetName(button, $"Try it on the Example tab: {words}");
+        button.Click += (_, _) => OpenExample(n);
+        return MarkdownView.Wrap(button);
+    }
+
+    /// <summary>What a see-example button does: the Example tab, on Example n (from 1).</summary>
+    public void OpenExample(int n)
+    {
+        if (n < 1 || n > _exampleTitles.Count) return;
+        _tabs.SelectedItem = _exampleTab;
+        ShowExamplePart(n - 1);
+        var words = _exampleTitles.Count > 1 ? $"Example {n}: {_exampleTitles[n - 1]}" : _exampleTitles[n - 1];
+        Status?.Invoke($"{words}. Come back to the lesson with the Learn tab (Ctrl+1).");
     }
 
     private string CoversMarkdown(LearningItem item)
@@ -687,6 +827,13 @@ public sealed class CoursePage : UserControl
     /// </summary>
     public FrameworkElement? WidgetElement(WidgetTag tag)
     {
+        if (tag.Name.Equals("try", StringComparison.OrdinalIgnoreCase))
+        {
+            // An example to try is built afresh each time, so it starts at the task's values.
+            if (TrySpec.Parse(tag.Argument, out _) is not { } spec || _content.Find(spec.TaskId) is not { } task) return null;
+            try { return new TryAnalysis(task, spec); }
+            catch (ContentException) { return null; }
+        }
         var (id, number) = StatsContent.WidgetArgument(tag.Argument);
         if (Built(id) is not { } built) return null;
         switch (tag.Name.ToLowerInvariant())

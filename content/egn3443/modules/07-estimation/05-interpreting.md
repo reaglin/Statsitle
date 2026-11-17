@@ -47,6 +47,8 @@ The same experiment with 90 % intervals (the same seed, so the same samples):
 
 906 of 1000 contain μ, and 15 of the first 100 miss. The 90 % intervals are narrower (on average 2.16 against 2.66 for the 95 % ones), so they miss more often. Confidence is bought with width: item 7.6 takes this up.
 
+[[see-example: 1]]
+
 ## Statements that are right, and statements that are not
 
 For a 95 % interval for the mean drain time of 39.77 to 42.18 s:
@@ -110,3 +112,14 @@ mean(covers)                # close to 0.95
 ## What to do next
 
 The **Exercise** tab has questions on wording: which statements about an interval are right, what a confidence level promises, and how to report an interval in context.
+
+[[example: A thousand intervals: change the confidence]]
+
+This is the Learn page's simulation: 1000 samples of n = 10 from a normal population with μ = 50 and σ = 2, and a t interval from each. It starts at 95 %: **949** of the 1000 intervals contain μ, an experimental proportion of **0.949**.
+
+1. **Change the confidence to 90 %.** The intervals narrow, more turn red, and **906** contain μ (**0.906** against 0.90).
+2. **Change it to 99 %.** The intervals are wider, and **990** contain μ (**0.990**).
+3. **Back to 95 %, and change the seed to 2**: a new set of 1000 samples. **944** contain μ this time. Each run gives a slightly different count, close to 950.
+4. **Seed 1, and change n to 40.** The intervals are about half as wide, yet **954** still contain μ. A larger sample buys precision, not more confidence: the method still misses about one time in twenty.
+
+[[try: st.m7.coverage.try Confidence=0.80..0.99 SampleSize=3..50 Seed=1..20 | Occurrences ExperimentalProbability TheoreticalProbability figure=2]]

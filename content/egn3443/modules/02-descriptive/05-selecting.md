@@ -67,6 +67,8 @@ Work through the choice:
 4. **Spread:** the IQR, 24.25 ms (Q1 = 178.5 ms, Q3 = 202.75 ms). The standard deviation, 238 ms, is larger than most of the replies themselves, which is a sign it is the wrong measure here.
 5. **Unusual values:** report the two slow replies separately. They may be the most important finding: a control system that waits 1.2 s for a sensor can miss an alarm.
 
+[[see-example: 1]]
+
 ## Communicate it clearly
 
 A good statement of descriptive statistics:
@@ -113,4 +115,14 @@ boxplot.stats(x)$out              # 1240 410 (uses Tukey's hinges, so the fences
 
 ## What to do next
 
-Open the **Example** tab and press **Open in the Workbench**. Delete the two slow replies and compare the mean with the median again. Then answer the scenario questions on the **Exercise** tab.
+On the **Example** tab, Example 1 lets you delete the two slow replies and compare the mean with the median again. Then answer the scenario questions on the **Exercise** tab.
+
+[[example: Without the two slow replies]]
+
+These are the twenty response times of the Learn page. It starts there: the mean is **252.7 ms**, the median **188.5 ms**, the standard deviation **238 ms** and the IQR **24.25 ms**, with **410 and 1240 ms** as outliers.
+
+1. **Delete the 1240 and the 410.** With 18 replies the mean is **189.1 ms** and the median **187.0 ms**: close together, as for roughly symmetric data. The standard deviation falls to **16.3 ms**, while the IQR changes only to **19.75 ms**. The fences tighten, and **233 ms** is now marked as an outlier.
+2. **Put the 410 back.** The mean jumps to **200.7 ms** and the standard deviation to **53.1 ms**; the median moves only to **188.0 ms**. One slow reply is enough to make the mean and the standard deviation the wrong summary.
+3. **Back to the start** puts all twenty back. In a report, keep the slow replies and say so: they are a finding, not noise.
+
+[[try: st.m2.response.try Sample | Count Mean Median StandardDeviation InterquartileRange Outliers figure=2]]

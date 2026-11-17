@@ -60,6 +60,8 @@ A concrete technician measured the slump of five batches, in millimeters (mm): 7
 
 A summary for a report: *"The five batches had a mean slump of 85 mm (median 85 mm) with a standard deviation of 7.9 mm, from 75 to 95 mm."*
 
+[[see-example: 1]]
+
 ## The Example
 
 Fifteen aluminum test bars were pulled to failure. Their tensile strengths, in megapascals (MPa):
@@ -111,3 +113,13 @@ The full script, which prints every result with the program's labels:
 ## What to do next
 
 On the **Exercise** tab, twelve spot welds were pulled apart, and one is much stronger than the rest. Calculate the mean, the median, the standard deviation and the IQR, and press **Check my answers**. Then notice which of the four the strong weld moved most.
+
+[[example: Five slump tests: center, spread and shape]]
+
+This is the Learn page's worked case: the slump of five batches, 75, 90, 80, 95 and 85 mm. It starts there: the mean and the median are both **85 mm**, the standard deviation is **7.91 mm**, the IQR **10 mm** and the skewness **0**.
+
+1. **Change the 95 to 135**, one very wet batch. The mean rises to **93 mm** and the standard deviation triples to **24.1 mm**; the median stays at **85 mm** and the IQR at **10 mm**. The skewness becomes **1.94**: a long tail of large values.
+2. **Make the batches more alike**: 80, 88, 83, 90, 84. The mean is **85 mm** again, but the standard deviation falls to **4.0 mm** and the IQR to **5 mm**. The same center can come with very different spread.
+3. **Back to the start** puts the five batches back.
+
+[[try: st.m1.slump.try Sample | Mean Median StandardDeviation InterquartileRange Skewness figure=2]]

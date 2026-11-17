@@ -45,6 +45,8 @@ Five steel specimens were measured for hardness (HRC) before and after a heat tr
 
 Had the same ten numbers been treated as two independent samples, Welch's test would give t = −1.31 and p = 0.230: no evidence at all. The specimens differ from each other by up to 8 HRC, and that variation hides a change of about 2.
 
+[[see-example: 1]]
+
 ## The Example: two tire compounds
 
 Eight cars each ran one tire of compound A and one of compound B. The tread wear (mm) of the two tires on a car is a pair.
@@ -98,3 +100,14 @@ Choose **Two-sample test**, set **Test** to *Paired samples (paired t)* and **Da
 ## What to do next
 
 On the **Exercise** tab, ten pumps were measured before and after a retrofit. Find the paired t, its degrees of freedom and the p-value, and press **Check my answers**.
+
+[[example: Hardness: pairs or two samples]]
+
+This is the Learn page's worked case: five specimens before and after a heat treatment. It starts there: t = **−3.773** with **4** df, p = **0.0196**, and the 95 % interval for μ_d runs from **−3.82** to **−0.58** HRC. The box plot is of the five differences.
+
+1. **Change the test to Welch's t.** The same ten numbers as two independent samples give t = **−1.31** and p = **0.230**: the specimen-to-specimen spread hides the change.
+2. **Go back to the paired t, and make specimen 4 much harder: Before 57, After 59.** Its difference is still −2, so the paired test does not move at all (t = **−3.773**, p = **0.0196**).
+3. **Now change the test to Welch's t again.** The wider spread between specimens buries the change further: t = **−0.52**, p = **0.616**.
+4. **Back to the paired t with the first numbers, and change specimen 1's After from 45 to 41.** Its difference is now +1, against the others. The differences scatter more, t = **−1.72** and p = **0.160**: not rejected. Pairing helps when the change is steady from unit to unit.
+
+[[try: st.m9.hardness.try TestKind @Hardness/Before @Hardness/After | Statistic DegreesOfFreedom PValue Decision CiLower CiUpper figure=1]]

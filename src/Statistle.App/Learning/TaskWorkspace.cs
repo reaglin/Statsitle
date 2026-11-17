@@ -61,10 +61,23 @@ public sealed class TaskWorkspace : ContentControl
     public BuiltTask? Built => _built;
 
     /// <summary>Shows a task as an Example: everything worked out.</summary>
-    public void ShowExample(StatsTask task) => Show(task, exercise: false, savedWork: null, passed: false);
+    /// <param name="heading">The page's heading, in place of "Example: title" (with its number when the tab has several).</param>
+    /// <param name="note">A line under the lead, such as the other examples on the tab.</param>
+    public void ShowExample(StatsTask task, string? heading = null, string? note = null)
+    {
+        _heading = heading;
+        _note = note;
+        Show(task, exercise: false, savedWork: null, passed: false);
+    }
+
+    private string? _heading, _note;
 
     /// <summary>Shows a task as an Exercise, with the learner's last answers and whether it has passed.</summary>
-    public void ShowExercise(StatsTask task, string? savedWork, bool passed) => Show(task, exercise: true, savedWork, passed);
+    public void ShowExercise(StatsTask task, string? savedWork, bool passed)
+    {
+        _heading = _note = null;
+        Show(task, exercise: true, savedWork, passed);
+    }
 
     /// <summary>Shows a sentence in place of a task (no example, a task that cannot be built).</summary>
     public void ShowMessage(string text)
@@ -91,7 +104,7 @@ public sealed class TaskWorkspace : ContentControl
         var page = new StackPanel { Margin = new Thickness(16, 12, 16, 24), MaxWidth = 980, HorizontalAlignment = HorizontalAlignment.Left };
         page.Children.Add(new TextBlock
         {
-            Text = (exercise ? "Exercise: " : "Example: ") + task.Title,
+            Text = _heading ?? (exercise ? "Exercise: " : "Example: ") + task.Title,
             FontSize = 18, FontWeight = FontWeights.SemiBold, Margin = new Thickness(0, 0, 0, 4), TextWrapping = TextWrapping.Wrap,
         });
         page.Children.Add(new TextBlock
@@ -101,6 +114,8 @@ public sealed class TaskWorkspace : ContentControl
                 : $"A worked example with {_built.Analysis.Title}: the data, every result, the figures, and the Python and R that give the same numbers. Open it in the Workbench to change the inputs and watch the results move.",
             Foreground = Muted, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 0, 0, 10),
         });
+        if (_note is { Length: > 0 })
+            page.Children.Add(new TextBlock { Text = _note, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 0, 0, 10), FontWeight = FontWeights.SemiBold, Foreground = new SolidColorBrush(Color.FromRgb(0x1F, 0x6F, 0x3A)) });
         if (task.Intro.Length > 0) page.Children.Add(_markdown(task.Intro));
 
         page.Children.Add(Heading("The data"));

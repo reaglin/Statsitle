@@ -74,6 +74,8 @@ The number of tests that reject in one trial follows a binomial distribution wit
 
 The Simulation runs each test as a one-sample t-test on its own sample of n values. Any test of a true H₀ at level α rejects with probability α, so the kind of t-test does not change the answer. The tests are **independent**, so the result matches the formula 1 − (1 − α)ᵐ. As said above, the 10 pairwise comparisons of five real groups share data, and their familywise rate is lower (about 0.28), but far above 0.05 all the same.
 
+[[see-example: 1]]
+
 ## In Python and R
 
 ```python
@@ -106,3 +108,14 @@ Choose **Simulation**, set **Experiment** to *Many t-tests: the familywise error
 ## What to do next
 
 On the **Exercise** tab, an engineer compares four impeller designs pair by pair. Work out the familywise error rate and check it with the Simulation.
+
+[[example: Many t-tests: change the number and the level]]
+
+This is the Learn page's Example: 1000 trials of 10 t-tests, each at α = 0.05 on data where H₀ is true. It starts there: at least one false alarm in **410** trials, an experimental probability of **0.410** against the formula's **0.401**.
+
+1. **Set the tests per trial to 3**, the pairs of three groups. The formula gives **0.143**; the simulation **0.173**.
+2. **Set it to 1.** With one test the familywise rate is just α, **0.050** (the simulation gives 0.051).
+3. **Set it back to 10, and α to 0.005**, Bonferroni's 0.05/10. The familywise rate falls to **0.049** (simulation **0.050**): under 0.05 again, at the price of each test being much stricter.
+4. **Set α back to 0.05 and the tests to 20.** The formula gives **0.642**: about two trials in three announce a difference that is not there.
+
+[[try: st.m14.introduction.try Tests Alpha=0.001..0.1 Seed | Occurrences ExperimentalProbability TheoreticalProbability figure=1]]

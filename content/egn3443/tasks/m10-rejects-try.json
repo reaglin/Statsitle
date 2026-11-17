@@ -1,0 +1,17 @@
+{
+  "id": "st.m10.rejects.try",
+  "title": "Rejects on two lines: enough counts?",
+  "analysis": "ChiSquareTest",
+  "intro": "Line A made 6 rejects in 80 parts and line B 3 in 90. Before comparing the two reject rates, check the success–failure condition. The expected counts of this 2 × 2 table are exactly n₁p̂, n₁(1 − p̂), n₂p̂ and n₂(1 − p̂), with p̂ the pooled proportion; each should be at least 10 (some textbooks use 5). The chi-square test on the table is the two-sided two-proportion z-test: χ² = z².",
+  "tables": [
+    { "name": "Lines", "columns": { "Rejects": [6, 3], "Good": [74, 87] } }
+  ],
+  "settings": {
+    "Name": "Rejects by line",
+    "Test": "Independence",
+    "Alpha": 0.05,
+    "CountsTable": "@Lines/",
+    "RowNames": "Line A, Line B",
+    "Correction": "None"
+  }
+}

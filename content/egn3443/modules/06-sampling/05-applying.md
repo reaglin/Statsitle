@@ -48,6 +48,8 @@ A pump is rated to deliver μ = 120 L/min with σ = 6 L/min. A commissioning eng
 
 Notice the role of n: a **single** reading of 116.2 would have z = −3.8/6 = −0.63, which is ordinary. The average of 9 readings is held much closer to μ, so the same 3.8 L/min gap means more.
 
+[[see-example: 1]]
+
 ## The Example: bolt lengths
 
 A bolt machine set correctly cuts μ = 50.00 mm with σ = 0.20 mm. The inspector measures n = 25 bolts every hour, and this hour x̄ = 50.09 mm.
@@ -91,3 +93,13 @@ z; 1 - pnorm(z)                    # 2.25 and 0.0122
 ## What to do next
 
 On the **Exercise** tab, a technician weighs 16 bottles from a filler. Find how many standard errors their mean is above target and how likely a mean that high is by chance.
+
+[[example: The pump: chance, or under-delivering?]]
+
+This is the Learn page's worked case: a pump rated at μ = 120 L/min with σ = 6 L/min, and the mean of n = 9 readings, x̄ = 116.2 L/min. It starts there: the standard error is **2 L/min**, z = **−1.90**, and P(x̄ ≤ 116.2) = **0.0287**.
+
+1. **Change n to 1**, a single reading of 116.2. The standard error is σ = **6 L/min**, z is only **−0.63**, and the probability is **0.2633**: an ordinary reading.
+2. **Change n to 36.** The standard error is **1 L/min**, z = **−3.80**, and the probability is **0.0001**. The same 3.8 L/min gap, averaged over 36 readings, is very unlikely by chance: the pump has probably fallen short.
+3. **Change n back to 9 and x̄ to 118.** z = **−1.00** and the probability is **0.1587**: ordinary sampling variability.
+
+[[try: st.m6.pump.try SampleSize=1..50 Value=112..124 | StandardError Z AtMost figure=1]]

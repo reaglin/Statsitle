@@ -1,0 +1,14 @@
+{
+  "id": "st.m4.weld-flaws.try",
+  "title": "Flaws along a weld",
+  "analysis": "DiscreteDistribution",
+  "intro": "A weld has on average 2 flaws per 10 m. X is the number of flaws in a 10 m seam: Poisson with λ = 2. The binomial settings (200 parts, p = 0.01) are there for the comparison with the binomial.",
+  "settings": {
+    "Name": "Weld flaws",
+    "Family": "Poisson",
+    "Rate": 2,
+    "Trials": 200,
+    "SuccessProbability": 0.01,
+    "K": 2
+  }
+}

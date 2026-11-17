@@ -74,6 +74,8 @@ The second predictor explains more of the variation and shrinks the typical miss
 
 **Why the air-flow coefficient changed.** Alone, air flow's slope is 1.020. With water temperature in the model it is 0.671. On this plant the two went up and down together (their correlation is r = 0.78). On its own, air flow carries part of the water temperature's effect. The multiple regression separates them: 0.671 is the change in stack loss for one more unit of air flow **at the same water temperature**. Reading coefficients this way, "with the others held constant", is the heart of Module 12.
 
+[[see-example: 1]]
+
 ## In the Workbench
 
 Press **Open in the Workbench** on the Example tab: it opens this model with its data. To set it up yourself, press **Copy the data** on the Example tab, press Ctrl+B, click **+ Data table** and paste (Ctrl+V). Choose **Multiple regression** in the list on the left. Set **Data table** to the table, **Response column (y)** to *Stack loss* and **Predictor columns** to *Air flow, Water temp* (column names separated by commas), with **Variable selection** at *All the predictors listed*. The results give the equation and a coefficient table, one row per term; Module 12 explains every column. The rows after it (VIF, cross-validation, hold-out, Durbin–Watson, Cook's distance, leverage) belong to Modules 12 and 13. Ctrl+L brings you back.
@@ -113,3 +115,14 @@ In both, adding a predictor is one more name after the `~`, joined with `+`.
 ## What to do next
 
 On the **Exercise** tab, answer five practice questions on choosing between a simple and a multiple model and on reading the comparison.
+
+[[example: Stack loss: does a third predictor earn its place?]]
+
+Brownlee recorded a third variable on the same 21 days: the **acid concentration** in the absorber. This example puts all three predictors in. It starts there: R² = **0.914**, adjusted R² = **0.898** and σ̂ = **3.243**, with the acid concentration's coefficient −0.152.
+
+1. **Change the selection to Backward.** It fits all three, drops the predictor with the largest p-value while that p is above 0.05, and stops. It drops the acid concentration (p = **0.344**). Plain R² falls a little, to **0.909**, as it always does when a predictor leaves. Adjusted R² rises slightly, to **0.899**, and σ̂ shrinks to **3.239**: the acid concentration did not earn its place. What is left is the Learn page's two-predictor model, ŷ = −50.36 + 0.671 × air flow + 1.295 × water temp.
+2. **Change the selection to Forward.** It starts from nothing and adds the best predictor at each step: air flow, then water temperature. It stops because adding the acid concentration would give p = 0.344. Here the two directions agree.
+
+The plot is of observed against predicted stack loss: the closer the points lie to the gray line, the better the model. Module 12 explains the selection in full.
+
+[[try: st.m11.stackloss.try Selection | PredictorsUsed Equation RSquared AdjustedRSquared ResidualSe SelectionNote figure=1]]

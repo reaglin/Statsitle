@@ -1,0 +1,49 @@
+{
+  "id": "st.m14.assumptions.try",
+  "title": "Weld strength: one supplier spreads",
+  "analysis": "OneWayAnova",
+  "intro": "Eight welds with wire from each of three suppliers (MPa). Change supplier C's welds and watch Levene's test, the F test and Welch's ANOVA.",
+  "tables": [
+    {
+      "name": "Welds",
+      "columns": {
+        "Supplier A": [
+          412,
+          405,
+          418,
+          409,
+          415,
+          411,
+          407,
+          414
+        ],
+        "Supplier B": [
+          421,
+          416,
+          425,
+          419,
+          423,
+          418,
+          420,
+          424
+        ],
+        "Supplier C": [
+          398,
+          431,
+          405,
+          440,
+          389,
+          426,
+          412,
+          435
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Weld strength",
+    "Table": "@Welds/",
+    "Layout": "ColumnsAreGroups",
+    "Alpha": 0.05
+  }
+}

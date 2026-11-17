@@ -57,6 +57,8 @@ A foundry tried two mold coatings. With coating 1, 27 of 300 castings had surfac
 
 Coating 2 may cut the defect rate by as much as 8 points, or not at all: the data cannot yet tell. More castings would.
 
+[[see-example: 1]]
+
 ## The Example: a new solder stencil
 
 [[results: st.m10.proportions.eg]]
@@ -107,3 +109,13 @@ Choose **Two-sample test**, set **Test** to *Two proportions (pooled z)* and **D
 ## What to do next
 
 On the **Exercise** tab, two pump seal designs are compared on their warranty failures. Find z, the p-value and the confidence interval for p₁ − p₂, and press **Check my answers**.
+
+[[example: Two mold coatings: counts, sizes and the decision]]
+
+This is the Learn page's worked case: 27 of 300 castings with coating 1 had surface defects, 14 of 280 with coating 2. It starts there: z = **1.878**, p = **0.060**, and the 95 % interval for p₁ − p₂ runs from **−0.0012** to **0.0812**. The curve is the standard normal; the shaded tails are beyond ±1.96.
+
+1. **Change coating 2's defects from 14 to 10.** p̂₂ drops to 0.036 and the difference to over 5 points: z = **2.67**, p = **0.0075**, and the interval, **0.015** to **0.093**, no longer holds 0.
+2. **Put it back to 14, and double both samples: 54 of 600 and 28 of 560.** The same rates, 9 % and 5 %, but now z = **2.66** and p = **0.0079**. The interval narrows to **0.011** to **0.069**. More castings, as the Learn page said, settle the question.
+3. **Go back to 27 of 300 and 14 of 280, and change H₁ to "greater" (p₁ > p₂).** p = **0.030** and H₀ is rejected, while the two-sided 95 % interval still reaches just below 0. A one-sided test is right only if coating 2 was expected to be better before any casting was poured.
+
+[[try: st.m10.coatings.try AlternativeHypothesis Successes=0..80 SampleSize=50..1000 Successes2=0..80 Sample2Size=50..1000 | Statistic PValue Decision CiLower CiUpper figure=1]]

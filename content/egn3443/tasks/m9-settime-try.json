@@ -1,0 +1,25 @@
+{
+  "id": "st.m9.settime.try",
+  "title": "Set time of two adhesives",
+  "analysis": "TwoSampleTest",
+  "intro": "The set time (hours) of two adhesives, four batches of A and five of B. Different batches, small samples: the Mann–Whitney U test, H₀: the two set-time distributions are the same, two-sided, at α = 0.05.",
+  "tables": [
+    {
+      "name": "Adhesives",
+      "columns": {
+        "A": [3.1, 4.6, 2.8, 5.9],
+        "B": [5.2, 7.4, 6.1, 4.9, 8.3]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Set time",
+    "TestKind": "MannWhitney",
+    "Source": "Columns",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Delta0": 0,
+    "Column": "@Adhesives/A",
+    "Column2": "@Adhesives/B"
+  }
+}

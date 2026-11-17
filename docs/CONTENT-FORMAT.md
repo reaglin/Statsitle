@@ -155,6 +155,64 @@ A line on its own:
 | `[[data: task-id]]` | the task's data as a table |
 | `[[results: task-id]]` | the task's results: label, value, unit |
 | `[[code: task-id]]` | the Python and the R that reproduce the task's analysis |
+| `[[try: task-id Setting Setting=low..high \| Result Result figure=1]]` | **an example to try**, on the Example tab only (below): the settings named as controls, and the analysis's figure and the named results worked out again each time one changes |
+
+## Examples to try: the Example tab
+
+The pattern for every PlusBook (Learning Core plan 3.22; Ron, 2026-11-17: *"the Try it goes into the Example section and always
+contains some type of figure … if there are multiple larger examples, we can add tabs for Example 1, Example 2"*). The Learn page
+keeps its worked case as text; the example to try goes on the Example tab, starting at the worked case's numbers, so the learner
+checks what they have just read and then changes one thing at a time.
+
+An item's examples come **after its Learn page**, at the end of the file, each starting with a line of its own:
+
+```
+… the end of the Learn page.
+
+[[example: One bad day: the mean moves, the median does not]]
+
+This is the Learn page's worked case: … It starts there: the mean is **6 parts** …
+
+1. **Change the 9 to 29.** The mean jumps to **10 parts** … (what to try, step by step, and what to watch for)
+
+[[try: st.m2.rejects.try Sample | Count Mean Median Mode figure=2]]
+```
+
+- A section runs to the next `[[example: …]]` line or the end of the file; its title shows above it.
+- **Each has a figure**: a `try`, a `figure`, the `data` or the `results` (the validator checks). A `try` is best: it moves.
+- On the Learn page, where the example belongs (after the worked case), put `[[see-example: 1]]`: a button, "▶ Try it on the Example
+  tab: …", that opens it. A `try` is never on the Learn page itself (the validator says so).
+- The Example tab lists the written examples first and the item's own worked example (its `example:` task) last, and opens on the
+  worked example. With more than one, the tab is **Examples (n)** with **Example 1, Example 2 …** across its top, and `see-example`
+  counts them in that order.
+- Most items need one. A second large idea gets its own section. Nothing on the Example tab counts toward progress.
+
+### `[[try: …]]`
+
+```
+[[try: st.m2.rejects.try Sample | Mean Median figure=2]]
+[[try: st.m5.normal.try Mean=40..60 StandardDeviation=1..10 | ProbabilityBetween]]
+```
+
+| Part | Meaning |
+|---|---|
+| the first word | the task it starts from: a task of its own (`tasks/m<N>-<what>-try.json`, id `st.m<N>.<what>.try`), **without `ask`**. Never the exercise's task or data (PLC+ D21): the Example teaches the method, the Exercise checks it |
+| `Setting` | a setting the learner changes, by property name: a list of values (a box, one per line), a number (a box), a choice (a list), a switch (a tick box) |
+| `Setting=low..high` | a number on a slider from low to high; the task must start inside the range |
+| `@Table/Column` | a column of the task's own table, as a box of values (a regression's x or y, an ANOVA group, two samples from columns). Put it in double quotes when the column's name has a space: `"@Turning/Feed (mm/rev)"` |
+| after `\|` | the results to show, by property name (all of them when none is named), and `figure=N` (1 = the first, the default; `none`; `all`) |
+
+`docs/TRY-SETTINGS.md` lists, for every analysis, the settings a `try` can change and its results (made by
+`STATISTLE_TRY_SETTINGS=docs/TRY-SETTINGS.md dotnet test tests/Statistle.Learning.Tests --filter Write_the_settings`).
+
+**Check every number the words promise.** The words say what happens ("the mean jumps to **10 parts**"); the engine decides. Print a
+task's results as it starts and after each change:
+
+```
+STATISTLE_PRINT_TASK=st.m2.rejects.try STATISTLE_PRINT_CHANGES="Sample=4,7,5,29,5 | Sample=4,7,5,2,5" STATISTLE_PRINT_FILE=out.txt dotnet test tests/Statistle.Learning.Tests --no-build --filter Print_a_task
+```
+
+(changes in a step separated by `;`, steps by `|`, a list's values by commas; a column of a task table is `@Table/Column=1,2,3`.)
 
 ## Questions
 
@@ -183,7 +241,9 @@ explanation). Keep the answer right for the picture: the figure is drawn from th
 
 `dotnet test tests/Statistle.Learning.Tests --filter Content` loads `content/egn3443`, runs the Learning Core's checks and
 the statistics ones (every task builds and calculates; every exercise asks for numbers the analysis has; every mistake names
-a result and is not the right answer; every widget, in a page or a question, names a task and a figure it draws), and prints
+a result and is not the right answer; every widget, in a page or a question, names a task and a figure it draws; every example has a
+title and a figure, every `try` names settings and results the analysis has and is not on a Learn page, and every `see-example`
+names one of the item's examples), and prints
 one sentence per problem. A problem fails the test.
 
 It also prints **warnings**, which do not fail it: things to look at. Today one: two results an exercise asks for lie within

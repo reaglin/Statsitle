@@ -61,6 +61,8 @@ The p-value 0.0401 is below 0.05 (and 1.75 is inside the rejection region), so H
 
 Now the shaded rejection region is both tails, z < −1.96 and z > 1.96 (0.025 each, α = 0.05 in all). The p-value is the area beyond the observed z on both sides, above 1.75 and below −1.75: p = **0.0801** and H₀ is not rejected. The same data, a different question, a different decision. That is why the question, and with it the tail, is fixed before the data are seen. The one-tailed test puts all of α in one tail (z > 1.645), so it detects a shift in that direction more easily, and cannot detect one in the other.
 
+[[see-example: 1]]
+
 ## In Python and R
 
 ```python
@@ -92,3 +94,13 @@ With data, `stats.ttest_1samp(x, mu0, alternative='greater')` in Python and `t.t
 ## What to do next
 
 The **Exercise** tab has six claims to turn into hypotheses, and questions on which tail to use.
+
+[[example: Resin cure time: the same data, three alternatives]]
+
+This is the Learn page's Example: a supplier's 30 minutes, σ = 4 minutes, 25 batches with x̄ = 31.4 minutes, so z = 1.75. It starts with H₁: μ > 30: the rejection region is z > **1.645**, p = **0.0401**, and H₀ is rejected.
+
+1. **Change the alternative to *Two-sided (≠)*.** z is still **1.75**, but both tails are shaded (beyond ±**1.96**) and p doubles to **0.0801**: do not reject.
+2. **Change it to *Less than (<)*.** p = **0.9599**: the sample points the other way, so it is no evidence at all that the resin cures faster.
+3. **Back to *Greater than (>)*, and change x̄ to 31.0.** z = **1.25** and p = **0.1056**: do not reject. A smaller gap from 30 is ordinary sampling variability.
+
+[[try: st.m8.resin.try AlternativeHypothesis SampleMean=28..33 | Hypotheses Statistic RejectionRegion PValue Decision figure=1]]

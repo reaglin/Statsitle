@@ -1,0 +1,25 @@
+{
+  "id": "st.m10.windows.try",
+  "title": "Two glazing films on pairs of windows",
+  "analysis": "TwoSampleTest",
+  "intro": "Eight offices each have two identical windows side by side; one got film A and the other film B, by a coin toss. The solar heat gain through each window (W/m²) was measured at noon on the same day. The two windows of an office are natural pairs: the paired t on d = A − B, H₀: μ_d = 0 against H₁: μ_d ≠ 0 at α = 0.05.",
+  "tables": [
+    {
+      "name": "Windows",
+      "columns": {
+        "Film A": [182, 145, 210, 160, 198, 131, 175, 220],
+        "Film B": [176, 141, 201, 156, 190, 128, 168, 213]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Heat gain",
+    "TestKind": "PairedT",
+    "Source": "Columns",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Delta0": 0,
+    "Column": "@Windows/Film A",
+    "Column2": "@Windows/Film B"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "st.m6.pump.try",
+  "title": "A pump on commissioning",
+  "analysis": "SamplingDistribution",
+  "intro": "A pump is rated at μ = 120 L/min with σ = 6 L/min; its flow readings are close to normal. An engineer averages n = 9 readings and gets x̄ = 116.2 L/min. How likely is a mean this low if the pump delivers its rating?",
+  "settings": {
+    "Name": "Pump flow",
+    "Statistic": "SampleMean",
+    "PopulationMean": 120,
+    "PopulationSigma": 6,
+    "SampleSize": 9,
+    "Value": 116.2,
+    "Shape": "Normal",
+    "Shade": "Below"
+  }
+}

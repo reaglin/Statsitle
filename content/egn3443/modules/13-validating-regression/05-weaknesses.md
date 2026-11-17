@@ -48,6 +48,8 @@ R² = 0.991 and F is huge, yet the flow's coefficient has p = 0.54. Engineering 
 
 The load coefficient's standard error falls ninefold (√(107.5/1.38) ≈ 9, the ratio of the two VIFs), and the simpler model predicts unseen afternoons better. Flow lost nothing: its information is in load. (Keeping both and reporting only their combined effect is the other choice; ridge regression, beyond this course, is a third.)
 
+[[see-example: 1]]
+
 ## Outliers
 
 An **outlier** is an observation whose y is far from the model's prediction: a standardized residual (item 13.3) beyond about ±3. It may be a recording error, a failed test, a different regime (a machine in its warm-up), or simply the rare large error. Check the record first.
@@ -84,6 +86,8 @@ The last reading, at 25 kN, is far from the other loads: its leverage is 0.86 (2
 Its Cook's distance is **24.1**, beyond any threshold. Notice what the plain residuals would have said: at 25 kN the residual is only −15.3 µε, smaller than the +23.8 µε at 10 kN, because the line has moved to meet the point. Its standardized residual, −2.80, and above all its Cook's distance, give it away. A raw residual never shows influence.
 
 Without the 25 kN reading, the slope is 19.93 µε per kN instead of 15.08, σ̂ falls from 14.6 to 2.07 µε, and the line predicts about 499 µε at 25 kN. Here there is a documented reason to drop the point (the amplifier's range); without one, report the fit with and without it.
+
+[[see-example: 2]]
 
 ## A systematic diagnostic workflow
 
@@ -132,3 +136,22 @@ plot(fit, which = 5)                # standardized residuals against leverage, w
 ## What to do next
 
 On the **Exercise** tab, diagnose a tool-wear model: find its largest VIF, leverage and Cook's distance, and press **Check my answers**.
+
+[[example: The chiller: coefficients that swing]]
+
+This is the Learn page's Example: chiller power on load, flow and wet-bulb temperature. It starts there: R² = **0.991**, the largest VIF **107.5**, and the Flow coefficient **1.10 kW per L/s** with p = **0.54**.
+
+1. **Change the first afternoon's flow from 16.8 to 20.8 L/s.** One reading out of 15 moved, and R² is still **0.991**. But the Flow coefficient turns negative, **−0.12 kW per L/s** (more water pumped, less power: nonsense), and Load's rises from 0.475 to **0.614 kW per ton**. With VIFs this high the data cannot share the effect between the two predictors, so the split swings with any small change.
+2. **Back to the start** puts 16.8 back. R² never moved: the model as a whole predicts the same; it is the single coefficients that cannot be trusted.
+
+[[try: st.m13.weaknesses.try @Chiller/Flow @Chiller/Load | Equation ChosenEstimate ChosenP RSquared MaxVif figure=1]]
+
+[[example: The bracket: leverage and influence]]
+
+This is the Learn page's second case: strain against load, with the saturated reading at 25 kN. It starts there: slope **15.08 µε per kN**, σ̂ = **14.6 µε**, leverage **0.86** and Cook's distance **24.1** for the 25 kN point.
+
+1. **Change the 25 kN strain from 390 to 499 µε**, about what the trend of the other nine readings predicts. The point keeps its leverage, **0.86**, but now lies on the trend: the largest Cook's distance falls to **0.14**, the slope is **19.92 µε per kN** and σ̂ falls to **1.94 µε**. High leverage on the trend is harmless; it pins the line down.
+2. **Back to the start, then change the last reading's load from 25 to 11 kN** (strain still 390). Its leverage drops to **0.35**, but it lies far above the line, and its Cook's distance is still **2.11**: a large residual at moderate leverage is influential too. The slope jumps to **29.2 µε per kN**.
+3. **Back to the start** puts 25 kN and 390 µε back.
+
+[[try: st.m13.influence.try @Bracket/Load @Bracket/Strain | Equation ResidualSe MaxLeverage MaxCooksD Influential figure=1]]

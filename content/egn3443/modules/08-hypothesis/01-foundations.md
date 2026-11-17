@@ -91,7 +91,9 @@ z; p
 
 ## Try it in the Workbench
 
-Press **Open in the Workbench** on the Example tab. Change **Sample mean (x̄)** to 252.0: z falls to 1.33, p rises to 0.18, and the decision becomes "do not reject". The batch may still be off target; 16 injectors are just not enough evidence of a 2 mL/min shift.
+On the Example tab, the injector test has the sample mean on a slider. Change it to 252.0: z falls to 1.33, p rises to 0.18, and the decision becomes "do not reject". The batch may still be off target; 16 injectors are just not enough evidence of a 2 mL/min shift. **Open in the Workbench** on the Example tab does the same with every setting.
+
+[[see-example: 1]]
 
 ## Common mistakes
 
@@ -102,3 +104,13 @@ Press **Open in the Workbench** on the Example tab. Change **Sample mean (x̄)**
 ## What to do next
 
 The **Exercise** tab has five questions on the logic of a test: what H₀ is, what the p-value means, and what each decision says.
+
+[[example: Fuel injectors: how much evidence is enough?]]
+
+This is the Learn page's Example: injectors built for 250 mL/min, σ = 6 mL/min, n = 16, x̄ = 253.3 mL/min, H₁: μ ≠ 250. It starts there: z = **2.20**, p = **0.0278**, and H₀ is rejected at α = 0.05. The orange line is inside the shaded tails.
+
+1. **Change x̄ to 252.0.** z falls to **1.33** and p rises to **0.1824**: do not reject. The line moves out of the shaded tail.
+2. **Keep x̄ = 252.0 and change n to 36.** The standard error shrinks to 1 mL/min, z = **2.00** and p = **0.0455**: reject. The same 2 mL/min gap, measured on more injectors, is now evidence.
+3. **Back to x̄ = 253.3 and n = 16, and change α to 0.01.** z and p do not change (**2.20**, **0.0278**), but the rejection region moves out to ±**2.576**, and the decision becomes "do not reject". That is why α is chosen before the data.
+
+[[try: st.m8.injectors.try SampleMean=245..255 SampleSize=4..64 Alpha=0.01..0.10 | Statistic RejectionRegion PValue Decision figure=1]]

@@ -1,0 +1,66 @@
+{
+  "id": "st.m12.simple-to-multiple.try",
+  "title": "Concrete strength on curing time and W/C ratio",
+  "analysis": "MultipleRegression",
+  "intro": "The twelve concrete cylinders of the Learn page: curing time (days), water–cement ratio and compressive strength (MPa). The model is Strength = b₀ + b₁·Curing days + b₂·W/C ratio; the Curing days line is shown as numbers.",
+  "tables": [
+    {
+      "name": "Cylinders",
+      "columns": {
+        "Curing days": [
+          7,
+          7,
+          7,
+          7,
+          14,
+          14,
+          14,
+          14,
+          28,
+          28,
+          28,
+          28
+        ],
+        "W/C ratio": [
+          0.4,
+          0.42,
+          0.45,
+          0.48,
+          0.45,
+          0.5,
+          0.52,
+          0.55,
+          0.52,
+          0.55,
+          0.6,
+          0.62
+        ],
+        "Strength": [
+          35.6,
+          38.8,
+          32.9,
+          30.9,
+          35.2,
+          34.3,
+          32.8,
+          30.3,
+          40.8,
+          39.5,
+          34.2,
+          32.1
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Concrete strength",
+    "Table": "@Cylinders/",
+    "Response": "Strength",
+    "Predictors": "Curing days, W/C ratio",
+    "Selection": "AllEntered",
+    "Confidence": 0.95,
+    "CoefficientOf": "Curing days",
+    "Folds": 0,
+    "HoldOutShare": 0
+  }
+}

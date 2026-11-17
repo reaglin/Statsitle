@@ -48,6 +48,8 @@ The extra **1** under the square root is the scatter of a single unit around the
 
 Use the **prediction interval** for a single part, a single trip or a single tree, which is the usual engineering question. Use the **confidence interval** for a long-run average, such as the mean strength of a whole production run.
 
+[[see-example: 1]]
+
 ## The Example: cure temperature and bond strength
 
 Ten lap joints were cured at 60 to 105 °C and tested in shear (MPa).
@@ -125,3 +127,13 @@ In statsmodels, `mean_ci` is the confidence interval and `obs_ci` the prediction
 ## What to do next
 
 On the **Exercise** tab, find the 95 % interval for the slope of fuel use against payload, and the prediction interval for one 20-tonne trip, and press **Check my answers**.
+
+[[example: Four points: the slope's test and two intervals]]
+
+This is the Learn page's case by hand: the four points (1, 2), (2, 3), (3, 5), (4, 4). It starts there: SE(b₁) = **0.424**, t = **1.886** on 2 df, p = **0.200**, and the 95 % interval for the slope runs from **−1.03** to **2.63**: it contains 0. At x₀ = 2.5, the mean of x, ŷ₀ = 3.5; the confidence interval on the mean response is **1.46** to **5.54**, and the prediction interval for one new point **−1.06** to **8.06**.
+
+1. **Move x₀ (Predict at) to 4,** the end of the data. ŷ₀ = 4.7, and both intervals widen: **1.28** to **8.12** for the mean, **−0.62** to **10.02** for a new point. They are narrowest at x̄.
+2. **Move x₀ to 7,** outside the data. ŷ₀ = 7.1 with a mean interval of **−1.36** to **15.56**: an extrapolation the data cannot support.
+3. **Move x₀ back to 2.5, and type the four points four times** (x = 1, 2, 3, 4, 1, 2, 3, 4, … and y = 2, 3, 5, 4, 2, 3, 5, 4, …), 16 points with the same pattern. The slope is still 0.8, but SE(b₁) = **0.160**, t = **4.99** on 14 df and p = **0.0002**; its interval, **0.46** to **1.14**, no longer holds 0. The mean interval shrinks to **3.12** to **3.88**, while the prediction interval, **1.91** to **5.09**, stays wide: one new point still scatters around the line.
+
+[[try: st.m11.slope.try @Points/x @Points/y PredictAt=0..8 | SlopeSe SlopeT SlopeP SlopeLower SlopeUpper MeanLower MeanUpper NewLower NewUpper figure=1]]

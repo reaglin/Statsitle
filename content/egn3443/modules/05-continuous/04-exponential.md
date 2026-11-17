@@ -58,6 +58,8 @@ An electronic control module fails at random at a rate of λ = 0.0002 per hour (
 4. **The median life:** ln 2/0.0002 = **3466 hours**: half the modules fail before it.
 5. **The Poisson view:** the number of failures in 2000 hours is Poisson with mean λt = 0.4, so P(no failure) = e^(−0.4) = 0.6703, the same as R(2000).
 
+[[see-example: 1]]
+
 ## The Example: waiting for the next car at an EV charger
 
 Cars arrive at a highway EV charger at random, on average 3 an hour. The rate is λ = 3/60 = 0.05 per minute, and the mean time between arrivals is 20 minutes. The shaded area is the probability that the next car arrives within 15 minutes:
@@ -103,3 +105,14 @@ qexp(0.5, rate = lam)            # the median, 13.86
 ## What to do next
 
 On the **Exercise** tab, a booster pump fails at random with a known mean time between failures. Find the rate first, then two probabilities and a percentile, and press **Check my answers**.
+
+[[example: The life of an electronic control module]]
+
+This is the Learn page's worked case: a module that fails at random at λ = **0.0002 per hour**, a mean life of **5000 hours**. It starts at 2000 hours: P(fails by 2000 h) = **0.3297**, so R(2000) = **0.6703**. The median life is **3466 hours**.
+
+1. **Move x to 5000 hours**, the mean life. Only **0.3679** of modules are still working: 63 % fail before the mean.
+2. **Move x to 3466 hours**, the median. Exactly half have failed, **0.5**.
+3. **Double the rate to 0.0004.** The mean life halves to **2500 hours**, the median to **1733 hours**, and **0.75** of modules have failed by 3466 hours. The hazard rate is the rate itself at every age: the module does not wear out.
+4. **Back to the start** puts the 0.0002 rate back.
+
+[[try: st.m5.control-module.try Rate=0.0001..0.001 X=0..20000 | AtMost MoreThan Mean Median HazardRate figure=1]]

@@ -59,6 +59,8 @@ After a few flips the proportion (blue) jumps around. As the flips pile up it se
 
 In 1000 flips the program got 499 heads: an experimental probability of 0.499, 0.001 from the theory.
 
+[[see-example: 1]]
+
 ## In Python and R
 
 ```python
@@ -87,3 +89,14 @@ Python and R draw different random numbers from the program's, so their counts d
 ## What to do next
 
 Look at the **Example** tab, and press **Open in the Workbench** to change the number of trials or the seed. Then answer the questions on the **Exercise** tab.
+
+[[example: Ten flips or a hundred thousand]]
+
+This is the Learn page's long-run idea: a fair coin, heads with probability 0.5. It starts with only **10 flips**: **3 heads**, an experimental probability of **0.30**, 0.20 below the theory.
+
+1. **Change the trials to 100.** 47 heads: **0.47**, now only 0.03 off.
+2. **Change the trials to 1000, then 100 000.** The share is **0.502**, then **0.499**. The running proportion in the figure wanders early and then lies flat on the red line at 0.5.
+3. **Move the seed** to run the experiment again with other random flips. With 100 000 flips every run lands within a few thousandths of 0.5; set the trials back to 10 and the runs give anywhere from **3 to 6 heads** (seeds 1 to 6). A few trials say little; many trials say a lot.
+4. **Back to the start** puts the 10 flips back.
+
+[[try: st.m3.long-run.try Trials Seed=1..20 | Occurrences ExperimentalProbability TheoreticalProbability Difference figure=1]]

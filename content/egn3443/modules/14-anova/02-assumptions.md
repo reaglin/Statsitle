@@ -68,6 +68,8 @@ So the equal-variance assumption fails, and the F test above it cannot be truste
 
 The Q–Q plot of the residuals lies close to its line: the problem here is spread, not shape.
 
+[[see-example: 1]]
+
 ## In Python and R
 
 ```python
@@ -109,3 +111,13 @@ oneway.test(y ~ g)                  # Welch's ANOVA
 ## What to do next
 
 On the **Exercise** tab, check the assumptions for the cycle times of three molding machines, and run the Kruskal–Wallis test and Welch's ANOVA.
+
+[[example: Weld strength: tame supplier C, then give it an outlier]]
+
+This is the Learn page's Example: three suppliers, eight welds each. It starts there: the F test's p = **0.265**, Levene's p = **0.00001**, Bartlett's p = **0.00001**, Shapiro–Wilk p = **0.242**, Kruskal–Wallis p = **0.062** and Welch's p = **0.0014**.
+
+1. **Give supplier C a small spread**: 413, 421, 414, 423, 411, 420, 416, 422 (mean 417.5, close to before). Levene's p rises to **0.31** and Bartlett's to **0.59**: the variances now look equal. The F test finds the difference, p = **0.0005**, and agrees with Welch's p = **0.0010**. When the variances are equal, the two tests say the same thing.
+2. **Back to the start, then change C's last weld from 435 to 535 MPa**, a typing slip. Shapiro–Wilk now rejects (p below **0.0001**) and Bartlett's p stays tiny, while Levene's p rises to **0.035**. Kruskal–Wallis does not move at all (p = **0.062**): 535 is still just the largest rank.
+3. **Back to the start** puts 435 back.
+
+[[try: st.m14.assumptions.try "@Welds/Supplier C" | P LeveneP BartlettP ShapiroP KruskalP WelchP figure=1]]

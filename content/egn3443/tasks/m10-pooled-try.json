@@ -1,0 +1,20 @@
+{
+  "id": "st.m10.pooled.try",
+  "title": "A pooled t from the course website",
+  "analysis": "TwoSampleTest",
+  "intro": "The course website pools two samples: n₁ = 10 with s₁² = 4 (s₁ = 2), and n₂ = 15 with s₂² = 6 (s₂ = 2.449). With the means x̄₁ = 27.3 and x̄₂ = 25.6, the pooled t-test of H₀: μ₁ − μ₂ = 0 against H₁: μ₁ − μ₂ ≠ 0 at α = 0.05.",
+  "settings": {
+    "Name": "Pooled t",
+    "TestKind": "PooledT",
+    "Source": "Summary",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Delta0": 0,
+    "SampleMean": 27.3,
+    "SampleSd": 2,
+    "SampleSize": 10,
+    "Sample2Mean": 25.6,
+    "Sample2Sd": 2.449,
+    "Sample2Size": 15
+  }
+}

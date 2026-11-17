@@ -48,6 +48,8 @@ Two filling heads are compared for consistency. Head 1: n₁ = 10, s₁ = 3.0 g.
 
 Put the larger variance on top if you like (then only the upper tail matters), but keep it matched to H₁ and to the order of the samples.
 
+[[see-example: 1]]
+
 ## The Example: two filling machines
 
 [[data: st.m9.assumptions.eg]]
@@ -105,3 +107,13 @@ Choose **Two-sample test** with **Data from** set to the two columns, and any of
 ## What to do next
 
 On the **Exercise** tab, two thickness gauges are compared for repeatability with the F-test. Find F and its p-value, and press **Check my answers**.
+
+[[example: Two filling heads: the F-test]]
+
+This is the Learn page's worked F-test: head 1 with 10 fills and s₁ = 3.0 g, head 2 with 12 fills and s₂ = 1.5 g. It starts there: F = **4.00**, beyond the upper critical value **3.588**, and p = **0.034**. The curve is the F distribution, skewed to the right; the shaded tails are the rejection region.
+
+1. **Move head 2's standard deviation to 2.0 g.** The variance ratio falls to 9/4 = **2.25**, inside the critical values, and p = **0.206**: not rejected, though the rule of thumb (a ratio above 2 to 3) would already call it unequal.
+2. **Now move both sizes to 30.** The same ratio, 2.25, is now beyond the critical value **2.101**, and p = **0.033**. With more fills the F-test can tell a smaller difference in spread.
+3. **Put the sizes back to 10 and 12, and make both standard deviations 1.5 g.** F = **1.00**, right at the centre, and p = **0.98**: no evidence at all.
+
+[[try: st.m9.heads.try SampleSd=0.5..5 SampleSize=3..40 Sample2Sd=0.5..5 Sample2Size=3..40 | Statistic RejectionRegion PValue Decision figure=1]]

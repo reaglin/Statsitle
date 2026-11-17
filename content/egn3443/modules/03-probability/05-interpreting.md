@@ -54,6 +54,8 @@ Follow 10 000 welds down the tree:
 
 The decision follows: a flag should send the weld to a second, more exact test (radiography), not straight to a repair crew. The rarer the fault, the more a positive result needs confirming. This is the **base rate** effect.
 
+[[see-example: 1]]
+
 ## The Example: the weld inspection in the Workbench
 
 **Probability rules** with "P(B | A) and P(B | A′) are known — Bayes", A = cracked and B = flagged:
@@ -99,3 +101,14 @@ p_flag_crack * p_crack / p_flag            # 0.2687
 ## What to do next
 
 Answer the questions on the **Exercise** tab: a leak detector, a flood level and a choice between two designs.
+
+[[example: A flagged weld: the base rate decides]]
+
+This is the Learn page's worked case: 2 % of welds are cracked, the test flags **90 %** of cracked welds and **5 %** of sound ones. It starts there: P(flag) = **0.067** and P(crack | flag) = **0.2687**, about one flagged weld in four. (This example has no figure: Probability rules draws none. Watch the numbers.)
+
+1. **Move the share of cracked welds to 0.20.** Now a flag means a crack **0.8182** of the time. Same test, more cracks: the flags are mostly real.
+2. **Move it to 0.002**, a rare fault. P(crack | flag) falls to **0.0348**: about 1 flagged weld in 29 is cracked.
+3. **Back to 0.02, and cut the false alarms to 0.01.** P(crack | flag) rises to **0.6475**. With a rare fault, the false-alarm rate matters more than the 90 %.
+4. **Back to the start** puts the weld line back.
+
+[[try: st.m3.flagged-weld.try ProbabilityA=0.001..0.5 LikelihoodGivenA=0.5..1 LikelihoodGivenNotA=0.001..0.2 | ProbabilityBResult IntersectionResult AGivenB figure=none]]

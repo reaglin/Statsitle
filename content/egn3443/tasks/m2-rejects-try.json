@@ -1,0 +1,10 @@
+{
+  "id": "st.m2.rejects.try",
+  "title": "Five days of rejected parts",
+  "analysis": "DescriptiveStatistics",
+  "intro": "A line inspector counted rejected parts on five days.",
+  "settings": {
+    "Name": "Daily rejects",
+    "Sample": [4, 7, 5, 9, 5]
+  }
+}

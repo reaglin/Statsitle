@@ -66,6 +66,8 @@ Dropping Binder cost nothing in R² (it is 0.8286 to four decimals either way), 
 
 The residuals against the fitted values show no curve and no funnel: the spread is about the same from 4 mm to 12 mm of predicted rutting. One section (row 13) lies 2.5 mm above its prediction, the largest miss; Module 13 shows how to judge whether one point like that changes the model. The largest VIF is 1.17, so the coefficients are not inflated by overlapping predictors.
 
+[[see-example: 1]]
+
 ## Justifying each decision
 
 This module's last outcome asks you to **justify** including or removing a predictor. A procedure is not a justification on its own. Bring together:
@@ -129,3 +131,14 @@ The program's code for the Example (it fits the model selection chose, and lists
 ## What to do next
 
 On the **Exercise** tab, run forward selection on a milling trial's tool-wear data, and report how many predictors it keeps and how well the chosen model fits.
+
+[[example: Rut depth: forward, backward and all four]]
+
+This is the Learn page's Example: backward elimination on the four candidates. It starts there: Binder is dropped (p = **0.966**), and the model with Air voids, Pavement temp and Traffic has R² = **0.8286**, adjusted R² = **0.7964** and σ̂ = **1.04 mm**.
+
+1. **Set Variable selection to Forward selection.** It adds Pavement temp, then Traffic, then Air voids, and stops before Binder: the same three predictors and the same numbers.
+2. **Set it to All the predictors listed.** Binder is back: R² is still **0.8286**, but adjusted R² falls to **0.7829** and σ̂ rises to **1.07 mm**. The fourth predictor costs a degree of freedom and buys nothing.
+3. **Set it back to Backward elimination, and change section 13's rut depth from 8.0 to 5.5 mm**, about what the model predicts for it. σ̂ falls to **0.80 mm**, and Binder's p-value changes from 0.966 to **0.17**: one section moved a p-value a long way. Selection works on this sample only, which is why its result needs checking on new data.
+4. **Back to the start** puts 8.0 back.
+
+[[try: st.m12.building.try Selection "@Sections/Rut depth" | PredictorsUsed SelectionNote RSquared AdjustedRSquared ResidualSe figure=2]]

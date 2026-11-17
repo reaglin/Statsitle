@@ -1,0 +1,14 @@
+{
+  "id": "st.m3.relays.try",
+  "title": "Three relays from a box of ten",
+  "analysis": "DiscreteDistribution",
+  "intro": "A box of 10 relays holds 2 defective ones, and 3 are taken at random. Every group of 3 is equally likely; the program counts the groups with each number of defective relays.",
+  "settings": {
+    "Name": "Relays",
+    "Family": "Hypergeometric",
+    "PopulationSize": 10,
+    "PopulationSuccesses": 2,
+    "Draws": 3,
+    "K": 0
+  }
+}

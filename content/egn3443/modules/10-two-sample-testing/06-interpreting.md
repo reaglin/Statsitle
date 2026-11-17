@@ -33,6 +33,8 @@ The (1 − α) confidence interval for the difference shows **how big** the diff
 
 The last row is the one a bare "not significant" hides; the third is the one a bare "significant" hides (the robotic cell of item 10.4).
 
+[[see-example: 1]]
+
 ## The cost of each error
 
 - A **Type I error** (rejecting a true H₀) means acting on a difference that is not there: buying the new equipment, changing the process, retraining staff, for nothing.
@@ -95,3 +97,14 @@ prop.test(c(21, 12), c(300, 300), correct = FALSE)   # X-squared = 2.5974 (= z^2
 ## What to do next
 
 On the **Exercise** tab, a new coolant pays only if it cools the tool by more than 3 °C. Test against that threshold with Welch's test, and press **Check my answers**.
+
+[[example: Two impellers: the interval against a threshold]]
+
+Ten pumps with a new impeller average **78.6 %** efficiency (s = 1.4), ten with the old one **77.0 %** (s = 1.6). Retooling pays only if the new impeller gains more than **1.0 percentage point**. It starts with the 95 % Welch interval for μ_new − μ_old: **0.19** to **3.01** points. It excludes 0, but holds values on both sides of 1.0: the third row of the table, a real gain that may be too small to pay.
+
+1. **Move both sizes to 60.** The interval narrows to **1.06** to **2.14**: every value in it is over 1.0. The first row: act.
+2. **Keep 60 pumps each, and move the new impeller's mean to 77.4.** The interval is **−0.14** to **0.94**: it holds 0, and it is narrow enough that every value in it is under 1.0. The fourth row: no gain worth retooling for.
+3. **Put the mean back to 78.6, and move both sizes to 6.** The interval is **−0.34** to **3.54**: it holds 0 and also gains of over 3 points. The last row: too few pumps to tell, so collect more before deciding.
+4. **Back to 10 pumps each, and change the confidence to 0.99.** The same estimate, 1.6, with a wider interval, **−0.34** to **3.54**, almost exactly the interval of six pumps at 95 %: higher confidence costs width, as fewer pumps do.
+
+[[try: st.m10.impellers.try SampleMean=75..82 SampleSize=2..80 Sample2Size=2..80 Confidence=0.80..0.99 | Estimate MarginOfError Lower Upper figure=1]]

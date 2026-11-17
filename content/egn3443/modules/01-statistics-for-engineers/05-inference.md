@@ -53,6 +53,8 @@ A **hypothesis test** checks a claim about the parameter.
 
 The test and the interval agree: 25.000 mm is inside the 95 % interval, and the two-sided test at α = 0.05 does not reject μ = 25.000 mm. That is always so for this pair.
 
+[[see-example: 1]]
+
 ## Interpreting results practically
 
 A statistical result is only the start of an engineering decision.
@@ -109,4 +111,14 @@ With the measurements themselves, rather than x̄ and s, `stats.ttest_1samp(x, 2
 
 ## What to do next
 
-Open the **Example** tab and press **Open in the Workbench**. Change the sample size from 16 to 64 and watch the interval narrow. Then answer the interpretation questions on the **Exercise** tab.
+On the **Example** tab, Example 1 lets you change the sample size from 16 to 64 and watch the interval narrow and the decision change. Then answer the interpretation questions on the **Exercise** tab.
+
+[[example: The same offset, more housings]]
+
+This is the Learn page's worked case: sixteen housings, mean **25.004 mm**, standard deviation **0.008 mm**, tested against 25.000 mm. It starts there: t = **2.00**, p = **0.0639**, so H₀ is **not rejected**, and the 95 % interval runs from **24.9997 to 25.0083 mm**, with 25.000 mm inside it.
+
+1. **Change n to 64.** The same 0.004 mm offset is now t = **4.00** and p = **0.0002**: H₀ is **rejected**. The interval narrows to **25.0020 to 25.0060 mm** and no longer holds 25.000 mm. More housings detected the offset; whether 0.004 mm matters is still an engineering question.
+2. **Change n to 8.** t = **1.41**, p = **0.2002**, and the interval widens to **24.9973 to 25.0107 mm**. A small sample can hide a real offset.
+3. **Back to the start** puts n = 16 back. In every case the test and the interval agree.
+
+[[try: st.m1.bores.try SampleSize=4..64 | Statistic PValue Decision CiLower CiUpper figure=1]]

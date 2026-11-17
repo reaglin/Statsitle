@@ -67,6 +67,8 @@ A spray line paints steel panels. Ten panels were measured (coating thickness, �
 4. **Standard error of the mean:** s/√n = 1.164 / √10 = **0.368 µm**. A typical sample of ten panels gives an x̄ about 0.37 µm from μ.
 5. **Proportion too thin:** three panels (49.8, 48.9, 49.5) are under 50 µm, so p̂ = 3/10 = **0.30**.
 
+[[see-example: 1]]
+
 ## The Example
 
 [[data: st.m7.introduction.eg]]
@@ -120,3 +122,13 @@ numpy's `var` and `std` divide by n unless you give `ddof=1`. R's `var` and `sd`
 ## What to do next
 
 Look at the **Example** tab. Then answer the questions on the **Exercise** tab: a few on bias and efficiency, and a few point estimates to calculate.
+
+[[example: Coating thickness: the estimates move with the data]]
+
+This is the Learn page's worked case: ten panels, coating thickness in µm. It starts there: x̄ = **50.70 µm**, s² = **1.3556 µm²** (dividing by n − 1), the variance dividing by n is **1.2200**, and the standard error is **0.3682 µm**.
+
+1. **Change the 48.9 to 45.9**, one thin panel. x̄ falls only to **50.40 µm**, but s² jumps to **3.4556 µm²** and the standard error to **0.5878 µm**: one unusual value moves the spread more than the centre.
+2. **Back to the start, then keep only the first three panels** (52.1, 49.8, 50.6). Now s² = **1.3633** and the variance dividing by n is **0.9089**, two thirds of it. With n = 3, dividing by n instead of n − 1 makes the estimate a third too small; with n = 10 it was a tenth too small.
+3. **Back to the start** puts the ten panels back.
+
+[[try: st.m7.coating.try Sample | Count Mean Variance PopulationVariance StandardError figure=1]]

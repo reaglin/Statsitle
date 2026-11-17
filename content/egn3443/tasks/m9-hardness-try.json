@@ -1,0 +1,25 @@
+{
+  "id": "st.m9.hardness.try",
+  "title": "Hardness before and after heat treatment",
+  "analysis": "TwoSampleTest",
+  "intro": "Five steel specimens were measured for hardness (HRC) before and after a heat treatment. Each specimen gives a pair. H₀: μ_d = 0 against H₁: μ_d ≠ 0 at α = 0.05, with d = before − after.",
+  "tables": [
+    {
+      "name": "Hardness",
+      "columns": {
+        "Before": [42, 45, 39, 47, 44],
+        "After": [45, 46, 43, 49, 45]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Hardness",
+    "TestKind": "PairedT",
+    "Source": "Columns",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Delta0": 0,
+    "Column": "@Hardness/Before",
+    "Column2": "@Hardness/After"
+  }
+}

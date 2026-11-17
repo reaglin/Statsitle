@@ -1,0 +1,43 @@
+{
+  "id": "st.m13.influence.try",
+  "title": "Strain with one saturated reading",
+  "analysis": "SimpleRegression",
+  "intro": "A bracket loaded from 2 to 10 kN and once at 25 kN, where the amplifier saturated. Change that reading and watch the slope and Cook's distance.",
+  "tables": [
+    {
+      "name": "Bracket",
+      "columns": {
+        "Load": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          25
+        ],
+        "Strain": [
+          41,
+          62,
+          79,
+          103,
+          118,
+          141,
+          160,
+          178,
+          203,
+          390
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Bracket strain",
+    "XColumn": "@Bracket/Load",
+    "YColumn": "@Bracket/Strain",
+    "Confidence": 0.95
+  }
+}

@@ -76,6 +76,8 @@ Bags of cement are filled to a mean of μ = 50 kg with σ = 0.8 kg, normally dis
 
 Draw a quick sketch of the bell with the area shaded before you calculate. It catches the most common error, the wrong tail.
 
+[[see-example: 1]]
+
 ## The Example: shaft diameters against a tolerance
 
 A lathe turns shafts with diameters normal with μ = 25.00 mm and σ = 0.02 mm. The drawing allows 25.00 ± 0.03 mm. The shaded area is the share of shafts in tolerance:
@@ -124,3 +126,14 @@ Both languages take the **standard deviation** σ. Given a variance, take its sq
 ## What to do next
 
 On the **Exercise** tab, the strength of welded joints is given as N(μ, σ²). Find the z-score, two probabilities and a percentile, and press **Check my answers**.
+
+[[example: Filling bags of cement]]
+
+This is the Learn page's worked case: bags filled to μ = **50 kg** with σ = **0.8 kg**. It starts there: 49 kg is z = **−1.25**, P(X < 49) = **0.1056**, the share between 49 and 51 kg is **0.7887**, and the weight 95 % of bags are below is **51.32 kg**.
+
+1. **Move σ to 0.5 kg**, a steadier filler. 49 kg is now z = **−2**, only **0.0228** of bags are under it, and **0.9545** are between 49 and 51 kg. A smaller σ makes a taller, narrower bell.
+2. **Set σ back to 0.8 and move μ to 50.5 kg.** Underweight bags fall to **0.0304**, but the bell has moved off-centre: the share between 49 and 51 kg drops to **0.7036**.
+3. **Back to μ = 50, with the limits at 48.4 and 51.6 kg**, μ ± 2σ. The share between them is **0.9545**, the empirical rule's 95.4 %.
+4. **Move q to 0.05.** The weight 95 % of bags exceed is **48.68 kg**, 1.645σ below the mean. **Back to the start** puts the filler back.
+
+[[try: st.m5.cement-bags.try Mu=48..52 Sigma=0.2..2 X=46..54 X2=46..54 Probability=0.01..0.99 | ZScore AtMost Between Quantile figure=1]]

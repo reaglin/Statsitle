@@ -60,6 +60,8 @@ Here t is the statistic the data gave, and T stands for a value drawn from the t
 
 Choosing the direction **after** seeing which way the data point is called HARKing (hypothesizing after the results are known). It halves the p-value without any new evidence, so the real chance of a Type I error is double the α you state.
 
+[[see-example: 1]]
+
 ## Two things a test cannot say
 
 - **"Do not reject H₀" is not "the groups are equal".** It means the data cannot tell them apart, often because the samples are small. Item 10.6 shows how the confidence interval tells the two apart.
@@ -68,3 +70,13 @@ Choosing the direction **after** seeing which way the data point is called HARKi
 ## What to do next
 
 On the **Exercise** tab, six questions ask you to choose the parameter, write the hypotheses and compute a statistic from its parts. They are practice questions: after a wrong try the explanation shows. You need 80 % to complete the item.
+
+[[example: Old process against new: the direction of H₁]]
+
+Fifteen cycles timed on the old process (group 1, mean **52.0 s**, s = 4.0) and fifteen on the new one (group 2, mean **49.5 s**, s = 4.5). It starts with a two-sided Welch test: t = **1.61**, the rejection region is beyond **±2.05**, and p = **0.119**. The 95 % interval for μ₁ − μ₂ runs from **−0.69** to **5.69 s**.
+
+1. **Change H₁ to "greater" (μ₁ − μ₂ > 0).** The same t, but the whole rejection region moves to the upper tail, beyond **1.70**, and p halves to **0.060**. That is why the direction must be chosen before the data are seen: picking it afterwards halves p for free.
+2. **Change H₁ to "less".** The data point the other way from this H₁, and p = **0.94**.
+3. **Change H₁ back to two-sided, and swap the means: group 1 49.5 s, group 2 52.0 s.** t becomes **−1.61** and the interval **−5.69** to **0.69 s**: every sign flips, p (**0.119**) does not. Name the groups first and keep the order.
+
+[[try: st.m10.direction.try AlternativeHypothesis SampleMean=40..60 Sample2Mean=40..60 SampleSize=2..60 Sample2Size=2..60 | Hypotheses Statistic RejectionRegion PValue CiLower CiUpper figure=1]]

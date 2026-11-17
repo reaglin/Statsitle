@@ -1,0 +1,15 @@
+{
+  "id": "st.m5.cement-bags.try",
+  "title": "Filling bags of cement",
+  "analysis": "ContinuousDistribution",
+  "intro": "Bags of cement are filled to a mean of 50 kg with a standard deviation of 0.8 kg, normally distributed. The shaded area is the share of bags between the two weights.",
+  "settings": {
+    "Name": "Cement bag weight",
+    "Family": "Normal",
+    "Mu": 50,
+    "Sigma": 0.8,
+    "X": 49,
+    "X2": 51,
+    "Probability": 0.95
+  }
+}

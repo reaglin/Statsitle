@@ -65,6 +65,8 @@ The five daily reject counts from item 2.2: 4, 7, 5, 9, 5. The mean is x̄ = 6.
 
 Check: the deviations column adds to 0. If yours does not, the mean is wrong.
 
+[[see-example: 1]]
+
 ## Two more measures you will see
 
 - The **interquartile range**, IQR = Q3 − Q1, is the width of the middle half of the data. Like the median, it ignores the extremes, so it is the measure of spread to use with skewed data. The box in a box plot is the IQR.
@@ -122,3 +124,13 @@ sd(x)             # sample standard deviation: 3.8137
 ## What to do next
 
 On the **Exercise** tab, twelve rebar yield strengths are waiting. Calculate the range, the sample variance and the sample standard deviation, type them in, and press **Check my answers**. The hints help if your answer is not accepted.
+
+[[example: How far from the mean: the reject counts]]
+
+This is the Learn page's worked case: 4, 7, 5, 9 and 5 rejects, with mean 6. It starts there: the range is **5 parts**, the sample variance **4 parts²** and the standard deviation **2 parts**. The population variance, dividing by n instead of n − 1, is the smaller **3.2**.
+
+1. **Change the 9 to 29.** The range and the standard deviation jump; the interquartile range, the width of the middle half, hardly moves. That is why the IQR goes with skewed data.
+2. **Make every day 6.** Every deviation is 0, so the variance and the standard deviation are 0: no spread at all.
+3. **Add 10 to every value** (14, 17, 15, 19, 15). The mean moves up by 10; the spread does not change, because spread is distance from the mean.
+
+[[try: st.m2.rejects.try Sample | Mean Range Variance StandardDeviation PopulationVariance InterquartileRange figure=2]]

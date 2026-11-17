@@ -77,6 +77,8 @@ P(A) = (outcomes in A) ÷ (outcomes in S)
 
 The ordered pairs are what make the outcomes equally likely. The **sums** 2 to 12 are not: there is one way to roll a 2 and six ways to roll a 7. Treating the 11 sums as equally likely (P(7) = 1/11) is a classic mistake.
 
+[[see-example: 1]]
+
 Counting works only when the outcomes are equally likely. If parts fail 5 % of the time, the eight outcomes of the tree above are not equally likely (FFF is far rarer than PPP); item 3.4 multiplies the probabilities along each branch instead.
 
 ## The Example: two dice rolled 1000 times
@@ -102,6 +104,8 @@ When S is too big to list, count it.
 1. Every group of 3 is equally likely: C(10, 3) = 120 groups in S.
 2. The groups with no defective relay take all 3 from the 8 good ones: C(8, 3) = 56.
 3. P(none defective) = 56 / 120 = **0.4667**.
+
+[[see-example: 2]]
 
 The Workbench's **Probability rules** counts permutations and combinations too: enter n and r at the bottom of its form.
 
@@ -136,3 +140,25 @@ The Example's script, which also simulates the rolls:
 ## What to do next
 
 Look at the **Example** tab and open it in the Workbench: set the event to another sum and compare its theoretical probability with the table. Then answer the questions on the **Exercise** tab.
+
+[[example: Two dice: the sum you choose]]
+
+This is the Learn page's worked case: two fair dice, and A = "the sum is 7". It starts there: the theory counts **6 of the 36** cells, P = **0.1667**, and 1000 simulated rolls gave a 7 **168 times**. In the figure the dark bar is the sum you choose; the red bars are the theory for every sum.
+
+1. **Move the sum to 11.** Two cells of 36: the theory is **0.0556**, and the rolls gave **0.053**.
+2. **Move the sum to 2, then to 12.** Each has one cell: **0.0278** both times. The 11 sums are not equally likely, as the red bars show.
+3. **Change the trials to 100 000** with the sum at 12. The experimental probability, **0.0285**, comes close to the theory.
+4. **Back to the start** puts the 7 back.
+
+[[try: st.m3.dice-sums.try DiceTotal=2..12 Trials | Occurrences ExperimentalProbability TheoreticalProbability figure=2]]
+
+[[example: Three relays from a box of ten]]
+
+This is the Learn page's second worked case: a box of 10 relays with 2 defective ones, and a technician takes 3. The program counts the groups for you (it uses the hypergeometric distribution of item 4.6, which is this same counting). It starts there: P(no defective relay) = 56/120 = **0.4667**, the bar at 0 in the figure.
+
+1. **Move K, the number of defective relays, to 1.** Exactly one defective: **0.4667** too. Exactly two (K = 2): only **0.0667**. The three bars add to 1.
+2. **Set K back to 0 and take 5 relays instead of 3.** The chance of no defective one falls to **0.2222**: C(8, 5)/C(10, 5) = 56/252. A bigger sample is more likely to catch a bad relay.
+3. **Take 3 again, with only 1 defective relay in the box.** P(none) rises to **0.70**: 7 of every 10 groups of 3 miss it.
+4. **Back to the start** puts the box and the 3 relays back.
+
+[[try: st.m3.relays.try PopulationSuccesses=0..5 Draws=1..10 K=0..5 | Exactly AtMost AtLeast figure=1]]

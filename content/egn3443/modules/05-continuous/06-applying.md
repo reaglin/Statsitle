@@ -57,6 +57,8 @@ A pump impeller wears out with a Weibull life, β = 2 and η = 10 000 hours.
 3. **Hazard rate at 5000 hours:** h = (2/10 000) × (5000/10 000)¹ = **0.0001 per hour**. At 10 000 hours it is twice that: with β = 2 the rate climbs in a straight line with age.
 4. **At the characteristic life:** R(10 000) = e⁻¹ = **0.368**.
 
+[[see-example: 1]]
+
 ## The Example: the life of a fan bearing
 
 A ventilation fan's bearing has a Weibull life with β = 1.5 and η = 8000 hours. The shaded area is the share that **fail** by 2000 hours; the rest are still running:
@@ -160,3 +162,14 @@ A good report names the model and why, shows the evidence for the fit, and answe
 ## What to do next
 
 On the **Exercise** tab, a mine tested 25 conveyor idler bearings to failure. Fit the Weibull, find β̂, η̂, the Q–Q correlation and the reliability at 1500 hours, then fit the exponential to the same data and decide which model to use.
+
+[[example: A pump impeller: how the shape changes the failures]]
+
+This is the Learn page's worked case: an impeller with a Weibull life, β = **2** and η = **10 000 hours**. It starts at 5000 hours: R(5000) = **0.7788**, the B10 life (q = 0.10) is **3246 hours**, and the hazard rate is **0.0001 per hour**.
+
+1. **Move x to 10 000 hours.** R is **0.3679**, and the hazard rate has doubled to **0.0002**: with β = 2 the impeller wears out.
+2. **Set x back to 5000 and β to 1.** The Weibull is now the exponential: the hazard rate is 1/η = **0.0001** at every age, and the B10 life falls to **1054 hours**.
+3. **Move β to 0.5**, early failures. The hazard rate at 5000 hours is lower, **0.000071**, but the B10 life is only **111 hours**: weak parts fail first.
+4. **Move β to 3 and x to 10 000.** R is again **0.3679**: at the characteristic life η, 63.2 % have failed whatever β is. **Back to the start** puts β = 2 back.
+
+[[try: st.m5.impeller.try Shape=0.5..4 Scale=2000..20000 X=0..30000 | MoreThan Quantile HazardRate figure=1]]

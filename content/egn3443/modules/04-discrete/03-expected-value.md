@@ -51,6 +51,8 @@ The two-pump station from item 4.1: X is the number of pumps working.
 
 On average 1.8 of the 2 pumps are working, and the count rarely strays from that.
 
+[[see-example: 1]]
+
 ## Costs and other linear functions
 
 Engineers often need the mean of something that depends on X: a cost, a time, a load. For Y = a·X + b, with constants a and b:
@@ -114,3 +116,14 @@ Do not use `np.var(x)` or `var(x)` here. They treat the five values as a dataset
 ## What to do next
 
 On the **Exercise** tab, a plant's weekly machine breakdowns have a PMF. Calculate the mean, the variance and the standard deviation, type them in, and press **Check my answers**.
+
+[[example: Two pumps: the mean and the spread]]
+
+This is the Learn page's worked case: 2 pumps, each working with probability **0.9**. It starts there: the mean is **1.8 pumps**, the variance **0.18 pumps²** and the standard deviation **0.424 pumps**. The mean is the balance point of the bars in the figure.
+
+1. **Move the chance a pump works to 0.5.** The mean falls to **1 pump** and the spread grows: σ² = **0.5**, σ = **0.707**. The outcome is now hardest to predict.
+2. **Move it to 1.** Both pumps always work: the mean is **2** and the variance **0**. No uncertainty, no spread.
+3. **Set it back to 0.9 and give the station 4 pumps.** The mean doubles to **3.6** and so does the variance, **0.36**; σ = **0.6**. For a binomial, μ = np and σ² = np(1 − p).
+4. **Back to the start** puts the two pumps back.
+
+[[try: st.m4.pump-spread.try Trials=1..10 SuccessProbability=0..1 | Mean Variance StandardDeviation figure=1]]

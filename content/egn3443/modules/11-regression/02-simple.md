@@ -48,6 +48,8 @@ The four points of item 11.1: (1, 2), (2, 3), (3, 5), (4, 4), with x̄ = 2.5, ȳ
 
 Try another line through the same points, ŷ = 1 + x. Its residuals are 0, 0, 1 and −1, and its SS_E is 0 + 0 + 1 + 1 = 2.00. That is more than 1.80. No line has a smaller SS_E than the least-squares line.
 
+[[see-example: 1]]
+
 ## Reading the slope and the intercept
 
 **The slope** is the change in the predicted y for **one unit more of x**, in y's units per x's unit. Say it in those units: "the roughness rises 9.77 µm per mm/rev of feed" (the Example below). When one unit of x is a large step, scale it: "0.098 µm for every 0.01 mm/rev more feed".
@@ -117,3 +119,13 @@ In R's formula `y ~ x` the response comes first. In both languages, swapping x a
 ## What to do next
 
 On the **Exercise** tab, fit the line for weld penetration against current, predict the depth at 175 A, and press **Check my answers**.
+
+[[example: Four points: the line, its misses and its prediction]]
+
+This is the Learn page's worked case: the four points (1, 2), (2, 3), (3, 5), (4, 4). It starts there: b₁ = **0.8**, b₀ = **1.5**, SS error = **1.80**, and the prediction at x₀ = 2.5 is **3.5**, the mean of y: the line passes through the point of means (x̄, ȳ).
+
+1. **Move x₀ (Predict at) to 3.** The prediction is **3.9**, the ŷ of the table for x = 3; the point itself, y = 5, is 1.1 above it.
+2. **Change the third point's y from 5 to 9.** One point far above the line pulls it up: the slope becomes **1.2**, SS error jumps to **21.8**, and R² falls to **0.25**. The prediction at 3 is now **5.1**.
+3. **Move x₀ back to 2.5.** The prediction is **4.5**, the new mean of y: whatever the points, the least-squares line goes through (x̄, ȳ).
+
+[[try: st.m11.line.try @Points/x @Points/y PredictAt=0..5 | Equation Slope Intercept SsError RSquared FittedAt figure=1]]

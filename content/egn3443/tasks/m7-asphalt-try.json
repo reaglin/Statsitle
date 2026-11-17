@@ -1,0 +1,16 @@
+{
+  "id": "st.m7.asphalt.try",
+  "title": "Air voids in asphalt cores",
+  "analysis": "ConfidenceInterval",
+  "intro": "Six asphalt cores from a new pavement: mean air-void content x̄ = 4.2 %, standard deviation s = 0.5 %. σ is not known, so the 95 % interval uses t with 5 degrees of freedom.",
+  "settings": {
+    "Name": "Air voids",
+    "Target": "MeanSigmaUnknown",
+    "Source": "Summary",
+    "Confidence": 0.95,
+    "SampleMean": 4.2,
+    "SampleSd": 0.5,
+    "Sigma": 0.5,
+    "SampleSize": 6
+  }
+}

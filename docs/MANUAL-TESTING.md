@@ -20,6 +20,28 @@ version says it cannot check and offers the Store page — that is expected.
 
 ---
 
+## Round 2026-11-17 — examples to try on the Example tab (plan 17.1–17.3)
+
+### X. The PlusBook pattern: the Try it goes on the Example tab, always with a figure
+
+X1. Open **2.2 Measures of central tendency**. The Example tab is **Examples (2)**, with **Example 1** and **Example 2** above.
+    It opens on Example 2, the worked cement bags, whose first line names Example 1. The titles are not cut short.
+X2. On the Learn tab, under "A worked case by hand", press **▶ Try it on the Example tab: Example 1 …**. Example 1 opens with
+    ◂ Back to the lesson at the top and the reject counts in a box; the results are above the box plot.
+X3. Change the 9 to 29: after a moment the mean is 10 and the median 5, and the box plot shows the 29 apart. Change it to 2: the
+    mean (4.6) falls below the median. Add a sixth line. **Back to the start** puts the five days back.
+X4. Type `abc` on a line: a red sentence names the value and says the figure and results are the last good ones. Empty the
+    box: it asks for at least one value. Fix it: the sentence goes.
+X5. ◂ Back to the lesson: you are where you were reading on the Learn page, not at its top.
+X6. Go through the other modules' items: each lesson's ▶ Try it opens an example that starts at the numbers the lesson worked,
+    and its steps say what happens. Do the numbers match? Is anything to try missing, or too much? (Sliders: drag them and use the
+    arrow keys.)
+X7. A regression item (Module 11) and an ANOVA item (Module 14): change one data value in a column and watch the line, R², F
+    or p move.
+X8. Is the order right: the examples to try first, the worked example last, opening on the worked one?
+
+---
+
 ## Round 2.0 — Statistics+: the Course, Start here and Modules 1–14 (2026-11-11)
 
 Build: `manual-test\Statistle.exe` (made 2026-11-12, version 2.0.0; the content package is in

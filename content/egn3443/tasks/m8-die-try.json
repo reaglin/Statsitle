@@ -1,0 +1,22 @@
+{
+  "id": "st.m8.die.try",
+  "title": "Is the die fair?",
+  "analysis": "ChiSquareTest",
+  "intro": "A die rolled 60 times. If it is fair, each face expects 60/6 = 10.",
+  "settings": {
+    "Name": "Die rolls",
+    "Test": "GoodnessOfFit",
+    "Alpha": 0.05,
+    "Observed": [
+      8,
+      12,
+      9,
+      11,
+      6,
+      14
+    ],
+    "Proportions": "Equal",
+    "EstimatedParameters": 0,
+    "CategoryNames": "1, 2, 3, 4, 5, 6"
+  }
+}

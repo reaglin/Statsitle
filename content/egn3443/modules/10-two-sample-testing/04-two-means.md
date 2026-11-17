@@ -62,6 +62,8 @@ H₀: μ₁ − μ₂ = Δ₀ against H₁: μ₁ − μ₂ > Δ₀, with t = (x
 
 Rejecting H₀ then says the gain is **more than Δ₀**, not only more than zero. In the Workbench this is **Hypothesized difference (Δ₀)**.
 
+[[see-example: 1]]
+
 ## The Example: a manual and a robotic cell
 
 [[data: st.m10.two-means.eg]]
@@ -115,3 +117,13 @@ scipy's `ttest_ind` has no Δ₀ argument; subtracting Δ₀ from the first samp
 ## What to do next
 
 On the **Exercise** tab, laminates cured at two temperatures are compared with the pooled t-test. Find t, its degrees of freedom, the p-value and the confidence interval, and press **Check my answers**.
+
+[[example: The pooled t: one side, and a difference that matters]]
+
+This is the Learn page's pooled t by hand: n₁ = 10 with x̄₁ = 27.3 and s₁ = 2 (s₁² = 4), n₂ = 15 with x̄₂ = 25.6 and s₂ = 2.449 (s₂² = 6). It starts there: sₚ = **2.284**, t = **1.823** with **23** df, p = **0.081**, and the 95 % interval runs from **−0.23** to **3.63**. The shaded tails are the rejection region, beyond ±2.069.
+
+1. **Change H₁ to "greater" (μ₁ − μ₂ > 0).** The whole α moves to the upper tail, beyond **1.714**, and p = **0.041**: rejected. That is right only if the direction was fixed before the data were seen.
+2. **Keep H₁ "greater" and set Δ₀ to 1**, a gain that must be more than 1 to pay. t = (1.7 − 1)/0.9325 = **0.75** and p = **0.230**: the data show sample 1 is higher, but not that it is more than 1 higher.
+3. **Set Δ₀ back to 0 and H₁ back to two-sided, and move the sizes to 20 and 30.** With the same means and spreads, t = **2.58** with **48** df and p = **0.013**; the interval, **0.38** to **3.02**, no longer holds 0.
+
+[[try: st.m10.pooled.try AlternativeHypothesis Delta0=0..3 SampleMean=20..35 SampleSize=2..40 Sample2Mean=20..35 Sample2Size=2..40 | Hypotheses Statistic RejectionRegion PValue Decision CiLower CiUpper figure=1]]

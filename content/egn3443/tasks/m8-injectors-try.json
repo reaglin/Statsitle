@@ -1,0 +1,18 @@
+{
+  "id": "st.m8.injectors.try",
+  "title": "Fuel injector flow: move the sample mean",
+  "analysis": "OneSampleTest",
+  "intro": "Injectors are built to deliver 250 mL/min, with σ = 6 mL/min. A batch of n injectors is tested: H₀: μ = 250 against H₁: μ ≠ 250.",
+  "settings": {
+    "Name": "Injector flow",
+    "TestKind": "MeanSigmaKnown",
+    "Source": "Summary",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "NullValue": 250,
+    "SampleMean": 253.3,
+    "Sigma": 6,
+    "SampleSize": 16,
+    "AlternativeValue": null
+  }
+}

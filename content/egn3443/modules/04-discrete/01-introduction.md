@@ -50,6 +50,8 @@ A pump station has two pumps. Each one is working at any moment with probability
 
 Check: 0.01 + 0.18 + 0.81 = 1. The station has at least one pump working with probability 0.18 + 0.81 = 0.99. This is a binomial distribution with n = 2 and p = 0.9, which item 4.4 makes general.
 
+[[see-example: 1]]
+
 ## The cumulative distribution function
 
 The **cumulative distribution function (CDF)** adds the PMF up to a value:
@@ -109,3 +111,14 @@ The Example's full script, which prints every result with its label:
 ## What to do next
 
 Look at the **Example** tab, and press **Open in the Workbench** to change a probability (keep the total at 1). Then answer the questions on the **Exercise** tab.
+
+[[example: Two pumps: the whole distribution]]
+
+This is the Learn page's worked case: 2 pumps, each working with probability **0.9**. The figure has a bar for 0, 1 and 2 pumps working. It starts at k = 1: P(X = 1) = **0.18**, P(X ≤ 1) = F(1) = **0.19**, and P(at least one working) = **0.99**.
+
+1. **Move k to 0, then to 2.** The bars are **0.01** and **0.81**, the table's values. The three bars add to 1.
+2. **Back to k = 1, and move the chance a pump works to 0.7.** One pump working becomes more likely, **0.42**, and at least one working falls to **0.91**.
+3. **Set it back to 0.9 and add a third pump.** At least one working rises to **0.999**: a spare pump buys reliability.
+4. **Back to the start** puts the two pumps back.
+
+[[try: st.m4.two-pumps.try Trials=1..6 SuccessProbability=0.5..1 K=0..6 | Exactly AtMost AtLeast figure=1]]

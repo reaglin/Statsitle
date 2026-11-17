@@ -278,6 +278,19 @@ Each module is written in the order of `docs/LEARNING-PATH.md`. For every topic:
 | 15.4 | SoftwarePlus.ai: the program's page as Statistics+ (the folder stays `statistle/`, Q2), features, a sample item, the help, the privacy page, the home tile; `deploy.ps1 -Only …` | deployed · **Privacy deployed, page drafted 2026-11-12:** the privacy page for 2.0 is live; the new page is `statistle/index-next.html` (not linked, noindex) with four pictures from `StoreShots`, linking the instructors' page. When 2.0 is live: it becomes `index.html`, the home tile and the help index say Statistics+ (12 "Statistle" left in `help/`), deploy |
 | 15.5 | Tag `v2.0.0` once live; the portfolio `CLAUDE.md` updated | tagged |
 
+## Phase 17 — The PlusBook pattern: examples to try on the Example tab (Learning Core plan 3.21–3.22)
+
+Ron, 2026-11-17: *"the Try it goes into the Example section and always contains some type of figure … if there are multiple larger
+examples, we can add tabs for Example 1, Example 2"* and *"This will be the pattern we follow for all PlusBooks"*
+(`..\LearningCore\docs\PLUSBOOK-FEATURES.md`, *Examples on the Example tab*). PLC+ built it first (its plan 13.15).
+
+| # | Task | Done when |
+|---|---|---|
+| 17.1 | **The Example tab holds several examples**: an item's `[[example: Title]]` sections after its Learn page (`Statistle.Learning.ExamplePages`, PLC+'s syntax) come first, its worked `example:` task last; with more than one the tab is **Examples (n)** with **Example 1, Example 2 …** above, opening on the worked example (which says the others are there); `[[see-example: N]]` on Learn is a button "▶ Try it on the Example tab: …"; each written example has "◂ Back to the lesson". The validator wants a title and a figure in each example, no try on a Learn page, and every see-example to name one | ⚠️ **Built 2026-11-17** (`CoursePage`, `StatsContent.CheckExamples`; `ExampleTests`, `ExampleTabTests`). Ron: hand-test X |
+| 17.2 | **`[[try: …]]`, Statistics+'s example to try** (`TrySpec`, `TryAnalysis`): a task's analysis with named settings as controls (a slider for `Setting=low..high`, a box, a list, a tick box, a box of values, or a column of the task's table `@Table/Column`), its figure and chosen results worked out again as they change; Back to the start; a mistyped value is named in plain words and the figure is said to be the last good one. `docs/TRY-SETTINGS.md` lists what each analysis can change; `Print_a_task` prints a task's results after changes, so an example's words are checked against the engine | ⚠️ **Built 2026-11-17.** UX: walkthrough + heuristics (0 Critical, 2 Major, 7 Minor, all fixed: results above the figure, plain messages for a mistyped value, Back to the lesson, the worked example names the others, longer sub-tab titles, headings numbered as the sub-tabs, decimal commas, live regions for a screen reader). Ron: hand-test X |
+| 17.3 | **Every lesson item's examples**: from the Learn page's worked case, its numbers checked with `Print_a_task`; the Learn page keeps the case as text with a see-example button; the "Try it in the Workbench" sections of modules 6 and 8 become examples | ⚠️ **Built 2026-11-17: 89 examples on 83 items** (every lesson item except 0.1 and 0.3, which have nothing to calculate; 88 new `tasks/*-try.json`, none with `ask`, none with an exercise's data), every number in the words printed with `Print_a_task`; the pictures of every example checked by `CourseDrawingTests` (none left undrawn) and by eye on a sample. 745 tests pass. **Limits found, for Ron to choose from later:** Probability rules draws no figure (3.5 shows its results only); a try cannot change a regression's predictors or a discrete table (shown with Selection and data instead); the two-proportion z-test does not report the n·p̂ ≥ 10 check (10.3 uses Chi-square); Simulation cannot draw from a small finite population (6.1). Ron: hand-test X |
+| 17.4 | **Into the Learning Core**: the splitter and its checks are subject-neutral, so they move to the Learning Core with PLC+'s and AppliedDatabase+'s (its plan 3.22) | — |
+
 ## Phase 16 — Later topics on the same architecture
 
 | # | Task | Done when |
@@ -304,6 +317,7 @@ uget-local` (Ron, 2026-11-11) → phase 8 |
 | Q12 | 2026-11-11 | ANOVA tables in the lessons follow R's column order (df before SS); the Workbench lists SS before df. Acceptable? | **Yes** (Ron, 2026-11-11) |
 | Q13 | 2026-11-11 | Depth: 13.4's cross-validation (PRESS, six hold-out seeds); 13.2's Durbin–Watson bounds table or just "below about 1.5"? | **13.4 is OK; keep the bounds table in 13.2** (Ron, 2026-11-11) |
 | Q14 | 2026-11-11 | Slips found on the course site (part T6 of the hand-test) | **Make a note for Ron; he addresses them later** (Ron, 2026-11-11) → `docs/COURSE-SITE-NOTES.md` |
+| Q16 | 2026-11-17 | The 2.0.0 Store package was built (15.3) before phase 17. Should 2.0 ship with the examples to try (rebuild the package, WACK, a short hand-test), or ship as built and bring them in 2.0.1? | — |
 | Q15 | 2026-11-11 | Push Statistle to GitHub? | **Yes, to the Statistle repo** (Ron, 2026-11-11). Pushed to `github.com/reaglin/Statsitle` (the repository's name has the letters swapped; ⚠️ Ron: rename it on GitHub to `Statistle` if wanted — GitHub redirects the old address, and the local remote is then updated) |
 
 ## References

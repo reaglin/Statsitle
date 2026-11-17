@@ -55,6 +55,8 @@ Now suppose the 9 had been a bad day with 29 rejects: 4, 7, 5, 29, 5.
 
 One unusual day moved the mean far above four of the five values. The median did not move.
 
+[[see-example: 1]]
+
 ## Comparing mean, median and mode
 
 | Shape of the data | How they compare |
@@ -115,3 +117,14 @@ The full script for the Example, which prints every result with its label, is un
 ## What to do next
 
 On the **Exercise** tab, twelve bolts were measured and one is longer than the rest. Calculate the mean and the median, type them in, and press **Check my answers**. Then see which one the long bolt moved.
+
+[[example: One bad day: the mean moves, the median does not]]
+
+This is the Learn page's worked case: the rejected parts on five days, 4, 7, 5, 9 and 5. It starts there: the mean is **6 parts**, and the median and the mode are both **5 parts**.
+
+1. **Change the 9 to 29**, the bad day. The mean jumps to **10 parts**, above four of the five days; the median stays at **5**. In the box plot, the 29 is drawn on its own as an outlier.
+2. **Change the 29 to 2.** Now the long tail is on the small side: the mean falls below the median.
+3. **Add a sixth day** on a new line, such as 6. With n even, the median is the average of the two middle values.
+4. **Back to the start** puts the five days back.
+
+[[try: st.m2.rejects.try Sample | Count Mean Median Mode figure=2]]

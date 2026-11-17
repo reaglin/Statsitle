@@ -1,0 +1,15 @@
+{
+  "id": "st.m7.connectors.try",
+  "title": "Defective connectors in a lot",
+  "analysis": "SamplingDistribution",
+  "intro": "5 % of a supplier's connectors are defective (p = 0.05). An inspector checks lots of n = 400 and finds p̂, the proportion defective in the lot. How likely is a lot to show 7 % or more?",
+  "settings": {
+    "Name": "Defective connectors",
+    "Statistic": "SampleProportion",
+    "PopulationProportion": 0.05,
+    "SampleSize": 400,
+    "Value": 0.07,
+    "Value2": null,
+    "Shade": "Above"
+  }
+}

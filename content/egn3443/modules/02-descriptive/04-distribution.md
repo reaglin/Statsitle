@@ -61,6 +61,8 @@ Most repairs take one to two hours, and a few take four to six. The mean is 2.00
 
 [[figure: st.m2.distribution.eg 2]]
 
+[[see-example: 1]]
+
 ## Negative (left) skew
 
 Eighteen batch yields of a chemical process, in percent. A yield cannot pass 100 %, and a few poor batches make a tail on the left:
@@ -116,4 +118,14 @@ Base R has no skewness function, so the formula is written out. The **e1071** an
 
 ## What to do next
 
-Open the **Example** tab and press **Open in the Workbench**. Change the 6.2 h repair to 2.0 h and watch the mean, the skewness and the box plot change. Then answer the questions on the **Exercise** tab.
+On the **Example** tab, Example 1 lets you change the 6.2 h repair to 2.0 h and watch the mean, the skewness and the box plot change. Then answer the questions on the **Exercise** tab.
+
+[[example: Shorten the longest repairs]]
+
+These are the twenty repair times of the Learn page. It starts there: the mean is **2.00 h**, the median **1.55 h**, the skewness **1.82**, and the box plot shows **4.5 and 6.2 h** as outliers.
+
+1. **Change the 6.2 to 2.0.** The mean falls to **1.79 h** and the skewness to **1.45**; the median stays at **1.55 h**. The upper fence moves in to **3.51 h**, so now the **3.8 h** repair is drawn as an outlier too: the fences depend on the data.
+2. **Change the 4.5 to 2.0 as well.** The mean is **1.67 h** and the skewness **1.17**. Still strongly skewed: the shape comes from many short repairs and a few longer ones, not from the two longest alone.
+3. **Back to the start** puts the twenty repairs back.
+
+[[try: st.m2.repairs.try Sample | Mean Median StandardDeviation Skewness Outliers figure=2]]

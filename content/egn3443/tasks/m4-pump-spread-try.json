@@ -1,0 +1,13 @@
+{
+  "id": "st.m4.pump-spread.try",
+  "title": "The mean and spread of the pumps working",
+  "analysis": "DiscreteDistribution",
+  "intro": "A pump station has 2 pumps, each working with probability 0.9, independently. X is the number of pumps working; its mean and variance balance the bars.",
+  "settings": {
+    "Name": "Pumps working",
+    "Family": "Binomial",
+    "Trials": 2,
+    "SuccessProbability": 0.9,
+    "K": 2
+  }
+}

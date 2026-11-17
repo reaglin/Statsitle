@@ -56,6 +56,8 @@ A spinner has four equal sections, one of them red. It is spun 200 times and lan
 3. **How far off to expect:** 2 × √(0.25 × 0.75 / 200) = 2 × 0.0306 = **0.061**. The difference, 0.005, is far inside that: the results agree with a fair spinner.
 4. Had red come up 80 times (0.40), the difference 0.15 would be more than twice 0.061. Something is wrong with the spinner, or with the assumption that it is fair.
 
+[[see-example: 1]]
+
 ## The Example: darts and π
 
 Throw darts at random at a square 2 units on a side, with a circle of radius 1 drawn inside it. The circle's area is π × 1² = π and the square's is 2 × 2 = 4, so the theoretical probability that a dart lands inside the circle is π/4 = **0.7854**. Turn it around, and four times the experimental proportion **estimates π**.
@@ -101,3 +103,14 @@ Your numbers will differ from the program's 3929, because each program draws its
 ## What to do next
 
 On the **Exercise** tab, two dice are rolled and the event is a sum of **at least 10**. Work out the theoretical probability by counting, then read the simulation's result in the Workbench.
+
+[[example: One chance in four: how far off is normal?]]
+
+This is the Learn page's worked case: a spinner with one red section of four, P(red) = **0.25**. The program draws a card from a shuffled deck instead (a heart is one suit of four, the same 0.25). It starts with **200 draws** and **51 hearts**, an experimental probability of **0.255**: off by **0.005**, far inside the expected ±0.061.
+
+1. **Change the trials to 20.** The expected error grows to about ±0.19.
+2. **Move the seed to 19, 20 and 21** (with 20 draws). The runs give **2, 5 and 6 hearts**: 0.10, 0.25 and 0.30. A share of 0.10 is 0.15 below the theory, yet nothing is wrong with the deck.
+3. **Change the trials to 100 000.** The share is **0.2487**, within **0.0013** of 0.25. The running proportion in the figure settles on the red line.
+4. **Back to the start** puts the 200 draws back.
+
+[[try: st.m3.hearts.try Trials Seed=1..40 | Occurrences ExperimentalProbability TheoreticalProbability Difference figure=1]]

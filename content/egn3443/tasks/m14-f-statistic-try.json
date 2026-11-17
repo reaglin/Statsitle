@@ -1,0 +1,37 @@
+{
+  "id": "st.m14.f-statistic.try",
+  "title": "Crop yield under three fertilizers",
+  "analysis": "OneWayAnova",
+  "intro": "The course's worked case: four plots under each of three fertilizers. Move a group's yields and watch SS between, SS within and F.",
+  "tables": [
+    {
+      "name": "Fertilizer",
+      "columns": {
+        "A": [
+          10,
+          12,
+          11,
+          13
+        ],
+        "B": [
+          8,
+          9,
+          7,
+          10
+        ],
+        "C": [
+          14,
+          15,
+          13,
+          16
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Crop yield",
+    "Table": "@Fertilizer/",
+    "Layout": "ColumnsAreGroups",
+    "Alpha": 0.05
+  }
+}

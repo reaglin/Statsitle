@@ -1,0 +1,10 @@
+{
+  "id": "st.m2.response.try",
+  "title": "Sensor network response times",
+  "analysis": "DescriptiveStatistics",
+  "intro": "Twenty response times of a plant's sensor network, in milliseconds (ms).",
+  "settings": {
+    "Name": "Response times",
+    "Sample": [182, 175, 210, 168, 195, 1240, 188, 172, 205, 179, 191, 233, 186, 170, 198, 410, 184, 177, 202, 189]
+  }
+}

@@ -60,6 +60,8 @@ The lab also logged the air temperature in the testing room (°C). The machine i
 
 R² went **up**, by 0.0002, as it always does. Adjusted R² went **down**, from 0.7942 to 0.7687, and the residual standard error went up: the extra coefficient cost a degree of freedom and bought almost nothing. Lab temp's own line says the same: b = 0.041 MPa per °C with t = 0.09 and p = 0.93. The two-predictor model is the better one.
 
+[[see-example: 1]]
+
 ## Comparing R² and adjusted R²
 
 | | R² | Adjusted R² |
@@ -134,3 +136,13 @@ R's `anova(fit)`, and statsmodels' `sm.stats.anova_lm(fit)` for a model fitted w
 ## What to do next
 
 On the **Exercise** tab, fit a three-predictor model to the power drawn by a pump, and find R², adjusted R², F and its error degrees of freedom.
+
+[[example: Concrete: what a third predictor buys]]
+
+This is the Learn page's Example: the concrete with the lab temperature added. It starts there: R² = **0.8318**, adjusted R² = **0.7687**, σ̂ = **1.63 MPa**, F = **13.19**, and Lab temp's t = **0.09**.
+
+1. **Set Variable selection to Backward elimination.** Lab temp is dropped (p = **0.93**), and the numbers return to the two-predictor model: R² = **0.8316**, adjusted R² = **0.7942**, σ̂ = **1.53 MPa**, F = **22.23**. R² fell by 0.0002; adjusted R² rose.
+2. **Set it back to All the predictors listed, and type the Lab temp values in reverse order** (24.6 first, 20.3 last). The temperatures now belong to the wrong cylinders and mean nothing at all, yet by chance they line up a little with the residuals: t = **−1.59**. Because |t| is above 1, adjusted R² rises, to **0.8241**, and σ̂ falls to **1.42 MPa**. But p = **0.15**: the column is not significant, and adjusted R² alone would have kept it.
+3. **Back to the start** puts the real temperatures back.
+
+[[try: st.m12.fit.try Selection "@Cylinders/Lab temp" | RSquared AdjustedRSquared ResidualSe FStatistic ChosenT ChosenP figure=1]]

@@ -60,6 +60,8 @@ A road agency wants the mean compressive strength of a new mix within **±4 MPa*
 
 To halve the margin to ±2 MPa: n = (1.645 × 12 / 2)² = 97.40, so 98 cylinders. Halving E needs about four times the data.
 
+[[see-example: 1]]
+
 ## The Example: fill weight within ±0.5 g
 
 A plant wants to estimate the mean fill weight of a cereal line within ±0.5 g at 95 % confidence. Past data give σ = 2.2 g.
@@ -109,3 +111,14 @@ The Workbench's **Sample size** uses z, as the course's formula does. When σ wi
 ## What to do next
 
 On the **Exercise** tab, a pavement engineer needs the mean deflection of a road section within a given margin at 99 % confidence. Find the critical value and the number of test points.
+
+[[example: The new mix: what sets the margin of error]]
+
+This is the Learn page's worked case: σ ≈ 12 MPa, 90 % confidence, n = 25 cylinders. To draw the interval it needs a sample mean; suppose the 25 cylinders average 35 MPa. It starts there: z(0.05) = **1.645**, and the margin of error is **3.95 MPa**, within the ±4 MPa asked for.
+
+1. **Change n to 24.** The margin is **4.03 MPa**, just over 4. That is why 24.35 rounds **up** to 25.
+2. **Change n to 98.** The margin is **1.99 MPa**, within ±2; at **97** it is **2.004**, just over. Halving the margin took about four times the cylinders.
+3. **Back to n = 25, and change the confidence to 95 %, then 99 %.** The margin grows to **4.70**, then **6.18 MPa**. Being surer costs width.
+4. **Back to 90 %, and change σ to 24 MPa**, a mix twice as variable. The margin doubles to **7.90 MPa**.
+
+[[try: st.m7.mix.try SampleSize=5..120 Confidence=0.80..0.99 Sigma=4..30 | Critical MarginOfError Lower Upper figure=1]]

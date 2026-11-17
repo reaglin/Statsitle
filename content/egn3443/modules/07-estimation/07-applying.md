@@ -60,6 +60,8 @@ The specification allows each battery 75 ± 2 kWh. That is a statement about **s
 
 75 kWh is inside all three.
 
+[[see-example: 1]]
+
 ## A proportion from the same thinking
 
 The same steps work for a proportion. Suppose a warranty paid out for any battery under 74 kWh. The parameter would be p, the share of all batteries below 74 kWh. Five of the thirty are below it (73.5, 73.6, 73.7, 73.8 and 73.9), so p̂ = 5/30 = 0.167. But n·p̂ = 5 is under 10, so the hand formula of item 7.4 is not reliable here: use Wilson's interval, or test more batteries.
@@ -100,3 +102,13 @@ mean(abs(cap - 75) <= 2)                         # 1
 ## What to do next
 
 On the **Exercise** tab, fifteen 3D-printed specimens were tested, and the material's data sheet claims a mean strength of 50 MPa. Build the 99 % interval from the data column, then decide what it says about the claim.
+
+[[example: Battery capacity: confidence and a typing error]]
+
+This is the Learn page's Example: 30 TechPower batteries rated at 75 kWh. It starts there: x̄ = **74.863 kWh**, standard error **0.1465 kWh**, t(0.025, 29) = **2.045**, and the 95 % interval runs from **74.56 to 75.16 kWh**. 75 kWh is inside.
+
+1. **Change the confidence to 90 %.** t = **1.699**, and the interval narrows to **74.61 to 75.11 kWh**.
+2. **Change it to 99 %.** t = **2.756**, and the interval widens to **74.46 to 75.27 kWh**. 75 is inside all three.
+3. **Back to 95 %, and in the column change 75.7 (the 19th value) to 757**, a typing error. x̄ jumps to **97.57 kWh**, the standard error to **22.74 kWh**, and the interval runs from **51.07 to 144.08 kWh**: nonsense from one wrong value. Look at the data first (Step 2 on the Learn page). Back to the start puts it right.
+
+[[try: st.m7.batteries.try Confidence=0.80..0.99 "@Batteries/Capacity (kWh)" | Estimate StandardError Critical Lower Upper figure=1]]

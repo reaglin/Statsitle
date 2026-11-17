@@ -62,6 +62,8 @@ To compare, put the predictors on a common footing:
 - **Over the range studied:** feed from 0.10 to 0.30 raises Ra by 8.033 × 0.20 = **1.61 µm**; speed from 100 to 250 lowers it by 0.00472 × 150 = **0.71 µm**. Over this trial's ranges, feed matters about twice as much.
 - **Per standard deviation of each predictor** (b × sₓ, the change in Ra for one standard deviation of the predictor, sₓ): 0.588 µm for feed and −0.299 µm for speed, the same conclusion. (The fully standardized coefficients that some software reports also divide by the standard deviation of y, and have no units.)
 
+[[see-example: 1]]
+
 ## Unique contribution: the t-test of a coefficient
 
 The t-test on a coefficient's line asks: **does this predictor add information beyond the others in the model?** A small p-value says yes. It does not say the predictor matters on its own, and a large p-value does not prove it has no effect; it may be that the other predictors already carry the same information.
@@ -100,3 +102,13 @@ In the Workbench, type a predictor's name in **Coefficient to read** to see its 
 ## What to do next
 
 On the **Exercise** tab, fit a weld-strength model with current and travel speed, read the line for travel speed, and see how it differs from the simple slope.
+
+[[example: Turned shafts: change a predictor's units]]
+
+This is the Learn page's Example: fifteen shafts, feed and cutting speed. It starts there: Roughness = 0.572 + 8.033·Feed − 0.00472·Cutting speed, with the Feed coefficient's t = **31.05** and R² = **0.990**.
+
+1. **Type the feeds in µm per revolution**: 100, 150, 200, 250 and 300 in place of 0.10 to 0.30. The Feed coefficient becomes **0.008033** µm per µm/rev, a thousand times smaller. Its t (**31.05**), its p-value and R² do not change: only the unit moved.
+2. **Back to the start, then type the cutting speeds in m/s**: 1.6667, 2.9167 and 4.1667 in place of 100, 175 and 250 m/min. The speed coefficient becomes **−0.2832** µm per m/s, sixty times larger, and again nothing else moves. A coefficient's size says nothing about importance until you know its units.
+3. **Back to the start** puts the original units back.
+
+[[try: st.m12.coefficients.try @Turning/Feed "@Turning/Cutting speed" | Equation CoefficientTable ChosenEstimate ChosenT RSquared figure=1]]

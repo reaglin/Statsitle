@@ -1,0 +1,13 @@
+{
+  "id": "st.m3.welds.try",
+  "title": "At least one flawed weld",
+  "analysis": "DiscreteDistribution",
+  "intro": "A bracket has 3 welds, and each has a flaw with probability 0.05, independently. The event is at least one flawed weld; its complement is none.",
+  "settings": {
+    "Name": "Welds",
+    "Family": "Binomial",
+    "Trials": 3,
+    "SuccessProbability": 0.05,
+    "K": 1
+  }
+}

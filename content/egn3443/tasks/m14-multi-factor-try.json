@@ -1,0 +1,51 @@
+{
+  "id": "st.m14.multi-factor.try",
+  "title": "A 2 × 2 design with two runs per cell",
+  "analysis": "TwoWayAnova",
+  "intro": "The Learn page's worked case: factors A and B at two levels each, two runs in every cell. Change the runs and watch the interaction plot and the three F tests.",
+  "tables": [
+    {
+      "name": "Design",
+      "columns": {
+        "A": [
+          1,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2
+        ],
+        "B": [
+          1,
+          1,
+          2,
+          2,
+          1,
+          1,
+          2,
+          2
+        ],
+        "Response": [
+          10,
+          12,
+          14,
+          16,
+          13,
+          15,
+          13,
+          15
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "2 × 2 design",
+    "Table": "@Design/",
+    "FactorA": "A",
+    "FactorB": "B",
+    "Response": "Response",
+    "Alpha": 0.05
+  }
+}

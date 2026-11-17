@@ -93,7 +93,9 @@ Each program draws its own random numbers, so your means differ a little from th
 
 ## Try it in the Workbench
 
-Press **Open in the Workbench** on the Example tab and change **Sample size (n)** to 40. The histogram may look about the same, because its horizontal axis rescales to fit the bars. Read the horizontal axis: the means now spread over about half the range, from about 99 to 101 Ω instead of 98 to 102 Ω. Four times the sample, half the spread (item 6.4).
+The Example tab has the 2000 means of ten resistors with the sample size on a slider. Change it to 40: the histogram may look about the same, because its horizontal axis rescales to fit the bars. Read the horizontal axis: the means now spread over about half the range, from about 99 to 101 Ω instead of 98 to 102 Ω. Four times the sample, half the spread (item 6.4). **Open in the Workbench** on the Example tab does the same with every setting.
+
+[[see-example: 1]]
 
 ## Common mistakes
 
@@ -104,3 +106,13 @@ Press **Open in the Workbench** on the Example tab and change **Sample size (n)*
 ## What to do next
 
 The **Exercise** tab has four questions on what a sampling distribution is and what it shows.
+
+[[example: Means of resistors: four times the sample, half the spread]]
+
+This is the Learn page's Example: 2000 samples of n = 10 resistors from a line with μ = 100 Ω and σ = 2 Ω. It starts there: the 2000 means have a standard deviation of **0.6349 Ω**, close to σ/√n = **0.6325 Ω**.
+
+1. **Change n to 40.** The standard deviation of the means falls to **0.3112 Ω**, about half; σ/√n is **0.3162 Ω**. Read the horizontal axis: it rescales, so the histogram keeps its size while the values it covers shrink.
+2. **Change n to 2.** The means spread much more: **1.3828 Ω**, against σ/√n = **1.4142 Ω**. A mean of two resistors is still much like a single resistor.
+3. **Change n to 160**, four times 40. The spread halves again, to **0.1594 Ω** (σ/√n = **0.1581 Ω**). At every n the means stay centred on 100 Ω.
+
+[[try: st.m6.resistors.try SampleSize=2..160 | MeanOfMeans SdOfMeans TheoreticalStandardError figure=1]]

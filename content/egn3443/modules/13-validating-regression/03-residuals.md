@@ -58,6 +58,8 @@ So SS error = 0.2933 mm² and σ̂ = √(0.2933/4) = √0.07333 = **0.2708 mm**.
 
 The residuals alternate in sign, with no curve and no funnel, and the largest, −0.33 mm at 50 N, is only 1.2 σ̂ from zero. Six points cannot show much, but nothing here argues against the line.
 
+[[see-example: 1]]
+
 ## How large is large? Standardized residuals
 
 A residual of 0.33 mm is small for the spring and would be huge for a micrometer, so residuals are judged against σ̂. But not every residual has the same spread: points far from x̄ pull the line towards themselves, so their residuals tend to be **smaller**. The amount of pull is the **leverage**, hᵢᵢ; for a line,
@@ -125,3 +127,13 @@ hatvalues(fit); rstandard(fit)                    # leverages, standardized resi
 ## What to do next
 
 On the **Exercise** tab, compute the seven residuals of an amplifier calibration by hand, then SS error, σ̂ and the Durbin–Watson statistic, and press **Check my answers**.
+
+[[example: The spring: one reading changes every residual]]
+
+This is the Learn page's worked case: six loads and extensions. It starts there: ŷ = 0.1333 + 0.2000x, SS error = **0.2933 mm²** and σ̂ = **0.2708 mm**.
+
+1. **Change the 50 N extension from 9.8 to 10.1 mm**, closer to the line. SS error falls to **0.1568 mm²** and σ̂ to **0.198 mm**, and the slope moves only to 0.2026 mm/N.
+2. **Back to the start, then change the 30 N extension from 5.9 to 8.9 mm**, a slip of 3 mm. The 30 N point stands far above zero in the residual plot, SS error jumps to **6.26 mm²** and σ̂ to **1.25 mm**, almost five times as large. One bad reading inflates σ̂, the yardstick every residual is judged against.
+3. **Back to the start** puts 5.9 back.
+
+[[try: st.m13.residuals.try @Spring/Extension | Equation SsError ResidualSe Influential figure=2]]

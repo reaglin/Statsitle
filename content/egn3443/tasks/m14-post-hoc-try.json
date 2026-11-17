@@ -1,0 +1,37 @@
+{
+  "id": "st.m14.post-hoc.try",
+  "title": "Which fertilizers differ? Tukey's HSD",
+  "analysis": "OneWayAnova",
+  "intro": "The fertilizer yields of item 14.3: four plots under each of three fertilizers. Tukey's HSD compares the three pairs with one family-wide confidence level.",
+  "tables": [
+    {
+      "name": "Fertilizer",
+      "columns": {
+        "A": [
+          10,
+          12,
+          11,
+          13
+        ],
+        "B": [
+          8,
+          9,
+          7,
+          10
+        ],
+        "C": [
+          14,
+          15,
+          13,
+          16
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Crop yield",
+    "Table": "@Fertilizer/",
+    "Layout": "ColumnsAreGroups",
+    "Alpha": 0.05
+  }
+}

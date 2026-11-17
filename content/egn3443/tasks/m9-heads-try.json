@@ -1,0 +1,17 @@
+{
+  "id": "st.m9.heads.try",
+  "title": "Consistency of two filling heads",
+  "analysis": "TwoSampleTest",
+  "intro": "Two filling heads are compared for consistency. Head 1: 10 fills with standard deviation 3.0 g. Head 2: 12 fills with standard deviation 1.5 g. The F-test for two variances: H₀: σ₁² = σ₂² against H₁: σ₁² ≠ σ₂² at α = 0.05.",
+  "settings": {
+    "Name": "Fill consistency",
+    "TestKind": "VarianceRatio",
+    "Source": "Summary",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "SampleSd": 3.0,
+    "SampleSize": 10,
+    "Sample2Sd": 1.5,
+    "Sample2Size": 12
+  }
+}

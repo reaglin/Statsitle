@@ -1,0 +1,15 @@
+{
+  "id": "st.m3.dice-sums.try",
+  "title": "Two dice: the sum you choose",
+  "analysis": "Simulation",
+  "intro": "Two fair dice rolled on the computer. The event is a sum you choose; the theory counts its cells in the 36-cell table.",
+  "settings": {
+    "Name": "Two dice",
+    "Experiment": "Dice",
+    "Dice": 2,
+    "EventIs": "EqualTo",
+    "DiceTotal": 7,
+    "Trials": 1000,
+    "Seed": 1
+  }
+}

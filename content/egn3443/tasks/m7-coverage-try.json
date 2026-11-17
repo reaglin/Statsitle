@@ -1,0 +1,16 @@
+{
+  "id": "st.m7.coverage.try",
+  "title": "A thousand intervals",
+  "analysis": "Simulation",
+  "intro": "1000 samples of n = 10 from a normal population with μ = 50 and σ = 2 (seed 1), and a t interval from each at the confidence level chosen. How many contain μ?",
+  "settings": {
+    "Name": "Interval coverage",
+    "Experiment": "IntervalCoverage",
+    "PopulationMean": 50,
+    "PopulationSigma": 2,
+    "SampleSize": 10,
+    "Confidence": 0.95,
+    "Trials": 1000,
+    "Seed": 1
+  }
+}

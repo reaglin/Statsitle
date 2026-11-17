@@ -62,6 +62,8 @@ The program draws this chart for you: Descriptive statistics' third figure is th
 
 If you give the program all fifteen nuts instead, it works the limits out from all fifteen: x̄ = 119.25 N·m and s = 4.20 N·m, so LCL = 106.64 N·m and UCL = 131.86 N·m. The faulty nut, 104.5 N·m, is still outside, but only just, and the limits are four times as far apart as the stable process needs. That is why limits are set from a period when the process is known to be stable.
 
+[[see-example: 1]]
+
 **Control limits are not specification limits.** Control limits describe what the process **does**; they come from data. Specification (tolerance) limits describe what the customer **needs**; they come from the design. A process can be in control and still make parts out of specification, if its spread is too large for the tolerance.
 
 Textbooks on quality control estimate the spread for these charts in other ways too (from the moving range, or from subgroups); you will meet those later. The idea is the same.
@@ -118,3 +120,13 @@ Python may print the fences with a long tail of digits, such as 117.024999999999
 ## What to do next
 
 On the **Exercise** tab, thirteen tablets' coating thicknesses are waiting. Find Q1, Q3 and the two fences, type them in, and press **Check my answers**. Then decide which tablet, if any, a quality engineer should investigate.
+
+[[example: Control limits from the stable period]]
+
+This is the Learn page's worked case: the fourteen nuts of the stable period, in the order they were tightened. It starts there: x̄ = **120.30 N·m**, s = **1.05 N·m**, and the control limits are **117.15 and 123.45 N·m**, with no point outside.
+
+1. **Add the faulty nut, 104.5, as a 15th value.** The limits are now worked out with it: x̄ = **119.25 N·m**, s = **4.20 N·m**, LCL = **106.64** and UCL = **131.86 N·m**. The faulty nut is still outside, but only just.
+2. **Change the 104.5 to 116.5**, a nut a little short. It is below the stable LCL of 117.15 N·m, but the limits worked out with it in are **115.82 and 124.27 N·m**, so the chart shows **0** points outside. The fences, which use the quartiles, still name 116.5 as an outlier.
+3. **Back to the start** puts the fourteen stable nuts back. Limits set from the stable period would have caught both nuts.
+
+[[try: st.m1.torques.try Sample | Mean StandardDeviation LowerControlLimit UpperControlLimit PointsOutsideLimits Outliers figure=3]]

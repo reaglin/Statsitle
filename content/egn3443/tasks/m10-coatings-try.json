@@ -1,0 +1,17 @@
+{
+  "id": "st.m10.coatings.try",
+  "title": "Surface defects with two mold coatings",
+  "analysis": "TwoSampleTest",
+  "intro": "A foundry tried two mold coatings. With coating 1, 27 of 300 castings had surface defects; with coating 2, 14 of 280. The two-proportion z-test of H₀: p₁ = p₂ against H₁: p₁ ≠ p₂ at α = 0.05.",
+  "settings": {
+    "Name": "Surface defects",
+    "TestKind": "TwoProportions",
+    "Source": "Summary",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Successes": 27,
+    "SampleSize": 300,
+    "Successes2": 14,
+    "Sample2Size": 280
+  }
+}

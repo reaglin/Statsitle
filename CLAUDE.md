@@ -30,6 +30,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 > 31 Minor, all fixed: `docs/ux-reviews/2026-11-12-pre-release.md`), the Store listing and submission notes for 2.0, the privacy page
 > for learners and reports (live), Store screenshots from `StoreShots` (`STATISTLE_STORE_SHOTS=<folder> dotnet test tests/Statistle.App.Tests --filter StoreShots`),
 > the site page drafted as `statistle/index-next.html`. ⚠️ Ron's hand-test round 2.0 (parts P–W), then WACK and submit. A sample report: `STATISTLE_REPORT_SAMPLES=<folder> dotnet test tests/Statistle.App.Tests --filter Write_a_sample_report`. Figures of every task as PNGs: `STATISTLE_FIGURE_SHOTS=<folder> dotnet test tests/Statistle.App.Tests --filter FigureShots`.
+> **Phase 17 (2026-11-17), the PlusBook pattern:** examples to try go on the Example tab, each with a figure (Learning Core plan
+> 3.22). `[[example: Title]]` sections after a Learn page, `[[see-example: N]]` buttons on it, and `[[try: task Setting=low..high | Results]]`
+> (`TrySpec`, `TryAnalysis`) that recalculates the analysis as the learner changes it; 89 examples on 83 items. `docs/CONTENT-FORMAT.md`
+> *Examples to try*; `docs/TRY-SETTINGS.md`; check an example's numbers with `STATISTLE_PRINT_TASK=<id> STATISTLE_PRINT_CHANGES="…" dotnet test tests/Statistle.Learning.Tests --filter Print_a_task`.
 > Pictures of the Course for checking by eye: `STATISTLE_COURSE_SHOTS=<folder> dotnet test tests/Statistle.App.Tests --filter CourseShots`.
 
 **Statistle** — a Windows 10/11 desktop app that calculates the statistics of Ron's course

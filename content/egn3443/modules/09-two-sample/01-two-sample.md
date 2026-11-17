@@ -71,6 +71,8 @@ With only the sample standard deviations, use a t-test.
 
 Neither test rejects H₀ at α = 0.05: the ovens may well give the same mean strength. Notice that the two t-tests give different statistics. When n₁ ≠ n₂ and the variances differ, pooling gives the larger sample's variance more weight. Here the larger sample (oven B) also has the larger variance, so pooling made the SE bigger and t smaller. When the **smaller** sample has the larger variance, as in the Example, pooling makes the SE too small and p too small: the pooled test then rejects too often. With n₁ = n₂ the two t statistics are equal, and only the df differ.
 
+[[see-example: 1]]
+
 ## The Example: two alloys
 
 A lab tested 10 coupons of alloy A and 8 of alloy B for tensile strength (MPa).
@@ -123,3 +125,13 @@ Both libraries give the confidence interval with the test. Welch is the default 
 ## What to do next
 
 On the **Exercise** tab, compare the pit depth under two coatings with Welch's test. Find t, ν and the p-value, and press **Check my answers**.
+
+[[example: Two ovens: what moves the test]]
+
+This is the Learn page's worked case: oven A with 8 joints, mean 24.6 kN and standard deviation 1.2; oven B with 12 joints, mean 23.5 and standard deviation 2.1. It starts there, with Welch's test: t = **1.487** on **17.73** degrees of freedom and p = **0.155**, so H₀ is not rejected. The curve is the t distribution, the shaded tails the rejection region and the line the observed t.
+
+1. **Change the test to the pooled t.** t falls to **1.336** with **18** df and p rises to **0.198**: here the larger sample has the larger variance, so pooling makes the standard error bigger.
+2. **Go back to Welch and move both sizes to 30.** The difference is still 1.1 kN, but the standard error shrinks: t = **2.49**, p = **0.016**, and H₀ is rejected. More joints make the same difference convincing.
+3. **Put the sizes back to 8 and 12 and move oven B's standard deviation to 1.2.** With less scatter, t = **2.01** on **15.16** df and p = **0.063**: closer to the line, still not over it.
+
+[[try: st.m9.ovens.try TestKind SampleMean=20..30 SampleSd=0.5..4 SampleSize=2..40 Sample2Mean=20..30 Sample2Sd=0.5..4 Sample2Size=2..40 | Statistic DegreesOfFreedom PValue Decision CiLower CiUpper figure=1]]

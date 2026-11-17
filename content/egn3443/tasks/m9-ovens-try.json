@@ -1,0 +1,20 @@
+{
+  "id": "st.m9.ovens.try",
+  "title": "Bond strength from two curing ovens",
+  "analysis": "TwoSampleTest",
+  "intro": "A plant cures adhesive joints in two ovens and measures the bond strength (kN). Oven A: 8 joints, mean 24.6, standard deviation 1.2. Oven B: 12 joints, mean 23.5, standard deviation 2.1. H₀: μ_A − μ_B = 0 against H₁: μ_A − μ_B ≠ 0 at α = 0.05, by Welch's t-test.",
+  "settings": {
+    "Name": "Bond strength",
+    "TestKind": "WelchT",
+    "Source": "Summary",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Delta0": 0,
+    "SampleMean": 24.6,
+    "SampleSd": 1.2,
+    "SampleSize": 8,
+    "Sample2Mean": 23.5,
+    "Sample2Sd": 2.1,
+    "Sample2Size": 12
+  }
+}

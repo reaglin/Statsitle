@@ -1,0 +1,16 @@
+{
+  "id": "st.m6.resistors.try",
+  "title": "Means of resistors: change the sample size",
+  "analysis": "Simulation",
+  "intro": "Resistors are normal with mean μ = 100 Ω and standard deviation σ = 2 Ω. The computer takes 2000 samples of n resistors (seed 1) and draws the histogram of their means.",
+  "settings": {
+    "Name": "Means of n resistors",
+    "Experiment": "SampleMeans",
+    "Distribution": "Normal",
+    "PopulationMean": 100,
+    "PopulationSigma": 2,
+    "SampleSize": 10,
+    "Trials": 2000,
+    "Seed": 1
+  }
+}

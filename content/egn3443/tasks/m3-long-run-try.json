@@ -1,0 +1,15 @@
+{
+  "id": "st.m3.long-run.try",
+  "title": "Flipping a coin: the long run",
+  "analysis": "Simulation",
+  "intro": "One fair coin flipped on the computer. The theoretical probability of heads is 0.5; the experimental probability is the share of heads in the flips.",
+  "settings": {
+    "Name": "Coin flips",
+    "Experiment": "Coins",
+    "Coins": 1,
+    "EventIs": "EqualTo",
+    "Heads": 1,
+    "Trials": 10,
+    "Seed": 3
+  }
+}

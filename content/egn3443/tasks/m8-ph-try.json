@@ -1,0 +1,31 @@
+{
+  "id": "st.m8.ph.try",
+  "title": "Buffer pH: a t-test from five readings",
+  "analysis": "OneSampleTest",
+  "intro": "A buffer solution should have pH 7.00. Five readings, σ unknown: a t-test of H₀: μ = 7.00 against H₁: μ ≠ 7.00 at α = 0.05.",
+  "tables": [
+    {
+      "name": "Buffer",
+      "columns": {
+        "pH": [
+          7.08,
+          7.12,
+          6.98,
+          7.1,
+          7.07
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Buffer pH",
+    "TestKind": "MeanSigmaUnknown",
+    "Source": "Columns",
+    "Column": "@Buffer/pH",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "NullValue": 7.0,
+    "Sigma": 0.0539,
+    "AlternativeValue": null
+  }
+}

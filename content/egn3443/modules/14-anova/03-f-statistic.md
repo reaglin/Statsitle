@@ -82,6 +82,8 @@ k = 3, n = 4 in each, N = 12, and the grand mean is ȳ = 138/12 = 11.5.
 | Within | 9 | 15 | 1.667 | | |
 | Total | 11 | 87 | | | |
 
+[[see-example: 1]]
+
 ## The Example: concrete slump after three mixing times
 
 [[data: st.m14.f-statistic.eg]]
@@ -128,3 +130,13 @@ qf(0.95, 2, 9)
 ## What to do next
 
 On the **Exercise** tab, build the ANOVA table for the diameters of rod drawn through three dies: SS between, SS within and F.
+
+[[example: Fertilizer yields: move the means, spread the plots]]
+
+This is the Learn page's worked case by hand: three fertilizers, four plots each. It starts there: SS between = **72**, SS within = **15**, MS between = **36**, MS within = **1.667**, F = **21.6** and p = **0.0004**.
+
+1. **Raise every B yield by 3** (11, 12, 10, 13). B's mean moves to 11.5, the same as A's. The scatter inside each group is unchanged, so SS within stays **15**, but SS between falls to **24**, MS between to **12**, and F to **7.2** (p = **0.014**).
+2. **Back to the start, then spread A's yields**: 8, 14, 11, 13 (still mean 11.5). SS between stays **72**, but SS within grows to **31**, MS within to **3.44**, and F falls to **10.45** (p = **0.0045**). The same means are less convincing when the plots scatter more.
+3. **Back to the start** puts the worked case back.
+
+[[try: st.m14.f-statistic.try @Fertilizer/A @Fertilizer/B @Fertilizer/C | SsBetween SsWithin MsBetween MsWithin F P figure=1]]

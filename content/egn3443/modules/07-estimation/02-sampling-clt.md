@@ -66,6 +66,8 @@ holds for 95 % of samples. That is the **95 % confidence interval** for μ, x̄ 
 3. **P(p̂ ≥ 0.07):** z = (0.07 − 0.05) / 0.0109 = 1.84, and P(Z ≥ 1.84) = 1 − 0.9671 = **0.033**. About one lot in thirty shows 7 % defective or more when the true rate is 5 %.
 4. **The middle 95 % of p̂:** 0.05 ± 1.96 × 0.0109 = 0.05 ± 0.0214, from **0.0286 to 0.0714**.
 
+[[see-example: 1]]
+
 ## The Example: wire tensile strength
 
 A wire's tensile strength has μ = 520 MPa and σ = 24 MPa. Samples of n = 36 pieces are tested. The figure draws the population (wide) and the sampling distribution of x̄ (narrow) on one axis. The shaded area is P(512 ≤ x̄ ≤ 528).
@@ -119,3 +121,13 @@ The one thing to remember: the standard deviation passed to `norm` or `pnorm` is
 ## What to do next
 
 On the **Exercise** tab, a known share of a supplier's cable assemblies fail a test. Find the standard error of the sample proportion p̂, the probability that a sample's p̂ is 0.10 or more, and the middle 95 % of p̂, as in the worked case above.
+
+[[example: Defective connectors: the spread of p̂]]
+
+This is the Learn page's worked case: p = 0.05 defective, lots of n = 400. It starts there: the standard error of p̂ is **0.0109**, P(p̂ ≥ 0.07) = **0.0332**, and the middle 95 % runs from **0.0286 to 0.0714**.
+
+1. **Change n to 1600**, four times 400. The standard error halves to **0.0054**, the middle 95 % narrows to **0.0393 to 0.0607**, and a lot showing 7 % or more becomes very unlikely: **0.0001**.
+2. **Change n to 100.** The standard error is **0.0218** and P(p̂ ≥ 0.07) = **0.1794**. But np = 5 is under 10: the Condition line warns that the normal curve is a poor model here.
+3. **Change n back to 400 and p to 0.10.** The curve moves to centre on **0.10**, and its standard error grows to **0.0150**: √(p(1 − p)/n) is larger nearer 0.5.
+
+[[try: st.m7.connectors.try SampleSize=50..2000 PopulationProportion=0.01..0.5 Value=0.01..0.15 | StandardError AtLeast Lower95 Upper95 Condition figure=1]]

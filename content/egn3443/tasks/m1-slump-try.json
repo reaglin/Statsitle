@@ -1,0 +1,10 @@
+{
+  "id": "st.m1.slump.try",
+  "title": "Slump of five concrete batches",
+  "analysis": "DescriptiveStatistics",
+  "intro": "A concrete technician measured the slump of five batches, in millimeters (mm).",
+  "settings": {
+    "Name": "Slump",
+    "Sample": [75, 90, 80, 95, 85]
+  }
+}

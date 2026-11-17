@@ -47,6 +47,8 @@ A supplier's O-rings are defective with probability p = 0.1, independently. You 
 
 So an inspection of five O-rings finds two or more defective only about 8 % of the time, when the supplier's rate really is 10 %.
 
+[[see-example: 1]]
+
 ## The shape
 
 The binomial is symmetric when p = 0.5. With a small p, as in most defect counts, the bars pile up near 0 and the distribution is skewed to the right. With a large p it is skewed to the left. As n grows, it looks more and more like a bell curve (Module 5).
@@ -97,3 +99,14 @@ n * p; n * p * (1 - p)   # 2 and 1.6
 ## What to do next
 
 On the **Exercise** tab, fifteen sensors are installed and each can fail in its first year. Find the probabilities asked, the mean and the standard deviation, and press **Check my answers**.
+
+[[example: Five O-rings, then more]]
+
+This is the Learn page's worked case: n = **5** O-rings, each defective with probability p = **0.1**. It starts at k = 1: P(X = 1) = **0.3281**, P(X ≤ 1) = **0.9185**, P(X > 1) = **0.0815**, and the mean **0.5** with σ = **0.671**.
+
+1. **Move k to 2.** P(X ≥ 2) is **0.0815**, the same as "more than 1".
+2. **Move p to 0.5.** The bars become symmetric about the mean, **2.5**: P(X ≤ 2) and P(X > 2) are both **0.5**.
+3. **Set p back to 0.1, n to 30 and k to 3.** The mean is **3** and σ = **1.64**; the bars, still slightly skewed, start to look like a bell.
+4. **Back to the start** puts the five O-rings back.
+
+[[try: st.m4.o-rings.try Trials=1..30 SuccessProbability=0.01..0.9 K=0..30 | Exactly AtMost AtLeast MoreThan Mean StandardDeviation figure=1]]

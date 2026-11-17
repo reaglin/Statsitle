@@ -43,6 +43,8 @@ d = (x̄₁ − x̄₂) / sₚ, with sₚ the pooled standard deviation
 
 For the ovens, d = 1.1 / 1.804 = 0.61. As a rough guide (Cohen, 1988): about 0.2 is small, 0.5 medium, 0.8 large. Unlike t, d does not grow with the sample size. The t statistic is roughly d × √(n/2) for two samples of n each, so with n = 500, a d of 0.13 already gives t ≈ 2.
 
+[[see-example: 1]]
+
 ## Statistical and practical significance
 
 **Statistically significant** means p < α: the difference is probably real. **Practically significant** means it is large enough to matter: compare it, or better the whole confidence interval, with a tolerance, a specification or a cost. The two can disagree either way:
@@ -101,3 +103,13 @@ t.test(a, b)$conf.int            # a, b: the two samples (the alloys of item 9.1
 ## What to do next
 
 On the **Exercise** tab, two concrete mixes were compared and the test did not reject H₀. Find the confidence interval and Cohen's d, and see what they say that the p-value does not.
+
+[[example: The ovens again: p, the interval and d]]
+
+This is the Learn page's case, the two ovens of item 9.1 with Welch's test. It starts there: p = **0.155**, the 95 % interval for μ_A − μ_B runs from **−0.46** to **2.66 kN**, and Cohen's d = **0.61**.
+
+1. **Move both sizes to 40.** The same difference of 1.1 kN is now significant: p = **0.0055**, and the interval narrows to **0.34** to **1.86 kN**. Cohen's d hardly moves (**0.64**): it measures the difference in standard deviations of the data, and more joints do not change that.
+2. **Move both sizes to 500, and oven A's mean to 23.8 kN** (a difference of 0.3 kN). p = **0.0057**, almost the same as in step 1, but d = **0.18** and the interval is **0.09** to **0.51 kN**. The same p, a much smaller difference: whether 0.3 kN matters is an engineering question, not a statistical one.
+3. **Put the sizes back to 8 and 12, oven A's mean to 24.6 and oven B's to 21.5.** A difference of 3.1 kN: d = **1.72**, large, and p = **0.0006** even with 20 joints. The interval, **1.54** to **4.66 kN**, is still wide.
+
+[[try: st.m9.effect.try SampleMean=20..30 SampleSd=0.5..4 SampleSize=2..500 Sample2Mean=20..30 Sample2Sd=0.5..4 Sample2Size=2..500 | PValue Decision CiLower CiUpper EffectSize figure=1]]

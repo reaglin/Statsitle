@@ -1,0 +1,14 @@
+{
+  "id": "st.m7.sensors.try",
+  "title": "Pressure sensors that fail calibration",
+  "analysis": "ConfidenceInterval",
+  "intro": "A lab calibrated 150 new pressure sensors, and 12 failed calibration. The 95 % interval for the proportion p of all such sensors that fail.",
+  "settings": {
+    "Name": "Sensors failing calibration",
+    "Target": "Proportion",
+    "Source": "Summary",
+    "Confidence": 0.95,
+    "Successes": 12,
+    "SampleSize": 150
+  }
+}

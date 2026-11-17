@@ -68,6 +68,8 @@ Read it line by line:
 
 **Watch the one difference that catches everyone.** numpy's `np.std` divides by n unless you write `ddof=1`; R's `sd` always divides by n − 1. The course, Statistics+ and R all use n − 1 for a sample (Module 2 explains why). Without `ddof=1`, Python gives 0.3929 h for these batteries instead of 0.4200 h.
 
+[[see-example: 1]]
+
 Here is the full script from the Example:
 
 [[code: st.m0.python-and-r.eg]]
@@ -89,3 +91,13 @@ Here is the full script from the Example:
 ## What to do next
 
 On the **Exercise** tab are six temperature readings. Press **Copy as Python** (or **Copy as R**) beside them, paste the data into Colab or R, print the mean and the sample standard deviation, and type the two numbers your code prints. Press **Check my answers**.
+
+[[example: n − 1 or n: the eight batteries]]
+
+These are the eight battery run times of the code above. It starts there: the mean is **10.175 h**, the median **10.15 h**, the sample standard deviation (R's `sd`, numpy's `np.std(x, ddof=1)`) **0.4200 h**, and the population form that numpy gives without `ddof=1` **0.3929 h**.
+
+1. **Keep only the first two packs**, 9.8 and 10.4. The sample standard deviation is **0.4243 h** and the population form **0.3000 h**: with n = 2, leaving out `ddof=1` makes the spread look almost a third smaller.
+2. **Go to sixteen packs**: put the eight back and add 10.0, 10.3, 9.7, 10.6, 10.1, 10.2, 9.9 and 10.4. Now the two are **0.3481 h** and **0.3370 h**. The larger the sample, the less the choice matters, but the course always uses n − 1 for a sample.
+3. **Back to the start** puts the eight packs back. Copy the code of Example 2, the worked Example, into Colab or R and check that it prints the same numbers.
+
+[[try: st.m0.batteries.try Sample | Count Mean Median StandardDeviation PopulationStandardDeviation figure=1]]

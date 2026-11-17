@@ -50,6 +50,8 @@ The two-proportion z-test of item 10.5 uses the normal curve for p̂₁ − p̂�
 
 The two groups must also be different items. If the **same** items are classified twice (each weld inspected by two inspectors, pass or fail), the proportions are paired, and the test is McNemar's test, not the two-proportion z.
 
+[[see-example: 1]]
+
 ## The Example: two resin suppliers
 
 [[data: st.m10.assumptions.eg]]
@@ -106,3 +108,12 @@ The Code tab writes Levene's test by hand in R, so no extra package is needed.
 ## What to do next
 
 On the **Exercise** tab, two tunings of a servo drive are compared. Read the Shapiro–Wilk and Levene checks in the Workbench, and press **Check my answers**. Then decide whether the checks support a t-test; the Exercise says what to notice once you pass.
+
+[[example: Rejects on two lines: enough counts for the z-test?]]
+
+This is the Learn page's case by hand: line A made 6 rejects in 80 parts, line B 3 in 90. Here it is set out as a 2 × 2 table of rejects and good parts. Its **expected counts** are exactly the four numbers of the success–failure condition: n₁p̂ = **4.24** and n₂p̂ = **4.76** rejects, and 75.76 and 85.24 good parts. Two of them are under 5, and the program warns that the approximation may be poor. The chi-square test on this table is the two-sided two-proportion z-test: χ² = **1.47** = z², with p = **0.226**. The bars compare the observed and expected counts.
+
+1. **Double every count:** rejects 12 and 6, good parts 148 and 174. The rates are the same, but the smallest expected count is now **8.47**: over 5, so the program's check passes, yet still under the 10 this course asks for. χ² = **2.93** and p = **0.087**.
+2. **Make the counts five times the first ones:** rejects 30 and 15, good parts 370 and 435. The smallest expected count is **21.18**, over 10: now the z-test can be trusted. χ² = **7.33** and p = **0.0068**, the same p as the z-test gives for 30 of 400 against 15 of 450. Cramér's V stays at **0.093** all along: the same difference in rates, measured with more parts.
+
+[[try: st.m10.rejects.try @Lines/Rejects @Lines/Good | ExpectedTable SmallestExpected ExpectedCheck Statistic P figure=2]]

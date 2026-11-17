@@ -65,6 +65,8 @@ For the four points: MS_R = 3.20, MS_E = 0.90, F = 3.20 / 0.90 = **3.56** on 1 a
 
 In simple regression the F-test and the t-test on the slope (item 11.5) are the same test: **F = t²**, and their p-values are equal. F matters more in multiple regression, where it tests all the predictors at once (Module 12).
 
+[[see-example: 1]]
+
 ## The Example: pavement condition
 
 Twelve road sections, aged 1 to 12 years since resurfacing, with their Pavement Condition Index (PCI, 100 = new).
@@ -109,6 +111,8 @@ The residuals show what R² hides. They are positive at both ends and negative i
 [[figure: st.m11.evaluating.curved 2]]
 
 The line underpredicts at the start and the end, and overpredicts in the middle. A curve, or a transformation of x or y, fits better. Module 13 shows how.
+
+[[see-example: 2]]
 
 **A funnel: equal variance fails.** Larger office buildings cost more to run, and their costs vary more:
 
@@ -155,3 +159,24 @@ plot(fit, which = 1:2)  # residuals vs fitted, normal Q-Q
 ## What to do next
 
 On the **Exercise** tab, judge how well a line fits fourteen compressors' energy use against their age: find R², σ̂ and F, and press **Check my answers**.
+
+[[example: Four points: the sums of squares and F]]
+
+This is the Learn page's worked case: the four points (1, 2), (2, 3), (3, 5), (4, 4). It starts there: SS total = **5**, SS regression = **3.20** and SS error = **1.80**, so R² = **0.64**; σ̂ = **0.949**; F = **3.56** on 1 and 2 df, and p = **0.200**.
+
+1. **Add four more points that keep the same pattern:** x = 1 to 8 and y = 2, 3, 5, 4, 6, 7, 9, 8. The line now explains SS regression = **38.10** of SS total = **42**, R² = **0.907**, and F = **58.5** on 1 and 6 df, p = **0.0003**. More points with the same rising pattern make the relation clear.
+2. **Change the last four y values to 4, 2, 5, 3.** The rise stops: SS regression = **0.38** of SS total = **10**, R² = **0.038**, F = **0.24** and p = **0.643**. The line is still drawn, but it explains almost nothing: least squares always gives a line.
+
+[[try: st.m11.anova.try @Points/x @Points/y | SsRegression SsError SsTotal RSquared ResidualSe FStatistic FP figure=1]]
+
+[[example: Tool wear: straightening a curve]]
+
+This is the Learn page's failed check: flank wear of a carbide insert every 2 minutes of cutting. It starts with a straight line: R² = **0.952**, yet the residuals against fitted values make a U: positive at both ends, negative in the middle. Durbin–Watson is **0.61**, far below 2, another sign of runs of residuals with the same sign (Module 13).
+
+1. **Change the y transformation to Log.** The fit is now ln(wear) = −2.865 + 0.0932 × time, a straight line in the logs. R² rises to **0.988**, the U is gone from the residual plot, and Durbin–Watson is **1.86**, close to 2.
+2. **Change it to Square root.** Also better than the straight line: R² = **0.985**, Durbin–Watson **1.35**. The residuals still bend a little.
+3. **Put y back to None and change the x transformation to Log.** That bends the line the wrong way for wear that speeds up: R² falls to **0.738** and the U is stronger.
+
+Compare models by their residual plots, not only by R², and note that σ̂ is in the units of the transformed y, so it cannot be compared across transformations. Module 13 goes further.
+
+[[try: st.m11.wear.try XTransformation YTransformation | Equation RSquared DurbinWatson ShapiroP figure=2]]

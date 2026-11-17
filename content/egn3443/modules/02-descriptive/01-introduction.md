@@ -61,6 +61,8 @@ And these are the numbers the program calculates from them:
 
 Do not try to learn all of these numbers now. Items 2.2 to 2.4 explain them one group at a time.
 
+[[see-example: 1]]
+
 ## Descriptive statistics in Python and R
 
 The course uses Python (numpy and scipy) and R. Both can calculate every number above. The Code tab of the Example shows the full script. The core of it is short:
@@ -85,4 +87,13 @@ summary(x)   # minimum, quartiles, median, mean, maximum
 
 ## What to do next
 
-Open the **Example** tab to see the full analysis of the cylinders, and press **Open in the Workbench** to try changing a value. Then answer the questions on the **Exercise** tab.
+Open the **Example** tab: Example 1 lets you change five of the cylinders and watch the summary move, and Example 2 is the full analysis of all twenty. Then answer the questions on the **Exercise** tab.
+
+[[example: Same mean, different spread: five cylinders]]
+
+These are the first five cylinders of the Learn page's code: 31.2, 33.8, 29.6, 32.4 and 34.1 MPa. It starts there: the mean is **32.22 MPa**, the median **32.40 MPa**, the standard deviation **1.87 MPa** and the range **4.5 MPa**. The weakest cylinder, **29.6 MPa**, is just under the 30 MPa design strength.
+
+1. **Spread them out with the same total**: 28.2, 36.8, 26.6, 33.4, 36.1. The mean is still **32.22 MPa**, but the standard deviation is **4.61 MPa**, the range **10.2 MPa**, and the weakest cylinder is **26.6 MPa**. Reporting only the center would hide this.
+2. **Back to the start, then change the 29.6 to 25.0.** The mean falls to **31.30 MPa**, the median stays at **32.40 MPa**, and the box plot draws 25.0 on its own as an outlier: a value to look at.
+
+[[try: st.m2.cylinders.try Sample | Mean Median StandardDeviation Range Minimum figure=2]]

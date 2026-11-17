@@ -1,0 +1,18 @@
+{
+  "id": "st.m10.impellers.try",
+  "title": "Efficiency of two impeller designs",
+  "analysis": "ConfidenceInterval",
+  "intro": "A pump maker tested 10 pumps with a new impeller and 10 with the old one. Efficiency (%): new, mean 78.6 and standard deviation 1.4; old, mean 77.0 and standard deviation 1.6. Retooling pays only if the new impeller gains more than 1.0 percentage point. The 95 % Welch interval for μ_new − μ_old.",
+  "settings": {
+    "Name": "Impeller efficiency",
+    "Target": "TwoMeansWelch",
+    "Source": "Summary",
+    "Confidence": 0.95,
+    "SampleMean": 78.6,
+    "SampleSd": 1.4,
+    "SampleSize": 10,
+    "Sample2Mean": 77.0,
+    "Sample2Sd": 1.6,
+    "Sample2Size": 10
+  }
+}

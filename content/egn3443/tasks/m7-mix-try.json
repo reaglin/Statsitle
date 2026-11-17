@@ -1,0 +1,15 @@
+{
+  "id": "st.m7.mix.try",
+  "title": "A new mix: the margin of error",
+  "analysis": "ConfidenceInterval",
+  "intro": "A road agency wants the mean compressive strength of a new mix within ±4 MPa at 90 % confidence; earlier mixes had σ ≈ 12 MPa. Suppose the 25 cylinders it tests average 35 MPa.",
+  "settings": {
+    "Name": "New mix strength",
+    "Target": "MeanSigmaKnown",
+    "Source": "Summary",
+    "Confidence": 0.90,
+    "SampleMean": 35,
+    "Sigma": 12,
+    "SampleSize": 25
+  }
+}

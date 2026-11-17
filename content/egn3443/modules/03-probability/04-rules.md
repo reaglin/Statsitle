@@ -59,6 +59,8 @@ This is also the **test** of independence: A and B are independent exactly when 
 
 Adding 0.05 + 0.05 + 0.05 = 0.15 is wrong: the welds are not mutually exclusive (two can be flawed at once), and with 25 welds the sum would pass 1.
 
+[[see-example: 1]]
+
 **Multiplication without replacement.** A box of 10 relays holds 2 defective ones. Two are taken, one after the other. What is the probability that both are defective?
 
 1. P(first defective) = 2/10.
@@ -116,3 +118,14 @@ In the Workbench, **Probability rules** does all of this: choose how A and B rel
 ## What to do next
 
 On the **Exercise** tab, a bridge inspection finds two kinds of damage. Use the rules to find the probabilities asked, and press **Check my answers**.
+
+[[example: At least one flawed weld]]
+
+This is the Learn page's first worked case: a bracket with **3 welds**, each flawed with probability **0.05**, independently. The program counts the flawed welds with the binomial distribution of item 4.4; the figure shows the chance of 0, 1, 2 and 3 flaws. It starts there: P(none flawed) = **0.8574** (the "less than 1" result) and P(at least one) = 1 − 0.8574 = **0.1426**.
+
+1. **Move the number of welds to 25.** P(at least one flawed) is **0.7226**. Adding 25 × 0.05 would give 1.25, an impossible probability; the complement rule never passes 1.
+2. **Back to 3 welds, and move the flaw probability to 0.10.** P(at least one) rises to **0.2710**, not twice 0.1426.
+3. **Try 50 welds at 0.05.** P(none flawed) is only **0.0769**: on such a part, a flaw somewhere is almost certain.
+4. **Back to the start** puts the 3 welds back.
+
+[[try: st.m3.welds.try Trials=1..50 SuccessProbability=0.01..0.2 | LessThan AtLeast figure=1]]

@@ -1,0 +1,15 @@
+{
+  "id": "st.m3.flagged-weld.try",
+  "title": "A flagged weld: the base rate",
+  "analysis": "ProbabilityRules",
+  "intro": "A = a weld is cracked; B = the ultrasonic test flags it. The test flags 90 % of cracked welds and 5 % of sound ones.",
+  "settings": {
+    "Name": "Weld inspection",
+    "Relationship": "KnownLikelihoods",
+    "ProbabilityA": 0.02,
+    "LikelihoodGivenA": 0.90,
+    "LikelihoodGivenNotA": 0.05,
+    "Items": "NaN",
+    "Chosen": "NaN"
+  }
+}

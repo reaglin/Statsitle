@@ -1,0 +1,10 @@
+{
+  "id": "st.m1.torques.try",
+  "title": "Wheel-nut torques on a control chart",
+  "analysis": "DescriptiveStatistics",
+  "intro": "The fourteen wheel-nut torques of the stable period, in newton-meters (N·m), in the order they were tightened.",
+  "settings": {
+    "Name": "Final torque",
+    "Sample": [121.4, 119.8, 120.6, 118.9, 122.1, 120.2, 119.5, 121.0, 120.8, 118.6, 121.7, 120.0, 119.2, 120.4]
+  }
+}

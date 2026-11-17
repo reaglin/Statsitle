@@ -102,6 +102,8 @@ The hold-out RMSE, 11.80 kWh, is **below** the in-sample error. That is luck: se
 
 One split of 20 rows gives anything from 10.9 to 16.9 kWh. That spread is why, with small data sets, k-fold or leave-one-out is preferred: every row is tested, and the answer does not hang on one draw.
 
+[[see-example: 1]]
+
 ## Cross-validation catches a useless predictor
 
 The table also records the wind speed. Add it: set **Predictor columns** to *HDD, Occupancy, Wind*.
@@ -153,3 +155,13 @@ The Example's **Code** tab writes the whole calculation, the folds and the hold-
 ## What to do next
 
 On the **Exercise** tab, a surface-roughness model is cross-validated three ways. Find the in-sample, leave-one-out and hold-out RMSEs, and press **Check my answers**.
+
+[[example: Office energy: change the folds and the draw]]
+
+This is the Learn page's Example: kWh against heating degree-days and occupancy. It starts there: in-sample RMSE **12.44 kWh**, 5-fold cross-validated **13.68 kWh**, and a hold-out test on rows 3, 5, 7, 13 and 14 (seed 1) of **11.80 kWh**.
+
+1. **Set the folds to 20**, one per row: leave-one-out. The cross-validated RMSE is **14.49 kWh**. The in-sample error does not change; it never does, because it holds no rows out.
+2. **Set the hold-out seed to 6.** The test set becomes rows 4, 8, 11, 15 and 16, and the hold-out RMSE jumps to **16.86 kWh**. Try other seeds: one small split can say almost anything.
+3. **Set the folds to 2.** Each fit now sees only 10 of the 20 days, and the cross-validated RMSE rises to **14.97 kWh**: fewer rows to fit on, worse predictions.
+
+[[try: st.m13.cross-validation.try Folds HoldOutShare=0.1..0.5 HoldOutSeed | InSampleRmse CvRmse HoldOutRowList HoldOutRmse figure=1]]

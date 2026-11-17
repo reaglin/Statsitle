@@ -1,0 +1,15 @@
+{
+  "id": "st.m5.rounding-error.try",
+  "title": "The rounding error of a distance sensor",
+  "analysis": "ContinuousDistribution",
+  "intro": "A distance sensor rounds its reading to the nearest millimeter, so the rounding error is uniform between −0.5 and +0.5 mm. The shaded area is the probability of an error between the two values.",
+  "settings": {
+    "Name": "Rounding error",
+    "Family": "Uniform",
+    "Lower": -0.5,
+    "Upper": 0.5,
+    "X": -0.2,
+    "X2": 0.2,
+    "Probability": 0.9
+  }
+}

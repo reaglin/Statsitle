@@ -1,0 +1,14 @@
+{
+  "id": "st.m6.cylinders.try",
+  "title": "Concrete cylinders: change n",
+  "analysis": "SamplingDistribution",
+  "intro": "Concrete strengths have mean μ = 4200 psi and standard deviation σ = 350 psi. A quality engineer averages the strengths of n test cylinders.",
+  "settings": {
+    "Name": "Cylinders",
+    "Statistic": "SampleMean",
+    "PopulationMean": 4200,
+    "PopulationSigma": 350,
+    "SampleSize": 16,
+    "Value": null
+  }
+}

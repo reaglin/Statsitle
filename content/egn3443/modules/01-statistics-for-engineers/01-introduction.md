@@ -27,6 +27,8 @@ Without statistics, decisions are made on the last measurement, or on whoever ar
 
 Suppose a concrete supplier's last cylinder test came in at 28 MPa, below the 30 MPa design strength. Is the concrete bad? One low result is not enough to say. The question becomes statistical: across all the tests, what is the typical strength, how much do the results vary, and how often does a test fall below 30 MPa? Module 2 gives the numbers that answer the first two questions, and Modules 4 and 5 the third.
 
+[[see-example: 1]]
+
 ## The vocabulary
 
 | Term | Meaning | Engineering example |
@@ -102,4 +104,14 @@ length(strength); mean(strength)              # n = 5 and x̄ = 32.22
 
 ## What to do next
 
-There is no Example for this item. Answer the vocabulary questions on the **Exercise** tab, then press **Next ▸** for descriptive statistics.
+The **Example** tab has the supplier's last ten tests to try. Then answer the vocabulary questions on the **Exercise** tab and press **Next ▸** for descriptive statistics.
+
+[[example: One low cylinder: is the concrete bad?]]
+
+This is the supplier's question from the Learn page, with the last ten cylinder tests. The last one came in at **28 MPa**, below the 30 MPa design strength. It starts there: across all ten, the mean is **31.30 MPa** and the standard deviation **2.06 MPa**. Three of the ten tests (29.1, 29.4 and 28.0 MPa) are below 30 MPa, so a low test is part of this supplier's normal variation.
+
+1. **Change the 28.0 to 31.0**, an ordinary day. The mean moves only to **31.60 MPa**: one test out of ten changes the picture very little.
+2. **Change it to 22.0.** The mean falls to **30.70 MPa** and the standard deviation jumps to **3.50 MPa**, while the median stays at **31.40 MPa**. A result this far from the rest is a different question: what happened to that cylinder, or that batch?
+3. **Back to the start** puts the 28 MPa test back.
+
+[[try: st.m1.concrete-tests.try Sample | Count Mean Median StandardDeviation Minimum figure=1]]

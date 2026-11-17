@@ -72,6 +72,8 @@ Six asphalt cores from a new pavement have a mean air-void content of x̄ = 4.2 
 
 With z = 1.960 in place of t the margin would be 0.400 %, an interval about a quarter too narrow that would claim more precision than six cores give.
 
+[[see-example: 1]]
+
 ## The Example: tank drain times
 
 A test rig drained a tank twelve times and recorded the time in seconds. σ is not known, so the interval uses t with 11 degrees of freedom. The data are in a data table, and the Workbench's **Data from** setting is *Columns of a data table*: it calculates x̄ and s from the column for you.
@@ -128,3 +130,13 @@ For σ known, use `stats.norm.ppf(0.975)` or `qnorm(0.975)` (1.960) and σ in pl
 ## What to do next
 
 On the **Exercise** tab, a lab tested eight concrete cores. From their mean and standard deviation, calculate the standard error, the critical value, the margin of error and the interval.
+
+[[example: Six asphalt cores: t or z]]
+
+This is the Learn page's worked case with σ unknown: six cores, x̄ = 4.2 %, s = 0.5 %. It starts there: the standard error is **0.2041 %**, t(0.025, 5) = **2.571**, the margin of error **0.525 %**, and the 95 % interval runs from **3.675 to 4.725 %**.
+
+1. **Change the target to *A mean, σ known (z)*** (σ is set to 0.5 %, the same as s). The critical value drops to **1.960**, the margin to **0.400 %**: the interval from **3.800 to 4.600 %** is narrower than six cores can justify, because s was taken as if it were σ.
+2. **Back to σ unknown, and change n to 30.** The standard error is **0.0913 %**, t(0.025, 29) = **2.045**, and the margin is **0.187 %**.
+3. **Now σ known again, with n = 30.** z = 1.960 gives a margin of **0.179 %**, close to the t margin. With many observations t and z nearly agree; with six they do not.
+
+[[try: st.m7.asphalt.try Target SampleSize=2..40 Confidence=0.80..0.99 | StandardError Critical MarginOfError Lower Upper figure=1]]

@@ -49,6 +49,8 @@ The Example of item 8.3, written up:
 
 > A one-sample t-test compared the mean coating thickness of 12 panels with the 50 µm target (H₀: μ = 50, H₁: μ ≠ 50, α = 0.05). The mean was 52.1 µm (s = 3.0 µm), so t = 2.42 with 11 degrees of freedom, p = 0.034. We reject H₀: the line is laying down about 2 µm more than its target. The specification is 50 ± 5 µm, so the offset uses 40 % of the tolerance on one side; the line should be adjusted at the next stop. A Type I error is possible (at most 5 %), and its cost here is one unnecessary adjustment.
 
+[[see-example: 1]]
+
 ## The Example: rejects by supplier
 
 Two suppliers each sent 2000 brackets: A had 60 rejects (3.0 %), B had 90 (4.5 %).
@@ -105,3 +107,13 @@ sqrt(unname(test$statistic) / (sum(tab) * (min(dim(tab)) - 1)))   # Cramér's V 
 ## What to do next
 
 On the **Exercise** tab, three plants cast the same housing, and 1500 castings were judged within spec, rework or scrap. Test whether the outcome depends on the plant, and find Cramér's V. Use **Statistical and practical significance** above, and Cramér's V, to judge whether the relation matters.
+
+[[example: Coating thickness: significant is not the same as important]]
+
+This is the worked case of the report above: 12 panels, x̄ = 52.1 µm, s = 3.0 µm, against the 50 µm target. It starts there: t = **2.42** with **11** degrees of freedom, p = **0.0337**, reject H₀; the 95 % interval for μ is **50.19 to 54.01 µm**.
+
+1. **Change x̄ to 50.5 µm**, only 0.5 µm above target. t = **0.58** and p = **0.5753**: not significant, and the interval, **48.59 to 52.41 µm**, includes 50.
+2. **Keep x̄ = 50.5 and change n to 400.** t = **3.33** and p = **0.0009**: highly significant. Yet the interval, **50.21 to 50.79 µm**, says the line is less than 1 µm off, a small part of the 50 ± 5 µm tolerance. Statistically significant, practically unimportant.
+3. **Change n to 1000.** p is below 0.001 (the Workbench shows **0.0000**: write p < 0.001). The offset is still about 0.5 µm. Report the size of the effect beside the p-value.
+
+[[try: st.m8.thickness.try SampleMean=49..54 SampleSize=4..1000 | Statistic DegreesOfFreedom PValue Decision CiLower CiUpper figure=1]]

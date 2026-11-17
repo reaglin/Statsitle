@@ -70,6 +70,8 @@ A 2 × 2 design with n = 2 runs per cell (a = b = 2, N = 8):
 
 Read it with the plot in mind: at A = 1, B raises the mean by 4; at A = 2, B changes nothing. That is an interaction, whether or not this small study can prove it.
 
+[[see-example: 1]]
+
 ## The Example: yield by catalyst and temperature
 
 [[data: st.m14.multi-factor.eg]]
@@ -138,3 +140,13 @@ Choose **Two-way ANOVA**. Set **Data table**, then **Factor A column**, **Factor
 ## What to do next
 
 On the **Exercise** tab, three mold designs and two resins. Find the three F's and the interaction's p-value, and decide which effects are real.
+
+[[example: The 2 × 2 design: parallel lines and more runs]]
+
+This is the Learn page's worked case by hand: two runs in each of four cells. It starts there: SS A × B = **8**, MS error = **2**, and the interaction's F = **4.0** with p = **0.116**; the lines in the interaction plot are far from parallel.
+
+1. **Change the last two runs (A = 2, B = 2) from 13 and 15 to 17 and 19.** Now B raises the mean by 4 at both levels of A: the lines are parallel, SS A × B = **0** and its p-value is **1**. A and B become significant (p = **0.040** and **0.016**).
+2. **Back to the start, then halve the scatter in every cell**: 10.5, 11.5, 14.5, 15.5, 13.5, 14.5, 13.5, 14.5. The cell means are the same, so the plot does not change, but MS error falls to **0.5** and the interaction's F rises to **16** (p = **0.016**): the same crossing lines, now significant.
+3. **Back to the start, then run every cell twice more**: paste each column's eight values again below themselves. With n = 4 the error has 12 df, MS error = **1.33**, and the interaction is significant, p = **0.0047**.
+
+[[try: st.m14.multi-factor.try @Design/A @Design/B @Design/Response | SsAB MsError FAB PA PB PAB figure=1]]

@@ -48,6 +48,8 @@ A weld has on average λ = 2 flaws per 10 m. Let X be the number of flaws in a 1
 5. **Three or more:** P(X ≥ 3) = 1 − 0.676676 = **0.3233**. There is no other way: X has no upper limit to add up to.
 6. **A 5 m seam:** λ = 1, so P(no flaws) = e⁻¹ = **0.3679**.
 
+[[see-example: 1]]
+
 ## Poisson as an approximation to the binomial
 
 When n is large and p is small, a binomial count behaves like a Poisson count with λ = np. For 200 parts each defective with probability 0.01, λ = 2: the binomial gives P(X = 0) = 0.99²⁰⁰ = 0.1340, and the Poisson gives e⁻² = 0.1353. A common rule of thumb is n ≥ 20 with p ≤ 0.05.
@@ -103,3 +105,14 @@ ppois(2, lam)          # P(X ≤ 2) = 0.4232
 ## What to do next
 
 On the **Exercise** tab, a utility's emergency line gets calls at a known rate per hour, and you need probabilities for a whole shift. Scale λ first.
+
+[[example: Flaws along a weld: scale λ first]]
+
+This is the Learn page's worked case: on average **2 flaws per 10 m** of weld, so a 10 m seam has λ = 2. It starts at k = 2: P(X = 2) = **0.2707**, P(X ≤ 2) = **0.6767** and P(X ≥ 3) = P(X > 2) = **0.3233**.
+
+1. **Move k to 0.** No flaws in 10 m: **0.1353**.
+2. **Move λ to 1**, a 5 m seam. No flaws: **0.3679**. Then **λ = 5**, a 25 m seam: no flaws only **0.0067**. The bars move right and spread out as λ grows: σ = √λ.
+3. **Set λ back to 2 and change the model to Binomial** (200 parts, each defective with probability 0.01, so np = 2). P(X = 0) is **0.1340**, against the Poisson's **0.1353**: for a large n and a small p, the two agree.
+4. **Back to the start** puts the Poisson and the 10 m seam back.
+
+[[try: st.m4.weld-flaws.try Family Rate=0.1..10 K=0..15 | Exactly AtMost MoreThan Mean StandardDeviation figure=1]]

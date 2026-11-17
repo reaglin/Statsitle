@@ -68,6 +68,8 @@ A mix with W/C = 0.55 cured 28 days instead of 14 is predicted 0.5815 × 14 = **
 
 The figure plots each cylinder's observed strength against the strength the model predicts. A perfect model would put every point on the diagonal line. Here most points lie within about 1.5 MPa of it; the largest miss is cylinder 2, 3.1 MPa stronger than predicted (the point well above the line near 35.7 MPa predicted).
 
+[[see-example: 1]]
+
 ## Controlling for other variables
 
 "Controlling for" W/C ratio means comparing cylinders as if they all had the same W/C ratio. An experiment does this by design, by holding the other factors at fixed levels. Field data and production records usually cannot be designed, and that is where multiple regression earns its place: it adjusts for the other predictors in the arithmetic. It can only adjust for predictors that are **in the model**. A cause that was never measured still leaks into the coefficients of whatever moves with it.
@@ -121,3 +123,13 @@ The program's own code for the Example, with every result printed:
 ## What to do next
 
 On the **Exercise** tab, fit a two-predictor model to the fuel use of delivery trucks, and compare its Payload coefficient with what one predictor would give.
+
+[[example: Concrete: both predictors, or one at a time]]
+
+This is the Learn page's Example: twelve cylinders, curing time and W/C ratio together. It starts there: Strength = 62.767 + 0.5815·Curing days − 74.22·W/C ratio, the curing coefficient **0.582 MPa per day** with p = **0.0001**, R² = **0.832** and σ̂ = **1.53 MPa**.
+
+1. **Set Variable selection to Forward selection.** Forward selection tries one predictor first, and no model comes out: adding Curing days alone would give p = **0.299**, the simple regression's p-value. One predictor at a time, curing time looks useless, because the water it moves with cancels its effect.
+2. **Set it back to All the predictors listed, and change cylinder 2's strength from 38.8 to 35.7 MPa**, about what the model predicts for it. Its point moves onto the diagonal, R² rises to **0.916** and σ̂ falls to **1.01 MPa**. The curing coefficient stays at **0.582**: one cylinder's miss changes how well the model fits more than what it says.
+3. **Back to the start** puts 38.8 back.
+
+[[try: st.m12.simple-to-multiple.try Selection "@Cylinders/Curing days" "@Cylinders/W/C ratio" @Cylinders/Strength | Equation ChosenEstimate ChosenP RSquared ResidualSe SelectionNote figure=1]]

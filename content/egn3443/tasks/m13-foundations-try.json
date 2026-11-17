@@ -1,0 +1,49 @@
+{
+  "id": "st.m13.foundations.try",
+  "title": "Braking distance: the residuals tell",
+  "analysis": "SimpleRegression",
+  "intro": "Braking distance (m) from 13 speeds (km/h). The straight line fits with R² = 0.98, but its residuals form a U. Transform x or y and watch the residual plot.",
+  "tables": [
+    {
+      "name": "Braking",
+      "columns": {
+        "Speed": [
+          20,
+          25,
+          30,
+          35,
+          40,
+          45,
+          50,
+          55,
+          60,
+          65,
+          70,
+          75,
+          80
+        ],
+        "Distance": [
+          5.9,
+          11.1,
+          13.0,
+          16.0,
+          17.1,
+          24.8,
+          26.6,
+          33.5,
+          37.9,
+          43.2,
+          48.1,
+          53.3,
+          61.0
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Braking distance",
+    "XColumn": "@Braking/Speed",
+    "YColumn": "@Braking/Distance",
+    "Confidence": 0.95
+  }
+}

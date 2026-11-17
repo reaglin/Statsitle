@@ -1,0 +1,15 @@
+{
+  "id": "st.m11.anova.try",
+  "title": "Four points: the sums of squares and the F-test",
+  "analysis": "SimpleRegression",
+  "intro": "The four points of items 11.1 and 11.2: (1, 2), (2, 3), (3, 5), (4, 4). How the variation in y splits between the line and the scatter, and whether the F-test finds a relation.",
+  "tables": [
+    { "name": "Points", "columns": { "x": [1, 2, 3, 4], "y": [2, 3, 5, 4] } }
+  ],
+  "settings": {
+    "Name": "Four points",
+    "XColumn": "@Points/x",
+    "YColumn": "@Points/y",
+    "Confidence": 0.95
+  }
+}

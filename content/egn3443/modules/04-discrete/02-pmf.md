@@ -75,6 +75,8 @@ The number of defects X on a circuit board has this PMF (the Example's data):
 
 Going back from the CDF to the PMF: each probability is a step of the staircase, f(x) = F(x) − F(x − 1). For example f(2) = 0.85 − 0.70 = 0.15.
 
+[[see-example: 1]]
+
 ## The Example
 
 [[data: st.m4.pmf.eg]]
@@ -123,3 +125,14 @@ cumsum(p)                      # the CDF: 0.40 0.70 0.85 0.93 0.98 1.00
 ## What to do next
 
 Answer the questions on the **Exercise** tab. They ask you to check tables, complete one, and find probabilities of events.
+
+[[example: Which bars does the question add?]]
+
+This is the Learn page's worked case: the defects on a circuit board, 0 to 5. The dark bars in the figure are the ones the question adds. It starts at k = 1 and k₂ = 3: P(1 ≤ X ≤ 3) = **0.53**, P(X ≥ 1) = **0.60** and P(X > 1) = **0.30**.
+
+1. **Move k to 0.** P(X = 0) = **0.40**, and P(X ≥ 0) is **1**: every board has 0 or more defects.
+2. **Move k to 2.** "Fewer than 2" is P(X < 2) = **0.70**, the same as "at most 1"; "at most 2" is **0.85**. One word changes the answer.
+3. **Move k₂ to 5** (with k = 2). The dark bars run from 2 to 5: **0.30**, the same as P(X ≥ 2).
+4. **Back to the start** puts k = 1 and k₂ = 3 back.
+
+[[try: st.m4.board-defects.try K=0..5 K2=0..5 | Exactly AtMost LessThan AtLeast MoreThan Between figure=1]]

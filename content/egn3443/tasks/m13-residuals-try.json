@@ -1,0 +1,35 @@
+{
+  "id": "st.m13.residuals.try",
+  "title": "Spring extension: residuals and σ̂",
+  "analysis": "SimpleRegression",
+  "intro": "A spring loaded with six weights (N) and its extension measured (mm). Change a reading and watch the line, SS error and σ̂.",
+  "tables": [
+    {
+      "name": "Spring",
+      "columns": {
+        "Load": [
+          10,
+          20,
+          30,
+          40,
+          50,
+          60
+        ],
+        "Extension": [
+          2.1,
+          4.3,
+          5.9,
+          8.4,
+          9.8,
+          12.3
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Spring extension",
+    "XColumn": "@Spring/Load",
+    "YColumn": "@Spring/Extension",
+    "Confidence": 0.95
+  }
+}

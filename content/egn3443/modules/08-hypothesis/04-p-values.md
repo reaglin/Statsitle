@@ -96,7 +96,9 @@ prop.test(x, n, p = p0, alternative = "greater", correct = FALSE)   # the same p
 
 ## Try it in the Workbench
 
-Press **Open in the Workbench** on the Example tab and change **Successes (x)** from 31 to 36. p̂ = 0.144, z = 2.32 and p = 0.0102: now the batch is significantly worse, at 0.05 and almost at 0.01.
+On the Example tab, the sensor test has the number of failures on a slider. Change it from 31 to 36: p̂ = 0.144, z = 2.32 and p = 0.0102: now the batch is significantly worse, at 0.05 and almost at 0.01. **Open in the Workbench** on the Example tab does the same with every setting.
+
+[[see-example: 1]]
 
 ## Common mistakes
 
@@ -108,3 +110,13 @@ Press **Open in the Workbench** on the Example tab and change **Successes (x)** 
 ## What to do next
 
 On the **Exercise** tab, a new die is fitted to a stamping press, and 9 of 400 parts are defective. Find z and the p-value for H₁: p < 0.04. Then compare: is the reduction significant at α = 0.05? At α = 0.01?
+
+[[example: Field failures: when does the batch look worse?]]
+
+This is the Learn page's Example: 31 of 250 sensors failed, H₀: p = 0.10 against H₁: p > 0.10. It starts there: z = **1.26**, p = **0.1030**, and the orange line falls short of the shaded tail beyond **1.645**: do not reject.
+
+1. **Change the failures to 36.** p̂ = 0.144, z = **2.32** and p = **0.0102**: reject at α = 0.05, and almost at 0.01.
+2. **Back to 31, and change α to 0.10.** The shaded tail grows to z > **1.282**, and z = 1.26 still falls just short: p = 0.1030 is above 0.10, so do not reject even at 0.10.
+3. **α back to 0.05, failures 36, and the alternative *Two-sided (≠)*.** The same z = 2.32 gives p = **0.0204**, twice the one-tailed p. The tail is part of the question.
+
+[[try: st.m8.failures.try Successes=15..50 Alpha=0.01..0.10 AlternativeHypothesis | Statistic RejectionRegion PValue Decision figure=1]]

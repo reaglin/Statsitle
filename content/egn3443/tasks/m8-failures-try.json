@@ -1,0 +1,17 @@
+{
+  "id": "st.m8.failures.try",
+  "title": "Field failures: more than 10 %?",
+  "analysis": "OneSampleTest",
+  "intro": "10 % of a maker's sensors fail in their first year. A customer tests a new batch of 250: H₀: p = 0.10 against H₁: p > 0.10.",
+  "settings": {
+    "Name": "Field failures",
+    "TestKind": "Proportion",
+    "Source": "Summary",
+    "AlternativeHypothesis": "Greater",
+    "Alpha": 0.05,
+    "NullValue": 0.1,
+    "SampleSize": 250,
+    "Successes": 31,
+    "AlternativeValue": null
+  }
+}

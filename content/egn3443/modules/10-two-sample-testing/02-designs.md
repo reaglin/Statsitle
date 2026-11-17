@@ -58,6 +58,8 @@ The mean difference is d̄ = −7.1 kWh/m² with s_d = 3.41, so t = −7.1 / (3.
 
 **Pairing that does not pair.** Pairing helps only when the two members of a pair are alike in what drives the outcome. Matching houses on their color would not reduce the variation of heating energy, and would cost degrees of freedom (n − 1 instead of n₁ + n₂ − 2) for nothing.
 
+[[see-example: 1]]
+
 ## In Python and R
 
 ```python
@@ -87,3 +89,13 @@ Press **Open in the Workbench** on the Example tab, or press Ctrl+B and choose *
 ## What to do next
 
 On the **Exercise** tab, eight short studies ask you to name the design. They are practice questions: after a wrong try the explanation shows. You need 80 % to complete the item.
+
+[[example: Two films on pairs of windows: misreading the design]]
+
+A natural-pairs case: in each of eight offices, two identical windows side by side, one with film A and one with film B. The heat gain varies from office to office (131 to 220 W/m² with film A), but within an office film A lets in 3 to 9 W/m² more. It starts with the paired t: the mean difference is 6.0 W/m², t = **7.94** with **7** df, p = **0.0001**, and the 95 % interval for μ_d runs from **4.21** to **7.79 W/m²**.
+
+1. **Change the test to Welch's t**, as if the windows were two independent samples. t = **0.40** and p = **0.70**: the office-to-office spread buries the difference.
+2. **Change the test back to the paired t, and sort film B's column from smallest to largest** (128, 141, 156, 168, 176, 190, 201, 213). The rows no longer line up with their offices, so the differences mean nothing: t = **0.44**, p = **0.67**. The paired test is only as good as the pairs.
+3. **Put film B back as it was, then delete its last value (213).** The program refuses: a paired design needs the same number of values in both columns. **Delete the matching 220 from film A too**, dropping the whole pair: 7 pairs, t = **6.83** with **6** df, p = **0.0005**.
+
+[[try: st.m10.windows.try TestKind "@Windows/Film A" "@Windows/Film B" | Statistic DegreesOfFreedom PValue Decision CiLower CiUpper figure=1]]

@@ -1,0 +1,15 @@
+{
+  "id": "st.m5.panel-gap.try",
+  "title": "Panel gaps against the specification",
+  "analysis": "ContinuousDistribution",
+  "intro": "The gap between two body panels is normal with mean 2.0 mm and standard deviation 0.25 mm. The specification is 1.8 to 2.2 mm; the shaded area is the share of gaps that meet it.",
+  "settings": {
+    "Name": "Panel gap",
+    "Family": "Normal",
+    "Mu": 2.0,
+    "Sigma": 0.25,
+    "X": 1.8,
+    "X2": 2.2,
+    "Probability": 0.95
+  }
+}

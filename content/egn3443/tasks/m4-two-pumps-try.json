@@ -1,0 +1,13 @@
+{
+  "id": "st.m4.two-pumps.try",
+  "title": "Pumps working at a station",
+  "analysis": "DiscreteDistribution",
+  "intro": "A pump station has 2 pumps, each working at any moment with probability 0.9, independently. X is the number of pumps working.",
+  "settings": {
+    "Name": "Pumps working",
+    "Family": "Binomial",
+    "Trials": 2,
+    "SuccessProbability": 0.9,
+    "K": 1
+  }
+}
