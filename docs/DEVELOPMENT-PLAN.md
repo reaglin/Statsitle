@@ -17,6 +17,18 @@ hand-test build lives in `manual-test\Statistle.exe` (gitignored); testers get t
 
 ---
 
+## Priority for the next version — Help ▸ Send feedback (Ron, 2026-11-20)
+
+Ron: *"creating a seamless path for feedback for all the programs … I would want to review the comments and mark for
+implementation or discard."* Every program gets the same menu item; what a person writes goes to one private inbox on
+SoftwarePlus.ai, where Ron marks it Implement or Discard. The site side is SoftwarePlus plan phase 9; the rule is in
+`..\CLAUDE.md`, "Every program: Help ▸ Send feedback". **Ship it with the next version of Statistics+.**
+
+| # | Task | Done when |
+|---|---|---|
+| F.1 | **Help ▸ Send feedback…** (beside Check for a new version; the same words in every program): opens `https://softwareplus.ai/feedback/?program=statistle&version=<this version>` in the browser. Its tooltip: "Tell us about a bug, a suggestion or anything you noticed — it goes to Dr. Ron Eaglin." No form inside the program and no network code: the web page does the rest. The privacy policy gets the paragraph from SoftwarePlus 9.5 | the menu item opens the form naming Statistics+ and its version (after SoftwarePlus 9.1 is live) |
+| F.2 | **Feedback marked Implement** for Statistics+ (read from the inbox, SoftwarePlus 9.4) becomes tasks in this plan, each quoting the item, its date and version; the inbox marks them In plan | checked at the start of every round of work on Statistics+ |
+
 ## Phase 0 — Foundations (framework from SMADA)
 
 Exit: the app opens a `.statistle` project with a data table and two analyses; tests green.
