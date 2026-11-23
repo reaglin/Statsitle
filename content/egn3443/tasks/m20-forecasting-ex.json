@@ -1,0 +1,88 @@
+{
+  "id": "st.m20.forecasting.ex",
+  "title": "Electricity sold by a town utility",
+  "analysis": "SimpleRegression",
+  "intro": "Illustrative data, made up for this book. A town's utility sold this much electricity (GWh) each year from 2010 to 2023. Fit a linear trend on the year and forecast 2026.\n\nGive the trend (GWh per year), the forecast for 2026, and the 95 % prediction interval for that one year, each to one decimal.\n\nIn the Workbench: **Simple linear regression** with **x column** *Year*, **y column** *GWh*, **Predict at x₀** 2026.",
+  "tables": [
+    {
+      "name": "Utility",
+      "columns": {
+        "Year": [
+          2010,
+          2011,
+          2012,
+          2013,
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023
+        ],
+        "GWh": [
+          401.5,
+          418.2,
+          429.2,
+          441.0,
+          439.1,
+          443.8,
+          448.3,
+          458.8,
+          478.3,
+          488.3,
+          498.5,
+          491.2,
+          499.1,
+          502.6
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Electricity trend",
+    "XColumn": "@Utility/Year",
+    "YColumn": "@Utility/GWh",
+    "Confidence": 0.95,
+    "PredictAt": 2026
+  },
+  "ask": [
+    {
+      "result": "Slope",
+      "prompt": "Trend (GWh per year)"
+    },
+    {
+      "result": "FittedAt",
+      "prompt": "Forecast for 2026 (GWh)"
+    },
+    {
+      "result": "NewLower",
+      "prompt": "95 % prediction interval, lower (GWh)"
+    },
+    {
+      "result": "NewUpper",
+      "prompt": "95 % prediction interval, upper (GWh)"
+    }
+  ],
+  "mistakes": {
+    "NewLower": [
+      {
+        "result": "MeanLower",
+        "says": "That is the interval for the trend line itself. A forecast of one year's sales needs the prediction interval (New observation), which is wider."
+      }
+    ],
+    "NewUpper": [
+      {
+        "result": "MeanUpper",
+        "says": "That is the interval for the trend line itself. A forecast of one year's sales needs the prediction interval (New observation), which is wider."
+      }
+    ]
+  },
+  "hints": [
+    "x is the year and y the GWh. The forecast is ŷ at x₀ = 2026, three years past the last year.",
+    "A forecast of one future value uses the prediction interval: ŷ₀ ± t(0.025, n − 2) σ̂ √(1 + 1/n + (x₀ − x̄)²/S_xx)."
+  ]
+}

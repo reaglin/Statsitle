@@ -1,0 +1,123 @@
+{
+  "id": "st.m20.monetary.ex",
+  "title": "Fitting the Taylor rule to another central bank",
+  "analysis": "MultipleRegression",
+  "intro": "Illustrative data, made up for this book. Twenty-four quarters of another imaginary central bank: inflation (%), the output gap (%) and its policy rate (%). Fit Rate = b₀ + b₁·Inflation + b₂·Output gap.\n\nGive the inflation coefficient b₁ (does the bank follow the Taylor principle, b₁ > 1?), its standard error (four decimals), and R² (three decimals).\n\nIn the Workbench: **Multiple regression**, **Data table** the pasted table, **Response** *Policy rate*, **Predictors** *Inflation, Output gap*, **Coefficient to read** *Inflation*.",
+  "tables": [
+    {
+      "name": "Bank",
+      "columns": {
+        "Inflation": [
+          3.7,
+          3.7,
+          2.1,
+          4.8,
+          4.3,
+          2.3,
+          2.9,
+          4.7,
+          3.9,
+          3.3,
+          2.8,
+          4.3,
+          3.9,
+          1.9,
+          3.2,
+          5.5,
+          1.7,
+          1.6,
+          3.7,
+          1.8,
+          5.3,
+          5.2,
+          5.7,
+          0.8
+        ],
+        "Output gap": [
+          -3.1,
+          -3.1,
+          -0.8,
+          -2.3,
+          -2.2,
+          -0.7,
+          1.3,
+          0.5,
+          -2.3,
+          -0.2,
+          0.1,
+          -0.8,
+          0.2,
+          2.4,
+          -0.9,
+          0.8,
+          -2.0,
+          -1.5,
+          -0.8,
+          0.4,
+          2.4,
+          -2.9,
+          0.2,
+          0.8
+        ],
+        "Policy rate": [
+          3.46,
+          3.1,
+          2.91,
+          5.59,
+          4.53,
+          3.36,
+          5.48,
+          7.45,
+          4.17,
+          4.84,
+          3.67,
+          5.52,
+          5.13,
+          4.83,
+          4.17,
+          8.3,
+          1.4,
+          1.43,
+          4.52,
+          3.08,
+          9.3,
+          5.42,
+          8.02,
+          2.22
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Taylor rule",
+    "Table": "@Bank/",
+    "Response": "Policy rate",
+    "Predictors": "Inflation, Output gap",
+    "Selection": "AllEntered",
+    "Confidence": 0.95,
+    "CoefficientOf": "Inflation",
+    "Folds": 0,
+    "HoldOutShare": 0
+  },
+  "ask": [
+    {
+      "result": "ChosenEstimate",
+      "prompt": "Inflation coefficient, b₁",
+      "tolerance": 0.002
+    },
+    {
+      "result": "ChosenSe",
+      "prompt": "Its standard error",
+      "tolerance": 0.0005
+    },
+    {
+      "result": "RSquared",
+      "prompt": "R²",
+      "tolerance": 0.002
+    }
+  ],
+  "hints": [
+    "The response is the policy rate; the predictors are inflation and the output gap (item 12.1 for multiple regression).",
+    "In R: fit <- lm(rate ~ inflation + gap); summary(fit). b₁ above 1 means the bank raises the rate by more than inflation rises: the Taylor principle."
+  ]
+}

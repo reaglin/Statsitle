@@ -1,0 +1,17 @@
+{
+  "id": "st.m20.abtest.eg",
+  "title": "Two checkout pages: an A/B test",
+  "analysis": "TwoSampleTest",
+  "intro": "Illustrative data, made up for this book. An online shop showed its old checkout page (A) to 2,400 visitors and a new one (B) to 2,350. Visitors who bought: 288 on A, 341 on B. Is B's conversion rate different?",
+  "settings": {
+    "Name": "Checkout A/B test",
+    "TestKind": "TwoProportions",
+    "Source": "Summary",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Successes": 288,
+    "SampleSize": 2400,
+    "Successes2": 341,
+    "Sample2Size": 2350
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "id": "st.m20.var.try",
+  "title": "Value at Risk of a portfolio (normal model)",
+  "analysis": "ContinuousDistribution",
+  "intro": "Illustrative data, made up for this book. A portfolio's change in value over one day is modelled as normal with mean $0.2 thousand and standard deviation $25 thousand. The 5 % quantile is the one-day 95 % Value at Risk (a loss, so read it as a negative number).",
+  "settings": {
+    "Name": "One-day change in value",
+    "Family": "Normal",
+    "Mu": 0.2,
+    "Sigma": 25,
+    "X": -40,
+    "X2": null,
+    "Probability": 0.05
+  }
+}

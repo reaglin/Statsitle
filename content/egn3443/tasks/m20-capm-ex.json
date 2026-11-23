@@ -1,0 +1,105 @@
+{
+  "id": "st.m20.capm.ex",
+  "title": "Beta of a utility stock",
+  "analysis": "SimpleRegression",
+  "intro": "Illustrative data, made up for this book. Thirty months of excess returns (%) of an electric-utility stock and of the market index. Fit the CAPM regression of the stock on the market.\n\nGive beta (the slope), alpha (the intercept, % per month) and R², each to three decimals.",
+  "tables": [
+    {
+      "name": "Returns",
+      "columns": {
+        "Market excess (%)": [
+          4.66,
+          -0.41,
+          0.56,
+          7.01,
+          9.52,
+          -2.26,
+          0.34,
+          -6.15,
+          -0.05,
+          -4.26,
+          -3.75,
+          3.37,
+          9.44,
+          3.55,
+          5.98,
+          3.32,
+          0.12,
+          5.73,
+          -5.28,
+          4.53,
+          0.88,
+          1.91,
+          -2.89,
+          5.22,
+          1.59,
+          -1.21,
+          4.07,
+          0.38,
+          5.23,
+          7.33
+        ],
+        "Utility excess (%)": [
+          1.51,
+          -0.01,
+          -1.33,
+          2.74,
+          5.32,
+          -1.19,
+          -1.89,
+          -5.02,
+          1.53,
+          -3.57,
+          -3.92,
+          4.03,
+          4.59,
+          1.58,
+          4.36,
+          -1.03,
+          2.04,
+          5.51,
+          -2.26,
+          3.06,
+          0.16,
+          1.67,
+          -0.82,
+          0.45,
+          4.17,
+          2.33,
+          2.53,
+          -0.05,
+          3.03,
+          5.43
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "CAPM beta",
+    "XColumn": "@Returns/Market excess (%)",
+    "YColumn": "@Returns/Utility excess (%)",
+    "Confidence": 0.95,
+    "PredictAt": null
+  },
+  "ask": [
+    {
+      "result": "Slope",
+      "prompt": "Beta (slope)",
+      "tolerance": 0.002
+    },
+    {
+      "result": "Intercept",
+      "prompt": "Alpha (intercept, % per month)",
+      "tolerance": 0.002
+    },
+    {
+      "result": "RSquared",
+      "prompt": "R²",
+      "tolerance": 0.002
+    }
+  ],
+  "hints": [
+    "y is the utility's excess return, x the market's. Swapping them gives a different slope, not beta.",
+    "In R: fit <- lm(utility ~ market); coef(fit) gives alpha then beta."
+  ]
+}

@@ -46,10 +46,12 @@ public sealed class WindowRoomTests
             Assert.Equal("1. Introduction to Statistics for Engineers", parts[0].Children[0].Header);
             Assert.Equal(content.Package.Modules.Select(m => m.Number), path.ModuleNodes.Select(n => n.Module!.Number));
             Assert.All(parts, p => Assert.All(p.Children, m => Assert.Same(p, m.Parent)));
-            // W.6: Parts II and III are in development, their modules too, with no items yet; each has a part page.
+            // W.6: Part II is in development, its modules too, with no items yet; each part has a page.
             Assert.Contains("items complete", parts[0].Detail, StringComparison.Ordinal);
-            Assert.All(parts.Skip(1), p => Assert.EndsWith("in development", p.Detail, StringComparison.Ordinal));
-            Assert.All(parts.Skip(1).SelectMany(p => p.Children), m => { Assert.Equal("In development", m.Detail); Assert.Empty(m.Module!.Items); });
+            // Part II is still in development; Part III is being written (Ron, 2026-11-23), so it counts its items.
+            Assert.EndsWith("in development", parts[1].Detail, StringComparison.Ordinal);
+            Assert.All(parts[1].Children, m => { Assert.Equal("In development", m.Detail); Assert.Empty(m.Module!.Items); });
+            Assert.Contains("items complete", parts[2].Detail, StringComparison.Ordinal);
             Assert.All(parts, p => Assert.True(content.PartPages.ContainsKey(p.Header), p.Header));
             // W.2: My progress, Hand in a report, My notes, the Glossary and the Workbench (the book's tool), in PlusBook Tools.
             Assert.Equal([path.Dashboard, path.Reports, path.Notes, path.Glossary, path.Workbench], path.Common.Children);

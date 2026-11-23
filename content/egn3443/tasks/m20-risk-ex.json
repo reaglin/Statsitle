@@ -1,0 +1,40 @@
+{
+  "id": "st.m20.risk.ex",
+  "title": "Two warehouse plans: expected value and risk",
+  "analysis": "DiscreteDistribution",
+  "intro": "Illustrative data, made up for this book. A logistics firm's plan to automate a warehouse has these possible net gains over three years ($ thousand) with their probabilities:\n\n| Gain ($k) | −600 | −150 | 300 | 800 | 1500 |\n|---|---|---|---|---|---|\n| Probability | 0.05 | 0.20 | 0.40 | 0.25 | 0.10 |\n\nGive the expected gain, the standard deviation (the risk), and the probability of losing money, P(gain ≤ 0).\n\nIn the Workbench: **Discrete distribution**, **Distribution** *Table of values*, type the values and probabilities, and set **k** to 0.",
+  "settings": {
+    "Name": "Warehouse plan",
+    "Family": "Table",
+    "Table": "-600\t0.05\n-150\t0.20\n300\t0.40\n800\t0.25\n1500\t0.10",
+    "K": 0,
+    "K2": null
+  },
+  "ask": [
+    {
+      "result": "Mean",
+      "prompt": "Expected gain ($k)"
+    },
+    {
+      "result": "StandardDeviation",
+      "prompt": "Standard deviation ($k)"
+    },
+    {
+      "result": "AtMost",
+      "prompt": "P(gain ≤ 0)"
+    }
+  ],
+  "mistakes": {
+    "StandardDeviation": [
+      {
+        "result": "Variance",
+        "says": "That is the variance, in ($k)². The risk is its square root, in $k."
+      }
+    ]
+  },
+  "hints": [
+    "E[X] = Σ x·p(x).",
+    "Var(X) = Σ (x − E[X])²·p(x); the standard deviation is its square root.",
+    "P(gain ≤ 0) adds the probabilities of the losses."
+  ]
+}

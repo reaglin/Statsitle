@@ -1,0 +1,50 @@
+{
+  "id": "st.m20.econometrics.eg",
+  "title": "Coffee demand at a café chain (log–log)",
+  "analysis": "SimpleRegression",
+  "intro": "Illustrative data, made up for this book. A café chain tried twelve prices for a large coffee, one a week, and counted the cups sold. ln(cups) is regressed on ln(price): the slope is the price elasticity of demand.",
+  "tables": [
+    {
+      "name": "Coffee",
+      "columns": {
+        "Price ($)": [
+          2.5,
+          2.75,
+          3.0,
+          3.25,
+          3.5,
+          3.75,
+          4.0,
+          4.25,
+          4.5,
+          4.75,
+          5.0,
+          5.25
+        ],
+        "Cups sold": [
+          2650,
+          2370,
+          2280,
+          1980,
+          1860,
+          1590,
+          1400,
+          1330,
+          1230,
+          1140,
+          1110,
+          1070
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Coffee demand",
+    "XColumn": "@Coffee/Price ($)",
+    "YColumn": "@Coffee/Cups sold",
+    "XTransformation": "Log",
+    "YTransformation": "Log",
+    "Confidence": 0.95,
+    "PredictAt": null
+  }
+}

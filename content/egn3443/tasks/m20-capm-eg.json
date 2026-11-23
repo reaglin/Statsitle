@@ -1,0 +1,72 @@
+{
+  "id": "st.m20.capm.eg",
+  "title": "Beta of a technology stock",
+  "analysis": "SimpleRegression",
+  "intro": "Illustrative data, made up for this book. Twenty-four months of excess returns (%, return minus the risk-free rate) of a technology stock and of the market index. The CAPM regression of the stock on the market: the slope is beta, the intercept is alpha, and R² is the share of the stock's risk that is market risk.",
+  "tables": [
+    {
+      "name": "Returns",
+      "columns": {
+        "Market excess (%)": [
+          2.41,
+          6.65,
+          4.18,
+          -0.57,
+          -1.95,
+          2.01,
+          -7.54,
+          0.1,
+          7.3,
+          -0.62,
+          -2.33,
+          -3.4,
+          -1.5,
+          7.84,
+          0.8,
+          -9.09,
+          3.29,
+          6.09,
+          7.45,
+          2.03,
+          -0.36,
+          0.79,
+          -6.01,
+          -8.39
+        ],
+        "Stock excess (%)": [
+          7.15,
+          4.01,
+          2.4,
+          -3.0,
+          -2.76,
+          2.27,
+          -8.21,
+          0.14,
+          11.57,
+          7.44,
+          -6.36,
+          0.9,
+          -0.35,
+          13.1,
+          -0.65,
+          -10.92,
+          3.23,
+          8.06,
+          7.31,
+          0.05,
+          -0.68,
+          2.51,
+          -9.7,
+          -5.66
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "CAPM beta",
+    "XColumn": "@Returns/Market excess (%)",
+    "YColumn": "@Returns/Stock excess (%)",
+    "Confidence": 0.95,
+    "PredictAt": null
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "st.m20.risk.eg",
+  "title": "Profit of a new product line, by scenario",
+  "analysis": "DiscreteDistribution",
+  "intro": "Illustrative data, made up for this book. A firm's planners give five scenarios for next year's profit of a new product line ($ thousand) with their probabilities. The expected profit is the mean; the standard deviation is the risk; P(profit ≤ 0) is the chance of a loss.",
+  "settings": {
+    "Name": "Product line profit",
+    "Family": "Table",
+    "Table": "-400\t0.10\n-100\t0.15\n200\t0.35\n500\t0.30\n900\t0.10",
+    "K": 0,
+    "K2": null
+  }
+}

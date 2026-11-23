@@ -221,6 +221,33 @@ public class ExampleTests(Xunit.Abstractions.ITestOutputHelper output)
     }
 
     /// <summary>
+    /// For authors (Part III, 2026-11-23): every task whose id starts with STATISTLE_PRINT_TASKS (st.m20.), as it starts, into
+    /// STATISTLE_PRINT_FILE, so the numbers a module's pages promise can be read in one run.
+    /// </summary>
+    [Fact]
+    public void Print_tasks_when_asked()
+    {
+        if (Environment.GetEnvironmentVariable("STATISTLE_PRINT_TASKS") is not { Length: > 0 } prefix) return;
+        var content = StatsContent.Load(ContentTests.Egn3443);
+        var text = new StringBuilder();
+        foreach (var problem in content.TaskProblems) text.AppendLine("TASK PROBLEM: " + problem);
+        foreach (var task in content.Tasks.Values.Where(t => t.Id.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)).OrderBy(t => t.Id, StringComparer.Ordinal))
+        {
+            text.AppendLine($"== {task.Id}");
+            try
+            {
+                var built = TrySpec.Build(task, new Dictionary<string, string>());
+                if (built.Analysis is Statistle.Core.Persistence.IReportsProblem { Problem: { Length: > 0 } problem }) text.AppendLine("Problem: " + problem);
+                foreach (var p in Statistle.Core.Methods.MethodScope.VisibleProperties(built.Analysis).Where(p => p.IsResult && !p.Hidden))
+                    text.AppendLine($"{p.XmlName}: {built.Analysis.Display(p)}");
+            }
+            catch (ContentException ex) { text.AppendLine("Cannot be worked out: " + ex.Message); }
+        }
+        output.WriteLine(text.ToString());
+        if (Environment.GetEnvironmentVariable("STATISTLE_PRINT_FILE") is { Length: > 0 } file) File.WriteAllText(file, text.ToString());
+    }
+
+    /// <summary>
     /// For authors: every analysis's settings an example can change, and its results. Writes the list when
     /// STATISTLE_TRY_SETTINGS names a file (docs/TRY-SETTINGS.md is made this way).
     /// </summary>

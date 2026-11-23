@@ -1,0 +1,14 @@
+{
+  "id": "st.m20.survey.try",
+  "title": "A customer survey: the margin of error",
+  "analysis": "ConfidenceInterval",
+  "intro": "Illustrative data, made up for this book. A brand surveyed 600 customers chosen at random; 222 said they would recommend it. The 95 % interval for the share of all customers who would.",
+  "settings": {
+    "Name": "Would recommend",
+    "Target": "Proportion",
+    "Source": "Summary",
+    "Confidence": 0.95,
+    "Successes": 222,
+    "SampleSize": 600
+  }
+}

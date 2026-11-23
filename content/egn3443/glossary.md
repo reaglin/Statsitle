@@ -253,3 +253,68 @@ The flexible continuous distribution of lifetimes and strengths, set by a shape 
 ## z-score
 Also: z-scores, z score, standardized value
 How many standard deviations a value is from the mean: (x − μ)/σ.
+
+## Econometrics
+Regression and the other methods of statistics applied to economic data, which are usually observational rather than from experiments.
+
+## Price elasticity of demand
+Also: elasticity, elasticities, price elasticity
+The percentage change in the quantity bought for a 1 % change in price; the slope of a log–log regression of quantity on price. Below −1 is elastic, between −1 and 0 inelastic.
+
+## Omitted-variable bias
+Also: omitted variable, omitted variables
+The bias in a regression slope when a variable that affects y and moves with x is left out of the model, so x gets the credit for it.
+
+## Time series
+A quantity measured at regular times (monthly sales, yearly rainfall), usually made of a trend, a seasonal pattern and noise.
+
+## Seasonality
+Also: seasonal pattern, seasonal index
+A pattern in a time series that repeats every year, such as more heating in winter.
+
+## Moving average
+Also: moving averages
+The average of the last k values of a time series, recalculated each period; it smooths out noise and, with k a full year, the season.
+
+## Exponential smoothing
+A forecast whose level is a weighted average of the newest value and the previous level, Lₜ = α yₜ + (1 − α) Lₜ₋₁.
+
+## Price index
+Also: consumer price index, CPI
+The cost of a fixed basket of goods and services relative to a base period set to 100; its percentage change is inflation.
+
+## Inflation
+Also: inflation rate
+The percentage rise in a price index over a period, usually a year.
+
+## Taylor rule
+A description of a central bank's policy rate as a linear function of inflation and the output gap, i = 1 + 1.5π + 0.5y in Taylor's 1993 form.
+
+## Output gap
+How far an economy's output is above or below its sustainable (potential) level, as a percentage of potential output.
+
+## Value at Risk
+Also: VaR
+The loss that will not be exceeded with a stated probability over a stated time; the lower quantile of the change in value, read as a loss.
+
+## Expected shortfall
+The average loss on the bad days beyond the Value at Risk.
+
+## Diversification
+Lowering a portfolio's risk by holding assets that do not always move together, so some of their ups and downs cancel.
+
+## Beta (finance)
+Also: CAPM beta, market beta
+The slope of the regression of an asset's excess return on the market's: how much it moves when the market moves 1 %.
+
+## Capital asset pricing model
+Also: CAPM
+The model in which an asset's expected excess return is its beta times the market's expected excess return.
+
+## Conversion rate
+Also: conversion rates
+The share of visitors or customers who take the action wanted, such as buying.
+
+## A/B test
+Also: A/B tests, A/B testing
+An experiment that shows two versions (A and B) to randomly chosen customers and compares an outcome, often with a test of two proportions.

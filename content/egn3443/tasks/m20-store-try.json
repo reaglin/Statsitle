@@ -1,0 +1,56 @@
+{
+  "id": "st.m20.store.try",
+  "title": "Forecasting further ahead",
+  "analysis": "SimpleRegression",
+  "intro": "Illustrative data, made up for this book. The store's sixteen quarters with a straight trend. Move the forecast quarter and watch the prediction interval widen.",
+  "tables": [
+    {
+      "name": "Store",
+      "columns": {
+        "Quarter": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "Sales ($k)": [
+          211.4,
+          234.2,
+          251.3,
+          218.8,
+          224.5,
+          247.8,
+          283.6,
+          238.9,
+          251.9,
+          278.7,
+          311.3,
+          273.6,
+          277.5,
+          303.1,
+          340.4,
+          298.6
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Sales trend",
+    "XColumn": "@Store/Quarter",
+    "YColumn": "@Store/Sales ($k)",
+    "Confidence": 0.95,
+    "PredictAt": 17
+  }
+}

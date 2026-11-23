@@ -1,0 +1,81 @@
+{
+  "id": "st.m20.econometrics.ex",
+  "title": "Gasoline demand across fourteen regions",
+  "analysis": "SimpleRegression",
+  "intro": "Illustrative data, made up for this book. An analyst has, for fourteen regions in one year, the average price of gasoline ($ per gallon) and the gasoline bought per person (gallons per year). Fit the log–log model ln(gallons) = b₀ + b₁ ln(price).\n\nGive the price elasticity b₁, the 95 % interval for it, and R², each to three decimals.\n\nIn the Workbench: **Copy the data**, Ctrl+B, **+ Data table**, Ctrl+V. Choose **Simple linear regression**, set **x column** to *Price ($/gal)*, **y column** to *Gallons per person*, and both **Transform x** and **Transform y** to *Log*. Ctrl+L brings you back.",
+  "tables": [
+    {
+      "name": "Gasoline",
+      "columns": {
+        "Price ($/gal)": [
+          2.9,
+          3.1,
+          3.2,
+          3.4,
+          3.5,
+          3.6,
+          3.8,
+          3.9,
+          4.1,
+          4.3,
+          4.4,
+          4.6,
+          4.8,
+          5.0
+        ],
+        "Gallons per person": [
+          357.0,
+          341.9,
+          347.6,
+          330.3,
+          345.8,
+          322.8,
+          325.6,
+          322.7,
+          316.5,
+          319.6,
+          311.6,
+          304.7,
+          302.1,
+          284.3
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Gasoline demand",
+    "XColumn": "@Gasoline/Price ($/gal)",
+    "YColumn": "@Gasoline/Gallons per person",
+    "XTransformation": "Log",
+    "YTransformation": "Log",
+    "Confidence": 0.95,
+    "PredictAt": null
+  },
+  "ask": [
+    {
+      "result": "Slope",
+      "prompt": "Price elasticity, b₁",
+      "tolerance": 0.002
+    },
+    {
+      "result": "SlopeLower",
+      "prompt": "95 % interval for b₁, lower",
+      "tolerance": 0.002
+    },
+    {
+      "result": "SlopeUpper",
+      "prompt": "95 % interval for b₁, upper",
+      "tolerance": 0.002
+    },
+    {
+      "result": "RSquared",
+      "prompt": "R²",
+      "tolerance": 0.002
+    }
+  ],
+  "hints": [
+    "Take the natural logarithm of both columns first: x = ln(price), y = ln(gallons). Then it is an ordinary least-squares line (item 11.2).",
+    "The slope of a log–log line is the elasticity: the percentage change in quantity for a 1 % change in price. Demand elasticities are negative.",
+    "In R: fit <- lm(log(gallons) ~ log(price)); coef(fit); confint(fit); summary(fit)$r.squared."
+  ]
+}

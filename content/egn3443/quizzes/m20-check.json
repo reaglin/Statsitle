@@ -1,0 +1,134 @@
+{
+  "id": "st.m20.check.quiz",
+  "title": "Module 20 check: business and economics",
+  "passThreshold": 0.8,
+  "practice": false,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "choice",
+      "objective": "st.m20.o1",
+      "lookAgain": "st.m20.econometrics",
+      "prompt": "A log–log regression of the number of bus tickets sold on the fare, ln(tickets) = b₀ + b₁ ln(fare), gives b₁ = −0.4. The transit company is thinking of raising the fare by 10 %. What does the elasticity say about its ticket revenue?",
+      "options": [
+        "Revenue rises: demand is inelastic, so tickets fall by only about 4 % while the fare rises 10 %",
+        "Revenue falls: tickets fall by 40 %",
+        "Revenue falls: any negative elasticity means a price rise loses money",
+        "Nothing: an elasticity cannot be read from a log–log slope"
+      ],
+      "correct": [0],
+      "explanation": "The slope of a log–log line is the elasticity: a 1 % fare rise loses about 0.4 % of tickets. A 10 % rise loses about 4 % (1.10^−0.4 = 0.963, 3.7 %). Revenue is fare × tickets: 1.10 × 0.963 = 1.06, about 6 % more. Demand between 0 and −1 is inelastic, and a price rise raises revenue."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m20.o1",
+      "lookAgain": "st.m20.econometrics",
+      "prompt": "Across 40 cities, a regression of the number of hotel rooms booked per night on the average room price has a **positive** slope: cities with dearer rooms book more of them. What is the most likely explanation?",
+      "options": [
+        "Demand for hotel rooms slopes upward: people prefer dearer rooms",
+        "An omitted variable: popular cities have both higher prices and more visitors, and popularity is not in the regression",
+        "The regression must have the axes swapped",
+        "The slope is positive by chance and should be ignored"
+      ],
+      "correct": [1],
+      "explanation": "These are observational data. Cities that attract many visitors (popularity, conferences, size) can charge more and still fill more rooms. Price is standing in for popularity, which moves with both. Put a measure of demand (visitors, population) in the regression, a multiple regression, to see the price effect with it held fixed."
+    },
+    {
+      "id": "q3",
+      "kind": "numeric",
+      "objective": "st.m20.o2",
+      "lookAgain": "st.m20.forecasting",
+      "prompt": "Weekly orders are forecast by simple exponential smoothing with α = 0.2. Last week's smoothed level was 120 orders, and this week 130 orders came in. What is the new level, the forecast for next week? Give it to one decimal.",
+      "answer": 122.0,
+      "tolerance": 0.05,
+      "unit": "orders",
+      "explanation": "Lₜ = α yₜ + (1 − α) Lₜ₋₁ = 0.2 × 130 + 0.8 × 120 = 26 + 96 = 122.0 orders. A small α moves the level only a fifth of the way toward the new value."
+    },
+    {
+      "id": "q4",
+      "kind": "numeric",
+      "objective": "st.m20.o3",
+      "lookAgain": "st.m20.monetary",
+      "prompt": "A consumer price index stood at 180.0 a year ago and is 189.9 now. What was inflation over the year, in percent? Give it to one decimal.",
+      "answer": 5.5,
+      "tolerance": 0.05,
+      "unit": "%",
+      "explanation": "Inflation = (189.9 − 180.0)/180.0 × 100 % = 9.9/180.0 × 100 % = 5.5 %. The level of the index (189.9) is not the inflation rate; its percentage change is."
+    },
+    {
+      "id": "q5",
+      "kind": "numeric",
+      "objective": "st.m20.o3",
+      "lookAgain": "st.m20.monetary",
+      "prompt": "A central bank is described by Taylor's rule i = 1 + 1.5π + 0.5y. Inflation π is 4 % and the output gap y is −2 % (output below its sustainable level). What policy rate does the rule give, in percent? Give it to one decimal.",
+      "answer": 6.0,
+      "tolerance": 0.05,
+      "unit": "%",
+      "explanation": "i = 1 + 1.5 × 4 + 0.5 × (−2) = 1 + 6 − 1 = 6.0 %. High inflation calls for a higher rate; the weak economy (negative gap) pulls it down a little. With 4 % inflation, the real rate is 2 %."
+    },
+    {
+      "id": "q6",
+      "kind": "numeric",
+      "objective": "st.m20.o4",
+      "lookAgain": "st.m20.risk",
+      "prompt": "A marketing campaign will lose $50 thousand with probability 0.2, gain $30 thousand with probability 0.5, and gain $100 thousand with probability 0.3. What is its expected gain, in $ thousand? Give it to one decimal.",
+      "answer": 35.0,
+      "tolerance": 0.05,
+      "unit": "$k",
+      "explanation": "E[X] = (−50)(0.2) + 30(0.5) + 100(0.3) = −10 + 15 + 30 = $35.0 thousand. It is the long-run average over many such campaigns; this one will gain or lose one of the three amounts."
+    },
+    {
+      "id": "q7",
+      "kind": "numeric",
+      "objective": "st.m20.o4",
+      "lookAgain": "st.m20.risk",
+      "prompt": "A trading desk's one-day change in value is modelled as normal with mean 0 and standard deviation $2.0 million. What is its one-day 95 % Value at Risk, in $ million? Give it to two decimals.",
+      "answer": 3.29,
+      "tolerance": 0.01,
+      "unit": "$ million",
+      "explanation": "The 5 % quantile of a normal with mean 0 and σ = 2.0 is −1.645 × 2.0 = −3.29. The VaR is that loss: $3.29 million. On 5 days in 100 the desk loses more, and the VaR does not say how much more."
+    },
+    {
+      "id": "q8",
+      "kind": "numeric",
+      "objective": "st.m20.o5",
+      "lookAgain": "st.m20.capm",
+      "prompt": "A portfolio holds half its money in stock A (standard deviation 30 % a year) and half in stock B (10 % a year). Their returns are uncorrelated (ρ = 0). What is the portfolio's standard deviation, in percent? Give it to two decimals.",
+      "answer": 15.81,
+      "tolerance": 0.01,
+      "unit": "%",
+      "explanation": "σₚ² = w₁²σ₁² + w₂²σ₂² + 2w₁w₂ρσ₁σ₂ = 0.25 × 900 + 0.25 × 100 + 0 = 250, so σₚ = √250 = 15.81 %. That is less than the average of 30 and 10 (20 %): diversification."
+    },
+    {
+      "id": "q9",
+      "kind": "choice",
+      "objective": "st.m20.o5",
+      "lookAgain": "st.m20.capm",
+      "prompt": "The CAPM regression of a food company's monthly excess return on the market's gives β = 0.6 (95 % interval 0.4 to 0.8), α = 0.1 % a month (p = 0.70) and R² = 0.35. Which reading is right?",
+      "options": [
+        "The stock beats the market by 0.1 % a month",
+        "The stock moves about 0.6 % for each 1 % the market moves; most of its variance (65 %) is its own risk, which a diversified investor can largely remove",
+        "The stock is riskier than the market, since β is significant",
+        "60 % of the stock's return is explained by the market"
+      ],
+      "correct": [1],
+      "explanation": "β = 0.6 is the slope: less market risk than the market itself. R² = 0.35 is the share of the variance that is market risk, so 65 % is company-specific. α = 0.1 % with p = 0.70 is not distinguishable from zero: no evidence the stock beats the market."
+    },
+    {
+      "id": "q10",
+      "kind": "choice",
+      "objective": "st.m20.o6",
+      "lookAgain": "st.m20.abtest",
+      "prompt": "A web team runs an A/B test of two sign-up pages and checks the p-value every morning. On day 6 it is 0.04, and they stop the test and declare B the winner. What is wrong?",
+      "options": [
+        "Nothing: p < 0.05 means B is better",
+        "Checking every day and stopping at the first p < 0.05 makes a false winner far more likely than 5 %; the sample size should have been fixed in advance",
+        "They should have used α = 0.10",
+        "An A/B test cannot compare sign-up rates"
+      ],
+      "correct": [1],
+      "explanation": "Each look is another chance for chance alone to dip below 0.05, so peeking inflates the false-positive rate well above α. Plan the sample size from the smallest lift worth having, run to it, and test once (or use a method designed for repeated looks)."
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "id": "st.m20.abtest.ex",
+  "title": "Two subject lines for a marketing email",
+  "analysis": "TwoSampleTest",
+  "intro": "Illustrative data, made up for this book. A retailer sent one email to 5,000 customers chosen at random with subject line A and to another 5,000 with subject line B. Customers who clicked through: 410 for A, 468 for B.\n\nTest H₀: p_A = p_B against a two-sided alternative at α = 0.05. Give the z statistic and the p-value (three decimals), and the 95 % interval for p_A − p_B (four decimals).\n\nIn the Workbench: **Two-sample test**, **Test** *Two proportions*, **Data from** *Summary statistics*, group 1 = A.",
+  "settings": {
+    "Name": "Email subject lines",
+    "TestKind": "TwoProportions",
+    "Source": "Summary",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Successes": 410,
+    "SampleSize": 5000,
+    "Successes2": 468,
+    "Sample2Size": 5000
+  },
+  "ask": [
+    {
+      "result": "Statistic",
+      "prompt": "z statistic",
+      "tolerance": 0.002
+    },
+    {
+      "result": "PValue",
+      "prompt": "p-value",
+      "tolerance": 0.001
+    },
+    {
+      "result": "CiLower",
+      "prompt": "95 % interval for p_A − p_B, lower",
+      "tolerance": 0.0002
+    },
+    {
+      "result": "CiUpper",
+      "prompt": "95 % interval for p_A − p_B, upper",
+      "tolerance": 0.0002
+    }
+  ],
+  "hints": [
+    "p̂_A = 410/5000 and p̂_B = 468/5000. The test uses the pooled p̂ = (410 + 468)/10000.",
+    "z = (p̂_A − p̂_B)/√(p̂(1 − p̂)(1/n_A + 1/n_B)); the interval uses p̂_A and p̂_B separately (item 10.5)."
+  ]
+}
