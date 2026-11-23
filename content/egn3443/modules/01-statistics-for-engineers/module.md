@@ -1,7 +1,8 @@
 ---
 id: st.m1
+part: Part I · Fundamental Statistics for Engineers
 number: 1
-title: Statistics for Engineers
+title: Introduction to Statistics for Engineers
 status: draft
 minutes: 270
 prerequisites: [st.m0]
@@ -32,6 +33,6 @@ This module is a tour of the whole course. It shows each of the big ideas once, 
 
 Items 1.4 and 1.5 are previews. They show what a distribution, a confidence interval and a hypothesis test give you and how to read them, and their exercises are questions on reading and choosing. The later modules teach how each is calculated.
 
-Each item has four tabs: **Learn**, **Example**, **Exercise** and **Reference**. The module check, the last item, asks ten questions over all five outcomes. You need 80 % to pass, and you can try again.
+Each item has four lesson tabs, **Learn**, **Example**, **Exercise** and **Reference**, and **My notes** for your own notes. The module check, the last item, asks ten questions over all five outcomes. You need 80 % to pass, and you can try again.
 
 In the course, this module's assignment is a short report showing that you can run Python or R (Start here, items 0.2 and 0.3).

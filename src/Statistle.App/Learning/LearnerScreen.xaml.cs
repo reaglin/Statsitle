@@ -63,9 +63,10 @@ public partial class LearnerScreen : UserControl
         LockedText.Text = banner ?? "";
         Say(null);
         // Plan W.5 (Ron, 2026-11-23): the start screen opens with its sections folded, so a person sees every option at a glance (the
-        // banner and the messages sit above the sections, so folding never hides them). A learner the idle lock signed out comes back
-        // to Who is learning? open, with their name chosen, ready for the PIN.
-        WhoExpander.IsExpanded = selectProfileId is not null;
+        // banner and the messages sit above the sections, so folding never hides them). After a lock or Sign out (Switch learner),
+        // Who is learning? opens by itself, ready for the next learner, or the same one with their name chosen (Ron, 2026-11-23:
+        // a PlusBook standard, plan N.6). Only at start-up does every section start folded.
+        WhoExpander.IsExpanded = banner is not null || selectProfileId is not null;
         ToolsExpander.IsExpanded = FilesExpander.IsExpanded = false;
         PinBox.Clear();
         Refresh(selectProfileId);

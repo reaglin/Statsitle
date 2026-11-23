@@ -1,5 +1,6 @@
 ---
 id: st.m5
+part: Part I · Fundamental Statistics for Engineers
 number: 5
 title: Continuous Probability Distributions
 status: draft
@@ -29,7 +30,7 @@ This module teaches the three continuous distributions an engineer meets first:
 
 The last topic adds the **Weibull**, the model for the life of parts that wear out, which the course reading uses, and shows how to **fit** a distribution to measured data and judge whether it suits them.
 
-This module has six topics and a module check. Each topic is an item with four tabs:
+This module has six topics and a module check. Each topic is an item with four lesson tabs (and My notes, for your own notes):
 
 - **Learn** explains the idea, gives the formula, works a small case by hand, and shows the Python and R that do the same calculation.
 - **Example** shows a worked case: the density with the probability shaded, the cumulative curve, every result, and the code. Press **Open in the Workbench** to change the numbers and watch the area change.

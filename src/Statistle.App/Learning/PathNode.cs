@@ -27,6 +27,18 @@ public sealed class PathNode : INotifyPropertyChanged
     /// <summary>A tool's row in PlusBook Tools: here the Workbench (Learning Core plan 3.23). Choosing it opens the tool.</summary>
     public bool IsTool { get; init; }
 
+    /// <summary>The "My notes" row in PlusBook Tools (Learning Core plan 3.2; Q17).</summary>
+    public bool IsNotes { get; init; }
+
+    /// <summary>The "Glossary" row in PlusBook Tools (Learning Core plan 3.13; Q17).</summary>
+    public bool IsGlossary { get; init; }
+
+    /// <summary>A part of the book (Learning Core 1.8.0's <c>part:</c>; plan W.1): its modules are its children; choosing it shows its page.</summary>
+    public bool IsPart { get; init; }
+
+    /// <summary>A part's first module.</summary>
+    public LearningModule? PartFirst { get; init; }
+
     /// <summary>The module of a module row, or the module an item row is in.</summary>
     public LearningModule? Module { get; init; }
 

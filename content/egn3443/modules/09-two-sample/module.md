@@ -1,5 +1,6 @@
 ---
 id: st.m9
+part: Part I · Fundamental Statistics for Engineers
 number: 9
 title: Hypothesis Testing II
 status: draft
@@ -24,7 +25,7 @@ Module 8 tested one sample against a fixed value: is the mean bore 25.000 mm? En
 
 The logic is the one from Module 8: state H₀ and H₁, choose α, compute a test statistic, find its p-value, and decide. What is new is the choice of test. It depends on how the data were collected (two independent groups, or pairs of measurements on the same units), on what you know about the spread, and on whether the data look normal. A wrong choice gives a wrong p-value, sometimes badly wrong.
 
-This module has six topics and a module check. Each topic is an item with four tabs:
+This module has six topics and a module check. Each topic is an item with four lesson tabs (and My notes, for your own notes):
 
 - **Learn** explains the idea, gives the formula, works a small case by hand, and shows the Python and R that do the same test.
 - **Example** shows a worked case: the data, the box plots, the test statistic on its reference distribution, every result, and the code. Press **Open in the Workbench** to change the data or the test and watch the results change.

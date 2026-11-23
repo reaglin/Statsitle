@@ -1,5 +1,6 @@
 ---
 id: st.m12
+part: Part I · Fundamental Statistics for Engineers
 number: 12
 title: Multiple Regression
 status: draft
@@ -25,7 +26,7 @@ Module 11 fitted a straight line, ŷ = b₀ + b₁x, to one predictor. Engineeri
 
 fits it by the same least-squares rule, and reads each coefficient as the effect of its predictor **with the others held fixed**. That last phrase is the point of the module: when predictors move together in the data, a one-predictor line mixes their effects, and multiple regression pulls them apart.
 
-This module has five topics and a module check. Each topic is an item with four tabs:
+This module has five topics and a module check. Each topic is an item with four lesson tabs (and My notes, for your own notes):
 
 - **Learn** explains the idea, gives the formulas, works a case from its numbers, and shows the Python and R that fit the same model.
 - **Example** shows a worked case: the data table, the fitted model with its coefficient table, the figures, every result, and the code. Press **Open in the Workbench** to change the predictors or the selection and watch the results change.

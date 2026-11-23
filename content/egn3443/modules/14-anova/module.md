@@ -1,5 +1,6 @@
 ---
 id: st.m14
+part: Part I · Fundamental Statistics for Engineers
 number: 14
 title: ANOVA
 status: draft
@@ -24,7 +25,7 @@ Modules 9 and 10 compared two groups: two alloys, two ovens, two coatings. Engin
 
 The name says how it works. ANOVA splits the total variation of the measurements into the part **between** the groups (how far the group means are from each other) and the part **within** the groups (the scatter of the measurements around their own group mean). If the group means differ by more than the scatter inside the groups can explain, the groups really differ. The ratio of the two is the **F statistic**.
 
-This module has six topics and a module check. The first two say why ANOVA is needed and what it assumes; the next two build the ANOVA table and run the whole one-way analysis; the fifth adds a second factor, and with it the **interaction**; the last finds out *which* means differ once ANOVA says some do. Each topic is an item with four tabs:
+This module has six topics and a module check. The first two say why ANOVA is needed and what it assumes; the next two build the ANOVA table and run the whole one-way analysis; the fifth adds a second factor, and with it the **interaction**; the last finds out *which* means differ once ANOVA says some do. Each topic is an item with four lesson tabs (and My notes, for your own notes):
 
 - **Learn** explains the idea, gives the formulas, works a small case by hand, and shows the Python and R that do the same.
 - **Example** shows a worked case: the data, the figures (box plots, group means, the interaction plot), every result, and the code. Press **Open in the Workbench** to change the data and watch the results change.

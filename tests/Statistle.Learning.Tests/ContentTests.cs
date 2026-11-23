@@ -103,7 +103,8 @@ public class ContentTests(ITestOutputHelper output)
         // Plan 13.6 (docs/OUTCOMES.md): no outcome without an item that teaches it and a check question that assesses it.
         var content = StatsContent.Load(Egn3443);
         List<string> missing = [];
-        foreach (var module in content.Package.Modules)
+        // A module in development (Parts II and III, Ron 2026-11-23) lists the outcomes it will teach; it has no items yet.
+        foreach (var module in content.Package.Modules.Where(m => m.Status != ModuleStatus.ComingLater))
         {
             var check = module.Items.FirstOrDefault(i => i.Kind == ItemKind.Assess);
             foreach (var outcome in module.Outcomes)

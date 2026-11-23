@@ -55,4 +55,4 @@ The Workbench does the calculation; you write the report. Its tabs give you piec
 
 ## What to do next
 
-Answer the questions on the **Exercise** tab. Then go on to Module 1, *Statistics for Engineers*. Its first assignment in the course is a short report showing that you can run Python or R, so this item and the last one are its preparation.
+Answer the questions on the **Exercise** tab. Then go on to Module 1, *Introduction to Statistics for Engineers*. Its first assignment in the course is a short report showing that you can run Python or R, so this item and the last one are its preparation.

@@ -1,5 +1,6 @@
 ---
 id: st.m11
+part: Part I · Fundamental Statistics for Engineers
 number: 11
 title: Regression Analysis
 status: draft
@@ -24,7 +25,7 @@ Modules 8 to 10 tested claims about means and proportions and compared groups. E
 
 This module builds the **simple linear regression** ŷ = b₀ + b₁x by least squares. It then reads the regression output: the coefficients, R², the standard error, the F-test and the p-values. It checks the model's assumptions with the residuals, and it applies the whole method to real data. One item previews **multiple regression**, with several predictors at once. Module 12 teaches that fully, and Module 13 goes deeper into checking a model.
 
-This module has six topics and a module check. Each topic is an item with four tabs:
+This module has six topics and a module check. Each topic is an item with four lesson tabs (and My notes, for your own notes):
 
 - **Learn** explains the idea, gives the formula, works a small case by hand, and shows the Python and R that do the same.
 - **Example** shows a worked case: the data, the scatter plot with the fitted line, the residual plots, every result, and the code. Press **Open in the Workbench** to change the data and watch the line and the results change.

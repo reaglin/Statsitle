@@ -15,7 +15,7 @@ Ids are stable: module `st.mN`, outcome `st.mN.oK` (the course's MO numbers), it
 The analysis names are the existing Workbench analyses (`src/Statistle.Core/Analyses/`).
 **New** marks something the engine does not have yet (phase 10 builds it).
 
-**Numbering.** The course site labels pages as both "Week N" and "Module N−1". The path uses the module numbers (Module 1 = Statistics for Engineers). Week 1 orientation becomes **Start here**.
+**Numbering.** The course site labels pages as both "Week N" and "Module N−1". The path uses the module numbers (Module 1 = Introduction to Statistics for Engineers, retitled 2026-11-23). Week 1 orientation becomes **Start here**.
 
 ---
 
@@ -222,14 +222,44 @@ Outcomes: MO1 why not many t-tests · MO2 verify assumptions · MO3 one-way F an
 | 14.6 | Post-hoc testing and interpreting results | One-way ANOVA (Tukey HSD) |
 | 14.7 | Module check | MO1–MO5 |
 
-## Later topics (the same architecture)
+## The book in three parts (Ron, 2026-11-23)
 
-The course's "Additional Advanced Topics" module and anything Ron adds later go in as more modules, or as a
-second content package beside `egn3443`. A topic is Markdown files plus, if it needs a new calculation, one new
-`Analysis` class; nothing in the window changes. Candidates: Monte Carlo simulation and risk, statistical process
-control (control charts), design of experiments (2^k factorials), reliability (Weibull), goodness-of-fit.
+Ron, 2026-11-23: *"(1) Fundamental Statistics for Engineers which will still keep the module 1 statistics for engineers and
+change it to introduction to Statistics for Engineers. The next part is "Advanced Statistics" … and the third part will be
+"Additional Applications of Statistics" that will cover how Statistics is used in other fields (Biology, Business, etc..)"*
+(he wrote "2 parts" and described three; three are built). Each part has a page in `content/egn3443/parts/`; a module names
+its part in its front matter (`part:`). Start here (Module 0) stays above the parts. Parts II and III are **in development**:
+each module's `module.md` (status `coming-later`) lists its outcomes and topics, with no items yet (plan phase P).
+
+| Part | Modules | Status |
+|---|---|---|
+| **Part I · Fundamental Statistics for Engineers** | 1 Introduction to Statistics for Engineers (was Statistics for Engineers) … 14 ANOVA, above | written |
+| **Part II · Advanced Statistics** | 15–18, below | in development |
+| **Part III · Additional Applications of Statistics** | 19–23, below (proposed, ⚠️ Ron: plan Q19) | in development |
+
+### Part II · Advanced Statistics (one module per bullet of Ron's)
+
+| Module | Topics (as Ron's bullet gives them) | Outcomes (`st.mN.oK`) | Workbench pieces it may need |
+|---|---|---|---|
+| 15 Advanced Regression and Experimental Design | Multiple linear regression in depth; polynomial regression; nonlinear regression; factorial designs (2^k, fractional); response surfaces | o1 fit and compare multiple, polynomial and nonlinear models; o2 plan a factorial experiment, estimate effects and interactions, explore a response surface | **New**: nonlinear least squares, 2^k factorial analysis, response-surface fit (multiple regression covers the linear part) |
+| 16 Stochastic Processes | Markov chains; Poisson processes; Wiener processes (Brownian motion); stochastic calculus for systems evolving over time | o1 model a system as a Markov chain or Poisson process and find its long-run behaviour; o2 describe the Wiener process and the idea of stochastic calculus | **New**: Markov chain (transition matrix, steady state), Poisson process and random-walk simulation (Simulation has the generator) |
+| 17 Multivariate and Reliability Analysis | Multivariate models; quality control; system reliability; uncertainty propagation | o1 analyse correlated measurements together and monitor a process with control charts; o2 find a system's reliability from its components and propagate input uncertainty | **New**: covariance matrix / PCA, control charts (control limits exist in Descriptive statistics), series–parallel reliability, Monte Carlo propagation (Weibull exists) |
+| 18 Bayesian and Computational Statistics | Bayesian inference (prior information); parameter estimation (maximum likelihood); Monte Carlo simulation; bootstrapping | o1 update a prior with data and estimate parameters by maximum likelihood; o2 answer by Monte Carlo simulation and bootstrap an interval | **New**: conjugate-prior updates, MLE (the distribution fit has some), bootstrap (Simulation has the seeded generator) |
+
+### Part III · Additional Applications of Statistics (proposed fields)
+
+| Module | Topics | Outcomes |
+|---|---|---|
+| 19 Biology and Medicine | Clinical trials and their design; risk, odds and relative risk; survival analysis; epidemiology and screening tests | o1 read the design and statistics of a trial or study; o2 choose a test for survival times, rates and risks |
+| 20 Business and Economics | Time series and forecasting; risk and return; Six Sigma and quality in business; A/B tests and decisions | o1 forecast from a time series with its uncertainty; o2 decide under risk with quality, finance and A/B tests |
+| 21 Environmental and Earth Sciences | Extreme values and return periods; hydrology and climate records; trends in monitoring data; values below a detection limit | o1 size a rare event with extreme-value statistics; o2 analyse monitoring data, trends and censored values |
+| 22 Social Sciences and Psychology | Survey sampling and margins of error; measurement and reliability; experiments with people; reading published results | o1 design a survey sample and judge its margin of error; o2 judge a measure's reliability |
+| 23 Data Science and Computing | Statistics behind machine learning; model evaluation and cross-validation; many tests at once; big data, sampling and bias | o1 evaluate a model with a hold-out set and cross-validation; o2 handle many tests, sampling and bias in large data |
+
+Each module, when it is written, follows Part I's pattern: Learn / Example (examples to try, each with a figure) / Exercise /
+Reference, a module check, outcomes in `docs/OUTCOMES.md`, and its answers calculated by a Workbench analysis.
 
 ## Counts
 
-Start here + 14 modules (+ later topics), about **100 items**: 82 topics, 14 module checks, 3 start items.
+Start here + 14 modules in Part I, about **100 items**: 82 topics, 14 module checks, 3 start items. Parts II and III: 9 modules in development (2026-11-23).
 New engine pieces: Simulation, Chi-square tests, Weibull + distribution fit, hold-out split, control limits.

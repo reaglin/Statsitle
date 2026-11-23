@@ -28,33 +28,51 @@ public sealed class WindowRoomTests
     private static void Click(Button button) => button.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
 
     [Fact]
-    public void PlusBook_Tools_come_first_and_the_book_has_no_part_rows()
+    public void PlusBook_Tools_come_first_then_Start_here_and_the_three_parts()
     {
         var content = StatsContent.Load(Egn3443());
         WpfHost.Run(() =>
         {
             var path = LearningPath.Build(content.Package);
-            // W.1: one part, so the modules sit at the top of the tree, after PlusBook Tools.
-            Assert.All(content.Package.Modules, m => Assert.Null(m.Part));
+            // W.1 (Ron, 2026-11-23: the book in three parts): PlusBook Tools, Start here, then Parts I, II and III, each holding its modules.
             Assert.Same(path.Common, path.Roots[0]);
+            Assert.Equal(0, path.Roots[1].Module!.Number);
+            var parts = path.Parts.ToList();
+            Assert.Equal(["Part I · Fundamental Statistics for Engineers", "Part II · Advanced Statistics", "Part III · Additional Applications of Statistics"],
+                parts.Select(p => p.Header));
+            Assert.Equal(Enumerable.Range(1, 14), parts[0].Children.Select(m => m.Module!.Number));
+            Assert.Equal(Enumerable.Range(15, 4), parts[1].Children.Select(m => m.Module!.Number));
+            Assert.Equal(Enumerable.Range(19, 5), parts[2].Children.Select(m => m.Module!.Number));
+            Assert.Equal("1. Introduction to Statistics for Engineers", parts[0].Children[0].Header);
             Assert.Equal(content.Package.Modules.Select(m => m.Number), path.ModuleNodes.Select(n => n.Module!.Number));
-            Assert.Equal(path.Roots.Count - 1, path.ModuleNodes.Count());
-            // W.2: My progress, Hand in a report and the Workbench (the book's tool), in PlusBook Tools.
-            Assert.Equal([path.Dashboard, path.Reports, path.Workbench], path.Common.Children);
+            Assert.All(parts, p => Assert.All(p.Children, m => Assert.Same(p, m.Parent)));
+            // W.6: Parts II and III are in development, their modules too, with no items yet; each has a part page.
+            Assert.Contains("items complete", parts[0].Detail, StringComparison.Ordinal);
+            Assert.All(parts.Skip(1), p => Assert.EndsWith("in development", p.Detail, StringComparison.Ordinal));
+            Assert.All(parts.Skip(1).SelectMany(p => p.Children), m => { Assert.Equal("In development", m.Detail); Assert.Empty(m.Module!.Items); });
+            Assert.All(parts, p => Assert.True(content.PartPages.ContainsKey(p.Header), p.Header));
+            // W.2: My progress, Hand in a report, My notes, the Glossary and the Workbench (the book's tool), in PlusBook Tools.
+            Assert.Equal([path.Dashboard, path.Reports, path.Notes, path.Glossary, path.Workbench], path.Common.Children);
             Assert.True(path.Workbench.IsTool);
             Assert.Equal("PlusBook Tools", path.Common.Header);
             Assert.Contains("module checks complete", path.Reports.Detail, StringComparison.Ordinal);
+            Assert.Contains("key terms", path.Glossary.Detail, StringComparison.Ordinal);
             // Rows wrap inside the column at every depth.
             Assert.True(path.Dashboard.TextWidth < path.Common.TextWidth);
+            Assert.True(parts[0].Children[0].TextWidth < parts[0].TextWidth);
 
-            // Collapse Menu folds everything; going to an item opens only its module.
+            // Collapse Menu folds everything; one part opens on its own; going to an item opens only its part and module.
             path.Common.IsExpanded = true;
             path.FoldAll();
             Assert.All(path.AllNodes, n => Assert.False(n.IsExpanded));
+            parts[2].IsExpanded = true;
             var item = content.Package.Modules.First(m => m.Number == 3).Items[0];
             path.Select(item);
             Assert.True(path.NodeOf(item.Module)!.IsExpanded);
             Assert.Single(path.ModuleNodes, n => n.IsExpanded);
+            Assert.True(parts[0].IsExpanded);
+            Assert.False(parts[1].IsExpanded);
+            Assert.True(parts[2].IsExpanded);
             Assert.False(path.Common.IsExpanded);
         });
     }
@@ -182,6 +200,135 @@ public sealed class WindowRoomTests
     }
 
     [Fact]
+    public void My_notes_the_glossary_course_links_and_the_part_pages_work_as_in_the_other_PlusBooks()
+    {
+        var content = StatsContent.Load(Egn3443());
+        Assert.True(content.Package.Glossary.Entries.Count >= 50, $"{content.Package.Glossary.Entries.Count} terms");
+        string folder = Path.Combine(Path.GetTempPath(), "statistle-room-" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(folder);
+        try
+        {
+            WpfHost.Run(() =>
+            {
+                var store = new LearnerStore(folder, new LearnerFileOptions("Statistle", ".statprogress", "test", Environment.MachineName));
+                var (ada, _) = store.Create("Ada Lovelace", null, "2468", DateTimeOffset.Now);
+                var page = new CoursePage(content);
+                var window = new Window { Content = page, Width = 1440, Height = 900, Left = -10000, Top = -10000, ShowInTaskbar = false, ShowActivated = false };
+                window.Show();
+                try
+                {
+                    // Not signed in: Course Links waits for a learner; the My notes tab says how to keep notes.
+                    Assert.False(page.CourseLinksButton.IsEnabled);
+                    var item = content.Package.Modules.First(m => m.Number == 2).Items[0];
+                    page.Path.Select(item);
+                    WpfHost.Pump();
+                    Assert.Equal("My notes", page.NotesTab.Header);
+                    Assert.Equal(Visibility.Collapsed, page.ItemNotes.Visibility);
+
+                    page.SignIn(ada);
+                    Assert.True(page.CourseLinksButton.IsEnabled);
+                    page.Path.Select(item);
+                    WpfHost.Pump();
+                    // Key terms are marked on the Learn page (a dotted underline, the first use of each).
+                    Assert.True(page.LearnView.TermCount > 0);
+                    // A note on a paragraph: a ✎ after it, a count on the tab and in the path, and on the My notes page.
+                    page.AddNoteOnLearn(1, "Ask about the trimmed mean in class.");
+                    WpfHost.Pump();
+                    Assert.Equal(1, page.LearnView.NoteMarkCount);
+                    Assert.Equal("My notes (1)", page.NotesTab.Header);
+                    Assert.Contains("✎ 1 note", page.Path.NodeOf(item)!.Detail, StringComparison.Ordinal);
+                    Assert.Contains("1 note on 1 item", page.Path.Notes.Detail, StringComparison.Ordinal);
+                    Assert.Single(ada.Data.Notes.Live);
+                    LearningPath.Choose(page.Path.Notes);
+                    WpfHost.Pump();
+                    Assert.Contains("This screen: My notes", page.HelpMarkdownShown, StringComparison.Ordinal);
+
+                    // The Glossary page, at a term, with the way back to the item.
+                    page.Path.Select(item);
+                    WpfHost.Pump();
+                    var mean = content.Package.Glossary.Find("sample mean")!;
+                    page.ShowGlossaryPage(mean);
+                    WpfHost.Pump();
+                    Assert.Same(mean, page.GlossaryTermShown);
+                    Assert.Contains("This screen: Glossary", page.HelpMarkdownShown, StringComparison.Ordinal);
+
+                    // A part's page: what it is, its modules; Part II is in development.
+                    var part2 = page.Path.Parts.ElementAt(1);
+                    LearningPath.Choose(part2);
+                    WpfHost.Pump();
+                    Assert.Equal("Part II · Advanced Statistics", page.PartShown);
+                    Assert.True(part2.IsExpanded);
+                    Assert.Contains("This screen: a part of the book", page.HelpMarkdownShown, StringComparison.Ordinal);
+
+                    // Signing out keeps the notes in the file and shows none on screen; the same learner finds them again.
+                    page.SignIn(null);
+                    WpfHost.Pump();
+                    Assert.DoesNotContain("note", page.Path.Notes.Detail.Replace("notes on the lessons", "", StringComparison.Ordinal), StringComparison.Ordinal);
+                    page.SignIn(ada);
+                    Assert.Contains("1 note", page.Path.Notes.Detail, StringComparison.Ordinal);
+                }
+                finally
+                {
+                    window.Close();
+                    page.SignIn(null);
+                    ada.Dispose();
+                }
+            });
+        }
+        finally
+        {
+            try { Directory.Delete(folder, recursive: true); } catch (IOException) { } catch (UnauthorizedAccessException) { }
+        }
+    }
+
+    [Fact]
+    public void The_Workbench_help_hides_to_the_right_and_each_learner_keeps_the_choice()
+    {
+        string folder = Path.Combine(Path.GetTempPath(), "statistle-room-" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(folder);
+        try
+        {
+            WpfHost.Run(() =>
+            {
+                Environment.SetEnvironmentVariable("STATISTLE_CONTENT", Egn3443());
+                var store = new LearnerStore(Path.Combine(folder, "learners"), new LearnerFileOptions("Statistle", ".statprogress", "test", Environment.MachineName));
+                var (ada, _) = store.Create("Ada Lovelace", null, "2468", DateTimeOffset.Now);
+                var (bob, _) = store.Create("Bob Boole", null, "1357", DateTimeOffset.Now);
+                var workspace = new ViewModels.WorkspaceViewModel(new WorkspaceSafetyTests.FakeDialogs(), Path.Combine(folder, "autosave"));
+                var window = new MainWindow(workspace) { Width = 1440, Height = 900, Left = -10000, Top = -10000, ShowInTaskbar = false, ShowActivated = false };
+                window.Show();
+                try
+                {
+                    WpfHost.Pump();
+                    Assert.True(window.IsWorkbenchHelpOpen);
+                    window.SignIn(ada);
+                    window.ShowWorkbench();
+                    WpfHost.Pump();
+                    Assert.True(window.IsWorkbenchHelpOpen);
+                    window.ToggleWorkbenchHelp();
+                    Assert.False(window.IsWorkbenchHelpOpen);
+                    Assert.Equal("folded", ada.Data.Preferences["workbenchHelp"]);
+                    window.SignIn(bob);          // another learner: help open, as he has never hidden it
+                    Assert.True(window.IsWorkbenchHelpOpen);
+                    window.ToggleWorkbenchHelp();
+                    window.ToggleWorkbenchHelp();
+                    Assert.True(window.IsWorkbenchHelpOpen);
+                    Assert.Equal("open", bob.Data.Preferences["workbenchHelp"]);
+                }
+                finally
+                {
+                    window.Close();
+                    Environment.SetEnvironmentVariable("STATISTLE_CONTENT", null);
+                }
+            });
+        }
+        finally
+        {
+            try { Directory.Delete(folder, recursive: true); } catch (IOException) { } catch (UnauthorizedAccessException) { }
+        }
+    }
+
+    [Fact]
     public void Send_feedback_names_Statistics_plus_and_its_version()
     {
         App.SetUpLearning();
@@ -220,9 +367,13 @@ public sealed class WindowRoomTests
 
         foreach (var x in folds) x.IsExpanded = true;
         WpfHost.Pump();
-        screen.Show("Locked for the next learner.");
+        screen.Show();                                  // start-up: every section folded
         WpfHost.Pump();
         Assert.All(folds, x => Assert.False(x.IsExpanded));
+        screen.Show("Signed out. Your progress is saved."); // Sign out (Switch learner): Who is learning? opens (Ron, plan N.6)
+        WpfHost.Pump();
+        Assert.True(Fold("WhoExpander").IsExpanded);
+        Assert.False(Fold("FilesExpander").IsExpanded);
         screen.Show("Signed out after 15 minutes.", learner.Listing.Header!.ProfileId);
         WpfHost.Pump();
         Assert.True(Fold("WhoExpander").IsExpanded);

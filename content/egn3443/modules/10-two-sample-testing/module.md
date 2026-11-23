@@ -1,5 +1,6 @@
 ---
 id: st.m10
+part: Part I · Fundamental Statistics for Engineers
 number: 10
 title: Two-Sample Hypothesis Testing
 status: draft
@@ -28,7 +29,7 @@ Module 9 introduced two-sample tests: Welch's and the pooled t-test for two inde
 - the **two-proportion z-test** with a pooled proportion, and the confidence interval for p₁ − p₂, which Module 9 named and left for here;
 - turning a result into a **decision**: the cost of each kind of error, a practical threshold, and a written conclusion.
 
-This module has six topics and a module check. Each topic is an item with four tabs:
+This module has six topics and a module check. Each topic is an item with four lesson tabs (and My notes, for your own notes):
 
 - **Learn** explains the idea, works a small case by hand, and shows the Python and R that do the same test.
 - **Example** shows a worked case: the data, the figures, every result, and the code. Press **Open in the Workbench** to change the data or the test and watch the results change.

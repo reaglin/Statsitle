@@ -20,7 +20,7 @@ Welcome to Statistics+. It follows EGN3443, *Probability and Statistics for Engi
 
 This short module is the course's Week 1. It has three items:
 
-- **How Statistics+ works**: the list on the left, the four tabs of every item, the Workbench, and how your progress is kept.
+- **How Statistics+ works**: the list on the left, the tabs of every item, your notes and key terms, the Workbench, and how your progress is kept.
 - **Python and R for this course**: where to run the code, and how to check that it gives the same numbers as Statistics+.
 - **The report template**: the sections every assignment in the course is written in.
 

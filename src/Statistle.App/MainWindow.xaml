@@ -274,7 +274,7 @@
                     <ContentPresenter Grid.Column="1" Content="{Binding}" ContentTemplate="{StaticResource LabelCell}" />
                     <ComboBox Grid.Column="2"
                               AutomationProperties.Name="{Binding Label}"
-                              ToolTip="Choose one; the help panel below explains the choice"
+                              ToolTip="Choose one; the help on the right explains the choice"
                               ItemsSource="{Binding EnumValues}"
                               SelectedItem="{Binding Text}"
                               HorizontalAlignment="Left" Width="{StaticResource WideValueWidth}"
@@ -344,7 +344,7 @@
                     <StackPanel Grid.Column="2" Orientation="Horizontal">
                         <ComboBox ItemsSource="{Binding Choices}"
                                   AutomationProperties.Name="{Binding Label}"
-                                  ToolTip="Choose one; the help panel below explains the choice"
+                                  ToolTip="Choose one; the help on the right explains the choice"
                                   SelectedItem="{Binding SelectedChoice}"
                                   DisplayMemberPath="Label"
                                   HorizontalAlignment="Left" Width="{StaticResource WideValueWidth}"
@@ -492,6 +492,8 @@
                 <Separator />
                 <MenuItem x:Name="HandInMenu" Header="_Hand in a progress report…" Click="HandIn_Click"
                           ToolTip="Makes a signed progress report (PDF) of a module check, or of everything so far, to hand in to your instructor" ToolTipService.ShowOnDisabled="True" />
+                <MenuItem x:Name="CourseLinksMenu" Header="Course _Links…" Click="CourseLinks_Click"
+                          ToolTip="Add links to your course in the LMS (Canvas, Brightspace …) and to the course website, from your instructor (optional)" ToolTipService.ShowOnDisabled="True" />
                 <MenuItem x:Name="BackupMenu" Header="_Back up my progress…" Click="Backup_Click"
                           ToolTip="Saves a copy of your progress file to a USB drive or a cloud folder, in case this computer is changed" ToolTipService.ShowOnDisabled="True" />
             </MenuItem>
@@ -635,15 +637,17 @@
             <!-- Content -->
             <TabControl Grid.Column="2" Margin="10" x:Name="ContentTabs">
                 <TabItem Header="Properties" ToolTip="Enter the data and settings of the selected item and read its results; the help panel explains the field you are in">
-                    <!-- Three quarters entry, one quarter help. The help describes the field
-                         with the focus, or the whole item when no field has it. -->
-                    <Grid Margin="14,12,14,14">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="3*" />
-                            <RowDefinition Height="1*" MinHeight="90" />
-                        </Grid.RowDefinitions>
+                    <!-- The entry, and help on the right. The help describes the field with the focus, or the whole item when no
+                         field has it. Plan Q18 (Ron, 2026-11-23): help is light blue and hides to the right, as in the Course, leaving
+                         the Help strip; each learner's choice is kept. -->
+                    <Grid Margin="14,12,0,14">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
 
-                        <DockPanel Grid.Row="0">
+                        <DockPanel Grid.Column="0" Margin="0,0,12,0">
                             <TextBlock DockPanel.Dock="Top" Text="{Binding SelectedHeading}"
                                        FontSize="15" FontWeight="SemiBold" Margin="0,0,0,8" />
 
@@ -759,18 +763,34 @@
                         </DockPanel>
 
                         <!-- Help: the focused field, or the item as a whole. -->
-                        <Border Grid.Row="1" Margin="0,10,0,0" Padding="12,8"
-                                Background="{StaticResource TreeBrush}"
-                                BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
-                                CornerRadius="3">
+                        <Border x:Name="WorkbenchHelp" Grid.Column="1" Width="300"
+                                Background="{StaticResource HelpPanelBrush}"
+                                BorderBrush="{StaticResource HelpBarLineBrush}" BorderThickness="1,0,0,0">
                             <DockPanel>
-                                <TextBlock DockPanel.Dock="Top" Text="{Binding HelpTitle}"
-                                           FontWeight="SemiBold" Margin="0,0,0,4" />
-                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                <Button x:Name="WorkbenchHideHelp" DockPanel.Dock="Top" Content="Hide help ▸" AutomationProperties.Name="Hide help"
+                                        Style="{StaticResource HelpBarButton}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                                        Padding="8,7" BorderThickness="0,0,0,1" Click="WorkbenchHelp_Click"
+                                        ToolTip="Hides help to the right, so the entry has more room; the light blue Help strip at the right edge opens it again" />
+                                <TextBlock DockPanel.Dock="Top" Text="{Binding HelpTitle}" TextWrapping="Wrap"
+                                           FontWeight="SemiBold" Margin="14,10,14,4" />
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="14,0,14,10">
                                     <TextBlock Text="{Binding HelpText}" TextWrapping="Wrap"
-                                               FontSize="12" LineHeight="17" Foreground="#2F3E4C" />
+                                               FontSize="12.5" LineHeight="18" Foreground="#2F3E4C" />
                                 </ScrollViewer>
                             </DockPanel>
+                        </Border>
+                        <Border x:Name="WorkbenchHelpStrip" Grid.Column="2" Visibility="Collapsed" Background="{StaticResource HelpBarBrush}"
+                                BorderBrush="{StaticResource HelpBarLineBrush}" BorderThickness="1,0,0,0">
+                            <Button x:Name="WorkbenchOpenHelp" Click="WorkbenchHelp_Click" Style="{StaticResource HelpBarButton}" VerticalAlignment="Stretch"
+                                    VerticalContentAlignment="Top" Padding="6,12" BorderThickness="0"
+                                    AutomationProperties.Name="Help: open help for this field" ToolTip="Opens help for the field you are in again. (Here, F1 opens the Instructions tab.)">
+                                <StackPanel>
+                                    <TextBlock Text="◂" HorizontalAlignment="Center" Margin="0,0,0,6" />
+                                    <TextBlock Text="Help">
+                                        <TextBlock.LayoutTransform><RotateTransform Angle="90" /></TextBlock.LayoutTransform>
+                                    </TextBlock>
+                                </StackPanel>
+                            </Button>
                         </Border>
                     </Grid>
                 </TabItem>

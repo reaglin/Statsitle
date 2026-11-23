@@ -18,13 +18,19 @@ You are in the Course now.
 
 ## The list on the left: PlusBook Learning
 
-The list on the left is the whole course, in order.
+The list on the left is the whole book, in order. The book has three parts (📖):
 
-- **PlusBook Tools** (+) is at the top. It holds **My progress** (▤: every module, the module checks, the outcomes to review, and the time you have spent), **Hand in a report** (✉: a signed progress report for your instructor), and the **Workbench** (∑), the calculator.
-- Then come the **modules**: 0 Start here, 1 Statistics for Engineers, 2 Descriptive Statistics, and so on. Choose a module to see what it teaches (its outcomes) and its items.
+- **Part I · Fundamental Statistics for Engineers**: the course EGN3443, Modules 1 to 14.
+- **Part II · Advanced Statistics**: advanced regression and experimental design, stochastic processes, multivariate and reliability analysis, and Bayesian and computational statistics. In development.
+- **Part III · Additional Applications of Statistics**: how statistics is used in biology and medicine, business, the environment, the social sciences and data science. In development.
+
+In the list:
+
+- **PlusBook Tools** (+) is at the top. It holds **My progress** (▤: every module, the module checks, the outcomes to review, and the time you have spent), **Hand in a report** (✉: a signed progress report for your instructor), **My notes** (✎: every note you have written), the **Glossary** (Aa: the book's key terms) and the **Workbench** (∑), the calculator.
+- Then **Start here** (Module 0) and the three parts. Choose a part to read what it is; under it are its **modules**: 1 Introduction to Statistics for Engineers, 2 Descriptive Statistics, and so on. Choose a module to see what it teaches (its outcomes) and its items.
 - Under each module are its **items**. Each item is one topic of the course, numbered by module: 1.2 is the second item of Module 1.
-- The arrow beside PlusBook Tools or a module opens or folds it, each on its own. **Collapse Menu** folds them all.
-- Under the list, in green, **PlusBook Learning** shows your totals, your time, the key to the marks and the **Collapse Menu** button. Choose its name to fold it down, so the list has more room. While you are signed in, Statistics+ remembers whether it is folded.
+- The arrow beside PlusBook Tools, a part or a module opens or folds it, each on its own. **Collapse Menu** folds them all.
+- Under the list, in green, **PlusBook Learning** shows your totals, your time, the key to the marks, the **Collapse Menu** button and **Course Links**. Choose its name to fold it down, so the list has more room. While you are signed in, Statistics+ remembers whether it is folded.
 
 Each item has a mark that shows how far you are:
 
@@ -36,16 +42,23 @@ Each item has a mark that shows how far you are:
 
 A module's mark says the same for the whole module, and two more: **★** mastered (complete, and every outcome mastered) and **↺** review suggested. **–** marks a module still in development.
 
-## The four tabs of an item
+## The tabs of an item
 
-Every item has the same four tabs. Use them in order.
+Every item has the same tabs. Use the first four in order.
 
 | Tab | Keys | What it is for |
 |---|---|---|
 | **Learn** | Ctrl+1 | The lesson: the idea, the formula, a small case worked by hand, and the Python and R |
-| **Example** | Ctrl+2 | A worked analysis on an engineering dataset: the data, every result, the figures and the code |
+| **Example** | Ctrl+2 | Examples to try, each with a figure, and a worked analysis on an engineering dataset: the data, every result, the figures and the code |
 | **Exercise** | Ctrl+3 | Your turn: a new dataset to work, or questions to answer |
 | **Reference** | Ctrl+4 | The formulas, the Python and R functions, and the sources, to look back at |
+| **My notes** | Ctrl+5 | Your own notes on the item. Only you see them |
+
+**Your own notes.** Right-click a paragraph of a lesson and choose **Add a note to this paragraph**: a ✎ after the paragraph shows it, and the My notes tab lists it. Notes are kept in your progress file and never put in a report. **My notes** in PlusBook Tools has them all, with a search box.
+
+**Key terms.** A key term has a dotted underline the first time a page uses it. Point at it to read what it means; click it to open the **Glossary**.
+
+**Course links.** If your instructor gives you the course website and the course's address in your LMS (Canvas, Brightspace …), **Course Links…** under PlusBook Learning keeps them, with buttons that open them.
 
 The Example uses a dataset like the Exercise's, never the same one. It shows the method; the Exercise checks that you can use it.
 
@@ -60,7 +73,7 @@ An item is **complete** when you pass its exercise or its questions. An item wit
 
 ## The Workbench
 
-The Workbench is the calculator. Choose an analysis on the left (Descriptive statistics, Confidence interval, One-sample test, …), type or paste the data, and the results appear at once. Its tabs are **Properties** (the data and the results), **Report**, **Plots**, **Code** (the Python and R) and **Instructions**.
+The Workbench is the calculator. Choose an analysis on the left (Descriptive statistics, Confidence interval, One-sample test, …), type or paste the data, and the results appear at once. Its tabs are **Properties** (the data and the results), **Report**, **Plots**, **Code** (the Python and R) and **Instructions**. On Properties, the light blue column on the right explains the field you are in; **Hide help ▸** at its top hides it for more room, and the light blue **Help** strip brings it back. In the Workbench, F1 opens the Instructions tab.
 
 On an Example tab, **Open in the Workbench** copies the example there, so you can change the numbers and watch the results move. **Course** (Ctrl+L) brings you back to the item you were on.
 

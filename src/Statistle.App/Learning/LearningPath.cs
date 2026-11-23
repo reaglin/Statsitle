@@ -29,9 +29,9 @@ public sealed class LearningPath
         Common = new PathNode
         {
             IsCommon = true, Weight = FontWeights.Bold, Header = "PlusBook Tools", Mark = "+",
-            Detail = "My progress, Hand in a report and the Workbench",
-            SpokenName = "PlusBook Tools: my progress, hand in a report and the Workbench",
-            Tip = "My progress, Hand in a report and the Workbench. The arrow beside it (or the → and ← keys) opens and folds them; choosing its name opens My progress",
+            Detail = "My progress, reports, notes, the glossary and the Workbench",
+            SpokenName = "PlusBook Tools: my progress, hand in a report, my notes, the glossary and the Workbench",
+            Tip = "My progress, Hand in a report, My notes, the Glossary and the Workbench. The arrow beside it (or the → and ← keys) opens and folds them; choosing its name opens My progress",
         };
         Roots.Add(Common);
         Dashboard = new PathNode { IsDashboard = true, Weight = FontWeights.SemiBold, Header = "My progress", Mark = "▤", Parent = Common };
@@ -42,6 +42,21 @@ public sealed class LearningPath
             Tip = "Makes a signed progress report (PDF) of a module check, or of everything so far, to hand in to your instructor",
         };
         Common.Children.Add(Reports);
+        // My notes and the Glossary (Learning Core plan 3.2, 3.13; Q17, Ron 2026-11-23: "the same as the other PlusBooks").
+        Notes = new PathNode
+        {
+            IsNotes = true, Weight = FontWeights.SemiBold, Header = "My notes", Mark = "✎", Parent = Common,
+            Tip = "Every note you have written on the lessons, with a search box. Only you see them",
+        };
+        Common.Children.Add(Notes);
+        Glossary = new PathNode
+        {
+            IsGlossary = true, Weight = FontWeights.SemiBold, Header = "Glossary", Mark = "Aa", Parent = Common,
+            Detail = $"{package.Glossary.Entries.Count} key terms, A to Z",
+            SpokenName = $"Glossary: {package.Glossary.Entries.Count} key terms",
+            Tip = "The book's key terms and what they mean, with the items that use them",
+        };
+        Common.Children.Add(Glossary);
         Workbench = new PathNode
         {
             IsTool = true, Weight = FontWeights.SemiBold, Header = "Workbench", Mark = "∑", Parent = Common,
@@ -50,13 +65,38 @@ public sealed class LearningPath
             Tip = "Opens the Workbench, the statistics calculator, for your own data and assignments (Ctrl+B). Nothing there counts toward your progress; Course (Ctrl+L) comes back",
         };
         Common.Children.Add(Workbench);
+        // Plan W.1 (Ron, 2026-11-23: the book in three parts): each part holds its modules, so a part opens and folds on its own.
+        // A module before any part (Start here) stays at the top of the tree.
+        PathNode? part = null;
         foreach (var m in package.Modules)
         {
-            var node = new PathNode { Module = m, Weight = FontWeights.SemiBold, Header = $"{m.Number}. {m.Title}" };
+            if (package.StartsPart(m)) Roots.Add(part = PartHeading(package, m));
+            else if (package.PartOf(m) is null) part = null;
+            var node = new PathNode { Module = m, Parent = part, Weight = FontWeights.SemiBold, Header = $"{m.Number}. {m.Title}" };
             foreach (var i in m.Items) node.Children.Add(new PathNode { Module = m, Item = i, Parent = node, Header = $"{i.Number} {i.Title}" });
-            Roots.Add(node);
+            if (part is null) Roots.Add(node); else part.Children.Add(node);
         }
     }
+
+    /// <summary>The heading row of the part that begins with <paramref name="first"/>: its name and its modules' numbers.</summary>
+    private static PathNode PartHeading(ContentPackage package, LearningModule first)
+    {
+        var name = first.Part!;
+        var range = Range(package.Modules.Where(m => package.PartOf(m) == name).Select(m => m.Number).ToList());
+        return new PathNode
+        {
+            IsPart = true, PartFirst = first, Header = name, Weight = FontWeights.Bold, Detail = range, Mark = "📖",
+            SpokenName = $"{name}: {range}", Tip = PartTip(name, range),
+        };
+    }
+
+    private static string Range(IReadOnlyList<int> numbers) => numbers.Count == 1 ? $"Module {numbers[0]}" : $"Modules {numbers[0]} to {numbers[^1]}";
+
+    private static string PartTip(string part, string detail) =>
+        $"{part}: {detail}. Choose it to read what this part is. The arrow beside it (or the → and ← keys) opens and folds its modules.";
+
+    /// <summary>The part rows (Part I, II, III), in order.</summary>
+    public IEnumerable<PathNode> Parts => Roots.Where(r => r.IsPart);
 
     /// <summary>Builds the tree for a package, with every mark for <paramref name="progress"/> (null: nobody's yet).</summary>
     public static LearningPath Build(ContentPackage package, LearningProgress? progress = null)
@@ -86,8 +126,15 @@ public sealed class LearningPath
     /// <summary>The Workbench row (the book's tool).</summary>
     public PathNode Workbench { get; }
 
-    /// <summary>Every module's row, in the book's order.</summary>
-    public IEnumerable<PathNode> ModuleNodes => Roots.Where(n => n.Module is not null && n.Item is null);
+    /// <summary>The My notes row.</summary>
+    public PathNode Notes { get; }
+
+    /// <summary>The Glossary row.</summary>
+    public PathNode Glossary { get; }
+
+    /// <summary>Every module's row, inside its part or at the top of the tree, in the book's order.</summary>
+    public IEnumerable<PathNode> ModuleNodes =>
+        Roots.SelectMany(r => r.IsPart ? r.Children : [r]).Where(n => n.Module is not null && n.Item is null);
 
     /// <summary>Every row in the tree, at any depth.</summary>
     public IEnumerable<PathNode> AllNodes => Roots.SelectMany(Self);
@@ -125,6 +172,9 @@ public sealed class LearningPath
     public string TimeText { get; private set; } = "";
 
     /// <summary>Every row's mark and words, the totals and the time, for <paramref name="progress"/> (null: nobody's).</summary>
+    /// <summary>The signed-in learner's notes per item (item id → count), for "✎ n notes" in the path; null: none.</summary>
+    public Func<IReadOnlyDictionary<string, int>>? NoteCounts { get; set; }
+
     public void Refresh(LearningProgress? progress, DateTimeOffset? at = null)
     {
         Progress = progress ?? NoOne;
@@ -144,6 +194,25 @@ public sealed class LearningPath
         var ready = summary.Submissions.Count(x => x.State != SubmissionState.NotReached);
         Reports.Detail = $"A signed PDF for your instructor · {ready} of {summary.Submissions.Count} module checks complete";
         Reports.SpokenName = "Hand in a report: " + Reports.Detail;
+        var noteCounts = NoteCounts?.Invoke() ?? new Dictionary<string, int>();
+        var notes = noteCounts.Values.Sum();
+        Notes.MarkBrush = notes > 0 ? started : muted;
+        Notes.Detail = notes > 0 ? $"{notes} note{(notes == 1 ? "" : "s")} on {noteCounts.Count} item{(noteCounts.Count == 1 ? "" : "s")}" : "Your own notes on the lessons";
+        Notes.SpokenName = "My notes: " + Notes.Detail;
+        Glossary.MarkBrush = started;
+
+        foreach (var part in Parts)
+        {
+            var entries = summary.Modules.Where(e => part.Children.Any(c => c.Module == e.Module)).ToList();
+            var range = Range([.. entries.Select(e => e.Module.Number)]);
+            // A part whose modules are all still to come says so (plan W.6), not "0 of 0 items".
+            part.Detail = entries.Count > 0 && entries.All(e => e.State == PathState.ComingLater)
+                ? $"{range} · in development"
+                : $"{range} · {entries.Sum(e => e.Complete)} of {entries.Sum(e => e.Total)} items complete";
+            var titles = string.Join(", ", entries.Select(e => e.Module.Title));
+            part.SpokenName = $"{part.Header}: {part.Detail}. Its modules: {titles}";
+            part.Tip = PartTip(part.Header, part.Detail) + $" Its modules: {titles}.";
+        }
 
         foreach (var node in ModuleNodes)
         {
@@ -182,7 +251,7 @@ public sealed class LearningPath
                     ItemState.InProgress => ("◐", started),
                     _ => ("○", muted),
                 };
-                child.Detail = ItemDetail(item, state);
+                child.Detail = ItemDetail(item, state) + (noteCounts.TryGetValue(item.Id, out var n) ? $" · ✎ {n} note{(n == 1 ? "" : "s")}" : "");
                 child.SpokenName = $"{item.Number} {item.Title}: {child.Detail}";
                 child.Tip = item.Kind == ItemKind.Assess
                     ? item.Quiz is null ? "The module check: complete when every item it covers is" : "The module check: complete when every item it covers is complete and you pass its questions"

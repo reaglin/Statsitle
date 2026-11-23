@@ -1,5 +1,6 @@
 ---
 id: st.m2
+part: Part I · Fundamental Statistics for Engineers
 number: 2
 title: Descriptive Statistics
 status: draft
@@ -21,7 +22,7 @@ topics:
 
 Descriptive statistics turn a list of measurements into a few numbers and two pictures that say what the data look like: where the center is, how spread out the values are, and what shape they make. Every later module starts here. A confidence interval, a hypothesis test and a regression all begin with a mean and a standard deviation.
 
-This module has five topics and a module check. Each topic is an item, and each item has four tabs:
+This module has five topics and a module check. Each topic is an item, and each item has four lesson tabs (and My notes, for your own notes):
 
 - **Learn** explains the idea, gives the formula, works a small case by hand, and shows the Python and R that do the same calculation.
 - **Example** shows a worked analysis on a real engineering dataset: the data, the results, the histogram and box plot, and the code. Press **Open in the Workbench** to copy it into the Workbench, where you can change the numbers and watch the results change.

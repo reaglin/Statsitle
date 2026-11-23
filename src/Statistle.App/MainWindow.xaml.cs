@@ -129,6 +129,36 @@ public partial class MainWindow : Window
         {
             SplitGrid.Width = Math.Max(SplitGrid.MinWidth, room);
         }
+
+        StepHelpAside(room);
+    }
+
+    /// <summary>Help stepped aside by itself for a two-column form (not the learner's choice, and not kept).</summary>
+    private bool _helpAsideForForm;
+
+    /// <summary>The learner opened help again beside a two-column form: it stays, and the form scrolls sideways.</summary>
+    private bool _helpOpenedBesideForm;
+
+    /// <summary>
+    /// Plan Q18: help on the right takes 300 px. When a two-column form would not fit beside it, help steps aside by itself and the
+    /// Help strip shows, as the Course's help does for code; it comes back when the form no longer needs the room. The learner's own
+    /// choice (Hide help, the strip) is never changed here.
+    /// </summary>
+    private void StepHelpAside(double room)
+    {
+        bool wantsRoom = _workspace.ResultsBeside && SplitScroll.IsVisible;
+        if (!wantsRoom) _helpOpenedBesideForm = false;
+        if (wantsRoom && !_helpOpenedBesideForm && room > 0 && room < SplitGrid.MinWidth && WorkbenchHelp.Visibility == Visibility.Visible)
+        {
+            _helpAsideForForm = true;
+            SetWorkbenchHelp(false);
+            _workspace.Status = "Help is hidden to the right to give this two-column form its room; the light blue Help strip at the right edge opens it.";
+        }
+        else if (_helpAsideForForm && (!wantsRoom || room - WorkbenchHelp.Width >= SplitGrid.MinWidth))
+        {
+            _helpAsideForForm = false;
+            SetWorkbenchHelp(true);
+        }
     }
 
     /// <summary>

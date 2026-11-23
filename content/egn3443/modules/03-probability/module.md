@@ -1,5 +1,6 @@
 ---
 id: st.m3
+part: Part I · Fundamental Statistics for Engineers
 number: 3
 title: Probability Concepts
 status: draft
@@ -23,7 +24,7 @@ Module 2 described data that had already been measured. Before a part is made or
 
 Everything after this module rests on it. The distributions of Modules 4 and 5, the confidence intervals of Module 7 and every hypothesis test are built from the rules you learn here.
 
-This module has five topics and a module check. Each topic is an item with four tabs:
+This module has five topics and a module check. Each topic is an item with four lesson tabs (and My notes, for your own notes):
 
 - **Learn** explains the idea, gives the rule, works a small case by hand, and shows the Python and R that do the same.
 - **Example** shows a worked case: an experiment repeated many times on the computer, or two events and every probability that follows from them, with the code. Press **Open in the Workbench** to change the numbers and watch the results change.

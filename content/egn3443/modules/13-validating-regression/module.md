@@ -1,5 +1,6 @@
 ---
 id: st.m13
+part: Part I · Fundamental Statistics for Engineers
 number: 13
 title: Validating Regression
 status: draft
@@ -24,7 +25,7 @@ Modules 11 and 12 fitted regression models: a line through (x, y) pairs, then a 
 
 The tools are the **residuals** (what the model misses at each observation), their plots, a few diagnostic numbers (Durbin–Watson, Shapiro–Wilk, leverage, Cook's distance, the variance inflation factor), and **cross-validation**, which tests the model on rows it was not fitted to.
 
-This module has six topics and a module check. Each topic is an item with four tabs:
+This module has six topics and a module check. Each topic is an item with four lesson tabs (and My notes, for your own notes):
 
 - **Learn** explains the idea, works a small case, and shows the Python and R that do the same.
 - **Example** shows a worked case: the data, the fit, the diagnostic plots, every result, and the code. Press **Open in the Workbench** to change the data or the settings and watch the diagnostics change.

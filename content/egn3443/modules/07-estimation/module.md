@@ -1,5 +1,6 @@
 ---
 id: st.m7
+part: Part I · Fundamental Statistics for Engineers
 number: 7
 title: Point Estimation and Confidence Intervals
 status: draft
@@ -28,7 +29,7 @@ An engineer almost never measures every part, every battery or every weld. She m
 
 Item 1.5 gave a first look at a confidence interval. This module builds it properly: what makes an estimator good, why the normal and t distributions apply (the central limit theorem), how to build intervals for a mean and for a proportion, what the confidence level really means, and how many observations a given precision needs. Module 8 then uses the same pieces for hypothesis tests.
 
-This module has seven topics and a module check. Each topic is an item with four tabs:
+This module has seven topics and a module check. Each topic is an item with four lesson tabs (and My notes, for your own notes):
 
 - **Learn** explains the idea, gives the formula, works a small case by hand, and shows the Python and R that do the same calculation.
 - **Example** shows a worked case: the data, every result, the figure, and the code. Press **Open in the Workbench** to change the inputs and watch the interval move.

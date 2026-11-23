@@ -40,7 +40,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 > Learning's green block under the lavender tree, folding down; a light blue help panel in the Course that hides to the right (F1),
 > both kept per learner; the start screen in four coloured sections, three folded; "In development"; Help ▸ Send feedback
 > (`App.SetUpLearning` sets the site folder and version). One part, so no part rows. Tests in `WindowRoomTests.cs`. ⚠️ Ron's hand-test
-> round 2026-11-23 (parts Y–Z of `docs/MANUAL-TESTING.md`); questions Q17–Q18.
+> round 2026-11-23 (parts Y–Z of `docs/MANUAL-TESTING.md`).
+> **Up to the other PlusBooks (2026-11-23, plan phase N; Ron: "Bring the Statistics up to the standard of the other PlusBooks"):**
+> My notes (`NotesPanel`, `NoteWindow`, ✎ marks in `MarkdownView`; no Ask the AI: Statistics+ has no AI), the Glossary
+> (`content/egn3443/glossary.md`, `GlossaryPanel`, dotted-underline key terms), Course Links, the Workbench's help as a light blue
+> column that hides to the right; **the book in three parts** (`content/egn3443/parts/`, `StatsContent.PartPages`): Part I ·
+> Fundamental Statistics for Engineers (Modules 1–14), Parts II · Advanced Statistics (15–18) and III · Additional Applications of
+> Statistics (19–23) in development (phase P writes them). ⚠️ Ron's hand-test round 2026-11-23b (parts AA–AF); question Q19.
 
 **Statistle** — a Windows 10/11 desktop app that calculates the statistics of Ron's course
 EGN3443 *Probability and Statistics for Engineers* (`github.com/reaglin/egn3443`), explains

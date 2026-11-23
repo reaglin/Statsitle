@@ -162,6 +162,7 @@ public partial class MainWindow
         _resume = null;
         EndSession();
         _coursePage.SignIn(file);
+        ShowWorkbenchHelpAsLeft();
         UpdateLearnerUi();
         SetLearnerOverlay(false);
         if (resume?.Item is { } item) _coursePage.Path.Select(item);
@@ -233,11 +234,63 @@ public partial class MainWindow
             : session is null ? "Sign in first: a report shows your own progress" : "Makes a signed progress report (PDF) of a module check, or of everything so far, to hand in to your instructor";
         ChangePinMenu.IsEnabled = session is not null;
         ChangePinMenu.ToolTip = session is null ? "Sign in first: the PIN is the one that opens your own progress" : "Sets a new PIN; you type the one you use now first.";
+        CourseLinksMenu.IsEnabled = session is not null;
+        CourseLinksMenu.ToolTip = session is null ? "Sign in first: the links are kept with your progress"
+            : "Add links to your course in the LMS (Canvas, Brightspace …) and to the course website, from your instructor (optional)";
         BackupMenu.IsEnabled = session is not null;
         BackupMenu.ToolTip = session is null ? "Sign in first: the backup is of your own progress file" : "Saves a copy of your progress file to a USB drive or a cloud folder, in case this computer is changed";
     }
 
     private void SignIn_Click(object sender, RoutedEventArgs e) => ShowLearnerScreen();
+
+    // ── The Workbench's help hides to the right (plan Q18, Ron 2026-11-23) ───
+
+    private const string WorkbenchHelpPreference = "workbenchHelp";
+
+    /// <summary>Hide help ▸ and the Help strip in the Workbench: help hides to the right and opens again; kept for the learner.</summary>
+    private void WorkbenchHelp_Click(object sender, RoutedEventArgs e)
+    {
+        var open = WorkbenchHelp.Visibility != Visibility.Visible;
+        _helpOpenedBesideForm = open && _helpAsideForForm;
+        _helpAsideForForm = false;
+        SetWorkbenchHelp(open);
+        if (_coursePage?.Session is { } session)
+        {
+            session.Data.Preferences[WorkbenchHelpPreference] = open ? "open" : "folded";
+            _coursePage.Save();
+        }
+        if (open) WorkbenchHideHelp.Focus(); else WorkbenchOpenHelp.Focus();
+        _workspace.Status = (open ? "Help is open on the right: it explains the field you are in. Hide help (the light blue bar at its top) hides it."
+                                  : "Help is hidden to the right, so the entry has more room. The light blue Help strip at the right edge opens it again.")
+                            + (_coursePage?.Session is null ? " (Not signed in: this choice is not kept.)" : "");
+    }
+
+    private void SetWorkbenchHelp(bool open)
+    {
+        WorkbenchHelp.Visibility = open ? Visibility.Visible : Visibility.Collapsed;
+        WorkbenchHelpStrip.Visibility = open ? Visibility.Collapsed : Visibility.Visible;
+    }
+
+    /// <summary>The Workbench's help as the learner left it (open the first time, and for nobody).</summary>
+    private void ShowWorkbenchHelpAsLeft()
+    {
+        _helpAsideForForm = _helpOpenedBesideForm = false;
+        SetWorkbenchHelp(_coursePage?.Session?.Data.Preferences.GetValueOrDefault(WorkbenchHelpPreference) != "folded");
+    }
+
+    /// <summary>Whether the Workbench's help shows (for the tests).</summary>
+    public bool IsWorkbenchHelpOpen => WorkbenchHelp.Visibility == Visibility.Visible;
+
+    /// <summary>Presses Hide help ▸ or the strip in the Workbench (for the tests).</summary>
+    public void ToggleWorkbenchHelp() => WorkbenchHelp_Click(this, new RoutedEventArgs());
+
+    /// <summary>Learner ▸ Course links… (Q17): the course website and the course in the LMS.</summary>
+    private void CourseLinks_Click(object sender, RoutedEventArgs e)
+    {
+        if (_coursePage is null) return;
+        ShowCourse();
+        _coursePage.EditCourseLinks();
+    }
 
     /// <summary>Learner ▸ Hand in a progress report (plan 14.1): the report page in the Course.</summary>
     private void HandIn_Click(object sender, RoutedEventArgs e)
@@ -286,6 +339,7 @@ public partial class MainWindow
         _coursePage.Save();
         _coursePage.SignIn(null);
         session.Dispose();
+        ShowWorkbenchHelpAsLeft();
         UpdateLearnerUi();
     }
 

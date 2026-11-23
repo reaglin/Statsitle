@@ -9,6 +9,7 @@ using System.Windows.Media;
 using Learning.Core;
 using Learning.Core.Content;
 using Learning.Core.Learners;
+using Learning.Core.Notes;
 using Learning.Core.Progress;
 using Statistle.App.Plotting;
 using Statistle.Core.Plotting;
@@ -70,6 +71,17 @@ public sealed class CoursePage : UserControl
     private readonly Button _openHelp = new();
     private readonly MarkdownView _help = new(); // a tab stop, so the keyboard can reach and scroll help (UX review 2026-11-23)
     private bool _showingPreferences;
+
+    // My notes, the Glossary and Course Links (Q17, Ron 2026-11-23: "Bring the Statistics up to the standard of the other PlusBooks").
+    private readonly NotesPanel _itemNotes = new();
+    private readonly NotesPanel _allNotes = new() { AllNotes = true };
+    private readonly GlossaryPanel _glossary = new();
+    private readonly TabItem _notesTab;
+    private readonly TextBlock _notesSignIn;
+    private Border _notesPage = new(), _glossaryPage = new();
+    private readonly Button _courseText = new() { Content = "📘 Course website", Margin = new Thickness(0, 0, 6, 4), Visibility = Visibility.Collapsed };
+    private readonly Button _courseLms = new() { Content = "🎓 Course in the LMS", Margin = new Thickness(0, 0, 6, 4), Visibility = Visibility.Collapsed };
+    private readonly Button _courseLinks = new() { Content = "Course Links…", Margin = new Thickness(0, 0, 0, 4) };
 
     private LearnerFile? _session;
     private LearningItem? _item;
@@ -156,10 +168,17 @@ public sealed class CoursePage : UserControl
         block.Children.Add(_time);
         block.Children.Add(new TextBlock
         {
-            Text = "+ PlusBook Tools · ▤ my progress · ✉ hand in a report · ∑ Workbench · ★ mastered · ✓ complete · ↺ review · ◐ started · ○ not started · – in development",
+            Text = "+ PlusBook Tools · ▤ my progress · ✉ hand in a report · ✎ my notes · Aa glossary · ∑ Workbench · 📖 a part of the book · ★ mastered · ✓ complete · ↺ review · ◐ started · ○ not started · – in development",
             TextWrapping = TextWrapping.Wrap, FontSize = 12, Foreground = LearningTheme.Brush("MutedTextBrush"), Margin = new Thickness(0, 2, 0, 0),
         });
         block.Children.Add(_foldAll);
+        // Course Links (Learning Core plan 3.10; Q17): the course website and the course in the LMS, or a way to add them.
+        var links = new WrapPanel { Margin = new Thickness(0, 6, 0, 0) };
+        foreach (var b in new[] { _courseText, _courseLms, _courseLinks }) { b.Style = sectionButton; ToolTipService.SetShowOnDisabled(b, true); links.Children.Add(b); }
+        _courseText.Click += (_, _) => OpenLink(_session?.Data.Course?.TextUrl, "Course website");
+        _courseLms.Click += (_, _) => OpenLink(_session?.Data.Course?.LmsUrl, "Course in the LMS");
+        _courseLinks.Click += (_, _) => EditCourseLinks();
+        block.Children.Add(links);
         _pathInfo.Content = block;
         _pathInfo.Expanded += PathInfo_Toggled;
         _pathInfo.Collapsed += PathInfo_Toggled;
@@ -208,10 +227,17 @@ public sealed class CoursePage : UserControl
         _exampleTab = Tab("Example", examplePanel, "Examples to try, each with a figure, and a worked example: the data, every result, the figures and the code (Ctrl+2)");
         _exerciseTab = Tab("Exercise", _exerciseHost, "Your turn: work out the results and check them, or answer the questions (Ctrl+3)");
         _referenceTab = Tab("Reference", _reference, "The formulas, the Python and R functions, and the sources, to look back at (Ctrl+4)");
+        _notesSignIn = NotSignedInNotes();
+        var notesHost = new Grid();
+        notesHost.Children.Add(_itemNotes);
+        notesHost.Children.Add(_notesSignIn);
+        _notesTab = Tab("My notes", notesHost, "Your own notes on this item: write one, read them, change or delete them. Only you see them (Ctrl+5)");
         _tabs.Items.Add(_learnTab);
         _tabs.Items.Add(_exampleTab);
         _tabs.Items.Add(_exerciseTab);
         _tabs.Items.Add(_referenceTab);
+        _tabs.Items.Add(_notesTab);
+        SetUpNotesAndGlossary();
 
         var header = new DockPanel();
         var nav = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Top };
@@ -250,6 +276,7 @@ public sealed class CoursePage : UserControl
         InputBindings.Add(new KeyBinding(new RelayKey(() => _tabs.SelectedItem = _exampleTab), Key.D2, ModifierKeys.Control));
         InputBindings.Add(new KeyBinding(new RelayKey(() => _tabs.SelectedItem = _exerciseTab), Key.D3, ModifierKeys.Control));
         InputBindings.Add(new KeyBinding(new RelayKey(() => _tabs.SelectedItem = _referenceTab), Key.D4, ModifierKeys.Control));
+        InputBindings.Add(new KeyBinding(new RelayKey(() => _tabs.SelectedItem = _notesTab), Key.D5, ModifierKeys.Control));
 
         SignIn(null);
     }
@@ -283,6 +310,9 @@ public sealed class CoursePage : UserControl
     public void SignIn(LearnerFile? session)
     {
         _quiz.Remember();
+        KeepNoteDraft();           // the learner leaving: a note half written is kept in their file, not lost
+        _itemNotes.Forget();       // nothing of their notes stays on screen
+        _allNotes.Forget();
         if (session is not null)
         {
             var who = session.Header.ProfileId;
@@ -290,6 +320,7 @@ public sealed class CoursePage : UserControl
             _lastLearner = who;
         }
         _session = session;
+        ShowCourseLinks();
         _notSignedIn.Visibility = session is null ? Visibility.Visible : Visibility.Collapsed;
         ShowPreferences();
         _path.Refresh(Progress);
@@ -383,7 +414,7 @@ public sealed class CoursePage : UserControl
         else if (!open && focusInHelp) _openHelp.Focus();
         Status?.Invoke((open ? "Help is open on the right. Hide help (the light blue bar at its top, or F1) hides it."
                              : "Help is hidden to the right, so the page has more room. The light blue Help strip at the right edge (or F1) opens it again.")
-                       + (_session is null ? " (Not signed in: this choice is kept only once you sign in.)" : ""));
+                       + (_session is null ? " (Not signed in: this choice is not kept.)" : ""));
     }
 
     /// <summary>Help on the right: the light blue Hide help bar across its top, and the strip left at the right edge while it is hidden.</summary>
@@ -435,6 +466,329 @@ public sealed class CoursePage : UserControl
     /// <summary>Help for the screen on the right: what it is for, then how to use the book.</summary>
     private void ScreenHelp(string title, string text) =>
         _help.Markdown = $"## This screen: {title}\n\n{text}\n\n{HelpMarkdown}";
+
+    // ── My notes, the Glossary and Course Links (Q17; from PythonProgramming+) ──
+
+    private void SetUpNotesAndGlossary()
+    {
+        _path.NoteCounts = () => _session?.Data.Notes.CountByItem() ?? new Dictionary<string, int>();
+        // The theme on the panels themselves, so they draw even while their page is not on screen.
+        foreach (var panel in new FrameworkElement[] { _itemNotes, _allNotes, _glossary }) LearningTheme.Apply(panel);
+        _notesPage = new Border { Child = _allNotes, Padding = new Thickness(16, 12, 16, 8), Tag = "notes" };
+        _glossaryPage = new Border { Child = _glossary, Padding = new Thickness(16, 12, 16, 8), Tag = "glossary" };
+        foreach (var panel in new[] { _itemNotes, _allNotes })
+        {
+            panel.Session = () => _session;
+            panel.FindItem = _content.Package.FindItem;
+            panel.Changed = NotesChanged;
+            panel.Status = text => Status?.Invoke(text);
+            panel.GoTo = GoToNote;
+            panel.PageText = (item, tab) => tab == NoteTabs.Reference ? ReferenceMarkdown(item) : global::Learning.Core.Content.ExamplePages.Split(item.Learn).Learn;
+        }
+        foreach (var (view, tab) in NotedPages)
+        {
+            view.EnableNotes();
+            view.CanNote = () => _session is not null;
+            view.NoteRequested += i => RequestNote(view, tab, i);
+            view.NoteMarkClicked += i => ShowNotesOn(view, tab, i);
+            view.Glossary = _content.Package.Glossary;
+            view.TermClicked += entry => ShowGlossaryPage(entry);
+        }
+        _glossary.Load(_content.Package);
+        _glossary.Back = BackFromGlossary;
+        _glossary.Open = (item, _) => { _glossaryFrom = null; _path.Select(item); };
+    }
+
+    /// <summary>The pages a learner can note, with the tab each is on.</summary>
+    private IEnumerable<(MarkdownView View, string Tab)> NotedPages => [(_learn, NoteTabs.Learn), (_reference, NoteTabs.Reference)];
+
+    /// <summary>The item's My notes tab and the My notes page (for the tests).</summary>
+    public NotesPanel ItemNotes => _itemNotes;
+
+    public NotesPanel AllNotesPage => _allNotes;
+
+    /// <summary>The Glossary page (for the tests).</summary>
+    public GlossaryPanel GlossaryPage => _glossary;
+
+    /// <summary>The Learn tab's page (for the tests).</summary>
+    public MarkdownView LearnView => _learn;
+
+    /// <summary>The My notes tab (for the tests).</summary>
+    public TabItem NotesTab => _notesTab;
+
+    /// <summary>The Course Links button (for the tests).</summary>
+    public Button CourseLinksButton => _courseLinks;
+
+    /// <summary>A note was added, changed or deleted: saved in the learner's file, and the path, marks and lists drawn again.</summary>
+    private void NotesChanged()
+    {
+        if (_session is null) return;
+        _session.Data.NotesChanged(DateTimeOffset.Now);
+        Save();
+        _path.Refresh(Progress);
+        RefreshNotes();
+        if (_right.Content is FrameworkElement { Tag: "notes" }) _allNotes.ShowAll();
+    }
+
+    /// <summary>The item's notes: a ✎ after each paragraph that has one, the list on the My notes tab, and the count on the tab.</summary>
+    private void RefreshNotes()
+    {
+        if (_item is not { } item) return;
+        // Both stay in the tab (the panel keeps the theme's resources); only one shows.
+        _itemNotes.Visibility = _session is null ? Visibility.Collapsed : Visibility.Visible;
+        _notesSignIn.Visibility = _session is null ? Visibility.Visible : Visibility.Collapsed;
+        if (_session is null)
+        {
+            foreach (var (view, _) in NotedPages) view.MarkNotes([]);
+            _notesTab.Header = "My notes";
+            return;
+        }
+        var book = _session.Data.Notes;
+        var placed = new List<NoteLocation>();
+        foreach (var (view, tab) in NotedPages)
+        {
+            var here = book.Place(item.Id, tab, view.BlockSources).Where(p => p.Note.Anchor.Block is not null).ToList();
+            view.MarkNotes(here.Where(p => p.BlockIndex is not null).Select(p => (p.BlockIndex!.Value, NotesPanel.Short(p.Note.Text, 200))));
+            placed.AddRange(here);
+        }
+        _itemNotes.ShowItem(item, placed.GroupBy(p => p.Note.Id).ToDictionary(g => g.Key, g => g.First()));
+        var count = book.For(item.Id).Count;
+        _notesTab.Header = count == 0 ? "My notes" : $"My notes ({count})";
+        AutomationProperties.SetName(_notesTab, count == 0 ? "My notes" : $"My notes, {count} on this item");
+    }
+
+    /// <summary>Notes belong to a learner: without one, the tab says how to keep them.</summary>
+    private TextBlock NotSignedInNotes()
+    {
+        var text = new TextBlock { TextWrapping = TextWrapping.Wrap, Margin = new Thickness(14, 12, 14, 8), MaxWidth = 760, HorizontalAlignment = HorizontalAlignment.Left };
+        var signIn = new Hyperlink(new Run("Sign in")) { ToolTip = "Opens the Who is learning? screen" };
+        signIn.Click += (_, _) => SignInRequested?.Invoke();
+        text.Inlines.Add(new Run("Your notes are kept in your own progress file, so sign in first: "));
+        text.Inlines.Add(signIn);
+        text.Inlines.Add(new Run(". Then write a note here, or right-click a paragraph of the lesson and choose Add a note to this paragraph."));
+        return text;
+    }
+
+    /// <summary>Add a note to this paragraph (or page), from the lesson's right-click menu: a small window over the lesson.</summary>
+    private void RequestNote(MarkdownView view, string tab, int? block)
+    {
+        if (_item is not { } item) return;
+        if (_session is null)
+        {
+            Status?.Invoke("Sign in first (Learner ▸ Sign in): your notes are kept in your own progress file.");
+            return;
+        }
+        var sources = view.BlockSources;
+        var anchor = block is int i && i < sources.Count ? NoteAnchor.OnBlock(item.Id, tab, sources[i]) : NoteAnchor.OnItem(item.Id, tab);
+        var page = $"{item.Number}'s {(tab == NoteTabs.Reference ? "Reference" : "Learn")} page";
+        if (Window.GetWindow(this) is not { } owner || NoteWindow.Ask(owner, anchor, page) is not { } text) { Status?.Invoke("No note was added."); return; }
+        if (_session.Data.Notes.Add(anchor, text, DateTimeOffset.Now) is null) return;
+        NotesChanged();
+        Status?.Invoke(anchor.Block is null
+            ? $"Note added to {page}. It is on the My notes tab with your other notes on {item.Number}."
+            : "Note added: a ✎ after the paragraph shows it (point at it to read it, click it to open My notes).");
+    }
+
+    /// <summary>Adds a note on a paragraph of the Learn page, as the right-click menu does (for the tests).</summary>
+    public void AddNoteOnLearn(int block, string text)
+    {
+        if (_item is not { } item || _session is null) return;
+        _session.Data.Notes.Add(NoteAnchor.OnBlock(item.Id, NoteTabs.Learn, _learn.BlockSources[block]), text, DateTimeOffset.Now);
+        NotesChanged();
+    }
+
+    /// <summary>The ✎ after a paragraph was clicked: the My notes tab, with that paragraph's newest note marked.</summary>
+    private void ShowNotesOn(MarkdownView view, string tab, int block)
+    {
+        if (_item is not { } item || _session is null) return;
+        var note = _session.Data.Notes.Place(item.Id, tab, view.BlockSources).Where(p => p.BlockIndex == block).Select(p => p.Note)
+            .OrderByDescending(n => n.Created).FirstOrDefault();
+        _tabs.SelectedItem = _notesTab;
+        if (note is not null) Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Loaded, () => _itemNotes.Highlight(note.Id));
+        Status?.Invoke($"Your notes on {item.Number}: the one on that paragraph is marked ▶. Its Show button takes you back to the paragraph.");
+    }
+
+    /// <summary>Open a note where it is: its item, its tab, and the paragraph it is on.</summary>
+    private void GoToNote(LearnerNote note)
+    {
+        if (_content.Package.FindItem(note.Anchor.ItemId) is not { } item) return;
+        if (_item != item) _path.Select(item);
+        if (_item != item) return;
+        var (tab, view) = note.Anchor.Tab switch
+        {
+            NoteTabs.Learn => (_learnTab, _learn),
+            NoteTabs.Reference => (_referenceTab, _reference),
+            NoteTabs.Example => (_exampleTab, (MarkdownView?)null),
+            NoteTabs.Exercise => (_exerciseTab, null),
+            _ => ((TabItem?)null, null),
+        };
+        var at = view is null || _session is null || note.Anchor.Block is null ? null
+            : _session.Data.Notes.Place(item.Id, note.Anchor.Tab!, view.BlockSources).FirstOrDefault(p => p.Note.Id == note.Id);
+        _tabs.SelectedItem = at?.BlockIndex is not null ? tab : note.Anchor.Block is null && tab is not null ? tab : _notesTab;
+        Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Loaded, () =>
+        {
+            _itemNotes.Highlight(note.Id);
+            if (view is not null && at?.BlockIndex is int i && _tabs.SelectedItem == tab) view.ShowBlock(i);
+            Status?.Invoke(at?.Place switch
+            {
+                NotePlace.Found => "The paragraph your note is on is selected, with a ✎ after it. The note is on the My notes tab.",
+                NotePlace.Changed => "The lesson has been updated since you wrote this note: the selected paragraph is the one most like the one it was on.",
+                NotePlace.Gone => $"The paragraph this note was on is no longer in the lesson; the note stays on {item.Number}'s My notes tab, with the words it was on.",
+                _ => _tabs.SelectedItem == _notesTab ? $"Your note is marked ▶ on {item.Number}'s My notes tab." : $"Your note is on {item.Number}; the My notes tab lists it.",
+            });
+        });
+    }
+
+    /// <summary>Leaving an item (or signing out): a note half written, or an edit not saved, is kept rather than lost.</summary>
+    public string? KeepNoteDraft()
+    {
+        if (_session is null) return null;
+        var item = _itemNotes.KeepDraft();
+        var page = _allNotes.KeepDraft();
+        return item is null ? page : page is null ? item : item + " " + page;
+    }
+
+    /// <summary>The My notes page in PlusBook Tools: every note, with search, each opening its item.</summary>
+    public void ShowNotesPage()
+    {
+        var kept = KeepNoteDraft();
+        _item = null;
+        if (_session is null)
+        {
+            var page = new DockPanel { Margin = new Thickness(16, 12, 16, 8), Tag = "notes" };
+            var title = new TextBlock { Text = "My notes", FontSize = 20, FontWeight = FontWeights.SemiBold };
+            DockPanel.SetDock(title, Dock.Top);
+            page.Children.Add(title);
+            page.Children.Add(NotSignedInNotes());
+            _right.Content = page;
+        }
+        else
+        {
+            _right.Content = _notesPage;
+            _allNotes.ShowAll();
+        }
+        ScreenHelp("My notes",
+            "Every note you have written, newest first, with the item each is on. Type in **Find in my notes** to search; **Open** goes to the note in its lesson. " +
+            "Write notes on an item's **My notes** tab (Ctrl+5), or right-click a paragraph of a lesson and choose **Add a note to this paragraph**. Only you see them; they are kept in your progress file and never put in a report.");
+        Status?.Invoke((kept is null ? "" : kept + " ") + (_session is null ? "My notes: sign in first (Learner ▸ Sign in); your notes are kept in your own progress file." : "My notes: every note you have written, newest first. Type in Find in my notes to search; Open goes to a note in its lesson."));
+    }
+
+    private GlossaryEntry? _glossaryTerm;
+    /// <summary>The item and tab the learner left for the Glossary, to go back to.</summary>
+    private (LearningItem Item, TabItem? Tab)? _glossaryFrom;
+
+    /// <summary>The Glossary page, at one term (from a key term in a lesson) or at the top.</summary>
+    public void ShowGlossaryPage(GlossaryEntry? entry)
+    {
+        if (entry is not null && _item is { } from) _glossaryFrom = (from, _tabs.SelectedItem as TabItem);
+        else if (entry is null) _glossaryFrom = null;
+        var keptNote = KeepNoteDraft();
+        _item = null;
+        _right.Content = _glossaryPage;
+        _glossary.SetBack(_glossaryFrom is var (fromItem, fromTab) ? $"◂ Back to {fromItem.Number} ({fromTab?.Header as string ?? "Learn"})" : null);
+        if (entry is not null) _glossary.ShowTerm(entry);
+        _glossaryTerm = entry;
+        ScreenHelp("Glossary",
+            "The book's key terms, A to Z: what each means, its other names, and the items that use it. Type in **Find a term** to look one up; press an item number under **Used in** to open that item. " +
+            "In a lesson, a key term has a dotted underline the first time a page uses it: point at it to read its meaning, click it to come here.");
+        Status?.Invoke((keptNote is null ? "" : keptNote + " ") + (entry is not null
+            ? $"Glossary: “{entry.Term}” is marked. Press an item number under Used in to open that item" + (_glossaryFrom is null ? "." : ", or ◂ Back to go back where you were.")
+            : "Glossary: every key term, A to Z. Type in Find a term to look one up."));
+    }
+
+    /// <summary>The term the Glossary page showed last (for the tests).</summary>
+    public GlossaryEntry? GlossaryTermShown => _glossaryTerm;
+
+    private void BackFromGlossary()
+    {
+        if (_glossaryFrom is not var (item, tab)) return;
+        _glossaryFrom = null;
+        _path.Select(item);
+        if (tab is not null && _item == item) _tabs.SelectedItem = tab;
+        Status?.Invoke($"Back on {item}.");
+    }
+
+    /// <summary>The buttons under PlusBook Learning: the course website and the LMS when set, and a way to set them.</summary>
+    private void ShowCourseLinks()
+    {
+        var links = _session?.Data.Course;
+        _courseText.Visibility = links?.TextUrl is null ? Visibility.Collapsed : Visibility.Visible;
+        _courseLms.Visibility = links?.LmsUrl is null ? Visibility.Collapsed : Visibility.Visible;
+        var named = links?.Name is { Length: > 0 } n ? n : "your course";
+        _courseText.ToolTip = $"Opens the website of {named} in your web browser: {links?.TextUrl}";
+        _courseLms.ToolTip = $"Opens {named} in the learning management system, in your web browser: {links?.LmsUrl}";
+        var any = links is not null && (links.TextUrl is not null || links.LmsUrl is not null);
+        _courseLinks.IsEnabled = _session is not null;
+        AutomationProperties.SetName(_courseLinks, any ? "Change the course links" : "Add the course links");
+        _courseLinks.ToolTip = _session is null ? "Sign in first: the links are kept with your progress"
+            : any ? "Change or clear the links to your course in the LMS and to the course website"
+            : "Add links to your course in the LMS (Canvas, Brightspace …) and to the course website, from your instructor (optional)";
+    }
+
+    /// <summary>Course Links… (also Learner ▸ Course links…).</summary>
+    public void EditCourseLinks()
+    {
+        if (_session is null || Window.GetWindow(this) is not { } owner) return;
+        if (CourseLinksWindow.Edit(owner, _session.Data.Course) is not { } links) { Status?.Invoke("Your course links are as they were."); return; }
+        _session.Data.Course = links.IsEmpty ? null : links;
+        _session.Data.NotesChanged(DateTimeOffset.Now);
+        Save();
+        ShowCourseLinks();
+        Status?.Invoke(links.IsEmpty ? "Your course links are cleared." : "Your course links are kept: the buttons under PlusBook Learning open them.");
+    }
+
+    private void OpenLink(string? url, string what)
+    {
+        if (url is null) return;
+        global::Learning.Wpf.WebPages.Open(url, Window.GetWindow(this), "Statistics+ — " + what);
+    }
+
+    /// <summary>A part's own page (plan W.1, P.1): what the part is, its modules, and a button to its first module.</summary>
+    private void ShowPart(PathNode node)
+    {
+        var keptNote = KeepNoteDraft();
+        _item = null;
+        node.IsExpanded = true; // its page lists its modules: they show on the left too (the arrow folds it again)
+        var name = node.Header;
+        var modules = _content.Package.Modules.Where(m => _content.Package.PartOf(m) == name).ToList();
+        var page = new DockPanel { Margin = new Thickness(16, 12, 16, 8) };
+        var head = new StackPanel();
+        head.Children.Add(new TextBlock { Text = name, FontSize = 20, FontWeight = FontWeights.SemiBold, TextWrapping = TextWrapping.Wrap });
+        head.Children.Add(new TextBlock { Text = node.Detail, Foreground = LearningTheme.Brush("MutedTextBrush"), Margin = new Thickness(0, 2, 0, 6), TextWrapping = TextWrapping.Wrap });
+        var buttons = new WrapPanel { Margin = new Thickness(0, 0, 0, 8) };
+        var inDevelopment = modules.All(m => m.Status == ModuleStatus.ComingLater);
+        foreach (var m in inDevelopment || modules.Count <= 1 ? modules : modules.Take(1))
+        {
+            var b = new Button
+            {
+                Content = inDevelopment ? $"Module {m.Number} · {m.Title}" : $"Open Module {m.Number} · {m.Title}", Margin = new Thickness(0, 0, 8, 6),
+                Padding = new Thickness(12, 4, 12, 4),
+                ToolTip = inDevelopment ? $"Opens Module {m.Number}'s page: what it will teach. It is in development." : "Opens the first module of this part; or choose any module on the left",
+            };
+            b.Click += (_, _) => { if (_path.NodeOf(m) is { } row) LearningPath.Choose(row); };
+            buttons.Children.Add(b);
+        }
+        head.Children.Add(buttons);
+        DockPanel.SetDock(head, Dock.Top);
+        page.Children.Add(head);
+        var md = new StringBuilder(_content.PartPages.GetValueOrDefault(name) ?? "").AppendLine().AppendLine();
+        md.AppendLine("## The modules in this part").AppendLine();
+        foreach (var m in modules)
+        {
+            var p = Progress.Of(m);
+            md.AppendLine($"- **Module {m.Number} · {m.Title}** — " + (m.Status == ModuleStatus.ComingLater ? "in development" : $"{p.Complete} of {p.Total} items complete"));
+        }
+        page.Children.Add(new MarkdownView { Markdown = md.ToString(), Tag = "part" });
+        _right.Content = page;
+        PartShown = name;
+        ScreenHelp("a part of the book",
+            "What this part of the book is for, and the modules in it. Press a button under the title to open a module, or choose any module on the left. " +
+            "The part opens in the path when its page shows; the arrow beside a part folds or opens it, each part on its own, and **Collapse Menu** folds them all.");
+        Status?.Invoke((keptNote is null ? "" : keptNote + " ") + $"{name}: what it is and its modules." + (inDevelopment ? " This part is in development." : ""));
+    }
+
+    /// <summary>The part whose page was shown last (for the tests).</summary>
+    public string? PartShown { get; private set; }
 
     // ── Choosing a row in the path ──────────────────────────────────────────
 
@@ -571,14 +925,14 @@ public sealed class CoursePage : UserControl
     private const string HelpMarkdown = """
         ## How to use this PlusBook
 
-        Statistics+ follows EGN3443, Probability and Statistics for Engineers, topic by topic.
+        Statistics+ is a book in three parts: **Part I · Fundamental Statistics for Engineers** follows EGN3443, Probability and Statistics for Engineers, topic by topic; **Part II · Advanced Statistics** and **Part III · Additional Applications of Statistics** are in development.
 
         ### PlusBook Learning (left)
 
-        - **PlusBook Tools** (+), at the top: **My progress** (▤: every module, the module checks, the outcomes to review, your time), **Hand in a report** (✉), and the **Workbench** (∑), the calculator.
-        - Then the **modules**. A module opens on a page with what it teaches (its outcomes) and its items. Under it are its **items**, one topic each.
-        - The arrow beside PlusBook Tools or a module opens or folds it, each on its own. **Collapse Menu** folds them all.
-        - Under the path, in green, are your totals, your time, the key to the marks and Collapse Menu. Choose **PlusBook Learning** to fold them down and give the path more room.
+        - **PlusBook Tools** (+), at the top: **My progress** (▤: every module, the module checks, the outcomes to review, your time), **Hand in a report** (✉), **My notes** (✎), the **Glossary** (Aa) and the **Workbench** (∑), the calculator.
+        - Then **Start here**, and the book's **parts** (📖), each with its modules. Choose a part to read what it is. A module opens on a page with what it teaches (its outcomes) and its items. Under it are its **items**, one topic each.
+        - The arrow beside PlusBook Tools, a part or a module opens or folds it, each on its own. **Collapse Menu** folds them all.
+        - Under the path, in green, are your totals, your time, the key to the marks, Collapse Menu and **Course Links**. Choose **PlusBook Learning** to fold them down and give the path more room.
         - A module's mark: **★** mastered, **✓** complete, **↺** review suggested, **◐** in progress, **○** not started, **–** in development. An item's: **✓** complete, **◐** started, **○** not started.
 
         ### The four tabs of an item
@@ -587,6 +941,15 @@ public sealed class CoursePage : UserControl
         - **Example** (Ctrl+2): examples to try, each with a figure: change the values and watch the results and the figure change. Then the worked example: the data, every result, the figures and the code (**Open in the Workbench** copies it to the calculator). With more than one, choose **Example 1**, **Example 2** … at the top. Nothing here counts toward your progress.
         - **Exercise** (Ctrl+3): your turn: work out the results (by hand, or in Python or R) and press **Check my answers**, or answer the questions.
         - **Reference** (Ctrl+4): the formulas, the Python and R functions, and the sources.
+        - **My notes** (Ctrl+5): your own notes on the item.
+
+        ### My notes, key terms and course links
+
+        Write your own notes as you learn: on an item's **My notes** tab, or right-click a paragraph of a lesson and choose **Add a note to this paragraph** (a ✎ after it shows the note). Only you see them; they are kept in your progress file and never put in a report. **My notes** in PlusBook Tools has them all, with a search box.
+
+        A key term has a dotted underline the first time a page uses it: point at it to read its meaning, click it to open the **Glossary**.
+
+        If your class gives you its course website and LMS address, **Course Links…** (under PlusBook Learning, or Learner ▸ Course links…) keeps them, with buttons that open them.
 
         An item is complete when its exercise passes, when you pass its questions, or (for a reading) when you press **I have read this**. **Previous** and **Next** (top right) go through the items in order.
 
@@ -626,6 +989,9 @@ public sealed class CoursePage : UserControl
     {
         if (node.IsDashboard) ShowDashboard();
         else if (node.IsReports) ShowReports();
+        else if (node.IsNotes) ShowNotesPage();
+        else if (node.IsGlossary) ShowGlossaryPage(null);
+        else if (node.IsPart) ShowPart(node);
         else if (node.Item is { } item) ShowItem(item);
         else if (node.Module is { } module) ShowModule(module);
     }
@@ -708,6 +1074,21 @@ public sealed class CoursePage : UserControl
     private string ModuleMarkdown(LearningModule m)
     {
         var md = new StringBuilder();
+        if (m.Status == ModuleStatus.ComingLater)
+        {
+            // A module still to come: what it will teach, plainly, with no marks nobody can earn yet (UX review 2026-11-23).
+            md.AppendLine("## What you will be able to do").AppendLine();
+            foreach (var o in m.Outcomes) md.AppendLine("- " + o.Text);
+            md.AppendLine();
+            if (m.Topics.Count > 0)
+            {
+                md.AppendLine("## What it will cover").AppendLine();
+                foreach (var t in m.Topics) md.AppendLine("- " + t);
+                md.AppendLine();
+            }
+            md.AppendLine("To ask for a topic, use Help ▸ Send feedback.");
+            return md.ToString();
+        }
         md.AppendLine("## What you will be able to do").AppendLine();
         foreach (var op in Mastery.Of(_content.Package, Progress, m))
             md.AppendLine(op.State switch
@@ -739,6 +1120,10 @@ public sealed class CoursePage : UserControl
     private void ShowItem(LearningItem item)
     {
         _quiz.Remember();
+        var keptNote = _item != item ? KeepNoteDraft() : null;
+        // The item's own key terms are marked on its pages; an item that lists none marks every term in the glossary.
+        var ownTerms = item.Terms.Select(_content.Package.Glossary.Find).OfType<GlossaryEntry>().ToHashSet();
+        foreach (var (view, _) in NotedPages) view.MarkOnly = ownTerms.Count == 0 ? null : ownTerms.Contains;
         _item = item;
         Progress.Opened(_content.Package, item, DateTimeOffset.Now);
         Save();
@@ -841,15 +1226,16 @@ public sealed class CoursePage : UserControl
 
         _reference.Markdown = ReferenceMarkdown(item);
         ShowItemStatus();
+        RefreshNotes();
         _tabs.SelectedItem = _learnTab;
         _right.Content = _itemPage;
         ScreenHelp(item.Kind == ItemKind.Assess ? "a module check" : "an item",
             item.Kind == ItemKind.Assess
                 ? "The module check: questions on the whole module, on the Exercise tab (Ctrl+3). It is complete when the items it covers are complete and you pass its questions (80 %). " +
                   "Then make a report to hand in: **Hand in a progress report** at the top right, or **Hand in a report** in PlusBook Tools."
-                : "One topic of the course, in four tabs: **Learn** (Ctrl+1), **Example** (Ctrl+2), **Exercise** (Ctrl+3) and **Reference** (Ctrl+4). Read, try the example, then do the exercise. " +
+                : "One topic of the course: **Learn** (Ctrl+1), **Example** (Ctrl+2), **Exercise** (Ctrl+3) and **Reference** (Ctrl+4), and **My notes** (Ctrl+5) for your own notes. Read, try the example, then do the exercise; right-click a paragraph to put a note on it. " +
                   "The line under the title says where you are with it. **Previous** and **Next** (top right) go through the items in order.");
-        Status?.Invoke($"{item}: {_learnFooter.Text}");
+        Status?.Invoke((keptNote is null ? "" : keptNote + " ") + $"{item}: {_learnFooter.Text}");
     }
 
     private void ShowItemStatus()

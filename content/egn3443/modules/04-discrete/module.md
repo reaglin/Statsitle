@@ -1,5 +1,6 @@
 ---
 id: st.m4
+part: Part I · Fundamental Statistics for Engineers
 number: 4
 title: Discrete Probability Distributions
 status: draft
@@ -24,7 +25,7 @@ Module 2 described data that had already been measured. This module goes the oth
 
 Engineers use these distributions to set inspection plans, size staff and spare-parts stocks, and decide whether a result is unusual or just bad luck. The same ideas carry into Module 5 (continuous distributions) and every test in Modules 7 to 14.
 
-This module has six topics and a module check. Each topic is an item with four tabs:
+This module has six topics and a module check. Each topic is an item with four lesson tabs (and My notes, for your own notes):
 
 - **Learn** explains the idea, gives the formula, works a small case by hand, and shows the Python and R that do the same calculation.
 - **Example** shows a worked case: the distribution, its probabilities, the bar chart of the probability mass function, the cumulative curve, and the code. Press **Open in the Workbench** to change the numbers and watch the probabilities change.

@@ -26,6 +26,12 @@ public sealed class StatsContent
     /// <summary>Tasks that could not be read, one sentence each (the validator reports them; the program skips them).</summary>
     public IReadOnlyList<string> TaskProblems { get; init; } = [];
 
+    /// <summary>
+    /// Each part's own page (plan W.1, P.1): <c>parts/*.md</c>, front matter <c>part:</c> naming the part as its modules do, then
+    /// the Markdown shown when the part's row is chosen in the path.
+    /// </summary>
+    public IReadOnlyDictionary<string, string> PartPages { get; init; } = new Dictionary<string, string>(StringComparer.Ordinal);
+
     public StatsTask? Find(string? id) => id is not null && Tasks.TryGetValue(id, out var t) ? t : null;
 
     /// <summary>
@@ -70,7 +76,19 @@ public sealed class StatsContent
             }
             catch (System.Text.Json.JsonException ex) { problems.Add($"{file}: {ex.Message}"); }
         }
-        return new StatsContent { Package = package, Tasks = tasks, TaskProblems = problems, LookAgain = lookAgain };
+        var partPages = new Dictionary<string, string>(StringComparer.Ordinal);
+        var parts = Path.Combine(folder, "parts");
+        if (Directory.Exists(parts))
+            foreach (var file in Directory.GetFiles(parts, "*.md").Order(StringComparer.OrdinalIgnoreCase))
+            {
+                var text = File.ReadAllText(file).Replace("\r\n", "\n", StringComparison.Ordinal);
+                var end = text.StartsWith("---\n", StringComparison.Ordinal) ? text.IndexOf("\n---\n", 4, StringComparison.Ordinal) : -1;
+                var name = end < 0 ? null : text[4..end].Split('\n').Select(l => l.Trim())
+                    .FirstOrDefault(l => l.StartsWith("part:", StringComparison.Ordinal))?[5..].Trim();
+                if (string.IsNullOrEmpty(name)) { problems.Add($"parts/{Path.GetFileName(file)}: no front matter with a part: line."); continue; }
+                partPages[name] = text[(end + 5)..].Trim();
+            }
+        return new StatsContent { Package = package, Tasks = tasks, TaskProblems = problems, LookAgain = lookAgain, PartPages = partPages };
     }
 
     /// <summary>

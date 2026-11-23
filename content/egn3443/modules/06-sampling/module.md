@@ -1,5 +1,6 @@
 ---
 id: st.m6
+part: Part I · Fundamental Statistics for Engineers
 number: 6
 title: Sampling Distributions
 status: draft
@@ -25,7 +26,7 @@ The key idea is the **sampling distribution**: the distribution of a statistic, 
 
 This module uses the normal distribution, which Module 5 (continuous distributions) teaches in full. Here you need only two things from it: the **z-score**, how many standard deviations a value lies from the mean, and **Φ(z)**, the area under the standard normal curve to the left of z. Item 6.3 shows both again, with the Python and R that give them.
 
-This module has five topics and a module check. Each topic is an item with four tabs:
+This module has five topics and a module check. Each topic is an item with four lesson tabs (and My notes, for your own notes):
 
 - **Learn** explains the idea, gives the formula, works a small case by hand, and shows the Python and R that do the same calculation.
 - **Example** shows a worked case: a simulation of many samples, or a sampling distribution with its probabilities, the figure and the code. Press **Open in the Workbench** to change the numbers and watch the results change.

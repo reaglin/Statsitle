@@ -1,5 +1,6 @@
 ---
 id: st.m8
+part: Part I · Fundamental Statistics for Engineers
 number: 8
 title: Hypothesis Testing
 status: draft
@@ -27,7 +28,7 @@ Module 6 built the tool: the **sampling distribution** says how far a sample mea
 
 The course's Module 8 pages (Week 9, Hypothesis Testing, on reaglin.github.io/EGN3443) have the readings, videos and the "burden of proof" activity. Module 7 (point estimation and confidence intervals) comes before it in the course. This module uses a confidence interval (Module 7) only in passing, and says so where it does.
 
-This module has seven topics and a module check. Each topic is an item with four tabs:
+This module has seven topics and a module check. Each topic is an item with four lesson tabs (and My notes, for your own notes):
 
 - **Learn** explains the idea, gives the formula, works a small case by hand, and shows the Python and R that do the same calculation.
 - **Example** shows a worked test: the data, the results, the reference curve with the rejection region, and the code. Press **Open in the Workbench** to change the numbers and watch the decision change.

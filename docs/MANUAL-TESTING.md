@@ -20,6 +20,65 @@ version says it cannot check and offers the Store page — that is expected.
 
 ---
 
+## Round 2026-11-23b — up to the other PlusBooks: three parts, My notes, Glossary, Course Links, the Workbench's help (plan N.1–N.7, W.1)
+
+Use `manual-test\Statistle.exe`. Do round 2026-11-23 (below) first if you have not.
+
+### AA. The book in three parts (N.5, W.1, W.6)
+
+AA1. Sign in. Under PlusBook Tools: **0. Start here**, then three rows marked 📖: **Part I · Fundamental Statistics for Engineers**
+     (Modules 1 to 14 · n of 96 items complete), **Part II · Advanced Statistics** and **Part III · Additional Applications of
+     Statistics** (each "… · in development").
+AA2. Open Part I with its arrow: Module 1 is now **Introduction to Statistics for Engineers**. Open Part III too: each part opens on its
+     own. **Collapse Menu** folds them all.
+AA3. Choose **Part II**'s name: its page says what it is (in development), with a button per module and the list of modules. Choose
+     **16. Stochastic Processes**: its page says "In development", lists its outcomes and **What it will cover** (Markov chains, Poisson
+     processes, Wiener processes, stochastic calculus). Are the four Part II modules the ones you meant?
+AA4. Part III: **19 Biology and Medicine, 20 Business and Economics, 21 Environmental and Earth Sciences, 22 Social Sciences and
+     Psychology, 23 Data Science and Computing** (proposed: plan Q19). Keep, change or add?
+AA5. With everything folded, press Next ▸ on an item, or Continue with on My progress: only that item's part and module open.
+AA6. Help ▸ About and Start here 0.1 *How Statistics+ works* name the three parts.
+
+### AB. My notes (N.1)
+
+AB1. Open 2.2. Right-click a paragraph of the Learn page ▸ **Add a note to this paragraph…**: a small window shows the paragraph's
+     words. Type a note, **Add note**: a ✎ appears after the paragraph. Point at it: the note. Click it: the **My notes** tab (Ctrl+5),
+     the note marked ▶.
+AB2. The tab reads **My notes (1)**; the item's row in the path ends "· ✎ 1 note"; **My notes** in PlusBook Tools says "1 note on 1 item".
+AB3. On the My notes tab, write a note on the item as a whole; **Edit** one and **Save**; **Delete** one (it asks first).
+AB4. **My notes** in PlusBook Tools: every note, newest first. Type a word in **Find in my notes**; **Open** goes to the paragraph
+     (selected) in its lesson.
+AB5. Start a note in the box and, without adding it, go to another item: the status line says it was added to My notes.
+AB6. Sign out and in as another learner: none of the first learner's notes show. Sign out (or Just the Workbench) and open an item: the
+     My notes tab says to sign in.
+
+### AC. The Glossary (N.2)
+
+AC1. On a lesson, a key term (median, standard deviation, sample mean …) has a dotted underline the first time the page uses it. Point at it:
+     its meaning. Click it: the **Glossary** page, that term marked ▶, and **◂ Back to 2.2 (Learn)** takes you back.
+AC2. **Glossary** in PlusBook Tools: 65 terms A to Z; **Find a term**; **Used in** buttons open the items. Read some definitions: right
+     for the course? Any word underlined that should not be?
+
+### AD. Course Links (N.3)
+
+AD1. In the green block, **Course Links…** (greyed until you sign in; its tip says why). Type a course name, a website and an LMS
+     address; **Save**: **📘 Course website** and **🎓 Course in the LMS** appear and open them in the browser. Learner ▸ **Course links…**
+     opens the same window. Typing "abc" as an address says what is wrong.
+
+### AE. The Workbench's help (N.4)
+
+AE1. Workbench ▸ Descriptive statistics on a sample table: the field's help is now a light blue column on the right, with **Hide help ▸**
+     across its top. Press it: help hides and a light blue **Help** strip stays at the right edge; press the strip to bring it back.
+AE2. Hide it, sign out and in: still hidden. Another learner sees it open.
+AE3. An analysis with results beside the entries (two columns) on a smaller window: help steps aside by itself so the form fits, and the
+     status line says so; the strip brings it back if you want it.
+
+### AF. The examples ship (N.7, Q16)
+
+AF1. An item's **Example** tab still has its examples to try (2.2: Examples (2)), each with a figure.
+
+---
+
 ## Round 2026-11-23 — the window's room and Send feedback (plan W.1–W.6, F.1)
 
 The PlusBook window from WebDevelopment+ and PythonProgramming+, on Learning Core 1.10.2. Use `manual-test\Statistle.exe`.
@@ -38,7 +97,7 @@ Y4. **Help and information**: the About PlusBooks paragraph and its link (softwa
     the web, **Send feedback…**, Check for a new version, About Statistics+, Exit. Buttons are white and rounded with the section's
     colour as their border, tinted under the mouse; Tab shows a dark outline.
 Y5. **Send feedback…** opens `softwareplus.ai/feedback/?program=statistle&version=2.0.0` in the browser (do not need to send anything).
-Y6. Sign in, then Learner ▸ Sign out: the screen comes back folded. Sign in and leave the computer alone past the lock time (or set
+Y6. Start Statistics+: every section folded. Sign in, then Learner ▸ Sign out: the screen comes back with **Who is learning?** open (plan N.6). Sign in and leave the computer alone past the lock time (or set
     Settings to 1 minute): when it locks, **Who is learning?** is open with your name chosen, ready for the PIN.
 Y7. The help panel on the right of the start screen is light blue and mentions the four sections.
 

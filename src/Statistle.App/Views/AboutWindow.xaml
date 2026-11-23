@@ -31,7 +31,7 @@
                         <TextBlock Text="Created by Dr. Ron Eaglin" FontSize="15" FontWeight="SemiBold" Margin="0,0,0,4"
                                    AutomationProperties.Name="Created by Dr. Ron Eaglin" />
                         <TextBlock TextWrapping="Wrap" Foreground="#6B7680"
-                                   Text="Engineer and teacher. Statistics+ follows his course EGN3443, Probability and Statistics for Engineers." />
+                                   Text="Engineer and teacher. Part I of Statistics+ follows his course EGN3443, Probability and Statistics for Engineers." />
                     </StackPanel>
                 </DockPanel>
             </Border>
@@ -68,7 +68,7 @@
             <Border BorderBrush="#D5DBE1" BorderThickness="1" Background="White" Padding="12">
                 <StackPanel>
                     <TextBlock TextWrapping="Wrap" Margin="0,0,0,8"
-                               Text="Statistics+ is free software for learning statistics. The Course follows EGN3443 topic by topic: each topic has a lesson (Learn), a worked example, an exercise it checks, and a reference page, and your progress is kept." />
+                               Text="Statistics+ is free software for learning statistics, a PlusBook in three parts: Part I, Fundamental Statistics for Engineers, follows EGN3443 topic by topic; Part II, Advanced Statistics, and Part III, Additional Applications of Statistics, are in development. Each topic has a lesson (Learn), worked examples, an exercise it checks, a reference page and your own notes, and your progress is kept." />
                     <TextBlock TextWrapping="Wrap" Margin="0,0,0,8"
                                Text="The Workbench is the calculator: enter your own data in a table, choose an analysis, and read the results. Every input and every number is explained in the help panel, and the Instructions tab has a full page on each analysis." />
                     <TextBlock TextWrapping="Wrap"
