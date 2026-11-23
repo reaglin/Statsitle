@@ -318,3 +318,94 @@ The share of visitors or customers who take the action wanted, such as buying.
 ## A/B test
 Also: A/B tests, A/B testing
 An experiment that shows two versions (A and B) to randomly chosen customers and compares an outcome, often with a test of two proportions.
+
+## Clinical trial
+Also: clinical trials, randomised trial, randomized trial
+An experiment on patients that compares a treatment with a control, assigning patients at random.
+
+## Randomisation
+Also: randomization, randomised, randomized
+Assigning units to groups by chance, so the groups differ only by chance in everything except the treatment.
+
+## Blinding
+Also: double-blind, single-blind
+Keeping patients (and in a double-blind trial their doctors and assessors) from knowing which treatment each patient gets.
+
+## Placebo
+A dummy treatment given to a control group, so that the comparison is not distorted by expectations.
+
+## Number needed to treat
+Also: NNT
+The number of patients who must be treated for one more to benefit: 1 divided by the absolute risk difference.
+
+## Prevalence
+The share of a population that has a condition at a given time.
+
+## Incidence
+The share of people free of a condition who develop it over a stated period.
+
+## Relative risk
+Also: risk ratio
+The risk of a disease among the exposed divided by the risk among the unexposed.
+
+## Odds ratio
+Also: odds ratios
+The odds of disease among the exposed divided by the odds among the unexposed, (a·d)/(b·c) in a 2 × 2 table; close to the relative risk for a rare disease.
+
+## Cohort study
+Also: cohort studies, cohort
+An observational study that follows exposed and unexposed people forward in time and counts who develops the disease.
+
+## Case-control study
+Also: case-control studies
+An observational study that compares the past exposure of people with a disease (cases) and similar people without it (controls).
+
+## Confounder
+Also: confounding, confounders
+A third variable related to both the exposure and the outcome, which can make an association look stronger or weaker than it is.
+
+## Sensitivity
+The share of people with a condition whom a test correctly flags as positive.
+
+## Specificity
+The share of people without a condition whom a test correctly clears as negative.
+
+## Positive predictive value
+Also: PPV, predictive value
+The probability that a person with a positive test has the condition; it depends on the prevalence (Bayes' rule).
+
+## ROC curve
+Also: ROC, area under the curve, AUC
+A plot of sensitivity against 1 − specificity for every cut-off of a test; the area under it measures how well the test separates the groups.
+
+## Survival function
+Also: survival curve
+S(t) = P(T > t), the share still free of the event at time t.
+
+## Hazard
+Also: hazard rate
+The rate at which the event happens at time t among those who have not yet had it.
+
+## Censoring
+Also: censored
+Knowing only that a time to an event is longer than the follow-up, because the study ended or the subject left first.
+
+## Kaplan–Meier estimate
+Also: Kaplan–Meier, Kaplan-Meier
+The step-shaped estimate of a survival function from data with censoring, multiplying (1 − events/at risk) at each event time.
+
+## Hardy–Weinberg equilibrium
+Also: Hardy–Weinberg, Hardy-Weinberg
+The genotype proportions p², 2pq and q² expected for a gene with allele frequencies p and q in a randomly mating population.
+
+## False discovery rate
+Also: FDR, Benjamini–Hochberg
+The expected share of false positives among the results declared significant; controlled by the Benjamini–Hochberg procedure.
+
+## LD50
+Also: EC50, median lethal dose
+The dose (LD50) or concentration (EC50) at which half of those exposed respond; 10^(−b₀/b₁) from a logit line on log dose.
+
+## Logit
+Also: logits, log-odds
+ln(p/(1 − p)), which turns a probability between 0 and 1 into a number on the whole line.

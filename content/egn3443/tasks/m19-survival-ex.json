@@ -1,0 +1,76 @@
+{
+  "id": "st.m19.survival.ex",
+  "title": "Days for a wound to heal",
+  "analysis": "ContinuousDistribution",
+  "intro": "Illustrative data, made up for this book. In a study of a new dressing, 24 patients were followed until their wound healed, and every wound healed, so there is no censoring. Fit a Weibull model to the days to healing.\n\nGive the fitted shape β and scale η (two decimals), and the probability that a wound is still not healed after 30 days, S(30) = P(T > 30) (four decimals).\n\nIn the Workbench: **Continuous distribution**, **Distribution** *Weibull*, **Parameters from** *Fitted to a data column*, the column of days, **Value of interest** 30.",
+  "tables": [
+    {
+      "name": "Healing",
+      "columns": {
+        "Days to heal": [
+          2.7,
+          5.3,
+          6.1,
+          8.6,
+          8.6,
+          9.4,
+          9.6,
+          13.2,
+          13.3,
+          16.1,
+          16.6,
+          17.4,
+          18.1,
+          19.0,
+          20.3,
+          21.0,
+          21.3,
+          23.2,
+          23.2,
+          23.7,
+          24.9,
+          31.4,
+          35.4,
+          41.2
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Days to heal",
+    "Family": "Weibull",
+    "Source": "FittedToData",
+    "Column": "@Healing/Days to heal",
+    "X": 30,
+    "X2": null,
+    "Probability": 0.5
+  },
+  "ask": [
+    {
+      "result": "FitShape",
+      "prompt": "Fitted shape β",
+      "tolerance": 0.01
+    },
+    {
+      "result": "FitScale",
+      "prompt": "Fitted scale η (days)"
+    },
+    {
+      "result": "MoreThan",
+      "prompt": "S(30) = P(T > 30)",
+      "tolerance": 0.001
+    }
+  ],
+  "mistakes": {
+    "MoreThan": [
+      {
+        "result": "AtMost",
+        "says": "That is P(T ≤ 30), the share healed by day 30. Survival is the share not yet healed: S(t) = P(T > t)."
+      }
+    ]
+  },
+  "hints": [
+    "The fit is item 5.6's maximum-likelihood Weibull fit.",
+    "S(t) = e^(−(t/η)^β)."
+  ]
+}

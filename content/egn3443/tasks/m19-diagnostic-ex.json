@@ -1,0 +1,39 @@
+{
+  "id": "st.m19.diagnostic.ex",
+  "title": "A rapid test in a clinic",
+  "analysis": "ProbabilityRules",
+  "intro": "Illustrative data, made up for this book. In a clinic, 8 % of the patients tested have a certain infection. A rapid test has sensitivity 90 % and specificity 97 %. Let A = infected and B = the test is positive.\n\nGive P(B), the share of tests that come back positive, and the positive predictive value P(A|B), each to four decimals.\n\nIn the Workbench: **Probability rules**, **What is known** *Likelihoods (Bayes)*, P(A) = 0.08, P(B|A) = 0.90, P(B|not A) = 1 − 0.97 = 0.03.",
+  "settings": {
+    "Name": "Rapid test",
+    "Relationship": "KnownLikelihoods",
+    "ProbabilityA": 0.08,
+    "LikelihoodGivenA": 0.9,
+    "LikelihoodGivenNotA": 0.03,
+    "Items": "NaN",
+    "Chosen": "NaN"
+  },
+  "ask": [
+    {
+      "result": "ProbabilityBResult",
+      "prompt": "P(B), a positive test",
+      "tolerance": 0.0002
+    },
+    {
+      "result": "AGivenB",
+      "prompt": "P(A|B), the positive predictive value",
+      "tolerance": 0.0002
+    }
+  ],
+  "mistakes": {
+    "AGivenB": [
+      {
+        "value": 0.9,
+        "says": "That is the sensitivity, P(B|A): the chance of a positive test if infected. The question asks the reverse, P(A|B): use Bayes' rule."
+      }
+    ]
+  },
+  "hints": [
+    "P(B|not A) is 1 − specificity = 0.03.",
+    "P(B) = P(B|A)P(A) + P(B|not A)P(not A); P(A|B) = P(B|A)P(A)/P(B) (item 3.4)."
+  ]
+}

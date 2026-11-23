@@ -1,0 +1,49 @@
+{
+  "id": "st.m19.epidemiology.ex",
+  "title": "A case-control study of a food and an outbreak",
+  "analysis": "ChiSquareTest",
+  "intro": "Illustrative data, made up for this book. After an outbreak of food poisoning, investigators asked 90 people who fell ill (cases) and 120 who did not (controls) whether they had eaten the chicken salad. Of the cases, 63 had; of the controls, 36 had.\n\n| | Ate the salad | Did not |\n|---|---|---|\n| Cases | 63 | 27 |\n| Controls | 36 | 84 |\n\nTest whether illness and eating the salad are independent (no continuity correction). Give χ² (two decimals), its degrees of freedom, and Cramér's V (three decimals), the strength of the association. (The odds ratio, which the Learn page works out by hand, is asked in the module check.)\n\nIn the Workbench: **Chi-square tests**, **Test** *Independence*, paste the two columns.",
+  "tables": [
+    {
+      "name": "Outbreak",
+      "columns": {
+        "Ate the salad": [
+          63,
+          36
+        ],
+        "Did not": [
+          27,
+          84
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Salad and illness",
+    "Test": "Independence",
+    "Alpha": 0.05,
+    "CountsTable": "@Outbreak/",
+    "RowNames": "Cases, Controls",
+    "Correction": "None"
+  },
+  "ask": [
+    {
+      "result": "Statistic",
+      "prompt": "χ²",
+      "tolerance": 0.01
+    },
+    {
+      "result": "DegreesOfFreedom",
+      "prompt": "Degrees of freedom"
+    },
+    {
+      "result": "CramersV",
+      "prompt": "Cramér's V",
+      "tolerance": 0.002
+    }
+  ],
+  "hints": [
+    "Expected count = row total × column total / grand total (item 8.5).",
+    "A 2 × 2 table has (2 − 1)(2 − 1) = 1 degree of freedom."
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "st.m19.epidemiology.eg",
+  "title": "A cohort study: exposure and disease",
+  "analysis": "ChiSquareTest",
+  "intro": "Illustrative data, made up for this book. A cohort study followed 1,000 factory workers for ten years: 400 exposed to a solvent, 600 not. 40 of the exposed and 30 of the unexposed developed liver disease. The rows are exposed and unexposed; the columns disease and no disease.",
+  "tables": [
+    {
+      "name": "Cohort",
+      "columns": {
+        "Disease": [
+          40,
+          30
+        ],
+        "No disease": [
+          360,
+          570
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Solvent and liver disease",
+    "Test": "Independence",
+    "Alpha": 0.05,
+    "CountsTable": "@Cohort/",
+    "RowNames": "Exposed, Unexposed",
+    "Correction": "None"
+  }
+}

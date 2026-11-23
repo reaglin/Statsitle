@@ -1,0 +1,17 @@
+{
+  "id": "st.m19.trials.eg",
+  "title": "A randomised trial of a new treatment",
+  "analysis": "TwoSampleTest",
+  "intro": "Illustrative data, made up for this book. 400 patients were randomly assigned, 200 to the new treatment and 200 to the standard one, double-blind. Recovered within 30 days: 142 on the new treatment, 118 on the standard.",
+  "settings": {
+    "Name": "Recovery by treatment",
+    "TestKind": "TwoProportions",
+    "Source": "Summary",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Successes": 142,
+    "SampleSize": 200,
+    "Successes2": 118,
+    "Sample2Size": 200
+  }
+}

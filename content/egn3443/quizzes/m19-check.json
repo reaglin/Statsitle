@@ -1,0 +1,119 @@
+{
+  "id": "st.m19.check.quiz",
+  "title": "Module 19 check: biology and medicine",
+  "passThreshold": 0.8,
+  "practice": false,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "numeric",
+      "objective": "st.m19.o1",
+      "lookAgain": "st.m19.trials",
+      "prompt": "In a five-year trial, 8 % of patients on placebo and 6 % of patients on a new drug had a stroke. What is the number needed to treat to prevent one stroke? Give it as a whole number.",
+      "answer": 50,
+      "tolerance": 0.5,
+      "explanation": "The absolute risk reduction is 0.08 − 0.06 = 0.02, so NNT = 1/0.02 = 50: about 50 patients must take the drug for five years to prevent one stroke. The relative risk, 0.06/0.08 = 0.75 (\"25 % fewer strokes\"), sounds larger."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m19.o1",
+      "lookAgain": "st.m19.trials",
+      "prompt": "Why does a clinical trial assign patients to the new treatment or the control **at random**, rather than letting doctors choose?",
+      "options": [
+        "To make the trial cheaper",
+        "So that the groups differ only by chance in everything else, measured or not, and a difference in outcome can be credited to the treatment",
+        "So that the patients do not know which treatment they get",
+        "To make the sample size larger"
+      ],
+      "correct": [1],
+      "explanation": "Doctors may give the new treatment to the patients they expect to do well (or badly), and then the groups differ in more than the treatment. Random assignment balances every other factor on average, even unmeasured ones. Not knowing the treatment is blinding, a different safeguard."
+    },
+    {
+      "id": "q3",
+      "kind": "numeric",
+      "objective": "st.m19.o2",
+      "lookAgain": "st.m19.epidemiology",
+      "prompt": "In the outbreak case-control study, 63 of 90 cases and 36 of 120 controls had eaten the chicken salad. What is the odds ratio of illness for eating the salad? Give it to two decimals.",
+      "answer": 5.44,
+      "tolerance": 0.01,
+      "explanation": "Ate: 63 cases, 36 controls; did not: 27 cases, 84 controls. OR = (63 × 84)/(27 × 36) = 5292/972 = 5.44. In a case-control study only the odds ratio can be estimated; the relative risk cannot, because the study chose how many cases and controls to include."
+    },
+    {
+      "id": "q4",
+      "kind": "numeric",
+      "objective": "st.m19.o2",
+      "lookAgain": "st.m19.epidemiology",
+      "prompt": "A cohort study followed 200 exposed and 400 unexposed people; 30 of the exposed and 20 of the unexposed developed the disease. What is the relative risk? Give it to one decimal.",
+      "answer": 3.0,
+      "tolerance": 0.05,
+      "explanation": "Risk if exposed = 30/200 = 0.15; if unexposed = 20/400 = 0.05. RR = 0.15/0.05 = 3.0: exposure triples the risk. A cohort study can estimate the risk in each group, so it gives the relative risk directly."
+    },
+    {
+      "id": "q5",
+      "kind": "numeric",
+      "objective": "st.m19.o3",
+      "lookAgain": "st.m19.diagnostic",
+      "prompt": "A disease affects 2 % of the people tested. The test has sensitivity 90 % and specificity 90 %. What is the probability that a person who tests positive has the disease (the positive predictive value)? Give it to three decimals.",
+      "answer": 0.155,
+      "tolerance": 0.001,
+      "explanation": "P(positive) = 0.90 × 0.02 + 0.10 × 0.98 = 0.018 + 0.098 = 0.116. PPV = 0.018/0.116 = 0.155. Fewer than one positive in six has the disease, because the 10 % false positives among the 98 % healthy outnumber the true positives."
+    },
+    {
+      "id": "q6",
+      "kind": "choice",
+      "objective": "st.m19.o3",
+      "lookAgain": "st.m19.diagnostic",
+      "prompt": "A blood marker's ROC curve has an area under the curve (AUC) of 0.52. What does that say about the marker as a diagnostic test?",
+      "options": [
+        "It is an excellent test: 52 % sensitivity is high",
+        "It is almost no better than chance at telling sick from healthy people, whatever cut-off is chosen",
+        "It has a 52 % positive predictive value",
+        "It needs a larger sample size"
+      ],
+      "correct": [1],
+      "explanation": "An AUC of 0.5 is the diagonal of the ROC plot: a test that separates the groups no better than tossing a coin. 0.52 is barely above it. Good tests have an AUC above about 0.8."
+    },
+    {
+      "id": "q7",
+      "kind": "numeric",
+      "objective": "st.m19.o4",
+      "lookAgain": "st.m19.survival",
+      "prompt": "Eight patients' months to relapse (+ = censored): 2, 3+, 5, 5, 8, 9+, 12, 14. Use the Kaplan–Meier method to estimate S(8), the probability of being relapse-free after 8 months. Give it to three decimals.",
+      "answer": 0.438,
+      "tolerance": 0.001,
+      "explanation": "At 2: 8 at risk, 1 relapse, S = 7/8 = 0.875. 3+ is censored. At 5: 6 at risk, 2 relapses, S = 0.875 × 4/6 = 0.583. At 8: 4 at risk, 1 relapse, S = 0.583 × 3/4 = 0.4375 ≈ 0.438. The censored patients leave the at-risk count without a relapse."
+    },
+    {
+      "id": "q8",
+      "kind": "numeric",
+      "objective": "st.m19.o5",
+      "lookAgain": "st.m19.genetics",
+      "prompt": "In a population in Hardy–Weinberg equilibrium the allele frequency of A is p = 0.6. In a sample of 500 people, how many heterozygotes (Aa) are expected? Give a whole number.",
+      "answer": 240,
+      "tolerance": 0.5,
+      "explanation": "The Aa proportion is 2pq = 2 × 0.6 × 0.4 = 0.48; 0.48 × 500 = 240. AA is expected in p² = 0.36 (180 people) and aa in q² = 0.16 (80)."
+    },
+    {
+      "id": "q9",
+      "kind": "numeric",
+      "objective": "st.m19.o5",
+      "lookAgain": "st.m19.genetics",
+      "prompt": "Five genes give the sorted p-values 0.004, 0.011, 0.019, 0.030 and 0.20. With the Benjamini–Hochberg procedure at a false discovery rate of q = 0.05, how many genes are declared discoveries?",
+      "answer": 4,
+      "tolerance": 0.1,
+      "explanation": "The thresholds (k/5) × 0.05 are 0.01, 0.02, 0.03, 0.04, 0.05. 0.004 ≤ 0.01, 0.011 ≤ 0.02, 0.019 ≤ 0.03, 0.030 ≤ 0.04, but 0.20 > 0.05. The largest k with p₍ₖ₎ under its threshold is 4: four discoveries. Bonferroni (0.05/5 = 0.01) would give only one."
+    },
+    {
+      "id": "q10",
+      "kind": "numeric",
+      "objective": "st.m19.o6",
+      "lookAgain": "st.m19.dose",
+      "prompt": "A dose–response line on the logit scale is logit(p) = −5.0 + 2.5 × log₁₀(dose), with the dose in mg/kg. What is the LD50 in mg/kg? Give a whole number.",
+      "answer": 100,
+      "tolerance": 0.5,
+      "unit": "mg/kg",
+      "explanation": "At the LD50 half die, p = 0.5, so logit(p) = 0: log₁₀(LD50) = 5.0/2.5 = 2.0, and LD50 = 10² = 100 mg/kg. Forgetting the log gives 2, which is the log of the answer."
+    }
+  ]
+}

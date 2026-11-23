@@ -1,0 +1,17 @@
+{
+  "id": "st.m19.trial-size.try",
+  "title": "The same recovery rates, more or fewer patients",
+  "analysis": "TwoSampleTest",
+  "intro": "Illustrative data, made up for this book. The trial's recovery rates, 71 % and 59 %. Change the numbers of patients and see when the same difference becomes clear.",
+  "settings": {
+    "Name": "Recovery by treatment",
+    "TestKind": "TwoProportions",
+    "Source": "Summary",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Successes": 142,
+    "SampleSize": 200,
+    "Successes2": 118,
+    "Sample2Size": 200
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "id": "st.m19.diagnostic.eg",
+  "title": "A screening test for a rare disease",
+  "analysis": "ProbabilityRules",
+  "intro": "Illustrative data, made up for this book. A = has the disease (prevalence 1 %); B = the test is positive. The test has sensitivity 95 % (P(B|A)) and specificity 95 %, so it is positive for 5 % of people without the disease (P(B|not A)). P(A|B) is the positive predictive value.",
+  "settings": {
+    "Name": "Screening test",
+    "Relationship": "KnownLikelihoods",
+    "ProbabilityA": 0.01,
+    "LikelihoodGivenA": 0.95,
+    "LikelihoodGivenNotA": 0.05,
+    "Items": "NaN",
+    "Chosen": "NaN"
+  }
+}

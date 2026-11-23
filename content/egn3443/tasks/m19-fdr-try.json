@@ -1,0 +1,15 @@
+{
+  "id": "st.m19.fdr.try",
+  "title": "Many genes tested at once",
+  "analysis": "Simulation",
+  "intro": "Simulated: many t-tests where nothing differs. The chance that at least one gives p < α grows with the number of tests: the problem behind the false discovery rate.",
+  "settings": {
+    "Name": "Many tests",
+    "Experiment": "FamilywiseError",
+    "SampleSize": 10,
+    "Alpha": 0.05,
+    "Tests": 20,
+    "Trials": 1000,
+    "Seed": 19
+  }
+}

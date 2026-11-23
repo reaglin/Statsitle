@@ -1,0 +1,43 @@
+{
+  "id": "st.m19.trials.ex",
+  "title": "A vaccine trial",
+  "analysis": "TwoSampleTest",
+  "intro": "Illustrative data, made up for this book. In a randomised, placebo-controlled trial, 3,000 volunteers were assigned at random, 1,500 to the vaccine and 1,500 to a placebo. Over the season, 30 in the vaccine group and 50 in the placebo group caught the infection.\n\nTest H₀: the infection rates are equal (two-sided, α = 0.05). Give the z statistic and the p-value (four decimals), and the 95 % interval for p_vaccine − p_placebo (four decimals).\n\nIn the Workbench: **Two-sample test**, **Test** *Two proportions*, group 1 = the vaccine.",
+  "settings": {
+    "Name": "Infections by group",
+    "TestKind": "TwoProportions",
+    "Source": "Summary",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Successes": 30,
+    "SampleSize": 1500,
+    "Successes2": 50,
+    "Sample2Size": 1500
+  },
+  "ask": [
+    {
+      "result": "Statistic",
+      "prompt": "z statistic",
+      "tolerance": 0.002
+    },
+    {
+      "result": "PValue",
+      "prompt": "p-value",
+      "tolerance": 0.0001
+    },
+    {
+      "result": "CiLower",
+      "prompt": "95 % interval, lower",
+      "tolerance": 0.0002
+    },
+    {
+      "result": "CiUpper",
+      "prompt": "95 % interval, upper",
+      "tolerance": 0.0002
+    }
+  ],
+  "hints": [
+    "p̂_vaccine = 30/1500 = 0.0200 and p̂_placebo = 50/1500 = 0.0333.",
+    "The test uses the pooled p̂; the interval uses the two rates separately (item 10.5)."
+  ]
+}

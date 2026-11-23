@@ -1,0 +1,15 @@
+{
+  "id": "st.m19.hazard.try",
+  "title": "Survival curves: a rising or falling hazard",
+  "analysis": "ContinuousDistribution",
+  "intro": "Illustrative data, made up for this book. A Weibull model of the time to relapse (months). The shape decides whether the hazard falls (β < 1), stays constant (β = 1, the exponential) or rises (β > 1).",
+  "settings": {
+    "Name": "Time to relapse",
+    "Family": "Weibull",
+    "Shape": 1.0,
+    "Scale": 20,
+    "X": 12,
+    "X2": null,
+    "Probability": 0.5
+  }
+}

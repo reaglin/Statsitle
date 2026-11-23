@@ -1,0 +1,60 @@
+{
+  "id": "st.m19.beetles.try",
+  "title": "Dose–response: the logit line",
+  "analysis": "SimpleRegression",
+  "intro": "Bliss's beetles (1935): the empirical logit of the share killed against the log dose. Change a dose group's logit and watch the slope and the line.",
+  "tables": [
+    {
+      "name": "Beetles",
+      "columns": {
+        "Log10 dose": [
+          1.6907,
+          1.7242,
+          1.7552,
+          1.7842,
+          1.8113,
+          1.8369,
+          1.861,
+          1.8839
+        ],
+        "Tested": [
+          59,
+          60,
+          62,
+          56,
+          63,
+          59,
+          62,
+          60
+        ],
+        "Killed": [
+          6,
+          13,
+          18,
+          28,
+          52,
+          53,
+          61,
+          60
+        ],
+        "Logit": [
+          -2.1079,
+          -1.258,
+          -0.8777,
+          0.0,
+          1.5185,
+          2.1079,
+          3.7136,
+          4.7958
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Beetle dose–response",
+    "XColumn": "@Beetles/Log10 dose",
+    "YColumn": "@Beetles/Logit",
+    "Confidence": 0.95,
+    "PredictAt": null
+  }
+}

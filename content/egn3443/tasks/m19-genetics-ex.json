@@ -1,0 +1,52 @@
+{
+  "id": "st.m19.genetics.ex",
+  "title": "Is this population in Hardy–Weinberg equilibrium?",
+  "analysis": "ChiSquareTest",
+  "intro": "Illustrative data, made up for this book. 400 plants were genotyped: 52 BB, 200 Bb and 148 bb. The allele frequency is p(B) = (2 × 52 + 200)/800 = 0.38, so Hardy–Weinberg expects the proportions p² = 0.1444, 2pq = 0.4712 and q² = 0.3844.\n\nTest the fit with one parameter estimated from the data. Give χ² (two decimals), the degrees of freedom and the p-value (four decimals).\n\nIn the Workbench: **Chi-square tests**, **Test** *Goodness of fit*, the three counts, **Expected proportions from** *Typed*, the three proportions, and **Parameters estimated from the data** 1.",
+  "settings": {
+    "Name": "Hardy–Weinberg",
+    "Test": "GoodnessOfFit",
+    "Alpha": 0.05,
+    "Observed": [
+      52,
+      200,
+      148
+    ],
+    "Proportions": "Entered",
+    "Expected": [
+      0.1444,
+      0.4712,
+      0.3844
+    ],
+    "EstimatedParameters": 1,
+    "CategoryNames": "BB, Bb, bb"
+  },
+  "ask": [
+    {
+      "result": "Statistic",
+      "prompt": "χ²",
+      "tolerance": 0.01
+    },
+    {
+      "result": "DegreesOfFreedom",
+      "prompt": "Degrees of freedom"
+    },
+    {
+      "result": "P",
+      "prompt": "p-value",
+      "tolerance": 0.0001
+    }
+  ],
+  "mistakes": {
+    "DegreesOfFreedom": [
+      {
+        "value": 2,
+        "says": "Three categories give 3 − 1 = 2, but p was estimated from the same data: subtract one more."
+      }
+    ]
+  },
+  "hints": [
+    "Expected counts: 400 × each proportion.",
+    "Degrees of freedom = categories − 1 − parameters estimated = 3 − 1 − 1."
+  ]
+}

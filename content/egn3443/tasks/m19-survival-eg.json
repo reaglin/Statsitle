@@ -1,0 +1,14 @@
+{
+  "id": "st.m19.survival.eg",
+  "title": "Survival with a constant hazard (exponential)",
+  "analysis": "ContinuousDistribution",
+  "intro": "Illustrative data, made up for this book. Patients after a treatment relapse at a constant rate of 0.05 a month. The survival function S(t) = P(T > t) at 12 months, the median time to relapse, and the hazard.",
+  "settings": {
+    "Name": "Time to relapse",
+    "Family": "Exponential",
+    "Rate": 0.05,
+    "X": 12,
+    "X2": null,
+    "Probability": 0.5
+  }
+}

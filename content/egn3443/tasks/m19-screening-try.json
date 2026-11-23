@@ -1,0 +1,15 @@
+{
+  "id": "st.m19.screening.try",
+  "title": "Screening: the prevalence decides",
+  "analysis": "ProbabilityRules",
+  "intro": "Illustrative data, made up for this book. A test with sensitivity 95 % and specificity 95 %. Move the prevalence and watch the positive predictive value P(A|B).",
+  "settings": {
+    "Name": "Screening test",
+    "Relationship": "KnownLikelihoods",
+    "ProbabilityA": 0.01,
+    "LikelihoodGivenA": 0.95,
+    "LikelihoodGivenNotA": 0.05,
+    "Items": "NaN",
+    "Chosen": "NaN"
+  }
+}

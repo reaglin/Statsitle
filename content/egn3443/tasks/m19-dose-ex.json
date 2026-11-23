@@ -1,0 +1,89 @@
+{
+  "id": "st.m19.dose.ex",
+  "title": "Toxicity of a pesticide to a water flea",
+  "analysis": "SimpleRegression",
+  "intro": "Illustrative data, made up for this book. Six groups of 40 water fleas were exposed for 48 hours to a pesticide at 1, 2, 4, 8, 16 and 32 µg per litre. The table gives the number killed in each group and the empirical logit ln((killed + 0.5)/(survived + 0.5)).\n\nRegress the logit on log₁₀(concentration). Give the intercept b₀ and the slope b₁ (three decimals) and R². (The Learn page turns them into the EC50, 10^(−b₀/b₁); the module check asks for one.)\n\nIn the Workbench: **Simple linear regression**, **x column** *Log10 conc*, **y column** *Logit*.",
+  "tables": [
+    {
+      "name": "Fleas",
+      "columns": {
+        "Conc (µg/L)": [
+          1,
+          2,
+          4,
+          8,
+          16,
+          32
+        ],
+        "Log10 conc": [
+          0.0,
+          0.301,
+          0.6021,
+          0.9031,
+          1.2041,
+          1.5051
+        ],
+        "Tested": [
+          40,
+          40,
+          40,
+          40,
+          40,
+          40
+        ],
+        "Killed": [
+          1,
+          4,
+          29,
+          39,
+          40,
+          40
+        ],
+        "Logit": [
+          -3.2708,
+          -2.0932,
+          0.942,
+          3.2708,
+          4.3944,
+          4.3944
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Water flea toxicity",
+    "XColumn": "@Fleas/Log10 conc",
+    "YColumn": "@Fleas/Logit",
+    "Confidence": 0.95,
+    "PredictAt": null
+  },
+  "ask": [
+    {
+      "result": "Intercept",
+      "prompt": "Intercept, b₀",
+      "tolerance": 0.002
+    },
+    {
+      "result": "Slope",
+      "prompt": "Slope, b₁",
+      "tolerance": 0.002
+    },
+    {
+      "result": "RSquared",
+      "prompt": "R²",
+      "tolerance": 0.002
+    }
+  ],
+  "mistakes": {
+    "Slope": [
+      {
+        "value": 0.0,
+        "says": "Use the logit column as y and the log₁₀ concentration as x, not the counts."
+      }
+    ]
+  },
+  "hints": [
+    "x is log₁₀ of the concentration (0, 0.301, 0.602, …), y the logit.",
+    "In R: fit <- lm(logit ~ log10(conc)); a proper fit is glm(cbind(killed, tested - killed) ~ log10(conc), family = binomial)."
+  ]
+}

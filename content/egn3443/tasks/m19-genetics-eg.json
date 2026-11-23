@@ -1,0 +1,24 @@
+{
+  "id": "st.m19.genetics.eg",
+  "title": "Genotypes at one gene: Hardy–Weinberg equilibrium",
+  "analysis": "ChiSquareTest",
+  "intro": "Illustrative data, made up for this book. 1,000 people were genotyped at a gene with alleles A and a: 298 AA, 489 Aa, 213 aa. The allele frequency p(A) = (2 × 298 + 489)/2000 = 0.5425, and Hardy–Weinberg expects p², 2pq and q². One parameter (p) was estimated from the data.",
+  "settings": {
+    "Name": "Hardy–Weinberg",
+    "Test": "GoodnessOfFit",
+    "Alpha": 0.05,
+    "Observed": [
+      298,
+      489,
+      213
+    ],
+    "Proportions": "Entered",
+    "Expected": [
+      0.294306,
+      0.496387,
+      0.209306
+    ],
+    "EstimatedParameters": 1,
+    "CategoryNames": "AA, Aa, aa"
+  }
+}
