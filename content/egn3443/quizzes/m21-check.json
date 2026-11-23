@@ -1,0 +1,115 @@
+{
+  "id": "st.m21.check.quiz",
+  "title": "Module 21 check: environmental and earth sciences",
+  "passThreshold": 0.8,
+  "practice": false,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "numeric",
+      "objective": "st.m21.o1",
+      "lookAgain": "st.m21.floods",
+      "prompt": "A culvert is designed for the 100-year flood and will be in service for 25 years. What is the probability that the design flood is exceeded at least once in those 25 years? Give it to three decimals.",
+      "answer": 0.222,
+      "tolerance": 0.001,
+      "explanation": "Each year the chance is 1/100 = 0.01, so the chance of no exceedance in 25 independent years is 0.99²⁵ = 0.778, and of at least one 1 − 0.778 = 0.222. The 100-year flood is not 'once in a hundred years': it has a 22 % chance in 25 years."
+    },
+    {
+      "id": "q2",
+      "kind": "numeric",
+      "objective": "st.m21.o1",
+      "lookAgain": "st.m21.floods",
+      "prompt": "A rainfall depth has an annual exceedance probability of 0.04. What is its return period, in years? Give a whole number.",
+      "answer": 25,
+      "tolerance": 0.5,
+      "unit": "years",
+      "explanation": "T = 1/p = 1/0.04 = 25 years: the 25-year storm. Its depth is the 1 − 0.04 = 0.96 quantile of the annual-maximum distribution."
+    },
+    {
+      "id": "q3",
+      "kind": "numeric",
+      "objective": "st.m21.o2",
+      "lookAgain": "st.m21.trends",
+      "prompt": "Four years of a record: 3, 5, 4, 6. What is the Mann–Kendall statistic S (the number of rising pairs minus the number of falling pairs)?",
+      "answer": 4,
+      "tolerance": 0.1,
+      "explanation": "The six pairs in time order: (3, 5) up, (3, 4) up, (3, 6) up, (5, 4) down, (5, 6) up, (4, 6) up. Five rise and one falls: S = 5 − 1 = 4."
+    },
+    {
+      "id": "q4",
+      "kind": "choice",
+      "objective": "st.m21.o2",
+      "lookAgain": "st.m21.trends",
+      "prompt": "A regression of a river's annual flow on the year gives a trend with p = 0.03. The residuals run in long wet and dry spells of several years (the Durbin–Watson statistic is 0.9). What does that mean for the p-value?",
+      "options": [
+        "Nothing: the p-value does not depend on the residuals",
+        "The residuals are autocorrelated, so the years are not independent; the real evidence for a trend is weaker than p = 0.03 says",
+        "The trend is stronger than it looks",
+        "The slope must be zero"
+      ],
+      "correct": [1],
+      "explanation": "Positively autocorrelated residuals (Durbin–Watson well below 2) mean each year carries less new information than an independent one, so the ordinary standard error is too small and the p-value too small. A method that allows for autocorrelation (Part II) is needed."
+    },
+    {
+      "id": "q5",
+      "kind": "numeric",
+      "objective": "st.m21.o3",
+      "lookAgain": "st.m21.quality",
+      "prompt": "A pollutant's concentration in a stream is lognormal with μ = 1.0 and σ = 0.5 (the mean and standard deviation of ln concentration, in mg/L). The standard is 5 mg/L. What share of samples exceed it? Give it to three decimals.",
+      "answer": 0.111,
+      "tolerance": 0.001,
+      "explanation": "P(X > 5) = P(Z > (ln 5 − μ)/σ) = P(Z > (1.609 − 1.0)/0.5) = P(Z > 1.219) = 0.111. About one sample in nine exceeds the standard."
+    },
+    {
+      "id": "q6",
+      "kind": "numeric",
+      "objective": "st.m21.o4",
+      "lookAgain": "st.m21.spatial",
+      "prompt": "Two gauges recorded 10 mm (1 km from a site) and 40 mm (3 km from it). Estimate the rainfall at the site by inverse distance weighting with weights 1/d². Give it to one decimal.",
+      "answer": 13.0,
+      "tolerance": 0.05,
+      "unit": "mm",
+      "explanation": "Weights 1/1² = 1 and 1/3² = 0.111. ẑ = (1 × 10 + 0.111 × 40)/(1 + 0.111) = 14.44/1.111 = 13.0 mm: close to the nearer gauge."
+    },
+    {
+      "id": "q7",
+      "kind": "numeric",
+      "objective": "st.m21.o5",
+      "lookAgain": "st.m21.quakes",
+      "prompt": "A region's Gutenberg–Richter law is log₁₀ N = 5.0 − 1.0 M, with N the yearly number of earthquakes of magnitude at least M. How many earthquakes of magnitude 6 or more are expected per year? Give it to two decimals.",
+      "answer": 0.10,
+      "tolerance": 0.005,
+      "explanation": "log₁₀ N = 5.0 − 6.0 = −1.0, so N = 10⁻¹ = 0.10 a year: on average one every 10 years."
+    },
+    {
+      "id": "q8",
+      "kind": "numeric",
+      "objective": "st.m21.o5",
+      "lookAgain": "st.m21.quakes",
+      "prompt": "Damaging earthquakes occur in a city at a Poisson rate of 0.01 a year. What is the probability of at least one in the next 30 years? Give it to three decimals.",
+      "answer": 0.259,
+      "tolerance": 0.001,
+      "explanation": "The number in 30 years is Poisson with mean λt = 0.3. P(at least one) = 1 − e^(−0.3) = 1 − 0.741 = 0.259. Not 30 × 0.01 = 0.30: probabilities do not simply add."
+    },
+    {
+      "id": "q9",
+      "kind": "numeric",
+      "objective": "st.m21.o6",
+      "lookAgain": "st.m21.ecology",
+      "prompt": "Biologists mark 60 frogs in a pond and release them. A week later they catch 50 frogs, of which 8 are marked. What is the Lincoln–Petersen estimate of the number of frogs? Give a whole number.",
+      "answer": 375,
+      "tolerance": 0.5,
+      "explanation": "N̂ = M·C/R = 60 × 50/8 = 375. The share marked in the second catch, 8/50 = 0.16, estimates the share marked in the pond, 60/N."
+    },
+    {
+      "id": "q10",
+      "kind": "numeric",
+      "objective": "st.m21.o6",
+      "lookAgain": "st.m21.ecology",
+      "prompt": "A meadow survey finds two plant species in equal numbers. What is the Shannon diversity index H = −Σ pᵢ ln pᵢ? Give it to three decimals.",
+      "answer": 0.693,
+      "tolerance": 0.001,
+      "explanation": "p₁ = p₂ = 0.5: H = −2 × 0.5 ln 0.5 = ln 2 = 0.693, the largest H for two species. A meadow with 90 % of one species and 10 % of the other has H = 0.325."
+    }
+  ]
+}

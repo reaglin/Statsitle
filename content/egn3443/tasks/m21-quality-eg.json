@@ -1,0 +1,48 @@
+{
+  "id": "st.m21.quality.eg",
+  "title": "Nitrate in a river: how often over the standard?",
+  "analysis": "ContinuousDistribution",
+  "intro": "Illustrative data, made up for this book. Twenty-four monthly nitrate concentrations (mg/L as N) in a river. Concentrations are skewed and positive, so a lognormal model is fitted. The drinking-water standard is 10 mg/L: P(X > 10) is how often a sample would exceed it; the 0.95 quantile is a high-end concentration.",
+  "tables": [
+    {
+      "name": "River",
+      "columns": {
+        "Nitrate (mg/L)": [
+          7.2,
+          9.25,
+          5.52,
+          1.29,
+          7.26,
+          4.44,
+          8.39,
+          5.07,
+          1.12,
+          3.52,
+          2.95,
+          3.06,
+          2.09,
+          4.67,
+          3.57,
+          1.43,
+          4.41,
+          4.26,
+          3.89,
+          3.17,
+          3.24,
+          2.81,
+          1.92,
+          2.02
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Nitrate",
+    "Family": "LogNormal",
+    "Source": "FittedToData",
+    "Column": "@River/Nitrate (mg/L)",
+    "X": 10,
+    "X2": null,
+    "Probability": 0.95
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "id": "st.m21.quakes.ex",
+  "title": "A regional catalogue: the b-value",
+  "analysis": "SimpleRegression",
+  "intro": "Illustrative data, made up for this book. Another region's catalogue: log₁₀ of the yearly number of earthquakes of at least magnitude M. Fit log₁₀ N = a − bM.\n\nGive the intercept a and the slope (−b) (three decimals), and the fitted log₁₀ N at M = 6.5 (three decimals). The rate of M ≥ 6.5 earthquakes is 10 to that power each year.\n\nIn the Workbench: **Simple linear regression**, **x column** *Magnitude*, **y column** *Log10 N per year*, **Predict at x₀** 6.5.",
+  "tables": [
+    {
+      "name": "Catalogue",
+      "columns": {
+        "Magnitude": [
+          3.0,
+          3.5,
+          4.0,
+          4.5,
+          5.0,
+          5.5,
+          6.0
+        ],
+        "Log10 N per year": [
+          2.301,
+          1.866,
+          1.224,
+          0.63,
+          0.232,
+          -0.349,
+          -0.892
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Gutenberg–Richter",
+    "XColumn": "@Catalogue/Magnitude",
+    "YColumn": "@Catalogue/Log10 N per year",
+    "Confidence": 0.95,
+    "PredictAt": 6.5
+  },
+  "ask": [
+    {
+      "result": "Intercept",
+      "prompt": "Intercept a",
+      "tolerance": 0.002
+    },
+    {
+      "result": "Slope",
+      "prompt": "Slope (−b)",
+      "tolerance": 0.002
+    },
+    {
+      "result": "FittedAt",
+      "prompt": "Fitted log₁₀ N at M = 6.5",
+      "tolerance": 0.002
+    }
+  ],
+  "hints": [
+    "x is the magnitude, y the log₁₀ of the yearly count. b is the slope with its sign changed; b is close to 1 in most regions."
+  ]
+}

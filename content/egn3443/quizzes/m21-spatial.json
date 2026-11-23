@@ -1,0 +1,69 @@
+{
+  "id": "st.m21.spatial.quiz",
+  "title": "Interpolation and the variogram",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "numeric",
+      "objective": "st.m21.o4",
+      "prompt": "Rainfall at a site is estimated from two gauges by inverse distance weighting with weights 1/d². Gauge A, 2 km away, recorded 40 mm; gauge B, 4 km away, recorded 60 mm. What is the estimate at the site, in mm? Give it to one decimal.",
+      "answer": 44.0,
+      "tolerance": 0.05,
+      "unit": "mm",
+      "explanation": "w_A = 1/2² = 0.25 and w_B = 1/4² = 0.0625. ẑ = (0.25 × 40 + 0.0625 × 60)/(0.25 + 0.0625) = (10 + 3.75)/0.3125 = 44.0 mm. The nearer gauge gets four times the weight."
+    },
+    {
+      "id": "q2",
+      "kind": "numeric",
+      "objective": "st.m21.o4",
+      "prompt": "Two pairs of boreholes about 1 km apart have soil lead concentrations of (120, 130) and (100, 120) mg/kg. Using only these two pairs, what is the semivariance γ at 1 km, in (mg/kg)²? Give it to one decimal.",
+      "answer": 125.0,
+      "tolerance": 0.05,
+      "explanation": "γ(h) = ½ × the average of the squared differences: the differences are 10 and 20, squared 100 and 400, average 250, half of it 125.0. A real variogram uses every pair at each distance."
+    },
+    {
+      "id": "q3",
+      "kind": "choice",
+      "objective": "st.m21.o4",
+      "prompt": "A variogram of groundwater levels rises from a nugget of 0.3 m² to a sill of 4.0 m², which it reaches at a range of 6 km. What does the range tell a hydrologist?",
+      "options": [
+        "Wells more than about 6 km apart are no more alike than any two random wells, so a well that far away says nothing about the level at a site",
+        "The water level varies by 6 m across the aquifer",
+        "Measurements are accurate to 6 km",
+        "The interpolation error is 6 m everywhere"
+      ],
+      "correct": [0],
+      "explanation": "The range is the distance at which the semivariance reaches the sill: beyond it, values are uncorrelated. Within it, nearby wells help predict a site, the more the closer they are."
+    },
+    {
+      "id": "q4",
+      "kind": "choice",
+      "objective": "st.m21.o4",
+      "prompt": "Two boreholes drilled 1 m apart give quite different contaminant concentrations. On a variogram, which feature does that show?",
+      "options": [
+        "A large sill",
+        "A large nugget: variation over very short distances, or measurement error",
+        "A long range",
+        "A negative slope"
+      ],
+      "correct": [1],
+      "explanation": "The nugget is the semivariance as the distance goes to zero. If even neighbouring samples differ, the nugget is large: some of the variation is noise, or happens on a scale finer than the sampling."
+    },
+    {
+      "id": "q5",
+      "kind": "choice",
+      "objective": "st.m21.o4",
+      "prompt": "What does kriging give that inverse distance weighting does not?",
+      "options": [
+        "Faster calculation",
+        "Weights chosen from a fitted variogram, and an estimate of the error at every point of the map",
+        "Exact values between the wells",
+        "Estimates outside the area sampled"
+      ],
+      "correct": [1],
+      "explanation": "Kriging uses the variogram model to choose the weights that make the estimate unbiased with the least error, and it gives the kriging variance: the uncertainty of each estimate. Inverse distance weighting has neither a model nor an error."
+    }
+  ]
+}

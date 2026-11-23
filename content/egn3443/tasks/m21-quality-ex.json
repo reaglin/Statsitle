@@ -1,0 +1,73 @@
+{
+  "id": "st.m21.quality.ex",
+  "title": "Arsenic in wells",
+  "analysis": "ContinuousDistribution",
+  "intro": "Illustrative data, made up for this book. Arsenic (µg/L) in 20 private wells chosen at random in one county. The drinking-water limit is 10 µg/L. Fit a lognormal distribution.\n\nGive the fitted μ and σ of ln(arsenic) (four decimals) and the estimated share of all the county's wells over the limit, P(X > 10) (four decimals).\n\nIn the Workbench: **Continuous distribution**, **Lognormal**, **Fitted to a data column**, **Value of interest** 10.",
+  "tables": [
+    {
+      "name": "Wells",
+      "columns": {
+        "Arsenic (µg/L)": [
+          2.0,
+          7.5,
+          5.4,
+          2.3,
+          18.8,
+          2.6,
+          4.6,
+          6.8,
+          5.9,
+          3.9,
+          1.8,
+          1.6,
+          1.6,
+          2.1,
+          7.0,
+          2.4,
+          1.7,
+          4.0,
+          14.4,
+          6.0
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Arsenic",
+    "Family": "LogNormal",
+    "Source": "FittedToData",
+    "Column": "@Wells/Arsenic (µg/L)",
+    "X": 10,
+    "X2": null,
+    "Probability": 0.95
+  },
+  "ask": [
+    {
+      "result": "FitLogMu",
+      "prompt": "Fitted μ of ln(arsenic)",
+      "tolerance": 0.0005
+    },
+    {
+      "result": "FitLogSigma",
+      "prompt": "Fitted σ of ln(arsenic)",
+      "tolerance": 0.0005
+    },
+    {
+      "result": "MoreThan",
+      "prompt": "P(X > 10)",
+      "tolerance": 0.0005
+    }
+  ],
+  "mistakes": {
+    "MoreThan": [
+      {
+        "result": "AtMost",
+        "says": "That is the share under the limit. The question asks for the share over it, P(X > 10)."
+      }
+    ]
+  },
+  "hints": [
+    "Take ln of each value; μ and σ are their mean and standard deviation.",
+    "P(X > 10) = P(Z > (ln 10 − μ)/σ)."
+  ]
+}

@@ -409,3 +409,74 @@ The dose (LD50) or concentration (EC50) at which half of those exposed respond; 
 ## Logit
 Also: logits, log-odds
 ln(p/(1 − p)), which turns a probability between 0 and 1 into a number on the whole line.
+
+## Annual maximum
+Also: annual maxima, annual peak, annual peaks
+The largest value of a quantity (flow, rainfall) in each year; the data of a frequency analysis.
+
+## Exceedance probability
+The chance that a year's maximum exceeds a given value, P(X > x); the reciprocal of the return period.
+
+## Return period
+Also: recurrence interval, 100-year flood
+The average time between exceedances of a value, T = 1/p for annual exceedance probability p; the 100-year flood has a 1 % chance every year.
+
+## Frequency factor
+Also: frequency factors
+K_T in Q_T = x̄ + K_T·s, which turns the mean and standard deviation of annual maxima into the T-year value for a chosen distribution.
+
+## Gumbel distribution
+Also: Gumbel, extreme value type I
+A distribution of annual maxima often used for floods and rainfall, with K₁₀₀ = 3.137.
+
+## Log-Pearson Type III
+Also: log-Pearson III, LP3
+The distribution of flood peaks whose logarithms follow a Pearson Type III distribution; the US standard for flood frequency (Bulletin 17C).
+
+## Mann–Kendall test
+Also: Mann–Kendall, Mann-Kendall
+A test for a trend that counts rising and falling pairs of values over time, S = Σ sign(xⱼ − xᵢ), without assuming normality.
+
+## Sen's slope
+The median of the slopes between every pair of points in a series; a trend estimate robust to unusual values.
+
+## Stationarity
+Also: stationary
+The assumption that a quantity's distribution does not change over time.
+
+## Lognormal distribution
+Also: lognormal, log-normal
+A distribution whose logarithm is normal; positive and right-skewed, typical of concentrations and flood peaks.
+
+## Geometric mean
+The exponential of the mean of the logarithms; the median of a lognormal distribution.
+
+## Detection limit
+Also: detection limits, censored value
+The lowest concentration a laboratory can measure reliably; values below it are reported as "less than" the limit.
+
+## Inverse distance weighting
+Also: IDW
+Interpolation as a weighted average of measured values with weights 1/d², so nearer points count more.
+
+## Variogram
+Also: semivariance, semivariogram
+The semivariance γ(h) of a spatial quantity plotted against separation distance h; its nugget, sill and range describe how alike nearby places are.
+
+## Nugget
+The variogram's value as the distance goes to zero: measurement error and very short-range variation.
+
+## Kriging
+Spatial interpolation with weights chosen from a fitted variogram, giving an estimate and its error at every point.
+
+## Gutenberg–Richter law
+Also: Gutenberg–Richter, b-value
+log₁₀ N = a − b M: the yearly number of earthquakes of at least magnitude M falls tenfold for each magnitude when b = 1.
+
+## Mark–recapture
+Also: capture–recapture, Lincoln–Petersen
+Estimating a population size by marking animals, recatching a sample and counting the marked ones: N̂ = M·C/R.
+
+## Shannon index
+Also: Shannon diversity, diversity index
+H = −Σ pᵢ ln pᵢ, a measure of species diversity that grows with the number of species and their evenness.

@@ -1,0 +1,113 @@
+{
+  "id": "st.m21.trends.ex",
+  "title": "Ice-out day on a northern lake",
+  "analysis": "SimpleRegression",
+  "intro": "Illustrative data, made up for this book. The day of the year on which a northern lake's ice cover broke up (ice-out), 1990 to 2023. Fit a linear trend on the year.\n\nGive the trend (days per year, three decimals), its p-value (four decimals), and R² (three decimals). Is ice-out getting earlier?\n\nIn the Workbench: **Simple linear regression**, **x column** *Year*, **y column** *Ice-out day*.",
+  "tables": [
+    {
+      "name": "Lake",
+      "columns": {
+        "Year": [
+          1990,
+          1991,
+          1992,
+          1993,
+          1994,
+          1995,
+          1996,
+          1997,
+          1998,
+          1999,
+          2000,
+          2001,
+          2002,
+          2003,
+          2004,
+          2005,
+          2006,
+          2007,
+          2008,
+          2009,
+          2010,
+          2011,
+          2012,
+          2013,
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023
+        ],
+        "Ice-out day": [
+          114,
+          115,
+          111,
+          102,
+          118,
+          110,
+          116,
+          107,
+          112,
+          114,
+          103,
+          127,
+          126,
+          109,
+          114,
+          107,
+          106,
+          111,
+          101,
+          104,
+          103,
+          107,
+          113,
+          104,
+          107,
+          99,
+          99,
+          110,
+          97,
+          116,
+          106,
+          96,
+          107,
+          96
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Ice-out trend",
+    "XColumn": "@Lake/Year",
+    "YColumn": "@Lake/Ice-out day",
+    "Confidence": 0.95,
+    "PredictAt": null
+  },
+  "ask": [
+    {
+      "result": "Slope",
+      "prompt": "Trend (days per year)",
+      "tolerance": 0.002
+    },
+    {
+      "result": "SlopeP",
+      "prompt": "p-value of the trend",
+      "tolerance": 0.0002
+    },
+    {
+      "result": "RSquared",
+      "prompt": "R²",
+      "tolerance": 0.002
+    }
+  ],
+  "hints": [
+    "x is the year, y the day of the year. A negative slope means earlier ice-out.",
+    "In R: fit <- lm(day ~ year); summary(fit)."
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "st.m21.quakes.eg",
+  "title": "Gutenberg–Richter: earthquakes per year by magnitude",
+  "analysis": "SimpleRegression",
+  "intro": "Illustrative data, made up for this book. For one region, log₁₀ of the yearly number of earthquakes of at least each magnitude M. The Gutenberg–Richter law log₁₀ N = a − bM is a straight line: the slope is −b.",
+  "tables": [
+    {
+      "name": "Catalogue",
+      "columns": {
+        "Magnitude": [
+          3.0,
+          3.5,
+          4.0,
+          4.5,
+          5.0,
+          5.5,
+          6.0
+        ],
+        "Log10 N per year": [
+          1.987,
+          1.363,
+          0.994,
+          0.518,
+          0.047,
+          -0.503,
+          -1.068
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Gutenberg–Richter",
+    "XColumn": "@Catalogue/Magnitude",
+    "YColumn": "@Catalogue/Log10 N per year",
+    "Confidence": 0.95,
+    "PredictAt": 7.0
+  }
+}

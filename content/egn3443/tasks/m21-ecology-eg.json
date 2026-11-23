@@ -1,0 +1,15 @@
+{
+  "id": "st.m21.ecology.eg",
+  "title": "Mark–recapture: how many marked fish come back?",
+  "analysis": "DiscreteDistribution",
+  "intro": "Illustrative data, made up for this book. A pond holds 500 fish (unknown to the ecologist). 100 were caught, marked and released. A second catch takes 80 fish. The number of marked fish in it is hypergeometric.",
+  "settings": {
+    "Name": "Recaptured fish",
+    "Family": "Hypergeometric",
+    "PopulationSize": 500,
+    "PopulationSuccesses": 100,
+    "Draws": 80,
+    "K": 16,
+    "K2": null
+  }
+}

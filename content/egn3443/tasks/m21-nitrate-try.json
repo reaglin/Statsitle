@@ -1,0 +1,15 @@
+{
+  "id": "st.m21.nitrate.try",
+  "title": "Lognormal concentrations and a standard",
+  "analysis": "ContinuousDistribution",
+  "intro": "Illustrative data, made up for this book. A lognormal model of nitrate (mg/L): μ and σ are the mean and standard deviation of ln(concentration). The standard is 10 mg/L.",
+  "settings": {
+    "Name": "Nitrate",
+    "Family": "LogNormal",
+    "LogMu": 1.15,
+    "LogSigma": 0.6,
+    "X": 10,
+    "X2": null,
+    "Probability": 0.95
+  }
+}

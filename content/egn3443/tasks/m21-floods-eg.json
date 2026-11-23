@@ -1,0 +1,49 @@
+{
+  "id": "st.m21.floods.eg",
+  "title": "Annual peak flows of a river: the 100-year flood",
+  "analysis": "ContinuousDistribution",
+  "intro": "Illustrative data, made up for this book. The largest flow of each year at a river gauge for 25 years (m³/s). A lognormal distribution is fitted to the annual peaks; the 0.99 quantile is the 100-year flood (exceedance probability 0.01), and P(X > 800) the chance a year's peak exceeds 800 m³/s.",
+  "tables": [
+    {
+      "name": "Gauge",
+      "columns": {
+        "Annual peak (m3/s)": [
+          332,
+          116,
+          251,
+          775,
+          748,
+          509,
+          243,
+          203,
+          254,
+          332,
+          222,
+          397,
+          782,
+          576,
+          598,
+          902,
+          690,
+          577,
+          636,
+          395,
+          397,
+          543,
+          261,
+          309,
+          251
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Annual peak flow",
+    "Family": "LogNormal",
+    "Source": "FittedToData",
+    "Column": "@Gauge/Annual peak (m3/s)",
+    "X": 800,
+    "X2": null,
+    "Probability": 0.99
+  }
+}

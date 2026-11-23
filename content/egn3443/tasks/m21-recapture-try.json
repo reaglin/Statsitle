@@ -1,0 +1,15 @@
+{
+  "id": "st.m21.recapture.try",
+  "title": "Mark–recapture: the population size decides",
+  "analysis": "DiscreteDistribution",
+  "intro": "Illustrative data, made up for this book. 100 fish marked, a second catch of 80. Change the true population size and watch how many marked fish the second catch holds.",
+  "settings": {
+    "Name": "Recaptured fish",
+    "Family": "Hypergeometric",
+    "PopulationSize": 500,
+    "PopulationSuccesses": 100,
+    "Draws": 80,
+    "K": 16,
+    "K2": null
+  }
+}

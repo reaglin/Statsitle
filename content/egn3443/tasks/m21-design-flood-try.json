@@ -1,0 +1,15 @@
+{
+  "id": "st.m21.design-flood.try",
+  "title": "Design floods from a lognormal model",
+  "analysis": "ContinuousDistribution",
+  "intro": "Illustrative data, made up for this book. A lognormal model of a river's annual peak flow (m³/s), μ = ln-mean and σ = ln-standard deviation. The quantile for a non-exceedance probability 1 − 1/T is the T-year flood.",
+  "settings": {
+    "Name": "Annual peak flow",
+    "Family": "LogNormal",
+    "LogMu": 5.99,
+    "LogSigma": 0.51,
+    "X": 800,
+    "X2": null,
+    "Probability": 0.99
+  }
+}

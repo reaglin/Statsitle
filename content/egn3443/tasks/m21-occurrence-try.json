@@ -1,0 +1,13 @@
+{
+  "id": "st.m21.occurrence.try",
+  "title": "At least one large earthquake: a Poisson model",
+  "analysis": "DiscreteDistribution",
+  "intro": "Illustrative data, made up for this book. Large earthquakes in a region happen independently at a steady rate, so the number in a period is Poisson. The mean is the rate times the period: 0.02 a year over 50 years gives 1.0.",
+  "settings": {
+    "Name": "Large earthquakes in 50 years",
+    "Family": "Poisson",
+    "Rate": 1.0,
+    "K": 1,
+    "K2": null
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "id": "st.m21.floods.ex",
+  "title": "A small river: the 50-year flood",
+  "analysis": "ContinuousDistribution",
+  "intro": "Illustrative data, made up for this book. Thirty years of annual peak flows (m³/s) at a small river. Fit a lognormal distribution.\n\nGive the fitted ln-mean μ and ln-standard deviation σ (four decimals), the 50-year flood (the 0.98 quantile, one decimal), and the annual exceedance probability of 300 m³/s, P(X > 300) (four decimals).\n\nIn the Workbench: **Continuous distribution**, **Distribution** *Lognormal*, **Parameters from** *Fitted to a data column*, **Value of interest** 300, **Probability for the quantile** 0.98.",
+  "tables": [
+    {
+      "name": "Gauge",
+      "columns": {
+        "Annual peak (m3/s)": [
+          123,
+          278,
+          74,
+          173,
+          324,
+          125,
+          121,
+          163,
+          282,
+          238,
+          156,
+          222,
+          177,
+          132,
+          360,
+          183,
+          112,
+          154,
+          322,
+          233,
+          203,
+          115,
+          133,
+          147,
+          402,
+          240,
+          219,
+          320,
+          104,
+          359
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Annual peak flow",
+    "Family": "LogNormal",
+    "Source": "FittedToData",
+    "Column": "@Gauge/Annual peak (m3/s)",
+    "X": 300,
+    "X2": null,
+    "Probability": 0.98
+  },
+  "ask": [
+    {
+      "result": "FitLogMu",
+      "prompt": "Fitted ln-mean μ",
+      "tolerance": 0.0005
+    },
+    {
+      "result": "FitLogSigma",
+      "prompt": "Fitted ln-standard deviation σ",
+      "tolerance": 0.0005
+    },
+    {
+      "result": "Quantile",
+      "prompt": "50-year flood, the 0.98 quantile (m³/s)",
+      "tolerance": 0.5
+    },
+    {
+      "result": "MoreThan",
+      "prompt": "P(X > 300), the annual exceedance probability",
+      "tolerance": 0.0005
+    }
+  ],
+  "mistakes": {
+    "MoreThan": [
+      {
+        "result": "AtMost",
+        "says": "That is the non-exceedance probability, P(X ≤ 300). The exceedance probability is the chance a year's peak is larger: 1 minus it."
+      }
+    ]
+  },
+  "hints": [
+    "μ and σ are the mean and standard deviation of ln(peak).",
+    "The T-year flood has exceedance probability 1/T: the 50-year flood is the 1 − 1/50 = 0.98 quantile."
+  ]
+}

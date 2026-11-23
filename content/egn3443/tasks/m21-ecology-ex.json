@@ -1,0 +1,30 @@
+{
+  "id": "st.m21.ecology.ex",
+  "title": "Marked turtles in a wetland",
+  "analysis": "DiscreteDistribution",
+  "intro": "Illustrative data, made up for this book. Suppose a wetland holds 400 turtles, of which 60 were marked last year. This year 50 are caught at random.\n\nThe number of marked turtles in the catch is hypergeometric. Give its mean (two decimals), the probability that the catch holds at most 5 marked turtles (four decimals).\n\nIn the Workbench: **Discrete distribution**, **Distribution** *Hypergeometric*, population 400, successes 60, draws 50, **k** 5.",
+  "settings": {
+    "Name": "Marked turtles",
+    "Family": "Hypergeometric",
+    "PopulationSize": 400,
+    "PopulationSuccesses": 60,
+    "Draws": 50,
+    "K": 5,
+    "K2": null
+  },
+  "ask": [
+    {
+      "result": "Mean",
+      "prompt": "Mean number marked"
+    },
+    {
+      "result": "AtMost",
+      "prompt": "P(at most 5 marked)",
+      "tolerance": 0.0005
+    }
+  ],
+  "hints": [
+    "Mean = n × M/N = 50 × 60/400.",
+    "P(X ≤ 5) adds P(X = 0) to P(X = 5): P(X = k) = C(60, k) C(340, 50 − k) / C(400, 50)."
+  ]
+}
