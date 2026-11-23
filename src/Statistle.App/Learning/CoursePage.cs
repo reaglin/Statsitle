@@ -58,6 +58,19 @@ public sealed class CoursePage : UserControl
     private readonly MarkdownView _reference = new();
     private readonly FrameworkElement _itemPage;
 
+    // The window's room (plan W.3, W.4): PlusBook Learning's block under the tree, folding down; help on the right, hiding to the right.
+    private readonly Expander _pathInfo = new() { ExpandDirection = ExpandDirection.Down, IsExpanded = true, Margin = new Thickness(8, 4, 12, 6) };
+    private readonly TextBlock _pathTitle = new() { Text = "PlusBook Learning", FontSize = 15, FontWeight = FontWeights.SemiBold };
+    private readonly TextBlock _totals = new() { TextWrapping = TextWrapping.Wrap };
+    private readonly TextBlock _time = new() { TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 2, 0, 0) };
+    private readonly Button _foldAll = new() { Content = "Collapse Menu", Margin = new Thickness(0, 6, 0, 0), HorizontalAlignment = HorizontalAlignment.Left };
+    private readonly Border _helpPanel = new() { Width = 320 };
+    private readonly Border _helpStrip = new() { Visibility = Visibility.Collapsed };
+    private readonly Button _hideHelp = new() { Content = "Hide help ▸" };
+    private readonly Button _openHelp = new();
+    private readonly MarkdownView _help = new(); // a tab stop, so the keyboard can reach and scroll help (UX review 2026-11-23)
+    private bool _showingPreferences;
+
     private LearnerFile? _session;
     private LearningItem? _item;
 
@@ -94,8 +107,8 @@ public sealed class CoursePage : UserControl
         _tree.BorderThickness = new Thickness(0);
         _tree.Background = Brushes.Transparent;
         ScrollViewer.SetHorizontalScrollBarVisibility(_tree, ScrollBarVisibility.Disabled);
-        _tree.SelectedItemChanged += (_, e) => { if (e.NewValue is PathNode node) Open(node); };
-        AutomationProperties.SetName(_tree, "The course: My progress, then each module and its items");
+        _tree.SelectedItemChanged += (_, e) => { if (e.NewValue is PathNode node) Chosen(node, e.OldValue as PathNode); };
+        AutomationProperties.SetName(_tree, "PlusBook Learning: PlusBook Tools, then each module and its items");
         var treeStyle = new Style(typeof(TreeViewItem));
         treeStyle.Setters.Add(new Setter(TreeViewItem.IsExpandedProperty, new Binding(nameof(PathNode.IsExpanded)) { Mode = BindingMode.TwoWay }));
         treeStyle.Setters.Add(new Setter(TreeViewItem.IsSelectedProperty, new Binding(nameof(PathNode.IsSelected)) { Mode = BindingMode.TwoWay }));
@@ -109,20 +122,52 @@ public sealed class CoursePage : UserControl
         _notSignedIn.Inlines.Add(new Run("Not signed in: you can read and try everything, but your progress is not kept. "));
         _notSignedIn.Inlines.Add(signIn);
 
-        var left = new DockPanel { Margin = new Thickness(10, 10, 6, 10) };
-        var leftTitle = new TextBlock { Text = "The course", FontSize = 15, FontWeight = FontWeights.SemiBold, Margin = new Thickness(4, 0, 0, 2) };
-        var leftLead = new TextBlock
-        {
-            Text = "Work through the modules in order. Each item has a lesson, a worked example, an exercise and a reference page. ▤ your progress · ★ mastered · ✓ complete · ↺ review suggested · ◐ started · ○ not started.",
-            TextWrapping = TextWrapping.Wrap, Foreground = LearningTheme.Brush("MutedTextBrush"), Margin = new Thickness(4, 0, 0, 8), FontSize = 11.5,
-        };
-        DockPanel.SetDock(leftTitle, Dock.Top);
-        DockPanel.SetDock(leftLead, Dock.Top);
-        DockPanel.SetDock(_notSignedIn, Dock.Top);
-        left.Children.Add(leftTitle);
-        left.Children.Add(leftLead);
+        // PlusBook Learning (plan W.3, W.5; Ron, 2026-11-23): the tree first, in lavender; the title, totals, time, key and buttons
+        // under it in a light green block that folds down to its title, so the tree has the most room.
+        var left = new Grid { Background = LearningTheme.Brush("FilesBrush") };
+        left.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        left.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+        left.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        _notSignedIn.Margin = new Thickness(10, 10, 10, 4);
+        _tree.Padding = new Thickness(6, 8, 4, 8);
+        Grid.SetRow(_tree, 1);
         left.Children.Add(_notSignedIn);
         left.Children.Add(_tree);
+        var blockBack = new Border { Background = LearningTheme.Brush("LearningBrush"), BorderBrush = LearningTheme.Brush("LearningLineBrush"), BorderThickness = new Thickness(0, 1, 0, 0) };
+        Grid.SetRow(blockBack, 2);
+        Grid.SetRow(_pathInfo, 2);
+        left.Children.Add(blockBack);
+        left.Children.Add(_pathInfo);
+        _pathTitle.ToolTip = "Opens or folds the totals, your time, the key and the button under the path; folded, the path above has more room";
+        _pathInfo.Header = _pathTitle;
+        AutomationProperties.SetName(_pathInfo, "PlusBook Learning: totals, key and buttons");
+        AutomationProperties.SetHelpText(_pathInfo, "Your totals, your time, the key to the marks and Collapse Menu. Space opens or folds them");
+        var sectionButton = new Style(typeof(Button), (Style)Application.Current.FindResource("SectionButton"));
+        sectionButton.Setters.Add(new Setter(BorderBrushProperty, LearningTheme.Brush("LearningLineBrush")));
+        sectionButton.Setters.Add(new Setter(PaddingProperty, new Thickness(10, 3, 10, 3)));
+        _foldAll.Style = sectionButton;
+        _foldAll.ToolTip = "Folds PlusBook Tools and every module, so the path shows only their names";
+        AutomationProperties.SetHelpText(_foldAll, "Open a module again with the arrow beside it, or the → key; each opens and folds on its own");
+        _foldAll.Click += (_, _) => FoldAll();
+        _totals.ToolTip = "Items and modules complete in the whole course. My progress (in PlusBook Tools) has the detail";
+        _time.ToolTip = "Time counts while you are using Statistics+ (a key or the mouse in the last two minutes), not while it sits idle";
+        var block = new StackPanel { Margin = new Thickness(4, 4, 0, 2) };
+        block.Children.Add(_totals);
+        block.Children.Add(_time);
+        block.Children.Add(new TextBlock
+        {
+            Text = "+ PlusBook Tools · ▤ my progress · ✉ hand in a report · ∑ Workbench · ★ mastered · ✓ complete · ↺ review · ◐ started · ○ not started · – in development",
+            TextWrapping = TextWrapping.Wrap, FontSize = 12, Foreground = LearningTheme.Brush("MutedTextBrush"), Margin = new Thickness(0, 2, 0, 0),
+        });
+        block.Children.Add(_foldAll);
+        _pathInfo.Content = block;
+        _pathInfo.Expanded += PathInfo_Toggled;
+        _pathInfo.Collapsed += PathInfo_Toggled;
+        _path.Refreshed += () =>
+        {
+            _totals.Text = _path.TotalsText;
+            _time.Text = _path.TimeText;
+        };
 
         // ── The item page ──
         foreach (var b in new[] { _previous, _next, _read, _handIn }) ToolTipService.SetShowOnDisabled(b, true);
@@ -190,13 +235,15 @@ public sealed class CoursePage : UserControl
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(320), MinWidth = 220 });
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-        var leftBorder = new Border { Child = left, Background = LearningTheme.Brush("PanelBrush") };
-        var splitter = new GridSplitter { Width = 5, HorizontalAlignment = HorizontalAlignment.Stretch, Background = LearningTheme.Brush("LineBrush"), ToolTip = "Drag to make the course list wider or narrower" };
+        var splitter = new GridSplitter { Width = 5, HorizontalAlignment = HorizontalAlignment.Stretch, Background = LearningTheme.Brush("LineBrush"), ToolTip = "Drag to make PlusBook Learning wider or narrower" };
         Grid.SetColumn(splitter, 1);
-        Grid.SetColumn(_right, 2);
-        grid.Children.Add(leftBorder);
+        var rightSide = new DockPanel();
+        Grid.SetColumn(rightSide, 2);
+        BuildHelp(rightSide);
+        rightSide.Children.Add(_right);
+        grid.Children.Add(left);
         grid.Children.Add(splitter);
-        grid.Children.Add(_right);
+        grid.Children.Add(rightSide);
         Content = grid;
 
         InputBindings.Add(new KeyBinding(new RelayKey(() => _tabs.SelectedItem = _learnTab), Key.D1, ModifierKeys.Control));
@@ -244,10 +291,204 @@ public sealed class CoursePage : UserControl
         }
         _session = session;
         _notSignedIn.Visibility = session is null ? Visibility.Visible : Visibility.Collapsed;
+        ShowPreferences();
         _path.Refresh(Progress);
-        _path.Dashboard.IsSelected = true;
+        LearningPath.Choose(_path.Dashboard);
         ShowDashboard();
     }
+
+    // ── The window's room (plan W.1-W.4) ────────────────────────────────────
+
+    private const string PathInfoPreference = "pathInfo";
+    private const string HelpPreference = "helpPanel";
+
+    /// <summary>The block under the tree and help, as this learner left them (both open the first time, and for nobody).</summary>
+    private void ShowPreferences()
+    {
+        _showingPreferences = true;
+        _pathInfo.IsExpanded = _session?.Data.Preferences.GetValueOrDefault(PathInfoPreference) != "folded";
+        SetHelp(_session?.Data.Preferences.GetValueOrDefault(HelpPreference) != "folded");
+        _showingPreferences = false;
+    }
+
+    /// <summary>The learner folded or opened PlusBook Learning's block: kept that way for them (saved with their progress).</summary>
+    private void PathInfo_Toggled(object sender, RoutedEventArgs e)
+    {
+        if (!ReferenceEquals(e.OriginalSource, _pathInfo) || _showingPreferences) return;
+        if (_session is not null)
+        {
+            _session.Data.Preferences[PathInfoPreference] = _pathInfo.IsExpanded ? "open" : "folded";
+            Save();
+        }
+        Status?.Invoke(_pathInfo.IsExpanded
+            ? "PlusBook Learning's totals, time, key and Collapse Menu are open under the path."
+            : "PlusBook Learning's block is folded to its title, so the path has more room. Choose PlusBook Learning to open it again.");
+    }
+
+    /// <summary>PlusBook Learning's block under the tree (for the tests).</summary>
+    public Expander PathInfo => _pathInfo;
+
+    /// <summary>The block's title (for the tests).</summary>
+    public TextBlock PathTitle => _pathTitle;
+
+    /// <summary>Collapse Menu (for the tests).</summary>
+    public Button FoldAllButton => _foldAll;
+
+    /// <summary>The tree of the path (for the tests).</summary>
+    public TreeView PathTree => _tree;
+
+    /// <summary>Help on the right, its Hide help bar, and the strip that opens it again (for the tests).</summary>
+    public Border HelpPanel => _helpPanel;
+
+    public Button HideHelpButton => _hideHelp;
+
+    public Border HelpStrip => _helpStrip;
+
+    public Button OpenHelpButton => _openHelp;
+
+    /// <summary>What help says now (for the tests).</summary>
+    public string HelpMarkdownShown => _help.Markdown;
+
+    /// <summary>Whether help shows on the right.</summary>
+    public bool IsHelpOpen => _helpPanel.Visibility == Visibility.Visible;
+
+    /// <summary>Collapse Menu (plan W.1): PlusBook Tools and every module fold; the page on screen stays.</summary>
+    public void FoldAll()
+    {
+        _path.FoldAll();
+        Status?.Invoke("The path shows PlusBook Tools and the modules only. Open one with the arrow beside it (or the → key); each opens and folds on its own.");
+    }
+
+    private void SetHelp(bool open)
+    {
+        _helpPanel.Visibility = open ? Visibility.Visible : Visibility.Collapsed;
+        _helpStrip.Visibility = open ? Visibility.Collapsed : Visibility.Visible;
+    }
+
+    /// <summary>
+    /// F1 in the Course, Hide help ▸ and the Help strip (plan W.4): help hides to the right and opens again; the learner's choice is
+    /// kept for them. From a button the focus follows to the one that now shows; F1 leaves it where it was.
+    /// </summary>
+    public void ToggleHelp(bool fromButton = false)
+    {
+        var open = !IsHelpOpen;
+        var focusInHelp = _helpPanel.IsKeyboardFocusWithin;
+        SetHelp(open);
+        if (_session is not null)
+        {
+            _session.Data.Preferences[HelpPreference] = open ? "open" : "folded";
+            Save();
+        }
+        if (fromButton) { if (open) _hideHelp.Focus(); else _openHelp.Focus(); }
+        else if (!open && focusInHelp) _openHelp.Focus();
+        Status?.Invoke((open ? "Help is open on the right. Hide help (the light blue bar at its top, or F1) hides it."
+                             : "Help is hidden to the right, so the page has more room. The light blue Help strip at the right edge (or F1) opens it again.")
+                       + (_session is null ? " (Not signed in: this choice is kept only once you sign in.)" : ""));
+    }
+
+    /// <summary>Help on the right: the light blue Hide help bar across its top, and the strip left at the right edge while it is hidden.</summary>
+    private void BuildHelp(DockPanel host)
+    {
+        var barStyle = (Style)Application.Current.FindResource("HelpBarButton");
+        _hideHelp.Style = barStyle;
+        _hideHelp.HorizontalAlignment = HorizontalAlignment.Stretch;
+        _hideHelp.HorizontalContentAlignment = HorizontalAlignment.Center;
+        _hideHelp.Padding = new Thickness(8, 7, 8, 7);
+        _hideHelp.BorderThickness = new Thickness(0, 0, 0, 1);
+        _hideHelp.ToolTip = "Hides help to the right, so the page has more room; the light blue Help strip at the right edge (or F1) opens it again";
+        AutomationProperties.SetName(_hideHelp, "Hide help");
+        _hideHelp.Click += (_, _) => ToggleHelp(fromButton: true);
+        _help.Background = Brushes.Transparent;
+        AutomationProperties.SetName(_help, "Help for this screen");
+        var panel = new DockPanel();
+        DockPanel.SetDock(_hideHelp, Dock.Top);
+        panel.Children.Add(_hideHelp);
+        panel.Children.Add(_help);
+        _helpPanel.Child = panel;
+        _helpPanel.Background = LearningTheme.Brush("HelpPanelBrush");
+        _helpPanel.BorderBrush = LearningTheme.Brush("HelpBarLineBrush");
+        _helpPanel.BorderThickness = new Thickness(1, 0, 0, 0);
+
+        _openHelp.Style = barStyle;
+        _openHelp.VerticalAlignment = VerticalAlignment.Stretch;
+        _openHelp.VerticalContentAlignment = VerticalAlignment.Top;
+        _openHelp.Padding = new Thickness(6, 12, 6, 12);
+        _openHelp.BorderThickness = new Thickness(0);
+        _openHelp.ToolTip = "Opens help for this screen again (F1)";
+        AutomationProperties.SetName(_openHelp, "Help (F1): open help"); // the words on it first, for voice control (UX review 2026-11-23)
+        var words = new StackPanel();
+        words.Children.Add(new TextBlock { Text = "◂", HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(0, 0, 0, 6) });
+        words.Children.Add(new TextBlock { Text = "Help (F1)", LayoutTransform = new RotateTransform(90) });
+        _openHelp.Content = words;
+        _openHelp.Click += (_, _) => ToggleHelp(fromButton: true);
+        _helpStrip.Child = _openHelp;
+        _helpStrip.Background = LearningTheme.Brush("HelpBarBrush");
+        _helpStrip.BorderBrush = LearningTheme.Brush("HelpBarLineBrush");
+        _helpStrip.BorderThickness = new Thickness(1, 0, 0, 0);
+
+        DockPanel.SetDock(_helpStrip, Dock.Right);
+        DockPanel.SetDock(_helpPanel, Dock.Right);
+        host.Children.Add(_helpStrip);
+        host.Children.Add(_helpPanel);
+    }
+
+    /// <summary>Help for the screen on the right: what it is for, then how to use the book.</summary>
+    private void ScreenHelp(string title, string text) =>
+        _help.Markdown = $"## This screen: {title}\n\n{text}\n\n{HelpMarkdown}";
+
+    // ── Choosing a row in the path ──────────────────────────────────────────
+
+    private bool _restoring;
+
+    private void Chosen(PathNode node, PathNode? old)
+    {
+        if (_restoring) return;
+        // A fold, not a choice: folding a module (or PlusBook Tools) that holds the chosen row makes the tree choose the folded row.
+        // The page on screen stays. So is ← from one of PlusBook Tools' rows onto PlusBook Tools (a second ← folds it).
+        if ((!node.IsExpanded || node.IsCommon) && old is not null && IsInside(old, node)) return;
+        Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Loaded, () => RowOf(node)?.BringIntoView());
+        if (node.IsCommon)
+        {
+            // PlusBook Tools has no page of its own: it opens, and My progress (its first row) shows. After the click, so the two
+            // rows do not select each other from inside this handler.
+            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, () =>
+            {
+                node.IsSelected = false;
+                LearningPath.Choose(_path.Dashboard);
+                RowOf(_path.Dashboard)?.Focus();
+            });
+        }
+        else if (node.IsTool)
+        {
+            // The Workbench opens in its own part of the window; the row on screen before stays chosen, so the Course is as it was.
+            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, () =>
+            {
+                _restoring = true;
+                node.IsSelected = false;
+                if (old is not null && !old.IsTool && !old.IsCommon) old.IsSelected = true;
+                _restoring = false;
+                WorkbenchRequested?.Invoke();
+            });
+        }
+        else Open(node);
+    }
+
+    private static bool IsInside(PathNode row, PathNode under)
+    {
+        for (var p = row.Parent; p is not null; p = p.Parent) if (p == under) return true;
+        return false;
+    }
+
+    /// <summary>The tree's row for a node at any depth (null while the row that holds it is folded and the row not made yet).</summary>
+    public TreeViewItem? RowOf(PathNode? node)
+    {
+        if (node is null) return null;
+        if (node.Parent is null) return _tree.ItemContainerGenerator.ContainerFromItem(node) as TreeViewItem;
+        return RowOf(node.Parent)?.ItemContainerGenerator.ContainerFromItem(node) as TreeViewItem;
+    }
+
+    /// <summary>The Workbench row in PlusBook Tools was chosen: the window shows the Workbench.</summary>
+    public event Action? WorkbenchRequested;
 
     private string? _lastLearner;
 
@@ -261,7 +502,7 @@ public sealed class CoursePage : UserControl
         TaskWorkspace.ForgetAll();
         _quiz.Reset();
         _lastLearner = null;
-        if (_item is not null) { _item = null; _path.Dashboard.IsSelected = true; ShowDashboard(); }
+        if (_item is not null) { _item = null; LearningPath.Choose(_path.Dashboard); ShowDashboard(); }
     }
 
     /// <summary>Saves the learner's progress now (after every change, and before signing out or closing).</summary>
@@ -275,20 +516,6 @@ public sealed class CoursePage : UserControl
         }
     }
 
-    /// <summary>F1 in the Course: how the Course works (USABILITY-CHECKLIST 1.2).</summary>
-    public void ShowHelp()
-    {
-        _item = null;
-        var page = new DockPanel { Margin = new Thickness(16, 12, 16, 8) };
-        var back = new Button { Content = "◂ Back to My progress", Padding = new Thickness(10, 3, 10, 3), HorizontalAlignment = HorizontalAlignment.Left, Margin = new Thickness(0, 0, 0, 8), ToolTip = "Closes this help and shows My progress" };
-        back.Click += (_, _) => { _path.Dashboard.IsSelected = true; ShowDashboard(); };
-        DockPanel.SetDock(back, Dock.Top);
-        page.Children.Add(back);
-        page.Children.Add(new MarkdownView { Markdown = HelpMarkdown });
-        _right.Content = page;
-        Status?.Invoke("How the Course works. Choose an item on the left to go back to it.");
-    }
-
     /// <summary>
     /// Hand in a report (plan 14.1, 14.2): what a report covers, what it will say, saving the signed PDF, and the result line.
     /// <paramref name="pointId"/> is a module check's ID to start on (null: the first one ready).
@@ -298,7 +525,11 @@ public sealed class CoursePage : UserControl
         _item = null;
         var page = new DockPanel { Margin = new Thickness(16, 12, 16, 8) };
         var back = new Button { Content = "◂ Back to My progress", Padding = new Thickness(10, 3, 10, 3), HorizontalAlignment = HorizontalAlignment.Left, Margin = new Thickness(0, 0, 0, 8), ToolTip = "Shows My progress" };
-        back.Click += (_, _) => { _path.Dashboard.IsSelected = true; ShowDashboard(); };
+        back.Click += (_, _) => { LearningPath.Choose(_path.Dashboard); ShowDashboard(); };
+        ScreenHelp("Hand in a report",
+            "1. Choose a module check, or everything so far. 2. Check what the report will say; **My details for reports** adds your student ID, course and class code to the cover. " +
+            "3. Save the PDF report, and hand in that file as it is, the way your instructor asks; do not save it again in another program. " +
+            "The **result line** is a one-line summary your instructor can check: copy it if they ask for it. A report made before the check is complete is marked Incomplete.");
         DockPanel.SetDock(back, Dock.Top);
         page.Children.Add(back);
         var title = new TextBlock { Text = "Hand in a progress report", FontSize = 20, FontWeight = FontWeights.SemiBold };
@@ -336,68 +567,57 @@ public sealed class CoursePage : UserControl
     /// <summary>The Hand in a report page (for the tests).</summary>
     public ReportsView ReportsPage => _reports;
 
+    /// <summary>How to use the book, under the screen's own help in the help panel (USABILITY-CHECKLIST 1.2; plan W.4).</summary>
     private const string HelpMarkdown = """
-        # How the Course works
+        ## How to use this PlusBook
 
-        The Course follows EGN3443, Probability and Statistics for Engineers, topic by topic.
+        Statistics+ follows EGN3443, Probability and Statistics for Engineers, topic by topic.
 
-        ## The list on the left
+        ### PlusBook Learning (left)
 
-        - **My progress**: every module, the module checks, the outcomes to review, and your time.
-        - Each **module** opens on a page with what it teaches (its outcomes) and its items.
-        - A module's mark: **★** mastered, **✓** complete, **↺** review suggested, **◐** in progress, **○** not started.
-        - Each **item** is one topic. Its mark: **✓** complete, **◐** started, **○** not started.
-        - **▤** is My progress.
+        - **PlusBook Tools** (+), at the top: **My progress** (▤: every module, the module checks, the outcomes to review, your time), **Hand in a report** (✉), and the **Workbench** (∑), the calculator.
+        - Then the **modules**. A module opens on a page with what it teaches (its outcomes) and its items. Under it are its **items**, one topic each.
+        - The arrow beside PlusBook Tools or a module opens or folds it, each on its own. **Collapse Menu** folds them all.
+        - Under the path, in green, are your totals, your time, the key to the marks and Collapse Menu. Choose **PlusBook Learning** to fold them down and give the path more room.
+        - A module's mark: **★** mastered, **✓** complete, **↺** review suggested, **◐** in progress, **○** not started, **–** in development. An item's: **✓** complete, **◐** started, **○** not started.
 
-        ## The four tabs of an item
+        ### The four tabs of an item
 
-        | Tab | Keys | What it is for |
-        |---|---|---|
-        | **Learn** | Ctrl+1 | The lesson: the idea, the formulas, a worked case, the Python and R |
-        | **Example** | Ctrl+2 | Examples to try, each with a figure: move a slider or change the data and watch the results and the figure change. Then the worked example: the data, every result, the figures and the code (**Open in the Workbench** copies it to the calculator). With more than one, choose **Example 1**, **Example 2** … at the top. Nothing here counts toward your progress |
-        | **Exercise** | Ctrl+3 | Your turn: work out the results (by hand, or in Python or R) and press **Check my answers**, or answer the questions |
-        | **Reference** | Ctrl+4 | The formulas, the Python and R functions, and the sources |
+        - **Learn** (Ctrl+1): the lesson: the idea, the formulas, a worked case, the Python and R. **▶ Try it on the Example tab** opens the example that goes with what you have just read.
+        - **Example** (Ctrl+2): examples to try, each with a figure: change the values and watch the results and the figure change. Then the worked example: the data, every result, the figures and the code (**Open in the Workbench** copies it to the calculator). With more than one, choose **Example 1**, **Example 2** … at the top. Nothing here counts toward your progress.
+        - **Exercise** (Ctrl+3): your turn: work out the results (by hand, or in Python or R) and press **Check my answers**, or answer the questions.
+        - **Reference** (Ctrl+4): the formulas, the Python and R functions, and the sources.
 
-        On the Learn page, **▶ Try it on the Example tab** opens the example that goes with what you have just read.
+        An item is complete when its exercise passes, when you pass its questions, or (for a reading) when you press **I have read this**. **Previous** and **Next** (top right) go through the items in order.
 
-        An item is complete when its exercise passes, when you pass its questions, or (for a reading) when you press
-        **I have read this**. **Previous** and **Next** (top right) go through the items in order.
+        A wrong answer says whether it is too high or too low, names a common mistake when it sees one, or says where to look again; never the answer itself. Try as often as you like. **Show a hint** gives one hint at a time.
 
-        A wrong answer says whether it is too high or too low, names a common mistake when it sees one, or says where to
-        look again; never the answer itself. Try as often
-        as you like. **Show a hint** gives one hint at a time.
+        ### Your progress
 
-        ## Your progress
+        Sign in on the **Who is learning?** screen (Learner ▸ Sign in). Your progress is kept in a file of your own, locked with your PIN, and saved after every step. **Learner ▸ Back up my progress** saves a copy to a USB drive or a cloud folder. **Learner ▸ Sign out** saves and locks it; so does closing Statistics+, and so does leaving the computer unused for a while.
 
-        Sign in on the **Who is learning?** screen (Learner ▸ Sign in). Your progress is kept in a file of your own, locked
-        with your PIN, and saved after every step. **Learner ▸ Back up my progress** saves a copy to a USB drive or a cloud
-        folder. **Learner ▸ Sign out** saves and locks it; so does closing Statistics+, and so does leaving the computer
-        unused for a while.
+        ### The Workbench
 
-        ## The Workbench
+        The **Workbench** (in PlusBook Tools, the Workbench button at the top, or Ctrl+B) is the calculator, for your own data and assignments: data tables, every analysis, the report, the plots and the Python and R. **Course** (Ctrl+L) comes back here.
 
-        The **Workbench** (Ctrl+B) is the calculator, for your own data and assignments: data tables, every analysis, the
-        report, the plots and the Python and R. **Course** (Ctrl+L) comes back here.
+        ### Handing in your work
 
-        ## Handing in your work
+        When you finish a module check, your instructor may ask for a **progress report**. **Hand in a report** (in PlusBook Tools, at the top of the path; also Learner ▸ Hand in a progress report, and the button on My progress and on each module check) makes a signed PDF: your scores, your outcomes, and the results of each exercise you passed with its figure.
 
-        When you finish a module check, your instructor may ask for a **progress report**. **Learner ▸ Hand in a
-        progress report** (or the **Hand in a progress report** button on My progress and on each module check) makes a
-        signed PDF: your scores, your outcomes, and the results of each exercise you passed with its figure.
-
-        - The first time, **My details for reports** asks for what goes on the cover. Only your name is needed; type
-          the **class code** if your instructor gave you one.
+        - The first time, **My details for reports** asks for what goes on the cover. Only your name is needed; type the **class code** if your instructor gave you one.
         - A report made before the check is complete says **Incomplete** and lists what is missing.
-        - Upload the PDF **exactly as saved**. Renaming it is fine; opening and saving it again, or printing it to PDF,
-          breaks its seal, and your instructor's check says it was changed.
+        - Upload the PDF **exactly as saved**. Renaming it is fine; opening and saving it again, or printing it to PDF, breaks its seal, and your instructor's check says it was changed.
         - The **result line** is a one-line summary to paste where your instructor asks.
 
         It is not the Workbench's analysis report (File ▸ Save report as PDF), which is not signed.
 
-        **Instructors:** File ▸ Check reports and class codes (for instructors) checks a report or a result line, and
-        makes a class code. Help on the web has a page for instructors.
+        **Instructors:** File ▸ Check reports and class codes (for instructors) checks a report or a result line, and makes a class code. Help on the web has a page for instructors.
 
-        More help: Help ▸ Help on the web.
+        ### Room on the screen
+
+        **Hide help ▸**, the light blue bar at the top of this panel, hides help to the right; the light blue **Help (F1)** strip at the right edge, or F1, opens it again. While you are signed in, Statistics+ remembers your choice, and whether PlusBook Learning's block is folded.
+
+        More help: Help ▸ Help on the web, or Help ▸ Send feedback to tell us what is missing.
         """;
 
     // ── What the right side shows ─────────────────────────────────────────────
@@ -405,6 +625,7 @@ public sealed class CoursePage : UserControl
     private void Open(PathNode node)
     {
         if (node.IsDashboard) ShowDashboard();
+        else if (node.IsReports) ShowReports();
         else if (node.Item is { } item) ShowItem(item);
         else if (node.Module is { } module) ShowModule(module);
     }
@@ -440,6 +661,10 @@ public sealed class CoursePage : UserControl
         page.Children.Add(buttons);
         page.Children.Add(new MarkdownView { Markdown = DashboardPage.Markdown(_content.Package, Progress) });
         _right.Content = page;
+        ScreenHelp("My progress",
+            "Your progress through the whole course: each module, the module checks, the outcomes to review, and your time. " +
+            "**Continue with** opens the next item that is not complete. At a module check, make a report to hand in: **Hand in a report**, the next row in PlusBook Tools. " +
+            "Choose a module or an item on the left to work on it." + (_session is null ? " You are not signed in, so nothing here is kept: Learner ▸ Sign in." : ""));
         Status?.Invoke("My progress: each module, the module checks, outcomes to review, and your time. Choose a module or an item on the left to work on it.");
     }
 
@@ -452,7 +677,11 @@ public sealed class CoursePage : UserControl
         head.Children.Add(new TextBlock { Text = $"Module {m.Number} · {m.Title}", FontSize = 20, FontWeight = FontWeights.SemiBold, TextWrapping = TextWrapping.Wrap });
         head.Children.Add(new TextBlock
         {
-            Text = $"{p.Complete} of {p.Total} items complete" + (m.Minutes > 0 ? $" · about {Hours(m.Minutes)}" : ""),
+            // Plan W.6 (Ron, 2026-11-23): a module still to come says "In development", not "Coming later".
+            Text = m.Status == ModuleStatus.ComingLater
+                ? "In development: it comes in a later version of Statistics+, and is in the path so you can see where it fits."
+                : $"{p.Complete} of {p.Total} items complete" + (m.Minutes > 0 ? $" · about {Hours(m.Minutes)}" : ""),
+            TextWrapping = TextWrapping.Wrap,
             Foreground = LearningTheme.Brush("MutedTextBrush"), Margin = new Thickness(0, 2, 0, 6),
         });
         var first = m.Items.FirstOrDefault(i => Progress.StateOf(i) != ItemState.Complete) ?? m.Items.FirstOrDefault();
@@ -470,6 +699,9 @@ public sealed class CoursePage : UserControl
         page.Children.Add(head);
         page.Children.Add(new MarkdownView { Markdown = ModuleMarkdown(m) });
         _right.Content = page;
+        ScreenHelp("a module",
+            "A module's first page: what you will be able to do when you finish it (its outcomes, each with its mark), its items and where you are with each, and what the module is about. " +
+            "Press the button under the title to start (or go on), or choose an item on the left. The arrow beside a module folds or opens its items.");
         Status?.Invoke($"Module {m.Number}: what it teaches and its items. Choose an item on the left, or press {(first is null ? "an item" : "the button")} to begin.");
     }
 
@@ -611,6 +843,12 @@ public sealed class CoursePage : UserControl
         ShowItemStatus();
         _tabs.SelectedItem = _learnTab;
         _right.Content = _itemPage;
+        ScreenHelp(item.Kind == ItemKind.Assess ? "a module check" : "an item",
+            item.Kind == ItemKind.Assess
+                ? "The module check: questions on the whole module, on the Exercise tab (Ctrl+3). It is complete when the items it covers are complete and you pass its questions (80 %). " +
+                  "Then make a report to hand in: **Hand in a progress report** at the top right, or **Hand in a report** in PlusBook Tools."
+                : "One topic of the course, in four tabs: **Learn** (Ctrl+1), **Example** (Ctrl+2), **Exercise** (Ctrl+3) and **Reference** (Ctrl+4). Read, try the example, then do the exercise. " +
+                  "The line under the title says where you are with it. **Previous** and **Next** (top right) go through the items in order.");
         Status?.Invoke($"{item}: {_learnFooter.Text}");
     }
 
@@ -882,7 +1120,7 @@ public sealed class CoursePage : UserControl
         header.SetBinding(TextBlock.TextProperty, new Binding(nameof(PathNode.Header)));
         header.SetBinding(TextBlock.FontWeightProperty, new Binding(nameof(PathNode.Weight)));
         header.SetValue(TextBlock.TextWrappingProperty, TextWrapping.Wrap);
-        header.SetValue(TextBlock.MaxWidthProperty, 250.0);
+        header.SetBinding(TextBlock.MaxWidthProperty, new Binding(nameof(PathNode.TextWidth)));
         top.AppendChild(mark);
         top.AppendChild(header);
         var detail = new FrameworkElementFactory(typeof(TextBlock));
@@ -891,7 +1129,7 @@ public sealed class CoursePage : UserControl
         detail.SetValue(TextBlock.ForegroundProperty, LearningTheme.Brush("MutedTextBrush"));
         detail.SetValue(TextBlock.MarginProperty, new Thickness(18, 0, 0, 0));
         detail.SetValue(TextBlock.TextWrappingProperty, TextWrapping.Wrap);
-        detail.SetValue(TextBlock.MaxWidthProperty, 250.0);
+        detail.SetBinding(TextBlock.MaxWidthProperty, new Binding(nameof(PathNode.TextWidth)));
         panel.AppendChild(top);
         panel.AppendChild(detail);
         template.VisualTree = panel;

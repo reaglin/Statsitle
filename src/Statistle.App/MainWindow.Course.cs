@@ -113,6 +113,11 @@ public partial class MainWindow
         _coursePage.Status += text => _workspace.Status = text;
         _coursePage.OpenInWorkbench += OpenTaskInWorkbench;
         _coursePage.SignInRequested += () => ShowLearnerScreen();
+        _coursePage.WorkbenchRequested += () =>
+        {
+            ShowWorkbench();
+            _workspace.Status = "The Workbench, the calculator (it is in PlusBook Tools too). Course (Ctrl+L) takes you back.";
+        };
         CoursePane.Content = _coursePage;
         Closing += (_, _) => EndSession();
         UpdateLearnerUi();

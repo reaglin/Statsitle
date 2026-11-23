@@ -35,6 +35,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 > (`TrySpec`, `TryAnalysis`) that recalculates the analysis as the learner changes it; 89 examples on 83 items. `docs/CONTENT-FORMAT.md`
 > *Examples to try*; `docs/TRY-SETTINGS.md`; check an example's numbers with `STATISTLE_PRINT_TASK=<id> STATISTLE_PRINT_CHANGES="…" dotnet test tests/Statistle.Learning.Tests --filter Print_a_task`.
 > Pictures of the Course for checking by eye: `STATISTLE_COURSE_SHOTS=<folder> dotnet test tests/Statistle.App.Tests --filter CourseShots`.
+> **The window's room (2026-11-23, plan W.0–W.6, F.1):** on **Learning Core 1.10.2** (`Eaglin.Learning.Wpf` too; the core's
+> `ExamplePages` replaces this repo's copy). PlusBook Tools first in the path (My progress, Hand in a report, the Workbench); PlusBook
+> Learning's green block under the lavender tree, folding down; a light blue help panel in the Course that hides to the right (F1),
+> both kept per learner; the start screen in four coloured sections, three folded; "In development"; Help ▸ Send feedback
+> (`App.SetUpLearning` sets the site folder and version). One part, so no part rows. Tests in `WindowRoomTests.cs`. ⚠️ Ron's hand-test
+> round 2026-11-23 (parts Y–Z of `docs/MANUAL-TESTING.md`); questions Q17–Q18.
 
 **Statistle** — a Windows 10/11 desktop app that calculates the statistics of Ron's course
 EGN3443 *Probability and Statistics for Engineers* (`github.com/reaglin/egn3443`), explains

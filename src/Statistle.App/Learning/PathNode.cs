@@ -8,15 +8,24 @@ using Learning.Core.Content;
 namespace Statistle.App.Learning;
 
 /// <summary>
-/// A row of the learning path's tree (ported from PLC+): My progress, a module, or an item, with its mark
+/// A row of the learning path's tree (ported from PLC+): PlusBook Tools and its rows, a module, or an item, with its mark
 /// (★ mastered, ✓ complete, ↺ review suggested, ◐ in progress, ○ not started), a line of detail, the words a screen reader
 /// says and a tooltip. Written with plain <see cref="INotifyPropertyChanged"/>, so Statistle needs no MVVM package for it.
 /// The main window may add rows of its own (the Workbench) and keep what it needs in <see cref="Tag"/>.
 /// </summary>
 public sealed class PathNode : INotifyPropertyChanged
 {
-    /// <summary>The "My progress" row at the top of the tree.</summary>
+    /// <summary>The "My progress" row, first in PlusBook Tools (plan W.2).</summary>
     public bool IsDashboard { get; init; }
+
+    /// <summary>"PlusBook Tools" (plan W.2): the folding row first in the path that holds My progress, Hand in a report and the Workbench.</summary>
+    public bool IsCommon { get; init; }
+
+    /// <summary>The "Hand in a report" row in PlusBook Tools (plan W.2).</summary>
+    public bool IsReports { get; init; }
+
+    /// <summary>A tool's row in PlusBook Tools: here the Workbench (Learning Core plan 3.23). Choosing it opens the tool.</summary>
+    public bool IsTool { get; init; }
 
     /// <summary>The module of a module row, or the module an item row is in.</summary>
     public LearningModule? Module { get; init; }
@@ -24,7 +33,14 @@ public sealed class PathNode : INotifyPropertyChanged
     /// <summary>The item of an item row.</summary>
     public LearningItem? Item { get; init; }
 
+    /// <summary>The row this one is under: an item's module, a row's PlusBook Tools (null at the top of the tree).</summary>
     public PathNode? Parent { get; init; }
+
+    /// <summary>How far in the row sits (0 at the top), so its words wrap inside the path's column.</summary>
+    public int Depth => Parent is null ? 0 : Parent.Depth + 1;
+
+    /// <summary>The width the row's words wrap at: each level in the tree is indented 19 px.</summary>
+    public double TextWidth => 250 - 19 * Depth;
 
     /// <summary>Anything the window keeps with a row of its own (a Workbench node, say). The path never reads it.</summary>
     public object? Tag { get; init; }

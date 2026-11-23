@@ -22,7 +22,7 @@ public static class StatsReports
     public static ReportOptions Options => new("Statistics+", LearnerPlaces.AppVersion, "STAT1", "StatisticsPlus");
 
     public static readonly ReportWords Words = new(
-        "To check it, an instructor opens Statistics+ and chooses File, then Check reports and class codes (for instructors), or the same button on the Who is learning? screen.",
+        "To check it, an instructor opens Statistics+ and chooses File, then Check reports and class codes (for instructors), or the same button in Course Tools on the start screen.",
         "Counted only while the learner was using Statistics+ (a key or the mouse in the last two minutes), so it is a lower bound.")
     {
         EvidenceHeading = "Exercise evidence",

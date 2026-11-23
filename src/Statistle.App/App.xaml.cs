@@ -62,7 +62,7 @@ public partial class App : Application
             // Nothing to do: the folder and the sample are a convenience, not a requirement.
         }
 
-        global::Learning.Core.LearningApp.Name = "Statistics+";
+        SetUpLearning();
         var window = new MainWindow();
         MainWindow = window;
         window.Show();
@@ -76,4 +76,17 @@ public partial class App : Application
         SampleProjects.Demonstration().Save(Path.Combine(folder, SampleProjects.DemonstrationFileName));
     }
 
+
+    /// <summary>
+    /// What the Learning Core packages need to know about Statistics+, set once at start-up (and by the tests): its name, its folder
+    /// on softwareplus.ai (Help ▸ Send feedback, plan F.1), its Store ID and the version people read.
+    /// </summary>
+    public static void SetUpLearning()
+    {
+        global::Learning.Core.LearningApp.Name = "Statistics+";
+        global::Learning.Wpf.LearningProgram.SiteFolder = "statistle";
+        global::Learning.Wpf.LearningProgram.StoreId = "9MV608S7M9X6";
+        var v = typeof(App).Assembly.GetName().Version;
+        if (v is not null) global::Learning.Wpf.LearningProgram.Version = $"{v.Major}.{v.Minor}.{v.Build}";
+    }
 }

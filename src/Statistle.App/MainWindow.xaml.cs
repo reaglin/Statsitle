@@ -660,12 +660,12 @@ public partial class MainWindow : Window
     private void About_Click(object sender, RoutedEventArgs e) =>
         new Views.AboutWindow { Owner = this }.ShowDialog();
 
-    /// <summary>F1 / Help ▸ Help for this screen: the Instructions tab for whatever is selected.</summary>
+    /// <summary>F1 / Help ▸ Help for this screen: in the Course, help on the right shows or hides; in the Workbench, the Instructions tab.</summary>
     private void HelpForScreen_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
     {
         if (CourseMode.IsChecked == true && _coursePage is not null)
         {
-            _coursePage.ShowHelp();
+            _coursePage.ToggleHelp(); // plan W.4: help hides to the right and opens again; the focus stays where it was
             return;
         }
 
@@ -674,6 +674,9 @@ public partial class MainWindow : Window
     }
 
     private void WebHelp_Click(object sender, RoutedEventArgs e) => WebHelp.Open(this, "index.html");
+
+    /// <summary>Help ▸ Send feedback… (plan F.1; portfolio rule 2026-11-20): the form on softwareplus.ai with Statistics+ and its version.</summary>
+    private void Feedback_Click(object sender, RoutedEventArgs e) => global::Learning.Wpf.Feedback.Open(this);
 
     private void WebHelpForItem_Click(object sender, RoutedEventArgs e) => WebHelp.Open(this, _workspace.WebHelpPage);
 

@@ -62,6 +62,11 @@ public partial class LearnerScreen : UserControl
         LockedBanner.Visibility = banner is null ? Visibility.Collapsed : Visibility.Visible;
         LockedText.Text = banner ?? "";
         Say(null);
+        // Plan W.5 (Ron, 2026-11-23): the start screen opens with its sections folded, so a person sees every option at a glance (the
+        // banner and the messages sit above the sections, so folding never hides them). A learner the idle lock signed out comes back
+        // to Who is learning? open, with their name chosen, ready for the PIN.
+        WhoExpander.IsExpanded = selectProfileId is not null;
+        ToolsExpander.IsExpanded = FilesExpander.IsExpanded = false;
         PinBox.Clear();
         Refresh(selectProfileId);
         Visibility = Visibility.Visible;
@@ -99,9 +104,22 @@ public partial class LearnerScreen : UserControl
 
     private void FocusFirst()
     {
+        if (!WhoExpander.IsExpanded)
+        {
+            // Folded: the focus goes to Who is learning?'s name, so Enter or Space opens it.
+            WhoExpander.ApplyTemplate();
+            if (WhoExpander.Template?.FindName("HeaderSite", WhoExpander) is UIElement header) header.Focus();
+            return;
+        }
         if (Selected is not null) PinBox.Focus();
         else if (LearnersList.Items.Count > 0) LearnersList.Focus();
         else NewButton.Focus(); // nobody here yet: the first thing to do is make a learner
+    }
+
+    /// <summary>Who is learning? opened: the focus goes to the PIN (a learner chosen), the list, or New learner.</summary>
+    private void WhoExpander_Expanded(object sender, RoutedEventArgs e)
+    {
+        if (IsLoaded) Dispatcher.BeginInvoke(DispatcherPriority.Input, FocusFirst);
     }
 
     /// <summary>
@@ -111,9 +129,12 @@ public partial class LearnerScreen : UserControl
     public void ShowHelp()
     {
         HelpTitle.BringIntoView();
+        // Added after why the screen is back (a lock, a sign-out), not in place of it (UX review 2026-11-23).
+        var why = LockedBanner.Visibility == Visibility.Visible && LockedText.Text.Length > 0 && !LockedText.Text.StartsWith("Help for this screen", StringComparison.Ordinal)
+            ? LockedText.Text.Split("\n\nHelp for this screen")[0] + "\n\n" : "";
         LockedBanner.Visibility = Visibility.Visible;
-        LockedText.Text = "Help for this screen is in the panel on the right, \"This screen: who is learning?\". " +
-                          $"More help: the Help on the web button below ({WebHelp.Display("index.html")}).";
+        LockedText.Text = why + "Help for this screen is in the panel on the right, \"This screen: who is learning?\". " +
+                          $"More help: Help on the web, in Help and information at the bottom ({WebHelp.Display("index.html")}).";
     }
 
     private void UpdateButtons()
@@ -129,16 +150,16 @@ public partial class LearnerScreen : UserControl
         ForgotButton.IsEnabled = ok;
         RemoveButton.IsEnabled = row is not null;
         ForgotButton.ToolTip = ok ? $"Set a new PIN for {row!.Name} with the recovery code given when the learner was made" : "Choose your name in the list first";
-        RemoveButton.ToolTip = row is null ? "Choose a learner in the list first"
+        RemoveButton.ToolTip = row is null ? "Choose a learner in the list under Who is learning? first"
             : !ok ? "Removes this damaged file from the list (to the Recycle Bin)"
-            : $"Takes {row.Name} off this computer (needs the PIN; offers a backup first). The file goes to the Recycle Bin. " +
+            : $"Takes {row.Name} (chosen in Who is learning?) off this computer (needs the PIN; offers a backup first). The file goes to the Recycle Bin. " +
               $"An instructor without the PIN can delete {Path.GetFileName(row.Listing.Path)} from the learners' folder instead, with Statistics+ closed";
     }
 
     private void Say(string? text)
     {
         MessageText.Text = text ?? "";
-        MessageText.Visibility = string.IsNullOrEmpty(text) ? Visibility.Collapsed : Visibility.Visible;
+        MessageBorder.Visibility = string.IsNullOrEmpty(text) ? Visibility.Collapsed : Visibility.Visible;
     }
 
     private void LearnersList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -442,6 +463,12 @@ public partial class LearnerScreen : UserControl
     private void About_Click(object sender, RoutedEventArgs e) => new Views.AboutWindow { Owner = Owner }.ShowDialog();
 
     private void WebHelp_Click(object sender, RoutedEventArgs e) => WebHelp.Open(Owner, "index.html");
+
+    private void PlusBooks_Click(object sender, RoutedEventArgs e) =>
+        global::Learning.Wpf.WebPages.Open("https://softwareplus.ai/plusbooks/", Owner, "Statistics+ — About PlusBooks");
+
+    /// <summary>Help ▸ Send feedback… (plan F.1), here too: the feedback form on softwareplus.ai with Statistics+ and its version.</summary>
+    private void Feedback_Click(object sender, RoutedEventArgs e) => global::Learning.Wpf.Feedback.Open(Owner);
 
     private async void CheckForUpdate_Click(object sender, RoutedEventArgs e)
     {

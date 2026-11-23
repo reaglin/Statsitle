@@ -32,7 +32,7 @@ public sealed class CourseDrawingTests
             try
             {
                 var opened = 0;
-                foreach (PathNode root in page.Path.Roots)
+                foreach (PathNode root in page.Path.ModuleNodes)
                 {
                     root.IsSelected = true;
                     WpfHost.Pump();

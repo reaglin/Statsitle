@@ -17,6 +17,9 @@ public sealed class StatsContent
     /// </summary>
     public static readonly IReadOnlyList<string> WidgetNames = ["figure", "data", "code", "results", "try", "example", "see-example"];
 
+    /// <summary>The widgets that count as an example's figure: something to look at or to move (not the code).</summary>
+    public static readonly IReadOnlyList<string> FigureWidgets = ["try", "figure", "data", "results"];
+
     public required ContentPackage Package { get; init; }
     public required IReadOnlyDictionary<string, StatsTask> Tasks { get; init; }
 
@@ -177,7 +180,7 @@ public sealed class StatsContent
             {
                 var widgets = Widgets.In(pages[i].Markdown).ToList();
                 if (pages[i].Title.Length == 0) yield return $"{item.File}: example {i + 1} has no title. Write it as [[example: A title]].";
-                if (!widgets.Any(w => ExamplePages.FigureWidgets.Contains(w.Name, StringComparer.OrdinalIgnoreCase)))
+                if (!widgets.Any(w => FigureWidgets.Contains(w.Name, StringComparer.OrdinalIgnoreCase)))
                     yield return $"{item.File}: example {i + 1} ({pages[i].Title}) has no figure: give it an example to try ([[try: …]]), a [[figure: …]], the [[data: …]] or the [[results: …]].";
                 if (widgets.Any(w => w.Name.Equals("see-example", StringComparison.OrdinalIgnoreCase)))
                     yield return $"{item.File}: example {i + 1} ({pages[i].Title}) has a see-example button; those go on the Learn page.";

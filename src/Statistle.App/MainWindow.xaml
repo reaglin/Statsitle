@@ -11,7 +11,7 @@
         Title="{Binding Title}" Height="820" Width="1440"
         WindowStartupLocation="CenterScreen">
 
-    <!-- F1 (and Help ▸ Help for this screen): the Instructions tab for whatever is selected. -->
+    <!-- F1 (and Help ▸ Help for this screen): in the Course, help on the right shows or hides; in the Workbench, the Instructions tab. -->
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.Help" Executed="HelpForScreen_Executed" />
     </Window.CommandBindings>
@@ -497,10 +497,13 @@
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Header="_Help for this screen" Command="ApplicationCommands.Help" InputGestureText="F1"
-                          ToolTip="Help about the screen you are on: in the Course, how the Course works; in the Workbench, the Instructions tab for what is selected." />
+                          ToolTip="Help about the screen you are on: in the Course, shows or hides the help panel on the right (what this screen is for and how to use the book); in the Workbench, the Instructions tab for what is selected." />
                 <MenuItem Header="Help on the _web (softwareplus.ai/statistle)" Click="WebHelp_Click"
                           ToolTip="Opens Statistics+'s help on SoftwarePlus.ai in your web browser" />
                 <Separator />
+                <!-- Plan F.1 (portfolio rule 2026-11-20): the same words in every program, from Eaglin.Learning.Wpf. -->
+                <MenuItem Header="Send _feedback…" Click="Feedback_Click"
+                          ToolTip="Tell us about a bug, a suggestion or anything you noticed — it goes to Dr. Ron Eaglin." />
                 <MenuItem Header="Check for a _new version…" Click="CheckForUpdate_Click" ToolTip="Asks the Microsoft Store whether a newer version of Statistics+ is out, and offers to install it" />
                 <MenuItem Header="_About Statistics+…" Click="About_Click"
                           ToolTip="Who made Statistics+, its version, and links to its page, its Store page, all programs and the privacy policy" />

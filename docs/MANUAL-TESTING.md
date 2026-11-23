@@ -20,6 +20,55 @@ version says it cannot check and offers the Store page — that is expected.
 
 ---
 
+## Round 2026-11-23 — the window's room and Send feedback (plan W.1–W.6, F.1)
+
+The PlusBook window from WebDevelopment+ and PythonProgramming+, on Learning Core 1.10.2. Use `manual-test\Statistle.exe`.
+
+### Y. The start screen in sections (W.5, F.1)
+
+Y1. Start Statistics+. The start screen has four sections, each its own light colour with a border: **Who is learning?** (green),
+    **Course Tools (no login required)** (amber), **Learner files** (lavender), all three **folded**, and **Help and information**
+    (blue) open at the bottom. A bold line above them says how to open a section.
+Y2. Choose **Who is learning?** (its name or the arrow): your name, the PIN box, Open, New learner and Forgot my PIN are there. Press
+    Tab from the start: the focus lands on Who is learning?'s name first, and Space opens it.
+Y3. Open **Course Tools**: **Just the Workbench (no sign-in)** and **Check reports and class codes (for instructors)**, with a line
+    saying what each is for. Open **Learner files**: Add learner from file, Remove from this computer, Open the learners' folder,
+    Settings, and where the files are kept.
+Y4. **Help and information**: the About PlusBooks paragraph and its link (softwareplus.ai/plusbooks opens in the browser), Help on
+    the web, **Send feedback…**, Check for a new version, About Statistics+, Exit. Buttons are white and rounded with the section's
+    colour as their border, tinted under the mouse; Tab shows a dark outline.
+Y5. **Send feedback…** opens `softwareplus.ai/feedback/?program=statistle&version=2.0.0` in the browser (do not need to send anything).
+Y6. Sign in, then Learner ▸ Sign out: the screen comes back folded. Sign in and leave the computer alone past the lock time (or set
+    Settings to 1 minute): when it locks, **Who is learning?** is open with your name chosen, ready for the PIN.
+Y7. The help panel on the right of the start screen is light blue and mentions the four sections.
+
+### Z. The Course: PlusBook Learning, PlusBook Tools and help (W.1–W.4, W.6, F.1)
+
+Z1. Sign in. On the left, the path is lavender: **+ PlusBook Tools** first, then the modules 0 to 14 (no part rows: the book has one
+    part). Under the tree, a light green block titled **PlusBook Learning** with your totals, your time, the key (ending "– in
+    development") and **Collapse Menu**.
+Z2. Open PlusBook Tools: **My progress**, **Hand in a report** (with how many module checks are complete), **Workbench**. Choose
+    each: My progress shows; Hand in a report shows the report page; Workbench switches to the Workbench (Course, Ctrl+L, comes back
+    to the page you were on). Choose Workbench again from the Course: it works the second time too.
+Z3. Choose the name **PlusBook Tools** while a module is showing: it opens and My progress shows.
+Z4. Open Modules 2 and 5 with their arrows: each opens on its own. **Collapse Menu** folds them all (and PlusBook Tools). Then
+    Next ▸ from an item, or Continue with on My progress: only that item's module opens and its row scrolls into sight.
+Z5. With an item on screen, fold its module with the arrow: the item stays on the right.
+Z6. Choose **PlusBook Learning** (the block's title): the block folds down to its title and the tree gets taller. Sign out and in:
+    it is still folded. Open it again.
+Z7. Help is on the right in light blue, with a **Hide help ▸** bar across its top. It starts with "This screen: …" for the page you
+    are on (My progress, a module, an item, a module check, Hand in a report), then How to use this PlusBook. Press **Hide help ▸**:
+    help hides and a narrow light blue **◂ Help (F1)** strip stays at the right edge; the page is wider. Press the strip: help comes
+    back. F1 does the same in the Course (in the Workbench, F1 still opens Instructions). Hide it, sign out and in: still hidden.
+    Another learner (or nobody) sees it open.
+Z8. Help ▸ **Send feedback…** (the main menu) opens the same feedback page as Y5.
+Z9. Module 0 → **0.1 How Statistics+ works**: the "list on the left" section describes PlusBook Tools, Collapse Menu and the green
+    block; "When you are stuck" describes Hide help, the Help strip and Send feedback. Do they match what you see?
+Z10. Every module of this book is written, so "In development" shows nowhere in Statistics+ today (W.6 changes the wording for a
+    module still to come; the tests check it).
+
+---
+
 ## Round 2026-11-17 — examples to try on the Example tab (plan 17.1–17.3)
 
 ### X. The PlusBook pattern: the Try it goes on the Example tab, always with a figure

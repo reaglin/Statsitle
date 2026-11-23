@@ -8,8 +8,10 @@
 
   <ItemGroup>
     <!-- The shared learning engine (learners, PINs, progress, quizzes, the dashboard), from the local feed C:\nuget-local. -->
-    <PackageReference Include="Eaglin.Learning.Core" Version="1.2.0" />
-    <PackageReference Include="Eaglin.Learning.Reports.Pdf" Version="1.2.0" />
+    <PackageReference Include="Eaglin.Learning.Core" Version="1.10.2" />
+    <PackageReference Include="Eaglin.Learning.Reports.Pdf" Version="1.10.2" />
+    <!-- The window parts every PlusBook shares (Help ▸ Send feedback). -->
+    <PackageReference Include="Eaglin.Learning.Wpf" Version="1.10.2" />
   </ItemGroup>
 
   <ItemGroup>

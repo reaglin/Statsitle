@@ -10,9 +10,9 @@ namespace Statistle.App.Learning;
 
 /// <summary>
 /// The learning path's tree (ported from PLC+'s ShellViewModel): <see cref="Build"/> makes the rows once from the content
-/// package — My progress at the top, then each module with its items — and <see cref="Refresh"/> puts every row's mark and
-/// words for a learner's progress (call it after sign-in and after anything that changes progress). PLC+'s "Hand in a report"
-/// row is not here: reports come in a later phase. The main window adds its Workbench rows after these.
+/// package — PlusBook Tools first (My progress, Hand in a report, the Workbench; plan W.2), then each module with its items —
+/// and <see cref="Refresh"/> puts every row's mark and words for a learner's progress (call it after sign-in and after anything
+/// that changes progress). The book has one part, so the path has no part rows (plan W.1): the modules sit at the top.
 /// </summary>
 public sealed class LearningPath
 {
@@ -24,8 +24,32 @@ public sealed class LearningPath
         ArgumentNullException.ThrowIfNull(package);
         Package = package;
         _order = [.. package.AllItems];
-        Dashboard = new PathNode { IsDashboard = true, Weight = FontWeights.SemiBold, Header = "My progress", Mark = "▤" };
-        Roots.Add(Dashboard);
+        // Plan W.2 (Ron, 2026-11-23): the rows that are not the book's materials share one folding row of their own, PlusBook Tools,
+        // first in the path, so the book's materials come first when it is folded.
+        Common = new PathNode
+        {
+            IsCommon = true, Weight = FontWeights.Bold, Header = "PlusBook Tools", Mark = "+",
+            Detail = "My progress, Hand in a report and the Workbench",
+            SpokenName = "PlusBook Tools: my progress, hand in a report and the Workbench",
+            Tip = "My progress, Hand in a report and the Workbench. The arrow beside it (or the → and ← keys) opens and folds them; choosing its name opens My progress",
+        };
+        Roots.Add(Common);
+        Dashboard = new PathNode { IsDashboard = true, Weight = FontWeights.SemiBold, Header = "My progress", Mark = "▤", Parent = Common };
+        Common.Children.Add(Dashboard);
+        Reports = new PathNode
+        {
+            IsReports = true, Weight = FontWeights.SemiBold, Header = "Hand in a report", Mark = "✉", Parent = Common,
+            Tip = "Makes a signed progress report (PDF) of a module check, or of everything so far, to hand in to your instructor",
+        };
+        Common.Children.Add(Reports);
+        Workbench = new PathNode
+        {
+            IsTool = true, Weight = FontWeights.SemiBold, Header = "Workbench", Mark = "∑", Parent = Common,
+            Detail = "The calculator: your own data and every analysis",
+            SpokenName = "Workbench: the calculator, for your own data and every analysis",
+            Tip = "Opens the Workbench, the statistics calculator, for your own data and assignments (Ctrl+B). Nothing there counts toward your progress; Course (Ctrl+L) comes back",
+        };
+        Common.Children.Add(Workbench);
         foreach (var m in package.Modules)
         {
             var node = new PathNode { Module = m, Weight = FontWeights.SemiBold, Header = $"{m.Number}. {m.Title}" };
@@ -47,11 +71,52 @@ public sealed class LearningPath
     /// <summary>The learner's progress the marks were last drawn for.</summary>
     public LearningProgress Progress { get; private set; } = NoOne;
 
-    /// <summary>The rows at the top of the tree: My progress, then the modules (each with its items as children).</summary>
+    /// <summary>The rows at the top of the tree: PlusBook Tools, then the modules (each with its items as children).</summary>
     public ObservableCollection<PathNode> Roots { get; } = [];
+
+    /// <summary>PlusBook Tools (plan W.2): the folding row that holds My progress, Hand in a report and the Workbench.</summary>
+    public PathNode Common { get; }
 
     /// <summary>The My progress row.</summary>
     public PathNode Dashboard { get; }
+
+    /// <summary>The Hand in a report row.</summary>
+    public PathNode Reports { get; }
+
+    /// <summary>The Workbench row (the book's tool).</summary>
+    public PathNode Workbench { get; }
+
+    /// <summary>Every module's row, in the book's order.</summary>
+    public IEnumerable<PathNode> ModuleNodes => Roots.Where(n => n.Module is not null && n.Item is null);
+
+    /// <summary>Every row in the tree, at any depth.</summary>
+    public IEnumerable<PathNode> AllNodes => Roots.SelectMany(Self);
+
+    private static IEnumerable<PathNode> Self(PathNode n) => n.Children.SelectMany(Self).Prepend(n);
+
+    /// <summary>Collapse Menu (plan W.1, W.5): PlusBook Tools and every module fold, so the path shows the modules only.</summary>
+    public void FoldAll()
+    {
+        foreach (var n in AllNodes) n.IsExpanded = false;
+    }
+
+    /// <summary>The rows that hold this one open, so it can be seen (the others stay as they are).</summary>
+    public static void OpenTo(PathNode node)
+    {
+        ArgumentNullException.ThrowIfNull(node);
+        for (var p = node.Parent; p is not null; p = p.Parent) p.IsExpanded = true;
+    }
+
+    /// <summary>Chooses a row (again, if it is already chosen, so its page shows again), opening the rows that hold it.</summary>
+    public static void Choose(PathNode node)
+    {
+        OpenTo(node);
+        node.IsSelected = false;
+        node.IsSelected = true;
+    }
+
+    /// <summary>After every <see cref="Refresh"/>: the totals and the time have changed (the block under the tree shows them).</summary>
+    public event Action? Refreshed;
 
     /// <summary>"12 of 98 items · 2 of 15 modules complete", for the status bar.</summary>
     public string TotalsText { get; private set; } = "";
@@ -76,8 +141,11 @@ public sealed class LearningPath
                            (review > 0 ? $" · {review} to review" : "");
         Dashboard.SpokenName = "My progress: " + Dashboard.Detail;
         Dashboard.Tip = $"Your progress through the whole path: each module, the module checks, outcomes to review, and your time in {LearningApp.Name}";
+        var ready = summary.Submissions.Count(x => x.State != SubmissionState.NotReached);
+        Reports.Detail = $"A signed PDF for your instructor · {ready} of {summary.Submissions.Count} module checks complete";
+        Reports.SpokenName = "Hand in a report: " + Reports.Detail;
 
-        foreach (var node in Roots.Where(r => r.Module is not null && r.Item is null))
+        foreach (var node in ModuleNodes)
         {
             var entry = summary.Modules.FirstOrDefault(e => e.Module == node.Module);
             if (entry is null) continue;
@@ -93,7 +161,7 @@ public sealed class LearningPath
             };
             node.Detail = entry.State switch
             {
-                PathState.ComingLater => "Coming later",
+                PathState.ComingLater => "In development", // Ron, 2026-11-23 (plan W.6): not "Coming later"
                 PathState.Outline => $"{entry.Complete} of {entry.Total} complete · outline",
                 PathState.Mastered => $"{entry.Complete} of {entry.Total} complete · mastered{StatusWords(m)}",
                 PathState.NeedsReview => $"{entry.Complete} of {entry.Total} complete · review suggested{StatusWords(m)}",
@@ -125,6 +193,7 @@ public sealed class LearningPath
         }
         TotalsText = $"{summary.Totals.ItemsComplete} of {summary.Totals.Items} items · {summary.Totals.ModulesComplete} of {summary.Totals.Modules} modules complete";
         TimeText = TimeWords(Progress, now);
+        Refreshed?.Invoke();
     }
 
     /// <summary>"Time in Statistics+: 3 h 10 min (today 25 min)", or "none yet".</summary>
@@ -180,10 +249,10 @@ public sealed class LearningPath
     }
 
     /// <summary>The row of an item, or null.</summary>
-    public PathNode? NodeOf(LearningItem item) => Roots.SelectMany(r => r.Children).FirstOrDefault(n => n.Item == item);
+    public PathNode? NodeOf(LearningItem item) => ModuleNodes.SelectMany(r => r.Children).FirstOrDefault(n => n.Item == item);
 
     /// <summary>The row of a module, or null.</summary>
-    public PathNode? NodeOf(LearningModule module) => Roots.FirstOrDefault(r => r.Module == module && r.Item is null);
+    public PathNode? NodeOf(LearningModule module) => ModuleNodes.FirstOrDefault(r => r.Module == module);
 
     /// <summary>The item after this one in the path (Next), or null at the end.</summary>
     public LearningItem? NextInOrder(LearningItem item)
@@ -203,7 +272,7 @@ public sealed class LearningPath
     public void Select(LearningItem item)
     {
         if (NodeOf(item) is not { } node) return;
-        if (node.Parent is { } parent) parent.IsExpanded = true;
+        OpenTo(node); // only its module opens; the others stay as they are (plan W.1)
         node.IsSelected = true;
     }
 }

@@ -7,18 +7,21 @@
     <!-- The start screen (ported from PLC+, plan 9.1): every learner on this computer; choose your name, type your PIN, press Open.
          Or Just the Workbench: the calculator without signing in (plan D2, 9.5). The theme is merged in code (LearningTheme). -->
     <DockPanel>
-        <Border DockPanel.Dock="Right" Width="320" Background="{DynamicResource PanelBrush}" BorderBrush="{DynamicResource LineBrush}"
+        <Border DockPanel.Dock="Right" Width="320" Background="{StaticResource HelpPanelBrush}" BorderBrush="{StaticResource HelpBarLineBrush}"
                 BorderThickness="1,0,0,0" Padding="18,18">
             <ScrollViewer VerticalScrollBarVisibility="Auto" Focusable="False">
                 <StackPanel>
                     <TextBlock x:Name="HelpTitle" Text="This screen: who is learning?" Style="{DynamicResource PanelTitle}" AutomationProperties.HeadingLevel="Level2" />
                     <TextBlock Style="{DynamicResource Lead}" Foreground="{DynamicResource InkBrush}"
-                               Text="Each learner's progress is kept in a file of their own, locked with their PIN. Choose your name, type your PIN and press Open. New here? Press New learner." />
+                               Text="Each learner's progress is kept in a file of their own, locked with their PIN. Open Who is learning?, choose your name, type your PIN and press Open. New here? Open Who is learning? and press New learner." />
+                    <TextBlock Text="The four sections" FontWeight="SemiBold" Margin="0,6,0,2" />
+                    <TextBlock Style="{DynamicResource Lead}"
+                               Text="Who is learning? (green) is where you sign in. Course Tools (amber) work without signing in. Learner files (lavender) bring a progress file in, take one off this computer, and say where the files are kept. Help and information (blue) is at the bottom. The sections start folded so you can see them all; choose a section's name, or the arrow beside it, to open or fold it." />
                     <TextBlock Text="Just the calculator?" FontWeight="SemiBold" Margin="0,6,0,2" />
                     <TextBlock Style="{DynamicResource Lead}"
-                               Text="Just the Workbench opens the statistics calculator (data tables, analyses, Report, Plots and Code) without signing in, for your own assignments. Nothing is recorded as progress, and you can sign in later from the Learner menu." />
+                               Text="Just the Workbench (in Course Tools) opens the statistics calculator (data tables, analyses, Report, Plots and Code) without signing in, for your own assignments. Nothing is recorded as progress, and you can sign in later from the Learner menu." />
                     <TextBlock Text="Instructors" FontWeight="SemiBold" Margin="0,6,0,2" />
-                    <TextBlock Style="{DynamicResource Lead}"><Run Text="To try Statistics+ yourself, press New learner with any name and PIN; Remove takes it off again. To check a student's progress report or result line, press " /><Bold>Check reports and class codes (for instructors)</Bold><Run Text=" at the bottom of this screen. No sign-in is needed." /></TextBlock>
+                    <TextBlock Style="{DynamicResource Lead}"><Run Text="To try Statistics+ yourself, press New learner (in Who is learning?) with any name and PIN; Remove (in Learner files) takes it off again. To check a student's progress report or result line, press " /><Bold>Check reports and class codes (for instructors)</Bold><Run Text=" in Course Tools. No sign-in is needed." /></TextBlock>
                     <TextBlock Text="Your PIN" FontWeight="SemiBold" Margin="0,6,0,2" />
                     <TextBlock Style="{DynamicResource Lead}"
                                Text="4 to 6 digits that you chose. After 5 wrong tries Statistics+ makes you wait a little before the next, and the wait grows. Forgot it? Choose your name and press Forgot my PIN: your recovery code sets a new one." />
@@ -36,93 +39,167 @@
         </Border>
 
         <ScrollViewer VerticalScrollBarVisibility="Auto" Focusable="False">
-            <StackPanel MaxWidth="760" Margin="40,28,40,24" HorizontalAlignment="Left">
-                <TextBlock Text="Statistics+" FontSize="30" FontWeight="SemiBold" Foreground="{DynamicResource AccentBrush}" />
+            <StackPanel MaxWidth="760" Margin="40,24,40,24" HorizontalAlignment="Left">
+                <TextBlock Text="Statistics+" FontSize="30" FontWeight="SemiBold" Foreground="{DynamicResource AccentBrush}" AutomationProperties.HeadingLevel="Level1" />
                 <TextBlock Style="{DynamicResource Lead}" Foreground="{DynamicResource InkBrush}" Margin="0,0,0,6"
                            Text="Learn the statistics of engineering step by step: read, try a worked example, then do the exercise, with the calculator beside you. Each person who learns on this computer has a progress file of their own." />
-                <TextBlock Text="Who is learning?" Style="{DynamicResource SectionTitle}" AutomationProperties.HeadingLevel="Level1" />
+                <!-- Plan W.5 (Ron, 2026-11-23): the sections start folded, so every option shows at a glance; this line says how to open one. -->
+                <TextBlock x:Name="SectionsHint" Style="{DynamicResource Lead}" Foreground="{DynamicResource InkBrush}" FontWeight="SemiBold" Margin="0,0,0,12"
+                           Text="Choose a section's name (or the arrow beside it) to open it: Who is learning? to sign in or start as a new learner, Course Tools to use the Workbench or check a report without signing in, Learner files for progress files." />
 
-                <!-- Shown when Statistics+ locked itself, or after Switch learner. -->
-                <Border x:Name="LockedBanner" Visibility="Collapsed" Background="#EEF3F8" BorderBrush="#9DB4CC" BorderThickness="1" CornerRadius="4" Padding="12,8" Margin="0,6,0,10">
+                <!-- Above the sections, so folding one never hides them: why the screen is back, and what a button did. -->
+                <Border x:Name="LockedBanner" Visibility="Collapsed" Background="#FFFFFF" BorderBrush="#9DB4CC" BorderThickness="1" CornerRadius="4" Padding="12,8" Margin="0,0,0,10">
                     <TextBlock x:Name="LockedText" TextWrapping="Wrap" Foreground="#1B2430" AutomationProperties.LiveSetting="Polite" />
                 </Border>
-
-                <TextBlock x:Name="LeadText" Style="{DynamicResource Lead}" Foreground="{DynamicResource InkBrush}"
-                           Text="Choose your name, type your PIN and press Open." />
-
-                <TextBlock x:Name="EmptyText" Visibility="Collapsed" Style="{DynamicResource Lead}" Foreground="{DynamicResource InkBrush}" Margin="0,8,0,12"
-                           Text="No learners on this computer yet. Press New learner to start. If you have a progress file from another computer or a backup, press Add learner from file." />
-
-                <ListBox x:Name="LearnersList" MinHeight="60" MaxHeight="360" Margin="0,4,0,10" HorizontalContentAlignment="Stretch"
-                         AutomationProperties.Name="Learners on this computer" SelectionChanged="LearnersList_SelectionChanged"
-                         MouseDoubleClick="LearnersList_MouseDoubleClick" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                         ToolTip="Everyone who learns with Statistics+ on this computer. Choose your name, then type your PIN below">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Margin="4,5" AutomationProperties.Name="{Binding Spoken}">
-                                <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="15" />
-                                <TextBlock Text="{Binding Detail}" TextWrapping="Wrap" Foreground="{DynamicResource MutedTextBrush}" />
-                                <TextBlock Text="{Binding Backup}" TextWrapping="Wrap" Foreground="{Binding BackupBrush}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem">
-                            <Setter Property="AutomationProperties.Name" Value="{Binding Spoken}" />
-                        </Style>
-                    </ListBox.ItemContainerStyle>
-                </ListBox>
-
-                <StackPanel x:Name="PinRow" Orientation="Horizontal" Margin="0,0,0,4">
-                    <Label x:Name="PinLabel" Content="_PIN:" Target="{Binding ElementName=PinBox}" Padding="0,0,8,0" VerticalAlignment="Center" FontWeight="SemiBold" />
-                    <PasswordBox x:Name="PinBox" Width="140" MaxLength="6" Padding="4,3" VerticalAlignment="Center"
-                                 AutomationProperties.Name="PIN" ToolTip="The 4 to 6 digit PIN for the learner chosen above. Press Enter or Open."
-                                 PasswordChanged="PinBox_PasswordChanged" />
-                    <Button x:Name="OpenButton" Content="_Open" IsDefault="True" Margin="8,0,0,0" Click="Open_Click"
-                            ToolTip="Opens the chosen learner's progress with the PIN you typed" />
-                </StackPanel>
-                <TextBlock x:Name="MessageText" TextWrapping="Wrap" Margin="0,4,0,10" Foreground="{DynamicResource WrongBrush}" Visibility="Collapsed"
-                           AutomationProperties.LiveSetting="Polite" />
-
-                <WrapPanel Margin="0,10,0,0">
-                    <Button x:Name="NewButton" Content="_New learner…" Click="New_Click" Margin="0,0,8,8"
-                            ToolTip="Start your own progress file: your name, an optional student ID, and a PIN" />
-                    <Button Content="_Add learner from file…" Click="Import_Click" Margin="0,0,8,8"
-                            ToolTip="Bring in a progress file from another computer or a backup. If that learner is already here, the two copies are combined and nothing is lost" />
-                    <Button x:Name="ForgotButton" Content="_Forgot my PIN…" Click="Forgot_Click" Margin="0,0,8,8"
-                            ToolTip="Set a new PIN for the learner chosen above, with the recovery code you were given when you started" />
-                    <Button x:Name="RemoveButton" Content="_Remove from this computer…" Click="Remove_Click" Margin="0,0,8,8"
-                            ToolTip="Takes the chosen learner off this computer (needs their PIN; offers a backup first). The file goes to the Recycle Bin" />
-                </WrapPanel>
-
-                <!-- Plan D2: the calculator stays, as the Workbench, and a student can use it without a learner. -->
-                <Border Background="{DynamicResource PanelBrush}" BorderBrush="{DynamicResource LineBrush}" BorderThickness="1" CornerRadius="4"
-                        Padding="14,10" Margin="0,10,0,4">
-                    <StackPanel>
-                        <TextBlock Text="Only want the calculator?" FontWeight="SemiBold" Margin="0,0,0,2" AutomationProperties.HeadingLevel="Level2" />
-                        <TextBlock Style="{DynamicResource Lead}"
-                                   Text="Open the Workbench (data tables, analyses, Report, Plots and Code) without signing in. Nothing is recorded as progress." />
-                        <Button x:Name="WorkbenchButton" Content="_Just the Workbench (no sign-in)" HorizontalAlignment="Left" Click="Workbench_Click"
-                                AutomationProperties.Name="Just the Workbench, no sign-in"
-                                ToolTip="Opens the statistics calculator on its own, for your own assignments. No learner is signed in and no progress is kept; you can sign in later" />
-                    </StackPanel>
+                <Border x:Name="MessageBorder" Visibility="Collapsed" Background="#FFFFFF" BorderBrush="#D9A3A3" BorderThickness="1" CornerRadius="4" Padding="12,8" Margin="0,0,0,10">
+                    <TextBlock x:Name="MessageText" TextWrapping="Wrap" Foreground="{DynamicResource WrongBrush}" AutomationProperties.LiveSetting="Polite" />
                 </Border>
 
-                <Separator Margin="0,14,0,10" />
-                <TextBlock x:Name="FolderText" TextWrapping="Wrap" Foreground="{DynamicResource MutedTextBrush}" Margin="0,0,0,8" />
-                <WrapPanel>
-                    <Button Content="Open the learners' fol_der" Click="OpenFolder_Click" Margin="0,0,8,8"
-                            ToolTip="Opens the folder in File Explorer. An instructor can remove the file of a student who has left (the file name is in Remove's tooltip), with Statistics+ closed" />
-                    <Button Content="_Settings…" Click="Settings_Click" Margin="0,0,8,8"
-                            ToolTip="Where learners' files are kept, and when Statistics+ locks itself. For everyone on this computer" />
-                    <Button Content="Chec_k reports and class codes (for instructors)…" Click="CheckReport_Click" Margin="0,0,8,8"
-                            ToolTip="Checks that a learner's progress report is genuine and unchanged, checks a result line, and makes a class code for your class. No sign-in needed; nothing is sent anywhere" />
-                    <Button Content="Help on the _web" Click="WebHelp_Click" Margin="0,0,8,8" ToolTip="Opens the Statistics+ help pages on softwareplus.ai in your web browser" />
-                    <Button Content="Check for a new _version…" Click="CheckForUpdate_Click" Margin="0,0,8,8"
-                            ToolTip="Asks the Microsoft Store whether a newer version of Statistics+ is out, and offers to install it" />
-                    <Button Content="A_bout Statistics+…" Click="About_Click" Margin="0,0,8,8" ToolTip="Who made Statistics+, its version, and where to find more" />
-                    <Button Content="E_xit" Click="Exit_Click" Margin="0,0,8,8" ToolTip="Closes Statistics+" />
-                </WrapPanel>
+                <!-- 1. Who is learning? (light green, like PlusBook Learning in the Course) -->
+                <Border x:Name="WhoSection" Style="{StaticResource SectionBox}" Background="{StaticResource LearningBrush}" BorderBrush="{StaticResource LearningLineBrush}">
+                    <Border.Resources>
+                        <Style TargetType="Button" BasedOn="{StaticResource SectionButton}">
+                            <Setter Property="BorderBrush" Value="{StaticResource LearningLineBrush}" />
+                        </Style>
+                    </Border.Resources>
+                    <Expander x:Name="WhoExpander" IsExpanded="False" Expanded="WhoExpander_Expanded" AutomationProperties.Name="Who is learning?"
+                              AutomationProperties.HelpText="Sign in: choose your name, type your PIN and press Open; or make a new learner. Space folds or opens this section">
+                        <Expander.Header>
+                            <TextBlock Text="Who is learning?" Style="{StaticResource SectionHeading}" FontSize="20" AutomationProperties.HeadingLevel="Level2"
+                                       ToolTip="Sign in here, or start as a new learner. The arrow folds or opens this section" />
+                        </Expander.Header>
+                        <StackPanel Margin="0,8,0,0">
+                            <TextBlock Style="{DynamicResource Lead}" Foreground="{DynamicResource InkBrush}"
+                                       Text="Everyone who learns with Statistics+ on this computer is in this list. Your progress is kept in a file of your own, locked with your PIN, so one computer can be shared by a whole class." />
+                            <TextBlock x:Name="LeadText" Style="{DynamicResource Lead}" Foreground="{DynamicResource InkBrush}" FontWeight="SemiBold"
+                                       Text="Choose your name, type your PIN and press Open." />
+
+                            <TextBlock x:Name="EmptyText" Visibility="Collapsed" Style="{DynamicResource Lead}" Foreground="{DynamicResource InkBrush}" Margin="0,8,0,12"
+                                       Text="No learners on this computer yet. Press New learner to start. If you have a progress file from another computer or a backup, press Add learner from file (in Learner files)." />
+
+                            <ListBox x:Name="LearnersList" MinHeight="60" MaxHeight="360" Margin="0,4,0,10" HorizontalContentAlignment="Stretch"
+                                     BorderBrush="{StaticResource LearningLineBrush}"
+                                     AutomationProperties.Name="Learners on this computer" SelectionChanged="LearnersList_SelectionChanged"
+                                     MouseDoubleClick="LearnersList_MouseDoubleClick" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                     ToolTip="Everyone who learns with Statistics+ on this computer. Choose your name, then type your PIN below">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="4,5" AutomationProperties.Name="{Binding Spoken}">
+                                            <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="15" />
+                                            <TextBlock Text="{Binding Detail}" TextWrapping="Wrap" Foreground="{DynamicResource MutedTextBrush}" />
+                                            <TextBlock Text="{Binding Backup}" TextWrapping="Wrap" Foreground="{Binding BackupBrush}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="AutomationProperties.Name" Value="{Binding Spoken}" />
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                            </ListBox>
+
+                            <StackPanel x:Name="PinRow" Orientation="Horizontal" Margin="0,0,0,4">
+                                <Label x:Name="PinLabel" Content="_PIN:" Target="{Binding ElementName=PinBox}" Padding="0,0,8,0" VerticalAlignment="Center" FontWeight="SemiBold" />
+                                <PasswordBox x:Name="PinBox" Width="140" MaxLength="6" Padding="4,4" VerticalAlignment="Center" BorderBrush="{StaticResource LearningLineBrush}"
+                                             AutomationProperties.Name="PIN" ToolTip="The 4 to 6 digit PIN for the learner chosen above. Press Enter or Open."
+                                             PasswordChanged="PinBox_PasswordChanged" />
+                                <Button x:Name="OpenButton" Content="_Open" IsDefault="True" Margin="8,0,0,0" Padding="18,5" FontWeight="SemiBold" Click="Open_Click"
+                                        ToolTip="Opens the chosen learner's progress with the PIN you typed" />
+                            </StackPanel>
+
+                            <WrapPanel Margin="0,10,0,0">
+                                <Button x:Name="NewButton" Content="_New learner…" Click="New_Click" Margin="0,0,8,4"
+                                        ToolTip="Start your own progress file: your name, an optional student ID, and a PIN" />
+                                <Button x:Name="ForgotButton" Content="_Forgot my PIN…" Click="Forgot_Click" Margin="0,0,8,4"
+                                        ToolTip="Set a new PIN for the learner chosen above, with the recovery code you were given when you started" />
+                            </WrapPanel>
+                        </StackPanel>
+                    </Expander>
+                </Border>
+
+                <!-- 2. Course Tools (light amber): no one signs in. The Workbench is Statistics+'s tool (Learning Core plan 3.23). -->
+                <Border x:Name="ToolsSection" Style="{StaticResource SectionBox}" Background="{StaticResource ToolsBrush}" BorderBrush="{StaticResource ToolsLineBrush}">
+                    <Border.Resources>
+                        <Style TargetType="Button" BasedOn="{StaticResource SectionButton}">
+                            <Setter Property="BorderBrush" Value="{StaticResource ToolsLineBrush}" />
+                        </Style>
+                    </Border.Resources>
+                    <Expander x:Name="ToolsExpander" IsExpanded="False" AutomationProperties.Name="Course Tools (no login required)"
+                              AutomationProperties.HelpText="The Workbench, and checking a report, without signing in. Space folds or opens this section">
+                        <Expander.Header>
+                            <TextBlock Text="Course Tools (no login required)" Style="{StaticResource SectionHeading}" AutomationProperties.HeadingLevel="Level2"
+                                       ToolTip="Tools anyone can use without signing in. The arrow folds or opens this section" />
+                        </Expander.Header>
+                        <StackPanel Margin="0,8,0,0">
+                            <TextBlock Style="{DynamicResource Lead}" Foreground="{DynamicResource InkBrush}"
+                                       Text="Use these without signing in. The Workbench is the statistics calculator (data tables, analyses, Report, Plots and Code) for your own assignments; nothing is recorded as progress, and you can sign in later from the Learner menu. Check reports and class codes is for instructors: it shows whether a learner's Statistics+ report is genuine and unchanged." />
+                            <WrapPanel Margin="0,4,0,0">
+                                <Button x:Name="WorkbenchButton" Content="_Just the Workbench (no sign-in)" Click="Workbench_Click" Margin="0,0,8,4"
+                                        AutomationProperties.Name="Just the Workbench, no sign-in"
+                                        ToolTip="Opens the statistics calculator on its own, for your own assignments. No learner is signed in and no progress is kept; you can sign in later" />
+                                <Button x:Name="CheckReportButton" Content="Chec_k reports and class codes (for instructors)…" Click="CheckReport_Click" Margin="0,0,8,4"
+                                        ToolTip="Checks that a learner's progress report is genuine and unchanged, checks a result line, and makes a class code for your class. No sign-in needed; nothing is sent anywhere" />
+                            </WrapPanel>
+                        </StackPanel>
+                    </Expander>
+                </Border>
+
+                <!-- 3. Learner files (light lavender): the progress files themselves. -->
+                <Border x:Name="FilesSection" Style="{StaticResource SectionBox}" Background="{StaticResource FilesBrush}" BorderBrush="{StaticResource FilesLineBrush}">
+                    <Border.Resources>
+                        <Style TargetType="Button" BasedOn="{StaticResource SectionButton}">
+                            <Setter Property="BorderBrush" Value="{StaticResource FilesLineBrush}" />
+                        </Style>
+                    </Border.Resources>
+                    <Expander x:Name="FilesExpander" IsExpanded="False" AutomationProperties.Name="Learner files"
+                              AutomationProperties.HelpText="Bring a progress file in, take a learner off this computer, open the learners' folder, or change where the files are kept. Space folds or opens this section">
+                        <Expander.Header>
+                            <TextBlock Text="Learner files" Style="{StaticResource SectionHeading}" AutomationProperties.HeadingLevel="Level2"
+                                       ToolTip="The learners' progress files. The arrow folds or opens this section" />
+                        </Expander.Header>
+                        <StackPanel Margin="0,8,0,0">
+                            <TextBlock Style="{DynamicResource Lead}" Foreground="{DynamicResource InkBrush}"
+                                       Text="Each learner's progress is one file, locked with their PIN. Bring one in from another computer or a backup (if that learner is already here, the two copies are combined and nothing is lost), take a learner off this computer (first choose their name in Who is learning? above), or choose where the files are kept. Once you are signed in, Learner ▸ Back up my progress copies yours to a USB drive or a cloud folder." />
+                            <TextBlock x:Name="FolderText" TextWrapping="Wrap" Foreground="{DynamicResource MutedTextBrush}" Margin="0,0,0,8" />
+                            <WrapPanel>
+                                <Button Content="_Add learner from file…" Click="Import_Click" Margin="0,0,8,4"
+                                        ToolTip="Bring in a progress file from another computer or a backup. If that learner is already here, the two copies are combined and nothing is lost" />
+                                <Button x:Name="RemoveButton" Content="_Remove from this computer…" Click="Remove_Click" Margin="0,0,8,4"
+                                        ToolTip="Takes the chosen learner off this computer (needs their PIN; offers a backup first). The file goes to the Recycle Bin" />
+                                <Button Content="Open the learners' fol_der" Click="OpenFolder_Click" Margin="0,0,8,4"
+                                        ToolTip="Opens the folder in File Explorer. An instructor can remove the file of a student who has left (the file name is in Remove's tooltip), with Statistics+ closed" />
+                                <Button Content="_Settings…" Click="Settings_Click" Margin="0,0,8,4"
+                                        ToolTip="Where learners' files are kept, and when Statistics+ locks itself. For everyone on this computer" />
+                            </WrapPanel>
+                        </StackPanel>
+                    </Expander>
+                </Border>
+
+                <!-- 4. Help and information (light blue, like help): About PlusBooks, help, feedback, the version, About and Exit. -->
+                <Border x:Name="InfoSection" Style="{StaticResource SectionBox}" Background="{StaticResource HelpBarBrush}" BorderBrush="{StaticResource HelpBarLineBrush}">
+                    <Border.Resources>
+                        <Style TargetType="Button" BasedOn="{StaticResource SectionButton}">
+                            <Setter Property="BorderBrush" Value="{StaticResource HelpBarLineBrush}" />
+                        </Style>
+                    </Border.Resources>
+                    <StackPanel>
+                        <TextBlock Text="Help and information" Style="{StaticResource SectionHeading}" Margin="0,0,0,6" AutomationProperties.HeadingLevel="Level2" />
+                        <TextBlock Text="About PlusBooks" FontWeight="SemiBold" Margin="0,2,0,2" AutomationProperties.HeadingLevel="Level3" />
+                        <TextBlock Style="{DynamicResource Lead}" Foreground="{DynamicResource InkBrush}">
+                            Statistics+ is a PlusBook: a textbook that is also a program. A PlusBook follows a course topic by topic, with the subject's own tools inside (here, the statistics Workbench), checks your work as you go, and keeps your progress on your computer, ready to hand in to your instructor as a signed report. More about PlusBooks, and the other books:
+                            <Hyperlink x:Name="PlusBooksLink" Click="PlusBooks_Click" ToolTip="Opens the PlusBooks page on softwareplus.ai in your web browser">softwareplus.ai/plusbooks</Hyperlink>
+                        </TextBlock>
+                        <WrapPanel Margin="0,2,0,0">
+                            <Button Content="Help on the _web" Click="WebHelp_Click" Margin="0,0,8,4" ToolTip="Opens the Statistics+ help pages on softwareplus.ai in your web browser" />
+                            <Button x:Name="FeedbackButton" Content="Send _feedback…" Click="Feedback_Click" Margin="0,0,8,4"
+                                    ToolTip="Tell us about a bug, a suggestion or anything you noticed — it goes to Dr. Ron Eaglin." />
+                            <Button Content="Check for a new _version…" Click="CheckForUpdate_Click" Margin="0,0,8,4"
+                                    ToolTip="Asks the Microsoft Store whether a newer version of Statistics+ is out, and offers to install it" />
+                            <Button Content="A_bout Statistics+…" Click="About_Click" Margin="0,0,8,4" ToolTip="Who made Statistics+, its version, and where to find more" />
+                            <Button Content="E_xit" Click="Exit_Click" Margin="0,0,8,4" ToolTip="Closes Statistics+" />
+                        </WrapPanel>
+                    </StackPanel>
+                </Border>
             </StackPanel>
         </ScrollViewer>
     </DockPanel>

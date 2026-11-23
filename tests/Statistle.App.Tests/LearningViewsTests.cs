@@ -111,6 +111,10 @@ public class LearningViewsTests
                 Assert.Equal("Ada Lovelace", row.Name);
                 Assert.Same(row, list.SelectedItem); // the only learner is chosen, ready for the PIN
 
+                // Plan W.5: the start screen in sections, each its own colour, the first three folded; F.1 in the last one.
+                // (Here, not in WindowRoomTests: only one test may touch LearnerPlaces, which fixes its data folder once.)
+                WindowRoomTests.StartScreenIsInSections(screen, row);
+
                 var button = (Button)screen.FindName("WorkbenchButton");
                 button.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
                 Assert.True(workbench);
@@ -137,8 +141,9 @@ public class LearningViewsTests
                 var progress = new LearningProgress();
                 var path = LearningPath.Build(package, progress);
 
-                Assert.Equal(2, path.Roots.Count); // My progress, then the module
-                Assert.True(path.Roots[0].IsDashboard);
+                Assert.Equal(2, path.Roots.Count); // PlusBook Tools, then the module (plan W.2)
+                Assert.True(path.Roots[0].IsCommon);
+                Assert.True(path.Roots[0].Children[0].IsDashboard);
                 var module = path.Roots[1];
                 Assert.Equal(3, module.Children.Count);
                 Assert.All(module.Children, c => Assert.Equal("○", c.Mark));
