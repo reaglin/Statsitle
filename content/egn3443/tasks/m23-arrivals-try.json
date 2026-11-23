@@ -1,0 +1,13 @@
+{
+  "id": "st.m23.arrivals.try",
+  "title": "Requests arriving at a server (Poisson)",
+  "analysis": "DiscreteDistribution",
+  "intro": "Illustrative data, made up for this book. Requests arrive at random at an average of 8 a second. The number in one second is Poisson; a server that handles 12 a second is overloaded when more arrive.",
+  "settings": {
+    "Name": "Requests per second",
+    "Family": "Poisson",
+    "Rate": 8,
+    "K": 12,
+    "K2": null
+  }
+}

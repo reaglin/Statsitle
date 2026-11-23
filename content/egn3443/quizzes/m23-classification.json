@@ -1,0 +1,63 @@
+{
+  "id": "st.m23.classification.quiz",
+  "title": "Classifier measures",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "numeric",
+      "objective": "st.m23.o2",
+      "prompt": "A spam filter's confusion matrix on 500 emails: 90 spam flagged (TP), 10 spam missed (FN), 20 genuine flagged (FP), 380 genuine passed (TN). What is its precision? Give it to three decimals.",
+      "answer": 0.818,
+      "tolerance": 0.001,
+      "explanation": "Precision = TP/(TP + FP) = 90/(90 + 20) = 90/110 = 0.818: of the emails it flags, 82 % are spam."
+    },
+    {
+      "id": "q2",
+      "kind": "numeric",
+      "objective": "st.m23.o2",
+      "prompt": "For the same filter (TP 90, FN 10, FP 20, TN 380), what is its recall? Give it to two decimals.",
+      "answer": 0.90,
+      "tolerance": 0.005,
+      "explanation": "Recall = TP/(TP + FN) = 90/100 = 0.90: it catches 90 % of the spam."
+    },
+    {
+      "id": "q3",
+      "kind": "numeric",
+      "objective": "st.m23.o2",
+      "prompt": "A classifier has precision 0.60 and recall 0.75. What is its F1 score? Give it to three decimals.",
+      "answer": 0.667,
+      "tolerance": 0.001,
+      "explanation": "F1 = 2 × 0.60 × 0.75/(0.60 + 0.75) = 0.90/1.35 = 0.667, the harmonic mean of precision and recall."
+    },
+    {
+      "id": "q4",
+      "kind": "choice",
+      "objective": "st.m23.o2",
+      "prompt": "Only 1 % of a factory's parts are defective. A model that labels every part \"good\" has what accuracy, and is it useful?",
+      "options": [
+        "99 % accuracy, but useless: it never finds a defect (recall 0)",
+        "1 % accuracy",
+        "50 % accuracy",
+        "99 % accuracy, so it is an excellent model"
+      ],
+      "correct": [0],
+      "explanation": "It is right on the 99 % good parts, so its accuracy is 0.99, yet its recall for defects is 0. With imbalanced classes, accuracy hides failure; precision and recall show it."
+    },
+    {
+      "id": "q5",
+      "kind": "choice",
+      "objective": "st.m23.o2",
+      "prompt": "A fraud model's threshold is lowered from 0.5 to 0.2 (cases with a predicted probability above 0.2 are now flagged). What usually happens?",
+      "options": [
+        "Recall rises and precision falls: more frauds are caught, but more genuine cases are flagged too",
+        "Both precision and recall rise",
+        "Precision rises and recall falls",
+        "Nothing changes: the model is the same"
+      ],
+      "correct": [0],
+      "explanation": "A lower threshold flags more cases. More of the real positives are among them (recall up), and more false alarms too (precision down). The threshold is chosen by what each kind of error costs."
+    }
+  ]
+}

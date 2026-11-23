@@ -1,0 +1,15 @@
+{
+  "id": "st.m23.spam.try",
+  "title": "A spam filter: the prior and the word",
+  "analysis": "ProbabilityRules",
+  "intro": "Illustrative data, made up for this book. The word \"prize\" in 30 % of spam and 1 % of genuine mail. Move the share of spam and the word's rates.",
+  "settings": {
+    "Name": "Spam filter",
+    "Relationship": "KnownLikelihoods",
+    "ProbabilityA": 0.4,
+    "LikelihoodGivenA": 0.3,
+    "LikelihoodGivenNotA": 0.01,
+    "Items": "NaN",
+    "Chosen": "NaN"
+  }
+}

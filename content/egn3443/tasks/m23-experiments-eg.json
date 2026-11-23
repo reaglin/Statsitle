@@ -1,0 +1,17 @@
+{
+  "id": "st.m23.experiments.eg",
+  "title": "An A/B test with 200,000 users in each arm",
+  "analysis": "TwoSampleTest",
+  "intro": "Illustrative data, made up for this book. A streaming service tested a new recommendation layout on 200,000 users (B) against the old one (A) on another 200,000, randomly assigned. Users who started a second title: 10,400 on A (5.20 %), 10,700 on B (5.35 %).",
+  "settings": {
+    "Name": "Second title started",
+    "TestKind": "TwoProportions",
+    "Source": "Summary",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Successes": 10400,
+    "SampleSize": 200000,
+    "Successes2": 10700,
+    "Sample2Size": 200000
+  }
+}

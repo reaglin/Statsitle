@@ -1,0 +1,15 @@
+{
+  "id": "st.m23.bayes.eg",
+  "title": "One word and a spam filter",
+  "analysis": "ProbabilityRules",
+  "intro": "Illustrative data, made up for this book. A = an email is spam (40 % of the mail); B = it contains the word \"prize\". 30 % of spam and 1 % of genuine mail contain it. P(A|B) is the chance an email with \"prize\" is spam.",
+  "settings": {
+    "Name": "Spam filter",
+    "Relationship": "KnownLikelihoods",
+    "ProbabilityA": 0.4,
+    "LikelihoodGivenA": 0.3,
+    "LikelihoodGivenNotA": 0.01,
+    "Items": "NaN",
+    "Chosen": "NaN"
+  }
+}

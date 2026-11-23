@@ -1,0 +1,73 @@
+{
+  "id": "st.m23.anomaly.ex",
+  "title": "Server temperatures: find the outliers",
+  "analysis": "DescriptiveStatistics",
+  "intro": "Illustrative data, made up for this book. Forty readings of a server rack's inlet temperature (°C) over a day.\n\nGive the mean and standard deviation (two decimals), the upper fence Q₃ + 1.5 IQR (two decimals), and the number of outliers beyond the fences.\n\nIn the Workbench: **Descriptive statistics**, paste the values.",
+  "settings": {
+    "Name": "Inlet temperature",
+    "Sample": [
+      58.8,
+      62.5,
+      49.8,
+      61.7,
+      63.3,
+      63.8,
+      59.7,
+      64.1,
+      61.0,
+      61.1,
+      59.8,
+      59.5,
+      65.7,
+      60.3,
+      61.1,
+      60.0,
+      60.2,
+      62.7,
+      60.5,
+      63.1,
+      65.1,
+      72.4,
+      61.1,
+      59.4,
+      58.8,
+      60.4,
+      56.8,
+      62.8,
+      64.9,
+      57.9,
+      59.0,
+      62.0,
+      61.6,
+      60.9,
+      59.6,
+      58.2,
+      64.0,
+      63.2,
+      59.7,
+      59.3
+    ],
+    "Classes": 0
+  },
+  "ask": [
+    {
+      "result": "Mean",
+      "prompt": "Mean (°C)"
+    },
+    {
+      "result": "StandardDeviation",
+      "prompt": "Standard deviation (°C)"
+    },
+    {
+      "result": "UpperFence",
+      "prompt": "Upper fence (°C)"
+    },
+    {
+      "result": "OutlierCount",
+      "prompt": "Number of outliers"
+    }
+  ],
+  "hints": [
+    "Fences: Q₁ − 1.5 IQR and Q₃ + 1.5 IQR (item 2.3)."
+  ]
+}

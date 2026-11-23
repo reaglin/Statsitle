@@ -1,0 +1,42 @@
+{
+  "id": "st.m23.experiments.ex",
+  "title": "A new sign-up button at scale",
+  "analysis": "TwoSampleTest",
+  "intro": "Illustrative data, made up for this book. A website randomly showed its old sign-up button (A) to 150,000 visitors and a new one (B) to 150,000. Sign-ups: 6,000 on A and 6,330 on B.\n\nTest H₀: p_A = p_B (two-sided, α = 0.05). Give z (three decimals), the p-value (four decimals) and the 95 % interval for p_A − p_B (four decimals). Is the lift worth having?\n\nIn the Workbench: **Two-sample test**, **Two proportions**, group 1 = A.",
+  "settings": {
+    "Name": "Sign-ups",
+    "TestKind": "TwoProportions",
+    "Source": "Summary",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Successes": 6000,
+    "SampleSize": 150000,
+    "Successes2": 6330,
+    "Sample2Size": 150000
+  },
+  "ask": [
+    {
+      "result": "Statistic",
+      "prompt": "z statistic",
+      "tolerance": 0.002
+    },
+    {
+      "result": "PValue",
+      "prompt": "p-value",
+      "tolerance": 0.0002
+    },
+    {
+      "result": "CiLower",
+      "prompt": "95 % interval, lower",
+      "tolerance": 0.0001
+    },
+    {
+      "result": "CiUpper",
+      "prompt": "95 % interval, upper",
+      "tolerance": 0.0001
+    }
+  ],
+  "hints": [
+    "p̂_A = 6000/150000 = 0.0400 and p̂_B = 6330/150000 = 0.0422 (item 10.5)."
+  ]
+}

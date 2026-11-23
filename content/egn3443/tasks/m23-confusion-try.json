@@ -1,0 +1,29 @@
+{
+  "id": "st.m23.confusion.try",
+  "title": "A confusion matrix: change the threshold",
+  "analysis": "ChiSquareTest",
+  "intro": "Illustrative data, made up for this book. The fraud classifier's 1,000 transactions. Moving the threshold moves counts between the columns: try it and watch the association.",
+  "tables": [
+    {
+      "name": "Fraud",
+      "columns": {
+        "Flagged": [
+          40,
+          60
+        ],
+        "Not flagged": [
+          10,
+          890
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Fraud classifier",
+    "Test": "Independence",
+    "Alpha": 0.05,
+    "CountsTable": "@Fraud/",
+    "RowNames": "Actual fraud, Actual genuine",
+    "Correction": "None"
+  }
+}

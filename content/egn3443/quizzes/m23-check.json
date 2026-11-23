@@ -1,0 +1,118 @@
+{
+  "id": "st.m23.check.quiz",
+  "title": "Module 23 check: data science and computing",
+  "passThreshold": 0.8,
+  "practice": false,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "choice",
+      "objective": "st.m23.o1",
+      "lookAgain": "st.m23.learning",
+      "prompt": "A model predicting house prices has an RMSE of $12,000 on the 800 houses it was trained on and $31,000 on 200 houses held out. What does this suggest?",
+      "options": [
+        "The model overfits: it fits the training houses' noise and predicts new houses much worse; expect errors near $31,000 in use",
+        "The model is excellent: report $12,000",
+        "The hold-out houses must be wrong",
+        "The two errors should be averaged"
+      ],
+      "correct": [0],
+      "explanation": "A large gap between training and test error is the mark of overfitting. The test error estimates the error on new data; a simpler model (fewer predictors, less flexibility) chosen by cross-validation would likely do better."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m23.o1",
+      "lookAgain": "st.m23.learning",
+      "prompt": "A model predicting whether a customer will cancel uses, among its predictors, \"date the account was closed\". It scores 99 % on the test set. What is wrong?",
+      "options": [
+        "Data leakage: the predictor is only known after the outcome, so the model cannot be used to predict cancellations in advance",
+        "Nothing: 99 % is excellent",
+        "The test set is too large",
+        "The model needs more predictors"
+      ],
+      "correct": [0],
+      "explanation": "A closing date exists only for customers who have already cancelled: it gives the answer away. Every predictor must be known at the time the prediction is made."
+    },
+    {
+      "id": "q3",
+      "kind": "numeric",
+      "objective": "st.m23.o2",
+      "lookAgain": "st.m23.classification",
+      "prompt": "A disease-screening model's confusion matrix: 30 true positives, 20 false negatives, 70 false positives, 880 true negatives. What is its recall? Give it to two decimals.",
+      "answer": 0.60,
+      "tolerance": 0.005,
+      "explanation": "Recall = TP/(TP + FN) = 30/(30 + 20) = 0.60: it finds 60 % of the real cases."
+    },
+    {
+      "id": "q4",
+      "kind": "numeric",
+      "objective": "st.m23.o2",
+      "lookAgain": "st.m23.classification",
+      "prompt": "For the same model (TP 30, FN 20, FP 70, TN 880), what is its precision? Give it to two decimals.",
+      "answer": 0.30,
+      "tolerance": 0.005,
+      "explanation": "Precision = TP/(TP + FP) = 30/(30 + 70) = 0.30: only 30 % of the cases it flags are real. Its accuracy, (30 + 880)/1000 = 0.91, hides both weaknesses."
+    },
+    {
+      "id": "q5",
+      "kind": "numeric",
+      "objective": "st.m23.o3",
+      "lookAgain": "st.m23.experiments",
+      "prompt": "An A/B test of a change that in fact does nothing tracks 10 independent metrics, each tested at α = 0.05. What is the chance that at least one comes out \"significant\"? Give it to three decimals.",
+      "answer": 0.401,
+      "tolerance": 0.001,
+      "explanation": "1 − 0.95¹⁰ = 1 − 0.599 = 0.401: four tests in ten would \"find\" a winning metric by chance. Name one primary metric in advance."
+    },
+    {
+      "id": "q6",
+      "kind": "numeric",
+      "objective": "st.m23.o4",
+      "lookAgain": "st.m23.bayes",
+      "prompt": "Half of a mailbox is spam (prior odds 1). An email contains two words whose likelihood ratios P(word | spam)/P(word | genuine) are 4 and 5. Assuming the words are independent within each class (naive Bayes), what is the probability the email is spam? Give it to three decimals.",
+      "answer": 0.952,
+      "tolerance": 0.001,
+      "explanation": "Posterior odds = 1 × 4 × 5 = 20, so P(spam) = 20/(1 + 20) = 0.952."
+    },
+    {
+      "id": "q7",
+      "kind": "numeric",
+      "objective": "st.m23.o4",
+      "lookAgain": "st.m23.bayes",
+      "prompt": "20 % of mail is spam. A word appears in 50 % of spam and 5 % of genuine mail. What is P(spam | word)? Give it to three decimals.",
+      "answer": 0.714,
+      "tolerance": 0.001,
+      "explanation": "P(word) = 0.5 × 0.2 + 0.05 × 0.8 = 0.10 + 0.04 = 0.14. P(spam | word) = 0.10/0.14 = 0.714."
+    },
+    {
+      "id": "q8",
+      "kind": "numeric",
+      "objective": "st.m23.o5",
+      "lookAgain": "st.m23.anomaly",
+      "prompt": "k-means with k = 2 on the values 1, 2, 9, 10, 11, starting from centres 1 and 11. After assigning each value to its nearer centre, what is the new second centre (the mean of the values assigned to 11)? Give it to one decimal.",
+      "answer": 10.0,
+      "tolerance": 0.05,
+      "explanation": "1 and 2 are nearer to 1; 9, 10 and 11 are nearer to 11. The new centres are the means: (1 + 2)/2 = 1.5 and (9 + 10 + 11)/3 = 10.0."
+    },
+    {
+      "id": "q9",
+      "kind": "numeric",
+      "objective": "st.m23.o5",
+      "lookAgain": "st.m23.anomaly",
+      "prompt": "A sensor's readings have first quartile 20 and third quartile 30. Above what value is a reading flagged as an anomaly by the upper box-plot fence?",
+      "answer": 45,
+      "tolerance": 0.05,
+      "explanation": "IQR = 30 − 20 = 10; the upper fence is Q₃ + 1.5 IQR = 30 + 15 = 45. The fences use the quartiles, so a few extreme readings do not move them."
+    },
+    {
+      "id": "q10",
+      "kind": "numeric",
+      "objective": "st.m23.o6",
+      "lookAgain": "st.m23.performance",
+      "prompt": "A service runs on two servers in parallel (it works if either works). Each is available 98 % of the time, independently. What is the service's availability? Give it to four decimals.",
+      "answer": 0.9996,
+      "tolerance": 0.00005,
+      "explanation": "It fails only if both fail: (1 − 0.98)² = 0.0004. Availability = 1 − 0.0004 = 0.9996, about 3.5 hours down a year instead of 7.3 days for one server."
+    }
+  ]
+}

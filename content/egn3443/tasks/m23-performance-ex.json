@@ -1,0 +1,40 @@
+{
+  "id": "st.m23.performance.ex",
+  "title": "Benchmarking a database query",
+  "analysis": "ConfidenceInterval",
+  "intro": "Illustrative data, made up for this book. A query was timed 16 times after a warm-up: mean 182.4 ms, standard deviation 9.6 ms.\n\nGive the 95 % interval for the mean query time (lower and upper, two decimals) and its margin of error.\n\nIn the Workbench: **Confidence interval**, **Target** *Mean, σ unknown (t)*, **Data from** *Summary*.",
+  "settings": {
+    "Name": "Query time",
+    "Target": "MeanSigmaUnknown",
+    "Source": "Summary",
+    "Confidence": 0.95,
+    "SampleMean": 182.4,
+    "SampleSd": 9.6,
+    "SampleSize": 16
+  },
+  "ask": [
+    {
+      "result": "Lower",
+      "prompt": "Lower limit (ms)"
+    },
+    {
+      "result": "Upper",
+      "prompt": "Upper limit (ms)"
+    },
+    {
+      "result": "MarginOfError",
+      "prompt": "Margin of error (ms)"
+    }
+  ],
+  "mistakes": {
+    "MarginOfError": [
+      {
+        "value": 4.704,
+        "says": "That uses z = 1.96. With σ estimated from 16 runs, use t with 15 degrees of freedom (2.131)."
+      }
+    ]
+  },
+  "hints": [
+    "x̄ ± t(0.025, 15) s/√n (item 7.3)."
+  ]
+}

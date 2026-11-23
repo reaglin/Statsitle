@@ -552,3 +552,74 @@ Publishing a study's hypotheses, sample size and analysis before collecting the 
 ## Publication bias
 Also: file-drawer problem
 The tendency for significant results to be published and non-significant ones not, which biases the published record.
+
+## Overfitting
+Also: overfit, overfits
+A model fitting the noise of its training data, so it predicts new data worse than a simpler model would.
+
+## Training set
+Also: training data, test set, test data
+The data a model is fitted to; the test set is data kept back to measure how well it predicts.
+
+## Cross-validation
+Also: k-fold cross-validation, leave-one-out
+Estimating a model's prediction error by fitting it on part of the data and predicting the rest, in turn, over several splits.
+
+## Root mean squared error
+Also: RMSE
+The square root of the mean squared difference between predicted and actual values.
+
+## Data leakage
+Also: leakage
+Information about the outcome or the test cases slipping into a model's training, so its test error looks better than reality.
+
+## Confusion matrix
+The table of a classifier's predictions against the actual classes: true and false positives and negatives.
+
+## Precision (classification)
+Also: positive predictive value of a classifier
+The share of the cases a classifier flags that are really positive, TP/(TP + FP).
+
+## Recall (classification)
+Also: recall of a classifier
+The share of the real positives a classifier catches, TP/(TP + FN); sensitivity.
+
+## F1 score
+Also: F1
+The harmonic mean of precision and recall, 2PR/(P + R).
+
+## Class imbalance
+Also: imbalanced classes
+One class being much rarer than the other, which makes accuracy a misleading measure.
+
+## Logistic regression
+A regression for a yes/no outcome that models the log-odds as a linear function of the predictors; also a classifier.
+
+## Practical significance
+Whether a difference is large enough to matter, as against whether it is statistically significant.
+
+## Naive Bayes
+A classifier that multiplies the prior odds by each feature's likelihood ratio, assuming the features are independent within each class.
+
+## Likelihood ratio
+Also: likelihood ratios
+P(evidence | one class)/P(evidence | the other): how many times more likely the evidence is under one class.
+
+## Prior probability
+Also: posterior probability
+The probability before the evidence (prior) and after it (posterior), linked by Bayes' rule.
+
+## Anomaly detection
+Also: anomaly, anomalies
+Finding cases that do not fit the pattern of the rest: outliers in the data's terms.
+
+## k-means
+Also: k-means clustering
+Clustering that assigns each point to the nearest of k centres and moves each centre to the mean of its points, repeatedly.
+
+## Availability
+The share of time a system works: MTBF/(MTBF + MTTR).
+
+## Benchmark
+Also: benchmarking, benchmarks
+Measuring a system's performance on a fixed task, repeated so the result has a confidence interval.

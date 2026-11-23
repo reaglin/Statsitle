@@ -1,0 +1,15 @@
+{
+  "id": "st.m23.metrics.try",
+  "title": "Many metrics: something always moves",
+  "analysis": "Simulation",
+  "intro": "Simulated A/B tests where the change does nothing, each checking many metrics at α = 0.05. How often does at least one metric come out \"significant\"?",
+  "settings": {
+    "Name": "Many metrics",
+    "Experiment": "FamilywiseError",
+    "SampleSize": 50,
+    "Alpha": 0.05,
+    "Tests": 30,
+    "Trials": 1000,
+    "Seed": 23
+  }
+}

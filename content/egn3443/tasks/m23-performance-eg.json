@@ -1,0 +1,15 @@
+{
+  "id": "st.m23.performance.eg",
+  "title": "A benchmark: the mean run time with its interval",
+  "analysis": "ConfidenceInterval",
+  "intro": "Illustrative data, made up for this book. A program was run 25 times on the same input: mean run time 4.82 s, standard deviation 0.31 s. The 95 % interval for the mean run time.",
+  "settings": {
+    "Name": "Run time",
+    "Target": "MeanSigmaUnknown",
+    "Source": "Summary",
+    "Confidence": 0.95,
+    "SampleMean": 4.82,
+    "SampleSd": 0.31,
+    "SampleSize": 25
+  }
+}
