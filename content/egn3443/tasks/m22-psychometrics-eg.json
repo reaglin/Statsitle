@@ -1,0 +1,15 @@
+{
+  "id": "st.m22.psychometrics.eg",
+  "title": "IQ-type scores: mean 100, standard deviation 15",
+  "analysis": "ContinuousDistribution",
+  "intro": "Scores standardised to a normal distribution with mean 100 and standard deviation 15 in the norm group. The percentile of a score of 120, and the score at the 90th percentile.",
+  "settings": {
+    "Name": "Standard scores",
+    "Family": "Normal",
+    "Mu": 100,
+    "Sigma": 15,
+    "X": 120,
+    "X2": null,
+    "Probability": 0.9
+  }
+}

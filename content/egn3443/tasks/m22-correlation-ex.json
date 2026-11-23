@@ -1,0 +1,108 @@
+{
+  "id": "st.m22.correlation.ex",
+  "title": "Household income and life satisfaction",
+  "analysis": "SimpleRegression",
+  "intro": "Illustrative data, made up for this book. A survey of 28 households: income ($ thousand a year) and the respondent's life satisfaction (0 to 10).\n\nGive the correlation r and R² (three decimals) and the p-value of the slope (four decimals). Then ask yourself: what else could explain the association?\n\nIn the Workbench: **Simple linear regression**, **x column** *Income ($k)*, **y column** *Satisfaction*.",
+  "tables": [
+    {
+      "name": "Households",
+      "columns": {
+        "Income ($k)": [
+          113.0,
+          91.0,
+          110.0,
+          86.0,
+          111.0,
+          115.0,
+          44.0,
+          73.0,
+          66.0,
+          44.0,
+          49.0,
+          64.0,
+          44.0,
+          43.0,
+          99.0,
+          46.0,
+          35.0,
+          54.0,
+          105.0,
+          59.0,
+          50.0,
+          97.0,
+          116.0,
+          108.0,
+          58.0,
+          119.0,
+          114.0,
+          28.0
+        ],
+        "Satisfaction": [
+          7.2,
+          6.8,
+          7.4,
+          7.3,
+          7.0,
+          8.1,
+          5.3,
+          6.3,
+          5.4,
+          6.9,
+          6.9,
+          7.6,
+          5.2,
+          5.1,
+          7.1,
+          7.2,
+          5.7,
+          6.4,
+          6.9,
+          5.9,
+          5.3,
+          7.0,
+          7.6,
+          7.2,
+          6.2,
+          7.3,
+          6.8,
+          5.3
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Income and satisfaction",
+    "XColumn": "@Households/Income ($k)",
+    "YColumn": "@Households/Satisfaction",
+    "Confidence": 0.95,
+    "PredictAt": null
+  },
+  "ask": [
+    {
+      "result": "Correlation",
+      "prompt": "Correlation r",
+      "tolerance": 0.002
+    },
+    {
+      "result": "RSquared",
+      "prompt": "R²",
+      "tolerance": 0.002
+    },
+    {
+      "result": "SlopeP",
+      "prompt": "p-value of the slope",
+      "tolerance": 0.0002
+    }
+  ],
+  "mistakes": {
+    "Correlation": [
+      {
+        "result": "RSquared",
+        "says": "That is R², the square of r. The correlation is its square root, with the slope's sign."
+      }
+    ]
+  },
+  "hints": [
+    "r = S_xy/√(S_xx S_yy); R² = r² for a simple regression (item 11.4)."
+  ]
+}

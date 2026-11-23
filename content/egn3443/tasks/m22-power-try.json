@@ -1,0 +1,19 @@
+{
+  "id": "st.m22.power.try",
+  "title": "Power: the sample size and the effect",
+  "analysis": "OneSampleTest",
+  "intro": "A one-sided test of a mean (σ = 15) with a true effect of 5 points. Move the sample size and the true mean and watch the power.",
+  "settings": {
+    "Name": "A small study",
+    "TestKind": "MeanSigmaKnown",
+    "Source": "Summary",
+    "AlternativeHypothesis": "Greater",
+    "Alpha": 0.05,
+    "NullValue": 100,
+    "SampleMean": 104,
+    "Sigma": 15,
+    "SampleSize": 20,
+    "AlternativeValue": 105,
+    "TargetPower": 0.8
+  }
+}

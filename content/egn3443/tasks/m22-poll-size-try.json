@@ -1,0 +1,13 @@
+{
+  "id": "st.m22.poll-size.try",
+  "title": "How many people to ask?",
+  "analysis": "SampleSize",
+  "intro": "The sample size a poll needs for a chosen margin of error, at 95 % confidence, planning for a 50 % share (the largest margin).",
+  "settings": {
+    "Name": "Poll size",
+    "Target": "Proportion",
+    "Confidence": 0.95,
+    "Margin": 0.03,
+    "ProportionGuess": 0.5
+  }
+}

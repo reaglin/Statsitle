@@ -1,0 +1,34 @@
+{
+  "id": "st.m22.replication.ex",
+  "title": "Planning a replication",
+  "analysis": "OneSampleTest",
+  "intro": "An original study reported that a brief intervention raised a test score. A replication team plans a one-sided test of H₀: μ = 50 against μ > 50 at α = 0.05, with the score's standard deviation known to be 10. They expect the true mean to be 53 (a smaller effect than the original reported, as replications usually find).\n\nWith 30 participants, what is the power (four decimals)? How many participants would 90 % power need?\n\nIn the Workbench: **One-sample test**, **Test** *Mean, σ known*, null value 50, σ 10, sample size 30, **Alternative** *greater*, **Alternative mean for power** 53, **Target power** 0.9.",
+  "settings": {
+    "Name": "Replication plan",
+    "TestKind": "MeanSigmaKnown",
+    "Source": "Summary",
+    "AlternativeHypothesis": "Greater",
+    "Alpha": 0.05,
+    "NullValue": 50,
+    "SampleMean": 52,
+    "Sigma": 10,
+    "SampleSize": 30,
+    "AlternativeValue": 53,
+    "TargetPower": 0.9
+  },
+  "ask": [
+    {
+      "result": "Power",
+      "prompt": "Power with 30 participants",
+      "tolerance": 0.0002
+    },
+    {
+      "result": "SampleSizeForPower",
+      "prompt": "Participants needed for 90 % power"
+    }
+  ],
+  "hints": [
+    "Power = P(Z > z₀.₀₅ − (μ₁ − μ₀)√n/σ) for a one-sided test (item 8.6).",
+    "n = ((z_α + z_β)σ/(μ₁ − μ₀))², rounded up."
+  ]
+}

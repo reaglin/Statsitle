@@ -1,0 +1,19 @@
+{
+  "id": "st.m22.replication.eg",
+  "title": "The power of a small study",
+  "analysis": "OneSampleTest",
+  "intro": "A study of 20 people tests whether a training raises a score whose standard deviation is 15, against H₀: μ = 100 (one-sided, α = 0.05). If the true mean is 105 (an effect of a third of a standard deviation), how often would the study find it, and how many people would 80 % power need?",
+  "settings": {
+    "Name": "A small study",
+    "TestKind": "MeanSigmaKnown",
+    "Source": "Summary",
+    "AlternativeHypothesis": "Greater",
+    "Alpha": 0.05,
+    "NullValue": 100,
+    "SampleMean": 104,
+    "Sigma": 15,
+    "SampleSize": 20,
+    "AlternativeValue": 105,
+    "TargetPower": 0.8
+  }
+}

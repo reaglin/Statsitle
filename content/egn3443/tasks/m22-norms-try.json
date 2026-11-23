@@ -1,0 +1,15 @@
+{
+  "id": "st.m22.norms.try",
+  "title": "Norms: percentiles and scores",
+  "analysis": "ContinuousDistribution",
+  "intro": "A normed scale with mean 100 and standard deviation 15. Move a score and read its percentile; move the percentile and read the score.",
+  "settings": {
+    "Name": "Standard scores",
+    "Family": "Normal",
+    "Mu": 100,
+    "Sigma": 15,
+    "X": 120,
+    "X2": null,
+    "Probability": 0.9
+  }
+}

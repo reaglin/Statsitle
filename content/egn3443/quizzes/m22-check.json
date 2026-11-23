@@ -1,0 +1,129 @@
+{
+  "id": "st.m22.check.quiz",
+  "title": "Module 22 check: social sciences and psychology",
+  "passThreshold": 0.8,
+  "practice": false,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "numeric",
+      "objective": "st.m22.o1",
+      "lookAgain": "st.m22.polling",
+      "prompt": "A poll of 400 people chosen at random finds 50 % in favour. What is the margin of error at 95 % confidence, in percentage points? Give it to one decimal.",
+      "answer": 4.9,
+      "tolerance": 0.05,
+      "unit": "points",
+      "explanation": "1.96 √(0.5 × 0.5/400) = 1.96 × 0.025 = 0.049: ±4.9 points. Quadrupling the sample to 1,600 would halve it."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m22.o1",
+      "lookAgain": "st.m22.polling",
+      "prompt": "A phone poll reports \"55 % support, margin of error ±3 points\". Only 8 % of the people called agreed to answer. Which statement is right?",
+      "options": [
+        "The true support is certainly between 52 % and 58 %",
+        "The margin of error covers sampling error only; if the 8 % who answered differ from those who did not, the poll can be off by more than 3 points",
+        "A low response rate makes the margin of error smaller",
+        "The poll is wrong and should be ignored"
+      ],
+      "correct": [1],
+      "explanation": "The margin of error measures the chance variation of a random sample. Nonresponse bias, coverage and wording are not in it, and no larger sample removes them."
+    },
+    {
+      "id": "q3",
+      "kind": "numeric",
+      "objective": "st.m22.o2",
+      "lookAgain": "st.m22.measurement",
+      "prompt": "A six-item scale has item variances that add up to 6.0, and the variance of the total scores is 24.0. What is Cronbach's alpha? Give it to two decimals.",
+      "answer": 0.90,
+      "tolerance": 0.005,
+      "explanation": "α = k/(k − 1) × (1 − Σsᵢ²/s_total²) = 6/5 × (1 − 6.0/24.0) = 1.2 × 0.75 = 0.90: high reliability."
+    },
+    {
+      "id": "q4",
+      "kind": "numeric",
+      "objective": "st.m22.o3",
+      "lookAgain": "st.m22.experiments",
+      "prompt": "In an experiment the treatment group averaged 75 and the control group 70, with a pooled standard deviation of 10. What is Cohen's d? Give it to two decimals.",
+      "answer": 0.50,
+      "tolerance": 0.005,
+      "explanation": "d = (75 − 70)/10 = 0.50: half a standard deviation, a medium effect by Cohen's rough labels."
+    },
+    {
+      "id": "q5",
+      "kind": "numeric",
+      "objective": "st.m22.o3",
+      "lookAgain": "st.m22.experiments",
+      "prompt": "A paper reports a pooled two-sample t-test as \"t(38) = 2.10, p = .04, d = 0.67\". How many participants took part in the two groups together?",
+      "answer": 40,
+      "tolerance": 0.1,
+      "explanation": "A pooled two-sample t-test has n₁ + n₂ − 2 degrees of freedom: 38 + 2 = 40 participants."
+    },
+    {
+      "id": "q6",
+      "kind": "choice",
+      "objective": "st.m22.o4",
+      "lookAgain": "st.m22.correlation",
+      "prompt": "Across the months of the year, ice-cream sales and drownings are strongly correlated. What is the best explanation?",
+      "options": [
+        "Eating ice cream causes drowning",
+        "A confounder: warm weather increases both ice-cream sales and swimming",
+        "Drownings cause ice-cream sales",
+        "The correlation must be chance"
+      ],
+      "correct": [1],
+      "explanation": "Hot months bring both more ice cream and more swimming, and so more drownings. Temperature causes both; neither causes the other. Within months of the same temperature the correlation would largely disappear."
+    },
+    {
+      "id": "q7",
+      "kind": "choice",
+      "objective": "st.m22.o4",
+      "lookAgain": "st.m22.correlation",
+      "prompt": "Hospital A has a lower survival rate than hospital B overall, but a higher survival rate both for patients admitted in good condition and for patients admitted in poor condition. How can that be?",
+      "options": [
+        "It cannot: the overall rate is an average of the two groups",
+        "Simpson's paradox: hospital A treats far more patients in poor condition, who survive less often, so its overall rate is pulled down",
+        "Hospital B's data must be wrong",
+        "Survival rates cannot be compared between hospitals"
+      ],
+      "correct": [1],
+      "explanation": "The overall rate depends on the mix of patients. If A takes most of the severe cases, its total can be worse even though it does better with every kind of patient. Compare like with like: the condition on admission is a confounder."
+    },
+    {
+      "id": "q8",
+      "kind": "numeric",
+      "objective": "st.m22.o5",
+      "lookAgain": "st.m22.psychometrics",
+      "prompt": "A test reports T-scores (mean 50, standard deviation 10 in the norm group). A child's z-score is 1.5. What is the child's T-score?",
+      "answer": 65,
+      "tolerance": 0.05,
+      "explanation": "T = 50 + 10z = 50 + 10 × 1.5 = 65: one and a half standard deviations above the norm group's mean, about the 93rd percentile."
+    },
+    {
+      "id": "q9",
+      "kind": "numeric",
+      "objective": "st.m22.o5",
+      "lookAgain": "st.m22.psychometrics",
+      "prompt": "On a scale normed to mean 100 and standard deviation 15, at what percentile is a score of 85? Give the proportion of the norm group at or below 85, to three decimals.",
+      "answer": 0.159,
+      "tolerance": 0.001,
+      "explanation": "z = (85 − 100)/15 = −1.0, and P(Z ≤ −1.0) = 0.159: about the 16th percentile."
+    },
+    {
+      "id": "q10",
+      "kind": "choice",
+      "objective": "st.m22.o6",
+      "lookAgain": "st.m22.replication",
+      "prompt": "A researcher measures six outcomes, tries the analysis with and without outliers, and with and without two covariates. One combination gives p = .03, and the paper reports only that one. What is the problem, and what would have prevented it?",
+      "options": [
+        "Nothing: p < .05 is significant",
+        "p-hacking: with many analyses tried, a false positive below .05 is likely; preregistering one outcome and analysis would have prevented it",
+        "The sample was too large",
+        "The p-value should have been rounded to .05"
+      ],
+      "correct": [1],
+      "explanation": "Each choice is another chance for noise to cross .05, so the real false-positive rate is far above 5 %. Preregistration fixes the outcome and the analysis before the data are seen, and a replication would test the finding."
+    }
+  ]
+}

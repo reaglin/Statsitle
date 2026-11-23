@@ -1,0 +1,75 @@
+{
+  "id": "st.m22.experiments.eg",
+  "title": "Does a short practice session improve recall?",
+  "analysis": "TwoSampleTest",
+  "intro": "Illustrative data, made up for this book. Forty-eight volunteers were randomly assigned to a retrieval-practice session or to rereading; a week later each took a recall test (score out of 100). A pooled two-sample t-test, two-sided, α = 0.05.",
+  "tables": [
+    {
+      "name": "Recall",
+      "columns": {
+        "Practice": [
+          63.0,
+          48.0,
+          57.0,
+          76.0,
+          77.0,
+          78.0,
+          60.0,
+          78.0,
+          64.0,
+          62.0,
+          63.0,
+          56.0,
+          70.0,
+          77.0,
+          65.0,
+          72.0,
+          56.0,
+          57.0,
+          52.0,
+          56.0,
+          68.0,
+          76.0,
+          80.0,
+          43.0
+        ],
+        "Rereading": [
+          49.0,
+          59.0,
+          71.0,
+          59.0,
+          47.0,
+          73.0,
+          73.0,
+          54.0,
+          68.0,
+          71.0,
+          54.0,
+          61.0,
+          64.0,
+          42.0,
+          69.0,
+          69.0,
+          51.0,
+          56.0,
+          50.0,
+          50.0,
+          67.0,
+          61.0,
+          62.0,
+          90.0
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Recall by study method",
+    "TestKind": "PooledT",
+    "Source": "Columns",
+    "AlternativeHypothesis": "TwoSided",
+    "Alpha": 0.05,
+    "Delta0": 0,
+    "Column": "@Recall/Practice",
+    "Column2": "@Recall/Rereading"
+  }
+}

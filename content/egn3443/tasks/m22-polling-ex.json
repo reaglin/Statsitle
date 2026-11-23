@@ -1,0 +1,40 @@
+{
+  "id": "st.m22.polling.ex",
+  "title": "A survey of a city's residents",
+  "analysis": "ConfidenceInterval",
+  "intro": "Illustrative data, made up for this book. A city surveyed 1,200 residents chosen at random; 456 said they had used public transport in the past month.\n\nGive the estimated share, the margin of error at 95 % confidence, and the interval's lower and upper limits, each to four decimals.\n\nIn the Workbench: **Confidence interval**, **Target** *Proportion*, successes 456, sample size 1200.",
+  "settings": {
+    "Name": "Used public transport",
+    "Target": "Proportion",
+    "Source": "Summary",
+    "Confidence": 0.95,
+    "Successes": 456,
+    "SampleSize": 1200
+  },
+  "ask": [
+    {
+      "result": "Estimate",
+      "prompt": "Estimated share p̂",
+      "tolerance": 0.0002
+    },
+    {
+      "result": "MarginOfError",
+      "prompt": "Margin of error",
+      "tolerance": 0.0002
+    },
+    {
+      "result": "Lower",
+      "prompt": "Lower limit",
+      "tolerance": 0.0002
+    },
+    {
+      "result": "Upper",
+      "prompt": "Upper limit",
+      "tolerance": 0.0002
+    }
+  ],
+  "hints": [
+    "p̂ = 456/1200.",
+    "Margin of error = 1.96 √(p̂(1 − p̂)/n) (item 7.4)."
+  ]
+}

@@ -480,3 +480,75 @@ Estimating a population size by marking animals, recatching a sample and countin
 ## Shannon index
 Also: Shannon diversity, diversity index
 H = −Σ pᵢ ln pᵢ, a measure of species diversity that grows with the number of species and their evenness.
+
+## Nonresponse bias
+Also: nonresponse
+The error when the people who answer a survey differ from those who do not; a larger sample does not remove it.
+
+## Stratified sample
+Also: stratified sampling, stratification
+A sample taken separately from groups (strata) of the population, so that each group is represented.
+
+## Weighting
+Also: survey weights, weighted
+Counting some survey answers more than others so the sample's mix of groups matches the population's.
+
+## Likert scale
+Also: Likert item, Likert items, Likert
+A survey question with ordered answers (strongly disagree to strongly agree); several items are added into a scale score.
+
+## Cronbach's alpha
+Also: Cronbach alpha, internal consistency
+A measure of how consistently the items of a scale measure the same thing; α = k/(k − 1)(1 − Σsᵢ²/s_total²).
+
+## Reliability
+Also: test–retest reliability
+How consistently a measure gives the same result for the same thing.
+
+## Validity
+How well a measure measures what it claims to: content, criterion and construct validity.
+
+## Ceiling effect
+Also: floor effect
+Many scores at the top (or bottom) of a scale, so it cannot show further change for them.
+
+## Cohen's d
+Also: standardized mean difference
+The difference between two means in units of their pooled standard deviation; about 0.2 small, 0.5 medium, 0.8 large.
+
+## Reverse causation
+The association that arises because the supposed effect actually causes the supposed cause.
+
+## Simpson's paradox
+An association that appears in every group but reverses (or vanishes) when the groups are combined, because their mix differs.
+
+## Norm group
+Also: norms, norming
+The large reference group whose scores give the mean and standard deviation against which later scores are compared.
+
+## Standard score
+Also: standard scores, T-score
+A score rescaled from a z-score to a fixed mean and standard deviation, such as 100 and 15, or 50 and 10 (T-scores).
+
+## Standard error of measurement
+Also: SEM
+How far an observed test score may be from the person's true score: SD √(1 − reliability).
+
+## Factor analysis
+A method that finds a few underlying factors explaining the correlations among many items or tests.
+
+## Replication crisis
+Also: replication, reproducibility
+The finding, from repeating published studies, that many results in psychology and other fields do not hold up.
+
+## p-hacking
+Also: p hacking
+Trying many analyses (outcomes, exclusions, covariates, stopping times) and reporting the one with p < 0.05, which inflates false positives.
+
+## Preregistration
+Also: preregistered, registered report
+Publishing a study's hypotheses, sample size and analysis before collecting the data.
+
+## Publication bias
+Also: file-drawer problem
+The tendency for significant results to be published and non-significant ones not, which biases the published record.

@@ -1,0 +1,15 @@
+{
+  "id": "st.m22.phacking.try",
+  "title": "p-hacking: try enough analyses and something is significant",
+  "analysis": "Simulation",
+  "intro": "Simulated studies where nothing is going on. Each study runs several analyses (outcomes, subgroups) and reports the first with p < 0.05.",
+  "settings": {
+    "Name": "Many analyses",
+    "Experiment": "FamilywiseError",
+    "SampleSize": 20,
+    "Alpha": 0.05,
+    "Tests": 5,
+    "Trials": 1000,
+    "Seed": 22
+  }
+}

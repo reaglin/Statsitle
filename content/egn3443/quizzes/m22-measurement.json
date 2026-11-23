@@ -1,0 +1,63 @@
+{
+  "id": "st.m22.measurement.quiz",
+  "title": "Scales, reliability and validity",
+  "passThreshold": 0.8,
+  "practice": true,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "numeric",
+      "objective": "st.m22.o2",
+      "prompt": "On a 1-to-5 Likert item, \"I often feel hopeless\" is worded the opposite way from the rest of a wellbeing scale. A respondent answers 2. What score goes into the total after reverse scoring?",
+      "answer": 4,
+      "tolerance": 0,
+      "explanation": "Reverse scoring on a 1-to-5 item is 6 − answer: 6 − 2 = 4. A person who disagrees that they feel hopeless is scored as high wellbeing, like the other items."
+    },
+    {
+      "id": "q2",
+      "kind": "numeric",
+      "objective": "st.m22.o2",
+      "prompt": "A four-item scale has item variances 0.8, 1.0, 1.2 and 1.0 (sum 4.0), and the variance of the total scores is 10.0. What is Cronbach's alpha? Give it to two decimals.",
+      "answer": 0.80,
+      "tolerance": 0.005,
+      "explanation": "α = k/(k − 1) × (1 − Σsᵢ²/s_total²) = 4/3 × (1 − 4.0/10.0) = 1.333 × 0.6 = 0.80: acceptable to good reliability for research."
+    },
+    {
+      "id": "q3",
+      "kind": "choice",
+      "objective": "st.m22.o2",
+      "prompt": "A new job-satisfaction scale has Cronbach's alpha 0.88, but its scores do not correlate at all with how often employees later quit. What does that suggest?",
+      "options": [
+        "The scale is reliable but may not be valid: its items hang together, yet it does not predict what job satisfaction should predict",
+        "The scale is valid because alpha is high",
+        "The scale is unreliable",
+        "Alpha must have been miscalculated"
+      ],
+      "correct": [0],
+      "explanation": "Alpha measures internal consistency (reliability). Criterion validity asks whether the score relates to outcomes it should predict. A scale can measure something consistently and still not be measuring job satisfaction."
+    },
+    {
+      "id": "q4",
+      "kind": "choice",
+      "objective": "st.m22.o2",
+      "prompt": "An anxiety questionnaire is given to the same 50 people twice, two weeks apart, and the two sets of scores correlate r = 0.85. Which property does this show?",
+      "options": ["Content validity", "Test–retest reliability", "Criterion validity", "A ceiling effect"],
+      "correct": [1],
+      "explanation": "The same people measured twice should score alike if the trait is stable and the measure consistent. A test–retest correlation of 0.85 is good reliability."
+    },
+    {
+      "id": "q5",
+      "kind": "choice",
+      "objective": "st.m22.o2",
+      "prompt": "On a 10-item reading test, 40 % of the pupils got every question right. What is the problem for a study of a new reading program?",
+      "options": [
+        "A ceiling effect: those pupils cannot score higher, so any improvement among them is hidden",
+        "A floor effect",
+        "Low reliability",
+        "Nothing: a high score is good"
+      ],
+      "correct": [0],
+      "explanation": "When many people are at the top of the scale, the measure cannot show further gains. The test needs harder items to measure the program's effect."
+    }
+  ]
+}

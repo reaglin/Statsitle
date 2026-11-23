@@ -1,0 +1,14 @@
+{
+  "id": "st.m22.polling.eg",
+  "title": "A poll of likely voters",
+  "analysis": "ConfidenceInterval",
+  "intro": "Illustrative data, made up for this book. A random sample of 1,000 likely voters; 520 support a ballot measure. The 95 % interval for the share of all likely voters who support it.",
+  "settings": {
+    "Name": "Support for the measure",
+    "Target": "Proportion",
+    "Source": "Summary",
+    "Confidence": 0.95,
+    "Successes": 520,
+    "SampleSize": 1000
+  }
+}
