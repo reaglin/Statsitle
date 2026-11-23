@@ -311,6 +311,19 @@ examples, we can add tabs for Example 1, Example 2"* and *"This will be the patt
 | 16.1 | A second content package can be dropped beside `egn3443` and shows as more modules (the loader reads every package under `content\`) | a test package loads |
 | 16.2 | First later topic (Ron to choose: Monte Carlo and risk, SPC control charts, design of experiments, reliability) | — |
 
+## The window's room — from WebDevelopment+, with the next version (Ron, 2026-11-23)
+
+Ron, 2026-11-23: *"the biggest challenge is providing enough screen real estate for the user … We will carry these changes to all
+the books as we release new versions."* Built and tested first in WebDevelopment+ (its plan 13.3–13.6; the code in its
+`src/WebDev.App/MainWindow.xaml(.cs)`, `ViewModels/ShellViewModel.cs` and `PathNode.cs`). Each book takes them in its next release.
+
+| # | Task | Done when |
+|---|---|---|
+| W.1 | **Parts that fold** (WebDevelopment+ 13.3): where the book has parts, each part holds its modules in the path and opens and folds on its own; Show the parts only folds them all; going to an item opens only its part and module | In this book, tested; a book with one part skips the part rows |
+| W.2 | **PlusBook Tools** (13.4): My progress, Hand in a report, My notes, the Glossary and the Tools in one folding row first in the path; the content's "(in the path)" directions say where Hand in a report now is | In this book, tested |
+| W.3 | **The learning path's block at the bottom, folding down** (13.4, 13.5): the title, totals, time, key and buttons under the tree, in a block that folds down to its title; each learner's choice kept | In this book, tested |
+| W.4 | **Help folds to the right** (13.6): Fold help ▸ leaves a narrow Help strip at the right edge that opens it again (F1 too); each learner's choice kept | In this book, tested |
+
 ## Open questions for Ron (Statistics+)
 
 | # | Asked | Question | Answer |
