@@ -42,7 +42,7 @@ public sealed class WindowRoomTests
                 parts.Select(p => p.Header));
             Assert.Equal(Enumerable.Range(1, 14), parts[0].Children.Select(m => m.Module!.Number));
             Assert.Equal(Enumerable.Range(15, 4), parts[1].Children.Select(m => m.Module!.Number));
-            Assert.Equal(Enumerable.Range(19, 5), parts[2].Children.Select(m => m.Module!.Number));
+            Assert.Equal(Enumerable.Range(19, 6), parts[2].Children.Select(m => m.Module!.Number));   // 24 Sports (Ron, 2026-11-23)
             Assert.Equal("1. Introduction to Statistics for Engineers", parts[0].Children[0].Header);
             Assert.Equal(content.Package.Modules.Select(m => m.Number), path.ModuleNodes.Select(n => n.Module!.Number));
             Assert.All(parts, p => Assert.All(p.Children, m => Assert.Same(p, m.Parent)));

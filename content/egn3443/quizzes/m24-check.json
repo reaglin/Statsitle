@@ -1,0 +1,124 @@
+{
+  "id": "st.m24.check.quiz",
+  "title": "Module 24 check: sports",
+  "passThreshold": 0.8,
+  "practice": false,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "numeric",
+      "objective": "st.m24.o1",
+      "lookAgain": "st.m24.sabermetrics",
+      "prompt": "A hitter has 150 hits, 60 walks and 5 hit-by-pitches in 500 at-bats, with 5 sacrifice flies. What is his on-base percentage, OBP = (H + BB + HBP)/(AB + BB + HBP + SF)? Give it to three decimals.",
+      "answer": 0.377,
+      "tolerance": 0.001,
+      "explanation": "OBP = (150 + 60 + 5)/(500 + 60 + 5 + 5) = 215/570 = 0.377. His batting average is only 150/500 = 0.300: the walks are what OBP adds."
+    },
+    {
+      "id": "q2",
+      "kind": "choice",
+      "objective": "st.m24.o1",
+      "lookAgain": "st.m24.sabermetrics",
+      "prompt": "The ten best hitters of the first half of a season, as a group, hit worse in the second half. What is the most likely explanation?",
+      "options": [
+        "Regression to the mean: their first halves were talent plus good luck, and the luck does not carry over",
+        "They all got injured",
+        "Pitchers learned to get them out",
+        "The second half is always harder"
+      ],
+      "correct": [0],
+      "explanation": "Being at the top of a list selects players who were good and lucky. Their talent stays; their luck averages out, so they move back toward the mean. The same happens to the worst hitters, who tend to improve."
+    },
+    {
+      "id": "q3",
+      "kind": "numeric",
+      "objective": "st.m24.o2",
+      "lookAgain": "st.m24.pythagorean",
+      "prompt": "A team scored 800 runs and allowed 700. With the Pythagorean exponent k = 2, what share of its games should it win? Give it to three decimals.",
+      "answer": 0.566,
+      "tolerance": 0.001,
+      "explanation": "800²/(800² + 700²) = 640,000/1,130,000 = 0.566: about 92 wins in a 162-game season."
+    },
+    {
+      "id": "q4",
+      "kind": "choice",
+      "objective": "st.m24.o2",
+      "lookAgain": "st.m24.pythagorean",
+      "prompt": "A team won 95 games, but its runs scored and allowed give a Pythagorean expectation of 85. What should its front office expect next season, other things equal?",
+      "options": [
+        "About 85-win quality: the extra 10 wins were mostly luck in close games and are unlikely to repeat",
+        "At least 95 wins, since the team knows how to win close games",
+        "Exactly 95 wins",
+        "Fewer than 75 wins"
+      ],
+      "correct": [0],
+      "explanation": "The residual from the Pythagorean line is mostly luck. Teams that outperform their run differential tend to regress toward it the next season, so the expected record is the better guide to the team's quality."
+    },
+    {
+      "id": "q5",
+      "kind": "numeric",
+      "objective": "st.m24.o3",
+      "lookAgain": "st.m24.winprob",
+      "prompt": "With Elo ratings, what is the expected score of a 1,700-rated player against a 1,500-rated one, E = 1/(1 + 10^((R_B − R_A)/400))? Give it to three decimals.",
+      "answer": 0.760,
+      "tolerance": 0.001,
+      "explanation": "E = 1/(1 + 10^(−200/400)) = 1/(1 + 10^(−0.5)) = 1/(1 + 0.316) = 0.760."
+    },
+    {
+      "id": "q6",
+      "kind": "numeric",
+      "objective": "st.m24.o3",
+      "lookAgain": "st.m24.winprob",
+      "prompt": "The 1,700 player (expected score 0.760) loses to the 1,500 player. With K = 32, by how many points does her rating change? Give it to one decimal (negative for a fall).",
+      "answer": -24.3,
+      "tolerance": 0.05,
+      "explanation": "Change = K(S − E) = 32 × (0 − 0.760) = −24.3. The upset costs her far more than a win would have earned her (32 × 0.24 = 7.7)."
+    },
+    {
+      "id": "q7",
+      "kind": "numeric",
+      "objective": "st.m24.o4",
+      "lookAgain": "st.m24.hothand",
+      "prompt": "A sequence of 10 shots has 6 makes and 4 misses. If the shots are independent (no hot hand), how many runs are expected, 1 + 2n₁n₂/n? Give it to one decimal.",
+      "answer": 5.8,
+      "tolerance": 0.05,
+      "explanation": "1 + 2 × 6 × 4/10 = 1 + 4.8 = 5.8 runs. Far fewer runs than this would suggest makes and misses cluster: streakiness."
+    },
+    {
+      "id": "q8",
+      "kind": "choice",
+      "objective": "st.m24.o4",
+      "lookAgain": "st.m24.hothand",
+      "prompt": "In short sequences of shots by a player with no hot hand, the share of makes that follow a make is, on average, a little below the player's make rate. What does that mean for a study that finds the after-make and after-miss rates equal?",
+      "options": [
+        "Since chance alone would make the after-make rate lower, finding them equal is evidence of a modest hot hand",
+        "It proves there is no hot hand",
+        "It means the shots were not independent",
+        "Nothing: the bias is too small to matter"
+      ],
+      "correct": [0],
+      "explanation": "This is Miller and Sanjurjo's 2018 point. The naive comparison is biased against the hot hand; corrected for the bias, equal rates mean shooters do slightly better after makes."
+    },
+    {
+      "id": "q9",
+      "kind": "numeric",
+      "objective": "st.m24.o5",
+      "lookAgain": "st.m24.odds",
+      "prompt": "A match with two possible outcomes is offered at decimal odds 1.50 and 2.60. What is the sum of the implied probabilities, 1/1.50 + 1/2.60? Give it to three decimals.",
+      "answer": 1.051,
+      "tolerance": 0.001,
+      "explanation": "1/1.50 + 1/2.60 = 0.667 + 0.385 = 1.051. True probabilities add to 1; the extra 0.051 (about 5 %) is the bookmaker's margin, which makes the expected value of a stake negative."
+    },
+    {
+      "id": "q10",
+      "kind": "numeric",
+      "objective": "st.m24.o6",
+      "lookAgain": "st.m24.science",
+      "prompt": "Players did a jump test twice; the standard deviation of their trial-to-trial differences is 0.8 cm. What is the typical error of one test? Give it to three decimals.",
+      "answer": 0.566,
+      "tolerance": 0.001,
+      "unit": "cm",
+      "explanation": "Typical error = SD of the differences/√2 = 0.8/1.414 = 0.566 cm. A player's change between two tests must be clearly larger than about 0.8 cm (√2 × 0.566) to stand out from the noise."
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "st.m24.hothand.eg",
+  "title": "Shots after a make and after a miss",
+  "analysis": "ChiSquareTest",
+  "intro": "Illustrative data, made up for this book: the sizes and patterns are realistic, the teams and players are not real. 400 shots by one basketball player, each classified by what happened on the shot before it. After a make: 104 made, 96 missed. After a miss: 96 made, 104 missed. Is a make more likely after a make?",
+  "tables": [
+    {
+      "name": "Shots",
+      "columns": {
+        "Made": [
+          104,
+          96
+        ],
+        "Missed": [
+          96,
+          104
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Hot hand",
+    "Test": "Independence",
+    "Alpha": 0.05,
+    "CountsTable": "@Shots/",
+    "RowNames": "After a make, After a miss",
+    "Correction": "None"
+  }
+}

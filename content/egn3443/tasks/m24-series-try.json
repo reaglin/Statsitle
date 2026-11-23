@@ -1,0 +1,14 @@
+{
+  "id": "st.m24.series.try",
+  "title": "Winning a best-of-seven series",
+  "analysis": "DiscreteDistribution",
+  "intro": "A team wins each game with probability p, independently. It wins a best-of-seven series if it would win at least 4 of 7 games (playing all seven does not change who wins first to four).",
+  "settings": {
+    "Name": "Games won of seven",
+    "Family": "Binomial",
+    "Trials": 7,
+    "SuccessProbability": 0.6,
+    "K": 4,
+    "K2": null
+  }
+}

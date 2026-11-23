@@ -1,0 +1,39 @@
+{
+  "id": "st.m24.winprob.ex",
+  "title": "A football team's win probability",
+  "analysis": "ContinuousDistribution",
+  "intro": "Illustrative data, made up for this book: the sizes and patterns are realistic, the teams and players are not real. An American-football team trails by 3 points with 12 minutes left. Model the final margin as normal with mean −3 (the current margin) and standard deviation 13.5 × √(12/60) = 6.04 points.\n\nGive the team's win probability P(final margin > 0) and its z-score of 0 (four decimals).\n\nIn the Workbench: **Continuous distribution**, **Normal**, mean −3, standard deviation 6.04, **Value of interest** 0.",
+  "settings": {
+    "Name": "Final margin",
+    "Family": "Normal",
+    "Mu": -3,
+    "Sigma": 6.04,
+    "X": 0,
+    "X2": null,
+    "Probability": 0.5
+  },
+  "ask": [
+    {
+      "result": "MoreThan",
+      "prompt": "Win probability P(margin > 0)",
+      "tolerance": 0.0002
+    },
+    {
+      "result": "ZScore",
+      "prompt": "z-score of a margin of 0",
+      "tolerance": 0.0002
+    }
+  ],
+  "mistakes": {
+    "MoreThan": [
+      {
+        "result": "AtMost",
+        "says": "That is P(margin ≤ 0), the chance of losing. The win probability is P(margin > 0)."
+      }
+    ]
+  },
+  "hints": [
+    "z = (0 − (−3))/6.04.",
+    "P(margin > 0) = P(Z > z) (item 5.3)."
+  ]
+}

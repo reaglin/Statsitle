@@ -1,0 +1,48 @@
+{
+  "id": "st.m24.hothand.ex",
+  "title": "A free-throw shooter: hot hand or not?",
+  "analysis": "ChiSquareTest",
+  "intro": "Illustrative data, made up for this book: the sizes and patterns are realistic, the teams and players are not real. 600 free throws by one player, each classified by the result of the previous attempt in the same trip to the line.\n\n| | Made | Missed |\n|---|---|---|\n| After a make | 345 | 105 |\n| After a miss | 105 | 45 |\n\nTest whether the result is independent of the previous attempt (no correction). Give χ² (three decimals), the degrees of freedom and the p-value (four decimals).",
+  "tables": [
+    {
+      "name": "FreeThrows",
+      "columns": {
+        "Made": [
+          345,
+          105
+        ],
+        "Missed": [
+          105,
+          45
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Free throws",
+    "Test": "Independence",
+    "Alpha": 0.05,
+    "CountsTable": "@FreeThrows/",
+    "RowNames": "After a make, After a miss",
+    "Correction": "None"
+  },
+  "ask": [
+    {
+      "result": "Statistic",
+      "prompt": "χ²",
+      "tolerance": 0.002
+    },
+    {
+      "result": "DegreesOfFreedom",
+      "prompt": "Degrees of freedom"
+    },
+    {
+      "result": "P",
+      "prompt": "p-value",
+      "tolerance": 0.0002
+    }
+  ],
+  "hints": [
+    "Make rate after a make: 345/450; after a miss: 105/150."
+  ]
+}

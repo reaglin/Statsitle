@@ -1,0 +1,86 @@
+{
+  "id": "st.m24.retest.try",
+  "title": "Reliability: one bad trial",
+  "analysis": "SimpleRegression",
+  "intro": "Illustrative data, made up for this book: the sizes and patterns are realistic, the teams and players are not real. Twenty athletes' two sprint trials. Change one trial and watch the reliability.",
+  "tables": [
+    {
+      "name": "Sprint",
+      "columns": {
+        "Trial 1 (s)": [
+          4.27,
+          4.32,
+          4.17,
+          4.63,
+          4.13,
+          4.38,
+          4.17,
+          4.16,
+          4.35,
+          4.11,
+          3.81,
+          4.4,
+          4.16,
+          4.4,
+          3.94,
+          4.29,
+          4.38,
+          4.5,
+          4.37,
+          4.19
+        ],
+        "Trial 2 (s)": [
+          4.25,
+          4.37,
+          4.16,
+          4.69,
+          4.12,
+          4.38,
+          4.15,
+          4.06,
+          4.26,
+          4.09,
+          3.95,
+          4.38,
+          4.14,
+          4.38,
+          3.95,
+          4.26,
+          4.31,
+          4.47,
+          4.43,
+          4.2
+        ],
+        "Difference (s)": [
+          -0.02,
+          0.05,
+          -0.01,
+          0.06,
+          -0.01,
+          0.0,
+          -0.02,
+          -0.1,
+          -0.09,
+          -0.02,
+          0.14,
+          -0.02,
+          -0.02,
+          -0.02,
+          0.01,
+          -0.03,
+          -0.07,
+          -0.03,
+          0.06,
+          0.01
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Sprint reliability",
+    "XColumn": "@Sprint/Trial 1 (s)",
+    "YColumn": "@Sprint/Trial 2 (s)",
+    "Confidence": 0.95,
+    "PredictAt": null
+  }
+}

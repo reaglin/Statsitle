@@ -1,0 +1,44 @@
+{
+  "id": "st.m24.science.ex",
+  "title": "Countermovement jump: the typical error",
+  "analysis": "DescriptiveStatistics",
+  "intro": "Illustrative data, made up for this book: the sizes and patterns are realistic, the teams and players are not real. Eighteen players did a countermovement jump test twice in a session; the values are the differences (cm), trial 2 minus trial 1.\n\nGive the mean difference (two decimals) and the standard deviation of the differences (three decimals). The **typical error** of one test is that standard deviation divided by √2; the Learn page uses it to judge whether a player's change is real.\n\nIn the Workbench: **Descriptive statistics**, paste the differences.",
+  "settings": {
+    "Name": "Jump differences",
+    "Sample": [
+      1.8,
+      -1.6,
+      -1.4,
+      0.5,
+      1.3,
+      -1.2,
+      -1.7,
+      -2.1,
+      0.3,
+      2.1,
+      0.2,
+      0.2,
+      3.0,
+      2.4,
+      -3.3,
+      0.1,
+      0.1,
+      2.9
+    ],
+    "Classes": 0
+  },
+  "ask": [
+    {
+      "result": "Mean",
+      "prompt": "Mean difference (cm)"
+    },
+    {
+      "result": "StandardDeviation",
+      "prompt": "Standard deviation of the differences (cm)",
+      "tolerance": 0.002
+    }
+  ],
+  "hints": [
+    "A mean near 0 means no learning or fatigue between trials; the SD measures the noise."
+  ]
+}

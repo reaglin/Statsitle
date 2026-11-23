@@ -1,0 +1,14 @@
+{
+  "id": "st.m24.streak.try",
+  "title": "How many makes in 20 shots, by chance alone?",
+  "analysis": "DiscreteDistribution",
+  "intro": "A 50 % shooter takes 20 shots, each independent. The number made is binomial: even with no hot hand at all, some games bring 14 or more.",
+  "settings": {
+    "Name": "Shots made of 20",
+    "Family": "Binomial",
+    "Trials": 20,
+    "SuccessProbability": 0.5,
+    "K": 14,
+    "K2": null
+  }
+}

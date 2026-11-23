@@ -1,0 +1,15 @@
+{
+  "id": "st.m24.winprob.eg",
+  "title": "Win probability from the score and the time left",
+  "analysis": "ContinuousDistribution",
+  "intro": "Illustrative data, made up for this book: the sizes and patterns are realistic, the teams and players are not real. A basketball team leads by 6 points with 8 minutes left. The final margin is modelled as normal: mean = the current lead, standard deviation = 2.2 points × √(minutes left) = 6.22. P(final margin > 0) is the win probability (ties ignored).",
+  "settings": {
+    "Name": "Final margin",
+    "Family": "Normal",
+    "Mu": 6,
+    "Sigma": 6.22,
+    "X": 0,
+    "X2": null,
+    "Probability": 0.5
+  }
+}

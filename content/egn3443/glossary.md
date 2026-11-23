@@ -623,3 +623,53 @@ The share of time a system works: MTBF/(MTBF + MTTR).
 ## Benchmark
 Also: benchmarking, benchmarks
 Measuring a system's performance on a fixed task, repeated so the result has a confidence interval.
+
+## Sabermetrics
+The statistical analysis of baseball, judging players and strategies by the numbers that go with scoring and winning.
+
+## On-base percentage
+Also: OBP
+The share of plate appearances in which a batter reaches base by a hit, a walk or being hit by a pitch.
+
+## Batting average
+Also: AVG
+A batter's hits divided by at-bats; it ignores walks.
+
+## Regression to the mean
+Also: regression toward the mean
+The tendency of an extreme result, partly due to luck, to be followed by one closer to the average.
+
+## Pythagorean expectation
+Also: Pythagorean formula
+A team's expected win share from points scored (RS) and allowed (RA): RS^k/(RS^k + RA^k).
+
+## Elo rating
+Also: Elo, Elo ratings
+A rating system in which the rating difference gives each side's expected score, and ratings move toward each result.
+
+## Win probability
+The chance that a team wins from a given score and time left, from a model of the rest of the game.
+
+## Hot hand
+The belief that a player who has just succeeded is more likely to succeed on the next attempt.
+
+## Runs test
+Also: Wald–Wolfowitz runs test
+A test of whether a sequence has too few or too many runs (stretches of like outcomes) for independent trials.
+
+## Decimal odds
+The total returned per unit staked if an outcome happens; their reciprocal is the implied probability.
+
+## Implied probability
+The probability an offered price implies, 1/(decimal odds); the implied probabilities of all outcomes add to more than 1.
+
+## Bookmaker's margin
+Also: overround, vig
+The amount by which the implied probabilities of all outcomes exceed 1; it makes the expected value of a stake negative.
+
+## Typical error
+The noise in one measurement of a test: the standard deviation of trial-to-trial differences divided by √2.
+
+## Smallest worthwhile change
+Also: SWC
+The smallest change in a measure that matters in practice, often 0.2 × the between-athlete standard deviation.

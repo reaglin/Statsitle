@@ -1,0 +1,144 @@
+{
+  "id": "st.m24.sabermetrics.ex",
+  "title": "Runs per game and batting average, another season",
+  "analysis": "SimpleRegression",
+  "intro": "Illustrative data, made up for this book: the sizes and patterns are realistic, the teams and players are not real. Another season of the 30-team league. Regress runs per game on **batting average** (AVG).\n\nGive the correlation r, R² and the slope (runs per game per point of AVG, three decimals). Then compare: in the Learn page's season, OBP gave R² = 0.86. Which statistic tracks run scoring better?\n\nIn the Workbench: **Simple linear regression**, **x column** *AVG*, **y column** *Runs per game*.",
+  "tables": [
+    {
+      "name": "Teams",
+      "columns": {
+        "OBP": [
+          0.332,
+          0.318,
+          0.319,
+          0.332,
+          0.309,
+          0.325,
+          0.323,
+          0.335,
+          0.329,
+          0.305,
+          0.302,
+          0.31,
+          0.33,
+          0.293,
+          0.299,
+          0.318,
+          0.323,
+          0.325,
+          0.335,
+          0.302,
+          0.314,
+          0.333,
+          0.319,
+          0.33,
+          0.322,
+          0.312,
+          0.318,
+          0.317,
+          0.317,
+          0.314
+        ],
+        "AVG": [
+          0.262,
+          0.244,
+          0.254,
+          0.261,
+          0.221,
+          0.264,
+          0.258,
+          0.263,
+          0.253,
+          0.219,
+          0.219,
+          0.228,
+          0.259,
+          0.224,
+          0.22,
+          0.246,
+          0.26,
+          0.252,
+          0.259,
+          0.238,
+          0.241,
+          0.266,
+          0.242,
+          0.259,
+          0.246,
+          0.257,
+          0.236,
+          0.231,
+          0.253,
+          0.219
+        ],
+        "Runs per game": [
+          4.76,
+          4.3,
+          4.21,
+          4.68,
+          3.99,
+          4.28,
+          4.59,
+          4.66,
+          4.77,
+          3.91,
+          3.93,
+          3.87,
+          4.65,
+          3.67,
+          3.66,
+          4.11,
+          4.32,
+          4.49,
+          4.99,
+          3.88,
+          4.22,
+          4.73,
+          4.2,
+          4.59,
+          4.24,
+          3.95,
+          4.16,
+          4.07,
+          4.12,
+          4.25
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "Name": "Runs and AVG",
+    "XColumn": "@Teams/AVG",
+    "YColumn": "@Teams/Runs per game",
+    "Confidence": 0.95,
+    "PredictAt": null
+  },
+  "ask": [
+    {
+      "result": "Correlation",
+      "prompt": "Correlation r",
+      "tolerance": 0.002
+    },
+    {
+      "result": "RSquared",
+      "prompt": "R²",
+      "tolerance": 0.002
+    },
+    {
+      "result": "Slope",
+      "prompt": "Slope",
+      "tolerance": 0.05
+    }
+  ],
+  "mistakes": {
+    "Correlation": [
+      {
+        "result": "RSquared",
+        "says": "That is R². The correlation r is its square root."
+      }
+    ]
+  },
+  "hints": [
+    "x is AVG, y runs per game."
+  ]
+}

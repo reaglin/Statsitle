@@ -1,0 +1,13 @@
+{
+  "id": "st.m24.stake.try",
+  "title": "The same stake at the probability the odds imply",
+  "analysis": "DiscreteDistribution",
+  "intro": "A $10 stake at decimal odds 2.50 (gain $15 or lose $10), if the true probability were exactly the 0.40 the odds imply.",
+  "settings": {
+    "Name": "Gain on a $10 stake",
+    "Family": "Table",
+    "Table": "15\t0.40\n-10\t0.60",
+    "K": 0,
+    "K2": null
+  }
+}

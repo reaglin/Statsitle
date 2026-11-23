@@ -1,0 +1,13 @@
+{
+  "id": "st.m24.odds.eg",
+  "title": "The expected value of a $10 stake at decimal odds 2.50",
+  "analysis": "DiscreteDistribution",
+  "intro": "Decimal odds of 2.50 pay $25 back for a $10 stake if the outcome happens: a gain of $15, or a loss of $10. If the outcome's true probability is 0.38, the gain is a random variable with these two values. Its mean is the expected value of the stake.",
+  "settings": {
+    "Name": "Gain on a $10 stake",
+    "Family": "Table",
+    "Table": "15\t0.38\n-10\t0.62",
+    "K": 0,
+    "K2": null
+  }
+}
