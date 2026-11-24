@@ -28,8 +28,8 @@ the same product**: same identity, Product name Statistics+.
 | `.msixupload` | ✅ Built 2026-11-23: `artifacts\Statistle_2.1.0.0_x64_bundle.msixupload` (78.1 MB; 696 course files inside, Part III's Modules 19–24 among them); family name derived from the built manifest = `DeanEaglin.statistle_xs303fgqvwdg8`; the staged program starts as "Statistics+ — Untitled" (2.1.0.0) and closes |
 | Listing copy | ✅ `STORE-LISTING.md`, rewritten for 2.1.0 (three parts, My notes, Glossary, Course Links, the new window, What's new) |
 | Screenshots | ✅ 10 at 1600 × 1000 in `images/store/screenshots-2.1/` (the order is in `STORE-LISTING.md`) |
-| WACK | ☐ **Ron** runs `packaging/run-wack.ps1` (needs elevation) on the 2.1.0 bundle |
-| Submit | ☐ **Ron**, after WACK (order below) |
+| WACK | ✅ Ron ran it 2026-11-23 on 2.1.0.0: **overall PASS, 23 of 24** (only Blocked executables, optional; `artifacts/wack-report.xml`) |
+| Submit | ✅ **Submitted for certification 2026-11-23** (Partner Center submission 2): Ron uploaded the 2.1.0 package; Claude entered the listing (description, What's new, short description, 19 features, Developed by), the 10 screenshots in order and the certification notes, checked the privacy URL, deployed softwareplus.ai/statistle and submitted. The search keywords were left as they were in Partner Center |
 
 ## The Partner Center account
 
