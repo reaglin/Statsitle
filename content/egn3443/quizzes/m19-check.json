@@ -26,7 +26,9 @@
         "So that the patients do not know which treatment they get",
         "To make the sample size larger"
       ],
-      "correct": [1],
+      "correct": [
+        1
+      ],
       "explanation": "Doctors may give the new treatment to the patients they expect to do well (or badly), and then the groups differ in more than the treatment. Random assignment balances every other factor on average, even unmeasured ones. Not knowing the treatment is blinding, a different safeguard."
     },
     {
@@ -71,7 +73,9 @@
         "It has a 52 % positive predictive value",
         "It needs a larger sample size"
       ],
-      "correct": [1],
+      "correct": [
+        1
+      ],
       "explanation": "An AUC of 0.5 is the diagonal of the ROC plot: a test that separates the groups no better than tossing a coin. 0.52 is barely above it. Good tests have an AUC above about 0.8."
     },
     {
@@ -81,7 +85,7 @@
       "lookAgain": "st.m19.survival",
       "prompt": "Eight patients' months to relapse (+ = censored): 2, 3+, 5, 5, 8, 9+, 12, 14. Use the Kaplan–Meier method to estimate S(8), the probability of being relapse-free after 8 months. Give it to three decimals.",
       "answer": 0.438,
-      "tolerance": 0.001,
+      "tolerance": 0.0015,
       "explanation": "At 2: 8 at risk, 1 relapse, S = 7/8 = 0.875. 3+ is censored. At 5: 6 at risk, 2 relapses, S = 0.875 × 4/6 = 0.583. At 8: 4 at risk, 1 relapse, S = 0.583 × 3/4 = 0.4375 ≈ 0.438. The censored patients leave the at-risk count without a relapse."
     },
     {

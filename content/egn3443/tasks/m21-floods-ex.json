@@ -82,7 +82,7 @@
     ]
   },
   "hints": [
-    "μ and σ are the mean and standard deviation of ln(peak).",
+    "μ and σ are the mean and standard deviation of ln(peak), the standard deviation dividing by n (maximum likelihood), not n − 1.",
     "The T-year flood has exceedance probability 1/T: the 50-year flood is the 1 − 1/50 = 0.98 quantile."
   ]
 }

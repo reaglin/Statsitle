@@ -60,6 +60,7 @@ obs = [298, 489, 213]; p = (2*298 + 489) / 2000
 exp = [1000*p*p, 1000*2*p*(1-p), 1000*(1-p)**2]
 chi2, pval = stats.chisquare(obs, exp, ddof=1)        # ddof=1: p was estimated
 from statsmodels.stats.multitest import multipletests
+pvals = [0.0002, 0.003, 0.011, 0.04, 0.2]          # your list of p-values
 reject, p_adj, _, _ = multipletests(pvals, alpha=0.05, method="fdr_bh")
 ```
 
@@ -67,6 +68,7 @@ reject, p_adj, _, _ = multipletests(pvals, alpha=0.05, method="fdr_bh")
 obs <- c(298, 489, 213); p <- (2*298 + 489) / 2000
 e <- 1000 * c(p^2, 2*p*(1-p), (1-p)^2)
 x2 <- sum((obs - e)^2 / e); pchisq(x2, df = 1, lower.tail = FALSE)
+pvals <- c(0.0002, 0.003, 0.011, 0.04, 0.2)          # your p-values
 p.adjust(pvals, method = "BH") < 0.05
 ```
 
@@ -84,10 +86,10 @@ On the **Exercise** tab, 400 plants genotyped: test Hardy–Weinberg equilibrium
 
 [[example: Many genes tested at once]]
 
-A simulation: **20 tests**, each of a gene with no real effect, at α = 0.05. In **644 of 1,000** simulated studies at least one gene came out "significant" (theory: 1 − 0.95²⁰ = 0.64).
+A simulation: **20 tests**, each of a gene with no real effect, at α = 0.05. In **644 of 1,000** simulated studies at least one gene came out "significant" (theory: 1 − 0.95²⁰ = 0.64). This is the **familywise** error that Bonferroni controls; the false discovery rate on the Learn page is the gentler aim of keeping the *share* of false findings small.
 
 1. **Move the number of tests to 100.** Nearly every study now "finds" something: about 99 %.
 2. **Move α to 0.0025** (Bonferroni for 20 tests, 0.05/20) with 20 tests. The chance of any false discovery falls back to about 5 %.
 3. **Change the seed** to run another 1,000 studies: the share moves a little; the theory does not.
 
-[[try: st.m19.fdr.try Tests=1..200 Alpha=0.0005..0.1 Seed | Occurrences ExperimentalProbability TheoreticalProbability figure=1]]
+[[try: st.m19.fdr.try Tests=1..100 Alpha=0.0005..0.1 Seed | Occurrences ExperimentalProbability TheoreticalProbability figure=1]]

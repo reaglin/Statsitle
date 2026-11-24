@@ -2,7 +2,7 @@
   "id": "st.m23.bayes.ex",
   "title": "The word \"invoice\"",
   "analysis": "ProbabilityRules",
-  "intro": "Illustrative data, made up for this book. In a company's mail, 25 % is spam. The word \"invoice\" appears in 12 % of spam (phishing) and in 6 % of genuine mail. Let A = spam, B = contains \"invoice\".\n\nGive P(B) and P(A|B), each to four decimals. Is \"invoice\" much evidence either way?\n\nIn the Workbench: **Probability rules**, **What is known** *Likelihoods (Bayes)*.",
+  "intro": "Illustrative data, made up for this book. In a company's mail, 25 % is spam. The word \"invoice\" appears in 12 % of spam (phishing) and in 6 % of genuine mail. Let A = spam, B = contains \"invoice\".\n\nGive P(B) and P(A|B), each to four decimals. Is \"invoice\" much evidence either way?\n\nIn the Workbench: **Probability rules**, **How A and B relate** *P(B | A) and P(B | A′) are known — Bayes* (A′ = not A).",
   "settings": {
     "Name": "Spam and \"invoice\"",
     "Relationship": "KnownLikelihoods",

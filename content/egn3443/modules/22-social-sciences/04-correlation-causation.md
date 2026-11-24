@@ -36,7 +36,7 @@ An association between X and Y can arise in several ways:
 4. **Chance**, especially when many correlations are tested.
 5. **Selection**: the sample was chosen in a way that creates the link.
 
-Only a **randomised experiment** (item 22.3) separates the first from the rest. When an experiment is impossible or unethical, researchers measure possible confounders and **adjust** for them in a multiple regression (Module 12), look for a dose–response pattern, check the timing (cause before effect), and see whether many different studies agree.
+A **randomised experiment** (item 22.3) is the surest way to separate the first from the rest. When an experiment is impossible or unethical, researchers measure possible confounders and **adjust** for them in a multiple regression (Module 12), look for a dose–response pattern, check the timing (cause before effect), and see whether many different studies agree.
 
 ## Simpson's paradox
 

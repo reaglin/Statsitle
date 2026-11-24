@@ -2,7 +2,7 @@
   "id": "st.m23.performance.ex",
   "title": "Benchmarking a database query",
   "analysis": "ConfidenceInterval",
-  "intro": "Illustrative data, made up for this book. A query was timed 16 times after a warm-up: mean 182.4 ms, standard deviation 9.6 ms.\n\nGive the 95 % interval for the mean query time (lower and upper, two decimals) and its margin of error.\n\nIn the Workbench: **Confidence interval**, **Target** *Mean, σ unknown (t)*, **Data from** *Summary*.",
+  "intro": "Illustrative data, made up for this book. A query was timed 16 times after a warm-up: mean 182.4 ms, standard deviation 9.6 ms.\n\nGive the 95 % interval for the mean query time (lower and upper, two decimals) and its margin of error (two decimals).\n\nIn the Workbench: **Confidence interval**, **Target** *Mean, σ unknown (t)*, **Data from** *Summary statistics entered here*.",
   "settings": {
     "Name": "Query time",
     "Target": "MeanSigmaUnknown",

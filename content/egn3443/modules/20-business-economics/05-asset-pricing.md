@@ -39,7 +39,7 @@ Beta is estimated by regressing the stock's excess return on the market's (Modul
 
 (Rᵢ − R_f) = α + β (R_m − R_f) + error
 
-- **β** (the slope): how much the stock moves when the market moves 1 %. β > 1: more volatile than the market (technology stocks); β < 1: less (utilities, food).
+- **β** (the slope): how much the stock moves when the market moves 1 %. β > 1: moves more than the market (technology stocks); β < 1: less (utilities, food).
 - **α** (the intercept): the average return beyond what beta explains. The CAPM says α = 0; a fund manager who earns α > 0 reliably has beaten the market.
 - **R²**: the share of the stock's variance that is market risk; 1 − R² is the company's own risk, which diversification removes.
 

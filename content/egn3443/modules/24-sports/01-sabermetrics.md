@@ -73,7 +73,7 @@ On the **Exercise** tab, another season of the same league: regress runs on batt
 
 Forty players' batting averages in the first and second half of a season. The slope of second half on first half is **0.43**, far below 1, and r = **0.42**: a player who hit **.320** in the first half is predicted to hit about **.280** in the second.
 
-1. **Change the best first half** (the 10th player, .325) to .400, with the same second half. The slope falls to **0.31**: that player's second half stayed ordinary, so a first half this hot predicts little. One hot half is mostly luck, and the line says so.
+1. **Change the best first half** (the 10th player, .325) to .400, with the same second half. The slope falls to **0.31**: one extreme point with an ordinary second half pulls the line down, a reminder to check influential points (item 13.5). Regression to the mean is the slope below 1 across all forty players, not this one point.
 2. **Watch the prediction at .320.** Move it toward .265 (the league's mean): the predicted second half approaches the mean too.
 
 [[try: st.m24.regression-mean.try "@Halves/First half" PredictAt=0.2..0.4 | Equation Slope Correlation FittedAt figure=1]]

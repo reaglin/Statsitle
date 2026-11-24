@@ -46,7 +46,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 > (`content/egn3443/glossary.md`, `GlossaryPanel`, dotted-underline key terms), Course Links, the Workbench's help as a light blue
 > column that hides to the right; **the book in three parts** (`content/egn3443/parts/`, `StatsContent.PartPages`): Part I ·
 > Fundamental Statistics for Engineers (Modules 1–14), Parts II · Advanced Statistics (15–18) and III · Additional Applications of
-> Statistics (19–23) in development (phase P writes them). ⚠️ Ron's hand-test round 2026-11-23b (parts AA–AF); question Q19.
+> Statistics (19–24). ⚠️ Ron's hand-test round 2026-11-23b (parts AA–AF).
+> **Part III written (2026-11-23, plan P.6–P.7; Ron: Q19 keep the fields, add Sports):** Modules 19 Biology and Medicine, 20 Business
+> and Economics (the pilot), 21 Environmental and Earth Sciences, 22 Social Sciences and Psychology, 23 Data Science and Computing,
+> 24 Sports: six items and a check each, applications that point back to Part I; data illustrative unless cited
+> (`docs/METHODS-AND-SOURCES.md`, Part III). No new analysis. Print a module's results while writing:
+> `STATISTLE_PRINT_TASKS=st.m24. STATISTLE_PRINT_FILE=<file> dotnet test tests/Statistle.Learning.Tests --filter Print_tasks_when_asked`.
+> Part II (15–18) still in development. ⚠️ Ron's hand-test round 2026-11-23c (parts AG–AM).
 
 **Statistle** — a Windows 10/11 desktop app that calculates the statistics of Ron's course
 EGN3443 *Probability and Statistics for Engineers* (`github.com/reaglin/egn3443`), explains

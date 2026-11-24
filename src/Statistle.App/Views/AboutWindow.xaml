@@ -68,7 +68,7 @@
             <Border BorderBrush="#D5DBE1" BorderThickness="1" Background="White" Padding="12">
                 <StackPanel>
                     <TextBlock TextWrapping="Wrap" Margin="0,0,0,8"
-                               Text="Statistics+ is free software for learning statistics, a PlusBook in three parts: Part I, Fundamental Statistics for Engineers, follows EGN3443 topic by topic; Part II, Advanced Statistics, and Part III, Additional Applications of Statistics, are in development. Each topic has a lesson (Learn), worked examples, an exercise it checks, a reference page and your own notes, and your progress is kept." />
+                               Text="Statistics+ is free software for learning statistics, a PlusBook in three parts: Part I, Fundamental Statistics for Engineers, follows EGN3443 topic by topic; Part III, Additional Applications of Statistics, shows how statistics is used in six fields, from medicine to sport; Part II, Advanced Statistics, is in development. Each topic has a lesson (Learn), worked examples, an exercise it checks, a reference page and your own notes, and your progress is kept." />
                     <TextBlock TextWrapping="Wrap" Margin="0,0,0,8"
                                Text="The Workbench is the calculator: enter your own data in a table, choose an analysis, and read the results. Every input and every number is explained in the help panel, and the Instructions tab has a full page on each analysis." />
                     <TextBlock TextWrapping="Wrap"

@@ -2,7 +2,7 @@
   "id": "st.m19.dose.ex",
   "title": "Toxicity of a pesticide to a water flea",
   "analysis": "SimpleRegression",
-  "intro": "Illustrative data, made up for this book. Six groups of 40 water fleas were exposed for 48 hours to a pesticide at 1, 2, 4, 8, 16 and 32 µg per litre. The table gives the number killed in each group and the empirical logit ln((killed + 0.5)/(survived + 0.5)).\n\nRegress the logit on log₁₀(concentration). Give the intercept b₀ and the slope b₁ (three decimals) and R². (The Learn page turns them into the EC50, 10^(−b₀/b₁); the module check asks for one.)\n\nIn the Workbench: **Simple linear regression**, **x column** *Log10 conc*, **y column** *Logit*.",
+  "intro": "Illustrative data, made up for this book. Six groups of 40 water fleas were exposed for 48 hours to a pesticide at 1, 2, 4, 8, 16 and 32 µg per litre. The table gives the number killed in each group and the empirical logit ln((killed + 0.5)/(survived + 0.5)).\n\nRegress the logit on log₁₀(concentration). Give the intercept b₀ and the slope b₁ (three decimals) and R². (The Learn page turns such a line into the concentration that kills half, the LC50 = 10^(−b₀/b₁).)\n\nIn the Workbench: **Simple linear regression**, **x column** *Log10 conc*, **y column** *Logit*.",
   "tables": [
     {
       "name": "Fleas",

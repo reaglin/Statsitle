@@ -388,7 +388,7 @@ The rate at which the event happens at time t among those who have not yet had i
 
 ## Censoring
 Also: censored
-Knowing only that a time to an event is longer than the follow-up, because the study ended or the subject left first.
+Knowing only part of a value: that a time to an event is longer than the follow-up (the study ended or the subject left first), or, for a value below a detection limit, only that it is smaller.
 
 ## Kaplan–Meier estimate
 Also: Kaplan–Meier, Kaplan-Meier
@@ -651,7 +651,7 @@ A rating system in which the rating difference gives each side's expected score,
 The chance that a team wins from a given score and time left, from a model of the rest of the game.
 
 ## Hot hand
-The belief that a player who has just succeeded is more likely to succeed on the next attempt.
+The idea that a player who has just succeeded is more likely to succeed on the next attempt; after the 2018 correction there is modest evidence for it.
 
 ## Runs test
 Also: Wald–Wolfowitz runs test

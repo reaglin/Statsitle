@@ -36,7 +36,7 @@ One 162-game season of 30 teams (illustrative data, made up for this book):
 
 - The fitted exponent is **k = 1.89** (95 % interval 1.47 to 2.31), consistent with the 1.83 used for real baseball.
 - The intercept, −0.03, is close to 0, as the formula says it should be.
-- R² = 0.75: run differential explains most of the variation in winning.
+- R² = 0.75: the log of the ratio of runs scored to runs allowed explains most of the variation in winning.
 
 [[see-example: 1]]
 

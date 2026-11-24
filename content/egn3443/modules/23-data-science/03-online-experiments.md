@@ -30,7 +30,7 @@ A streaming service tested a new recommendation layout. 200,000 users were rando
 
 A dashboard shows the p-value updating every hour. Stopping the test the first time p < 0.05 makes a false winner far more likely than 5 %: with daily looks over a month, the chance of crossing 0.05 at some point under H₀ is several times α. Remedies:
 
-- **Fix the sample size in advance** from a power calculation (item 22.6), and test once.
+- **Fix the sample size in advance** from a power calculation (item 8.6), and test once.
 - Use **sequential tests** designed for repeated looks, which spend α gradually (Part II).
 
 ## Many metrics

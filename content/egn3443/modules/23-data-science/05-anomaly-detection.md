@@ -18,7 +18,7 @@ The simplest anomaly detectors are Part I's outlier rules:
 
 - **z-score**: flag |x − x̄|/s > 3. Simple, but the mean and SD are themselves pulled by the anomalies.
 - **The box-plot fences**: flag values beyond Q₁ − 1.5 IQR or Q₃ + 1.5 IQR (item 2.3). The quartiles are hardly moved by a few extreme values, so the fences are **robust**.
-- **Control limits**: x̄ ± 3s on a control chart (item 1.6), watched over time.
+- **Control limits**: x̄ ± 3s on a control chart (item 1.6), watched over time. (Industrial charts for single values take their limits from the moving range, partly so that a few extreme points cannot hide themselves this way.)
 
 ## The Example: response times of a web service
 

@@ -103,6 +103,6 @@
     ]
   },
   "hints": [
-    "r = S_xy/√(S_xx S_yy); R² = r² for a simple regression (item 11.4)."
+    "r = S_xy/√(S_xx S_yy); R² = r² for a simple regression (item 11.1)."
   ]
 }

@@ -2,7 +2,7 @@
   "id": "st.m24.odds.ex",
   "title": "The expected value of a ticket in a charity raffle",
   "analysis": "DiscreteDistribution",
-  "intro": "A charity sells 2,000 raffle tickets at $5. Prizes: one of $1,000, two of $250 and ten of $50. A ticket's net gain is the prize minus the $5 it cost.\n\n| Net gain ($) | 995 | 245 | 45 | −5 |\n|---|---|---|---|---|\n| Probability | 0.0005 | 0.001 | 0.005 | 0.9935 |\n\nGive the expected net gain of one ticket and its standard deviation (two decimals). What does the expected value say about the raffle as a way to make money (as opposed to giving to the charity)?\n\nIn the Workbench: **Discrete distribution**, **Distribution** *Table of values*.",
+  "intro": "An illustrative raffle, made up for this book. A charity sells 2,000 raffle tickets at $5. Prizes: one of $1,000, two of $250 and ten of $50. A ticket's net gain is the prize minus the $5 it cost.\n\n| Net gain ($) | 995 | 245 | 45 | −5 |\n|---|---|---|---|---|\n| Probability | 0.0005 | 0.001 | 0.005 | 0.9935 |\n\nGive the expected net gain of one ticket and its standard deviation (two decimals). What does the expected value say about the raffle as a way to make money (as opposed to giving to the charity)?\n\nIn the Workbench: **Discrete distribution**, **Distribution** *Typed table of (x, P(x))*.",
   "settings": {
     "Name": "Raffle ticket",
     "Family": "Table",

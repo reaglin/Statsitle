@@ -56,13 +56,13 @@ Real data: the US Water Quality Portal (waterqualitydata.us) and the EPA's air-q
 ```python
 import numpy as np
 from scipy import stats
-ln_c = np.log(conc); mu, sigma = ln_c.mean(), ln_c.std(ddof=1)
+ln_c = np.log(conc); mu, sigma = ln_c.mean(), ln_c.std(ddof=0)   # maximum likelihood, as the Workbench
 p_exceed = stats.norm.sf((np.log(10) - mu) / sigma)      # P(X > 10)
 p95 = np.exp(mu + stats.norm.ppf(0.95) * sigma)
 ```
 
 ```r
-mu <- mean(log(conc)); sigma <- sd(log(conc))
+mu <- mean(log(conc)); sigma <- sqrt(mean((log(conc) - mu)^2))   # maximum likelihood, as the Workbench
 plnorm(10, mu, sigma, lower.tail = FALSE)                # P(X > 10)
 qlnorm(0.95, mu, sigma)
 # censored data: NADA2 package (cenmle, cenros)

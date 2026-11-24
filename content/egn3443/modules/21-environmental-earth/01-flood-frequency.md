@@ -54,17 +54,19 @@ Rainfall works the same way. The annual maximum rainfall of each **duration** (1
 
 ## In Python and R
 
+The Workbench fits the lognormal by **maximum likelihood**: σ is the standard deviation of the logs **dividing by n**, not n − 1 (with 30 years the two differ by under 2 %). The code below does the same, so its numbers match the Workbench's.
+
 ```python
 import numpy as np
 from scipy import stats
-ln_q = np.log(peaks); mu, sigma = ln_q.mean(), ln_q.std(ddof=1)
+ln_q = np.log(peaks); mu, sigma = ln_q.mean(), ln_q.std(ddof=0)   # maximum likelihood: divide by n
 q100 = np.exp(mu + stats.norm.ppf(0.99) * sigma)          # lognormal 100-year flood
 K = -np.sqrt(6)/np.pi * (0.5772 + np.log(np.log(100/99)))  # Gumbel frequency factor
 q100_gumbel = peaks.mean() + K * peaks.std(ddof=1)
 ```
 
 ```r
-mu <- mean(log(peaks)); sigma <- sd(log(peaks))
+mu <- mean(log(peaks)); sigma <- sqrt(mean((log(peaks) - mu)^2))   # maximum likelihood: divide by n
 qlnorm(0.99, mu, sigma)                                     # lognormal 100-year flood
 K <- -sqrt(6)/pi * (0.5772 + log(log(100/99)))
 mean(peaks) + K * sd(peaks)                                 # Gumbel

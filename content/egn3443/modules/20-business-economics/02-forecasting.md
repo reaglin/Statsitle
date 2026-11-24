@@ -17,7 +17,7 @@ Businesses plan on forecasts: next quarter's sales, next year's electricity dema
 Most business series are made of:
 
 - a **trend**: the long-run rise or fall;
-- **seasonality**: a pattern that repeats every year (more hardware sold in spring, more heating in winter);
+- **seasonality**: a pattern that repeats every year (more hardware sold in summer, more heating in winter);
 - **noise**: what is left, the part no model predicts.
 
 ## The Example: a hardware store's quarterly sales
@@ -40,7 +40,7 @@ A trend line is Module 11's regression with time as x: quarter number 1, 2, 3, �
 
 ### 2. Seasonality: a seasonal index
 
-Divide each quarter's sales by the trend's value for it, and average by quarter: Q1 0.946, Q2 1.016, **Q3 1.104**, Q4 0.934. Summer (Q3) runs about 10 % above trend. Quarter 17 is a first quarter, so the **seasonally adjusted forecast** is 320.9 × 0.946 = **$303.6 thousand**, not 320.9. Official statistics publish "seasonally adjusted" figures for this reason: so this month can be compared with last month without the season in the way.
+Divide each quarter's sales by the trend's value for it, and average by quarter: Q1 0.946, Q2 1.016, **Q3 1.104**, Q4 0.934. Summer (Q3) runs about 10 % above trend. Quarter 17 is a first quarter, so the forecast **with the season put back in** is trend × index = 320.9 × 0.946 = **$303.6 thousand**, not 320.9. Going the other way, data ÷ index are **seasonally adjusted** figures: official statistics publish them so this month can be compared with last month without the season in the way.
 
 ### 3. A moving average
 

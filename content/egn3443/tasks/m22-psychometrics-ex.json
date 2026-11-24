@@ -2,7 +2,7 @@
   "id": "st.m22.psychometrics.ex",
   "title": "A reading test normed to mean 500",
   "analysis": "ContinuousDistribution",
-  "intro": "A reading test is normed so that scores in the national norm group are normal with mean 500 and standard deviation 100.\n\nA pupil scores 650. Give the pupil's percentile, P(X ≤ 650), and z-score (four decimals), and the score at the 25th percentile (one decimal).\n\nIn the Workbench: **Continuous distribution**, **Normal**, mean 500, standard deviation 100, **Value of interest** 650, **Probability for the quantile** 0.25.",
+  "intro": "Illustrative norms, made up for this book. A reading test is normed so that scores in the national norm group are normal with mean 500 and standard deviation 100.\n\nA pupil scores 650. Give the pupil's percentile, P(X ≤ 650), and z-score (four decimals), and the score at the 25th percentile (one decimal).\n\nIn the Workbench: **Continuous distribution**, **Normal**, mean 500, standard deviation 100, **Value of interest** 650, **Probability for the quantile** 0.25.",
   "settings": {
     "Name": "Reading scores",
     "Family": "Normal",

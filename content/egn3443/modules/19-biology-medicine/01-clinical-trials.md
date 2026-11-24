@@ -45,12 +45,12 @@ The **number needed to treat** is what a doctor weighs against the treatment's c
 
 ## Sample size and power
 
-Before the trial, the planners asked: how many patients per group to detect a rise from 59 % to 71 % with 80 % power at α = 0.05 (two-sided)? For two proportions,
+Before the trial, the planners judged a rise from 59 % to 71 % the smallest worth having, and asked: how many patients per group to detect it with 80 % power at α = 0.05 (two-sided)? For two proportions,
 
 n per group = (z_{α/2} + z_β)² [p₁(1 − p₁) + p₂(1 − p₂)] / (p₁ − p₂)²
 = (1.960 + 0.842)² × (0.71 × 0.29 + 0.59 × 0.41) / 0.12² = 7.85 × 0.448 / 0.0144 ≈ **245**.
 
-With 200 per group this trial had somewhat less than 80 % power: it was lucky to reach p < 0.05. A trial that is too small can miss a real benefit, and a "no significant difference" from it is not evidence that the treatment does not work (item 8.6).
+(Software gives a little more: about 247 with R's `power.prop.test`, 253 with statsmodels' arcsine method; the formulas differ slightly.) With 200 per group this trial had about **72 %** power for that rise: it found the difference, but a trial of this size would miss a real rise of 12 points about one time in four. A trial that is too small can miss a real benefit, and a "no significant difference" from it is not evidence that the treatment does not work (item 8.6).
 
 ## In Python and R
 

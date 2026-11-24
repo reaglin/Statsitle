@@ -2,7 +2,7 @@
   "id": "st.m19.diagnostic.ex",
   "title": "A rapid test in a clinic",
   "analysis": "ProbabilityRules",
-  "intro": "Illustrative data, made up for this book. In a clinic, 8 % of the patients tested have a certain infection. A rapid test has sensitivity 90 % and specificity 97 %. Let A = infected and B = the test is positive.\n\nGive P(B), the share of tests that come back positive, and the positive predictive value P(A|B), each to four decimals.\n\nIn the Workbench: **Probability rules**, **What is known** *Likelihoods (Bayes)*, P(A) = 0.08, P(B|A) = 0.90, P(B|not A) = 1 − 0.97 = 0.03.",
+  "intro": "Illustrative data, made up for this book. In a clinic, 8 % of the patients tested have a certain infection. A rapid test has sensitivity 90 % and specificity 97 %. Let A = infected and B = the test is positive.\n\nGive P(B), the share of tests that come back positive, and the positive predictive value P(A|B), each to four decimals.\n\nIn the Workbench: **Probability rules**, **How A and B relate** *P(B | A) and P(B | A′) are known — Bayes* (A′ = not A), P(A) = 0.08, P(B|A) = 0.90, P(B | A′) = 1 − 0.97 = 0.03.",
   "settings": {
     "Name": "Rapid test",
     "Relationship": "KnownLikelihoods",
@@ -33,7 +33,7 @@
     ]
   },
   "hints": [
-    "P(B|not A) is 1 − specificity = 0.03.",
-    "P(B) = P(B|A)P(A) + P(B|not A)P(not A); P(A|B) = P(B|A)P(A)/P(B) (item 3.4)."
+    "P(B | A′) is 1 − specificity = 0.03.",
+    "P(B) = P(B|A)P(A) + P(B | A′)P(A′); P(A|B) = P(B|A)P(A)/P(B) (item 3.4)."
   ]
 }

@@ -10,7 +10,7 @@ autocorrelation) are Part II; these tools need only Part I.
 | Tool | Formula | Notes |
 |---|---|---|
 | Linear trend | ŷₜ = b₀ + b₁ t (regression on time, item 11.2) | forecast ŷ at t₀ with its **prediction interval** (item 11.5) |
-| Seasonal index | average of yₜ / trendₜ for each season | adjusted forecast = trend forecast × index |
+| Seasonal index | average of yₜ / trendₜ for each season | forecast with the season put back in = trend forecast × index; seasonally adjusted data = yₜ / index |
 | Moving average (k periods) | (yₜ + yₜ₋₁ + … + yₜ₋ₖ₊₁)/k | k = 4 for quarters or 12 for months removes the season |
 | Simple exponential smoothing | Lₜ = α yₜ + (1 − α) Lₜ₋₁ | forecast for every future period = Lₜ; 0 < α < 1 |
 | Mean absolute error | MAE = (1/n) Σ \|yₜ − ŷₜ\| | compare methods on data they did not see |

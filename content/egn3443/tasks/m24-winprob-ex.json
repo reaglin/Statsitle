@@ -2,7 +2,7 @@
   "id": "st.m24.winprob.ex",
   "title": "A football team's win probability",
   "analysis": "ContinuousDistribution",
-  "intro": "Illustrative data, made up for this book: the sizes and patterns are realistic, the teams and players are not real. An American-football team trails by 3 points with 12 minutes left. Model the final margin as normal with mean −3 (the current margin) and standard deviation 13.5 × √(12/60) = 6.04 points.\n\nGive the team's win probability P(final margin > 0) and its z-score of 0 (four decimals).\n\nIn the Workbench: **Continuous distribution**, **Normal**, mean −3, standard deviation 6.04, **Value of interest** 0.",
+  "intro": "Illustrative data, made up for this book: the sizes and patterns are realistic, the teams and players are not real. An American-football team trails by 3 points with 12 minutes left. Model the final margin as normal with mean −3 (the current margin) and standard deviation 13.5 × √(12/60) = 6.04 points (13.5 points is the spread over a whole 60-minute game, the same as 1.74 points per √minute).\n\nGive the team's win probability P(final margin > 0) and its z-score of 0 (four decimals).\n\nIn the Workbench: **Continuous distribution**, **Normal**, mean −3, standard deviation 6.04, **Value of interest** 0.",
   "settings": {
     "Name": "Final margin",
     "Family": "Normal",

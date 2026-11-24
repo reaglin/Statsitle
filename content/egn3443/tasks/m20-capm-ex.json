@@ -2,7 +2,7 @@
   "id": "st.m20.capm.ex",
   "title": "Beta of a utility stock",
   "analysis": "SimpleRegression",
-  "intro": "Illustrative data, made up for this book. Thirty months of excess returns (%) of an electric-utility stock and of the market index. Fit the CAPM regression of the stock on the market.\n\nGive beta (the slope), alpha (the intercept, % per month) and R², each to three decimals.",
+  "intro": "Illustrative data, made up for this book. Thirty months of excess returns (%) of an electric-utility stock and of the market index. Fit the CAPM regression of the stock on the market.\n\nGive beta (the slope), alpha (the intercept, % per month) and R², each to three decimals.\n\nIn the Workbench: **Simple linear regression**, **x column** *Market excess (%)*, **y column** *Utility excess (%)*.",
   "tables": [
     {
       "name": "Returns",

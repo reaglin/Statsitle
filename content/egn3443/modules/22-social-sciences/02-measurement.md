@@ -49,8 +49,9 @@ For the wellbeing scale, suppose the five item variances are 1.1, 0.9, 1.2, 1.0 
 | Alpha | Usually read as |
 |---|---|
 | below 0.6 | poor: the items do not hang together |
-| 0.7 to 0.8 | acceptable for research |
-| above 0.9 | very high; for clinical decisions about one person, or the items may repeat each other |
+| 0.6 to 0.7 | questionable |
+| 0.7 to 0.9 | acceptable to good for research |
+| 0.9 and above | needed for decisions about one person; much higher may mean the items repeat each other |
 
 **Test–retest reliability** is the correlation between the same people's scores on two occasions: a stable trait should give a high one.
 

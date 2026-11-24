@@ -2,7 +2,7 @@
   "id": "st.m22.replication.ex",
   "title": "Planning a replication",
   "analysis": "OneSampleTest",
-  "intro": "An original study reported that a brief intervention raised a test score. A replication team plans a one-sided test of H₀: μ = 50 against μ > 50 at α = 0.05, with the score's standard deviation known to be 10. They expect the true mean to be 53 (a smaller effect than the original reported, as replications usually find).\n\nWith 30 participants, what is the power (four decimals)? How many participants would 90 % power need?\n\nIn the Workbench: **One-sample test**, **Test** *Mean, σ known*, null value 50, σ 10, sample size 30, **Alternative** *greater*, **Alternative mean for power** 53, **Target power** 0.9.",
+  "intro": "Illustrative study, made up for this book. An original study reported that a brief intervention raised a test score. A replication team plans a one-sided test of H₀: μ = 50 against μ > 50 at α = 0.05, with the score's standard deviation known to be 10. They expect the true mean to be 53 (a smaller effect than the original reported, as replications usually find).\n\nWith 30 participants, what is the power (four decimals)? How many participants would 90 % power need?\n\nIn the Workbench: **One-sample test**, **Test** *Mean, σ known*, null value 50, σ 10, sample size 30, **Alternative** *greater*, **Alternative mean for power** 53, **Target power** 0.9. The **Sample mean** box can hold any value (52, say): power does not depend on it.",
   "settings": {
     "Name": "Replication plan",
     "TestKind": "MeanSigmaKnown",

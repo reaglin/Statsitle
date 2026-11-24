@@ -925,7 +925,7 @@ public sealed class CoursePage : UserControl
     private const string HelpMarkdown = """
         ## How to use this PlusBook
 
-        Statistics+ is a book in three parts: **Part I · Fundamental Statistics for Engineers** follows EGN3443, Probability and Statistics for Engineers, topic by topic; **Part II · Advanced Statistics** and **Part III · Additional Applications of Statistics** are in development.
+        Statistics+ is a book in three parts: **Part I · Fundamental Statistics for Engineers** follows EGN3443, Probability and Statistics for Engineers, topic by topic; **Part III · Additional Applications of Statistics** shows how statistics is used in six fields; **Part II · Advanced Statistics** is in development.
 
         ### PlusBook Learning (left)
 

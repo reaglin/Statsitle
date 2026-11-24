@@ -96,6 +96,6 @@ On the **Exercise** tab, another imaginary central bank's 24 quarters: fit its T
 The imaginary bank's twenty quarters. It starts at Rate = 1.00 + **1.50**·Inflation + **0.49**·Output gap, R² = **0.990**.
 
 1. **A crisis quarter.** Change the 12th policy rate (9.69) to 2.0, as if the bank cut sharply in a financial crisis though inflation was high. The inflation coefficient falls to **1.14** and R² to **0.59**: one quarter the rule does not describe pulls the whole fit.
-2. **Put it back to 9.69**, and change the first quarter's rate (4.28) to 2.0. The fit barely moves (inflation coefficient **1.51**, R² **0.97**): quarter 12 had high inflation, so a rate far from the rule there pulled harder. How far a point is from the others in x (its leverage, item 13.5) decides how much it can move the fit.
+2. **Put it back to 9.69**, and change the first quarter's rate (4.28) to 2.0. The fit barely moves (inflation coefficient **1.51**, R² **0.97**): two things differ: quarter 12's change was larger (9.69 to 2.0, against 4.28 to 2.0), and quarter 12 had unusually high inflation, far from the other quarters in x. Both the size of a miss and the point's leverage (item 13.5) decide how much one quarter can move the fit.
 
 [[try: st.m20.bank.try "@Bank/Policy rate" | Equation ChosenEstimate RSquared Influential figure=1]]

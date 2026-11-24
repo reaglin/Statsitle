@@ -20,6 +20,83 @@ version says it cannot check and offers the Store page — that is expected.
 
 ---
 
+## Round 2026-11-23c — Part III · Additional Applications of Statistics (plan P.6, P.7)
+
+Use `manual-test\Statistle.exe`. Round 2026-11-23b (below) first if you have not. In each module: read a Learn page, try its
+example on the **Examples** tab, do one exercise in the Workbench and **Check my answers**, and take the **module check** (10
+questions, 80 % to pass). Note anything wrong for the field, unclear, or a number you doubt.
+
+### AG. Part III in the path
+
+AG1. Sign in. **Part III · Additional Applications of Statistics** reads "Modules 19 to 24 · 0 of 42 items complete" (no longer "in
+     development"); **Part II** still says in development.
+AG2. Choose Part III's name: its page names the six fields and their topics, says the modules point back to Part I, and that most data
+     are illustrative; **Open Module 19 · Biology and Medicine** under the title, and the six modules listed with their counts.
+AG3. Help ▸ About and Start here 0.1 *How Statistics+ works* say Part III shows statistics in six fields and Part II is in development.
+
+### AH. Module 20 · Business and Economics (the pilot)
+
+AH1. 20.1 *Econometrics*: the coffee-demand regression in logs; the slope is read as the price elasticity. Example tab: **Coffee demand:
+     logs or no logs**: follow the numbered steps; the numbers on the page match the ones that appear.
+AH2. 20.3 *Monetary policy*: the Taylor rule worked by hand. Is it stated the way you would teach it?
+AH3. 20.5 *Asset pricing*: **Beta: one market crash**: one month changed moves beta as the page says.
+AH4. Do 20.6's exercise (an A/B test, four decimals) in the Workbench; Check my answers passes.
+AH5. The module check: pass it; get one wrong on purpose: "look again" names the item.
+
+### AI. Module 19 · Biology and Medicine
+
+AI1. 19.3 *Diagnostic tests*: sensitivity, specificity and predictive values; the example **Screening: the prevalence decides** shows the
+     positive predictive value falling with prevalence.
+AI2. 19.6 *Dose–response*: the **Bliss (1935) beetle data**, the only real data set in Part III. ⚠️ Check the doses, numbers and deaths
+     against Dobson and Barnett (or Bliss): doses 1.6907–1.8839, killed 6, 13, 18, 28, 52, 53, 61, 60.
+AI3. One exercise and the module check.
+
+### AJ. Module 21 · Environmental and Earth Sciences
+
+AJ1. 21.1 *Frequency analysis of floods and rainfall*: return periods, a lognormal design flood, Bulletin 17C. ⚠️ Are the words the ones
+     your hydrology text uses (return period, exceedance probability, annual maximum series)?
+AJ2. 21.4 *Spatial statistics*: its exercise is a short quiz (no Workbench); it checks and passes.
+AJ3. 21.5 *Earthquakes*: Gutenberg–Richter and **At least one large earthquake: a Poisson model**.
+AJ4. One exercise and the module check.
+
+### AK. Module 22 · Social Sciences and Psychology
+
+AK1. 22.1 *Survey design and polling*: **How many people to ask?** (margin of error and n).
+AK2. 22.4 *Correlation, causation and confounding*: Simpson's paradox table (A 210/400, 52.5 %; B 275/400, 68.8 %) reads right.
+AK3. 22.6 *The replication crisis*: p-hacking example and the Open Science Collaboration (2015) result.
+AK4. One exercise and the module check.
+
+### AL. Module 23 · Data Science and Computing
+
+AL1. 23.1 *Learning from data*: **Overfitting: add a predictor that cannot matter**: in-sample error falls, cross-validated error does not.
+AL2. 23.2 *Classification*: the confusion matrix and the threshold; its exercise is a quiz.
+AL3. 23.4 *Naive Bayes*: the spam-filter example; does "prior odds" read clearly (it is not underlined as a key term)?
+AL4. One exercise and the module check.
+
+### AM. Module 24 · Sports (P.7)
+
+AM1. 24.1 *Sabermetrics*: OBP against runs (R² 0.87). Do the exercise: runs on batting average gives r **0.765**, R² **0.586**,
+     slope **16.73**: OBP tracks runs better.
+AM2. 24.2 *The Pythagorean expectation*: the exponent as the slope of ln(W/L) on ln(RS/RA) (1.89). Exercise (basketball): k **12.73**,
+     intercept **−0.043**, R² **0.806**.
+AM3. 24.3 *Ratings and win probability*: Elo worked by hand (1,600 beats 1,500: +7.2). Example: **Winning a best-of-seven series**:
+     p 0.6 → 0.71. Exercise: win probability **0.3097**, z **0.4967**.
+AM4. 24.4 *Streaks and the hot hand*: the 1985 study and the 2018 correction explained in plain words? Exercise: χ² **2.667**, df 1,
+     p **0.1025**.
+AM5. 24.5 *Odds as probability*: **probability only**: implied probability, the margin, a negative expected value; no advice that reads
+     as encouraging betting. Exercise (a charity raffle): expected net gain **−4.00**, SD **23.96**. Is the page's tone right for a course?
+AM6. 24.6 *Sports science*: typical error 0.038 s and the smallest worthwhile change 0.038 s. Exercise: mean difference **0.20**, SD
+     **1.821**.
+AM7. The module check: 10 questions; pass it.
+
+### AN. Glossary
+
+AN1. **Glossary** in PlusBook Tools now has the Part III terms (relative risk, odds ratio, price elasticity, Value at Risk, return period,
+     variogram, Cronbach's alpha, false discovery rate, precision and recall, Elo rating, typical error …). Read some: right? Any word
+     underlined on a page that should not be?
+
+---
+
 ## Round 2026-11-23b — up to the other PlusBooks: three parts, My notes, Glossary, Course Links, the Workbench's help (plan N.1–N.7, W.1)
 
 Use `manual-test\Statistle.exe`. Do round 2026-11-23 (below) first if you have not.

@@ -202,3 +202,38 @@ Pearson's χ² without a continuity correction (the course's hand formula), so t
 | Kruskal–Wallis | H = 12/(N(N+1)) ΣRᵢ²/nᵢ − 3(N+1), tie-corrected, vs χ²(k−1) | `kruskal` | `kruskal.test` | identical groups → H = 0; cross-check | [x] |
 | Welch's ANOVA | wᵢ = nᵢ/sᵢ², W = Σwᵢ, x̄_w = Σwᵢx̄ᵢ/W, A = Σwᵢ(x̄ᵢ − x̄_w)²/(k−1), Λ = Σ(1 − wᵢ/W)²/(nᵢ−1); F* = A/(1 + 2(k−2)Λ/(k²−1)) vs F(k−1, (k²−1)/(3Λ)); blank when a group has n < 2 or s = 0. Source: Welch, B. L., *Biometrika* 38 (1951), 330–336 | numpy by the formula, p = `stats.f.sf(F, k − 1, df2)` (scipy has none; statsmodels `anova_oneway(groups, use_var="unequal")`) | `oneway.test(y ~ g, var.equal = FALSE)` | `AnovaTests.Welch_anova_matches_R_oneway_test` (M14 welds F = 11.8252 on 2, 12.194 df, p = 0.001396; `InsectSprays` F = 36.065 on 5, 30.043 df); cross-check | [x] |
 | Two-way table (balanced) | SS_A = bnΣ(ȳᵢ.. − ȳ)², SS_B, SS_AB = nΣΣ(ȳᵢⱼ. − ȳᵢ.. − ȳ.ⱼ. + ȳ)², SS_E; F against MS_E; n = 1 → additive model | `anova_lm(ols('y ~ C(a) * C(b)'), typ=2)` | `anova(lm(y ~ a * b))` | `AnovaTests` hand-worked 2×2×2; blocks (n = 1) cross-check | [x] |
+
+## Part III · Additional Applications of Statistics (Modules 19–24, 2026-11-23)
+
+Part III adds **no new analysis**: every Example and Exercise is answered by an analysis above (Simple and Multiple regression,
+the distributions, Chi-square tests, Two-sample tests, Descriptive statistics, Probability rules, Sample size), and every number
+quoted on a page was printed from the engine (`ExampleTests.Print_tasks_when_asked`, `Print_a_task`). Formulas the pages work by
+hand (Elo, the Pythagorean expectation, the runs test, the Taylor rule, the CAPM beta, sensitivity and predictive values,
+typical error, …) are on each item's Reference page with their source.
+
+**The data.** Ron's rule (2026-11-23): never present an invented statistic as real. Every data set in Part III is
+**illustrative** — made up for the book with a seeded generator (scratch scripts `gen19.py`–`gen24.py`), with realistic sizes
+and patterns, and labelled "illustrative" on the page and in the task's introduction — **except one real data set**:
+
+| Data | Where | Source |
+|---|---|---|
+| Beetle mortality after carbon disulphide (doses 1.6907–1.8839 log₁₀ mg/L, 59–63 beetles per dose, 6–61 killed) | 19.6 Dose–response (`m19-dose-eg`, `m19-beetles-try`) | Bliss, C. I. (1935), "The calculation of the dosage-mortality curve", *Annals of Applied Biology* 22, 134–167; as tabulated in Dobson and Barnett, *An Introduction to Generalized Linear Models* (Chapman & Hall/CRC). ⚠️ Ron: check the values against the book |
+
+**Rules and results the pages state as real, with their sources** (each on the item's Reference page):
+
+| Claim | Item | Source |
+|---|---|---|
+| Taylor rule i = r* + π + 0.5(π − 2) + 0.5·gap | 20.3 | Taylor (1993), *Carnegie-Rochester Conference Series on Public Policy* 39, 195–214 |
+| CAPM beta; three-factor model | 20.5 | Sharpe (1964), *Journal of Finance* 19; Fama and French (1993), *Journal of Financial Economics* 33 |
+| Flood frequency by the log-Pearson III, Bulletin 17C | 21.1 | England et al. (2019), USGS Techniques and Methods 4-B5; Wanielista, Kersten and Eaglin, *Hydrology* (⚠️ Ron: the terms match his text?) |
+| Gutenberg–Richter law log₁₀ N = a − bM, b near 1 | 21.5 | Gutenberg and Richter (1944), *BSSA* 34 |
+| False discovery rate procedure | 19.5 | Benjamini and Hochberg (1995), *JRSS B* 57 |
+| Fewer than half of 100 psychology replications significant again, effects about half as large | 22.6 | Open Science Collaboration (2015), *Science* 349 |
+| Researcher degrees of freedom | 22.6 | Simmons, Nelson and Simonsohn (2011), *Psychological Science* 22 |
+| Hot hand: no effect (1985), then the streak-selection bias (2018) | 24.4 | Gilovich, Vallone and Tversky (1985), *Cognitive Psychology* 17; Miller and Sanjurjo (2018), *Econometrica* 86 |
+| Pythagorean exponent 2 (James), about 1.83 for baseball, near 14 for basketball | 24.2 | James, *Baseball Abstract*; the exponents are the commonly quoted values |
+| Elo expected score and update | 24.3 | Elo (1978), *The Rating of Chessplayers, Past and Present* |
+| Typical error = SD(differences)/√2; smallest worthwhile change 0.2 × between-athlete SD | 24.6 | Hopkins (2000), *Sports Medicine* 30 |
+
+Where real data can be had, each page names the public source (FRED, Kenneth French's data library, the USGS earthquake
+catalogue and Water Quality Portal, EPA air data, the Lahman database, Baseball-Reference, Retrosheet) for the learner to try.

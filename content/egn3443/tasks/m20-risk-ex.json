@@ -1,8 +1,8 @@
 {
   "id": "st.m20.risk.ex",
-  "title": "Two warehouse plans: expected value and risk",
+  "title": "A warehouse plan: expected value and risk",
   "analysis": "DiscreteDistribution",
-  "intro": "Illustrative data, made up for this book. A logistics firm's plan to automate a warehouse has these possible net gains over three years ($ thousand) with their probabilities:\n\n| Gain ($k) | −600 | −150 | 300 | 800 | 1500 |\n|---|---|---|---|---|---|\n| Probability | 0.05 | 0.20 | 0.40 | 0.25 | 0.10 |\n\nGive the expected gain, the standard deviation (the risk), and the probability of losing money, P(gain ≤ 0).\n\nIn the Workbench: **Discrete distribution**, **Distribution** *Table of values*, type the values and probabilities, and set **k** to 0.",
+  "intro": "Illustrative data, made up for this book. A logistics firm's plan to automate a warehouse has these possible net gains over three years ($ thousand) with their probabilities:\n\n| Gain ($k) | −600 | −150 | 300 | 800 | 1500 |\n|---|---|---|---|---|---|\n| Probability | 0.05 | 0.20 | 0.40 | 0.25 | 0.10 |\n\nGive the expected gain and the standard deviation (the risk), each to one decimal, and the probability of losing money, P(gain ≤ 0), to two decimals.\n\nIn the Workbench: **Discrete distribution**, **Distribution** *Typed table of (x, P(x))*, type the values and probabilities, and set **Value of interest (k)** to 0.",
   "settings": {
     "Name": "Warehouse plan",
     "Family": "Table",

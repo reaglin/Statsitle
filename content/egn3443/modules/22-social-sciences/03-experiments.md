@@ -36,7 +36,7 @@ Forty-eight volunteers were randomly assigned, 24 to a session of retrieval prac
 
 - The practice group scored higher on average, but t(46) = **1.13**, p = **0.26**: the difference could be chance at α = 0.05.
 - Cohen's d = **0.33**: a small-to-medium effect, if real. The 95 % interval for the difference runs from −2.7 to +9.7 points: the data cannot rule out no effect, or a fairly large one.
-- **Not significant is not "no effect".** With 24 per group, a true d of 0.33 would be detected only about one time in five (power about 0.21, item 22.6). This study was too small to answer its question.
+- **Not significant is not "no effect".** With 24 per group, a true d of 0.33 would be detected only about one time in five (power about 0.21; power is item 8.6, and item 22.6 shows what it means for replication). This study was too small to answer its question.
 - The checks (item 9.4): Shapiro–Wilk p = 0.22 and 0.50, Levene p = 0.96; the pooled t-test's assumptions look fine.
 
 [[see-example: 1]]
@@ -81,6 +81,6 @@ On the **Exercise** tab, a mood experiment with 30 students in each condition: r
 The recall experiment: t(46) = **1.13**, p = **0.26**, d = **0.33**.
 
 1. **Add 10 points to every score in the practice column.** The difference grows: t(46) = **4.38**, p = **0.0001**, d = **1.26**, a large effect.
-2. **Put the scores back.** Now paste the 24 practice scores twice into their column, and the rereading scores twice into theirs (48 per group, same means and SDs). d hardly moves (**0.33**), but t grows to **1.62** and p falls to **0.11**: the same effect, more evidence, and still not enough. About 145 per group would give 80 % power for d = 0.33.
+2. **Put the scores back.** Now paste the 24 practice scores twice into their column, and the rereading scores twice into theirs (48 per group, same means and SDs). d hardly moves (**0.33**), but t grows to **1.62** and p falls to **0.11**: the same effect, more evidence, and still not enough. (This is only a way to see what 48 per group recruited with the same means and SDs would give; copying real data is never legitimate.) About 145 per group would give 80 % power for d = 0.33.
 
 [[try: st.m22.recall.try @Recall/Practice @Recall/Rereading | Statistic DegreesOfFreedom PValue EffectSize CiLower CiUpper figure=1]]

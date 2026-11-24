@@ -42,12 +42,16 @@ A study of 20 people tests whether a training raises a score with standard devia
 ## In Python and R
 
 ```python
-from statsmodels.stats.power import NormalIndPower, TTestIndPower
+from scipy import stats
+from statsmodels.stats.power import TTestIndPower
+# the Example's one-sided z test (H0: mu = 50, sigma 10, true mean 53), power at n = 20:
+stats.norm.sf(stats.norm.ppf(0.95) - (53 - 50) / (10 / 20**0.5))
 TTestIndPower().solve_power(effect_size=0.33, nobs1=24, alpha=0.05)     # power of item 22.3's study
 TTestIndPower().solve_power(effect_size=0.33, power=0.8, alpha=0.05)    # n per group for 80 % power
 ```
 
 ```r
+pnorm(qnorm(0.95) - (53 - 50) / (10 / sqrt(20)), lower.tail = FALSE)   # the Example's power
 power.t.test(n = 24, delta = 0.33, sd = 1)          # power of item 22.3's study
 power.t.test(delta = 0.33, sd = 1, power = 0.8)     # n per group
 ```

@@ -50,7 +50,7 @@ The Example: 2,400 visitors saw A and 288 bought (12.0 %); 2,350 saw B and 341 b
 ## In Python and R
 
 ```python
-from statsmodels.stats.proportion import proportions_ztest, confint_proportions_2indep
+from statsmodels.stats.proportion import proportions_ztest
 z, p = proportions_ztest([288, 341], [2400, 2350])
 ```
 

@@ -36,7 +36,7 @@ A classic published data set (Bliss, 1935): flour beetles exposed for five hours
 [[results: st.m19.dose.eg]]
 
 - logit = −63.25 + **35.82** × log₁₀(dose), R² = 0.960: the logit scale straightens the curve well.
-- log₁₀(LD50) = 63.25 / 35.82 = **1.766**, so **LD50 = 10^1.766 = 58.3 mg per litre**.
+- log₁₀(LD50) = 63.25 / 35.82 = **1.766**, so **LD50 = 10^1.766 = 58.3 mg per litre**. (Bliss's beetles breathed the gas, so strictly this is an **LC50**, a lethal *concentration*: LD50 is used for a dose given to each animal, LC50 for a concentration in air or water.)
 - The steep slope means a small change in dose moves the kill rate a long way: from 10 % to 90 % killed between about 1.70 and 1.83 on the log scale.
 
 A maximum-likelihood logistic fit of the same data gives log₁₀(LD50) ≈ 1.77, very close: the empirical-logit line is a good quick estimate here.

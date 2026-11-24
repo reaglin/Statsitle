@@ -10,7 +10,7 @@ reference: [odds-probability]
 
 # Odds as probability
 
-Sports pages print odds: "2.50", "6/4", "+150". Each is a probability in disguise. This page treats odds **only as probability**: how to read them, why the probabilities they imply do not add up to 1, and what the **expected value** of a stake is. It gives no betting advice. Its conclusion is a statistical fact: for the person placing a bet, the expected value is negative.
+Sports pages print odds: "2.50", "6/4", "+150". Each is a probability in disguise. This page treats odds **only as probability**: how to read them, why the probabilities they imply do not add up to 1, and what the **expected value** of a stake is. It gives no betting advice. Its conclusion is a statistical fact: priced with a margin, the average bet loses; the expected value is negative.
 
 ## From odds to implied probability
 
@@ -22,7 +22,7 @@ Decimal odds of 2.50 imply a probability of 1/2.50 = **0.40**.
 
 ## Why the implied probabilities add up to more than 1
 
-A match with two outcomes is offered at decimal odds 1.80 and 2.10:
+A match with two outcomes is offered at decimal odds 1.80 and 2.10 (illustrative prices):
 
 1/1.80 + 1/2.10 = 0.556 + 0.476 = **1.032**.
 
@@ -38,7 +38,7 @@ A $10 stake at decimal odds 2.50 gains $15 if the outcome happens and loses $10 
 
 - E[gain] = 15 × 0.38 + (−10) × 0.62 = 5.70 − 6.20 = **−$0.50** per $10 staked: a loss of 5 % on average.
 - The standard deviation is **$12.13**: any one stake is a large gain or a total loss; only the average is predictable. Over many stakes the average loss is close to 5 %, which is the margin at work.
-- The expected value would be zero only if the true probability were 1/2.50 = 0.40, and the margin makes the offered odds lower than that for every outcome.
+- The expected value would be zero only if the true probability were 1/2.50 = 0.40, and the margin makes every offered price shorter than that fair price, 1/p.
 
 [[see-example: 1]]
 
@@ -79,4 +79,4 @@ The Learn page's stake: gain **$15** with probability 0.38, lose **$10** with pr
 
 [[results: st.m24.stake.try]]
 
-The expected value is exactly **0**: a "fair" price. The margin is the gap between this and the −$0.50 above. Work it out for yourself at 0.35 and 0.65: 15 × 0.35 − 10 × 0.65 = **−$1.25** per $10. To change the numbers, press **Open in the Workbench** on the worked example and edit the table of values.
+The expected value is exactly **0**: a "fair" price. The margin is the gap between this and the −$0.50 above. Work it out for yourself at 0.35 and 0.65: 15 × 0.35 − 10 × 0.65 = **−$1.25** per $10. To change the numbers, choose the worked example (**Example 2** at the top of this tab), press **Open in the Workbench**, and edit the table of values.

@@ -23,7 +23,7 @@ The annual mean temperature at one station, as the difference from its 1984–20
 - The trend is **0.0224 °C a year**, or **0.224 °C a decade**, with a 95 % interval of 0.19 to 0.26 °C a decade (item 11.5).
 - t = 12.1, p < 0.0001: far too steady a rise to be year-to-year noise.
 - R² = 0.79: the trend explains most of the variation; the rest is weather.
-- The Durbin–Watson statistic, **1.98**, is close to 2: the residuals do not run in long warm and cool spells, so the p-value can be trusted (item 13.2). Climate records often do have such spells (autocorrelation), and then an ordinary regression's p-value is too small; Part II's time-series methods correct it.
+- The Durbin–Watson statistic, **1.98**, is close to 2: the residuals do not run in long warm and cool spells, so lag-one autocorrelation is not a concern (item 13.2). Climate records often do have such spells (autocorrelation), and then an ordinary regression's p-value is too small; Part II's time-series methods correct it.
 
 [[see-example: 1]]
 

@@ -2,7 +2,7 @@
   "id": "st.m24.sabermetrics.ex",
   "title": "Runs per game and batting average, another season",
   "analysis": "SimpleRegression",
-  "intro": "Illustrative data, made up for this book: the sizes and patterns are realistic, the teams and players are not real. Another season of the 30-team league. Regress runs per game on **batting average** (AVG).\n\nGive the correlation r, R² and the slope (runs per game per point of AVG, three decimals). Then compare: in the Learn page's season, OBP gave R² = 0.86. Which statistic tracks run scoring better?\n\nIn the Workbench: **Simple linear regression**, **x column** *AVG*, **y column** *Runs per game*.",
+  "intro": "Illustrative data, made up for this book: the sizes and patterns are realistic, the teams and players are not real. Another season of the 30-team league. Regress runs per game on **batting average** (AVG).\n\nGive the correlation r, R² and the slope (runs per game per 1.000 of AVG; for 0.010 of AVG, divide by 100). Then compare: in the Learn page's season, OBP gave R² = 0.87. Which statistic tracks run scoring better?\n\nIn the Workbench: **Simple linear regression**, **x column** *AVG*, **y column** *Runs per game*.",
   "tables": [
     {
       "name": "Teams",

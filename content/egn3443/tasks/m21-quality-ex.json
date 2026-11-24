@@ -67,7 +67,7 @@
     ]
   },
   "hints": [
-    "Take ln of each value; μ and σ are their mean and standard deviation.",
+    "Take ln of each value; μ and σ are their mean and standard deviation, dividing by n (maximum likelihood), not n − 1.",
     "P(X > 10) = P(Z > (ln 10 − μ)/σ)."
   ]
 }

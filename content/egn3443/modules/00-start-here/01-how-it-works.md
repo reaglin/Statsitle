@@ -22,7 +22,7 @@ The list on the left is the whole book, in order. The book has three parts (📖
 
 - **Part I · Fundamental Statistics for Engineers**: the course EGN3443, Modules 1 to 14.
 - **Part II · Advanced Statistics**: advanced regression and experimental design, stochastic processes, multivariate and reliability analysis, and Bayesian and computational statistics. In development.
-- **Part III · Additional Applications of Statistics**: how statistics is used in biology and medicine, business, the environment, the social sciences and data science. In development.
+- **Part III · Additional Applications of Statistics**: how statistics is used in biology and medicine, business and economics, the environment and earth sciences, the social sciences, data science and sport. Each module stands alone and points back to the Part I topic that teaches a method.
 
 In the list:
 

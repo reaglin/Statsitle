@@ -228,14 +228,15 @@ Ron, 2026-11-23: *"(1) Fundamental Statistics for Engineers which will still kee
 change it to introduction to Statistics for Engineers. The next part is "Advanced Statistics" … and the third part will be
 "Additional Applications of Statistics" that will cover how Statistics is used in other fields (Biology, Business, etc..)"*
 (he wrote "2 parts" and described three; three are built). Each part has a page in `content/egn3443/parts/`; a module names
-its part in its front matter (`part:`). Start here (Module 0) stays above the parts. Parts II and III are **in development**:
-each module's `module.md` (status `coming-later`) lists its outcomes and topics, with no items yet (plan phase P).
+its part in its front matter (`part:`). Start here (Module 0) stays above the parts. Part II is **in development**: each
+module's `module.md` (status `coming-later`) lists its outcomes and topics, with no items yet (plan phase P). **Part III is
+written** (2026-11-23, Modules 19–24).
 
 | Part | Modules | Status |
 |---|---|---|
 | **Part I · Fundamental Statistics for Engineers** | 1 Introduction to Statistics for Engineers (was Statistics for Engineers) … 14 ANOVA, above | written |
 | **Part II · Advanced Statistics** | 15–18, below | in development |
-| **Part III · Additional Applications of Statistics** | 19–23, below (proposed, ⚠️ Ron: plan Q19) | in development |
+| **Part III · Additional Applications of Statistics** | 19–24, below | written 2026-11-23 (⚠️ Ron: hand-test round 2026-11-23c) |
 
 ### Part II · Advanced Statistics (one module per bullet of Ron's)
 
@@ -246,20 +247,34 @@ each module's `module.md` (status `coming-later`) lists its outcomes and topics,
 | 17 Multivariate and Reliability Analysis | Multivariate models; quality control; system reliability; uncertainty propagation | o1 analyse correlated measurements together and monitor a process with control charts; o2 find a system's reliability from its components and propagate input uncertainty | **New**: covariance matrix / PCA, control charts (control limits exist in Descriptive statistics), series–parallel reliability, Monte Carlo propagation (Weibull exists) |
 | 18 Bayesian and Computational Statistics | Bayesian inference (prior information); parameter estimation (maximum likelihood); Monte Carlo simulation; bootstrapping | o1 update a prior with data and estimate parameters by maximum likelihood; o2 answer by Monte Carlo simulation and bootstrap an interval | **New**: conjugate-prior updates, MLE (the distribution fit has some), bootstrap (Simulation has the seeded generator) |
 
-### Part III · Additional Applications of Statistics (proposed fields)
+### Part III · Additional Applications of Statistics (written 2026-11-23)
 
-| Module | Topics | Outcomes |
+Ron, 2026-11-23: *"We will skip over part II (for now) and work on Part III. The fields you have there are good. Most of the
+statistics are covered in Part I and Part II, so these should focus specifically on applications of statistics and they are
+used in those fields. For example for Economics information on Econometrics, Economic forecasting, monetary policy, risk and
+uncertainty asset pricing are all appropriate topics…"* and *"If you can find examples, we can also add a section on Sports."*
+
+Each module teaches **how statistics is used in the field**: it points to the Part I item that teaches a method rather than
+teaching it again, and where a method belongs to Part II it explains only as much as the application needs. Each module
+stands alone. The data are **illustrative** (made up, labelled so on the page) unless a source is cited in
+`docs/METHODS-AND-SOURCES.md` (Part III). Module 20 was written first, as the pilot.
+
+| Module | Items (Learn / Example / Exercise / Reference each), then the module check | Outcomes (`st.mN.oK`) |
 |---|---|---|
-| 19 Biology and Medicine | Clinical trials and their design; risk, odds and relative risk; survival analysis; epidemiology and screening tests | o1 read the design and statistics of a trial or study; o2 choose a test for survival times, rates and risks |
-| 20 Business and Economics | Time series and forecasting; risk and return; Six Sigma and quality in business; A/B tests and decisions | o1 forecast from a time series with its uncertainty; o2 decide under risk with quality, finance and A/B tests |
-| 21 Environmental and Earth Sciences | Extreme values and return periods; hydrology and climate records; trends in monitoring data; values below a detection limit | o1 size a rare event with extreme-value statistics; o2 analyse monitoring data, trends and censored values |
-| 22 Social Sciences and Psychology | Survey sampling and margins of error; measurement and reliability; experiments with people; reading published results | o1 design a survey sample and judge its margin of error; o2 judge a measure's reliability |
-| 23 Data Science and Computing | Statistics behind machine learning; model evaluation and cross-validation; many tests at once; big data, sampling and bias | o1 evaluate a model with a hold-out set and cross-validation; o2 handle many tests, sampling and bias in large data |
+| 19 Biology and Medicine | 19.1 Clinical trials; 19.2 Epidemiology; 19.3 Diagnostic tests; 19.4 Survival analysis; 19.5 Genetics and genomics; 19.6 Dose–response and bioassay; 19.7 Module check | o1 explain how a clinical trial uses randomisation, blinding and a planned sample size, and compare two treatments' outcome rates; o2 calculate incidence, prevalence, relative risk and the odds ratio from a study's 2 × 2 table, and explain confounding; o3 find a diagnostic test's predictive values from its sensitivity, specificity and the prevalence with Bayes' rule, and read an ROC curve; o4 estimate a survival curve with the Kaplan–Meier method, and describe time to an event with the hazard and a parametric model; o5 test Hardy–Weinberg equilibrium with a chi-square test, and control the false discovery rate when many genes are tested at once; o6 fit a dose–response line on the logit scale and estimate the LD50 or EC50 |
+| 20 Business and Economics | 20.1 Econometrics; 20.2 Economic forecasting; 20.3 Monetary policy; 20.4 Risk and uncertainty; 20.5 Asset pricing; 20.6 Market research and A/B testing; 20.7 Module check | o1 estimate a price elasticity from a log–log regression on economic data, and explain how an omitted variable can bias it; o2 forecast an economic series with a trend, a moving average or exponential smoothing, and give the forecast's uncertainty; o3 calculate inflation from a price index, and fit and read a Taylor rule for a central bank's policy rate; o4 measure the risk of a decision with the expected value, the standard deviation and the Value at Risk; o5 estimate a stock's beta and alpha by regression, and explain diversification with the variance of a portfolio; o6 design and analyse market research: a survey's margin of error and an A/B test of two conversion rates |
+| 21 Environmental and Earth Sciences | 21.1 Frequency analysis of floods and rainfall; 21.2 Extreme values and climate trends; 21.3 Water and air quality monitoring; 21.4 Spatial statistics; 21.5 Earthquakes and natural hazards; 21.6 Ecological sampling; 21.7 Module check | o1 estimate a design flood or rainfall from annual maxima with a probability distribution, and relate the return period to the exceedance probability; o2 detect and size a trend in a climate or environmental record with regression and the Mann–Kendall test; o3 model skewed monitoring data with a lognormal distribution, judge compliance with a standard, and handle values below a detection limit; o4 interpolate a quantity between measured places, and read a variogram's nugget, slope, sill and range; o5 describe earthquake occurrence with the Gutenberg–Richter law and the chance of at least one event with a Poisson model; o6 estimate an animal population by mark–recapture and describe a community with a diversity index |
+| 22 Social Sciences and Psychology | 22.1 Survey design and polling; 22.2 "Measurement: Likert scales, reliability and validity"; 22.3 Experiments in psychology; 22.4 Correlation, causation and confounding; 22.5 "Psychometrics: scores, norms and percentiles"; 22.6 The replication crisis; 22.7 Module check | o1 plan a survey sample, report a poll's margin of error, and explain the errors it does not cover (coverage, nonresponse, wording); o2 build a scale from Likert items and judge its reliability with Cronbach's alpha and its validity; o3 analyse a two-group psychology experiment, report the effect size, and read and write an APA results line; o4 tell correlation from causation in observational data, and recognise confounding and Simpson's paradox; o5 turn a raw test score into a z-score, a standard score and a percentile against norms, and explain the idea of factor analysis; o6 explain the replication crisis, p-hacking and preregistration, and plan a study with enough power |
+| 23 Data Science and Computing | 23.1 "Learning from data: training, testing and cross-validation"; 23.2 Classification and its measures; 23.3 Online experiments; 23.4 Naive Bayes; 23.5 Clustering and anomaly detection; 23.6 Performance and reliability of systems; 23.7 Module check | o1 judge a predictive model on data it has not seen, with a training and test split and cross-validation, and recognise overfitting; o2 read a classifier's confusion matrix and calculate accuracy, precision, recall and the F1 score, and explain logistic regression as a classifier; o3 run and read an online A/B test at scale, including the traps of peeking and many metrics, and judge practical significance; o4 classify with naive Bayes by combining a prior with the evidence of several features; o5 group data with k-means and flag anomalies with z-scores, fences and control limits; o6 benchmark a system's performance with a confidence interval, model arrivals with the Poisson distribution, and calculate availability |
+| 24 Sports | 24.1 Sabermetrics and moneyball; 24.2 The Pythagorean expectation; 24.3 Ratings and win probability; 24.4 Streaks and the hot hand; 24.5 Odds as probability; 24.6 Sports science and measurement; 24.7 Module check | o1 compare batting statistics by how well they track run scoring, and explain regression to the mean in player performance; o2 fit the Pythagorean expectation as a regression on the log scale, and read a team's luck from its residual; o3 calculate an Elo expected score and rating change, a win probability from the score and the time left, and the chance of winning a series; o4 test for a hot hand with a 2 × 2 table and a runs test, and explain what chance alone produces in a sequence of shots; o5 turn odds into implied probabilities, explain why they add to more than 1, and calculate an expected value; o6 judge a fitness test's reliability with the test–retest correlation and the typical error, and decide whether a change is bigger than the smallest worthwhile change |
 
-Each module, when it is written, follows Part I's pattern: Learn / Example (examples to try, each with a figure) / Exercise /
+Module 24's odds item treats odds **as probability only**: no betting advice, and its point is that the expected value of a
+stake is negative.
+
+Each module of Part II, when it is written, follows Part I's pattern: Learn / Example (examples to try, each with a figure) / Exercise /
 Reference, a module check, outcomes in `docs/OUTCOMES.md`, and its answers calculated by a Workbench analysis.
 
 ## Counts
 
-Start here + 14 modules in Part I, about **100 items**: 82 topics, 14 module checks, 3 start items. Parts II and III: 9 modules in development (2026-11-23).
+Start here + 14 modules in Part I, about **100 items**: 82 topics, 14 module checks, 3 start items. Part III: 6 modules, **42 items** (36 topics, 6 module checks). Part II: 4 modules in development (2026-11-23).
 New engine pieces: Simulation, Chi-square tests, Weibull + distribution fit, hold-out split, control limits.

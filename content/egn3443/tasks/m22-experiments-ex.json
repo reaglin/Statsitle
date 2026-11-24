@@ -2,7 +2,7 @@
   "id": "st.m22.experiments.ex",
   "title": "Mood after a nature walk",
   "analysis": "TwoSampleTest",
-  "intro": "Illustrative data, made up for this book. Sixty students were randomly assigned to a 20-minute walk in a park or along a busy street, then rated their mood on a 1-to-7 scale. Compare the groups with a pooled two-sample t-test (two-sided, α = 0.05).\n\nGive t (three decimals), its degrees of freedom, the p-value (four decimals) and Cohen's d (three decimals). Then write the APA results line for yourself.\n\nIn the Workbench: **Two-sample test**, **Test** *Two means, equal variances (pooled t)*, **Data from** *Columns*, column 1 *Park*, column 2 *Street*.",
+  "intro": "Illustrative data, made up for this book. Sixty students were randomly assigned to a 20-minute walk in a park or along a busy street, then rated their mood on a 1-to-7 scale. Compare the groups with a pooled two-sample t-test (two-sided, α = 0.05).\n\nGive t (three decimals), its degrees of freedom, the p-value (four decimals) and Cohen's d (three decimals). Then write the APA results line for yourself.\n\nIn the Workbench: **Two-sample test**, **Test** *Two means, equal variances (pooled t)*, **Data from** *Columns of a data table*, column 1 *Park*, column 2 *Street*.",
   "tables": [
     {
       "name": "Mood",
