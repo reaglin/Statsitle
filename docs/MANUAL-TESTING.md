@@ -22,6 +22,8 @@ version says it cannot check and offers the Store page — that is expected.
 
 ## Round 2026-11-23c — Part III · Additional Applications of Statistics (plan P.6, P.7)
 
+✅ **Passed** (Ron, 2026-11-23: *"Excellent work, tests well."*)
+
 Use `manual-test\Statistle.exe`. Round 2026-11-23b (below) first if you have not. In each module: read a Learn page, try its
 example on the **Examples** tab, do one exercise in the Workbench and **Check my answers**, and take the **module check** (10
 questions, 80 % to pass). Note anything wrong for the field, unclear, or a number you doubt.
@@ -99,6 +101,8 @@ AN1. **Glossary** in PlusBook Tools now has the Part III terms (relative risk, o
 
 ## Round 2026-11-23b — up to the other PlusBooks: three parts, My notes, Glossary, Course Links, the Workbench's help (plan N.1–N.7, W.1)
 
+✅ **Passed** (Ron, 2026-11-23: *"Excellent work, tests well."*)
+
 Use `manual-test\Statistle.exe`. Do round 2026-11-23 (below) first if you have not.
 
 ### AA. The book in three parts (N.5, W.1, W.6)
@@ -157,6 +161,8 @@ AF1. An item's **Example** tab still has its examples to try (2.2: Examples (2))
 ---
 
 ## Round 2026-11-23 — the window's room and Send feedback (plan W.1–W.6, F.1)
+
+✅ **Passed** (Ron, 2026-11-23: *"Excellent work, tests well."*)
 
 The PlusBook window from WebDevelopment+ and PythonProgramming+, on Learning Core 1.10.2. Use `manual-test\Statistle.exe`.
 

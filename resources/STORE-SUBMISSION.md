@@ -8,27 +8,28 @@ Everything Partner Center asks for that is not listing copy. Listing text is in
 Modelled on SMADA's `resources/STORE-SUBMISSION.md` — the two apps are the same kind of
 offline desktop calculator on the same Partner Center account, so most answers are identical.
 
-## Where each item stands — 2.0.0 as Statistics+ (plan 15.3)
+## Where each item stands — 2.1.0, the first release as Statistics+ (plan R.1–R.6)
 
-1.0.0 is live (Store ID 9MV608S7M9X6, https://apps.microsoft.com/detail/9MV608S7M9X6); 1.1.0 was never submitted (Q1:
-everything ships as 2.0.0). 2.0.0 is an **update of the same product**: same identity, new Product name.
+1.0.0 is live (Store ID 9MV608S7M9X6, https://apps.microsoft.com/detail/9MV608S7M9X6, public). **2.0.0 was never
+submitted**: Partner Center's submission 2 (a draft from 2026-11-12) holds `Statistle_2.0.0.0_x64_bundle.msixupload`. 2.1.0
+replaces it in that same draft: its package version 2.1.0.0 is higher than both, so nothing clashes. 2.1.0 is an **update of
+the same product**: same identity, Product name Statistics+.
 
 | Item | Status |
 |---|---|
-| Name Statistics+ on this product | ✅ Moved by Ron 2026-11-12 from a separate new app (stand-in name reserved there, Statistics+ deleted) to Statistle via Manage app names; the empty app may stay |
-| Manifest | ✅ `DisplayName` and the tile's `ShortName` are Statistics+; identity unchanged |
-| Privacy policy | ✅ `https://softwareplus.ai/statistle/privacy/`, revised 2026-11-12 for learners, the signing key and reports |
-| `runFullTrust` justification and certification notes | ✅ Below, rewritten for the Course |
-| Version | ✅ **2.0.0** (`StatistleVersion`), higher than the live 1.0.0 |
-| Store assets | ⚠️ Ron to look: remade 2026-11-12 by `packaging/make-store-assets.ps1` for Statistics+ (icons, tiles, box art, poster, hero); the old Statistle logo is no longer used |
-| `.msixupload` | ✅ Built 2026-11-12 (78 MB; the 401 course files and the report libraries checked inside) |
-| Listing copy | ✅ `STORE-LISTING.md`, rewritten for 2.0 |
-| WACK | ⚠️ Ron runs `packaging/run-wack.ps1` (needs elevation) on the final build |
-| Screenshots | ✅ Made by the tests (`STORE-LISTING.md`, end) |
-| Icon | ⚠️ Ron to look: the banded bell with a white "+" (Ron, 2026-11-12: "make a + icon"); large tiles say "Statistics+" above the bell. Upload the new `StoreLogo-300x300.png`, box art, poster and hero images with the listing |
-| Hand-test round 2.0 | ✅ Ron passed it 2026-11-12 |
-| Final package | ✅ built 2026-11-12: `artifacts\Statistle_2.0.0.0_x64_bundle.msixupload` (77.7 MB) |
-| Submit | ⚠️ Ron, after WACK |
+| Name Statistics+ on this product | ✅ Moved by Ron 2026-11-12 (Manage app names) |
+| Manifest | ✅ `DisplayName` and the tile's `ShortName` are Statistics+; identity unchanged; Version 2.1.0.0 |
+| Version | ✅ **2.1.0** (`StatistleVersion`), higher than the live 1.0.0 and the draft's 2.0.0 |
+| Privacy policy | ✅ `https://softwareplus.ai/statistle/privacy/`, with "Feedback you send" (live 2026-11-23, plan F.3) |
+| `runFullTrust` justification and certification notes | ✅ Below, updated for 2.1.0 (Send feedback, the start screen's sections) |
+| Store assets | ✅ The "+" icon, tiles and listing images from 2026-11-12 (unchanged) |
+| Hand-test rounds 2026-11-23, 23b, 23c | ✅ Ron, 2026-11-23: *"Excellent work, tests well."* |
+| Release build and tests | ✅ 2026-11-23: Release build, 752 tests green, the content validator clean |
+| `.msixupload` | ✅ Built 2026-11-23: `artifacts\Statistle_2.1.0.0_x64_bundle.msixupload` (78.1 MB; 696 course files inside, Part III's Modules 19–24 among them); family name derived from the built manifest = `DeanEaglin.statistle_xs303fgqvwdg8`; the staged program starts as "Statistics+ — Untitled" (2.1.0.0) and closes |
+| Listing copy | ✅ `STORE-LISTING.md`, rewritten for 2.1.0 (three parts, My notes, Glossary, Course Links, the new window, What's new) |
+| Screenshots | ✅ 10 at 1600 × 1000 in `images/store/screenshots-2.1/` (the order is in `STORE-LISTING.md`) |
+| WACK | ☐ **Ron** runs `packaging/run-wack.ps1` (needs elevation) on the 2.1.0 bundle |
+| Submit | ☐ **Ron**, after WACK (order below) |
 
 ## The Partner Center account
 
@@ -81,8 +82,8 @@ Paste into *Submission → Product declarations → notes*, and into the certifi
 > Windows file dialogs — `.statistle` projects, PDF progress reports, and exported PDF, HTML, text, CSV, Python and R
 > files, by default under `Documents\Statistle`. It does not access other applications' data, does not require
 > administrator rights, installs no drivers or services, and collects no user data. It goes online only when the user
-> asks: Check for a new version asks the Microsoft Store (`Windows.Services.Store`), and Help on the web and the About
-> links open a page in the browser.
+> asks: Check for a new version asks the Microsoft Store (`Windows.Services.Store`), and Help on the web, Send feedback
+> and the About links open a page in the browser.
 
 ## Age rating (IARC questionnaire)
 
@@ -113,12 +114,15 @@ Statistics+ is a statistics course and calculator. The expected answers, all neg
 > Statistics+ (formerly Statistle) requires no account, sign-in with us, purchase or network connection.
 > (Check for a new version asks the Microsoft Store, and only when chosen.)
 >
-> **How to try it.** On the first screen, "Who is learning?", press New learner, type any name and a 4-digit PIN,
-> and keep or skip the recovery code. The Course opens: a tree of modules on the left. Choose Module 2 and an item,
-> then its tabs: Learn (a lesson), Example (a worked case), Exercise (type an answer and press Check; the program
-> checks it against the value it calculates). The Workbench (the strip at the top, or "Just the Workbench" on the
-> first screen) is the statistics calculator: open a sample project from File > Open, or add a Data table and an
-> analysis from the left rail; every analysis has an Instructions tab and a Code tab with the Python and R.
+> **How to try it.** The first screen is in sections. Open **Who is learning?** (choose its name), press **New
+> learner**, type any name and a 4-digit PIN, and keep or skip the recovery code. The Course opens: PlusBook Tools and
+> the book's three parts on the left, help on the right. Open **Part I** and **Module 2**, and choose an item. Its tabs:
+> Learn (a lesson), Examples (change the values and the figure redraws), Exercise (type an answer and press Check my
+> answers; the program checks it against the value it calculates), Reference, and My notes. **Part III** holds
+> applications in six fields (for example Module 24 · Sports). The Workbench (the strip at the top, or "Just the
+> Workbench" in **Course Tools** on the first screen, no sign-in) is the statistics calculator: open a sample project from
+> File > Open, or add a Data table and an analysis from the left rail; every analysis has an Instructions tab and a Code
+> tab with the Python and R.
 >
 > **Files.** Learners' progress files go to `C:\ProgramData\Statistle\Learners`, shared by every account on a lab
 > computer; user projects and exports to `Documents\Statistle`; recovery autosave to `%LOCALAPPDATA%\Statistle`.
@@ -126,7 +130,8 @@ Statistics+ is a statistics course and calculator. The expected answers, all neg
 >
 > **Launching other programs.** Statistics+ calls ShellExecute only to open a page in the user's default browser
 > (a generated report or instructions page as HTML, from a file it has just written to the temporary folder, or
-> Help on the web and the About links), to open the user's own e-mail program with a message when the learner
+> Help on the web, Help > Send feedback, which opens the feedback form on softwareplus.ai, and the About links), to open
+> the user's own e-mail program with a message when the learner
 > chooses Send to my instructor (the learner presses Send; the program sends nothing), and to show a saved report in
 > File Explorer. It launches no other process, installs no service or driver, and does not run the Python or R it
 > generates — that code is text for the user to copy.
@@ -192,16 +197,20 @@ The rest of the run makes the substring behaviour plain: it also reports `CsI`, 
 WACK is not a gate on submission — Store certification runs its own equivalent — but a local
 pass avoids a failed round trip.
 
-## Submission order — 2.0.0
+## Submission order — 2.1.0
 
-1. ~~Move the name Statistics+ onto this product~~ — done by Ron (2026-11-12).
-2. ~~Privacy page revised and live~~ — 2026-11-12.
-3. ~~Version 2.0.0, manifest names, listing copy~~ — done (plan 15.3).
-4. Ron's hand-test round 2.0 (`docs/MANUAL-TESTING.md`) on `manual-test\Statistle.exe`.
-5. Build the final `.msixupload` (command above) and run WACK (`packaging/run-wack.ps1`, elevated).
-6. Partner Center, on the existing product: Store listings → Product name **Statistics+**, the new description,
-   features, what's new and screenshots; Properties → privacy URL; Product declarations → cryptography **Yes**;
-   Packages → the 2.0.0 `.msixupload`; Additional Testing Information → the notes above; submit.
-7. Once live: SoftwarePlus.ai's page goes live as Statistics+ (plan 15.4), tag `v2.0.0` (15.5), and record it here.
+1. ~~Name, privacy page (with Feedback you send), version 2.1.0, manifest, listing copy, screenshots~~ — done (plan R).
+2. ~~Ron's hand-test rounds 2026-11-23, 23b and 23c~~ — passed (Ron, 2026-11-23).
+3. ~~The `.msixupload`~~ — built 2026-11-23 (above).
+4. **Ron:** WACK, elevated: `./packaging/run-wack.ps1` (it picks the newest `.msixbundle`, the 2.1.0 one).
+5. **Ron, in Partner Center, on the existing product, in the draft submission 2:**
+   - Packages: remove `Statistle_2.0.0.0_x64_bundle.msixupload` and upload `artifacts\Statistle_2.1.0.0_x64_bundle.msixupload`.
+   - Store listings → English: Product name **Statistics+**; the short description, description, features, What's new and
+     search terms from `STORE-LISTING.md`; the 10 screenshots from `images/store/screenshots-2.1/` in its order; the new logo
+     and listing images (`images/store/README.md`).
+   - Properties → privacy URL `https://softwareplus.ai/statistle/privacy/`; Product declarations → cryptography **Yes**.
+   - Additional Testing Information → the certification notes above. Submit.
+6. The coordinator deploys `softwareplus.ai/statistle/` (the 2.1 page) at submission and updates `RELEASES.md`.
+7. Once live: tag `v2.1.0` (plan R.6) and record it here.
 
 The 1.0.0 history (WACK result, first submission) is kept above.

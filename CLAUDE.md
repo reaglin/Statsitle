@@ -52,7 +52,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 > 24 Sports: six items and a check each, applications that point back to Part I; data illustrative unless cited
 > (`docs/METHODS-AND-SOURCES.md`, Part III). No new analysis. Print a module's results while writing:
 > `STATISTLE_PRINT_TASKS=st.m24. STATISTLE_PRINT_FILE=<file> dotnet test tests/Statistle.Learning.Tests --filter Print_tasks_when_asked`.
-> Part II (15–18) still in development. ⚠️ Ron's hand-test round 2026-11-23c (parts AG–AM).
+> Part II (15–18) still in development. Ron passed rounds 2026-11-23, 23b and 23c (*"Excellent work, tests well."*).
+> **Release 2.1.0 prepared (2026-11-23, plan phase R; the first as Statistics+, 2.0.0 never submitted):** `artifacts\Statistle_2.1.0.0_x64_bundle.msixupload`
+> (78.1 MB, family name `DeanEaglin.statistle_xs303fgqvwdg8`), 10 screenshots in `resources/images/store/screenshots-2.1/`, listing and
+> notes in `resources/`, softwareplus.ai/statistle page and help committed (not deployed). ⚠️ Ron: WACK (elevated), then submit.
 
 **Statistle** — a Windows 10/11 desktop app that calculates the statistics of Ron's course
 EGN3443 *Probability and Statistics for Engineers* (`github.com/reaglin/egn3443`), explains

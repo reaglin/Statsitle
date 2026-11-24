@@ -54,6 +54,6 @@ public partial class ProgramNameTests
         var manifest = File.ReadAllText(Path.Combine(Root(), "packaging", "AppxManifest.xml"));
         Assert.Contains("<DisplayName>Statistics+</DisplayName>", manifest, StringComparison.Ordinal);
         Assert.Contains("DisplayName=\"Statistics+\"", manifest, StringComparison.Ordinal);
-        Assert.Contains("Version=\"2.0.0.0\"", manifest, StringComparison.Ordinal);
+        Assert.Contains("Version=\"2.1.0.0\"", manifest, StringComparison.Ordinal);
     }
 }

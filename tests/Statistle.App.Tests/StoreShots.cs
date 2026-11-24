@@ -16,7 +16,7 @@ using Statistle.Learning;
 namespace Statistle.App.Tests;
 
 /// <summary>
-/// The Microsoft Store screenshots and the softwareplus.ai pictures (plan 15.3, 15.4): the whole window at 1600 × 1000 with a
+/// The Microsoft Store screenshots and the softwareplus.ai pictures (plan 15.3, 15.4; 2.1.0, plan R.3): the whole window at 1600 × 1000 with a
 /// sample learner part-way through the course. Runs only when STATISTLE_STORE_SHOTS names a folder, and on its own
 /// (<c>--filter StoreShots</c>), because it points the learners' folder at a folder of its own before anything reads it.
 /// </summary>
@@ -87,6 +87,12 @@ public sealed class StoreShots
             var (file, _) = store.Create("Maria Gomez", "U1234567", "2468", DateTimeOffset.Now.AddDays(-30), SampleProgress(content));
 
             window.ShowLearnerScreen();
+            // The start screen's sections start folded (plan W.5); the picture opens Who is learning? to show the learners.
+            window.UpdateLayout();
+            WpfHost.Pump();
+            var whoExpanders = Descendants<Expander>(window).Where(x => x.Name == "WhoExpander").ToList();
+            Assert.Single(whoExpanders);
+            whoExpanders[0].IsExpanded = true;
             Shot("08-who-is-learning");
 
             window.SignIn(file);
@@ -108,6 +114,18 @@ public sealed class StoreShots
             }
             page.ExerciseView.CheckAnswers();
             Shot("01-exercise");
+
+            // Part III (2026-11-23): its page, and an application with its example to try (24.3, winning a best-of-seven series).
+            page.Path.Parts.First(n => n.Header.Contains("Part III", StringComparison.Ordinal)).IsSelected = true;
+            WpfHost.Pump();
+            Shot("09-part-three");
+            var series = content.Package.Modules.Single(m => m.Number == 24).Items.First(i => i.Id == "st.m24.winprob");
+            page.Path.Select(series);
+            WpfHost.Pump();
+            page.ItemTabs.SelectedIndex = 1;
+            page.ShowExamplePart(0);
+            WpfHost.Pump();
+            Shot("10-part-three-example");
 
             // A module check.
             var check = content.Package.Modules.Single(m => m.Number == 8).Items.Single(i => i.Kind == ItemKind.Assess);
@@ -135,6 +153,16 @@ public sealed class StoreShots
         finally
         {
             window.Close();
+        }
+    }
+
+    private static IEnumerable<T> Descendants<T>(DependencyObject root) where T : DependencyObject
+    {
+        for (var i = 0; i < VisualTreeHelper.GetChildrenCount(root); i++)
+        {
+            var child = VisualTreeHelper.GetChild(root, i);
+            if (child is T t) yield return t;
+            foreach (var d in Descendants<T>(child)) yield return d;
         }
     }
 
