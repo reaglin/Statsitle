@@ -55,7 +55,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 > Part II (15–18) still in development. Ron passed rounds 2026-11-23, 23b and 23c (*"Excellent work, tests well."*).
 > **Release 2.1.0 prepared (2026-11-23, plan phase R; the first as Statistics+, 2.0.0 never submitted):** `artifacts\Statistle_2.1.0.0_x64_bundle.msixupload`
 > (78.1 MB, family name `DeanEaglin.statistle_xs303fgqvwdg8`), 10 screenshots in `resources/images/store/screenshots-2.1/`, listing and
-> notes in `resources/`, softwareplus.ai/statistle page and help committed (not deployed). ⚠️ Ron: WACK (elevated), then submit.
+> notes in `resources/`. WACK PASS 23/24; submitted 2026-11-23; **live on the Microsoft Store 2026-11-24** (tagged `v2.1.0`).
 
 **Statistle** — a Windows 10/11 desktop app that calculates the statistics of Ron's course
 EGN3443 *Probability and Statistics for Engineers* (`github.com/reaglin/egn3443`), explains
